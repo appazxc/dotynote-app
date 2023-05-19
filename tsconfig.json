@@ -7,12 +7,19 @@
       "esnext"
     ],
     "allowJs": true,
+    "noImplicitAny": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "shared/*": ["./src/shared/*"],
+      "desktop/*": ["./src/desktop/*"],
+      "mobile/*": ["./src/mobile/*"]
+    },
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
