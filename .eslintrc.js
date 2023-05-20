@@ -46,15 +46,29 @@ const defaultConfig = {
     eqeqeq: ['error', 'always', { null: 'ignore' }],
     'func-call-spacing': ['error', 'never'],
     'generator-star-spacing': ['error', { before: true, after: true }],
-    'react/jsx-wrap-multilines': ['error', {
-      declaration: 'parens-new-line',
-      assignment: 'parens-new-line',
-      return: 'parens-new-line',
-      arrow: 'parens-new-line',
-      condition: 'parens-new-line',
-      logical: 'parens-new-line',
-      prop: 'parens-new-line'
-    }],
+
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'external',
+          'builtin',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type'
+        ],
+        pathGroups: [
+          {
+            pattern: '@/**/**',
+            group: 'parent',
+            position: 'before'
+          }
+        ],
+        alphabetize: { order: 'asc' }
+      }
+    ],
     'key-spacing': ['error', { beforeColon: false, afterColon: true }],
     'keyword-spacing': ['error', { before: true, after: true }],
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
@@ -126,6 +140,12 @@ const defaultConfig = {
     'no-redeclare': ['error', { builtinGlobals: false }],
     'no-regex-spaces': 'error',
     'no-return-assign': ['error', 'except-parens'],
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['../']
+      }
+    ],
     'no-self-assign': ['error', { props: true }],
     'no-self-compare': 'error',
     'no-sequences': 'error',
@@ -175,6 +195,19 @@ const defaultConfig = {
     'prefer-const': ['error', { destructuring: 'all' }],
     'prefer-promise-reject-errors': 'error',
     'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
+    'react/self-closing-comp': ['error', {
+      component: true,
+      html: true
+    }],
+    'react/jsx-wrap-multilines': ['error', {
+      declaration: 'parens-new-line',
+      assignment: 'parens-new-line',
+      return: 'parens-new-line',
+      arrow: 'parens-new-line',
+      condition: 'parens-new-line',
+      logical: 'parens-new-line',
+      prop: 'parens-new-line'
+    }],
     'quote-props': ['error', 'as-needed'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'rest-spread-spacing': ['error', 'never'],
@@ -209,6 +242,6 @@ const defaultConfig = {
     'import/no-named-default': 'error',
     'import/no-webpack-loader-syntax': 'error'
   }
-}
+};
 
-module.exports = defaultConfig
+module.exports = defaultConfig;

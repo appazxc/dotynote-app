@@ -1,18 +1,18 @@
-import * as React from 'react';
 import {
   Box
 } from '@chakra-ui/react';
+import * as React from 'react';
 
 import Providers from './components/Providers';
 
-function App () {
+function Main () {
   return (
     <Providers>
       <Box textAlign="center" fontSize="xl">
-        desktop
+        mobile
       </Box>
     </Providers>
   );
 }
 
-export default App;
+export default Main;
