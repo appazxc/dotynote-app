@@ -6,10 +6,13 @@ module.exports = {
     alias: {
       shared: path.resolve(__dirname, 'src/shared'),
       desktop: path.resolve(__dirname, 'src/desktop'),
-      mobile: path.resolve(__dirname, 'src/mobile')
-    }
+      mobile: path.resolve(__dirname, 'src/mobile'),
+    },
   },
   eslint: {
-    enable: false
-  }
+    enable: false,
+  },
+  typescript: {
+    enableTypeChecking: false,
+  },
 };

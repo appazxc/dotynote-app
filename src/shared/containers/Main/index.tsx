@@ -1,11 +1,10 @@
-import {
-  Spinner
-} from '@chakra-ui/react';
 import * as React from 'react';
+import Loadable from 'shared/components/Loadable';
 import { useMedia } from 'shared/hooks/useMedia';
+import MainProviders from './components/MainProviders';
 
-const MainDesktop = React.lazy(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/containers/Main'));
-const MainMobile = React.lazy(() => import(/* webpackChunkName: "MainMobile" */ 'mobile/containers/Main'));
+const MainDesktop = Loadable(React.lazy(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/containers/Main')));
+const MainMobile = Loadable(React.lazy(() => import(/* webpackChunkName: "MainMobile" */ 'mobile/containers/Main')));
 
 export default function Main () {
   const [isLargerThan768, initialized] = useMedia('(min-width: 768px)');
@@ -15,8 +14,8 @@ export default function Main () {
   }
 
   return (
-    <React.Suspense fallback={<Spinner />}>
+    <MainProviders>
       {isLargerThan768 ? <MainDesktop /> : <MainMobile />}
-    </React.Suspense>
+    </MainProviders>
   );
 }

@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
@@ -10,10 +9,7 @@ if (!container) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <ColorModeScript />
-    <Main />
-  </React.StrictMode>
+  <Main />
 );
 
 // If you want your app to work offline and load faster, you can change

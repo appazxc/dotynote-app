@@ -1,8 +1,14 @@
+import { Button } from '@chakra-ui/react';
 import React from 'react';
 
 function App() {
   return (
-    <div>App</div>
+    <div>
+      App inside
+      {/* <div>
+        <Button onClick={() => navigate('/')} />
+      </div> */}
+    </div>
   );
 }
 
