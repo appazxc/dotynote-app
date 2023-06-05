@@ -1,6 +1,8 @@
+import { ColorModeScript } from '@chakra-ui/react';
 import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
 import { useMedia } from 'shared/hooks/useMedia';
+import theme from 'shared/styles/theme';
 import MainProviders from './components/MainProviders';
 
 const MainDesktop = Loadable(React.lazy(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/containers/Main')));
@@ -15,6 +17,7 @@ export default function Main () {
 
   return (
     <MainProviders>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       {isLargerThan768 ? <MainDesktop /> : <MainMobile />}
     </MainProviders>
   );

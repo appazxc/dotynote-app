@@ -1,10 +1,19 @@
+import Pages from 'desktop/pages';
 import * as React from 'react';
-import MainContent from './containers/MainContent';
+import Loadable from 'shared/components/Loadable';
+import { useAppSelector } from 'shared/state/hooks';
 
-function Main () {
+const App = Loadable(React.lazy(() => import(/* App */ 'desktop/modules/App')));
+
+function Main(props) {
+  const isAppOpen = useAppSelector(state => state.app.isOpen);
+
   return (
-    <MainContent />
+    <>
+      <Pages />
+      {isAppOpen && <App />}
+    </>
   );
 }
 
-export default Main;
+export default React.memo(Main);

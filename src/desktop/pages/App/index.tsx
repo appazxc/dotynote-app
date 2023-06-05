@@ -6,15 +6,11 @@ function App() {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    console.log('open');
-    
     dispatch(open());
     return () => {
-    console.log('close');
-
       dispatch(close());
     };
-  }, []);
+  }, [dispatch]);
 
   return null;
 }

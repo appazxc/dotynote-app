@@ -1,10 +1,10 @@
 import {
-  ChakraProvider,
-  theme
+  ChakraProvider
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { store } from 'shared/state/store';
+import theme from 'shared/styles/theme';
 
 type Props = React.PropsWithChildren<unknown>
 

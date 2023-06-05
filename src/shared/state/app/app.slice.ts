@@ -2,12 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface CounterState {
   isOpen: boolean,
-  times: number
 }
 
 const initialState: CounterState = {
   isOpen: false,
-  times: 0,
 };
 
 export const counterSlice = createSlice({
@@ -20,12 +18,9 @@ export const counterSlice = createSlice({
     close: (state) => {
       state.isOpen = false;
     },
-    inc: (state) => {
-      state.times += 1;
-    },
   },
 });
 
-export const { open, close, inc } = counterSlice.actions;
+export const { open, close } = counterSlice.actions;
 
 export default counterSlice.reducer;
