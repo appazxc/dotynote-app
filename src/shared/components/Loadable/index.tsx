@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-const Loadable = (lazyFunction) => {
+const Loadable = (lazyFunction, { fallback = null } = {}) => {
   const Component = React.lazy(lazyFunction);
 
   return (props) => {
     return (
-      <React.Suspense fallback={null}>
+      <React.Suspense fallback={fallback}>
         <Component {...props} />
       </React.Suspense>
     );
