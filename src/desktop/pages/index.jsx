@@ -2,9 +2,9 @@ import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Loadable from 'shared/components/Loadable';
 
-const Home = Loadable(React.lazy(() => import(/* HomePage */ 'desktop/pages/Home')));
-const App = Loadable(React.lazy(() => import(/* AppPage */ 'desktop/pages/App')));
-const NotFound = Loadable(React.lazy(() => import(/* NotFoundPage */ 'desktop/pages/NotFound')));
+const Home = Loadable(() => import(/* HomePage */ 'desktop/pages/Home'));
+const App = Loadable(() => import(/* AppPage */ 'desktop/pages/App'));
+const NotFound = Loadable(() => import(/* NotFoundPage */ 'desktop/pages/NotFound'));
 
 function Pages() {
   return (
