@@ -8,7 +8,7 @@ const initialState: CounterState = {
   isOpen: false,
 };
 
-export const counterSlice = createSlice({
+export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
@@ -21,6 +21,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { open, close } = counterSlice.actions;
+export const { open, close } = appSlice.actions;
 
-export default counterSlice.reducer;
+export default appSlice.reducer;

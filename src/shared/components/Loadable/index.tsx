@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Loadable = (lazyFunction, { fallback = null } = {}) => {
+const Loadable = (lazyFunction, { fallback = null } : { fallback?: React.ReactNode } = {}) => {
   const Component = React.lazy(lazyFunction);
 
   return (props) => {

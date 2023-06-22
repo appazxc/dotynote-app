@@ -1,10 +1,10 @@
 import { Button } from '@chakra-ui/react';
 import React from 'react';
-
 import {
   RouterProvider,
   createMemoryRouter
 } from 'react-router-dom';
+
 import HomePage from './components/pages/HomePage';
 import NotePage from './components/pages/NotePage';
 

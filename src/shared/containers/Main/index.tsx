@@ -3,6 +3,7 @@ import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
 import { useMedia } from 'shared/hooks/useMedia';
 import theme from 'shared/styles/theme';
+
 import MainProviders from './components/MainProviders';
 
 const MainDesktop = Loadable(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/containers/Main'));

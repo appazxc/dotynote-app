@@ -31,6 +31,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "chakra-radix-colors": "^0.1.3",
     "framer-motion": "^6.5.1",
+    "keymirror": "^0.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^3.11.0",
