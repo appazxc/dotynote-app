@@ -2,7 +2,8 @@ import { Button } from '@chakra-ui/react';
 import React from 'react';
 import {
   RouterProvider,
-  createMemoryRouter
+  createMemoryRouter,
+  redirect
 } from 'react-router-dom';
 
 import HomePage from './components/pages/HomePage';

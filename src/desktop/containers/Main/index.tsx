@@ -1,4 +1,4 @@
-import Pages from 'desktop/pages';
+import Pages from 'desktop/routes';
 import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
 import { useAppSelector } from 'shared/state/hooks';

@@ -1,5 +1,4 @@
 import { Box, Button } from '@chakra-ui/react';
-import { useThemedColor } from 'chakra-radix-colors';
 import { Layout } from 'desktop/components/Layout';
 import React from 'react';
 import { Link } from 'react-router-dom';
