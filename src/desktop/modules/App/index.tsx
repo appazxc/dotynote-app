@@ -6,8 +6,8 @@ import {
   redirect
 } from 'react-router-dom';
 
-import HomePage from './components/pages/HomePage';
-import NotePage from './components/pages/NotePage';
+import HomePage from './components/routes/HomePage';
+import NotePage from './components/routes/NotePage';
 
 const routes = [
   {
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/',
     element: <HomePage />,
-  }
+  },
 ];
 
 function App() {

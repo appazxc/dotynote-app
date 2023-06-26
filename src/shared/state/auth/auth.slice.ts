@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from '../store';
+
 export interface CounterState {
   token: null | string,
   user: null | { name: string },
@@ -21,5 +23,9 @@ export const authSlice = createSlice({
 });
 
 export const { addToken } = authSlice.actions;
+
+export const selectIsAuthorized = (state: RootState) => {
+  return !!state.auth.user;
+};
 
 export default authSlice.reducer;
