@@ -6,9 +6,11 @@ function NotFound() {
     <div>
       NotFound
 
-      <Link to="/">
-        HomePage
-      </Link>
+      <div>
+        <Link to="/">
+          HomePage
+        </Link>
+      </div>
     </div>
   );
 }

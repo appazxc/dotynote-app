@@ -5,7 +5,7 @@ const defaultConfig = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:import/typescript'
+    'plugin:import/typescript',
   ],
   plugins: ['jsx-a11y'],
   rules: {
@@ -30,8 +30,8 @@ const defaultConfig = {
     'comma-dangle': ['error', {
       arrays: 'always-multiline',
       objects: 'always-multiline',
-      imports: 'never',
-      exports: 'never',
+      imports: 'always-multiline',
+      exports: 'always-multiline',
       functions: 'never',
     }],
     'comma-spacing': ['error', { before: false, after: true }],
@@ -55,9 +55,9 @@ const defaultConfig = {
             pattern: 'react',
             group: 'external',
             position: 'before',
-          }
+          },
         ],
-      }
+      },
     ],
     'key-spacing': ['error', { beforeColon: false, afterColon: true }],
     'keyword-spacing': ['error', { before: true, after: true }],
@@ -110,7 +110,7 @@ const defaultConfig = {
       groups: [
         ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
         ['&&', '||'],
-        ['in', 'instanceof']
+        ['in', 'instanceof'],
       ],
       allowSamePrecedence: true,
     }],
@@ -134,7 +134,7 @@ const defaultConfig = {
       'error',
       {
         patterns: ['../'],
-      }
+      },
     ],
     'no-self-assign': ['error', { props: true }],
     'no-self-compare': 'error',
@@ -198,7 +198,12 @@ const defaultConfig = {
       logical: 'parens-new-line',
       prop: 'parens-new-line',
     }],
+    'react/jsx-closing-bracket-location': [1, 'line-aligned'],
+    'react/jsx-first-prop-new-line': [1, 'multiline'],
+    'react/jsx-max-props-per-line': [2, { maximum: { single: 2, multi: 1 } }],
+    'react/jsx-space-before-closing': ['error', 'always'],
     'quote-props': ['error', 'as-needed'],
+    'jsx-quotes': ['error', 'prefer-double'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'rest-spread-spacing': ['error', 'never'],
     semi: ['error', 'always'],

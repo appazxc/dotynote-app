@@ -3,7 +3,7 @@ import Loadable from 'shared/components/Loadable';
 import { routeList } from 'shared/constants/routeList';
 import { selectIsAuthorized } from 'shared/state/auth/auth.slice';
 
-const NotFound = Loadable(() => import(/* NotFoundPage */ 'desktop/routes/NotFound'));
+const NotFound = Loadable(() => import(/* NotFoundPage */ 'shared/routes/NotFound'));
 
 export const createRouter = (params) => {
   const { routeDictionary, store } = params;
@@ -36,8 +36,6 @@ export const createRouter = (params) => {
 
 const createLoader = (loader, route, store) => {
   return async (params) => {
-    console.log('params', params);
-
     const load = () => loader ? loader({ params, store }) || null : null;
 
     if (!route.authorize || selectIsAuthorized(store.getState())) {

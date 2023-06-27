@@ -1,27 +1,21 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { Layout } from 'desktop/components/Layout';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ColorModeSwitcher } from 'shared/components/ColorModeSwitcher';
-import { addToken } from 'shared/state/auth/auth.slice';
+import { LoginForm } from 'shared/components/forms/LoginForm';
 import { useAppDispatch } from 'shared/state/hooks';
 
 function Home() {
   const dispatch = useAppDispatch();
 
+  const handleSubmit = React.useCallback(({ email, code }) => {
+    console.log('submit', email, code);
+  }, []);
+
   return (
     <Layout>
-      <div>
-        <ColorModeSwitcher />
-        <div>
-          Home
-        </div>
-        <Button onClick={() => dispatch(addToken('helloooo'))}>hello button</Button>
-        <Box flexDirection="column" display="flex">
-          <Link to="/app" >App</Link>
-          <Link to="/hhmm" >NotFound</Link>
-        </Box>
-      </div>
+      <Container pt="24" maxW="md">
+        <LoginForm onSubmit={handleSubmit} />
+      </Container>
     </Layout>
   );
 }

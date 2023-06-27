@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { RootState } from '../store';
+import { RootState } from 'shared/state/store';
 
 export interface CounterState {
   token: null | string,
