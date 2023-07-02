@@ -1,9 +1,9 @@
 import {
-  ChakraProvider
+  ChakraProvider,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { store, persistor } from 'shared/state/store';
+import { store, persistor } from 'shared/store';
 import theme from 'shared/styles/theme';
 import { PersistGate } from 'redux-persist/integration/react';
 

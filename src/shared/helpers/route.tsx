@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Loadable from 'shared/components/Loadable';
 import { routeList } from 'shared/constants/routeList';
-import { selectIsAuthorized } from 'shared/state/auth/auth.slice';
+import { selectIsAuthorized } from 'shared/store/slices/authSlice';
 
 const NotFound = Loadable(() => import(/* NotFoundPage */ 'shared/routes/NotFound'));
 

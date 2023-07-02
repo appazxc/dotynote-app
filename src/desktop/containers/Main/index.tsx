@@ -1,7 +1,7 @@
 import Pages from 'desktop/routes';
 import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
-import { useAppSelector } from 'shared/state/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import PageLoader from 'shared/components/PageLoader';
 
 const fallback = { fallback: <PageLoader /> };

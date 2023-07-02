@@ -3,8 +3,8 @@ const defaultConfig = {
     'react-app',
     'plugin:jsx-a11y/recommended',
     'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/eslint-recommended',
+    // 'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
   ],
   plugins: ['jsx-a11y'],
@@ -130,12 +130,6 @@ const defaultConfig = {
     'no-redeclare': ['error', { builtinGlobals: false }],
     'no-regex-spaces': 'error',
     'no-return-assign': ['error', 'except-parens'],
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: ['../'],
-      },
-    ],
     'no-self-assign': ['error', { props: true }],
     'no-self-compare': 'error',
     'no-sequences': 'error',
@@ -160,12 +154,7 @@ const defaultConfig = {
       allowTernary: true,
       allowTaggedTemplates: true,
     }],
-    'no-unused-vars': ['error', {
-      args: 'none',
-      caughtErrors: 'none',
-      ignoreRestSiblings: true,
-      vars: 'all',
-    }],
+
     'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
@@ -236,6 +225,23 @@ const defaultConfig = {
     'import/no-duplicates': 'error',
     'import/no-named-default': 'error',
     'import/no-webpack-loader-syntax': 'error',
+    '@typescript-eslint/no-inferrable-types': 'off',
+    'import/no-anonymous-default-export': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error', {
+      args: 'none',
+      caughtErrors: 'none',
+      ignoreRestSiblings: true,
+      vars: 'all',
+    }],
+    '@typescript-eslint/no-restricted-imports': [
+      'warn',
+      {
+        name: 'react-redux',
+        importNames: ['useSelector', 'useDispatch'],
+        message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
+      },
+    ],
   },
 };
 

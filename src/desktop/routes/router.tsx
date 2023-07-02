@@ -1,5 +1,5 @@
 import { createRouter } from 'shared/helpers/route';
-import { store } from 'shared/state/store';
+import { store } from 'shared/store';
 
 import { routeDictionary } from './routeDictionary';
 

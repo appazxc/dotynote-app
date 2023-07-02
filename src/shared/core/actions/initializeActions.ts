@@ -1,4 +1,3 @@
-export const initialize = () => (dispatch, getState) => {
-  console.log('initialize');
+export const initialize = async () => {
   
 }
