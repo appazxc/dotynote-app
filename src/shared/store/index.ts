@@ -26,6 +26,8 @@ export type AppState = ReturnType<typeof store.getState>
 
 export type AppDispatch = typeof store.dispatch
 
+export type AppStore = typeof store
+
 export type ThunkAction = (dispatch: AppDispatch, getState: () => AppState) => any;
 
 export type AppThunk<ArgType = void, OptionType = void> =

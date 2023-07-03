@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { LoaderFunction, createBrowserRouter } from 'react-router-dom';
 import Loadable from 'shared/components/Loadable';
 import { routeList } from 'shared/constants/routeList';
 import { selectIsAuthorized } from 'shared/store/slices/authSlice';
@@ -34,9 +34,9 @@ export const createRouter = (params) => {
   );
 };
 
-const createLoader = (loader, route, store) => {
-  return async (params) => {
-    const load = () => loader ? loader({ params, store }) || null : null;
+const createLoader = (loader, route, store): LoaderFunction => {
+  return async (args) => {
+    const load = async () => loader ? loader({ ...args, store }) || null : null;
 
     if (!route.authorize || selectIsAuthorized(store.getState())) {
       return load();
