@@ -1,3 +1,5 @@
+import { wait } from 'shared/utils/wait';
+
 import apiFactory from './apiFactory';
 
 function createApi() {
@@ -14,6 +16,14 @@ const createRoutes = (api) => {
 
     async loginEmailWithCode(data: { email: string, code: string }): Promise<{ token: string }> {
       return api.post('/auth/email-with-code', data);
+    },
+
+    async getMe(): Promise<{ name: string }> {
+      await wait(5000);
+
+      return {
+        name: 'Dima',
+      };
     },
   };
 };

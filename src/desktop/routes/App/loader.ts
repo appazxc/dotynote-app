@@ -1,9 +1,12 @@
-import { RouteLoader } from 'shared/types/common/routes';
+import { RouteLoader } from 'shared/types/common/router';
+import { wait } from 'shared/utils/wait';
 
 const loader: RouteLoader = async (args) => {
   console.log('loader App');
+  await wait(3000);
+  console.log('after loader App');
 
-  return null;
+  return 'hehllo';
 };
 
 export default loader;

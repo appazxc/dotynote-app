@@ -1,11 +1,12 @@
 import { routeNames } from 'shared/constants/routeNames';
 
-const Home = () => import(/* HomePage */ 'desktop/routes/Home/lazy');
-const App = () => import(/* AppPage */ 'desktop/routes/App/lazy');
+const Home = () => import(/* webpackChunkName: "HomePage" */ 'desktop/routes/Home');
+const App = () => import(/* webpackChunkName: "AppPage" */ 'desktop/routes/App');
 
 const routeDictionary = {
   [routeNames.app]: App,
   [routeNames.home]: Home,
+  [routeNames.login]: Home,
 };
 
 export { routeDictionary };

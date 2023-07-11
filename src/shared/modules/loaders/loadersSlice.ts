@@ -5,11 +5,13 @@ import { AppState } from 'shared/store';
 type InitialState = {
   ids: {
     [key in keyof Loader]?: boolean
-  }
+  },
+  isPageLoading: boolean,
 }
 
 const initialState: InitialState = {
   ids: {},
+  isPageLoading: false,
 };
 
 export const loadersSlice = createSlice({
@@ -22,6 +24,12 @@ export const loadersSlice = createSlice({
     stopLoader: (state, action: PayloadAction<Loader>) => {
       delete state.ids[action.payload];
     },
+    startPageLoading: (state) => {
+      state.isPageLoading = true;
+    },
+    stopPageLoading: (state) => {
+      state.isPageLoading = false;
+    },
   },
 });
 
@@ -33,6 +41,6 @@ export const selectIsLoadersInProgress = (state: AppState, loaderIds: Loader[]) 
   return loaderIds.some(id => state.loaders.ids[id]);
 };
 
-export const { startLoader, stopLoader } = loadersSlice.actions;
+export const { startLoader, stopLoader, startPageLoading, stopPageLoading } = loadersSlice.actions;
 
 export default loadersSlice.reducer;

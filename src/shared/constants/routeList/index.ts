@@ -1,4 +1,26 @@
-import { routeNames } from 'shared/constants/routeNames';
+import keymirror from 'keymirror';
+import { routeNames, RouteName } from 'shared/constants/routeNames';
+
+const roles = keymirror({
+  user: null,
+  guest: null,
+  judge: null,
+});
+
+export type RouteRole = keyof typeof roles;
+
+export type RouteItem = {
+  name: RouteName,
+  path: string,
+  role?: RouteRole,
+}
+
+const any = [
+  {
+    name: routeNames.home,
+    path: '/',
+  },
+];
 
 const user = [
   {
@@ -7,10 +29,17 @@ const user = [
   },
 ];
 
-export const routeList = [
+const guest = [
   {
-    name: routeNames.home,
-    path: '/',
+    name: routeNames.login,
+    path: '/login',
   },
-  ...user.map((route) => ({ ...route, authorize: true })),
 ];
+
+export const routeList: RouteItem[] = [
+  ...any,
+  ...guest.map((route) => ({ ...route, role: roles.user })),
+  ...user.map((route) => ({ ...route, role: roles.user })),
+];
+
+// homePage - Home | App

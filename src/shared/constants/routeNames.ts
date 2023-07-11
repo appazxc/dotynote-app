@@ -6,6 +6,6 @@ const routeNames = keymirror({
   login: null,
 });
 
-export type RouteNames = keyof typeof routeNames;
+export type RouteName = keyof typeof routeNames;
 
 export { routeNames };

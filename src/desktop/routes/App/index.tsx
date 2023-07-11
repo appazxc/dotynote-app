@@ -1,18 +1,21 @@
-import React from 'react';
-import { open, close } from 'shared/store/slices/appSlice';
-import { useAppDispatch } from 'shared/store/hooks';
+import PageLoader from 'shared/components/PageLoader';
+import { RouteLoader } from 'shared/types/common/router';
 
-function App() {
-  const dispatch = useAppDispatch();
+import { App } from './App';
 
-  React.useEffect(() => {
-    dispatch(open());
-    return () => {
-      dispatch(close());
-    };
-  }, [dispatch]);
+const loader: RouteLoader = async (args) => {
 
-  return null;
+};
+
+const deferLoader = async () => {
+
+};
+
+export default async function() {
+  return {
+    Component: App,
+    loader,
+    deferLoader,
+    loaderComponent: <PageLoader />,
+  };
 }
-
-export default React.memo(App);

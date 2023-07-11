@@ -1,4 +1,4 @@
-import { createRouter } from 'shared/helpers/route';
+import { createRouter } from 'shared/helpers/router/route';
 import { store } from 'shared/store';
 
 import { routeDictionary } from './routeDictionary';
