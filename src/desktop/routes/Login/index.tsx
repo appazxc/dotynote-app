@@ -15,6 +15,6 @@ export default async function() {
     Component: LoginPage,
     loader,
     deferLoader,
-    loaderComponent: <PageLoader color="red.10" />,
+    loaderComponent: <PageLoader />,
   };
 }

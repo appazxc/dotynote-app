@@ -1,5 +1,3 @@
-import { wait } from 'shared/utils/wait';
-
 import apiFactory from './apiFactory';
 
 function createApi() {
@@ -19,8 +17,6 @@ const createRoutes = (api) => {
     },
 
     async getMe(): Promise<{ name: string }> {
-      await wait(5000);
-
       return {
         name: 'Dima',
       };

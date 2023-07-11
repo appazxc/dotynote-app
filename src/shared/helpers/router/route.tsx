@@ -60,7 +60,7 @@ const createLoader = (loader: RouteLoader, store: AppStore, deferLoader: RouteLo
       store.dispatch(stopPageLoading());
 
       return defer({
-        defer: deferLoader({ ...args, store }),
+        defer: (async () => await deferLoader({ ...args, store }) || null)(),
       });
     }
 

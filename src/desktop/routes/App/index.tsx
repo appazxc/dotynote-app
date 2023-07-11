@@ -8,7 +8,6 @@ const loader: RouteLoader = async (args) => {
 };
 
 const deferLoader = async () => {
-
 };
 
 export default async function() {
