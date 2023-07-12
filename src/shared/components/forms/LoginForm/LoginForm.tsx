@@ -24,6 +24,8 @@ import { loaderIds } from 'shared/constants/loaderIds';
 import { getApiError } from 'shared/api/utils/getApiError';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BACK_URL } from 'shared/constants/queryParams';
+import { routeNames } from 'shared/constants/routeNames';
+import { getUrl } from 'shared/helpers/router/getUrl';
 
 const schema = object({
   email: string().email('Enter a valid email'),
@@ -42,7 +44,7 @@ export const LoginForm = () => {
     if (code && email) {
       try {
         await dispatch(loginEmailWithCode({ email, code }));
-        navigate(searchParams.get(BACK_URL) || '/app');
+        navigate(searchParams.get(BACK_URL) || getUrl(routeNames.app));
       } catch (e) {
         setError(getApiError(e));
       }
@@ -134,7 +136,7 @@ export const LoginForm = () => {
           {
             isEmailSent && (
               <FormControl>
-                <FormLabel htmlFor="password">Code</FormLabel>
+                <FormLabel htmlFor="code">Code</FormLabel>
                 <Input
                   id="code"
                   name="code"
