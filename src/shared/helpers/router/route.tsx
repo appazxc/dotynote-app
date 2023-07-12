@@ -1,16 +1,21 @@
 import { LoaderFunction, RouteObject, createBrowserRouter, defer } from 'react-router-dom';
 import Loadable from 'shared/components/Loadable';
-import { RouteRole, routeList } from 'shared/constants/routeList';
-import * as userProtectedRoute from 'shared/routes/protected/UserRoute';
+import * as React from 'react';
+import { routeList } from 'shared/constants/routeList';
+import {UserRoute} from 'shared/routes/protected/UserRoute';
+import {GuestRoute} from 'shared/routes/protected/GuestRoute';
 import { AppStore } from 'shared/store';
-import { RouteLoader } from 'shared/types/common/router';
+import { RouteDictionary, RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
+import { RouteRole, roles } from 'shared/constants/routeList/roles';
 
 import { Defer } from './Defer';
 
 const NotFound = Loadable(() => import(/* webpackChunkName: "NotFoundPage"  */ 'shared/routes/NotFound'));
 
-export const createRouter = (params) => {
+type CreateRouter = (params: { store: AppStore, routeDictionary: RouteDictionary }) => ReturnType<typeof createBrowserRouter>;
+
+export const createRouter: CreateRouter = (params) => {
   const { routeDictionary, store } = params;
 
   return createBrowserRouter(
@@ -29,7 +34,7 @@ export const createRouter = (params) => {
 
             return {
               element: deferLoader ? <Defer element={el} loader={loaderComponent} /> : el,
-              loader: createLoader(loader, store, deferLoader),
+              loader: createLoader({ loader, store, deferLoader }),
             };
           };
 
@@ -50,7 +55,9 @@ export const createRouter = (params) => {
   );
 };
 
-const createLoader = (loader: RouteLoader, store: AppStore, deferLoader: RouteLoader): LoaderFunction => {
+type CreateLoader = ({ loader, store, deferLoader }: { store: AppStore, loader?: RouteLoader, deferLoader?: RouteLoader }) => LoaderFunction
+
+const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunction => {
   return async (args) => {
     if (deferLoader) {
       if (loader) {
@@ -77,15 +84,26 @@ const createLoader = (loader: RouteLoader, store: AppStore, deferLoader: RouteLo
 
 const withProtected = (route: RouteObject, role: RouteRole, store: AppStore) => {
   return {
-    ...getProtectedRoute(role, store),
+    ...getProtectedRoute(role),
     children: [route],
   };
 };
 
-const getProtectedRoute = (role: RouteRole, store: AppStore) => {
-  const Component = userProtectedRoute.UserRoute;
+const protectedRoutes: {
+  [key in RouteRole]?: React.ComponentType
+} = {
+  [roles.user]: UserRoute,
+  [roles.guest]: GuestRoute,
+};
+
+const getProtectedRoute = (role: RouteRole) => {
+  const Component = protectedRoutes[role];
+
+  if (!Component) {
+    throw new Error('Protected route component is missing');
+  }
+
   return {
     element: <Component />,
-    // loader: createLoader(userProtectedRoute.loader, store),
   };
 };

@@ -1,24 +1,22 @@
 import React from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 import PageLoader from 'shared/components/PageLoader';
-import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { useAppSelector } from 'shared/store/hooks';
 import { selectIsAuthenticated, selectIsAuthLoading } from 'shared/store/slices/authSlice';
 
-export const UserRoute = () => {
+export const GuestRoute = () => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const isAuthLoading = useAppSelector(selectIsAuthLoading);
-  const location = useLocation();
 
   if (isAuthenticated) {
-    return <Outlet />;
+    return <Navigate to={getUrl(routeNames.home)} />;
   }
 
   if (isAuthLoading) {
     return <PageLoader />;
   }
 
-  return <Navigate to={getUrl(routeNames.home, { queryParams: { [BACK_URL]: location.pathname } })} />;
+  return <Outlet />;
 };

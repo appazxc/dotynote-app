@@ -1,17 +1,30 @@
+import { Center, Text, Link, Stack } from '@chakra-ui/react';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 function NotFound() {
   return (
-    <div>
-      NotFound
+    <Center
+      w="full"
+      h="full"
+      bg="slate.1"
+    >
+      <Stack textAlign="center">
 
-      <div>
-        <Link to="/">
-          HomePage
+        <Text fontSize="6xl">404</Text>
+        <Text fontSize="2xl">Not Found</Text>
+
+        <Link
+          as={RouterLink}
+          to="/"
+          color="teal.500"
+          mt="10"
+        >
+          Go to home page
         </Link>
-      </div>
-    </div>
+      </Stack>
+
+    </Center>
   );
 }
 

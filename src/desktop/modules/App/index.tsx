@@ -3,7 +3,6 @@ import React from 'react';
 import {
   RouterProvider,
   createMemoryRouter,
-  redirect
 } from 'react-router-dom';
 
 import HomePage from './components/routes/HomePage';

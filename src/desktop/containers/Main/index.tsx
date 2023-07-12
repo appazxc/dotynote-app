@@ -8,7 +8,7 @@ const fallback = { fallback: <PageLoader /> };
 
 const App = Loadable(() => import(/* webpackChunkName: "AppPage" */ 'desktop/modules/App'), fallback);
 
-function Main(props) {
+function Main() {
   const isAppOpen = useAppSelector(state => state.app.isOpen);
 
   return (

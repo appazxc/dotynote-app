@@ -14,5 +14,5 @@ export const getUrl = (routeName: RouteName, params: Params = {}) => {
 
   const { queryParams, pathParams } = params;
 
-  return generatePath(route.path, pathParams) + queryParams ? `?${new URLSearchParams(queryParams).toString()}` : '';
+  return generatePath(route.path, pathParams) + (queryParams ? `?${new URLSearchParams(queryParams).toString()}` : '');
 };

@@ -1,13 +1,6 @@
-import keymirror from 'keymirror';
 import { routeNames, RouteName } from 'shared/constants/routeNames';
 
-const roles = keymirror({
-  user: null,
-  guest: null,
-  judge: null,
-});
-
-export type RouteRole = keyof typeof roles;
+import { RouteRole, roles } from './roles';
 
 export type RouteItem = {
   name: RouteName,
@@ -38,8 +31,6 @@ const guest = [
 
 export const routeList: RouteItem[] = [
   ...any,
-  ...guest.map((route) => ({ ...route, role: roles.user })),
+  ...guest.map((route) => ({ ...route, role: roles.guest })),
   ...user.map((route) => ({ ...route, role: roles.user })),
 ];
-
-// homePage - Home | App
