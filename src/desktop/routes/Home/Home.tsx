@@ -1,7 +1,7 @@
 import { Container } from '@chakra-ui/react';
 import { Layout } from 'desktop/components/Layout';
 import React from 'react';
-import { LoginForm } from 'shared/components/forms/LoginForm';
+import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 
 function Home() {
   return (

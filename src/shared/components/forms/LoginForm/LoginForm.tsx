@@ -110,6 +110,7 @@ export const LoginForm = () => {
                 id="email"
                 name="email"
                 variant="filled"
+                placeholder="Your email address"
                 onChange={handleEmailChange}
                 value={formik.values.email}
               />
@@ -150,7 +151,7 @@ export const LoginForm = () => {
             width="full"
             isLoading={isLoading}
           >
-            {!isEmailSent ? 'Continue with login code' : 'Login / Register'}
+            {isEmailSent ? 'Continue with login code' : 'Login / Register'}
           </Button>
         </VStack>
         {error && (
