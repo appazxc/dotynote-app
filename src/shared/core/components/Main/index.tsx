@@ -1,8 +1,8 @@
 import React from 'react';
 import Loadable from 'shared/components/Loadable';
 
-const MainDesktop = Loadable(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/containers/Main'));
-const MainMobile = Loadable(() => import(/* webpackChunkName: "MainMobile" */ 'mobile/containers/Main'));
+const MainDesktop = Loadable(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/core/Main'));
+const MainMobile = Loadable(() => import(/* webpackChunkName: "MainMobile" */ 'mobile/core/Main'));
 
 type Props = {
   isMobile: boolean,
