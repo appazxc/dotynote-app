@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
+const CracoEnvPlugin = require('craco-plugin-env');
+
 module.exports = {
   webpack: {
     alias: {
@@ -15,4 +17,14 @@ module.exports = {
   typescript: {
     enableTypeChecking: false,
   },
+  plugins: [
+    {
+      plugin: CracoEnvPlugin,
+      options: {
+        variables: {
+          MOCK: process.env.MOCK === 'true',
+        },
+      },
+    },
+  ],
 };

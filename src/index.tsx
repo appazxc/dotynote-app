@@ -8,6 +8,12 @@ import Main from './shared/core';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
+
+if (process.env.MOCK) {
+  const { worker } = require('shared/test/mocks/browser');
+  worker.start();
+}
+
 const root = ReactDOM.createRoot(container);
 
 initialize().then(() => {
@@ -18,7 +24,7 @@ initialize().then(() => {
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://cra.link/PWA
-  serviceWorker.register();
+  serviceWorker.unregister();
 
   // If you want to start measuring performance in your app, pass a function
   // to log results (for example: reportWebVitals(console.log))

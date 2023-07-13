@@ -16,16 +16,23 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
-      "shared/*": ["./src/shared/*"],
-      "desktop/*": ["./src/desktop/*"],
-      "mobile/*": ["./src/mobile/*"]
+      "shared/*": [
+        "./src/shared/*"
+      ],
+      "desktop/*": [
+        "./src/desktop/*"
+      ],
+      "mobile/*": [
+        "./src/mobile/*"
+      ]
     },
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "skipDefaultLibCheck": true
   },
   "include": [
     "src"
