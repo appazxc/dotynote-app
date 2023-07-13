@@ -2,8 +2,8 @@ import { LoaderFunction, RouteObject, createBrowserRouter, defer } from 'react-r
 import Loadable from 'shared/components/Loadable';
 import * as React from 'react';
 import { routeList } from 'shared/constants/routeList';
-import {UserRoute} from 'shared/routes/protected/UserRoute';
-import {GuestRoute} from 'shared/routes/protected/GuestRoute';
+import { UserRoute } from 'shared/routes/protected/UserRoute';
+import { GuestRoute } from 'shared/routes/protected/GuestRoute';
 import { AppStore } from 'shared/store';
 import { RouteDictionary, RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
@@ -28,6 +28,7 @@ export const createRouter: CreateRouter = (params) => {
 
             const lazy = routeDictionary[route.name];
             const { default: resolve } = await lazy();
+
             const { Component, loader, deferLoader, element, loaderComponent } = await resolve();
 
             const el = element || (Component ? <Component /> : null);

@@ -8,7 +8,7 @@ const fallback = { fallback: <PageLoader /> };
 
 const App = Loadable(() => import(/* webpackChunkName: "AppPage" */ 'mobile/modules/App'), fallback);
 
-function Main() {
+export const Main = () => {
   const isAppOpen = useAppSelector(state => state.app.isOpen);
 
   return (
@@ -18,5 +18,3 @@ function Main() {
     </>
   );
 }
-
-export default React.memo(Main);
