@@ -8,18 +8,16 @@ function createApi() {
 
 const createRoutes = (api) => {
   return {
-    async loginEmail(email: string) {
-      return api.post('/auth/email', { email });
+    async sendCodeEmail(email: string) {
+      return api.post('/auth/send-code-email', { email });
     },
 
-    async loginEmailWithCode(data: { email: string, code: string }): Promise<{ token: string }> {
-      return api.post('/auth/email-with-code', data);
+    async loginEmail(data: { email: string, code: string }): Promise<{ token: string }> {
+      return api.post('/auth/login-email', data);
     },
 
     async getMe(): Promise<{ name: string }> {
-      return {
-        name: 'Dima',
-      };
+      return api.get('/users/me');
     },
   };
 };

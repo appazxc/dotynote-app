@@ -21,7 +21,7 @@ import { loginEmail, loginEmailWithCode } from 'shared/actions/auth';
 import { useLoaders } from 'shared/modules/loaders/hooks/useLoaders';
 import { useAppDispatch } from 'shared/store/hooks';
 import { loaderIds } from 'shared/constants/loaderIds';
-import { getApiError } from 'shared/api/utils/getApiError';
+import { getApiError } from 'shared/api/helpers/getApiError';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';

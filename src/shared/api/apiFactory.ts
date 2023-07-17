@@ -2,16 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getStore } from 'shared/store/helpers/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
 
-const API_ROOT = '/api';
-
-/**
- * If the path starts with `/beta`, do not append `/v1` to the api root
- * url. Alternatively we have the useRoot param for when we just want to
- * use the root path.
- */
-const getBaseApi = (path: string) => {
-  return `${API_ROOT}/v1`;
-};
+import { getBaseApi } from './helpers/getBaseApi';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -55,7 +46,7 @@ export default () => {
   const api: Api = {
     get(path, params) {
       return axios
-        .get(getBaseApi(path) + path, {
+        .get(getBaseApi() + path, {
           params,
           headers: createHeaders(),
         })
@@ -63,28 +54,28 @@ export default () => {
     },
     post(path, body) {
       return axios
-        .post(getBaseApi(path) + path, body, {
+        .post(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     patch(path, body) {
       return axios
-        .patch(getBaseApi(path) + path, body, {
+        .patch(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     put(path, body) {
       return axios
-        .put(getBaseApi(path) + path, body, {
+        .put(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     delete(path, params) {
       return axios
-        .delete(getBaseApi(path) + path, {
+        .delete(getBaseApi() + path, {
           params,
           headers: createHeaders(),
         })
