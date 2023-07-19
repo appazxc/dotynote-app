@@ -85,7 +85,7 @@ export default () => {
       return axios
         .request(
           Object.assign(requestConfig, {
-            url: getBaseApi(requestConfig.url ?? '') + requestConfig.url,
+            url: getBaseApi() + requestConfig.url,
             data: requestConfig.data ? requestConfig.data : null,
             headers: createHeaders(),
           })

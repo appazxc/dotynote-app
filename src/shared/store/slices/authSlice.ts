@@ -11,20 +11,12 @@ export const getMe: AppThunk = () => async (dispatch, getState) => {
 
   dispatch(setLoading(true));
 
-  console.log('getMe loading');
-
   try {
     const user = await api.getMe();
-    console.log('getMe setuser');
-
     dispatch(setUser(user));
   } catch (e) {
-    console.log('getMe loading fail');
-
     dispatch(setToken(null));
   } finally {
-    console.log('getMe loading finally');
-
     dispatch(setLoading(false));
   }
 };
