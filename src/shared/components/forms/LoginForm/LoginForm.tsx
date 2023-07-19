@@ -153,7 +153,7 @@ export const LoginForm = () => {
             width="full"
             isLoading={isLoading}
           >
-            {isEmailSent ? 'Continue with login code' : 'Loginn / Register'}
+            {isEmailSent ? 'Continue with login code' : 'Login / Register'}
           </Button>
         </VStack>
         {error && (
