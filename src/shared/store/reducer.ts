@@ -4,6 +4,7 @@ import loadersReducer from 'shared/modules/loaders/loadersSlice';
 
 import appReducer from './slices/appSlice';
 import authReducer from './slices/authSlice';
+import entitiesReducer from './slices/entitiesSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -13,6 +14,7 @@ const authPersistConfig = {
 
 const reducer = {
   app: appReducer,
+  entities: entitiesReducer,
   loaders: loadersReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   // [pokemonApi.reducerPath]: pokemonApi.reducer,

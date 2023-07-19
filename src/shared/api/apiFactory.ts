@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getStore } from 'shared/store/helpers/getStore';
+import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
-
-import { getBaseApi } from './helpers/getBaseApi';
+import { getBaseApi } from 'shared/helpers/api/getBaseApi';
+import { addEntities } from 'shared/store/slices/entitiesSlice';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -97,10 +97,20 @@ export default () => {
   return api;
 };
 
+function handleEntities(entities) {
+  const { dispatch } = getStore();
+
+  dispatch(addEntities(entities));
+}
+
 function handleResponse(
   response: AxiosResponse
 ) {
   const data = response.data;
+
+  if (data.entities) {
+    handleEntities(data.entities);
+  }
 
   return data.data ? data.data : data;
 }

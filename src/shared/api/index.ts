@@ -19,6 +19,10 @@ const createRoutes = (api) => {
     async getMe(): Promise<{ name: string }> {
       return api.get('/users/me');
     },
+
+    async getAppSession(): Promise<string> {
+      return api.get('/app/session');
+    },
   };
 };
 

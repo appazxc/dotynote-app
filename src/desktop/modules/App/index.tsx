@@ -21,7 +21,7 @@ const routes = [
 
 function App() {
   const [activeNoteSpace, setActiveNoteSpace] = React.useState(1);
-
+  
   const router = React.useMemo(() => {
     return createMemoryRouter(routes, {
       initialEntries: ['/', `/note/${activeNoteSpace}`],

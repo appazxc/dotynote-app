@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, AsyncThunkPayloadCreator, PayloadAction 
 import api from 'shared/api';
 import { AppDispatch, AppState, AppThunk } from 'shared/store';
 
-export const getMe: AppThunk = () => async (dispatch, getState) => {
+export const fetchMe: AppThunk = () => async (dispatch, getState) => {
   const token = selectToken(getState());
 
   if (!token) {

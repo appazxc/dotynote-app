@@ -3,7 +3,7 @@ import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import PageLoader from 'shared/components/PageLoader';
-import { getMe } from 'shared/store/slices/authSlice';
+import { fetchMe } from 'shared/store/slices/authSlice';
 
 const fallback = { fallback: <PageLoader /> };
 
@@ -14,7 +14,7 @@ function Main() {
   const isAppOpen = useAppSelector(state => state.app.isOpen);
 
   React.useEffect(() => {
-    dispatch(getMe());
+    dispatch(fetchMe());
   }, []);
 
   return (

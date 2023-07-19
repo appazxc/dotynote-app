@@ -1,4 +1,4 @@
-import { getBaseApi } from 'shared/api/helpers/getBaseApi';
+import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 
 export const getHandlerUrl = (url: string) => {
   return getBaseApi() + url;

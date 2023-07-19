@@ -1,10 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import api from 'shared/api';
 
-export interface CounterState {
+import { AppThunk } from '..';
+
+export const fetchAppSession: AppThunk = () => async (dispatch, getState) => {
+  const sessionId = await api.getAppSession();
+  dispatch(setAppSession(sessionId));
+};
+
+type InitialState = {
   isOpen: boolean,
+  appSession?: string
 }
 
-const initialState: CounterState = {
+const initialState: InitialState = {
   isOpen: false,
 };
 
@@ -18,9 +27,12 @@ export const appSlice = createSlice({
     close: (state) => {
       state.isOpen = false;
     },
+    setAppSession: (state, { payload }: PayloadAction<string>) => {
+      state.appSession = payload;
+    },
   },
 });
 
-export const { open, close } = appSlice.actions;
+export const { open, close, setAppSession } = appSlice.actions;
 
 export default appSlice.reducer;
