@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 
 export type Entities = {
   [name in EntityName]: {
-    [key: string]: EntityTypes[name] | undefined
+    [key: string]: EntityTypes[name] | void
   }
 }
 
