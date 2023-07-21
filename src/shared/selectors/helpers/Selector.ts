@@ -5,7 +5,7 @@ import { Entity } from 'shared/types/entities/entityTypes';
 import { makeGetById } from './makeGetById';
 
 export default class Selector<T extends Entity> {
-  getById: (state: AppState, id: string) => T | null;
+  getById: (state: AppState, id?: string) => T | null;
 
   constructor(entityName: EntityName) {
     this.getById = makeGetById(entityName);

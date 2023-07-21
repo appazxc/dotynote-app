@@ -23,6 +23,14 @@ const createRoutes = (api) => {
     async getAppSession(): Promise<string> {
       return api.get('/app/session');
     },
+
+    async getUserSpace(id: string): Promise<string> {
+      return api.get(`/spaces/${id}`);
+    },
+
+    async getSpaceTabs(id: string): Promise<string[]> {
+      return api.get(`/spaces/${id}/tabs`);
+    },
   };
 };
 

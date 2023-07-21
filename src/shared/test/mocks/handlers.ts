@@ -2,6 +2,8 @@ import { rest } from 'msw';
 
 import { appSession } from '../stubs/appSession';
 import { me } from '../stubs/user';
+import { activeUserSpace } from '../stubs/space';
+import { activeUserSpaceTabs } from '../stubs/spaceTab';
 
 import { getHandlerUrl } from './helpers/getHandlerUrl';
 import { fillEntities } from './helpers/fillEntities';
@@ -45,22 +47,26 @@ export const handlers = [
     );
   }),
 
-  rest.get(getHandlerUrl('/users/me/account'), (req, res, ctx) => {
+  rest.get(getHandlerUrl('/spaces/1'), (req, res, ctx) => {
     return res(
       ctx.json({
-        id: 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda',
-        name: 'Dima',
+        data: activeUserSpace.id,
+        entities: fillEntities({
+          space: [activeUserSpace],
+        }),
       })
     );
   }),
-  rest.get(getHandlerUrl('/3'), (req, res, ctx) => {
-    return res(
-      ctx.json({
-        id: 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda',
-        name: 'Dima',
-      })
-    );
+
+  rest.get(getHandlerUrl('/spaces/1/tabs'), (req, res, ctx) => {
+    return res(ctx.json({
+      data: activeUserSpaceTabs.map(({ id }) => id),
+      entities: fillEntities({
+        spaceTab: activeUserSpaceTabs,
+      }),
+    }));
   }),
+
   rest.get(getHandlerUrl('/4'), (req, res, ctx) => {
     return res(
       ctx.json({
