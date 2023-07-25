@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import { wait } from 'shared/utils/wait';
 
 import { appSession } from '../stubs/appSession';
 import { me } from '../stubs/user';
@@ -58,7 +59,8 @@ export const handlers = [
     );
   }),
 
-  rest.get(getHandlerUrl('/spaces/1/tabs'), (req, res, ctx) => {
+  rest.get(getHandlerUrl('/spaces/1/tabs'), async (req, res, ctx) => {
+    await wait(3000);
     return res(ctx.json({
       data: activeUserSpaceTabs.map(({ id }) => id),
       entities: fillEntities({

@@ -16,19 +16,19 @@ const createRoutes = (api) => {
       return api.post('/auth/login-email', data);
     },
 
-    async getMe(): Promise<{ name: string }> {
+    async loadMe(): Promise<{ name: string }> {
       return api.get('/users/me');
     },
 
-    async getAppSession(): Promise<string> {
+    async loadAppSession(): Promise<string> {
       return api.get('/app/session');
     },
 
-    async getUserSpace(id: string): Promise<string> {
+    async loadUserSpace(id: string): Promise<string> {
       return api.get(`/spaces/${id}`);
     },
 
-    async getSpaceTabs(id: string): Promise<string[]> {
+    async loadSpaceTabs(id: string): Promise<string[]> {
       return api.get(`/spaces/${id}/tabs`);
     },
   };

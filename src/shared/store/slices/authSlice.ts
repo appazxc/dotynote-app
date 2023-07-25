@@ -12,7 +12,7 @@ export const fetchMe: AppThunk = () => async (dispatch, getState) => {
   dispatch(setLoading(true));
 
   try {
-    const user = await api.getMe();
+    const user = await api.loadMe();
     dispatch(setUser(user));
   } catch (e) {
     dispatch(setToken(null));

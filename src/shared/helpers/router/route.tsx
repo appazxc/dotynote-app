@@ -1,5 +1,4 @@
 import { LoaderFunction, RouteObject, createBrowserRouter, defer } from 'react-router-dom';
-import Loadable from 'shared/components/Loadable';
 import * as React from 'react';
 import { routeList } from 'shared/constants/routeList';
 import { UserRoute } from 'shared/routes/protected/UserRoute';
@@ -11,12 +10,18 @@ import { RouteRole, roles } from 'shared/constants/routeList/roles';
 
 import { Defer } from './Defer';
 
-const NotFound = Loadable(() => import(/* webpackChunkName: "NotFoundPage"  */ 'shared/routes/NotFound'));
-
-type CreateRouter = (params: { store: AppStore, routeDictionary: RouteDictionary }) => ReturnType<typeof createBrowserRouter>;
+type CreateRouterParams = {
+  store: AppStore,
+  routeDictionary: RouteDictionary,
+  pages: {
+    notFoundPage: React.ReactElement,
+    errorPage?: React.ReactElement,
+  }
+}
+type CreateRouter = (params: CreateRouterParams) => ReturnType<typeof createBrowserRouter>;
 
 export const createRouter: CreateRouter = (params) => {
-  const { routeDictionary, store } = params;
+  const { routeDictionary, store, pages } = params;
 
   return createBrowserRouter(
     [
@@ -36,6 +41,7 @@ export const createRouter: CreateRouter = (params) => {
             return {
               element: deferLoader ? <Defer element={el} loader={loaderComponent} /> : el,
               loader: createLoader({ loader, store, deferLoader }),
+              errorElement: pages.errorPage,
             };
           };
 
@@ -50,7 +56,7 @@ export const createRouter: CreateRouter = (params) => {
         }),
       {
         path: '*',
-        element: <NotFound />,
+        element: pages.notFoundPage,
       },
     ]
   );

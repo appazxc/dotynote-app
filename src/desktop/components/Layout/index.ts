@@ -1,1 +1,2 @@
-export { default as Layout } from './Layout';
+export { Layout } from './Layout';
+export { LayoutHeader } from './components/LayoutHeader';

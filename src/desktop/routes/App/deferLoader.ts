@@ -11,9 +11,4 @@ export const deferLoader: RouteLoader = async ({ store }) => {
     // TODO: обрабатывать ошибку
     throw new Error('Отсутствует appSession');
   }
-
-  await Promise.all([
-    fetchUserSpace(appSession.activeSpaceId),
-    fetchSpaceTabs(appSession.activeSpaceTabId),
-  ].map(dispatch));
 };

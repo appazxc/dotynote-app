@@ -7,7 +7,7 @@ const defaultConfig = {
     // 'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
   ],
-  plugins: ['jsx-a11y'],
+  plugins: ['jsx-a11y', '@tanstack/query'],
   rules: {
     indent: ['error', 2],
     'no-var': 'warn',
@@ -242,6 +242,8 @@ const defaultConfig = {
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
     ],
+    '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/prefer-query-object-syntax': 'error',
   },
 };
 
