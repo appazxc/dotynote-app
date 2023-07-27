@@ -2,7 +2,7 @@ import { routeNames, RouteName } from 'shared/constants/routeNames';
 
 import { RouteRole, roles } from './roles';
 
-export type RouteItem = {
+export type RouteListItem = {
   name: RouteName,
   path: string,
   role?: RouteRole,
@@ -29,7 +29,7 @@ const guest = [
   },
 ];
 
-export const routeList: RouteItem[] = [
+export const routeList: RouteListItem[] = [
   ...any,
   ...guest.map((route) => ({ ...route, role: roles.guest })),
   ...user.map((route) => ({ ...route, role: roles.user })),

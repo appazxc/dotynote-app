@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-export const AppErrorLayout = () => {
+export const NotFoundTab = () => {
   return (
     <Box w="full" h="full">
-      Layout error
+      NotFound tab
     </Box>
   );
 };

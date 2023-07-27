@@ -31,6 +31,10 @@ const createRoutes = (api) => {
     async loadSpaceTabs(id: string): Promise<string[]> {
       return api.get(`/spaces/${id}/tabs`);
     },
+
+    async loadNote(id: string): Promise<string> {
+      return api.get(`/notes/${id}`);
+    },
   };
 };
 

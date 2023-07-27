@@ -3,10 +3,15 @@ import React from 'react';
 
 import { AppLayoutHeader } from '../AppLayoutHeader';
 
-export const AppLayout = ({ isLoading, spaceId }) => {
+type Props = React.PropsWithChildren<{
+  showNoteMenu?: boolean
+}>
+
+export const AppLayout = ({ children, showNoteMenu }: Props) => {
   return (
     <Box w="full" h="full">
-      <AppLayoutHeader isLoading={isLoading} />
+      <AppLayoutHeader showNoteMenu={showNoteMenu} />
+      {children}
     </Box>
   );
 };

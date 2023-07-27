@@ -1,10 +1,11 @@
-import { rest } from 'msw';
+import { DefaultBodyType, rest } from 'msw';
 import { wait } from 'shared/utils/wait';
 
 import { appSession } from '../stubs/appSession';
 import { me } from '../stubs/user';
 import { activeUserSpace } from '../stubs/space';
 import { activeUserSpaceTabs } from '../stubs/spaceTab';
+import { createNote } from '../stubs/note';
 
 import { getHandlerUrl } from './helpers/getHandlerUrl';
 import { fillEntities } from './helpers/fillEntities';
@@ -68,7 +69,7 @@ export const handlers = [
     }));
   }),
 
-  rest.get(getHandlerUrl('/4'), (req, res, ctx) => {
+  rest.get(getHandlerUrl('/notes/:id/posts'), (req, res, ctx) => {
     return res(
       ctx.json({
         id: 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda',
@@ -76,11 +77,17 @@ export const handlers = [
       })
     );
   }),
-  rest.get(getHandlerUrl('/5'), (req, res, ctx) => {
+  rest.get<DefaultBodyType, { id: string }>(getHandlerUrl('/notes/:id'), (req, res, ctx) => {
+    const { id } = req.params;
+
     return res(
       ctx.json({
-        id: 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda',
-        name: 'Dima',
+        data: id,
+        entities: {
+          note: {
+            [id]: createNote(id),
+          },
+        },
       })
     );
   }),

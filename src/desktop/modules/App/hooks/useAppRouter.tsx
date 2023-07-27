@@ -1,38 +1,51 @@
 import { createMemoryRouter } from 'react-router-dom';
 import React from 'react';
 import { spaceTabSelector } from 'shared/selectors';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { RouterState } from '@remix-run/router';
 
-import HomePage from '../routes/HomePage';
-import NotePage from '../routes/NotePage';
+import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
+import NoteTab from '../tabs/note';
+import HomeTab from '../tabs/home';
+import BlankTab from '../tabs/blank';
+import NotFoundTab from '../tabs/notFound';
 
 const routes = [
   {
-    path: '/note/:id',
-    element: <NotePage />,
+    path: '/notes/:noteId',
+    element: <NoteTab />,
   },
   {
     path: '/',
-    element: <HomePage />,
+    element: <HomeTab />,
+  },
+  {
+    path: '/blank',
+    element: <BlankTab />,
+  },
+  {
+    path: '*',
+    element: <NotFoundTab />,
   },
 ];
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity | null) {
   if (!spaceTab) {
     return {
-      initialEntries: ['/'],
+      initialEntries: ['/blank'],
       initialIndex: 0,
     };
   }
 
   return {
-    initialEntries: ['/'],
-    initialIndex: 0,
+    initialEntries: spaceTab.routes,
+    initialIndex: spaceTab.routes.length - 1,
   };
 }
 
 export const useAppRouter = (activeSpaceTabId?: string) => {
+  const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, activeSpaceTabId));
 
   const router = React.useMemo(() => {
@@ -44,14 +57,14 @@ export const useAppRouter = (activeSpaceTabId?: string) => {
   }, [spaceTab?.id]);
 
   React.useEffect(() => {
-    function updateSpaceTabRoutes(action) {
-      console.log('action', action);
+    function handleChange(action: RouterState) {
+      dispatch(handleAppRouteChange(action));
     }
 
-    const unsubscribe = router.subscribe(updateSpaceTabRoutes);
+    const unsubscribe = router.subscribe(handleChange);
 
     return unsubscribe;
-  }, [router]);
+  }, [router, dispatch]);
 
   return router;
 };

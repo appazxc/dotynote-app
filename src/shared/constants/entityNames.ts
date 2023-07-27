@@ -5,6 +5,7 @@ export const entityNames = keymirror({
   appSession: null,
   space: null,
   spaceTab: null,
+  note: null,
 });
 
 export type EntityName = keyof typeof entityNames;

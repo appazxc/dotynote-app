@@ -4,13 +4,12 @@ import {
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { fetchSpaceTabs, fetchUserSpace, selectAppSession } from 'shared/store/slices/appSlice';
-import {
-  useQuery,
-} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
-import { AppErrorLayout, AppLoadingLayout } from './components/AppLayout';
 import { useAppRouter } from './hooks/useAppRouter';
+import { ErrorTab } from './tabs/error/ErrorTab';
+import { LoadingTab } from './tabs/loading/LoadingTab';
 
 function App() {
   const appSession = useAppSelector(selectAppSession);
@@ -33,11 +32,11 @@ function App() {
   }
 
   if (spaceError || spaceTabsError) {
-    return <AppErrorLayout />;
+    return <ErrorTab />;
   }
 
   if (spaceIsLoading || spaceTabsIsLoading) {
-    return <AppLoadingLayout />;
+    return <LoadingTab />;
   }
 
   return (
