@@ -12,8 +12,6 @@ export const fetchAppSession: AppThunk = () => async (dispatch, getState) => {
 };
 
 export const fetchUserSpace: AppThunk<string | void> = (id) => async (dispatch, getState) => {
-  console.log('load', id);
-  
   if (!id) {
     return Promise.reject(new Error(INVALID_ID));
   }
@@ -27,7 +25,7 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
   }
 
   const spaceTabs = await api.loadSpaceTabs(id);
-  
+
   dispatch(setSpaceTabs({ id, tabs: spaceTabs }));
 
   return spaceTabs;

@@ -16,21 +16,16 @@ function App() {
   const appSession = useAppSelector(selectAppSession);
   const dispatch = useAppDispatch();
 
-  const { data, isLoading: spaceIsLoading, isError: spaceError } = useQuery({
+  const { isLoading: spaceIsLoading, isError: spaceError } = useQuery({
     queryKey: ['space', appSession?.activeSpaceId],
-    queryFn: () => {
-      console.log('queryFn');
-
-      return dispatch(fetchUserSpace(appSession?.activeSpaceId));
-    },
-    // enabled: !!appSession,
+    queryFn: () => dispatch(fetchUserSpace(appSession?.activeSpaceId)),
+    enabled: !!appSession,
   });
-console.log('data', data);
 
   const { isLoading: spaceTabsIsLoading, isError: spaceTabsError } = useQuery({
     queryKey: ['spaceTabs', appSession?.activeSpaceId],
     queryFn: () => dispatch(fetchSpaceTabs(appSession?.activeSpaceId)),
-    // enabled: !!appSession,
+    enabled: !!appSession,
   });
 
   if (!appSession) {
@@ -47,7 +42,6 @@ console.log('data', data);
 
   return (
     <AppEntry activeSpaceTabId={appSession.activeSpaceTabId} />
-    // <AppLayout isLoading={spaceIsLoading || spaceTabsIsLoading} spaceId={spaceId} />
   );
 }
 
