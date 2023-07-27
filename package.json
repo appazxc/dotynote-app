@@ -33,6 +33,7 @@
     "@emotion/styled": "^11.10.8",
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.32.0",
+    "@tanstack/react-query-devtools": "^4.32.0",
     "axios": "^1.4.0",
     "chakra-radix-colors": "^0.1.3",
     "formik": "^2.4.2",

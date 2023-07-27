@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Stack, Button } from '@chakra-ui/react';
 
 export default function NotePage(props) {
   const params = useParams();
@@ -8,7 +8,11 @@ export default function NotePage(props) {
 
   return (
     <div>NotePage
-      <Button onClick={() => navigate('/')}>Перейти на стартовую страницу</Button>
+      <Stack>
+        <Button onClick={() => navigate(-1)}>Перейти назад</Button>
+        <Button onClick={() => navigate(`/note/${+params.id + 1}`)}>Перейти на следующий нот</Button>
+
+      </Stack>
 
       <div>
         {JSON.stringify(params, null, 2)}

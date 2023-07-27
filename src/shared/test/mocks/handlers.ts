@@ -60,7 +60,6 @@ export const handlers = [
   }),
 
   rest.get(getHandlerUrl('/spaces/1/tabs'), async (req, res, ctx) => {
-    await wait(3000);
     return res(ctx.json({
       data: activeUserSpaceTabs.map(({ id }) => id),
       entities: fillEntities({
