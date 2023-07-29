@@ -3,29 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:4000",
+  "type": "module",
   "scripts": {
-    "start": "craco start",
-    "start:mock": "MOCK=true craco start",
-    "build": "craco build",
+    "start": "vite",
+    "start:mock": "MOCK=true start",
+    "build": "tsc && vite build",
     "msw:init": "npx msw init public --no-save",
-    "test": "craco test",
-    "eject": "craco eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "test": "test",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.0",
@@ -81,11 +67,18 @@
     "@types/react-redux": "^7.1.25",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
+    "@vitejs/plugin-react-swc": "^3.3.2",
     "craco-plugin-env": "^1.0.5",
     "eslint": "^8.0.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
     "source-map-explorer": "^2.5.3",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-mp": "^2.2.3",
+    "vite-plugin-pwa": "^0.16.4",
+    "vite-plugin-require": "^1.1.10"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "paths": {
+      "shared/*": [
+        "./src/shared/*"
+      ],
+      "desktop/*": [
+        "./src/desktop/*"
+      ],
+      "mobile/*": [
+        "./src/mobile/*"
+      ]
+    },
+  },
+  "include": ["vite.config.ts", "src"]
+}
