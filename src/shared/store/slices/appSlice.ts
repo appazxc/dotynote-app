@@ -1,6 +1,6 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import api from 'shared/api';
-import { appSessionSelector, spaceSelector } from 'shared/selectors';
+import { appSessionSelector, spaceSelector, spaceTabSelector } from 'shared/selectors';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
 
@@ -88,6 +88,12 @@ export const selectActiveSpaceTabs = (state: AppState) => {
   const appSession = selectAppSession(state);
 
   return selectSpaceTabs(state, appSession?.activeSpaceId);
+};
+
+export const selectActiveSpaceActiveTab = (state: AppState) => {
+  const appSession = selectAppSession(state);
+
+  return spaceTabSelector.getById(state, appSession?.activeSpaceTabId);
 };
 
 export default appSlice.reducer;

@@ -3,17 +3,19 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { fetchSpaceTabs, fetchUserSpace, selectAppSession } from 'shared/store/slices/appSlice';
+import { fetchSpaceTabs, fetchUserSpace, selectActiveSpaceActiveTab, selectAppSession } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
 import { useAppRouter } from './hooks/useAppRouter';
 import { ErrorTab } from './tabs/error/ErrorTab';
 import { LoadingTab } from './tabs/loading/LoadingTab';
+import { Untabed } from './tabs/untabed/Untabed';
 
 function App() {
-  const appSession = useAppSelector(selectAppSession);
   const dispatch = useAppDispatch();
+  const appSession = useAppSelector(selectAppSession);
+  const activeTab = useAppSelector(selectActiveSpaceActiveTab);
 
   const { isLoading: spaceIsLoading, isError: spaceError } = useQuery({
     queryKey: ['space', appSession?.activeSpaceId],
@@ -39,7 +41,11 @@ function App() {
     return <LoadingTab />;
   }
 
+  if (!activeTab) {
+    return <Untabed />;
+  }
   return (
+    // прокидывать таб, а не айди
     <AppEntry activeSpaceTabId={appSession.activeSpaceTabId} />
   );
 }
