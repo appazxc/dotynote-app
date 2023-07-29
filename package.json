@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "start:mock": "MOCK=true start",
+    "start:mock": "MOCK=true yarn start",
     "build": "tsc && vite build",
     "msw:init": "npx msw init public --no-save",
     "test": "test",

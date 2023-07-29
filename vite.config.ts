@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA(),
+    // @ts-ignore
     vitePluginRequire.default(),
   ],
   resolve: {
