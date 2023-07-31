@@ -7,7 +7,7 @@ import Main from './shared/core';
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
 
-if (import.meta.env.VITE_MOCK === 'true') {
+if (import.meta.env.MOCK === 'true') {
   const worker = require('./shared/test/mocks/browser');
   worker.start();
 }
