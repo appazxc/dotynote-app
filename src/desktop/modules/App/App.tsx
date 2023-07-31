@@ -3,7 +3,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { fetchSpaceTabs, fetchUserSpace, selectActiveSpaceActiveTab, selectAppSession } from 'shared/store/slices/appSlice';
+import { fetchSpaceTabs, fetchUserSpace, fetchSpaceTabsRouteNotes, selectActiveSpaceActiveTab, selectAppSession } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
@@ -23,10 +23,16 @@ function App() {
     enabled: !!appSession,
   });
 
-  const { isLoading: spaceTabsIsLoading, isError: spaceTabsError } = useQuery({
+  const { isLoading: spaceTabsIsLoading, isError: spaceTabsError, isFetched } = useQuery({
     queryKey: ['spaceTabs', appSession?.activeSpaceId],
     queryFn: () => dispatch(fetchSpaceTabs(appSession?.activeSpaceId)),
     enabled: !!appSession,
+  });
+
+  const { isLoading, isError } = useQuery({
+    queryKey: ['spaceTabNotes', appSession?.activeSpaceId],
+    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(appSession?.activeSpaceId)),
+    enabled: isFetched,
   });
 
   if (!appSession) {
@@ -37,7 +43,7 @@ function App() {
     return <ErrorTab />;
   }
 
-  if (spaceIsLoading || spaceTabsIsLoading) {
+  if (spaceIsLoading || spaceTabsIsLoading || isLoading) {
     return <LoadingTab />;
   }
 

@@ -77,6 +77,18 @@ export const handlers = [
       })
     );
   }),
+
+  rest.get<DefaultBodyType, { ids: string[] }>(getHandlerUrl('/notes'), (req, res, ctx) => {
+    const ids = req.url.searchParams.get('ids').split(',');
+
+    return res(ctx.json({
+      data: ids,
+      entities: fillEntities({
+        note: ids.map(createNote),
+      }),
+    }));
+  }),
+
   rest.get<DefaultBodyType, { id: string }>(getHandlerUrl('/notes/:id'), (req, res, ctx) => {
     const { id } = req.params;
 

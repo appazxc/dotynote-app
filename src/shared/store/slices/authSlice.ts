@@ -38,6 +38,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setToken: (state, { payload }: PayloadAction<string | null>) => {
+      console.log('token', payload);
+
       state.token = payload;
     },
     setUser: (state, { payload }: PayloadAction<{ name: string }>) => {

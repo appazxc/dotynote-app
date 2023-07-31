@@ -1,4 +1,4 @@
-import apiFactory from './apiFactory';
+import apiFactory, { Api } from './apiFactory';
 
 function createApi() {
   const api = apiFactory();
@@ -6,7 +6,7 @@ function createApi() {
   return createRoutes(api);
 }
 
-const createRoutes = (api) => {
+const createRoutes = (api: Api) => {
   return {
     async sendCodeEmail(email: string) {
       return api.post('/auth/send-code-email', { email });
@@ -34,6 +34,10 @@ const createRoutes = (api) => {
 
     async loadNote(id: string): Promise<string> {
       return api.get(`/notes/${id}`);
+    },
+
+    async loadNotes(params): Promise<string[]> {
+      return api.get('/notes', params);
     },
   };
 };

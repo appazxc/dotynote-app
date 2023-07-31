@@ -3,6 +3,10 @@ import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
+import identity from 'lodash/identity';
+import pickBy from 'lodash/pickBy';
+import mapValues from 'lodash/mapValues';
+import isArray from 'lodash/isArray';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -44,10 +48,18 @@ export default () => {
   });
 
   const api: Api = {
-    get(path, params) {
+    get(path, params = {}) {
+      const updatedParams = mapValues(params, (value) => {
+        if (isArray(value)) {
+          return value.join(',');
+        }
+
+        return value;
+      });
+
       return axios
         .get(getBaseApi() + path, {
-          params,
+          params: pickBy(updatedParams, identity),
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));

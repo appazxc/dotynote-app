@@ -3,6 +3,8 @@ import api from 'shared/api';
 import { appSessionSelector, spaceSelector, spaceTabSelector } from 'shared/selectors';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
+import { getRouteMatch } from 'desktop/modules/app/helpers/getRouteMatch';
+import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
 
 import { AppState, AppThunk } from '..';
 
@@ -29,6 +31,22 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
   dispatch(setSpaceTabs({ id, tabs: spaceTabs }));
 
   return spaceTabs;
+};
+
+export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) => async (dispatch, getState) => {
+  const state = getState();
+  const noteIds = selectSpaceTabs(state, spaceId)
+    .map(id => spaceTabSelector.getById(state, id))
+    .filter(Boolean)
+    .map(({ routes }) => {
+      return getRouteMatch(routes[0]);
+    })
+    .filter(match => match && match.route.name === appRouteNames.note)
+    .map(match => match.pathMatch.params.noteId);
+
+  await api.loadNotes({ ids: noteIds });
+
+  return [];
 };
 
 type InitialState = {
