@@ -7,6 +7,7 @@ import { getRouteMatch } from 'desktop/modules/app/helpers/getRouteMatch';
 import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
 
 import { AppState, AppThunk } from '..';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const fetchAppSession: AppThunk = () => async (dispatch, getState) => {
   const sessionId = await api.loadAppSession();
@@ -33,11 +34,24 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
   return spaceTabs;
 };
 
+export const updateTab: AppThunk<{ id: string, data: Partial<SpaceTabEntity>}> = ({ id, data }) => 
+  async (dispatch, getState) => {
+    if (!id) {
+      return Promise.reject(new Error(INVALID_ID));
+    }
+
+    const spaceTabs = await api.loadSpaceTabs(id);
+
+    dispatch(setSpaceTabs({ id, tabs: spaceTabs }));
+
+    return spaceTabs;
+  };
+
 export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) => async (dispatch, getState) => {
   const state = getState();
   const noteIds = selectSpaceTabs(state, spaceId)
     .map(id => spaceTabSelector.getById(state, id))
-    .filter(Boolean)
+    .filter((spaceTab) => spaceTab && spaceTab.routes.length)
     .map(({ routes }) => {
       return getRouteMatch(routes[0]);
     })

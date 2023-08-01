@@ -11,22 +11,20 @@ export const SpaceTabTitle = ({ path }) => {
   const match = React.useMemo(() => {
     return getRouteMatch(path);
   }, [path]);
-  const isNote = match?.route.name === appRouteNames.note;
+  const isNoteRoute = match?.route.name === appRouteNames.note;
   const noteId = match?.pathMatch.params.noteId;
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
 
   const { isLoading } = useQuery({
     queryKey: ['notes', noteId],
     queryFn: () => {
-      console.log('load note');
-
-      return api.loadNote(noteId as string);
+      return api.loadNote(noteId);
     },
     enabled: !!noteId && !note,
   });
 
   const title = React.useMemo(() => {
-    if (isNote && !note && isLoading) {
+    if (isNoteRoute && !note && isLoading) {
       return 'Loading...';
     }
 
@@ -35,7 +33,7 @@ export const SpaceTabTitle = ({ path }) => {
     }
 
     return match?.route.title || '';
-  }, [match, isNote, isLoading, note]);
+  }, [match, isNoteRoute, isLoading, note]);
 
   return (
     <Box display="flex">{title}</Box>

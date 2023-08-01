@@ -79,7 +79,7 @@ export const handlers = [
   }),
 
   rest.get<DefaultBodyType, { ids: string[] }>(getHandlerUrl('/notes'), (req, res, ctx) => {
-    const ids = req.url.searchParams.get('ids').split(',');
+    const ids = (req.url.searchParams.get('ids') || '').split(',');
 
     return res(ctx.json({
       data: ids,

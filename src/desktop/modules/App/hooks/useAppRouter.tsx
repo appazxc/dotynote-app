@@ -8,7 +8,7 @@ import { RouterState } from '@remix-run/router';
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
 import NoteTab from '../tabs/note';
 import HomeTab from '../tabs/home';
-import NotFoundTab from '../tabs/notFound';
+import Untabed from '../tabs/untabed';
 
 const routes = [
   {
@@ -21,27 +21,19 @@ const routes = [
   },
   {
     path: '*',
-    element: <NotFoundTab />,
+    element: <Untabed />,
   },
 ];
 
-function getMemoryRouterParams(spaceTab: SpaceTabEntity | null) {
-  if (!spaceTab) {
-    return {
-      initialEntries: ['/blank'],
-      initialIndex: 0,
-    };
-  }
-
+function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
     initialEntries: spaceTab.routes,
     initialIndex: spaceTab.routes.length - 1,
   };
 }
 
-export const useAppRouter = (activeSpaceTabId?: string) => {
+export const useAppRouter = (spaceTab: SpaceTabEntity) => {
   const dispatch = useAppDispatch();
-  const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, activeSpaceTabId));
 
   const router = React.useMemo(() => {
     const router = createMemoryRouter(routes, getMemoryRouterParams(spaceTab));

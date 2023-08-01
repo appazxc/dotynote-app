@@ -11,6 +11,7 @@ import { useAppRouter } from './hooks/useAppRouter';
 import { ErrorTab } from './tabs/error/ErrorTab';
 import { LoadingTab } from './tabs/loading/LoadingTab';
 import { Untabed } from './tabs/untabed/Untabed';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ function App() {
     enabled: !!appSession,
   });
 
-  const { isLoading, isError } = useQuery({
+  const { isLoading: tabNotesIsLoading, isError: tabNotesError } = useQuery({
     queryKey: ['spaceTabNotes', appSession?.activeSpaceId],
     queryFn: () => dispatch(fetchSpaceTabsRouteNotes(appSession?.activeSpaceId)),
     enabled: isFetched,
@@ -39,25 +40,26 @@ function App() {
     return <NotFoundPage />;
   }
 
-  if (spaceError || spaceTabsError) {
+  if (spaceError || spaceTabsError || tabNotesError) {
     return <ErrorTab />;
   }
 
-  if (spaceIsLoading || spaceTabsIsLoading || isLoading) {
+  if (spaceIsLoading || spaceTabsIsLoading || tabNotesIsLoading) {
     return <LoadingTab />;
   }
 
-  if (!activeTab) {
+  if (!activeTab || !activeTab.routes.length) {
     return <Untabed />;
   }
+
   return (
     // прокидывать таб, а не айди
-    <AppEntry activeSpaceTabId={appSession.activeSpaceTabId} />
+    <AppEntry activeTab={activeTab} />
   );
 }
 
-function AppEntry({ activeSpaceTabId }) {
-  const router = useAppRouter(activeSpaceTabId);
+function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
+  const router = useAppRouter(activeTab);
 
   return <RouterProvider router={router} />;
 }
