@@ -7,5 +7,6 @@ module.exports = {
   rules: {
     indent: ['error', 2],
     semi: ['error', 'always'],
+    'max-len': ["error", { "code": 100 }]
   }
 };

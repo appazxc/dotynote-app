@@ -17,7 +17,13 @@ export const NoteTab = (props) => {
         <Container justifyContent="center">
           <Stack w="fit-content" mx="auto">
             <Button onClick={() => navigate(-1)}>Перейти назад</Button>
-            <Button onClick={() => navigate(getAppUrl(appRouteNames.note, { pathParams: { noteId: +noteId + 1 } }), { replace: true })}>Перейти на следующий нот</Button>
+            <Button 
+              onClick={() => navigate(getAppUrl(appRouteNames.note, { 
+                pathParams: { noteId: +noteId + 1 } 
+              }))}
+            >
+              Перейти на следующий нот
+            </Button>
             <Button onClick={() => navigate('/dsadas')}>Перейти на неизвестную страницу</Button>
           </Stack>
         </Container>
@@ -28,4 +34,4 @@ export const NoteTab = (props) => {
       </div>
     </AppLayout>
   );
-}
+};

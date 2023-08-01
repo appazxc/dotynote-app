@@ -19,6 +19,9 @@ export const SpaceTab = ({ id }) => {
       size="sm"
       variant={appSession.activeSpaceTabId === id ? 'solid' : 'outline'}
       alignItems="center"
+      maxWidth="32"
+      flexGrow='1'
+      justifyContent="flex-start"
     >
       <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
     </Button>

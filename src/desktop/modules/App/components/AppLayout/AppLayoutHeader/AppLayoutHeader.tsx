@@ -26,6 +26,7 @@ export const AppLayoutHeader = ({ showNoteMenu }: Props) => {
       <Box
         display="flex"
         alignItems="center"
+        flexGrow="1"
       >
         <IconButton
           size="sm"
@@ -38,6 +39,7 @@ export const AppLayoutHeader = ({ showNoteMenu }: Props) => {
           display="flex"
           flexDirection="row"
           gap="1"
+          flexGrow="1"
         >
           {spaceTabs.map(id => <SpaceTab key={id} id={id} />)}
           <IconButton

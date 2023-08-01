@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, WritableDraft } from '@reduxjs/toolkit';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { EntityTypes } from 'shared/types/entities/entityTypes';
 import isEqual from 'lodash/isEqual';
@@ -7,6 +7,12 @@ export type Entities = {
   [name in EntityName]: {
     [key: string]: EntityTypes[name] | void
   }
+}
+
+type UpdateEntityPayload<T extends EntityName> = { 
+  type: T, 
+  id: string, 
+  data: Partial<EntityTypes[T]>
 }
 
 const initialState: Entities = Object.keys(entityNames).reduce((acc, name) => {
@@ -42,9 +48,22 @@ export const entitiesSlice = createSlice({
         });
       });
     },
+    updateEntity: <T extends EntityName>(
+      state, 
+      { payload }: PayloadAction<UpdateEntityPayload<T>>
+    ) => {
+      const { id, type, data } = payload;
+
+      if (state[type][id]) {
+        state[type][id] = {
+          ...state[type][id],
+          ...data,
+        };
+      }
+    }
   },
 });
 
-export const { addEntities } = entitiesSlice.actions;
+export const { addEntities, updateEntity } = entitiesSlice.actions;
 
 export default entitiesSlice.reducer;

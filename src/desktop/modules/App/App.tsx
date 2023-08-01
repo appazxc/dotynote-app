@@ -3,7 +3,13 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { fetchSpaceTabs, fetchUserSpace, fetchSpaceTabsRouteNotes, selectActiveSpaceActiveTab, selectAppSession } from 'shared/store/slices/appSlice';
+import {
+  fetchSpaceTabs,
+  fetchUserSpace,
+  fetchSpaceTabsRouteNotes,
+  selectActiveSpaceActiveTab,
+  selectAppSession
+} from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
@@ -53,7 +59,6 @@ function App() {
   }
 
   return (
-    // прокидывать таб, а не айди
     <AppEntry activeTab={activeTab} />
   );
 }
