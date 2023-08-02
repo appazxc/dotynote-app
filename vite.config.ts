@@ -12,7 +12,7 @@ export default defineConfig(() => {
   return {
     plugins: [
       react(),
-      VitePWA(),
+      // VitePWA(),
       // @ts-ignore
       vitePluginRequire.default(),
     ],
