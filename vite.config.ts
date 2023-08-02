@@ -18,9 +18,9 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        shared: path.resolve(__dirname, 'src/shared'),
-        desktop: path.resolve(__dirname, 'src/desktop'),
-        mobile: path.resolve(__dirname, 'src/mobile'),
+        shared: path.resolve(__dirname, './src/shared'),
+        desktop: path.resolve(__dirname, './src/desktop'),
+        mobile: path.resolve(__dirname, './src/mobile'),
       },
     },
     define: {
