@@ -83,6 +83,7 @@
     "vite": "^4.4.5",
     "vite-plugin-mp": "^2.2.3",
     "vite-plugin-pwa": "^0.16.4",
-    "vite-plugin-require": "^1.1.10"
+    "vite-plugin-require": "^1.1.10",
+    "vite-plugin-resolve": "^2.3.0"
   }
 }

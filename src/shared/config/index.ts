@@ -1,14 +1,25 @@
 import { Config } from 'shared/types/common/config';
 import merge from 'lodash/merge';
 
-const getConfig = (): Config => {
-  const defaultConfig = require('./default.config');
-  const productionConfig = require('./production.config');
+
+const getLocalConfig = () => {
+  if (import.meta.env.PROD) {
+    return {};
+  }
 
   let localConfig: Partial<Config> = {};
   try {
+    // try dont work. hack in vite config
     localConfig = require('./local.config');
-  } catch (e) {}
+  } catch (e) {
+    return localConfig;
+  }
+};
+
+const getConfig = (): Config => {
+  const defaultConfig = require('./default.config');
+  const productionConfig = require('./production.config');
+  const localConfig = getLocalConfig();
 
   const config = process.env.NODE_ENV === 'production'
     ? merge(defaultConfig, productionConfig)

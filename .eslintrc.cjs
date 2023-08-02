@@ -29,6 +29,7 @@ module.exports = {
       prop: 'parens-new-line',
     }],
     'react/jsx-closing-bracket-location': [1, 'line-aligned'],
-    'react/display-name': 'off'
+    'react/display-name': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off'
   },
 };

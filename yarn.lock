@@ -8207,6 +8207,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+lib-esm@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/lib-esm/-/lib-esm-0.3.0.tgz#774d59ef27d3ab2b0485386b5dc70b2556178086"
+  integrity sha512-P7YcG7OnoaGL2h4j46g/m0P2xHMXlYf+0iCDvVrEfzUVxLe+abytgd2VjUhj9puqEgqRGEDbT504YWj75jHacA==
+
 lilconfig@^2.0.3, lilconfig@^2.0.5, lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
@@ -11511,6 +11516,13 @@ vite-plugin-require@^1.1.10:
     "@babel/types" "^7.10.3"
     vue-loader "^15.9.8"
     webpack "^4.46.0 || ^5.0.0"
+
+vite-plugin-resolve@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-resolve/-/vite-plugin-resolve-2.3.0.tgz#1c6aa114774c7fc30b1e2e6967b11ad8456e0de1"
+  integrity sha512-NG/3xM98ZtKOFs9KU+oZ+10MTfG6YVoooCgrzgcLHhdDXUwwbCt2KZg79/31Y0FkdcAfxHirTi1mZAvi9Sw6ZQ==
+  dependencies:
+    lib-esm "~0.3.0"
 
 vite@^4.4.5:
   version "4.4.8"
