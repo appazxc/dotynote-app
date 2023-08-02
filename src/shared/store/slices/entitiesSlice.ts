@@ -15,7 +15,7 @@ type UpdateEntityPayload<T extends EntityName> = {
   data: Partial<EntityTypes[T]>
 }
 
-const initialState: Entities = Object.keys(entityNames).reduce((acc, name) => {
+const initialState = Object.keys(entityNames).reduce((acc, name) => {
   acc[name] = {};
   return acc;
 }, {}) as Entities;

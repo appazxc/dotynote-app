@@ -8,7 +8,6 @@ import { RouterState } from '@remix-run/router';
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
 import NoteTab from '../tabs/note';
 import HomeTab from '../tabs/home';
-import Untabed from '../tabs/untabed';
 
 const routes = [
   {
@@ -21,7 +20,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <Untabed />,
+    element: <HomeTab />,
   },
 ];
 

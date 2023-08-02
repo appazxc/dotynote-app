@@ -16,7 +16,7 @@ import { NotFoundPage } from 'desktop/routes/NotFound';
 import { useAppRouter } from './hooks/useAppRouter';
 import { ErrorTab } from './tabs/error/ErrorTab';
 import { LoadingTab } from './tabs/loading/LoadingTab';
-import { Untabed } from './tabs/untabed/Untabed';
+import { HomeTab } from './tabs/home/HomeTab';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
   }
 
   if (!activeTab || !activeTab.routes.length) {
-    return <Untabed />;
+    return <HomeTab />;
   }
 
   return (
