@@ -1,7 +1,7 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { appRouteNames } from 'desktop/modules/App/constants/appRouteNames';
-import { getRouteMatch } from 'desktop/modules/App/helpers/getRouteMatch';
+import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
+import { getRouteMatch } from 'desktop/modules/app/helpers/getRouteMatch';
 import React from 'react';
 import api from 'shared/api';
 import { noteSelector } from 'shared/selectors';
