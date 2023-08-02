@@ -7,7 +7,8 @@ type Args = LoaderFunctionArgs & { store: AppStore};
 
 type RouteLoaderReturnValue = void | null;
 
-export type RouteLoader = (args: Args) => ReturnType<LoaderFunction> | Promise<RouteLoaderReturnValue> | RouteLoaderReturnValue;
+export type RouteLoader = (args: Args) => 
+  ReturnType<LoaderFunction> | Promise<RouteLoaderReturnValue> | RouteLoaderReturnValue;
 
 export type QueryParams = {
   [key: string]: any

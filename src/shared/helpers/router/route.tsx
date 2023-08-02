@@ -16,6 +16,7 @@ type CreateRouterParams = {
   pages: {
     notFoundPage: React.ReactElement,
     errorPage?: React.ReactElement,
+    loadingPage?: React.ReactElement,
   }
 }
 type CreateRouter = (params: CreateRouterParams) => ReturnType<typeof createBrowserRouter>;
@@ -39,7 +40,9 @@ export const createRouter: CreateRouter = (params) => {
             const el = element || (Component ? <Component /> : null);
 
             return {
-              element: deferLoader ? <Defer element={el} loader={loaderComponent} /> : el,
+              element: deferLoader ?
+                <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
+                : el,
               loader: createLoader({ loader, store, deferLoader }),
               errorElement: pages.errorPage,
             };
@@ -51,7 +54,7 @@ export const createRouter: CreateRouter = (params) => {
           };
 
           return route.role
-            ? withProtected(preparedRoute, route.role, store)
+            ? withProtected(preparedRoute, route.role)
             : preparedRoute;
         }),
       {
@@ -62,7 +65,18 @@ export const createRouter: CreateRouter = (params) => {
   );
 };
 
-type CreateLoader = ({ loader, store, deferLoader }: { store: AppStore, loader?: RouteLoader, deferLoader?: RouteLoader }) => LoaderFunction
+type CreateLoader = (
+  { 
+    loader, 
+    store, 
+    deferLoader
+  }: 
+  { 
+    loader?: RouteLoader, 
+    store: AppStore, 
+    deferLoader?: RouteLoader
+  }
+) => LoaderFunction
 
 const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunction => {
   return async (args) => {
@@ -89,7 +103,7 @@ const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunct
   };
 };
 
-const withProtected = (route: RouteObject, role: RouteRole, store: AppStore) => {
+const withProtected = (route: RouteObject, role: RouteRole) => {
   return {
     ...getProtectedRoute(role),
     children: [route],

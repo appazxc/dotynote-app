@@ -17,9 +17,4 @@ export const appRouteList: AppRouteListItem[] = [
     path: '/notes/:noteId',
     title: 'Note',
   },
-  {
-    name: appRouteNames.blank,
-    path: '/blank',
-    title: 'New Tab',
-  },
 ];

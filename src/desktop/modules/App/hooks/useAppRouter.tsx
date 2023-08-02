@@ -6,8 +6,8 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
-import NoteTab from '../tabs/note';
-import HomeTab from '../tabs/home';
+import NoteTab from '../routes/note';
+import HomeTab from '../routes/home';
 
 const routes = [
   {

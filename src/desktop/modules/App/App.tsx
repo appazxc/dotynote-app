@@ -14,9 +14,9 @@ import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
 import { useAppRouter } from './hooks/useAppRouter';
-import { ErrorTab } from './tabs/error/ErrorTab';
-import { LoadingTab } from './tabs/loading/LoadingTab';
-import { HomeTab } from './tabs/home/HomeTab';
+import { ErrorTab } from './routes/error/ErrorTab';
+import { LoadingTab } from './routes/loading/LoadingTab';
+import { HomeTab } from './routes/home/HomeTab';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 function App() {

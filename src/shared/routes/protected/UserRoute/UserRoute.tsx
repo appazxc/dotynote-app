@@ -20,5 +20,7 @@ export const UserRoute = () => {
     return <PageLoader />;
   }
 
-  return <Navigate to={getUrl(routeNames.login, { queryParams: { [BACK_URL]: location.pathname } })} />;
+  return <Navigate 
+    to={getUrl(routeNames.login, { queryParams: { [BACK_URL]: location.pathname } })}
+  />;
 };
