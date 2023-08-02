@@ -3,8 +3,8 @@ import api from 'shared/api';
 import { appSessionSelector, spaceSelector, spaceTabSelector } from 'shared/selectors';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
-import { getRouteMatch } from 'desktop/modules/app/helpers/getRouteMatch';
-import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
+import { getRouteMatch } from 'desktop/modules/App/helpers/getRouteMatch';
+import { appRouteNames } from 'desktop/modules/App/constants/appRouteNames';
 
 import { AppState, AppThunk } from '..';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';

@@ -69,7 +69,6 @@ function App() {
 function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
   const routerProvider = <RouterProvider router={router} />;
-console.log('routerProvider', routerProvider);
 
   return routerProvider;
 }

@@ -1,6 +1,6 @@
 import { PathMatch, matchPath } from 'react-router';
 
-import { AppRouteListItem, appRouteList } from '../constants/appRouteList';
+import { AppRouteListItem, appRouteList } from 'desktop/modules/App/constants/appRouteList';
 
 type RouteMatch = {
   route: AppRouteListItem,

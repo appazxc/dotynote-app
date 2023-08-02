@@ -8,7 +8,7 @@ import { fetchMe } from 'shared/store/slices/authSlice';
 const fallback = { fallback: <ContentLoader /> };
 
 const App = Loadable(
-  () => import(/* webpackChunkName: "AppPage" */ 'desktop/modules/app'), 
+  () => import(/* webpackChunkName: "AppPage" */ 'desktop/modules/App'), 
   fallback
 );
 
