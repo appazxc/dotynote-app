@@ -21,6 +21,8 @@ export const AppLayout = ({ children, showNoteMenu }: Props) => {
           w="full"
           left="0"
           top="0"
+          colorScheme="purple"
+          transitionDuration="2s"
         />
       )}
       <AppLayoutHeader showNoteMenu={showNoteMenu} />

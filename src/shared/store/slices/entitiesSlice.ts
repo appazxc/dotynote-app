@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, WritableDraft } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { EntityTypes } from 'shared/types/entities/entityTypes';
 import isEqual from 'lodash/isEqual';

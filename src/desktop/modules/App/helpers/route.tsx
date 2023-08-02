@@ -34,7 +34,7 @@ export const createRouter: CreateRouter = (params) => {
         .map(route => {
           store.dispatch(startPageLoading());
 
-          const routeResolver = routeDictionary[route.name];
+          const routeResolver = routeDictionary[route.name]!;
 
           const { Component, loader, deferLoader, element, loaderComponent } = routeResolver();
 

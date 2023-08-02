@@ -39,7 +39,7 @@ function App() {
 
   const { isLoading: tabNotesIsLoading, isError: tabNotesError } = useQuery({
     queryKey: ['spaceTabNotes', appSession?.activeSpaceId],
-    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(appSession?.activeSpaceId)),
+    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(appSession?.activeSpaceId as string)),
     enabled: isFetched,
   });
 

@@ -51,11 +51,15 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
     const noteIds = selectSpaceTabs(state, spaceId)
       .map(id => spaceTabSelector.getById(state, id))
       .filter((spaceTab) => spaceTab && spaceTab.routes.length)
-      .map(({ routes }) => {
+      .map((spaceTab) => {
+        const { routes } = spaceTab!;
         return getRouteMatch(routes[0]);
       })
       .filter(match => match && match.route.name === appRouteNames.note)
-      .map(match => match.pathMatch.params.noteId);
+      .map(match => {
+
+        return match!.pathMatch.params.noteId;
+      });
 
     await api.loadNotes({ ids: noteIds });
 

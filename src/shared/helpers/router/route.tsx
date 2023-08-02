@@ -32,7 +32,7 @@ export const createRouter: CreateRouter = (params) => {
           const lazy = async () => {
             store.dispatch(startPageLoading());
 
-            const lazy = routeDictionary[route.name];
+            const lazy = routeDictionary[route.name]!;
             const { default: resolve } = await lazy();
 
             const { Component, loader, deferLoader, element, loaderComponent } = await resolve();

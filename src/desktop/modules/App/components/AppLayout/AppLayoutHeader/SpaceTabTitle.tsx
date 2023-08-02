@@ -18,7 +18,7 @@ export const SpaceTabTitle = ({ path }) => {
   const { isLoading } = useQuery({
     queryKey: ['notes', noteId],
     queryFn: () => {
-      return api.loadNote(noteId);
+      return api.loadNote(noteId as string);
     },
     enabled: !!noteId && !note,
   });

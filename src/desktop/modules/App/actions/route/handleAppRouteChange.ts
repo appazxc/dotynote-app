@@ -6,6 +6,9 @@ export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
   (dispatch, getState) => {
     const { historyAction, location } = routerState;
     const activeTab = selectActiveSpaceActiveTab(getState());
+
+    if (!activeTab) return;
+    
     const { routes } = activeTab;
 
     let newRoutes = [...routes];
