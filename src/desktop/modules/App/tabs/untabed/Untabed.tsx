@@ -1,10 +1,11 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
+import { AppLayout } from 'desktop/modules/app/components/AppLayout';
 
 export const Untabed = () => {
   return (
-    <Box w="full" h="full">
+    <AppLayout>
       No tab selected
-    </Box>
+    </AppLayout>
   );
 };

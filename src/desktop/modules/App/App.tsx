@@ -66,7 +66,7 @@ function App() {
 function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider key={activeTab.id} router={router} />;
 }
 
 export { App };

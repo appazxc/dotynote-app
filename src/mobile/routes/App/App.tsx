@@ -4,7 +4,6 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 function App() {
   const dispatch = useAppDispatch();
-console.log('app');
 
   React.useEffect(() => {
     dispatch(open());

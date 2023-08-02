@@ -32,7 +32,7 @@ export const SpaceTabTitle = ({ path }) => {
       return note.title;
     }
 
-    return match?.route.title || '';
+    return match?.route.title || 'New Tab';
   }, [match, isNoteRoute, isLoading, note]);
 
   return (
