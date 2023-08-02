@@ -24,14 +24,14 @@
     "noImplicitAny": false,
     "baseUrl": "./",
     "paths": {
-      "shared": [
-        "./src/shared"
+      "shared/*": [
+        "./src/shared/*"
       ],
-      "desktop": [
-        "./src/desktop"
+      "desktop/*": [
+        "./src/desktop/*"
       ],
-      "mobile": [
-        "./src/mobile"
+      "mobile/*": [
+        "./src/mobile/*"
       ]
     }
   },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContentLoader } from 'shared/components/ContentLoader';
-import loadable from 'shared/components/loadable';
+import loadable from 'shared/components/Loadable';
 
 const NotePageContent = loadable(
   () => import(/* webpackChunkName: "NotePageContent" */ './NotePageContent')

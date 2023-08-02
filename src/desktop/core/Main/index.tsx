@@ -1,6 +1,6 @@
 import Routes from 'desktop/routes';
 import * as React from 'react';
-import Loadable from 'shared/components/loadable';
+import Loadable from 'shared/components/Loadable';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import ContentLoader from 'shared/components/ContentLoader';
 import { fetchMe } from 'shared/store/slices/authSlice';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppLayout } from 'desktop/modules/app/components/AppLayout';
-import Loadable from 'shared/components/loadable';
+import Loadable from 'shared/components/Loadable';
 import { ContentLoader } from 'shared/components/ContentLoader';
 
 const HomePageContent = Loadable(
