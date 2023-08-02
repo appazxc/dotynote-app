@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { LoaderFunctionArgs, LoaderFunction } from 'react-router-dom';
 import { RouteName } from 'shared/constants/routeNames';
 import { AppStore } from 'shared/store';
@@ -29,5 +29,5 @@ export type RouteResolverReturnType = {
 export type RouteResolver = () => RouteResolverReturnType
 
 export type RouteDictionary = {
-  [key in RouteName]: () => Promise<{ default: RouteResolver }>
+  [key in RouteName]?: () => Promise<{ default: RouteResolver }>
 };

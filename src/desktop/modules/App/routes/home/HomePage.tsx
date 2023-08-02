@@ -7,7 +7,7 @@ import { AppLayout } from 'desktop/modules/app/components/AppLayout';
 import { getAppUrl } from '../../helpers/getAppUrl';
 import { appRouteNames } from '../../constants/appRouteNames';
 
-function HomeTab() {
+function HomePage() {
   const navigate = useNavigate();
 
   return (
@@ -22,4 +22,4 @@ function HomeTab() {
   );
 }
 
-export { HomeTab };
+export { HomePage };

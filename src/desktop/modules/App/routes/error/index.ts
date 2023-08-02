@@ -1,1 +1,1 @@
-export { ErrorTab as default } from './ErrorTab';
+export { ErrorPage as default } from './ErrorPage';

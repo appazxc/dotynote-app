@@ -1,28 +1,15 @@
-import { createMemoryRouter } from 'react-router-dom';
 import React from 'react';
-import { spaceTabSelector } from 'shared/selectors';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
-import NoteTab from '../routes/note';
-import HomeTab from '../routes/home';
-
-const routes = [
-  {
-    path: '/notes/:noteId',
-    element: <NoteTab />,
-  },
-  {
-    path: '/',
-    element: <HomeTab />,
-  },
-  {
-    path: '*',
-    element: <HomeTab />,
-  },
-];
+import { store } from 'shared/store';
+import { routeDictionary } from './appRouteDictionary';
+import { createRouter } from '../helpers/route';
+import { LoadingPage } from './loading/LoadingPage';
+import { ErrorPage } from './error/ErrorPage';
+import { HomePage } from './home/HomePage';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -35,7 +22,16 @@ export const useAppRouter = (spaceTab: SpaceTabEntity) => {
   const dispatch = useAppDispatch();
 
   const router = React.useMemo(() => {
-    const router = createMemoryRouter(routes, getMemoryRouterParams(spaceTab));
+    const router = createRouter({
+      routeDictionary,
+      store,
+      pages: {
+        notFoundPage: <HomePage />,
+        errorPage: <ErrorPage />,
+        loadingPage: <LoadingPage />,
+      },
+      memoryRouteParams: getMemoryRouterParams(spaceTab),
+    });
 
     return router;
     // updating only when the space tab is changed
@@ -46,7 +42,7 @@ export const useAppRouter = (spaceTab: SpaceTabEntity) => {
     function handleChange(action: RouterState) {
       dispatch(handleAppRouteChange(action));
     }
-
+    // router.revalidate()
     const unsubscribe = router.subscribe(handleChange);
 
     return unsubscribe;

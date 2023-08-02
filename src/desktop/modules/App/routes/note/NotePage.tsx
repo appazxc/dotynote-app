@@ -6,7 +6,7 @@ import { AppLayout } from 'desktop/modules/app/components/AppLayout';
 import { getAppUrl } from '../../helpers/getAppUrl';
 import { appRouteNames } from '../../constants/appRouteNames';
 
-export const NoteTab = (props) => {
+export const NotePage = (props) => {
   const { noteId = '' } = useParams();
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ export const NoteTab = (props) => {
         <Container justifyContent="center">
           <Stack w="fit-content" mx="auto">
             <Button onClick={() => navigate(-1)}>Перейти назад</Button>
+            <Button onClick={() => navigate("/")}>Перейти на главную</Button>
             <Button 
               onClick={() => navigate(getAppUrl(appRouteNames.note, { 
                 pathParams: { noteId: +noteId + 1 } 

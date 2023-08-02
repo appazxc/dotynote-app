@@ -13,10 +13,10 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
-import { useAppRouter } from './hooks/useAppRouter';
-import { ErrorTab } from './routes/error/ErrorTab';
-import { LoadingTab } from './routes/loading/LoadingTab';
-import { HomeTab } from './routes/home/HomeTab';
+import { useAppRouter } from './routes/useAppRouter';
+import { ErrorPage } from './routes/error/ErrorPage';
+import { LoadingPage } from './routes/loading/LoadingPage';
+import { HomePage } from './routes/home/HomePage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 function App() {
@@ -47,15 +47,15 @@ function App() {
   }
 
   if (spaceError || spaceTabsError || tabNotesError) {
-    return <ErrorTab />;
+    return <ErrorPage />;
   }
 
   if (spaceIsLoading || spaceTabsIsLoading || tabNotesIsLoading) {
-    return <LoadingTab />;
+    return <LoadingPage />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
-    return <HomeTab />;
+    return <HomePage />;
   }
 
   return (
@@ -66,7 +66,7 @@ function App() {
 function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
 
-  return <RouterProvider key={activeTab.id} router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export { App };

@@ -1,1 +1,1 @@
-export { LoadingTab as default } from './LoadingTab';
+export { LoadingPage as default } from './LoadingPage';
