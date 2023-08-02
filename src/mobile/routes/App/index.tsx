@@ -1,4 +1,5 @@
-import PageLoader from 'shared/components/PageLoader';
+import React from 'react';
+import ContentLoader from '../../../shared/components/ContentLoader';
 import { RouteLoader } from 'shared/types/common/router';
 
 import { App } from './App';
@@ -15,6 +16,6 @@ export default async function() {
     Component: App,
     loader,
     deferLoader,
-    loaderComponent: <PageLoader />,
+    loaderComponent: <ContentLoader />,
   };
 }

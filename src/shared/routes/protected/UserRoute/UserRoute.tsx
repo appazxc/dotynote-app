@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
-import PageLoader from 'shared/components/PageLoader';
+import ContentLoader from '../../../components/ContentLoader';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
@@ -17,7 +17,7 @@ export const UserRoute = () => {
   }
 
   if (isAuthLoading) {
-    return <PageLoader />;
+    return <ContentLoader />;
   }
 
   return <Navigate 

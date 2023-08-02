@@ -1,8 +1,7 @@
 import { appRouteNames } from '../constants/appRouteNames';
 import { AppRouteDictionary } from '../types/router';
-
-const Home = () => import(/* webpackChunkName: "AppHomePage" */ './home');
-const Note = () => import(/* webpackChunkName: "AppNotePage" */ './note');
+import Home from './home';
+import Note from './note';
 
 const routeDictionary = {
   [appRouteNames.home]: Home,

@@ -4,7 +4,7 @@ import { ErrorPage } from 'desktop/routes/Error';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
 import { routeDictionary } from './routeDictionary';
-import PageLoader from 'shared/components/PageLoader';
+import ContentLoader from '../../shared/components/ContentLoader';
 
 const router = createRouter({
   routeDictionary,
@@ -12,7 +12,7 @@ const router = createRouter({
   pages: {
     notFoundPage: <NotFoundPage />,
     errorPage: <ErrorPage />,
-    loadingPage: <PageLoader />,
+    loadingPage: <ContentLoader />,
   },
 });
 

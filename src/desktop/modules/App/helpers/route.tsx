@@ -32,31 +32,22 @@ export const createRouter: CreateRouter = (params) => {
       ...appRouteList
         .filter(route => routeDictionary[route.name])
         .map(route => {
-          const lazy = async () => {
-            // store.dispatch(startPageLoading());
+          // store.dispatch(startPageLoading());
 
-            const lazy = routeDictionary[route.name];
-            const { default: resolve } = await lazy();
+          const routeResolver = routeDictionary[route.name];
 
-            const { Component, loader, deferLoader, element, loaderComponent } = await resolve();
+          const { Component, loader, deferLoader, element, loaderComponent } = routeResolver();
 
-            const el = element || (Component ? <Component /> : null);
+          const el = element || (Component ? <Component /> : null);
 
-            return {
-              element: deferLoader ?
-                <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
-                : el,
-              loader: createLoader({ loader, store, deferLoader }),
-              errorElement: pages.errorPage,
-            };
-          };
-
-          const preparedRoute = {
+          return {
             path: route.path,
-            lazy,
+            element: deferLoader ?
+              <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
+              : el,
+            loader: createLoader({ loader, store, deferLoader }),
+            errorElement: pages.errorPage,
           };
-
-          return preparedRoute;
         }),
       {
         path: '*',

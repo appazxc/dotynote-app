@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Loadable = (lazyFunction, { fallback = null } : { fallback?: React.ReactNode } = {}) => {
+const loadable = (lazyFunction, { fallback = null } : { fallback?: React.ReactNode } = {}) => {
   const Component = React.lazy(lazyFunction);
 
   return (props) => {
@@ -12,4 +12,4 @@ const Loadable = (lazyFunction, { fallback = null } : { fallback?: React.ReactNo
   };
 };
 
-export default Loadable;
+export default loadable;

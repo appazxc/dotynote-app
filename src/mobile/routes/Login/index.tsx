@@ -1,4 +1,4 @@
-import PageLoader from 'shared/components/PageLoader';
+import ContentLoader from '../../../shared/components/ContentLoader';
 
 import LoginPage from './LoginPage';
 
@@ -15,6 +15,6 @@ export default async function() {
     Component: LoginPage,
     loader,
     deferLoader,
-    loaderComponent: <PageLoader />,
+    loaderComponent: <ContentLoader />,
   };
 }

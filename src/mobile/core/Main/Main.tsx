@@ -1,10 +1,10 @@
 import Routes from 'mobile/routes';
 import * as React from 'react';
-import Loadable from 'shared/components/Loadable';
+import Loadable from '../../../shared/components/loadable';
 import { useAppSelector } from 'shared/store/hooks';
-import PageLoader from 'shared/components/PageLoader';
+import ContentLoader from '../../../shared/components/ContentLoader';
 
-const fallback = { fallback: <PageLoader /> };
+const fallback = { fallback: <ContentLoader /> };
 
 const App = Loadable(() => import(/* webpackChunkName: "AppPage" */ 'mobile/modules/App'), fallback);
 
@@ -17,4 +17,4 @@ export const Main = () => {
       {isAppOpen && <App />}
     </>
   );
-}
+};

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
-import PageLoader from 'shared/components/PageLoader';
+import ContentLoader from '../../../components/ContentLoader';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { useAppSelector } from 'shared/store/hooks';
@@ -15,7 +15,7 @@ export const GuestRoute = () => {
   }
 
   if (isAuthLoading) {
-    return <PageLoader />;
+    return <ContentLoader />;
   }
 
   return <Outlet />;
