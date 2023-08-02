@@ -35,5 +35,10 @@ export default defineConfig(() => {
         },
       },
     },
+    build: {
+      rollupOptions: {
+        external: './local.config'
+      }
+    },
   };
 });
