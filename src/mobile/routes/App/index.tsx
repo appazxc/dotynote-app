@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentLoader from '../../../shared/components/ContentLoader';
+import ContentLoader from 'shared/components/ContentLoader';
 import { RouteLoader } from 'shared/types/common/router';
 
 import { App } from './App';

@@ -1,4 +1,4 @@
-import ContentLoader from '../../../shared/components/ContentLoader';
+import ContentLoader from 'shared/components/ContentLoader';
 
 import { App } from './App';
 import { deferLoader } from './deferLoader';

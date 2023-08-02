@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
-import ContentLoader from '../../../components/ContentLoader';
+import ContentLoader from 'shared/components/ContentLoader';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';

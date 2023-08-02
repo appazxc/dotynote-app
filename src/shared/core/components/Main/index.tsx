@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadable from '../../../components/loadable';
+import Loadable from 'shared/components/loadable';
 
 const MainDesktop = Loadable(() => import(/* webpackChunkName: "MainDesktop" */ 'desktop/core/Main'));
 const MainMobile = Loadable(() => import(/* webpackChunkName: "MainMobile" */ 'mobile/core/Main'));
