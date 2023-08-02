@@ -9,6 +9,7 @@
     "start:mock": "MOCK=true yarn start",
     "build": "tsc && vite build",
     "build:mock": "tsc && MOCK=true vite build",
+    "tsc": "tsc",
     "msw:init": "npx msw init public --no-save",
     "test": "test",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
