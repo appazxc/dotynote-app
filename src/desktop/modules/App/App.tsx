@@ -18,6 +18,7 @@ import { ErrorPage } from './routes/error/ErrorPage';
 import { LoadingPage } from './routes/loading/LoadingPage';
 import { HomePage } from './routes/home/HomePage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { AppLayout } from './components/AppLayout';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -59,14 +60,18 @@ function App() {
   }
 
   return (
-    <AppEntry activeTab={activeTab} />
+    <AppLayout>
+      <AppEntry activeTab={activeTab} />
+    </AppLayout>
   );
 }
 
 function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
+  const routerProvider = <RouterProvider router={router} />;
+console.log('routerProvider', routerProvider);
 
-  return <RouterProvider router={router} />;
+  return routerProvider;
 }
 
 export { App };

@@ -13,9 +13,7 @@ const HomePageContent = Loadable(
 
 function HomePage() {
   return (
-    <AppLayout>
-      <HomePageContent />
-    </AppLayout>
+    <HomePageContent />
   );
 }
 

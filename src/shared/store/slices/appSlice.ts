@@ -65,6 +65,7 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
 type InitialState = {
   isOpen: boolean,
   appSession?: string,
+  isPageLoading: boolean,
   spaceTabs: {
     [id: string]: string[],
   }
@@ -72,6 +73,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   isOpen: false,
+  isPageLoading: false,
   spaceTabs: {},
 };
 
@@ -79,6 +81,12 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    startPageLoading: (state) => {
+      state.isPageLoading = true;
+    },
+    stopPageLoading: (state) => {
+      state.isPageLoading = false;
+    },
     open: (state) => {
       state.isOpen = true;
     },
@@ -94,8 +102,6 @@ export const appSlice = createSlice({
     },
   },
 });
-
-export const { open, close, setAppSession, setSpaceTabs } = appSlice.actions;
 
 export const selectAppSession = (state: AppState) => {
   return appSessionSelector.getById(state, state.app.appSession);
@@ -126,5 +132,14 @@ export const selectActiveSpaceActiveTab = (state: AppState) => {
 
   return spaceTabSelector.getById(state, appSession?.activeSpaceTabId);
 };
+
+export const { 
+  open,
+  close,
+  setAppSession,
+  setSpaceTabs,
+  startPageLoading,
+  stopPageLoading 
+} = appSlice.actions;
 
 export default appSlice.reducer;

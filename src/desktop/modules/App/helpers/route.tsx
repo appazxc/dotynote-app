@@ -2,7 +2,7 @@ import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from '
 import * as React from 'react';
 import { AppStore } from 'shared/store';
 import { RouteLoader } from 'shared/types/common/router';
-import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
+import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
 import { Defer } from 'shared/helpers/router/Defer';
 import { AppRouteDictionary } from '../types/router';
@@ -32,7 +32,7 @@ export const createRouter: CreateRouter = (params) => {
       ...appRouteList
         .filter(route => routeDictionary[route.name])
         .map(route => {
-          // store.dispatch(startPageLoading());
+          store.dispatch(startPageLoading());
 
           const routeResolver = routeDictionary[route.name];
 
@@ -78,7 +78,7 @@ const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunct
         await loader({ ...args, store });
       }
 
-      // store.dispatch(stopPageLoading());
+      store.dispatch(stopPageLoading());
 
       return defer({
         defer: (async () => await deferLoader({ ...args, store }) || null)(),
@@ -90,7 +90,7 @@ const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunct
       result = await loader({ ...args, store }) || null;
     }
 
-    // store.dispatch(stopPageLoading());
+    store.dispatch(stopPageLoading());
 
     return result || null;
   };
