@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { initialize } from 'shared/core//actions/initializeActions';
+import { initialize } from 'shared/core/actions/initializeActions';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import Main from './shared/core';
