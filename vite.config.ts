@@ -18,7 +18,7 @@ export default defineConfig((params) => {
       react(),
       VitePWA({
         srcDir: "src",
-        filename: "service-worker.js",
+        filename: "service-worker.ts",
         strategies: "injectManifest",
         injectRegister: false,
         manifest: false,
