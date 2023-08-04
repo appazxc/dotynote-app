@@ -2,7 +2,7 @@ import path from 'path';
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-// import { VitePWA } from 'vite-plugin-pwa';
+import { VitePWA } from 'vite-plugin-pwa';
 import vitePluginRequire from 'vite-plugin-require';
 import resolve from 'vite-plugin-resolve';
 
@@ -16,7 +16,13 @@ export default defineConfig((params) => {
   return {
     plugins: [
       react(),
-      // VitePWA(),
+      VitePWA({
+        srcDir: "src",
+        filename: "service-worker.js",
+        strategies: "injectManifest",
+        injectRegister: false,
+        manifest: false,
+      }),
       // @ts-ignore
       vitePluginRequire.default(),
       isProduction ? resolve({
