@@ -17,7 +17,7 @@ export default defineConfig((params) => {
     plugins: [
       react(),
       VitePWA({
-        injectRegister: 'auto'
+        registerType: 'autoUpdate',
       }),
       // @ts-ignore
       vitePluginRequire.default(),
