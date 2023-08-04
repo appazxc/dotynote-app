@@ -30,6 +30,8 @@ module.exports = {
     }],
     'react/jsx-closing-bracket-location': [1, 'line-aligned'],
     'react/display-name': 'off',
+    'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off'
   },
 };
