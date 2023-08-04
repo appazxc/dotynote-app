@@ -17,11 +17,7 @@ export default defineConfig((params) => {
     plugins: [
       react(),
       VitePWA({
-        srcDir: "src",
-        filename: "service-worker.ts",
-        strategies: "injectManifest",
-        injectRegister: false,
-        manifest: false,
+        injectRegister: 'auto'
       }),
       // @ts-ignore
       vitePluginRequire.default(),
