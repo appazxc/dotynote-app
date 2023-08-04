@@ -21,7 +21,7 @@ const getConfig = (): Config => {
   const productionConfig = require('./production.config');
   const localConfig = getLocalConfig();
 
-  const config = process.env.NODE_ENV === 'production'
+  const config = import.meta.env.MODE === 'production'
     ? merge(defaultConfig, productionConfig)
     : merge(defaultConfig, localConfig);
 

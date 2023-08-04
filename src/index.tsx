@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initialize } from 'shared/core//actions/initializeActions';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import Main from './shared/core';
 
 const container = document.getElementById('root');
@@ -18,4 +19,9 @@ initialize().then(() => {
   root.render(
     <Main />
   );
+
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://cra.link/PWA
+  serviceWorkerRegistration.register();
 });
