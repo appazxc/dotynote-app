@@ -25,4 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #config
-src/shared/config/local.config.ts
+/src/shared/config/local.config.ts
