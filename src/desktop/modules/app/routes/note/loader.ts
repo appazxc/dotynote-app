@@ -4,6 +4,5 @@ import { wait } from "shared/utils/wait";
 export const loader: RouteLoader = async (params) => {
   console.log('loader params', params);
 
-  await wait(50000);
-  
+  await wait(2000);
 };
