@@ -32,22 +32,30 @@ export const createRouter: CreateRouter = (params) => {
       ...appRouteList
         .filter(route => routeDictionary[route.name])
         .map(route => {
-          store.dispatch(startPageLoading());
+          const lazy = async () => {
+            const lazyLoader = routeDictionary[route.name]!;
+            
+            const { default: resolve } = await lazyLoader();
 
-          const routeResolver = routeDictionary[route.name]!;
+            const { Component, loader, deferLoader, element, loaderComponent } = resolve();
 
-          const { Component, loader, deferLoader, element, loaderComponent } = routeResolver();
+            const el = element || (Component ? <Component /> : null);
 
-          const el = element || (Component ? <Component /> : null);
-
-          return {
-            path: route.path,
-            element: deferLoader ?
-              <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
-              : el,
-            loader: createLoader({ loader, store, deferLoader }),
-            errorElement: pages.errorPage,
+            return {
+              element: deferLoader ?
+                <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
+                : el,
+              loader: createLoader({ loader, store, deferLoader }),
+              errorElement: pages.errorPage,
+            };
           };
+
+          const preparedRoute = {
+            path: route.path,
+            lazy,
+          };
+
+          return preparedRoute;
         }),
       {
         path: '*',
@@ -73,6 +81,8 @@ type CreateLoader = (
 
 const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunction => {
   return async (args) => {
+    store.dispatch(startPageLoading());
+
     if (deferLoader) {
       if (loader) {
         await loader({ ...args, store });

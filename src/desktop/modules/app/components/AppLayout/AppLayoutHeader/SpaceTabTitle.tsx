@@ -27,13 +27,14 @@ export const SpaceTabTitle = ({ path }) => {
     if (isNoteRoute && !note && isLoading) {
       return 'Loading...';
     }
+console.log('path', note, path);
 
     if (note) {
       return note.title;
     }
 
     return match?.route.title || 'New Tab';
-  }, [match, isNoteRoute, isLoading, note]);
+  }, [match, isNoteRoute, isLoading, note, path]);
 
   return (
     <Box display="flex">{title}</Box>
