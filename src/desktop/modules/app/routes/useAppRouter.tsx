@@ -39,11 +39,22 @@ export const useAppRouter = (spaceTab: SpaceTabEntity) => {
   }, [spaceTab?.id]);
 
   React.useEffect(() => {
-    function handleChange(action: RouterState) {
-      dispatch(handleAppRouteChange(action));
+    function handleChange() {
+      // need to remove first call because router send not valid event
+      let callsCount = 0;
+
+      return (action: RouterState) => {
+        if (!callsCount) {
+          callsCount++;
+          return;
+        }
+        
+        callsCount++;
+        dispatch(handleAppRouteChange(action));
+      };
     }
-    // router.revalidate()
-    const unsubscribe = router.subscribe(handleChange);
+
+    const unsubscribe = router.subscribe(handleChange());
 
     return unsubscribe;
   }, [router, dispatch]);

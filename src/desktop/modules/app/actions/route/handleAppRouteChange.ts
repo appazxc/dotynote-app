@@ -4,10 +4,11 @@ import { selectActiveSpaceActiveTab, updateTab } from 'shared/store/slices/appSl
 
 export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
   (dispatch, getState) => {
-    const { historyAction, location } = routerState;
+    const { historyAction, location, navigation } = routerState;
     const activeTab = selectActiveSpaceActiveTab(getState());
 
-    if (!activeTab) return;
+    // router send two events when router change
+    if (!activeTab || navigation.state !== 'idle') return;
     
     const { routes } = activeTab;
 

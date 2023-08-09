@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router';
 
 import { getAppUrl } from '../../helpers/getAppUrl';
 import { appRouteNames } from '../../constants/appRouteNames';
+import { getUrl } from 'shared/helpers/router/getUrl';
+import { routeNames } from 'shared/constants/routeNames';
 
 export const HomePageContent = () => {
   const navigate = useNavigate();
@@ -13,8 +15,18 @@ export const HomePageContent = () => {
     <Box display="flex" flexDirection="column">
         HomePage of note
 
-      <Button onClick={() => navigate(getAppUrl(appRouteNames.note, { pathParams: { noteId: '1' } }))}>Перейти в нот</Button>
-      <Button onClick={() => router.navigate(getAppUrl(appRouteNames.home))}>Вернуться на главную страницу</Button>
+      <Button
+        onClick={() => {
+          const url = getAppUrl(appRouteNames.note, { pathParams: { noteId: '1' } });
+
+          console.log('url', url);
+
+          navigate(url);
+        }}
+      >
+        Перейти в нот
+      </Button>
+      <Button onClick={() => router.navigate(getUrl(routeNames.home))}>Вернуться на главную страницу</Button>
     </Box>
   );
 };
