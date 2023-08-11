@@ -5,7 +5,7 @@ import { useIntersectionObserver } from 'usehooks-ts';
 import { Post } from '../Post';
 import { Stack } from '@chakra-ui/react';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 5;
 
 export const Posts = ({ noteId }) => {
   const ref = React.useRef<HTMLButtonElement | null>(null);
