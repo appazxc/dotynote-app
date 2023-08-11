@@ -27,7 +27,6 @@ export const SpaceTabTitle = ({ path }) => {
     if (isNoteRoute && !note && isLoading) {
       return 'Loading...';
     }
-console.log('path', note, path);
 
     if (note) {
       return note.title;

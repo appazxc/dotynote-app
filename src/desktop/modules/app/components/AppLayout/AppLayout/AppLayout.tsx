@@ -12,7 +12,12 @@ export const AppLayout = ({ children, showNoteMenu }: Props) => {
   const isLoading = useAppSelector(state => state.app.isPageLoading);
 
   return (
-    <Box w="full" h="full">
+    <Box
+      w="full"
+      h="full"
+      display="flex"
+      flexDirection="column"
+    >
       {isLoading && (
         <Progress
           size='xs'
@@ -26,7 +31,14 @@ export const AppLayout = ({ children, showNoteMenu }: Props) => {
         />
       )}
       <AppLayoutHeader showNoteMenu={showNoteMenu} />
-      {children}
+      <Box
+        bg="red.100"
+        flexGrow="1"
+        overflowX="hidden"
+        overflowY="scroll"
+      >
+        {children}
+      </Box>
     </Box>
   );
 };

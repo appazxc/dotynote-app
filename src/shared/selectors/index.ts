@@ -4,6 +4,7 @@ import { AppSessionEntity } from 'shared/types/entities/AppSessionEntity';
 import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { PostEntity } from 'shared/types/entities/PostEntity';
 
 import Selector from './helpers/Selector';
 
@@ -12,3 +13,4 @@ export const appSessionSelector = new Selector<AppSessionEntity>(entityNames.app
 export const spaceSelector = new Selector<SpaceEntity>(entityNames.space);
 export const spaceTabSelector = new Selector<SpaceTabEntity>(entityNames.spaceTab);
 export const noteSelector = new Selector<NoteEntity>(entityNames.note);
+export const postSelector = new Selector<PostEntity>(entityNames.post);

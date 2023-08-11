@@ -22,6 +22,7 @@ export const AppLayoutHeader = ({ showNoteMenu }: Props) => {
       display="flex"
       alignItems="center"
       justifyContent="space-between"
+      flexShrink="0"
     >
       <Box
         display="flex"

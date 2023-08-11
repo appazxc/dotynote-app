@@ -39,6 +39,10 @@ const createRoutes = (api: Api) => {
     async loadNotes(params): Promise<string[]> {
       return api.get('/notes', params);
     },
+    
+    async loadPosts(noteId, params): Promise<string[]> {
+      return api.get(`/notes/${noteId}/posts`, params);
+    },
   };
 };
 
