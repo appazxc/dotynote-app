@@ -3,13 +3,13 @@ import React from 'react';
 import { noteSelector, postSelector } from 'shared/selectors';
 import { useAppSelector } from 'shared/store/hooks';
 
-export const Post = React.memo(({ id }) => {
-  const post = useAppSelector(state => postSelector.getById(state, id));
+export const Post = React.memo(React.forwardRef<HTMLDivElement>(({ postId }, ref) => {
+  const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.id));
-  console.log('here', id);
 
   return (
     <Box
+      ref={ref}
       h="80px"
       p="4"
       borderWidth='2px'
@@ -19,4 +19,4 @@ export const Post = React.memo(({ id }) => {
       {note?.title}
     </Box>
   );
-});
+}));

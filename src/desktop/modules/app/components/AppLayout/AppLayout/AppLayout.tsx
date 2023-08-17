@@ -3,6 +3,7 @@ import React from 'react';
 
 import { AppLayoutHeader } from '../AppLayoutHeader';
 import { useAppSelector } from 'shared/store/hooks';
+import { ScrollProvider } from 'shared/components/ScrollProvider';
 
 type Props = React.PropsWithChildren<{
   showNoteMenu?: boolean
@@ -31,14 +32,26 @@ export const AppLayout = ({ children, showNoteMenu }: Props) => {
         />
       )}
       <AppLayoutHeader showNoteMenu={showNoteMenu} />
-      <Box
-        bg="red.100"
-        flexGrow="1"
-        overflowX="hidden"
-        overflowY="scroll"
-      >
-        {children}
-      </Box>
+      <ScrollProvider>
+        {(ref) => (
+          <Box
+            ref={ref}
+            bg="red.100"
+            flexGrow="1"
+            overflowX="hidden"
+            overflowY="scroll"
+            css={{
+              '&::-webkit-scrollbar': {
+                display: 'none'
+              },
+            }}
+          >
+            {children}
+          </Box>
+        )}
+      </ScrollProvider>
     </Box>
   );
 };
+
+

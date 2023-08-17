@@ -4,12 +4,23 @@ import api from 'shared/api';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { Post } from '../Post';
 import { Stack } from '@chakra-ui/react';
+import { useScrollContext } from 'shared/components/ScrollProvider';
+import throttle from 'lodash/throttle';
 
 const PAGE_SIZE = 5;
+const VISIBLE_POSTS_LENGTH = 20;
 
 export const Posts = ({ noteId }) => {
+  const postsId = React.useId();
   const ref = React.useRef<HTMLButtonElement | null>(null);
-  const entry = useIntersectionObserver(ref, {});
+  const scrollRef = useScrollContext();
+  const entry = useIntersectionObserver(ref, {
+    root: scrollRef?.current,
+    rootMargin: '100px',
+  });
+  const [middlePostId, setMiddlePostId] = React.useState<string | null>(null);
+  const itemsRef = React.useRef<(HTMLDivElement | null)[]>([]);
+
   const isVisible = !!entry?.isIntersecting;
 
   const {
@@ -26,17 +37,70 @@ export const Posts = ({ noteId }) => {
   } = useInfiniteQuery(
     ['posts'],
     async ({ pageParam }) => {
-      console.log('pageParam', pageParam);
-      const res = await api.loadPosts(noteId, { cursor: pageParam });
-      console.log('res', res);
+      const { cursor, direction } = pageParam || {};
+
+      const res = await api.loadPosts(noteId, { cursor });
       
       return  res;
     },
     {
-      getPreviousPageParam: (page) => page.length === PAGE_SIZE ? page[0] : undefined,
-      getNextPageParam: (page) => page.length === PAGE_SIZE ? page[page.length - 1] : undefined,
+      getPreviousPageParam: (page) => page.length === PAGE_SIZE 
+        ? { cursor: page[0], direction: 'prev' } 
+        : undefined,
+      getNextPageParam: (page) => page.length === PAGE_SIZE 
+        ? { cursor: page[page.length - 1], direction: 'next' } 
+        : undefined,
     },
   );
+
+  const flatData = React.useMemo(() => ((data?.pages || []).flat()), [data]);
+
+  const visiblePosts = React.useMemo(() => {
+    if (!middlePostId) {
+      return flatData;
+    }
+
+    const middleIndex = flatData.indexOf(middlePostId);
+    const startIndex = Math.max(0 , middleIndex - Math.floor(VISIBLE_POSTS_LENGTH / 2));
+
+    return flatData.slice(startIndex, startIndex + VISIBLE_POSTS_LENGTH);
+  }, [middlePostId, flatData]);
+
+  React.useEffect(() => {
+    const handleScroll = throttle(() => {
+      if (!scrollRef?.current) return;
+
+      const { bottom, top } = scrollRef.current.getBoundingClientRect();
+      const middleTop = top + (bottom - top) / 2;
+
+      let nearestId: string | null = null;
+      let nearestValue = Infinity;
+
+      visiblePosts.forEach((id, i) => {
+        if (!itemsRef.current[i]) return;
+
+        const { top, height } = itemsRef.current[i]!.getBoundingClientRect();
+        
+        const postMiddleTop = top + height / 2;
+        const distance = Math.abs(middleTop - postMiddleTop);
+
+        if (distance < nearestValue) {
+          nearestId = visiblePosts[i];
+          nearestValue = distance;
+        }
+        // itemsRef.current[i].current.getBoundingClientRect();
+      });
+      if (nearestId !== middlePostId) {
+        setMiddlePostId(nearestId);
+      }
+    }, 100);
+
+    scrollRef?.current?.addEventListener('scroll', handleScroll);
+
+    return () => {
+      scrollRef?.current?.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollRef, visiblePosts, middlePostId]);
 
   React.useEffect(() => {
     if (isVisible) {
@@ -61,7 +125,15 @@ export const Posts = ({ noteId }) => {
     <div>
       <Stack gap="2">
         {
-          data?.pages.map(page => page.map((postId) => <Post key={postId} id={postId} />))
+          visiblePosts.map((postId, i) => (
+            <Post
+              key={postId}
+              postId={postId} 
+              ref={(element) => {
+                itemsRef.current[i] = element;
+              }}
+            />
+          ))
         }
         <button
           ref={ref}
