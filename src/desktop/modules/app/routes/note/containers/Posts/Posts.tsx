@@ -76,23 +76,27 @@ export const Posts = ({ noteId }) => {
       let nearestId: string | null = null;
       let nearestValue = Infinity;
 
-      visiblePosts.forEach((id, i) => {
-        if (!itemsRef.current[i]) return;
+      console.time('start');
+      
+      Array.from(document.getElementsByClassName(postsId)).forEach((element) => {
+        if (!(element instanceof HTMLElement)) return;
 
-        const { top, height } = itemsRef.current[i]!.getBoundingClientRect();
-        
+        const { top, height } = element.getBoundingClientRect();
+        const { postId = null } = element.dataset; 
         const postMiddleTop = top + height / 2;
         const distance = Math.abs(middleTop - postMiddleTop);
 
         if (distance < nearestValue) {
-          nearestId = visiblePosts[i];
+          nearestId = postId;
           nearestValue = distance;
         }
-        // itemsRef.current[i].current.getBoundingClientRect();
       });
+
       if (nearestId !== middlePostId) {
         setMiddlePostId(nearestId);
       }
+      console.timeEnd('start');
+
     }, 100);
 
     scrollRef?.current?.addEventListener('scroll', handleScroll);
@@ -129,9 +133,7 @@ export const Posts = ({ noteId }) => {
             <Post
               key={postId}
               postId={postId} 
-              ref={(element) => {
-                itemsRef.current[i] = element;
-              }}
+              className={postsId}
             />
           ))
         }
