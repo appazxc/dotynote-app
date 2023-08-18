@@ -4,6 +4,6 @@ import { QueryParams, PathParams } from 'shared/types/common/router';
 
 import { getUrl } from './getUrl';
 
-export const createRedirect = (routeName: RouteName, params: { queryParams?: QueryParams, pathParams?: PathParams }) => {
-  return redirect(getUrl(routeName, params));
+export const createRedirect = (routeName: RouteName, pathParams: PathParams, queryParams?: QueryParams) => {
+  return redirect(getUrl(routeName, pathParams, queryParams));
 };

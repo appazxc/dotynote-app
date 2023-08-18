@@ -17,7 +17,7 @@ export const HomePageContent = () => {
 
       <Button
         onClick={() => {
-          const url = getAppUrl(appRouteNames.note, { pathParams: { noteId: '1' } });
+          const url = getAppUrl(appRouteNames.note, { noteId: '1' });
 
           console.log('url', url);
 

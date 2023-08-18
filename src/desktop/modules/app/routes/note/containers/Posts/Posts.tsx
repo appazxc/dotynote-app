@@ -19,8 +19,6 @@ export const Posts = ({ noteId }) => {
     rootMargin: '100px',
   });
   const [middlePostId, setMiddlePostId] = React.useState<string | null>(null);
-  const itemsRef = React.useRef<(HTMLDivElement | null)[]>([]);
-
   const isVisible = !!entry?.isIntersecting;
 
   const {
@@ -62,8 +60,11 @@ export const Posts = ({ noteId }) => {
 
     const middleIndex = flatData.indexOf(middlePostId);
     const startIndex = Math.max(0 , middleIndex - Math.floor(VISIBLE_POSTS_LENGTH / 2));
+    const endIndex = startIndex + VISIBLE_POSTS_LENGTH;
 
-    return flatData.slice(startIndex, startIndex + VISIBLE_POSTS_LENGTH);
+    return endIndex > flatData.length 
+      ? flatData.slice(-VISIBLE_POSTS_LENGTH) 
+      : flatData.slice(startIndex, endIndex);
   }, [middlePostId, flatData]);
 
   React.useEffect(() => {
@@ -76,8 +77,6 @@ export const Posts = ({ noteId }) => {
       let nearestId: string | null = null;
       let nearestValue = Infinity;
 
-      console.time('start');
-      
       Array.from(document.getElementsByClassName(postsId)).forEach((element) => {
         if (!(element instanceof HTMLElement)) return;
 
@@ -95,8 +94,6 @@ export const Posts = ({ noteId }) => {
       if (nearestId !== middlePostId) {
         setMiddlePostId(nearestId);
       }
-      console.timeEnd('start');
-
     }, 100);
 
     scrollRef?.current?.addEventListener('scroll', handleScroll);
@@ -112,24 +109,24 @@ export const Posts = ({ noteId }) => {
     }
   }, [isVisible]);
 
-  console.log(
-    data,
-    status,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    // fetchNextPage,
-    // fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  );
+  // console.log(
+  //   data,
+  //   status,
+  //   error,
+  //   isFetching,
+  //   isFetchingNextPage,
+  //   isFetchingPreviousPage,
+  //   // fetchNextPage,
+  //   // fetchPreviousPage,
+  //   hasNextPage,
+  //   hasPreviousPage,
+  // );
   
   return (
     <div>
       <Stack gap="2">
         {
-          visiblePosts.map((postId, i) => (
+          visiblePosts.map((postId) => (
             <Post
               key={postId}
               postId={postId} 

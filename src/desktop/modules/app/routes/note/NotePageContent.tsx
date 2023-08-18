@@ -17,9 +17,7 @@ export const NotePageContent = () => {
           <Button onClick={() => navigate(-1)}>Перейти назад</Button>
           <Button onClick={() => navigate("/")}>Перейти на главную</Button>
           <Button 
-            onClick={() => navigate(getAppUrl(appRouteNames.note, { 
-              pathParams: { noteId: +noteId + 1 } 
-            }))}
+            onClick={() => navigate(getAppUrl(appRouteNames.note, { noteId: +noteId + 1 }))}
           >
           Перейти на следующий нот
           </Button>
