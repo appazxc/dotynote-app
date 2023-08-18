@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { Box, Container, Stack } from '@chakra-ui/react';
+import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import { Posts } from './containers/Posts';
 import { useParams } from 'react-router';
+import { useQueryParams } from 'shared/hooks/useQueryParams';
 
 export const NotePage = () => {
   const { noteId = '' } = useParams();
+  const { postId = '' } = useQueryParams();
 
   return (
     <Container>
@@ -15,9 +17,18 @@ export const NotePage = () => {
           border="1px solid green"
           borderRadius="lg"
         >
-          note content
+          <Text>
+            note content {noteId}
+          </Text>
+          <Text>
+            postId {postId}
+          </Text>
         </Box>
-        <Posts noteId={noteId} />
+        <Posts
+          key={noteId}
+          noteId={noteId}
+          postId={postId}
+        />
       </Stack>
     </Container>
   );

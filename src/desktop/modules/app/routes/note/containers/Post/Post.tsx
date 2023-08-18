@@ -16,20 +16,22 @@ export const Post = React.memo(({ postId, className }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, post?.id));
 
   return (
-    <Link to={getAppUrl(appRouteNames.note, { noteId: note?.id})}>
-      <Box
-        className={className}
-        h="80px"
-        p="4"
-        borderWidth='2px'
-        borderRadius='lg'
-        borderColor="slateDark.7"
-        cursor="pointer"
-        data-post-id={postId}
-      >
-        {note?.title}
-      </Box>
-    </Link>
-    
+    <Box>
+      <Link to={getAppUrl(appRouteNames.note, { noteId: note?.id }, { postId })}>to Post #{postId}</Link>
+      <Link to={getAppUrl(appRouteNames.note, { noteId: note?.id })}>
+        <Box
+          className={className}
+          h="80px"
+          p="4"
+          borderWidth='2px'
+          borderRadius='lg'
+          borderColor="slateDark.7"
+          cursor="pointer"
+          data-post-id={postId}
+        >
+          {note?.title}
+        </Box>
+      </Link>
+    </Box>
   );
 });

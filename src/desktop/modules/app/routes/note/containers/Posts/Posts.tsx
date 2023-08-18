@@ -6,20 +6,27 @@ import { Post } from '../Post';
 import { Stack } from '@chakra-ui/react';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import throttle from 'lodash/throttle';
+import { loadMoreDirection, PAGE_SIZE } from 'shared/constants/requests';
 
-const PAGE_SIZE = 5;
 const VISIBLE_POSTS_LENGTH = 20;
+const ROOT_MARGIN = '200px';
 
-export const Posts = ({ noteId }) => {
+export const Posts = ({ noteId, postId }) => {
   const postsId = React.useId();
-  const ref = React.useRef<HTMLButtonElement | null>(null);
   const scrollRef = useScrollContext();
-  const entry = useIntersectionObserver(ref, {
+  const prevTriggerRef = React.useRef<HTMLDivElement>(null);
+  const nextTriggerRef = React.useRef<HTMLDivElement>(null);
+  const prevObserver = useIntersectionObserver(prevTriggerRef, {
     root: scrollRef?.current,
-    rootMargin: '100px',
+    rootMargin: ROOT_MARGIN,
   });
-  const [middlePostId, setMiddlePostId] = React.useState<string | null>(null);
-  const isVisible = !!entry?.isIntersecting;
+  const nextObserver = useIntersectionObserver(nextTriggerRef, {
+    root: scrollRef?.current,
+    rootMargin: ROOT_MARGIN,
+  });
+  const isVisiblePrev = !!prevObserver?.isIntersecting;
+  const isVisibleNext = !!nextObserver?.isIntersecting;
+  const [middlePostId, setMiddlePostId] = React.useState<string | null>(postId);
 
   const {
     status,
@@ -32,24 +39,34 @@ export const Posts = ({ noteId }) => {
     fetchPreviousPage,
     hasNextPage,
     hasPreviousPage,
-  } = useInfiniteQuery(
-    ['posts'],
-    async ({ pageParam }) => {
+    isFetched,
+  } = useInfiniteQuery({
+    queryKey: ['posts', noteId, postId],
+    queryFn: async ({ pageParam, queryKey }) => {
+      const [,, middleId] = queryKey;
+      
       const { cursor, direction } = pageParam || {};
 
-      const res = await api.loadPosts(noteId, { cursor });
+      const res = await api.loadPosts(
+        noteId, 
+        { 
+          cursor: cursor || middleId, 
+          direction: direction || (middleId && loadMoreDirection.AROUND) 
+        }
+      );
       
       return  res;
     },
-    {
-      getPreviousPageParam: (page) => page.length === PAGE_SIZE 
-        ? { cursor: page[0], direction: 'prev' } 
-        : undefined,
-      getNextPageParam: (page) => page.length === PAGE_SIZE 
-        ? { cursor: page[page.length - 1], direction: 'next' } 
-        : undefined,
+    getPreviousPageParam: (page) => page.length === PAGE_SIZE && postId
+      ? { cursor: page[0], direction: loadMoreDirection.PREVIOUS } 
+      : undefined,
+    getNextPageParam: (page) => {
+      return page.length === PAGE_SIZE 
+        ? { cursor: page[page.length - 1], direction: loadMoreDirection.NEXT } 
+        : undefined;
     },
-  );
+    staleTime: Infinity,
+  });
 
   const flatData = React.useMemo(() => ((data?.pages || []).flat()), [data]);
 
@@ -104,27 +121,49 @@ export const Posts = ({ noteId }) => {
   }, [scrollRef, visiblePosts, middlePostId]);
 
   React.useEffect(() => {
-    if (isVisible) {
+    if (isVisiblePrev && hasPreviousPage) {
+      fetchPreviousPage();
+    }
+  }, [isVisiblePrev]);
+
+  React.useEffect(() => {
+    if (isVisibleNext && hasNextPage) {
       fetchNextPage();
     }
-  }, [isVisible]);
+  }, [isVisibleNext]);
+
+  React.useEffect(() => {
+    if (isFetched && postId) {
+      const post = Array
+        .from(document.getElementsByClassName(postsId))
+        .find(element => { 
+          if (!(element instanceof HTMLElement)) return false;
+          return element.dataset.postId === postId;
+        });
+
+      if (post) {
+        post.scrollIntoView(({ block: "center" }));
+      }
+    }
+  }, [isFetched]);
 
   // console.log(
+  //   'console',
+  //   flatData,
   //   data,
   //   status,
   //   error,
   //   isFetching,
   //   isFetchingNextPage,
-  //   isFetchingPreviousPage,
-  //   // fetchNextPage,
-  //   // fetchPreviousPage,
-  //   hasNextPage,
+  // isFetchingPreviousPage,
   //   hasPreviousPage,
+  //   hasNextPage,
   // );
   
   return (
     <div>
       <Stack gap="2">
+        <div ref={prevTriggerRef} />
         {
           visiblePosts.map((postId) => (
             <Post
@@ -134,17 +173,7 @@ export const Posts = ({ noteId }) => {
             />
           ))
         }
-        <button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? 'Loading more...'
-            : hasNextPage
-              ? 'Load Newer'
-              : 'Nothing more to load'}
-        </button>
+        <div ref={nextTriggerRef} />
       </Stack>
       
     </div>
