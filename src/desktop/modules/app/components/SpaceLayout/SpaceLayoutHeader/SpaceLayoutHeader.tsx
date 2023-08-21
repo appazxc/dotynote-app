@@ -6,10 +6,12 @@ import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
 import { SpaceTab } from './SpaceTab';
-import { SpaceNoteMenu } from './SpaceNoteMenu';
+import { NoteMenu } from '../../../tabs/note/containers/NoteMenu/NoteMenu';
+import { useNoteMenuRefContext } from '../NoteMenuRefProvider';
 
 export const SpaceLayoutHeader = () => {
   const spaceTabs = useAppSelector(selectActiveSpaceTabs);
+  const noteMenuRef = useNoteMenuRefContext();
 
   return (
     <Box
@@ -55,7 +57,7 @@ export const SpaceLayoutHeader = () => {
         justifyContent="space-between"
         gap="2"
       >
-        <SpaceNoteMenu />
+        <div ref={noteMenuRef} />
         <IconButton
           size="sm"
           aria-label="User menu"
