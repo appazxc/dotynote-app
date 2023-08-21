@@ -62,9 +62,12 @@ function App() {
   }
 
   return (
-    <SpaceLayout>
-      <SpaceTabContent activeTab={activeTab} />
-    </SpaceLayout>
+    <TabProvider tab={activeTab}>
+      <SpaceLayout>
+        <SpaceTabContent activeTab={activeTab} />
+      </SpaceLayout>
+    </TabProvider>
+
   );
 }
 
@@ -72,13 +75,11 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
 
   return (
-    <TabProvider tab={activeTab}>
-      <RouterProvider
-        key={activeTab.id}
-        router={router}
-        fallbackElement={<ContentLoader />}
-      />
-    </TabProvider>
+    <RouterProvider
+      key={activeTab.id}
+      router={router}
+      fallbackElement={<ContentLoader />}
+    />
   );
 }
 

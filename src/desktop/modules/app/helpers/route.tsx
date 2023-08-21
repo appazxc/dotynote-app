@@ -6,7 +6,7 @@ import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice'
 
 import { Defer } from 'shared/helpers/router/Defer';
 import { TabsDictionary } from '../types/tabs';
-import { appRouteList } from '../constants/appRouteList';
+import { tabList } from '../constants/appRouteList';
 
 type CreateRouterParams = {
   store: AppStore,
@@ -29,7 +29,7 @@ export const createRouter: CreateRouter = (params) => {
 
   return createMemoryRouter(
     [
-      ...appRouteList
+      ...tabList
         .filter(route => tabsDictionary[route.name])
         .map(route => {
           const lazy = async () => {

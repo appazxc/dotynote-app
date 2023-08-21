@@ -1,6 +1,6 @@
-import { AppRouteName } from '../constants/appRouteNames';
+import { TabName } from '../constants/tabNames';
 import { RouteResolver } from 'shared/types/common/router';
 
 export type TabsDictionary = {
-  [key in AppRouteName]?: () => Promise<{ default: RouteResolver }>
+  [key in TabName]?: () => Promise<{ default: RouteResolver }>
 };

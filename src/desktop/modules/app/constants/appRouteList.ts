@@ -1,19 +1,19 @@
-import { appRouteNames, AppRouteName } from './appRouteNames';
+import { tabNames, TabName } from './tabNames';
 
-export type AppRouteListItem = {
-  name: AppRouteName,
+export type TabListItem = {
+  name: TabName,
   path: string,
   title: string,
 }
 
-export const appRouteList: AppRouteListItem[] = [
+export const tabList: TabListItem[] = [
   {
-    name: appRouteNames.home,
+    name: tabNames.home,
     path: '/',
     title: 'New Tab',
   },
   {
-    name: appRouteNames.note,
+    name: tabNames.note,
     path: '/notes/:noteId',
     title: 'Note',
   },

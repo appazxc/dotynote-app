@@ -3,8 +3,8 @@ import api from 'shared/api';
 import { appSessionSelector, spaceSelector, spaceTabSelector } from 'shared/selectors';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
-import { getRouteMatch } from 'desktop/modules/app/helpers/getRouteMatch';
-import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
+import { getTabMatch } from 'desktop/modules/app/helpers/tabHelpers';
+import { tabNames } from 'desktop/modules/app/constants/tabNames';
 
 import { AppState, AppThunk } from '..';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
@@ -53,9 +53,9 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
       .filter((spaceTab) => spaceTab && spaceTab.routes.length)
       .map((spaceTab) => {
         const { routes } = spaceTab!;
-        return getRouteMatch(routes[0]);
+        return getTabMatch(routes[0]);
       })
-      .filter(match => match && match.route.name === appRouteNames.note)
+      .filter(match => match && match.route.name === tabNames.note)
       .map(match => {
 
         return match!.pathMatch.params.noteId;

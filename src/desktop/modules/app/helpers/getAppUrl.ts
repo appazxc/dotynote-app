@@ -1,5 +1,5 @@
 import { createGetUrl } from 'shared/helpers/router/createGetUrl';
 
-import { appRouteList } from '../constants/appRouteList';
+import { tabList } from '../constants/appRouteList';
 
-export const getAppUrl = createGetUrl(appRouteList);
+export const getAppUrl = createGetUrl(tabList);

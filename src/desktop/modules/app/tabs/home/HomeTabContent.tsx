@@ -4,7 +4,7 @@ import router from 'desktop/routes/router';
 import { useNavigate } from 'react-router';
 
 import { getAppUrl } from '../../helpers/getAppUrl';
-import { appRouteNames } from '../../constants/appRouteNames';
+import { tabNames } from '../../constants/tabNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 
@@ -17,7 +17,7 @@ export const HomeTabContent = () => {
 
       <Button
         onClick={() => {
-          const url = getAppUrl(appRouteNames.note, { noteId: '1' });
+          const url = getAppUrl(tabNames.note, { noteId: '1' });
 
           console.log('url', url);
 

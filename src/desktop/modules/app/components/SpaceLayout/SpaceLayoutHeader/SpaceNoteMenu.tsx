@@ -1,12 +1,19 @@
 import React from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { useTabContext } from '../../TabProvider';
+import { getTabInfo } from 'desktop/modules/app/helpers/tabHelpers';
 
 export const SpaceNoteMenu = () => {
   const showNoteMenu = false;
+  const tab = useTabContext();
 
+  const { match, isNoteTab, noteId } = React.useMemo(() => {
+    return getTabInfo(tab.routes[tab.routes.length - 1]);
+  }, [tab]);
+  
   return (
-    showNoteMenu
+    isNoteTab
       ? (
         <Box
           borderRadius="md"

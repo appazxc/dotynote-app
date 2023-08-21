@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { Stack, Button, Container } from '@chakra-ui/react';
 
 import { getAppUrl } from '../../helpers/getAppUrl';
-import { appRouteNames } from '../../constants/appRouteNames';
+import { tabNames } from '../../constants/tabNames';
 
 export const NotePageContent = () => {
   const { noteId = '' } = useParams();
@@ -17,7 +17,7 @@ export const NotePageContent = () => {
           <Button onClick={() => navigate(-1)}>Перейти назад</Button>
           <Button onClick={() => navigate("/")}>Перейти на главную</Button>
           <Button 
-            onClick={() => navigate(getAppUrl(appRouteNames.note, { noteId: +noteId + 1 }))}
+            onClick={() => navigate(getAppUrl(tabNames.note, { noteId: +noteId + 1 }))}
           >
           Перейти на следующий нот
           </Button>

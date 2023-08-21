@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { appRouteNames } from 'desktop/modules/app/constants/appRouteNames';
+import { tabNames } from 'desktop/modules/app/constants/tabNames';
 import { getAppUrl } from 'desktop/modules/app/helpers/getAppUrl';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -17,8 +17,8 @@ export const Post = React.memo(({ postId, className }: Props) => {
 
   return (
     <Box>
-      <Link to={getAppUrl(appRouteNames.note, { noteId: note?.id }, { postId })}>to Post #{postId}</Link>
-      <Link to={getAppUrl(appRouteNames.note, { noteId: note?.id })}>
+      <Link to={getAppUrl(tabNames.note, { noteId: note?.id }, { postId })}>to Post #{postId}</Link>
+      <Link to={getAppUrl(tabNames.note, { noteId: note?.id })}>
         <Box
           className={className}
           h="80px"

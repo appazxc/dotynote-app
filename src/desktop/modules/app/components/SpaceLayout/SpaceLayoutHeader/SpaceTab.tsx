@@ -20,7 +20,7 @@ export const SpaceTab = ({ id }) => {
     dispatch(updateEntity({ id: appSession.id, type: entityNames.appSession, data: {
       activeSpaceTabId: spaceTab.id
     } }));
-  }, [appSession, spaceTab]);
+  }, [dispatch, appSession, spaceTab]);
 
   if (!spaceTab || !appSession) {
     return null;
