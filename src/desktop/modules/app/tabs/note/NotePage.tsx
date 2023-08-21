@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import { Posts } from './containers/Posts';
 import { useParams } from 'react-router';
@@ -35,6 +34,5 @@ export const NotePage = () => {
         </Stack>
       </Container>
     </>
-    
   );
 };

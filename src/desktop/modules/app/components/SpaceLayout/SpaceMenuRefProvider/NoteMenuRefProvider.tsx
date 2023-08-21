@@ -4,12 +4,13 @@ import { NoteMenuRefContext } from './NoteMenuRefContext';
 
 type Props = {
   children: React.ReactNode,
-  noteRef: React.RefObject<HTMLDivElement>,
 }
 
-export const NoteMenuRefProvider = ({ children, noteRef }: Props) => {
+export const NoteMenuRefProvider = ({ children }: Props) => {
+  const noteMenuRef = React.useRef<HTMLDivElement>(null);
+
   return (
-    <NoteMenuRefContext.Provider value={noteRef}>
+    <NoteMenuRefContext.Provider value={noteMenuRef}>
       {children}
     </NoteMenuRefContext.Provider>
   );

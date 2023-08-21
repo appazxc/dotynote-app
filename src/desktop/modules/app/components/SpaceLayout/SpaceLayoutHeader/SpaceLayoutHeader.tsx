@@ -7,7 +7,7 @@ import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
 import { SpaceTab } from './SpaceTab';
 import { NoteMenu } from '../../../tabs/note/containers/NoteMenu/NoteMenu';
-import { useNoteMenuRefContext } from '../NoteMenuRefProvider';
+import { useNoteMenuRefContext } from '../SpaceMenuRefProvider';
 
 export const SpaceLayoutHeader = () => {
   const spaceTabs = useAppSelector(selectActiveSpaceTabs);
