@@ -35,7 +35,6 @@ export const useAppRouter = (spaceTab: SpaceTabEntity) => {
 
     return router;
     // updating only when the space tab is changed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spaceTab?.id]);
 
   React.useEffect(() => {
