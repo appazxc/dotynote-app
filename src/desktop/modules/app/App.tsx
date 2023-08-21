@@ -13,10 +13,10 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
 
-import { useAppRouter } from './routes/useAppRouter';
-import { ErrorPage } from './routes/error/ErrorPage';
-import { LoadingPage } from './routes/loading/LoadingPage';
-import { HomePage } from './routes/home/HomePage';
+import { useAppRouter } from './tabs/useAppRouter';
+import { ErrorPage } from './tabs/error/ErrorPage';
+import { LoadingPage } from './tabs/loading/LoadingPage';
+import { HomePage } from './tabs/home/HomePage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { AppLayout } from './components/AppLayout';
 import ContentLoader from 'shared/components/ContentLoader';
