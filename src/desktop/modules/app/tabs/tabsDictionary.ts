@@ -1,12 +1,12 @@
 import { appRouteNames } from '../constants/appRouteNames';
-import { AppRouteDictionary } from '../types/router';
+import { TabsDictionary } from '../types/tabs';
 
 const Home = () => import(/* webpackChunkName: "HomeTab" */ './home');
 const Note = () => import(/* webpackChunkName: "NoteTab" */ './note');
 
-const routeDictionary = {
+const tabsDictionary = {
   [appRouteNames.home]: Home,
   [appRouteNames.note]: Note,
-} as AppRouteDictionary;
+} as TabsDictionary;
 
-export { routeDictionary };
+export { tabsDictionary };

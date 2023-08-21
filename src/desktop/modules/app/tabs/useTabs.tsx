@@ -5,11 +5,11 @@ import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
-import { routeDictionary } from './appRouteDictionary';
+import { tabsDictionary } from './tabsDictionary';
 import { createRouter } from '../helpers/route';
 import { LoadingPage } from './loading/LoadingPage';
 import { ErrorPage } from './error/ErrorPage';
-import { HomePage } from './home/HomePage';
+import { HomeTab } from './home/HomeTab';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -23,10 +23,10 @@ export const useAppRouter = (spaceTab: SpaceTabEntity) => {
 
   const router = React.useMemo(() => {
     const router = createRouter({
-      routeDictionary,
+      tabsDictionary,
       store,
       pages: {
-        notFoundPage: <HomePage />,
+        notFoundPage: <HomeTab />,
         errorPage: <ErrorPage />,
         loadingPage: <LoadingPage />,
       },

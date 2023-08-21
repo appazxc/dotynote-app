@@ -5,12 +5,12 @@ import { RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
 import { Defer } from 'shared/helpers/router/Defer';
-import { AppRouteDictionary } from '../types/router';
+import { TabsDictionary } from '../types/tabs';
 import { appRouteList } from '../constants/appRouteList';
 
 type CreateRouterParams = {
   store: AppStore,
-  routeDictionary: AppRouteDictionary,
+  tabsDictionary: TabsDictionary,
   pages: {
     notFoundPage: React.ReactElement,
     errorPage?: React.ReactElement,
@@ -25,15 +25,15 @@ type CreateRouterParams = {
 type CreateRouter = (params: CreateRouterParams) => ReturnType<typeof createBrowserRouter>;
 
 export const createRouter: CreateRouter = (params) => {
-  const { routeDictionary, store, pages, memoryRouteParams } = params;
+  const { tabsDictionary, store, pages, memoryRouteParams } = params;
 
   return createMemoryRouter(
     [
       ...appRouteList
-        .filter(route => routeDictionary[route.name])
+        .filter(route => tabsDictionary[route.name])
         .map(route => {
           const lazy = async () => {
-            const lazyLoader = routeDictionary[route.name]!;
+            const lazyLoader = tabsDictionary[route.name]!;
             
             const { default: resolve } = await lazyLoader();
 

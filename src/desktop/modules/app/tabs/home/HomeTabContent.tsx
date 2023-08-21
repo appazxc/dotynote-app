@@ -8,12 +8,12 @@ import { appRouteNames } from '../../constants/appRouteNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 
-export const HomePageContent = () => {
+export const HomeTabContent = () => {
   const navigate = useNavigate();
 
   return (
     <Box display="flex" flexDirection="column">
-        HomePage of note
+        HomeTab of note
 
       <Button
         onClick={() => {
@@ -32,4 +32,4 @@ export const HomePageContent = () => {
 };
 
 
-export default HomePageContent;
+export default HomeTabContent;
