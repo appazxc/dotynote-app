@@ -18,7 +18,7 @@ import { ErrorPage } from './tabs/error/ErrorPage';
 import { LoadingPage } from './tabs/loading/LoadingPage';
 import { HomeTab } from './tabs/home/HomeTab';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { AppLayout } from './components/AppLayout';
+import { SpaceLayout } from './components/SpaceLayout';
 import ContentLoader from 'shared/components/ContentLoader';
 import { TabProvider } from './components/TabProvider';
 
@@ -62,13 +62,13 @@ function App() {
   }
 
   return (
-    <AppLayout>
-      <AppEntry activeTab={activeTab} />
-    </AppLayout>
+    <SpaceLayout>
+      <SpaceTabContent activeTab={activeTab} />
+    </SpaceLayout>
   );
 }
 
-function AppEntry({ activeTab }: { activeTab: SpaceTabEntity }) {
+function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useAppRouter(activeTab);
 
   return (

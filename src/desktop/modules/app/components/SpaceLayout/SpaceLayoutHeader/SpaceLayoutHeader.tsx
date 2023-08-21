@@ -6,12 +6,9 @@ import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
 import { SpaceTab } from './SpaceTab';
+import { SpaceNoteMenu } from './SpaceNoteMenu';
 
-type Props = {
-  showNoteMenu?: boolean,
-}
-
-export const AppLayoutHeader = ({ showNoteMenu }: Props) => {
+export const SpaceLayoutHeader = () => {
   const spaceTabs = useAppSelector(selectActiveSpaceTabs);
 
   return (
@@ -58,26 +55,7 @@ export const AppLayoutHeader = ({ showNoteMenu }: Props) => {
         justifyContent="space-between"
         gap="2"
       >
-        {showNoteMenu
-          ? (
-            <Box
-              borderRadius="md"
-              border="1px solid"
-              borderColor="gray.6"
-              h="8"
-              px="2"
-              display="flex"
-              alignItems="center"
-            >
-              <IconButton
-                size="xs"
-                aria-label="Note menu"
-                icon={<BsThreeDotsVertical />}
-              />
-            </Box>
-          )
-          : null}
-
+        <SpaceNoteMenu />
         <IconButton
           size="sm"
           aria-label="User menu"

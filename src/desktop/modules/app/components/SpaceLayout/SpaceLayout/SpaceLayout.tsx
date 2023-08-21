@@ -1,15 +1,13 @@
 import { Box, Progress } from '@chakra-ui/react';
 import React from 'react';
 
-import { AppLayoutHeader } from '../AppLayoutHeader';
+import { SpaceLayoutHeader } from '../SpaceLayoutHeader';
 import { useAppSelector } from 'shared/store/hooks';
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
-type Props = React.PropsWithChildren<{
-  showNoteMenu?: boolean
-}>
+type Props = React.PropsWithChildren<unknown>
 
-export const AppLayout = ({ children, showNoteMenu }: Props) => {
+export const SpaceLayout = ({ children }: Props) => {
   const isLoading = useAppSelector(state => state.app.isPageLoading);
 
   return (
@@ -31,7 +29,7 @@ export const AppLayout = ({ children, showNoteMenu }: Props) => {
           transitionDuration="2s"
         />
       )}
-      <AppLayoutHeader showNoteMenu={showNoteMenu} />
+      <SpaceLayoutHeader />
       <ScrollProvider>
         {(ref) => (
           <Box
