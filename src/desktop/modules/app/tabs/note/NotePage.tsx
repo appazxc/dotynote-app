@@ -4,6 +4,7 @@ import { Posts } from './containers/Posts';
 import { useParams } from 'react-router';
 import { useQueryParams } from 'shared/hooks/useQueryParams';
 import { NoteMenu } from './containers/NoteMenu';
+import { SpaceScrollRestoration } from 'desktop/modules/app/components/SpaceLayout/SpaceScrollRestoration';
 
 export const NotePage = () => {
   const { noteId = '' } = useParams();
@@ -33,6 +34,7 @@ export const NotePage = () => {
           />
         </Stack>
       </Container>
+      <SpaceScrollRestoration />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { Box, Progress } from '@chakra-ui/react';
 import React from 'react';
-import { ScrollRestoration } from "react-router-dom";
 import { SpaceLayoutHeader } from '../SpaceLayoutHeader';
 import { useAppSelector } from 'shared/store/hooks';
 import { ScrollProvider } from 'shared/components/ScrollProvider';
