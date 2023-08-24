@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Loader } from 'shared/constants/loaderIds';
 import { AppState } from 'shared/store';
+import { useAppSelector } from 'shared/store/hooks';
 
 type InitialState = {
   ids: {
@@ -40,6 +41,10 @@ export const loadersSlice = createSlice({
     },
   },
 });
+
+export const useAppInProgress = () => {
+  return useAppSelector(state => !!state.loaders.appLoaders.length);
+};
 
 export const selectIsLoaderInProgress = (state: AppState, loaderId: Loader) => {
   return !!state.loaders.ids[loaderId];

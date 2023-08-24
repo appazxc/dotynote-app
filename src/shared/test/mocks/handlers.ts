@@ -56,7 +56,7 @@ export const handlers = [
   rest.post(getHandlerUrl('/spaces/:id/tabs'), async (req, res, ctx) => {
     const id = req.params.id as string;
     const { path } = await req.json<{ path?: string }>();
-
+    await wait(10000);
     return res(ctx.json(
       createResponse(entityNames.spaceTab, createSpaceTab(id, path))
     ));

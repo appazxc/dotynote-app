@@ -17,7 +17,7 @@ export const SpaceLayoutHeader = () => {
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 
-    dispatch(createSpaceTab({ spaceId: space.id }));
+    dispatch(createSpaceTab({ spaceId: space.id, navigate: true }));
   }, [dispatch, space]);
 
   return (

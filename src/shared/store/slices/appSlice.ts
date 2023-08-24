@@ -39,9 +39,14 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
   return spaceTabs;
 };
 
-export const createSpaceTab: AppThunk<{ fromTabId?: string, path?: string, spaceId: string }> = ({ spaceId, path }) =>
+type CreateSpaceTab = { 
+  fromTabId?: string, 
+  path?: string, 
+  spaceId: string, 
+  navigate?: boolean 
+};
+export const createSpaceTab: AppThunk<CreateSpaceTab> = ({ spaceId, path, navigate }) =>
   withAppLoader(loaderIds.createSpaceTab, async (dispatch, getState) => {
-    
     try {
       const newTabId = await api.createSpaceTab(spaceId, { path });
       
@@ -49,7 +54,11 @@ export const createSpaceTab: AppThunk<{ fromTabId?: string, path?: string, space
       const newTabs = [...tabs, newTabId];
       
       dispatch(updateSpaceTabs({id: spaceId, tabs: newTabs }));
-    // eslint-disable-next-line no-empty
+
+      if (navigate) {
+        dispatch(updateActiveSpaceTab(newTabId));
+      }
+      // eslint-disable-next-line no-empty
     } catch (err) {}
   });
 
@@ -81,6 +90,16 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
 
     return [];
   };
+
+export const updateActiveSpaceTab = (tabId) => (dispatch, getState) => {
+  const appSession = selectAppSession(getState());
+
+  if (!appSession) return;
+
+  dispatch(updateEntity({ id: appSession.id, type: entityNames.appSession, data: {
+    activeSpaceTabId: tabId
+  } }));
+};
 
 type InitialState = {
   isOpen: boolean,

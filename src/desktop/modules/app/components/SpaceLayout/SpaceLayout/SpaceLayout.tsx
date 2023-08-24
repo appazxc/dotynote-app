@@ -4,11 +4,14 @@ import { SpaceLayoutHeader } from '../SpaceLayoutHeader';
 import { useAppSelector } from 'shared/store/hooks';
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 import { NoteMenuRefProvider } from '../SpaceMenuRefProvider';
+import { useAppInProgress } from 'shared/modules/loaders/loadersSlice';
 
 type Props = React.PropsWithChildren<unknown>
 
 export const SpaceLayout = ({ children }: Props) => {
   const isLoading = useAppSelector(state => state.app.isPageLoading);
+  const isAppInProgress = useAppInProgress();
+
   return (
     <>
       <NoteMenuRefProvider>
@@ -18,7 +21,7 @@ export const SpaceLayout = ({ children }: Props) => {
           display="flex"
           flexDirection="column"
         >
-          {isLoading && (
+          {isLoading || isAppInProgress && (
             <Progress
               size='xs'
               isIndeterminate
