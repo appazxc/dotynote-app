@@ -10,6 +10,8 @@ import { AppState, AppThunk } from '..';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from './entitiesSlice';
+import { Loader, loaderIds } from 'shared/constants/loaderIds';
+import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 
 export const fetchAppSession: AppThunk = () => async (dispatch, getState) => {
   const sessionId = await api.loadAppSession();
@@ -36,6 +38,20 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
 
   return spaceTabs;
 };
+
+export const createSpaceTab: AppThunk<{ fromTabId?: string, path?: string, spaceId: string }> = ({ spaceId, path }) =>
+  withAppLoader(loaderIds.createSpaceTab, async (dispatch, getState) => {
+    
+    try {
+      const newTabId = await api.createSpaceTab(spaceId, { path });
+      
+      const tabs = selectActiveSpaceTabs(getState());
+      const newTabs = [...tabs, newTabId];
+      
+      dispatch(updateSpaceTabs({id: spaceId, tabs: newTabs }));
+    // eslint-disable-next-line no-empty
+    } catch (err) {}
+  });
 
 export const updateTab: AppThunk<{ id: string, data: Partial<SpaceTabEntity>}> = ({ id, data }) => 
   async (dispatch, getState) => {
@@ -72,13 +88,15 @@ type InitialState = {
   isPageLoading: boolean,
   spaceTabs: {
     [id: string]: string[],
-  }
+  },
+  loaders: Loader[],
 }
 
 const initialState: InitialState = {
   isOpen: false,
   isPageLoading: false,
   spaceTabs: {},
+  loaders: [],
 };
 
 export const appSlice = createSlice({
@@ -101,6 +119,10 @@ export const appSlice = createSlice({
       state.appSession = payload;
     },
     setSpaceTabs: (state, { payload }: PayloadAction<{ id: string, tabs: string[] }>) => {
+      const { id, tabs } = payload;
+      state.spaceTabs[id] = tabs;
+    },
+    updateSpaceTabs: (state, { payload }: PayloadAction<{ id: string, tabs: string[] }>) => {
       const { id, tabs } = payload;
       state.spaceTabs[id] = tabs;
     },
@@ -143,7 +165,8 @@ export const {
   setAppSession,
   setSpaceTabs,
   startPageLoading,
-  stopPageLoading 
+  stopPageLoading,
+  updateSpaceTabs,
 } = appSlice.actions;
 
 export default appSlice.reducer;

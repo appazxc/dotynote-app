@@ -1,5 +1,5 @@
 import { RouteLoader } from "shared/types/common/router";
-import { wait } from "shared/utils/wait";
+import { wait } from "shared/util/wait";
 
 export const deferLoader: RouteLoader = async (params) => {
   console.log('deferLoader params', params);

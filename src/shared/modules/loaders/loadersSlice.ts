@@ -7,17 +7,25 @@ type InitialState = {
     [key in keyof Loader]?: boolean
   },
   isPageLoading: boolean,
+  appLoaders: Loader[]
 }
 
 const initialState: InitialState = {
   ids: {},
   isPageLoading: false,
+  appLoaders: [],
 };
 
 export const loadersSlice = createSlice({
   name: 'loaders',
   initialState,
   reducers: {
+    startAppLoader: (state, { payload: loaderId }: PayloadAction<Loader>) => {
+      state.appLoaders.push(loaderId);
+    },
+    stopAppLoader: (state, { payload: loaderId }: PayloadAction<Loader>) => {
+      state.appLoaders = state.appLoaders.filter((id) => id !== loaderId);
+    },
     startLoader: (state, action: PayloadAction<Loader>) => {
       state.ids[action.payload] = true;
     },
@@ -41,6 +49,13 @@ export const selectIsLoadersInProgress = (state: AppState, loaderIds: Loader[]) 
   return loaderIds.some(id => state.loaders.ids[id]);
 };
 
-export const { startLoader, stopLoader, startPageLoading, stopPageLoading } = loadersSlice.actions;
+export const { 
+  startLoader,
+  stopLoader, 
+  startPageLoading,
+  stopPageLoading ,
+  startAppLoader,
+  stopAppLoader,
+} = loadersSlice.actions;
 
 export default loadersSlice.reducer;

@@ -29,7 +29,9 @@ function App() {
 
   const { isLoading: spaceIsLoading, isError: spaceError } = useQuery({
     queryKey: ['space', appSession?.activeSpaceId],
-    queryFn: () => dispatch(fetchUserSpace(appSession?.activeSpaceId)),
+    queryFn: () => {
+      return dispatch(fetchUserSpace(appSession?.activeSpaceId));
+    },
     enabled: !!appSession,
   });
 

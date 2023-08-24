@@ -1,10 +1,10 @@
 import { DefaultBodyType, rest } from 'msw';
-import { wait } from 'shared/utils/wait';
+import { wait } from 'shared/util/wait';
 
 import { appSession } from '../stubs/appSession';
 import { me } from '../stubs/user';
 import { activeUserSpace } from '../stubs/space';
-import { activeUserSpaceTabs } from '../stubs/spaceTab';
+import { activeUserSpaceTabs, createSpaceTab } from '../stubs/spaceTab';
 import { createNote } from '../stubs/note';
 
 import { getHandlerUrl } from './helpers/getHandlerUrl';
@@ -50,6 +50,15 @@ export const handlers = [
   rest.get(getHandlerUrl('/spaces/1/tabs'), async (req, res, ctx) => {
     return res(ctx.json(
       createResponse(entityNames.spaceTab, activeUserSpaceTabs)
+    ));
+  }),
+
+  rest.post(getHandlerUrl('/spaces/:id/tabs'), async (req, res, ctx) => {
+    const id = req.params.id as string;
+    const { path } = await req.json<{ path?: string }>();
+
+    return res(ctx.json(
+      createResponse(entityNames.spaceTab, createSpaceTab(id, path))
     ));
   }),
 

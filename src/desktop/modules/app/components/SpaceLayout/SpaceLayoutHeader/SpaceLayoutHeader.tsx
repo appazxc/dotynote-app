@@ -1,17 +1,24 @@
 import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
-import { useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { createSpaceTab, selectActiveSpace, selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
 import { SpaceTab } from './SpaceTab';
-import { NoteMenu } from '../../../tabs/note/containers/NoteMenu/NoteMenu';
 import { useNoteMenuRefContext } from '../SpaceMenuRefProvider';
 
 export const SpaceLayoutHeader = () => {
   const spaceTabs = useAppSelector(selectActiveSpaceTabs);
+  const space = useAppSelector(selectActiveSpace);
   const noteMenuRef = useNoteMenuRefContext();
+  const dispatch = useAppDispatch();
+
+  const handlePlusClick = React.useCallback(() => {
+    if (!space) return;
+
+    dispatch(createSpaceTab({ spaceId: space.id }));
+  }, [dispatch, space]);
 
   return (
     <Box
@@ -48,6 +55,7 @@ export const SpaceLayoutHeader = () => {
             icon={<BsPlus size="22px" />}
             borderRadius="full"
             variant="ghost"
+            onClick={handlePlusClick}
           />
         </Box>
       </Box>
