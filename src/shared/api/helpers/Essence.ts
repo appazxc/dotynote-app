@@ -30,17 +30,20 @@ export default class Essense<T> {
     }
 
     try {
-      this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
+      this.updateEntity(id, data);
       await wait(2000);
       return await this.api.patch(`${this.path}/${id}`, data);
     } catch(e) {
-      this.store.dispatch(updateEntity({ id, type: this.entityName, data: entity }));
-
+      this.updateEntity(id, entity);
       console.log('error', e);
     }
   }
 
   async create(data: Partial<T>) {
     return await this.api.post<string>(this.path, data);
+  }
+
+  updateEntity(id: string, data: Partial<T>) {
+    this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 }

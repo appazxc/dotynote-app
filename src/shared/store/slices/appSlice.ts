@@ -65,13 +65,7 @@ export const createSpaceTab: AppThunk<CreateSpaceTab> = ({ spaceId, path, naviga
         const tabs = selectActiveSpaceTabs(getState());
         const newTabs = [...tabs, newTabId];
           
-        dispatch(updateEntity({ 
-          id: spaceId, 
-          type: entityNames.space,
-          data: {
-            spaceTabs: newTabs
-          },
-        }));
+        entityApi.space.updateEntity(spaceId, { spaceTabs: newTabs });
     
         if (navigate) {
           dispatch(updateActiveSpaceTab(newTabId));
