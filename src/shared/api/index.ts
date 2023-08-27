@@ -32,6 +32,10 @@ const createRoutes = (api: Api) => {
       return api.get(`/spaces/${id}/tabs`);
     },
 
+    async deleteSpaceTabs(id: string): Promise<string[]> {
+      return api.delete(`/spaceTab/${id}`);
+    },
+
     async createSpaceTab(id: string, data: { path?: string }): Promise<string> {
       return api.post(`/spaces/${id}/tabs`, data);
     },

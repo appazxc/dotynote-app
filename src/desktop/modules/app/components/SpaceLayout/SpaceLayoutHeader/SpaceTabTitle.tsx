@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTabInfo } from 'desktop/modules/app/helpers/tabHelpers';
 import React from 'react';
 import api from 'shared/api';
-import { noteSelector } from 'shared/selectors';
+import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
 export const SpaceTabTitle = ({ path }) => {

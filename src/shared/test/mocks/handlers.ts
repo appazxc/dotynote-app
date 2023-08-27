@@ -47,18 +47,21 @@ export const handlers = [
     ));
   }),
 
+  rest.patch(getHandlerUrl('/spaces/1'), (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+
   rest.get(getHandlerUrl('/spaces/1/tabs'), async (req, res, ctx) => {
     return res(ctx.json(
       createResponse(entityNames.spaceTab, activeUserSpaceTabs)
     ));
   }),
 
-  rest.post(getHandlerUrl('/spaces/:id/tabs'), async (req, res, ctx) => {
-    const id = req.params.id as string;
-    const { path } = await req.json<{ path?: string }>();
-    await wait(10000);
+  rest.post(getHandlerUrl('/spaceTabs'), async (req, res, ctx) => {
+    const { spaceId, routes } = await req.json<{ routes: string[], spaceId: string }>();
+
     return res(ctx.json(
-      createResponse(entityNames.spaceTab, createSpaceTab(id, path))
+      createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))
     ));
   }),
 

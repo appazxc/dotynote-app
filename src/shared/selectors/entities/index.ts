@@ -6,7 +6,7 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
-import Selector from './helpers/Selector';
+import Selector from '../helpers/Selector';
 
 export const userSelector = new Selector<UserEntity>(entityNames.user);
 export const appSessionSelector = new Selector<AppSessionEntity>(entityNames.appSession);

@@ -25,7 +25,11 @@ export const loadersSlice = createSlice({
       state.appLoaders.push(loaderId);
     },
     stopAppLoader: (state, { payload: loaderId }: PayloadAction<Loader>) => {
-      state.appLoaders = state.appLoaders.filter((id) => id !== loaderId);
+      const loaderIndex = state.appLoaders.indexOf(loaderId);
+
+      if (loaderIndex >= 0) {
+        state.appLoaders.splice(loaderIndex, 1);
+      }
     },
     startLoader: (state, action: PayloadAction<Loader>) => {
       state.ids[action.payload] = true;

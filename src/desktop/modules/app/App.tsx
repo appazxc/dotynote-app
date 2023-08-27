@@ -27,17 +27,11 @@ function App() {
   const appSession = useAppSelector(selectAppSession);
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
 
-  const { isLoading: spaceIsLoading, isError: spaceError } = useQuery({
+  const { isLoading: spaceIsLoading, isError: spaceError, isFetched } = useQuery({
     queryKey: ['space', appSession?.activeSpaceId],
     queryFn: () => {
       return dispatch(fetchUserSpace(appSession?.activeSpaceId));
     },
-    enabled: !!appSession,
-  });
-
-  const { isLoading: spaceTabsIsLoading, isError: spaceTabsError, isFetched } = useQuery({
-    queryKey: ['spaceTabs', appSession?.activeSpaceId],
-    queryFn: () => dispatch(fetchSpaceTabs(appSession?.activeSpaceId)),
     enabled: !!appSession,
   });
 
@@ -51,11 +45,11 @@ function App() {
     return <NotFoundPage />;
   }
 
-  if (spaceError || spaceTabsError || tabNotesError) {
+  if (spaceError || tabNotesError) {
     return <ErrorPage />;
   }
 
-  if (spaceIsLoading || spaceTabsIsLoading || tabNotesIsLoading) {
+  if (spaceIsLoading || tabNotesIsLoading) {
     return <LoadingPage />;
   }
 
