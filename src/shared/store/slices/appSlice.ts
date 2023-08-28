@@ -6,7 +6,7 @@ import { INVALID_ID } from 'shared/constants/errors';
 import { getTabMatch } from 'desktop/modules/app/helpers/tabHelpers';
 import { tabNames } from 'desktop/modules/app/constants/tabNames';
 
-import { AppState, AppThunk } from '..';
+import { AppState, AppThunk, ThunkAction } from '..';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from './entitiesSlice';
@@ -17,12 +17,12 @@ import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
 import { getTabUrl } from 'desktop/modules/app/helpers/getTabUrl';
 
-export const fetchAppSession: AppThunk = () => async (dispatch, getState) => {
+export const fetchAppSession = (): ThunkAction => async (dispatch, getState) => {
   const sessionId = await api.loadAppSession();
   dispatch(setAppSession(sessionId));
 };
 
-export const fetchUserSpace: AppThunk<string | void> = (id) => 
+export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
     if (!id) {
       return Promise.reject(new Error(INVALID_ID));
@@ -31,7 +31,7 @@ export const fetchUserSpace: AppThunk<string | void> = (id) =>
     return await api.loadUserSpace(id);
   };
 
-export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, getState) => {
+export const fetchSpaceTabs = (id: string): ThunkAction => async (dispatch, getState) => {
   if (!id) {
     return Promise.reject(new Error(INVALID_ID));
   }
@@ -43,38 +43,39 @@ export const fetchSpaceTabs: AppThunk<string | void> = (id) => async (dispatch, 
   return spaceTabs;
 };
 
-type CreateSpaceTab = { 
+type CreateSpaceTabParams = { 
   fromTabId?: string, 
   path?: string, 
   spaceId: string, 
   navigate?: boolean 
 };
 
-export const createSpaceTab: AppThunk<CreateSpaceTab> = ({ spaceId, path, navigate }) => async (dispatch, getState) => {
-  const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createSpaceTab);
+export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams): ThunkAction => 
+  async (dispatch, getState) => {
+    const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createSpaceTab);
 
-  if (isLoading) {
-    return;
-  }
+    if (isLoading) {
+      return;
+    }
 
-  dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
-    async (dispatch, getState) => {
-      try {
-        const newTabId = await entityApi.spaceTab.create({ routes: [path || getTabUrl(tabNames.home)], spaceId });
+    dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
+      async (dispatch, getState) => {
+        try {
+          const newTabId = await entityApi.spaceTab.create({ routes: [path || getTabUrl(tabNames.home)], spaceId });
           
-        const tabs = selectActiveSpaceTabs(getState());
-        const newTabs = [...tabs, newTabId];
+          const tabs = selectActiveSpaceTabs(getState());
+          const newTabs = [...tabs, newTabId];
           
-        entityApi.space.updateEntity(spaceId, { spaceTabs: newTabs });
+          entityApi.space.updateEntity(spaceId, { spaceTabs: newTabs });
     
-        if (navigate) {
-          dispatch(updateActiveSpaceTab(newTabId));
-        }
+          if (navigate) {
+            dispatch(updateActiveSpaceTab(newTabId));
+          }
         // eslint-disable-next-line no-empty
-      } catch (err) {}
-    })
-  ));
-};
+        } catch (err) {}
+      })
+    ));
+  };
 
 export const closeTab: AppThunk<string> = (tabId) => 
   async (dispatch, getState) => {
