@@ -35,23 +35,27 @@ export const SpaceTab = ({ id }) => {
       maxWidth="32"
       flexGrow='1'
       justifyContent="space-between"
+      isTruncated
       pr="1.5"
       cursor="pointer"
       onClick={handleTabChange}
+      iconSpacing="1"
+      rightIcon={(
+        <IconButton
+          h="5"
+          w="5"
+          minW="5"
+          aria-label="close"
+          icon={<MdClose size="13px" />}
+          borderRadius="50%"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            dispatch(closeTab(id));
+          }}
+        />
+      )}
     >
       <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
-      <IconButton
-        h="5"
-        w="5"
-        minW="5"
-        aria-label="close"
-        icon={<MdClose size="13px" />}
-        borderRadius="50%"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          dispatch(closeTab(id));
-        }}
-      />
     </Button>
   );
 };

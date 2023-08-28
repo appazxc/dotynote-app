@@ -28,38 +28,43 @@ export const SpaceLayoutHeader = () => {
         py="2"
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
         flexShrink="0"
       >
-        <Box
-          display="flex"
-          alignItems="center"
-          flexGrow="1"
-        >
-          <IconButton
-            size="sm"
-            aria-label="Side note menu"
-            icon={<AiOutlineMenuUnfold />}
-            variant="outline"
-          />
-          <Box mx="2" color="gray">|</Box>
+        <Box flexGrow="1"   overflow="hidden">
           <Box
             display="flex"
-            flexDirection="row"
-            gap="1"
+            alignItems="center"
             flexGrow="1"
           >
-            {spaceTabs.map(id => <SpaceTab key={id} id={id} />)}
             <IconButton
               size="sm"
-              aria-label="Add"
-              icon={<BsPlus size="22px" />}
-              borderRadius="full"
-              variant="ghost"
-              onClick={handlePlusClick}
+              aria-label="Side note menu"
+              icon={<AiOutlineMenuUnfold />}
+              variant="outline"
             />
+            <Box mx="2" color="gray">|</Box>
+            <Box flexGrow="1" overflow="hidden">
+              <Box
+                display="flex"
+                flexDirection="row"
+                gap="1"
+                flexGrow="1"
+              >
+                {spaceTabs.map(id => <SpaceTab key={id} id={id} />)}
+                <IconButton
+                  size="sm"
+                  aria-label="Add"
+                  icon={<BsPlus size="22px" />}
+                  borderRadius="full"
+                  variant="ghost"
+                  onClick={handlePlusClick}
+                />
+              </Box>
+            </Box>
+            
           </Box>
         </Box>
+        
         <Box
           display="flex"
           alignItems="center"
@@ -76,6 +81,13 @@ export const SpaceLayoutHeader = () => {
           />
         </Box>
       </Box>
+      {/* <Box>
+        {spaceTabs.map(id => (
+          <Box key={id}  border="1px solid gray">
+            hello dsa das djsak jdlsaj ldjsa jlds end
+          </Box>
+        ))}
+      </Box> */}
     </>
   );
 };

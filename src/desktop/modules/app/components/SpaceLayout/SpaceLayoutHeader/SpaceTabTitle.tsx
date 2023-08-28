@@ -34,6 +34,6 @@ export const SpaceTabTitle = ({ path }) => {
   }, [match, isNoteTab, isLoading, note]);
 
   return (
-    <Box display="flex">{title}</Box>
+    <Box display="block" overflow="hidden">{title}</Box>
   );
 };
