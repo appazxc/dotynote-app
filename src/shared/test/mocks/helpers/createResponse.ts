@@ -43,13 +43,13 @@ const getEntities = (acc, entityName, stub) => {
   return iter(acc, entityName, stub);
 };
 
-export const createResponse = (entityName, stub) => {
+export const createResponse = (entityName, stub, noEntities = false) => {
   const result = {};
 
   const data = getEntities(result, entityName, stub);
 
   return {
     data,
-    entities: result
+    entities: noEntities ? {} : result
   };
 };

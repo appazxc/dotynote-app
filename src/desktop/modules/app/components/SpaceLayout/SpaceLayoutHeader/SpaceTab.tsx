@@ -2,27 +2,23 @@ import { Button, IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { closeTab, selectAppSession } from 'shared/store/slices/appSlice';
+import { closeTab, selectActiveSpace, changeActiveTab } from 'shared/store/slices/appSlice';
 
 import { SpaceTabTitle } from './SpaceTabTitle';
-import { updateEntity } from 'shared/store/slices/entitiesSlice';
-import { entityNames } from 'shared/constants/entityNames';
 import { MdClose } from 'react-icons/md';
 
 export const SpaceTab = ({ id }) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
-  const appSession = useAppSelector(selectAppSession);
+  const activeSpace = useAppSelector(selectActiveSpace);
 
   const handleTabChange = React.useCallback(() => {
-    if (!appSession || !spaceTab) return;
+    if (!spaceTab) return;
 
-    dispatch(updateEntity({ id: appSession.id, type: entityNames.appSession, data: {
-      activeSpaceTabId: spaceTab.id
-    } }));
-  }, [dispatch, appSession, spaceTab]);
+    dispatch(changeActiveTab(spaceTab.id));
+  }, [dispatch, spaceTab]);
 
-  if (!spaceTab || !appSession) {
+  if (!spaceTab) {
     return null;
   }
 
@@ -30,12 +26,11 @@ export const SpaceTab = ({ id }) => {
     <Button
       as="div"
       size="sm"
-      variant={appSession.activeSpaceTabId === id ? 'solid' : 'outline'}
+      variant={activeSpace?.activeTabId === id ? 'solid' : 'outline'}
       alignItems="center"
       maxWidth="32"
       flexGrow='1'
       justifyContent="space-between"
-      isTruncated
       pr="1.5"
       cursor="pointer"
       onClick={handleTabChange}

@@ -1,6 +1,5 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 
-import { AppSessionEntity } from './AppSessionEntity';
 import { UserEntity } from './UserEntity';
 import { SpaceEntity } from './SpaceEntity';
 import { NoteEntity } from './NoteEntity';
@@ -8,7 +7,6 @@ import { SpaceTabEntity } from './SpaceTabEntity';
 import { PostEntity } from './PostEntity';
 
 export type EntityTypes = {
-  [entityNames.appSession]: AppSessionEntity,
   [entityNames.user]: UserEntity,
   [entityNames.space]: SpaceEntity,
   [entityNames.spaceTab]: SpaceTabEntity,

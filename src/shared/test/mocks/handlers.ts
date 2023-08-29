@@ -1,9 +1,8 @@
 import { DefaultBodyType, rest } from 'msw';
 import { wait } from 'shared/util/wait';
 
-import { appSession } from '../stubs/appSession';
 import { me } from '../stubs/user';
-import { activeUserSpace } from '../stubs/space';
+import { activeUserSpace, createUserSpaces } from '../stubs/space';
 import { activeUserSpaceTabs, createSpaceTab } from '../stubs/spaceTab';
 import { createNote } from '../stubs/note';
 
@@ -35,15 +34,18 @@ export const handlers = [
     ));
   }),
 
-  rest.get(getHandlerUrl('/app/session'), (req, res, ctx) => {
-    return res(ctx.json(
-      createResponse(entityNames.appSession, appSession)
-    ));
-  }),
-
   rest.get(getHandlerUrl('/spaces/1'), (req, res, ctx) => {
     return res(ctx.json(
       createResponse(entityNames.space, activeUserSpace)
+    ));
+  }),
+
+  rest.get(getHandlerUrl('/spaces'), (req, res, ctx) => {
+    const userId = req.url.searchParams.get('userId') || '';
+    const noEntities = req.url.searchParams.get('noEntities');
+
+    return res(ctx.json(
+      createResponse(entityNames.space, createUserSpaces(userId), noEntities === 'true')
     ));
   }),
 
@@ -63,6 +65,10 @@ export const handlers = [
     return res(ctx.json(
       createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))
     ));
+  }),
+
+  rest.patch(getHandlerUrl('/spaceTabs/:id'), (req, res, ctx) => {
+    return res(ctx.status(200));
   }),
 
   rest.get(getHandlerUrl('/notes/:id/posts'), (req, res, ctx) => {

@@ -4,11 +4,11 @@ import {
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
-  fetchSpaceTabs,
   fetchUserSpace,
   fetchSpaceTabsRouteNotes,
   selectActiveSpaceActiveTab,
-  selectAppSession
+  selectActiveSpaceId,
+  updateActiveSpaceId
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 import { NotFoundPage } from 'desktop/routes/NotFound';
@@ -16,34 +16,48 @@ import { NotFoundPage } from 'desktop/routes/NotFound';
 import { useAppRouter } from './tabs/useTabs';
 import { ErrorPage } from './tabs/error/ErrorPage';
 import { LoadingPage } from './tabs/loading/LoadingPage';
-import { HomeTab } from './tabs/home/HomeTab';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { SpaceLayout } from './components/SpaceLayout';
 import ContentLoader from 'shared/components/ContentLoader';
 import { TabProvider } from './components/TabProvider';
+import { entityApi } from 'shared/api/entityApi';
+import { NO_ENTITIES, USER_ID } from 'shared/constants/queryParams';
+import { NoActiveTab } from './tabs/noActiveTab/NoActiveTab';
 
 function App() {
   const dispatch = useAppDispatch();
-  const appSession = useAppSelector(selectAppSession);
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
+  const activeSpaceId = useAppSelector(selectActiveSpaceId);
+
+  const { data: userSpaceIds } = useQuery({
+    queryKey: ['userSpaceIds', activeSpaceId],
+    queryFn: () => {
+      return entityApi.space.load<string[]>({ params: { [USER_ID]: '1', [NO_ENTITIES]: true }});
+    },
+    enabled: !activeSpaceId,
+  });
 
   const { isLoading: spaceIsLoading, isError: spaceError, isFetched } = useQuery({
-    queryKey: ['space', appSession?.activeSpaceId],
+    queryKey: ['space', activeSpaceId],
     queryFn: () => {
-      return dispatch(fetchUserSpace(appSession?.activeSpaceId));
+      return dispatch(fetchUserSpace(activeSpaceId!));
     },
-    enabled: !!appSession,
+    enabled: !!activeSpaceId,
   });
 
   const { isLoading: tabNotesIsLoading, isError: tabNotesError } = useQuery({
-    queryKey: ['spaceTabNotes', appSession?.activeSpaceId],
-    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(appSession?.activeSpaceId as string)),
-    enabled: isFetched,
+    queryKey: ['spaceTabNotes', activeSpaceId],
+    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(activeSpaceId!)),
+    enabled: isFetched && !!activeSpaceId,
   });
 
-  if (!appSession) {
-    return <NotFoundPage />;
-  }
+  React.useEffect(() => {
+    if (userSpaceIds && userSpaceIds.length && !activeSpaceId) {
+      dispatch(updateActiveSpaceId(userSpaceIds[0]));
+    }
+  }, [dispatch, activeSpaceId, userSpaceIds]);
+
+  // когда нет активного спейса и нет спейсов
 
   if (spaceError || tabNotesError) {
     return <ErrorPage />;
@@ -54,7 +68,11 @@ function App() {
   }
 
   if (!activeTab || !activeTab.routes.length) {
-    return <HomeTab />;
+    return (
+      <SpaceLayout>
+        <NoActiveTab />
+      </SpaceLayout>
+    );
   }
 
   return (

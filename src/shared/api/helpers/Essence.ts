@@ -22,6 +22,10 @@ export default class Essense<T> {
     return getStore();
   }
 
+  async load<T>({ params }) {
+    return await this.api.get<T>(`${this.path}`, params);
+  }
+
   async update(id: string, data: Partial<T>) {
     const entity = this.selector.getById(this.store.getState(), id);
 

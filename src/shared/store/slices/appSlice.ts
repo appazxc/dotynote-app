@@ -1,6 +1,6 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import api from 'shared/api';
-import { appSessionSelector, spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
+import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
 import { getTabMatch } from 'desktop/modules/app/helpers/tabHelpers';
@@ -10,17 +10,13 @@ import { AppState, AppThunk, ThunkAction } from '..';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from './entitiesSlice';
-import { Loader, loaderIds } from 'shared/constants/loaderIds';
+import { loaderIds } from 'shared/constants/loaderIds';
 import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
 import { getTabUrl } from 'desktop/modules/app/helpers/getTabUrl';
-
-export const fetchAppSession = (): ThunkAction => async (dispatch, getState) => {
-  const sessionId = await api.loadAppSession();
-  dispatch(setAppSession(sessionId));
-};
+import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
@@ -54,11 +50,12 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
           const tabs = selectActiveSpaceTabs(getState());
           const newTabs = [...tabs, newTabId];
           
-          entityApi.space.updateEntity(spaceId, { spaceTabs: newTabs });
-    
-          if (navigate) {
-            dispatch(updateActiveSpaceTab(newTabId));
-          }
+          entityApi.space.update(spaceId, { 
+            spaceTabs: newTabs,
+            ...navigate ? {
+              activeTabId: newTabId,
+            } : null,
+          });
         // eslint-disable-next-line no-empty
         } catch (err) {}
       })
@@ -74,22 +71,27 @@ export const closeTab: AppThunk<string> = (tabId) =>
       return;
     }
 
-    try {
-      await entityApi.space.update(space.id, {
-        spaceTabs: space.spaceTabs.filter(id => id !== spaceTab.id)
-      });
-    } catch(e) {
-
-    }
+    await entityApi.space.update(space.id, {
+      spaceTabs: space.spaceTabs.filter(id => id !== tabId),
+      ...space.activeTabId === tabId ? { activeTabId: getNextActiveTabId(space.spaceTabs, tabId) } : null,
+    });
   };
 
-export const updateTab: AppThunk<{ id: string, data: Partial<SpaceTabEntity>}> = ({ id, data }) => 
+export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEntity>}) => 
   async (dispatch, getState) => {
-    // await api.updateTab(id, data);
 
-    dispatch(updateEntity({ type: entityNames.spaceTab, id, data }));
-
+    await entityApi.spaceTab.update(id, data);
   };
+
+export const changeActiveTab = (id: string) => async (dispatch, getState) => {
+  const activeSpaceId = selectActiveSpaceId(getState());
+
+  if (!activeSpaceId) {
+    return;
+  }
+
+  await entityApi.space.update(activeSpaceId, { activeTabId: id });
+};
 
 export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) => 
   async (dispatch, getState) => {
@@ -112,19 +114,8 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
     return [];
   };
 
-export const updateActiveSpaceTab = (tabId) => (dispatch, getState) => {
-  const appSession = selectAppSession(getState());
-
-  if (!appSession) return;
-
-  dispatch(updateEntity({ id: appSession.id, type: entityNames.appSession, data: {
-    activeSpaceTabId: tabId
-  } }));
-};
-
 type InitialState = {
   isOpen: boolean,
-  appSession?: string,
   isPageLoading: boolean,
   activeSpaceId: string | null,
 }
@@ -151,48 +142,38 @@ export const appSlice = createSlice({
     close: (state) => {
       state.isOpen = false;
     },
-    setAppSession: (state, { payload }: PayloadAction<string>) => {
-      state.appSession = payload;
+    updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
+      state.activeSpaceId = payload;
     },
   },
 });
 
-export const selectAppSession = (state: AppState) => {
-  return appSessionSelector.getById(state, state.app.appSession);
-};
-
 export const selectActiveSpace = (state: AppState) => {
-  const appSession = selectAppSession(state);
-
-  if (!appSession) {
-    return null;
-  }
-
-  return spaceSelector.getById(state, appSession.activeSpaceId);
+  return spaceSelector.getById(state, state.app.activeSpaceId);
 };
 
-const selectSpaceTabs = (state: AppState, id?: string) => {
+const selectSpaceTabs = (state: AppState, id?: string | null) => {
   return id ? state.entities.space[id]?.spaceTabs || EMPTY_ARRAY : EMPTY_ARRAY;
 };
 
 export const selectActiveSpaceTabs = (state: AppState) => {
-  const appSession = selectAppSession(state);
-
-  return selectSpaceTabs(state, appSession?.activeSpaceId);
+  return selectSpaceTabs(state, selectActiveSpaceId(state));
 };
 
 export const selectActiveSpaceActiveTab = (state: AppState) => {
-  const appSession = selectAppSession(state);
+  return spaceTabSelector.getById(state, selectActiveSpace(state)?.activeTabId);
+};
 
-  return spaceTabSelector.getById(state, appSession?.activeSpaceTabId);
+export const selectActiveSpaceId = (state: AppState) => {
+  return state.app.activeSpaceId;
 };
 
 export const { 
   open,
   close,
-  setAppSession,
   startPageLoading,
   stopPageLoading,
+  updateActiveSpaceId,
 } = appSlice.actions;
 
 export default appSlice.reducer;

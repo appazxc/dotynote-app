@@ -9,7 +9,6 @@ import { getUrl } from 'shared/helpers/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 
 export const HomeTabContent = () => {
-  const navigate = useNavigate();
 
   return (
     <Box display="flex" flexDirection="column">
@@ -21,12 +20,11 @@ export const HomeTabContent = () => {
 
           console.log('url', url);
 
-          navigate(url);
         }}
       >
         Перейти в нот
       </Button>
-      <Button onClick={() => router.navigate(getUrl(routeNames.home))}>Вернуться на главную страницу</Button>
+      <Button onClick={() => {}}>Вернуться на главную страницу</Button>
     </Box>
   );
 };

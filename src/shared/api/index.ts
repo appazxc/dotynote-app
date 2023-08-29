@@ -20,10 +20,6 @@ const createRoutes = (api: Api) => {
       return api.get('/users/me');
     },
 
-    async loadAppSession(): Promise<string> {
-      return api.get('/app/session');
-    },
-
     async loadSpace(id: string): Promise<string> {
       return api.get(`/spaces/${id}`);
     },
