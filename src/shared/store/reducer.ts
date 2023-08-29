@@ -12,12 +12,17 @@ const authPersistConfig = {
   whitelist: ['token', 'user'],
 };
 
+const appPersistConfig = {
+  key: 'app',
+  storage,
+  whitelist: ['activeSpaceId'],
+};
+
 const reducer = {
-  app: appReducer,
   entities: entitiesReducer,
   loaders: loadersReducer,
   auth: persistReducer(authPersistConfig, authReducer),
-  // [pokemonApi.reducerPath]: pokemonApi.reducer,
+  app: persistReducer(appPersistConfig, appReducer),
 };
 
 export default reducer;

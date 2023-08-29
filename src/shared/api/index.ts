@@ -24,7 +24,7 @@ const createRoutes = (api: Api) => {
       return api.get('/app/session');
     },
 
-    async loadUserSpace(id: string): Promise<string> {
+    async loadSpace(id: string): Promise<string> {
       return api.get(`/spaces/${id}`);
     },
 

@@ -28,20 +28,8 @@ export const fetchUserSpace = (id?: string): ThunkAction<string> =>
       return Promise.reject(new Error(INVALID_ID));
     }
 
-    return await api.loadUserSpace(id);
+    return await api.loadSpace(id);
   };
-
-export const fetchSpaceTabs = (id: string): ThunkAction => async (dispatch, getState) => {
-  if (!id) {
-    return Promise.reject(new Error(INVALID_ID));
-  }
-
-  const spaceTabs = await api.loadSpaceTabs(id);
-
-  dispatch(setSpaceTabs({ id, tabs: spaceTabs }));
-
-  return spaceTabs;
-};
 
 type CreateSpaceTabParams = { 
   fromTabId?: string, 
@@ -138,17 +126,13 @@ type InitialState = {
   isOpen: boolean,
   appSession?: string,
   isPageLoading: boolean,
-  spaceTabs: {
-    [id: string]: string[],
-  },
-  loaders: Loader[],
+  activeSpaceId: string | null,
 }
 
 const initialState: InitialState = {
   isOpen: false,
   isPageLoading: false,
-  spaceTabs: {},
-  loaders: [],
+  activeSpaceId: null,
 };
 
 export const appSlice = createSlice({
@@ -169,14 +153,6 @@ export const appSlice = createSlice({
     },
     setAppSession: (state, { payload }: PayloadAction<string>) => {
       state.appSession = payload;
-    },
-    setSpaceTabs: (state, { payload }: PayloadAction<{ id: string, tabs: string[] }>) => {
-      const { id, tabs } = payload;
-      state.spaceTabs[id] = tabs;
-    },
-    updateSpaceTabs: (state, { payload }: PayloadAction<{ id: string, tabs: string[] }>) => {
-      const { id, tabs } = payload;
-      state.spaceTabs[id] = tabs;
     },
   },
 });
@@ -215,10 +191,8 @@ export const {
   open,
   close,
   setAppSession,
-  setSpaceTabs,
   startPageLoading,
   stopPageLoading,
-  updateSpaceTabs,
 } = appSlice.actions;
 
 export default appSlice.reducer;
