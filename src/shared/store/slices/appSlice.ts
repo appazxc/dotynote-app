@@ -116,12 +116,14 @@ export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) =>
 
 type InitialState = {
   isOpen: boolean,
+  isSideOpen: boolean,
   isPageLoading: boolean,
   activeSpaceId: string | null,
 }
 
 const initialState: InitialState = {
   isOpen: false,
+  isSideOpen: false,
   isPageLoading: false,
   activeSpaceId: null,
 };
@@ -145,6 +147,9 @@ export const appSlice = createSlice({
     updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
       state.activeSpaceId = payload;
     },
+    toggleSide: (state) => {
+      state.isSideOpen = !state.isSideOpen;
+    }
   },
 });
 
@@ -174,6 +179,7 @@ export const {
   startPageLoading,
   stopPageLoading,
   updateActiveSpaceId,
+  toggleSide,
 } = appSlice.actions;
 
 export default appSlice.reducer;

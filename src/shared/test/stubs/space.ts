@@ -1,21 +1,20 @@
+import { createNote } from './note';
 import { activeUserSpaceTabs } from './spaceTab';
 
 export const activeUserSpace = {
   id: '1',
   name: '',
   isDefault: true,
-  sideNoteId: '1',
+  sideNote: createNote('1'),
   activeTabId: '1',
   spaceTabs: activeUserSpaceTabs,
 };
-
-
 
 const createUserSpace = (id, userId) => ({
   id,
   name: `${id} userId: ${userId}`,
   isDefault: true,
-  sideNoteId: '1',
+  sideNote: createNote('1'),
   activeTabId: '1',
   spaceTabs: activeUserSpaceTabs,
 });

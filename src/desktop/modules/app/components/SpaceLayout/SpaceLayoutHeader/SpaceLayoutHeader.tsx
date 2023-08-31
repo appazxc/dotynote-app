@@ -1,7 +1,7 @@
 import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { createSpaceTab, selectActiveSpace, selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
+import { createSpaceTab, selectActiveSpace, selectActiveSpaceTabs, toggleSide } from 'shared/store/slices/appSlice';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
@@ -41,6 +41,7 @@ export const SpaceLayoutHeader = () => {
               aria-label="Side note menu"
               icon={<AiOutlineMenuUnfold />}
               variant="outline"
+              onClick={() => dispatch(toggleSide())}
             />
             <Box mx="2" color="gray">|</Box>
             <Box flexGrow="1" overflow="hidden">

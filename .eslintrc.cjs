@@ -7,7 +7,7 @@ module.exports = {
     "plugin:react-hooks/recommended"
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', "@emotion"],
   root: true,
   rules: {
     indent: ['error', 2],

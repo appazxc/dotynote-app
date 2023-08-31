@@ -1,5 +1,6 @@
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
+import { propToEntityMap } from './propToEntityMap';
 
 const IdSymbol = 'Id';
 
@@ -14,7 +15,8 @@ const getEntities = (acc, entityName, stub) => {
 
       Object.entries(stubs).forEach(([key, value]) => {
         if (isEntity(value)) {
-          newEntity[key + IdSymbol] = iter(acc, key, value);
+          const name = propToEntityMap(key);
+          newEntity[key + IdSymbol] = iter(acc, name, value);
           return;
         }
 
