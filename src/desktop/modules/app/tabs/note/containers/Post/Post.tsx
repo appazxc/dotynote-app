@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { tabNames } from 'desktop/modules/app/constants/tabNames';
 import { getTabUrl } from 'desktop/modules/app/helpers/getTabUrl';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams, useNavigate } from 'react-router-dom';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
@@ -14,10 +14,17 @@ type Props = {
 export const Post = React.memo(({ postId, className }: Props) => {
   const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.id));
-
+  const navigate = useNavigate();
   return (
     <Box>
-      <Link to={getTabUrl(tabNames.note, { noteId: note?.id }, { postId })}>to Post #{postId}</Link>
+      <Box
+        onClick={() => {
+          const url = getTabUrl(tabNames.note, { noteId: note?.id });
+          const params = { postId: post!.id };
+
+          navigate({ pathname: url, search: `?${createSearchParams(params)}` });
+        }}
+      >to Post #{postId}</Box>
       <Link to={getTabUrl(tabNames.note, { noteId: note?.id })}>
         <Box
           className={className}

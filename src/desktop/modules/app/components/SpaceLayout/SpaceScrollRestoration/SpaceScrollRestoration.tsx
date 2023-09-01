@@ -15,12 +15,18 @@ export const SpaceScrollRestoration = React.memo(() => {
     const value = scrollMap.get(key);
 
     if (scroll?.current && value) {
+      console.log('key', key, value);
+      
       scroll?.current.scrollTo(0, value);
     }
 
-    const updatePosition = throttle((event) => {
-      scrollMap.set(key, event.target.scrollTop);
+    const updatePosition = throttle(() => {
+      console.log('scroll?.current?.scrollTop', scroll?.current?.scrollTop);
+      
+      scrollMap.set(key, scroll?.current?.scrollTop);
     }, 100);
+
+    updatePosition();
 
     scroll?.current?.addEventListener('scroll', updatePosition);
 

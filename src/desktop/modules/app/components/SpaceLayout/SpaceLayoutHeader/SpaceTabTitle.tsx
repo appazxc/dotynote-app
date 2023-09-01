@@ -6,8 +6,8 @@ import api from 'shared/api';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
-export const SpaceTabTitle = ({ path }) => {
-  const {match, isNoteTab, noteId } = React.useMemo(() => {
+export const SpaceTabTitle = React.memo(({ path }) => {
+  const { match, isNoteTab, noteId } = React.useMemo(() => {
     return getTabInfo(path);
   }, [path]);
 
@@ -36,4 +36,4 @@ export const SpaceTabTitle = ({ path }) => {
   return (
     <Box display="block" overflow="hidden">{title}</Box>
   );
-};
+});

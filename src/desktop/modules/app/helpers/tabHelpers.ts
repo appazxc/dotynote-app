@@ -22,14 +22,16 @@ export const getTabMatch = (path: string): RouteMatch | null => {
 
 
 export const getTabInfo = (path: string) => {
-  const match = getTabMatch(path);
-
+  const url = new URL(`http://example.ru${path}`);
+  const match = getTabMatch(url.pathname);
   const isNoteTab = match?.route.name === tabNames.note;
+  const searhParams = Object.fromEntries([...url.searchParams]);
   const noteId = match?.pathMatch.params.noteId;
 
   return {
     isNoteTab,
     noteId,
     match,
+    searhParams,
   };
 };

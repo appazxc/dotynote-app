@@ -17,10 +17,10 @@ export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
       newRoutes = newRoutes.slice(0, -1);
     }
     if (historyAction === 'REPLACE') {
-      newRoutes[newRoutes.length - 1] = location.pathname;
+      newRoutes[newRoutes.length - 1] = location.pathname + location.search;
     }
     if (historyAction === 'PUSH') {
-      newRoutes.push(location.pathname);
+      newRoutes.push(location.pathname + location.search);
     }
 
     dispatch(updateTab({ id: activeTab.id, data: { routes: newRoutes }}));

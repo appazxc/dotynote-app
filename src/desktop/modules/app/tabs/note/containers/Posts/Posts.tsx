@@ -142,6 +142,8 @@ export const Posts = ({ noteId, postId }) => {
         });
 
       if (post) {
+        console.log('scroll');
+        
         post.scrollIntoView(({ block: "center" }));
       }
     }
@@ -149,6 +151,7 @@ export const Posts = ({ noteId, postId }) => {
 
   // console.log(
   //   'console',
+  //   visiblePosts,
   //   flatData,
   //   data,
   //   status,
