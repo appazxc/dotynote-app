@@ -1,17 +1,19 @@
 import React from 'react';
 import { useScrollContext } from 'shared/components/ScrollProvider';
-import { useTabContext } from '../../TabProvider';
 import throttle from 'lodash/throttle';
+import { useLocation, useNavigation, useNavigationType } from 'react-router';
 
 const scrollMap = new Map();
 
 export const SpaceScrollRestoration = React.memo(() => {
   const scroll = useScrollContext();
-  const tab = useTabContext();
-  const lastRoute = tab.routes[tab.routes.length - 1];
+  const { key } = useLocation();
+  const navigation = useNavigation();
+  const navigationType = useNavigationType();
+  console.log('navigation', navigation);
+  console.log('navigationType', navigationType);
 
-  React.useLayoutEffect(() => {
-    const key = tab.id + lastRoute;
+  React.useEffect(() => {
     const value = scrollMap.get(key);
 
     if (scroll?.current && value) {
@@ -21,7 +23,7 @@ export const SpaceScrollRestoration = React.memo(() => {
     }
 
     const updatePosition = throttle(() => {
-      console.log('scroll?.current?.scrollTop', scroll?.current?.scrollTop);
+      // console.log('scroll?.current?.scrollTop', scroll?.current?.scrollTop);
       
       scrollMap.set(key, scroll?.current?.scrollTop);
     }, 100);
@@ -33,7 +35,7 @@ export const SpaceScrollRestoration = React.memo(() => {
     return () => {
       scroll?.current?.removeEventListener('scroll', updatePosition);    
     };
-  }, [tab.id, lastRoute, scroll]);
+  }, [key, scroll]);
 
   return null;
 });

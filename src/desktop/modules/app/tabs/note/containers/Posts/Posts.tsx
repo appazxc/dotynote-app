@@ -28,6 +28,8 @@ export const Posts = ({ noteId, postId }) => {
   const isVisibleNext = !!nextObserver?.isIntersecting;
   const [middlePostId, setMiddlePostId] = React.useState<string | null>(postId);
 
+  // console.log('queryKey', noteId, postId);
+  
   const {
     status,
     data,
@@ -44,6 +46,7 @@ export const Posts = ({ noteId, postId }) => {
     queryKey: ['posts', noteId, postId],
     queryFn: async ({ pageParam, queryKey }) => {
       const [,, middleId] = queryKey;
+      console.log('load', middleId);
       
       const { cursor, direction } = pageParam || {};
 
@@ -83,7 +86,7 @@ export const Posts = ({ noteId, postId }) => {
       ? flatData.slice(-VISIBLE_POSTS_LENGTH) 
       : flatData.slice(startIndex, endIndex);
   }, [middlePostId, flatData]);
-
+  
   React.useEffect(() => {
     const handleScroll = throttle(() => {
       if (!scrollRef?.current) return;
@@ -118,7 +121,7 @@ export const Posts = ({ noteId, postId }) => {
     return () => {
       scrollRef?.current?.removeEventListener('scroll', handleScroll);
     };
-  }, [scrollRef, visiblePosts, middlePostId]);
+  }, [scrollRef, visiblePosts, middlePostId, postsId]);
 
   React.useEffect(() => {
     if (isVisiblePrev && hasPreviousPage) {
@@ -133,35 +136,21 @@ export const Posts = ({ noteId, postId }) => {
   }, [isVisibleNext]);
 
   React.useEffect(() => {
-    if (isFetched && postId) {
-      const post = Array
-        .from(document.getElementsByClassName(postsId))
-        .find(element => { 
-          if (!(element instanceof HTMLElement)) return false;
-          return element.dataset.postId === postId;
-        });
+    // if (isFetched && postId && scrollRef?.current?.scrollTop === 0) {
+    //   const post = Array
+    //     .from(document.getElementsByClassName(postsId))
+    //     .find(element => { 
+    //       if (!(element instanceof HTMLElement)) return false;
+    //       return element.dataset.postId === postId;
+    //     });
 
-      if (post) {
-        console.log('scroll');
+    //   if (post) {
+    //     console.log('scroll');
         
-        post.scrollIntoView(({ block: "center" }));
-      }
-    }
+    //     post.scrollIntoView(({ block: "center" }));
+    //   }
+    // }
   }, [isFetched]);
-
-  // console.log(
-  //   'console',
-  //   visiblePosts,
-  //   flatData,
-  //   data,
-  //   status,
-  //   error,
-  //   isFetching,
-  //   isFetchingNextPage,
-  // isFetchingPreviousPage,
-  //   hasPreviousPage,
-  //   hasNextPage,
-  // );
   
   return (
     <div>

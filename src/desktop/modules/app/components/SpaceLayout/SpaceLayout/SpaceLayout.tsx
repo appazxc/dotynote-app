@@ -1,11 +1,10 @@
-import { Box, Progress, css } from "@chakra-ui/react";
+import { Box, Progress } from "@chakra-ui/react";
 import React from "react";
 import { SpaceLayoutHeader } from "../SpaceLayoutHeader";
 import { useAppSelector } from "shared/store/hooks";
 import { ScrollProvider } from "shared/components/ScrollProvider";
 import { NoteMenuRefProvider } from "../SpaceMenuRefProvider";
 import { useAppInProgress } from "shared/modules/loaders/loadersSlice";
-import styled from "@emotion/styled";
 type Props = React.PropsWithChildren<unknown>;
 
 const sidebarWidth = "300px";
@@ -14,7 +13,6 @@ export const SpaceLayout = ({ children }: Props) => {
   const isLoading = useAppSelector((state) => state.app.isPageLoading);
   const isAppInProgress = useAppInProgress();
   const isSideOpen = useAppSelector((state) => state.app.isSideOpen);
-  console.log('isSideOpen', isSideOpen);
 
   return (
     <Box

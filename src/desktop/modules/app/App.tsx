@@ -11,7 +11,6 @@ import {
   updateActiveSpaceId
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
-import { NotFoundPage } from 'desktop/routes/NotFound';
 
 import { useAppRouter } from './tabs/useTabs';
 import { ErrorPage } from './tabs/error/ErrorPage';

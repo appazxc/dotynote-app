@@ -7,9 +7,6 @@ import { getTabMatch } from 'desktop/modules/app/helpers/tabHelpers';
 import { tabNames } from 'desktop/modules/app/constants/tabNames';
 
 import { AppState, AppThunk, ThunkAction } from '..';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { entityNames } from 'shared/constants/entityNames';
-import { updateEntity } from './entitiesSlice';
 import { loaderIds } from 'shared/constants/loaderIds';
 import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
@@ -77,11 +74,7 @@ export const closeTab: AppThunk<string> = (tabId) =>
     });
   };
 
-export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEntity>}) => 
-  async (dispatch, getState) => {
 
-    await entityApi.spaceTab.update(id, data);
-  };
 
 export const changeActiveTab = (id: string) => async (dispatch, getState) => {
   const activeSpaceId = selectActiveSpaceId(getState());
