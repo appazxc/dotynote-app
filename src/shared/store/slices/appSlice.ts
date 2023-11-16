@@ -3,8 +3,8 @@ import api from 'shared/api';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { INVALID_ID } from 'shared/constants/errors';
-import { getTabMatch } from 'desktop/modules/app/helpers/tabHelpers';
-import { tabNames } from 'desktop/modules/app/constants/tabNames';
+import { getTabMatch } from 'desktop/modules/space/helpers/tabHelpers';
+import { tabNames } from 'desktop/modules/space/constants/tabNames';
 
 import { AppState, AppThunk, ThunkAction } from '..';
 import { loaderIds } from 'shared/constants/loaderIds';
@@ -12,7 +12,7 @@ import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
-import { getTabUrl } from 'desktop/modules/app/helpers/getTabUrl';
+import { getTabUrl } from 'desktop/modules/space/helpers/getTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 

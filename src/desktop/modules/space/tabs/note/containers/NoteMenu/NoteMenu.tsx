@@ -2,9 +2,9 @@ import React from 'react';
 import { Box, IconButton, Portal } from '@chakra-ui/react';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { BsArrowLeft } from 'react-icons/bs';
-import { useNoteMenuRefContext } from 'desktop/modules/app/components/SpaceLayout/SpaceMenuRefProvider';
+import { useNoteMenuRefContext } from 'desktop/modules/space/components/SpaceLayout/SpaceMenuRefProvider';
 import { useNavigate } from 'react-router';
-import { useTabContext } from 'desktop/modules/app/components/TabProvider';
+import { useTabContext } from 'desktop/modules/space/components/TabProvider';
 
 export const NoteMenu = ({ noteId }) => {
   const noteMenuRef = useNoteMenuRefContext();

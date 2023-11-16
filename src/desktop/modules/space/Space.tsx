@@ -23,7 +23,7 @@ import { entityApi } from 'shared/api/entityApi';
 import { NO_ENTITIES, USER_ID } from 'shared/constants/queryParams';
 import { NoActiveTab } from './tabs/noActiveTab/NoActiveTab';
 
-function App() {
+function Space() {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
@@ -96,4 +96,4 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   );
 }
 
-export { App };
+export { Space };

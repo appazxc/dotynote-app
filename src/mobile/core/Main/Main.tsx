@@ -6,7 +6,7 @@ import ContentLoader from 'shared/components/ContentLoader';
 
 const fallback = { fallback: <ContentLoader /> };
 
-const App = Loadable(() => import(/* webpackChunkName: "AppPage" */ 'mobile/modules/App'), fallback);
+const App = Loadable(() => import(/* webpackChunkName: "AppPage" */ 'mobile/modules/space'), fallback);
 
 export const Main = () => {
   const isAppOpen = useAppSelector(state => state.app.isOpen);
