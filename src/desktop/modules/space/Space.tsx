@@ -31,7 +31,7 @@ function Space() {
   const { data: userSpaceIds } = useQuery({
     queryKey: ['userSpaceIds', activeSpaceId],
     queryFn: () => {
-      return entityApi.space.load<string[]>({ params: { [USER_ID]: '1', [NO_ENTITIES]: true }});
+      return entityApi.space.loadList<string[]>({ params: { [USER_ID]: '1', [NO_ENTITIES]: true }});
     },
     enabled: !activeSpaceId,
   });

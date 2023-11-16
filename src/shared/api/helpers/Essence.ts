@@ -22,7 +22,7 @@ export default class Essense<T> {
     return getStore();
   }
 
-  async load<T>({ params }) {
+  async loadList<T>({ params }) {
     return await this.api.get<T>(`${this.path}`, params);
   }
 
