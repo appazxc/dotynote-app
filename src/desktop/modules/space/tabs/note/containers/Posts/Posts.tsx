@@ -48,7 +48,7 @@ export const Posts = ({ noteId, postId }) => {
       const [,, middleId] = queryKey;
       console.log('load', middleId);
       
-      const { cursor, direction } = pageParam || {};
+      const { cursor, direction } = pageParam;
 
       const res = await api.loadPosts(
         noteId, 
@@ -62,12 +62,16 @@ export const Posts = ({ noteId, postId }) => {
     },
     getPreviousPageParam: (page) => page.length === PAGE_SIZE && postId
       ? { cursor: page[0], direction: loadMoreDirection.PREVIOUS } 
-      : undefined,
+      : null,
     getNextPageParam: (page) => {
       return page.length === PAGE_SIZE 
         ? { cursor: page[page.length - 1], direction: loadMoreDirection.NEXT } 
-        : undefined;
+        : null;
     },
+    initialPageParam: {
+      cursor: null,
+      direction: null,
+    } as { cursor?: string | null; direction?: string | null},
     staleTime: Infinity,
   });
 
