@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, AsyncThunkPayloadCreator, PayloadAction } from '@reduxjs/toolkit';
 import api from 'shared/api';
-import { AppDispatch, AppState, AppThunk } from 'shared/store';
+import { AppState, AppThunk } from 'shared/store';
 
 export const fetchMe: AppThunk = () => async (dispatch, getState) => {
   const token = selectToken(getState());
 
   if (!token) {
-    return;
+    throw Error('Invalid token');
   }
 
   dispatch(setLoading(true));
@@ -16,6 +16,7 @@ export const fetchMe: AppThunk = () => async (dispatch, getState) => {
     dispatch(setUser(user));
   } catch (e) {
     dispatch(setToken(null));
+    throw Error('Invalid token');
   } finally {
     dispatch(setLoading(false));
   }
@@ -23,7 +24,7 @@ export const fetchMe: AppThunk = () => async (dispatch, getState) => {
 
 type InitialState = {
   token: null | string,
-  user: null | { name: string },
+  user: null | { name: string, id: string, },
   isLoading: boolean,
 }
 
@@ -42,7 +43,7 @@ export const authSlice = createSlice({
 
       state.token = payload;
     },
-    setUser: (state, { payload }: PayloadAction<{ name: string }>) => {
+    setUser: (state, { payload }: PayloadAction<{ name: string, id: string }>) => {
       state.user = payload;
     },
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
@@ -72,6 +73,10 @@ export const selectIsAuthLoading = (state: AppState) => {
 
 export const selectToken = (state: AppState) => {
   return state.auth.token;
+};
+
+export const selectUser = (state: AppState) => {
+  return state.auth.user;
 };
 
 export default authSlice.reducer;

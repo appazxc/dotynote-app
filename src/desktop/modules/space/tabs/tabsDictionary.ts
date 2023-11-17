@@ -1,4 +1,4 @@
-import { tabNames } from '../constants/tabNames';
+import { tabNames } from '../../../../shared/modules/space/constants/tabNames';
 import { TabsDictionary } from '../types/tabs';
 
 const Home = () => import(/* webpackChunkName: "HomeTab" */ './home');

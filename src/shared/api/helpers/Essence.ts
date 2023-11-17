@@ -22,8 +22,12 @@ export default class Essense<T> {
     return getStore();
   }
 
-  async loadList<T>({ params }) {
-    return await this.api.get<T>(`${this.path}`, params);
+  async load<T>(id: string) {
+    return await this.api.get<T>(`${this.path}/${id}`);
+  }
+
+  async loadList<T>({ filters }) {
+    return await this.api.get<T>(`${this.path}`, filters);
   }
 
   async update(id: string, data: Partial<T>) {

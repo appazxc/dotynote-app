@@ -3,8 +3,8 @@ import React from 'react';
 import router from 'desktop/routes/router';
 import { useNavigate } from 'react-router';
 
-import { getTabUrl } from '../../helpers/getTabUrl';
-import { tabNames } from '../../constants/tabNames';
+import { getTabUrl } from '../../../../../shared/modules/space/helpers/getTabUrl';
+import { tabNames } from '../../../../../shared/modules/space/constants/tabNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 

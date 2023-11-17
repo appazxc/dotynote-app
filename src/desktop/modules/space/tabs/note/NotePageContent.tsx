@@ -2,8 +2,8 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Stack, Button, Container } from '@chakra-ui/react';
 
-import { getTabUrl } from '../../helpers/getTabUrl';
-import { tabNames } from '../../constants/tabNames';
+import { getTabUrl } from '../../../../../shared/modules/space/helpers/getTabUrl';
+import { tabNames } from '../../../../../shared/modules/space/constants/tabNames';
 
 export const NotePageContent = () => {
   const { noteId = '' } = useParams();

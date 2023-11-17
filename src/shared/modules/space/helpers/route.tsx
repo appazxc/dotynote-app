@@ -5,7 +5,7 @@ import { RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
 import { Defer } from 'shared/helpers/router/Defer';
-import { TabsDictionary } from '../types/tabs';
+import { TabsDictionary } from '../../../../desktop/modules/space/types/tabs';
 import { tabList } from '../constants/appRouteList';
 
 type CreateRouterParams = {

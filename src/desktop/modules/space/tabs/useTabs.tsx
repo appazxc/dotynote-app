@@ -6,7 +6,7 @@ import { RouterState } from '@remix-run/router';
 import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
 import { tabsDictionary } from './tabsDictionary';
-import { createRouter } from '../helpers/route';
+import { createRouter } from '../../../../shared/modules/space/helpers/route';
 import { LoadingPage } from './loading/LoadingPage';
 import { ErrorPage } from './error/ErrorPage';
 import { HomeTab } from './home/HomeTab';

@@ -1,4 +1,4 @@
-import { TabName } from '../constants/tabNames';
+import { TabName } from '../../../../shared/modules/space/constants/tabNames';
 import { RouteResolver } from 'shared/types/common/router';
 
 export type TabsDictionary = {

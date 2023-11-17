@@ -2,13 +2,10 @@ import React from 'react';
 import {
   RouterProvider,
 } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import {
-  fetchUserSpace,
-  fetchSpaceTabsRouteNotes,
   selectActiveSpaceActiveTab,
   selectActiveSpaceId,
-  updateActiveSpaceId
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 
@@ -19,57 +16,41 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { SpaceLayout } from './components/SpaceLayout';
 import ContentLoader from 'shared/components/ContentLoader';
 import { TabProvider } from './components/TabProvider';
-import { entityApi } from 'shared/api/entityApi';
-import { NO_ENTITIES, USER_ID } from 'shared/constants/queryParams';
-import { NoActiveTab } from './tabs/noActiveTab/NoActiveTab';
+import { queries } from 'shared/api/queries';
+import { invariant } from 'shared/util/invariant';
 
 function Space() {
-  const dispatch = useAppDispatch();
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
-  const { data: userSpaceIds } = useQuery({
-    queryKey: ['userSpaceIds', activeSpaceId],
-    queryFn: () => {
-      return entityApi.space.loadList<string[]>({ params: { [USER_ID]: '1', [NO_ENTITIES]: true }});
-    },
-    enabled: !activeSpaceId,
-  });
+  invariant(activeSpaceId, 'activeSpaceId is empty');
 
-  const { isLoading: spaceIsLoading, isError: spaceError, isFetched } = useQuery({
-    queryKey: ['space', activeSpaceId],
-    queryFn: () => {
-      return dispatch(fetchUserSpace(activeSpaceId!));
-    },
-    enabled: !!activeSpaceId,
-  });
+  const { 
+    // isLoading: spaceIsLoading, 
+    isError: spaceIsError, 
+    isFetched: spaceIsFetched,
+  } = useQuery(queries.spaces.one(activeSpaceId));
 
-  const { isLoading: tabNotesIsLoading, isError: tabNotesError } = useQuery({
-    queryKey: ['spaceTabNotes', activeSpaceId],
-    queryFn: () => dispatch(fetchSpaceTabsRouteNotes(activeSpaceId!)),
-    enabled: isFetched && !!activeSpaceId,
-  });
-
-  React.useEffect(() => {
-    if (userSpaceIds && userSpaceIds.length && !activeSpaceId) {
-      dispatch(updateActiveSpaceId(userSpaceIds[0]));
-    }
-  }, [dispatch, activeSpaceId, userSpaceIds]);
+  const { 
+    // isLoading: tabNotesIsLoading, 
+    isError: tabNotesIsError,
+    isFetched: tabNotesIsFetched,
+  } = useQuery(queries.notes.tabNotes(activeSpaceId));
 
   // когда нет активного спейса и нет спейсов
 
-  if (spaceError || tabNotesError) {
+  if (spaceIsError || tabNotesIsError) {
     return <ErrorPage />;
   }
 
-  if (spaceIsLoading || tabNotesIsLoading) {
+  if (!spaceIsFetched || !tabNotesIsFetched) {
     return <LoadingPage />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
     return (
       <SpaceLayout>
-        <NoActiveTab />
+        no active tab
       </SpaceLayout>
     );
   }

@@ -1,7 +1,7 @@
 import { PathMatch, matchPath } from 'react-router';
-import { tabNames } from 'desktop/modules/space/constants/tabNames';
+import { tabNames } from 'shared/modules/space/constants/tabNames';
 
-import { TabListItem, tabList } from 'desktop/modules/space/constants/appRouteList';
+import { TabListItem, tabList } from 'shared/modules/space/constants/appRouteList';
 
 type RouteMatch = {
   route: TabListItem,
