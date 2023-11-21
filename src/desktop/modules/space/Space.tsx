@@ -37,8 +37,6 @@ function Space() {
     isFetched: tabNotesIsFetched,
   } = useQuery(queries.notes.tabNotes(activeSpaceId));
 
-  // когда нет активного спейса и нет спейсов
-
   if (spaceIsError || tabNotesIsError) {
     return <ErrorPage />;
   }

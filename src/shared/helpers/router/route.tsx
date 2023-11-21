@@ -1,12 +1,9 @@
-import { LoaderFunction, RouteObject, createBrowserRouter, defer } from 'react-router-dom';
+import { LoaderFunction, createBrowserRouter, defer } from 'react-router-dom';
 import * as React from 'react';
 import { routeList } from 'shared/constants/routeList';
-import { UserRoute } from 'shared/routes/protected/UserRoute';
-import { GuestRoute } from 'shared/routes/protected/GuestRoute';
 import { AppStore } from 'shared/store';
 import { RouteDictionary, RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
-import { RouteRole, roles } from 'shared/constants/routeList/roles';
 
 import { Defer } from './Defer';
 
@@ -53,9 +50,7 @@ export const createRouter: CreateRouter = (params) => {
             lazy,
           };
 
-          return route.role
-            ? withProtected(preparedRoute, route.role)
-            : preparedRoute;
+          return preparedRoute;
         }),
       {
         path: '*',
@@ -103,28 +98,28 @@ const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunct
   };
 };
 
-const withProtected = (route: RouteObject, role: RouteRole) => {
-  return {
-    ...getProtectedRoute(role),
-    children: [route],
-  };
-};
+// const withProtected = (route: RouteObject, role: RouteRole) => {
+//   return {
+//     ...getProtectedRoute(role),
+//     children: [route],
+//   };
+// };
 
-const protectedRoutes: {
-  [key in RouteRole]?: React.ComponentType
-} = {
-  [roles.user]: UserRoute,
-  [roles.guest]: GuestRoute,
-};
+// const protectedRoutes: {
+//   [key in RouteRole]?: React.ComponentType
+// } = {
+//   [roles.user]: UserRoute,
+//   [roles.guest]: GuestRoute,
+// };
 
-const getProtectedRoute = (role: RouteRole) => {
-  const Component = protectedRoutes[role];
+// const getProtectedRoute = (role: RouteRole) => {
+//   const Component = protectedRoutes[role];
 
-  if (!Component) {
-    throw new Error('Protected route component is missing');
-  }
+//   if (!Component) {
+//     throw new Error('Protected route component is missing');
+//   }
 
-  return {
-    element: <Component />,
-  };
-};
+//   return {
+//     element: <Component />,
+//   };
+// };

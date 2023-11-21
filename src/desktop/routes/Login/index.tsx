@@ -1,6 +1,6 @@
 import ContentLoader from 'shared/components/ContentLoader';
 
-import LoginPage from './LoginPage';
+import { LoginPage } from './LoginPage';
 
 const loader = async () => {
 

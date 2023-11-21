@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, AsyncThunkPayloadCreator, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from 'shared/api';
 import { AppState, AppThunk } from 'shared/store';
 

@@ -9,7 +9,7 @@ import entitiesReducer from './slices/entitiesSlice';
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token', 'user'],
+  whitelist: ['token'],
 };
 
 const appPersistConfig = {
