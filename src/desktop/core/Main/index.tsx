@@ -2,7 +2,7 @@ import Routes from 'desktop/routes';
 import * as React from 'react';
 import Loadable from 'shared/components/Loadable';
 import { useAppSelector } from 'shared/store/hooks';
-import ContentLoader from 'shared/components/ContentLoader';
+import { ContentLoader } from 'shared/components/ContentLoader';
 
 const fallback = { fallback: <ContentLoader /> };
 

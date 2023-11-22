@@ -4,7 +4,7 @@ import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useNoteMenuRefContext } from 'desktop/modules/space/components/SpaceLayout/SpaceMenuRefProvider';
 import { useNavigate } from 'react-router';
-import { useTabContext } from 'desktop/modules/space/components/TabProvider';
+import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
 export const NoteMenu = ({ noteId }) => {
   const noteMenuRef = useNoteMenuRefContext();

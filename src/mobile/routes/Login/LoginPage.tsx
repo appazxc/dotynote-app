@@ -1,7 +1,7 @@
-export default function() {
+import React from 'react';
 
-
-  return {
-    Component: () => { return null;}
-  };
-}
+export const LoginPage = () => {
+  return (
+    <div>LoginPage</div>
+  );
+};

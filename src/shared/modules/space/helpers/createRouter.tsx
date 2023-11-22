@@ -5,10 +5,10 @@ import { RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
 import { Defer } from 'shared/helpers/router/Defer';
-import { TabsDictionary } from '../../../../desktop/modules/space/types/tabs';
-import { tabList } from '../constants/appRouteList';
+import { TabsDictionary } from 'shared/types/tabs';
+import { tabList } from 'shared/modules/space/constants/tabRouteList';
 
-type CreateRouterParams = {
+export type CreateRouterParams = {
   store: AppStore,
   tabsDictionary: TabsDictionary,
   pages: {

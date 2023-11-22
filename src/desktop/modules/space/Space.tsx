@@ -9,15 +9,19 @@ import {
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
 
-import { useAppRouter } from './tabs/useTabs';
-import { ErrorPage } from './tabs/error/ErrorPage';
-import { LoadingPage } from './tabs/loading/LoadingPage';
+import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
+import { ErrorPage } from 'desktop/modules/space/components/pages/ErrorPage';
+import { LoadingPage } from 'desktop/modules/space/components/pages/LoadingPage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { SpaceLayout } from './components/SpaceLayout';
-import ContentLoader from 'shared/components/ContentLoader';
-import { TabProvider } from './components/TabProvider';
+import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
+import { ContentLoader } from 'shared/components/ContentLoader';
+import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { queries } from 'shared/api/queries';
 import { invariant } from 'shared/util/invariant';
+import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
+import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
+import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
+import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
@@ -64,7 +68,15 @@ function Space() {
 }
 
 function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
-  const router = useAppRouter(activeTab);
+  const router = useTabRouter(
+    activeTab,
+    tabsDictionary,
+    {
+      notFoundPage: <HomeTab />,
+      errorPage: <ErrorTab />,
+      loadingPage: <LoadingTab />,
+    }
+  );
 
   return (
     <RouterProvider

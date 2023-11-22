@@ -3,13 +3,9 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { RouterState } from '@remix-run/router';
 
-import { handleAppRouteChange } from '../actions/route/handleAppRouteChange';
+import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
-import { tabsDictionary } from './tabsDictionary';
-import { createRouter } from '../../../../shared/modules/space/helpers/route';
-import { LoadingPage } from './loading/LoadingPage';
-import { ErrorPage } from './error/ErrorPage';
-import { HomeTab } from './home/HomeTab';
+import { CreateRouterParams, createRouter } from 'shared/modules/space/helpers/createRouter';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -18,18 +14,18 @@ function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   };
 }
 
-export const useAppRouter = (spaceTab: SpaceTabEntity) => {
+export const useTabRouter = (
+  spaceTab: SpaceTabEntity, 
+  tabsDictionary: CreateRouterParams['tabsDictionary'],
+  pages: CreateRouterParams['pages'],
+) => {
   const dispatch = useAppDispatch();
 
   const router = React.useMemo(() => {
     const router = createRouter({
       tabsDictionary,
       store,
-      pages: {
-        notFoundPage: <HomeTab />,
-        errorPage: <ErrorPage />,
-        loadingPage: <LoadingPage />,
-      },
+      pages,
       memoryRouteParams: getMemoryRouterParams(spaceTab),
     });
 

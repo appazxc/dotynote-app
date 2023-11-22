@@ -20,6 +20,18 @@ const user = [
     name: routeNames.app,
     path: '/app',
   },
+  {
+    name: routeNames.tabs,
+    path: '/tabs',
+  },
+  {
+    name: routeNames.search,
+    path: '/search',
+  },
+  {
+    name: routeNames.profile,
+    path: '/profile',
+  },
 ];
 
 const guest = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
-import ContentLoader from 'shared/components/ContentLoader';
+import { ContentLoader } from 'shared/components/ContentLoader';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 import { useAppSelector } from 'shared/store/hooks';

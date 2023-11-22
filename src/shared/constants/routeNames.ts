@@ -4,6 +4,9 @@ const routeNames = keymirror({
   home: null,
   app: null,
   login: null,
+  search: null,
+  profile: null,
+  tabs: null,
 });
 
 export type RouteName = keyof typeof routeNames;

@@ -19,5 +19,3 @@ export const ContentLoader = ({ delay = 500 }: Props) => {
     </Center>
   ): null;
 };
-
-export default ContentLoader;
