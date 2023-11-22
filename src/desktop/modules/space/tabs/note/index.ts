@@ -1,9 +1,9 @@
-import { NotePage } from './NotePage';
+import { NoteTab } from './NoteTab';
 import { loader } from './loader';
 
 export default function() {
   return {
-    Component: NotePage,
+    Component: NoteTab,
     loader,
   };
 }

@@ -6,12 +6,10 @@ import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 
 import { SpaceTab } from './SpaceTab';
-import { useNoteMenuRefContext } from '../SpaceMenuRefProvider';
 
 export const SpaceLayoutHeader = () => {
   const spaceTabs = useAppSelector(selectActiveSpaceTabs);
   const space = useAppSelector(selectActiveSpace);
-  const noteMenuRef = useNoteMenuRefContext();
   const dispatch = useAppDispatch();
 
   const handlePlusClick = React.useCallback(() => {
@@ -73,7 +71,6 @@ export const SpaceLayoutHeader = () => {
           gap="2"
           flexShrink="0"
         >
-          <div ref={noteMenuRef} />
           <IconButton
             size="sm"
             aria-label="User menu"
@@ -82,13 +79,6 @@ export const SpaceLayoutHeader = () => {
           />
         </Box>
       </Box>
-      {/* <Box>
-        {spaceTabs.map(id => (
-          <Box key={id}  border="1px solid gray">
-            hello dsa das djsak jdlsaj ldjsa jlds end
-          </Box>
-        ))}
-      </Box> */}
     </>
   );
 };
