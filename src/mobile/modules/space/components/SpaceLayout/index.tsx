@@ -1,3 +1,4 @@
+import { Box, useTheme } from '@chakra-ui/react';
 import React from 'react';
 
 type Props = {
@@ -5,7 +6,17 @@ type Props = {
 }
 
 export const SpaceLayout = (props: Props) => {
+  const theme = useTheme();
+
   return (
-    <div>{props.children}</div>
+    <Box
+      w="full"
+      h="full"
+      maxW={theme.breakpoints.sm}
+      minW="80"
+      mx="auto"
+    >
+      {props.children}
+    </Box>
   );
 };

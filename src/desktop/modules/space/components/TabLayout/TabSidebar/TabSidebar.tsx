@@ -5,7 +5,6 @@ export const TabSidebar = ({ children }) => {
   return (
     <Box
       h="full"
-      p="2"
       display="flex"
       flexDirection="column"
     >

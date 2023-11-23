@@ -17,6 +17,7 @@ export const NoteSidebar = () => {
         gap="2"
         display="flex"
         flexDirection="column"
+        p="2"
       >
         <IconButton
           size="sm"
