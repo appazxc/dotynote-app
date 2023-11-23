@@ -32,6 +32,10 @@ const user = [
     name: routeNames.profile,
     path: '/profile',
   },
+  {
+    name: routeNames.account,
+    path: '/account',
+  },
 ];
 
 const guest = [

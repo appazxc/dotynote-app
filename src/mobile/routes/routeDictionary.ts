@@ -7,6 +7,7 @@ const Login = () => import(/* webpackChunkName: "LoginPage" */ 'mobile/routes/lo
 const Tabs = () => import(/* webpackChunkName: "TabsPage" */ 'mobile/routes/tabs');
 const Search = () => import(/* webpackChunkName: "SearchPage" */ 'mobile/routes/search');
 const Profile = () => import(/* webpackChunkName: "ProfilePage" */ 'mobile/routes/profile');
+const Account = () => import(/* webpackChunkName: "AccountPage" */ 'mobile/routes/account');
 
 const routeDictionary = {
   [routeNames.app]: App,
@@ -15,6 +16,7 @@ const routeDictionary = {
   [routeNames.tabs]: Tabs,
   [routeNames.search]: Search,
   [routeNames.profile]: Profile,
+  [routeNames.account]: Account,
 } as RouteDictionary;
 
 export { routeDictionary };

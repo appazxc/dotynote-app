@@ -1,19 +1,13 @@
 import React from 'react';
-import { TabHeader, TabLayout } from 'mobile/modules/space/components/TabLayout';
-import { Box } from '@chakra-ui/react';
+import { TabLayout } from 'mobile/modules/space/components/TabLayout';
+import { NoteTabContent } from './NoteTabContent';
+import { NoteHeader } from './containers/NoteHeader';
+import { NoteFooter } from './containers/NoteFooter';
 
 export const NoteTab = () => {
-  const renderedHeader = React.useMemo(() => {
-    return <TabHeader>NoteTab title</TabHeader>;
-  }, []);
-
-  const renderedFooter = React.useMemo(() => {
-    return <Box display="flex">footer</Box>;
-  }, []);
-
   return (
-    <TabLayout header={renderedHeader} footer={renderedFooter}>
-      NoteTab
+    <TabLayout header={<NoteHeader />} footer={<NoteFooter />}>
+      <NoteTabContent />
     </TabLayout>
   );
 };
