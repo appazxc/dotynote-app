@@ -4,7 +4,7 @@ import { ErrorPage } from 'desktop/routes/error';
 import { NotFoundPage } from 'desktop/routes/notFound';
 
 import { routeDictionary } from './routeDictionary';
-import { ContentLoader } from '../../shared/components/ContentLoader';
+import { ContentLoader } from 'shared/components/ContentLoader';
 
 const router = createRouter({
   routeDictionary,

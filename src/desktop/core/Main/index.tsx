@@ -7,7 +7,7 @@ import { ContentLoader } from 'shared/components/ContentLoader';
 const fallback = { fallback: <ContentLoader /> };
 
 const App = Loadable(
-  () => import(/* webpackChunkName: "AppPage" */ 'desktop/modules/space'), 
+  () => import('desktop/modules/space'), 
   fallback
 );
 

@@ -7,15 +7,15 @@ import { getUrl } from 'shared/helpers/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 
 const loader: RouteLoader = async ({ store }) => {
-  const { getState } = store;
+  // const { getState } = store;
 
-  const token = selectToken(getState());
+  // const token = selectToken(getState());
 
-  if (token) {
-    return redirect(getUrl(routeNames.app));
-  }
+  // if (token) {
+  //   return redirect(getUrl(routeNames.app));
+  // }
 
-  return null;
+  // return null;
 };
 
 export default async function() {

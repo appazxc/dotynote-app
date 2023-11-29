@@ -1,13 +1,13 @@
 import { routeNames } from 'shared/constants/routeNames';
 import { RouteDictionary } from 'shared/types/common/router';
 
-const Home = () => import(/* webpackChunkName: "HomePage" */ 'mobile/routes/home');
-const App = () => import(/* webpackChunkName: "AppPage" */ 'mobile/routes/app');
-const Login = () => import(/* webpackChunkName: "LoginPage" */ 'mobile/routes/login');
-const Tabs = () => import(/* webpackChunkName: "TabsPage" */ 'mobile/routes/tabs');
-const Search = () => import(/* webpackChunkName: "SearchPage" */ 'mobile/routes/search');
-const Profile = () => import(/* webpackChunkName: "ProfilePage" */ 'mobile/routes/profile');
-const Account = () => import(/* webpackChunkName: "AccountPage" */ 'mobile/routes/account');
+const Home = () => import('mobile/routes/home');
+const App = () => import('mobile/routes/app');
+const Login = () => import('mobile/routes/login');
+const Tabs = () => import('mobile/routes/tabs');
+const Search = () => import('mobile/routes/search');
+const Profile = () => import('mobile/routes/profile');
+const Account = () => import('mobile/routes/account');
 
 const routeDictionary = {
   [routeNames.app]: App,
