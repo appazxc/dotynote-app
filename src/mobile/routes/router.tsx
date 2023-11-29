@@ -1,4 +1,4 @@
-import { createRouter } from 'shared/helpers/router/route';
+import { createRouter } from 'shared/helpers/router/createRouter';
 import { store } from 'shared/store';
 
 import { routeDictionary } from './routeDictionary';
@@ -7,7 +7,7 @@ const Page = () => {
   return 'hello';
 };
 
-const router = createRouter({
+export const router = createRouter({
   routeDictionary,
   store,
   pages: {
@@ -16,4 +16,3 @@ const router = createRouter({
   },
 });
 
-export default router;

@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { CiMenuBurger } from "react-icons/ci";
 import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
-import router from 'mobile/routes/router';
+import {router} from 'mobile/routes/router';
 import { routeNames } from 'shared/constants/routeNames';
 import { getUrl } from 'shared/helpers/router/getUrl';
 

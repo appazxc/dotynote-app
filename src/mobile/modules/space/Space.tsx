@@ -12,7 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { ErrorPage } from 'mobile/modules/space/components/pages/ErrorPage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { SpaceLayout } from './components/SpaceLayout';
+import { SpaceLayout } from './components/SpaceLayout/SpaceLayout';
 import { ContentLoader } from 'shared/components/ContentLoader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { queries } from 'shared/api/queries';
