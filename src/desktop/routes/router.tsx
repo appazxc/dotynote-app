@@ -1,7 +1,7 @@
 import { createRouter } from 'shared/helpers/router/createRouter';
 import { store } from 'shared/store';
-import { ErrorPage } from 'desktop/routes/error1';
-import { NotFoundPage } from 'desktop/routes/notFound1';
+import { ErrorPage } from 'desktop/routes/error';
+import { NotFoundPage } from 'desktop/routes/notFound';
 
 import { routeDictionary } from './routeDictionary';
 import { ContentLoader } from '../../shared/components/ContentLoader';
