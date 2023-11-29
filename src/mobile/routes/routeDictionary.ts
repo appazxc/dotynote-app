@@ -1,9 +1,9 @@
 import { routeNames } from 'shared/constants/routeNames';
 import { RouteDictionary } from 'shared/types/common/router';
 
-const Home = () => import(/* webpackChunkName: "HomePage" */ 'mobile/routes/home1');
-const App = () => import(/* webpackChunkName: "AppPage" */ 'mobile/routes/app1');
-const Login = () => import(/* webpackChunkName: "LoginPage" */ 'mobile/routes/login1');
+const Home = () => import(/* webpackChunkName: "HomePage" */ 'mobile/routes/home');
+const App = () => import(/* webpackChunkName: "AppPage" */ 'mobile/routes/app');
+const Login = () => import(/* webpackChunkName: "LoginPage" */ 'mobile/routes/login');
 const Tabs = () => import(/* webpackChunkName: "TabsPage" */ 'mobile/routes/tabs');
 const Search = () => import(/* webpackChunkName: "SearchPage" */ 'mobile/routes/search');
 const Profile = () => import(/* webpackChunkName: "ProfilePage" */ 'mobile/routes/profile');
