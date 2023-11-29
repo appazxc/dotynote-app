@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 
-import { LayoutHeader } from './components/LayoutHeader';
-
 type Props = {
   children: React.ReactNode,
   header?: React.ReactNode,
@@ -12,7 +10,7 @@ type Props = {
 const Layout = ({ children, header, footer }: Props) => {
   return (
     <Container>
-      {header ?? <LayoutHeader />}
+      {header && header}
       {children}
       {footer}
     </Container>
