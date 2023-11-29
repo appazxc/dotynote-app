@@ -6,7 +6,11 @@ import api from 'shared/api';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
-export const SpaceTabTitle = React.memo(({ path }) => {
+type Props = {
+  path: string;
+}
+
+export const SpaceTabTitle = React.memo(({ path }: Props) => {
   const { match, isNoteTab, noteId } = React.useMemo(() => {
     return getTabInfo(path);
   }, [path]);
