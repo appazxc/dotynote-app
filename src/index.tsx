@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initialize } from 'shared/core/actions/initializeActions';
+import { ColorModeScript } from '@chakra-ui/react';
+import theme from 'shared/styles/theme';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import Main from './shared/core';
@@ -17,11 +19,15 @@ const root = ReactDOM.createRoot(container);
 
 initialize().then(() => {
   root.render(
-    <Main />
+    <>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    
+      <Main />
+    </>
   );
 
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://cra.link/PWA
-  // serviceWorkerRegistration.register();
+  serviceWorkerRegistration.register();
 });

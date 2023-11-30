@@ -16,9 +16,7 @@ export default defineConfig((params) => {
   return {
     plugins: [
       react(),
-      // VitePWA({
-      //   registerType: 'autoUpdate',
-      // }),
+      VitePWA(),
       // @ts-ignore
       vitePluginRequire.default(),
       isProduction ? resolve({
