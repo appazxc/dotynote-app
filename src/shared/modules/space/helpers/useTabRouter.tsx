@@ -5,7 +5,7 @@ import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
-import { CreateRouterParams, createRouter } from 'shared/modules/space/helpers/createRouter';
+import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -22,7 +22,7 @@ export const useTabRouter = (
   const dispatch = useAppDispatch();
 
   const router = React.useMemo(() => {
-    const router = createRouter({
+    const router = createTabRouter({
       tabsDictionary,
       store,
       pages,

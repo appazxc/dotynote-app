@@ -24,7 +24,7 @@ export type CreateRouterParams = {
 
 type CreateRouter = (params: CreateRouterParams) => ReturnType<typeof createBrowserRouter>;
 
-export const createRouter: CreateRouter = (params) => {
+export const createTabRouter: CreateRouter = (params) => {
   const { tabsDictionary, store, pages, memoryRouteParams } = params;
 
   return createMemoryRouter(

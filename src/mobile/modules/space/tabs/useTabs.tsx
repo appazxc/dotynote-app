@@ -6,7 +6,7 @@ import { RouterState } from '@remix-run/router';
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
 import { tabsDictionary } from './tabsDictionary';
-import { createRouter } from 'shared/modules/space/helpers/createRouter';
+import { createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
 import { LoadingTab } from './loading/LoadingTab';
 import { ErrorTab } from './error/ErrorTab';
 import { HomeTab } from './home/HomeTab';
@@ -22,7 +22,7 @@ export const useTabRouter = (spaceTab: SpaceTabEntity) => {
   const dispatch = useAppDispatch();
 
   const router = React.useMemo(() => {
-    const router = createRouter({
+    const router = createTabRouter({
       tabsDictionary,
       store,
       pages: {
