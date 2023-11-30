@@ -1,4 +1,4 @@
-import { createRouter } from 'shared/helpers/router/createRouter';
+import { createRouter } from 'shared/util/router/createRouter';
 import { store } from 'shared/store';
 import { ErrorPage } from 'desktop/routes/error';
 import { NotFoundPage } from 'desktop/routes/notFound';

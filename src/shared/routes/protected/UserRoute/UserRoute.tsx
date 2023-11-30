@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router';
 import { ContentLoader } from 'shared/components/ContentLoader';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
-import { getUrl } from 'shared/helpers/router/getUrl';
+import { getUrl } from 'shared/util/router/getUrl';
 import { useAppSelector } from 'shared/store/hooks';
 import { selectIsAuthenticated, selectIsAuthLoading } from 'shared/store/slices/authSlice';
 

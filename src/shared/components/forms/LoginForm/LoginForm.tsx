@@ -25,7 +25,7 @@ import { getApiError } from 'shared/helpers/api/getApiError';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
-import { getUrl } from 'shared/helpers/router/getUrl';
+import { getUrl } from 'shared/util/router/getUrl';
 
 const schema = object({
   email: string().email('Enter a valid email'),

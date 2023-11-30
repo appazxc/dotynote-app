@@ -5,7 +5,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
 import {router} from 'mobile/routes/router';
 import { routeNames } from 'shared/constants/routeNames';
-import { getUrl } from 'shared/helpers/router/getUrl';
+import { getUrl } from 'shared/util/router/getUrl';
 
 export const NoteFooter = () => {
   const { noteId = "" } = useParams();

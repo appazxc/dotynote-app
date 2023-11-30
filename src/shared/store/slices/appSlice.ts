@@ -12,7 +12,7 @@ import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
-import { getTabUrl } from 'shared/modules/space/helpers/getTabUrl';
+import { getTabUrl } from 'shared/modules/space/util/getTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 

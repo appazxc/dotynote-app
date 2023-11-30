@@ -3,7 +3,7 @@ import { queries } from 'shared/api/queries';
 import { queryClient } from 'shared/api/queryClient';
 import { USER_ID } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
-import { getUrl } from 'shared/helpers/router/getUrl';
+import { getUrl } from 'shared/util/router/getUrl';
 import { selectActiveSpaceId, updateActiveSpaceId } from 'shared/store/slices/appSlice';
 import { fetchMe, selectUser } from 'shared/store/slices/authSlice';
 import { RouteLoader } from 'shared/types/common/router';

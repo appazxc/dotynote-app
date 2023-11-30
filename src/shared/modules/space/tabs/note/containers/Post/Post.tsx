@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { getTabUrl } from 'shared/modules/space/helpers/getTabUrl';
+import { getTabUrl } from 'shared/modules/space/util/getTabUrl';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { noteSelector, postSelector } from 'shared/selectors/entities';

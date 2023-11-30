@@ -3,9 +3,9 @@ import React from 'react';
 import router from 'desktop/routes/router';
 import { useNavigate } from 'react-router';
 
-import { getTabUrl } from '../../../../../shared/modules/space/helpers/getTabUrl';
+import { getTabUrl } from '../../../../../shared/modules/space/util/getTabUrl';
 import { tabNames } from '../../../../../shared/modules/space/constants/tabNames';
-import { getUrl } from 'shared/helpers/router/getUrl';
+import { getUrl } from 'shared/util/router/getUrl';
 import { routeNames } from 'shared/constants/routeNames';
 
 export const HomeTabContent = () => {

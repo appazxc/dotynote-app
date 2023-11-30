@@ -4,7 +4,7 @@ import { AppStore } from 'shared/store';
 import { RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
-import { Defer } from 'shared/helpers/router/Defer';
+import { Defer } from 'shared/util/router/Defer';
 import { TabsDictionary } from 'shared/types/tabs';
 import { tabList } from 'shared/modules/space/constants/tabRouteList';
 
