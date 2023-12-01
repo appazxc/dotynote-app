@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { getTabUrl } from 'shared/modules/space/util/getTabUrl';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
@@ -17,7 +17,7 @@ export const Post = React.memo(({ postId, className }: Props) => {
 
   return (
     <Box>
-      <Link to={getTabUrl(tabNames.note, { noteId: note?.id })}>
+      <Link to={buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id }})}>
         <Box
           className={className}
           h="80px"

@@ -1,11 +1,14 @@
-import { LoaderFunction, createBrowserRouter, defer } from 'react-router-dom';
+import { LoaderFunction, LoaderFunctionArgs, createBrowserRouter, defer } from 'react-router-dom';
 import * as React from 'react';
-import { routeList } from 'shared/constants/routeList';
+import { RouteListItem, routeList } from 'shared/constants/routeList';
 import { AppStore } from 'shared/store';
-import { RouteDictionary, RouteLoader } from 'shared/types/common/router';
+import { Guard, RouteDictionary, RouteLoader } from 'shared/types/common/router';
 import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
 
 import { Defer } from './Defer';
+import { RouteRole, roles } from 'shared/constants/routeList/roles';
+import { userGuard } from 'shared/routes/guards/userGuard';
+import { guestGuard } from 'shared/routes/guards/guestGuard';
 
 type CreateRouterParams = {
   store: AppStore,
@@ -16,65 +19,50 @@ type CreateRouterParams = {
     loadingPage?: React.ReactElement,
   }
 }
+
 type CreateRouter = (params: CreateRouterParams) => ReturnType<typeof createBrowserRouter>;
-
-export const createRouter: CreateRouter = (params) => {
-  const { routeDictionary, store, pages } = params;
-
-  return createBrowserRouter(
-    [
-      ...routeList
-        .filter(route => routeDictionary[route.name])
-        .map(route => {
-          const lazy = async () => {
-            store.dispatch(startPageLoading());
-
-            const lazyLoader = routeDictionary[route.name]!;
-            const { default: resolve } = await lazyLoader();
-
-            const { Component, loader, deferLoader, element, loaderComponent } = await resolve();
-
-            const el = element || (Component ? <Component /> : null);
-
-            return {
-              element: deferLoader ?
-                <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
-                : el,
-              loader: createLoader({ loader, store, deferLoader }),
-              errorElement: pages.errorPage,
-            };
-          };
-
-          const preparedRoute = {
-            path: route.path,
-            lazy,
-          };
-
-          return preparedRoute;
-        }),
-      {
-        path: '*',
-        element: pages.notFoundPage,
-      },
-    ]
-  );
-};
 
 type CreateLoader = (
   { 
     loader, 
     store, 
-    deferLoader
+    deferLoader,
+    route,
+    guard,
   }: 
   { 
     loader?: RouteLoader, 
     store: AppStore, 
-    deferLoader?: RouteLoader
+    deferLoader?: RouteLoader,
+    route: RouteListItem,
+    guard?: Guard,
   }
 ) => LoaderFunction
 
-const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunction => {
-  return async (args) => {
+const guards: {
+  [key in RouteRole]?: Guard
+} = {
+  [roles.user]: userGuard,
+  [roles.guest]: guestGuard,
+};
+
+const createGuard = (store: AppStore,  route: RouteListItem): Guard | undefined => {
+  if (route.role) {
+    return guards[route.role];
+  }
+};
+
+const createLoader: CreateLoader = ({ loader, store, deferLoader, guard, route }): LoaderFunction => {
+  
+  return async (args: LoaderFunctionArgs) => {
+    if (guard) {
+      const response = await guard({ store, route, ...args });
+
+      if (response) {
+        return response;
+      }
+    }
+
     if (deferLoader) {
       if (loader) {
         await loader({ ...args, store });
@@ -98,28 +86,44 @@ const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunct
   };
 };
 
-// const withProtected = (route: RouteObject, role: RouteRole) => {
-//   return {
-//     ...getProtectedRoute(role),
-//     children: [route],
-//   };
-// };
+export const createRouter: CreateRouter = (params) => {
+  const { routeDictionary, store, pages } = params;
 
-// const protectedRoutes: {
-//   [key in RouteRole]?: React.ComponentType
-// } = {
-//   [roles.user]: UserRoute,
-//   [roles.guest]: GuestRoute,
-// };
+  return createBrowserRouter(
+    [
+      ...routeList
+        .filter(route => routeDictionary[route.name])
+        .map(route => {
+          const lazy = async () => {
+            store.dispatch(startPageLoading());
 
-// const getProtectedRoute = (role: RouteRole) => {
-//   const Component = protectedRoutes[role];
+            const lazyLoader = routeDictionary[route.name]!;
+            const { default: resolve } = await lazyLoader();
 
-//   if (!Component) {
-//     throw new Error('Protected route component is missing');
-//   }
+            const { Component, loader, deferLoader, element, loaderComponent } = await resolve();
 
-//   return {
-//     element: <Component />,
-//   };
-// };
+            const el = element || (Component ? <Component /> : null);
+
+            return {
+              element: deferLoader ?
+                <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
+                : el,
+              loader: createLoader({ loader, store, deferLoader, route, guard: createGuard(store, route) }),
+              errorElement: pages.errorPage,
+            };
+          };
+
+          const preparedRoute = {
+            path: route.path,
+            lazy,
+          };
+
+          return preparedRoute;
+        }),
+      {
+        path: '*',
+        element: pages.notFoundPage,
+      },
+    ]
+  );
+};

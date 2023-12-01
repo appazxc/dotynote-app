@@ -1,14 +1,12 @@
 import { entityNames } from "shared/constants/entityNames";
-import { UserEntity } from "shared/types/entities/UserEntity";
 import Essense from "../helpers/Essence";
 import { noteSelector, spaceSelector, spaceTabSelector, userSelector } from "shared/selectors/entities";
 import { SpaceEntity } from "shared/types/entities/SpaceEntity";
 import { SpaceTabEntity } from "shared/types/entities/SpaceTabEntity";
 import { NoteEssence } from "./note";
+import { UserEssence } from "./user";
 
-class User extends Essense<UserEntity> {}
-
-const user = new User(entityNames.user, userSelector);
+const user = new UserEssence(entityNames.user, userSelector);
 const note = new NoteEssence(entityNames.note, noteSelector);
 const space = new Essense<SpaceEntity>(entityNames.space, spaceSelector);
 const spaceTab = new Essense<SpaceTabEntity>(entityNames.spaceTab, spaceTabSelector);

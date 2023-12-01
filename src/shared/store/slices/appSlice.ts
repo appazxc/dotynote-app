@@ -12,7 +12,7 @@ import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
-import { getTabUrl } from 'shared/modules/space/util/getTabUrl';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
@@ -42,7 +42,10 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
     dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
       async (dispatch, getState) => {
         try {
-          const newTabId = await entityApi.spaceTab.create({ routes: [path || getTabUrl(tabNames.home)], spaceId });
+          const newTabId = await entityApi.spaceTab.create({ 
+            routes: [path || buildTabUrl({ routeName: tabNames.home })], 
+            spaceId 
+          });
           
           const tabs = selectActiveSpaceTabs(getState());
           const newTabs = [...tabs, newTabId];

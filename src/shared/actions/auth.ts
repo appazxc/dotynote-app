@@ -1,8 +1,10 @@
 import api from 'shared/api';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { loaderIds } from 'shared/constants/loaderIds';
-import { AppThunk } from 'shared/store';
-import { fetchMe, setToken } from 'shared/store/slices/authSlice';
+import { AppThunk, ThunkAction } from 'shared/store';
+import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
+import { queries } from 'shared/api/queries';
+import { queryClient } from 'shared/api/queryClient';
 
 export const loginEmail: AppThunk<string> = (email) =>
   withLoader(loaderIds.loginEmail, () => {
@@ -14,5 +16,28 @@ export const loginEmailWithCode: AppThunk<{ email: string, code: string }> = ({ 
     const { token } = await api.loginEmail({ email, code });
 
     dispatch(setToken(token));
-    await dispatch(fetchMe());
+    await dispatch(authoriseUser());
   });
+
+
+
+export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
+  const token = selectToken(getState());
+  const user = selectUser(getState());
+
+  if (user) {
+    return;
+  }
+
+  if (!token) {
+    throw Error('Missing token');
+  }
+
+  try {
+    const userId = await queryClient.fetchQuery(queries.users.me());
+    dispatch(setUser(userId));
+  } catch(e: any) {
+    dispatch(setToken(null));
+    throw Error('An unexpected error occurred');
+  }
+};

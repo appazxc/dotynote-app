@@ -1,9 +1,10 @@
 import React from 'react';
 import { LoaderFunctionArgs, LoaderFunction } from 'react-router-dom';
+import { RouteListItem } from 'shared/constants/routeList';
 import { RouteName } from 'shared/constants/routeNames';
 import { AppStore } from 'shared/store';
 
-type Args = LoaderFunctionArgs & { store: AppStore};
+type Args = LoaderFunctionArgs & { store: AppStore };
 
 type RouteLoaderReturnValue = void | null;
 
@@ -31,3 +32,8 @@ export type RouteResolver = () => RouteResolverReturnType
 export type RouteDictionary = {
   [key in RouteName]?: () => Promise<{ default: RouteResolver }>
 };
+
+type GuardParams = { store: AppStore,  route: RouteListItem } & LoaderFunctionArgs
+
+export type Guard = (params: GuardParams) => Promise<Response | void>;
+ 

@@ -6,7 +6,7 @@ type Props = {
   delay?: number,
 }
 
-export const ContentLoader = ({ delay = 500 }: Props) => {
+export const ContentLoader = ({ delay = 300 }: Props) => {
   const [visible, setVisible] = React.useState(!delay);
 
   const show = () => setVisible(true);

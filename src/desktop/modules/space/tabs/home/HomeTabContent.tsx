@@ -1,12 +1,8 @@
 import { Box, Button } from '@chakra-ui/react';
 import React from 'react';
-import router from 'desktop/routes/router';
-import { useNavigate } from 'react-router';
 
-import { getTabUrl } from '../../../../../shared/modules/space/util/getTabUrl';
-import { tabNames } from '../../../../../shared/modules/space/constants/tabNames';
-import { getUrl } from 'shared/util/router/getUrl';
-import { routeNames } from 'shared/constants/routeNames';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
+import { tabNames } from 'shared/modules/space/constants/tabNames';
 
 export const HomeTabContent = () => {
 
@@ -16,7 +12,7 @@ export const HomeTabContent = () => {
 
       <Button
         onClick={() => {
-          const url = getTabUrl(tabNames.note, { noteId: '1' });
+          const url = buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: '1' }});
 
           console.log('url', url);
 

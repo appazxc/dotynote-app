@@ -1,36 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import api from 'shared/api';
-import { AppState, AppThunk } from 'shared/store';
-
-export const fetchMe: AppThunk = () => async (dispatch, getState) => {
-  const token = selectToken(getState());
-
-  if (!token) {
-    throw Error('Invalid token');
-  }
-
-  dispatch(setLoading(true));
-
-  try {
-    const user = await api.loadMe();
-    dispatch(setUser(user));
-  } catch (e) {
-    dispatch(setToken(null));
-    throw Error('Invalid token');
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
+import { userSelector } from 'shared/selectors/entities';
+import { AppState } from 'shared/store';
 
 type InitialState = {
   token: null | string,
-  user: null | { name: string, id: string, },
+  userId: null | string,
   isLoading: boolean,
 }
 
 const initialState: InitialState = {
   token: null,
-  user: null,
+  userId: null,
   isLoading: false,
 };
 
@@ -43,8 +23,8 @@ export const authSlice = createSlice({
 
       state.token = payload;
     },
-    setUser: (state, { payload }: PayloadAction<{ name: string, id: string }>) => {
-      state.user = payload;
+    setUser: (state, { payload }: PayloadAction<string>) => {
+      state.userId = payload;
     },
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
@@ -63,8 +43,8 @@ export const authSlice = createSlice({
 
 export const { setToken, setUser, setLoading } = authSlice.actions;
 
-export const selectIsAuthenticated = (state: AppState) => {
-  return !!state.auth.token && !!state.auth.user;
+export const selectIsAuthorized = (state: AppState) => {
+  return !!state.auth.token && !!state.auth.userId;
 };
 
 export const selectIsAuthLoading = (state: AppState) => {
@@ -76,7 +56,7 @@ export const selectToken = (state: AppState) => {
 };
 
 export const selectUser = (state: AppState) => {
-  return state.auth.user;
+  return userSelector.getById(state, state.auth.userId);
 };
 
 export default authSlice.reducer;

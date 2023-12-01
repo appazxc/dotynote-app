@@ -5,7 +5,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
 import {router} from 'mobile/routes/router';
 import { routeNames } from 'shared/constants/routeNames';
-import { getUrl } from 'shared/util/router/getUrl';
+import { buildUrl } from 'shared/util/router/buildUrl';
 
 export const NoteFooter = () => {
   const { noteId = "" } = useParams();
@@ -20,7 +20,7 @@ export const NoteFooter = () => {
       {
         label: 'search',
         onClick: () => {
-          router.navigate(getUrl(routeNames.search));
+          router.navigate(buildUrl({ routeName: routeNames.search}));
         },
         icon: <GoSearch size="25" />,
       },
@@ -32,7 +32,7 @@ export const NoteFooter = () => {
       {
         label: 'tabs',
         onClick: () => {
-          router.navigate(getUrl(routeNames.tabs));
+          router.navigate(buildUrl({ routeName: routeNames.tabs}));
         },
         icon: <Center
           w="6"
@@ -47,7 +47,7 @@ export const NoteFooter = () => {
       {
         label: 'account',
         onClick: () => {
-          router.navigate(getUrl(routeNames.account));
+          router.navigate(buildUrl({ routeName: routeNames.account}));
         },
         icon: <CiMenuBurger size="25" />,
       },
