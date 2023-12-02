@@ -7,7 +7,7 @@ import { tabNames } from "shared/modules/space/constants/tabNames";
 
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async tabNotes(spaceId: string) {
+  async loadTabNotes(spaceId: string) {
     const state = this.store.getState();
     const noteIds = selectSpaceTabs(state, spaceId)
       .map(id => {
@@ -28,6 +28,6 @@ export class NoteEssence extends Essense<NoteEntity> {
       })
       .filter(Boolean);
 
-    return this.loadList<string[]>({ filters: { ids: noteIds }});
+    return this.loadList({ filters: { ids: noteIds }});
   }
 }

@@ -6,7 +6,7 @@ export const tabNotes = (spaceId: string) => {
   return queryOptions({
     queryKey: ['tabNotes', spaceId],
     queryFn: () => {
-      return entityApi.note.tabNotes(spaceId);
+      return entityApi.note.loadTabNotes(spaceId);
     },
   });
 };

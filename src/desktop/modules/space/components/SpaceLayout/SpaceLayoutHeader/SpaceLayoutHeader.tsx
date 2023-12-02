@@ -1,16 +1,15 @@
 import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { createSpaceTab, selectActiveSpace, selectActiveSpaceTabs, toggleSide } from 'shared/store/slices/appSlice';
+import { createSpaceTab, selectActiveSpace, selectSortedSpaceTabs, toggleSide } from 'shared/store/slices/appSlice';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 import { GoDotFill } from "react-icons/go";
 import { SpaceTab } from './SpaceTab';
 
-export const SpaceLayoutHeader = () => {
-  const spaceTabs = useAppSelector(selectActiveSpaceTabs);
+export const SpaceLayoutHeader = React.memo(() => {
+  const spaceTabs = useAppSelector(selectSortedSpaceTabs);
   const space = useAppSelector(selectActiveSpace);
   const dispatch = useAppDispatch();
-
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 
@@ -80,4 +79,4 @@ export const SpaceLayoutHeader = () => {
       </Box>
     </>
   );
-};
+});

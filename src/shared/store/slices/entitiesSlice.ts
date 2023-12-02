@@ -55,10 +55,11 @@ export const entitiesSlice = createSlice({
       const { id, type, data } = payload;
 
       if (state[type][id]) {
-        state[type][id] = {
-          ...state[type][id],
-          ...data,
-        };
+        for (const [key, value] of Object.entries(data)) {
+          if (state[type][id][key] !== value) {
+            state[type][id][key] = value;
+          }
+        }
       }
     }
   },

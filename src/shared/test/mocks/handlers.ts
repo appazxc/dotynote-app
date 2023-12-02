@@ -10,6 +10,9 @@ import { getHandlerUrl } from './helpers/getHandlerUrl';
 import { entityNames } from 'shared/constants/entityNames';
 import { createResponse } from './helpers/createResponse';
 import { getNotePosts } from '../stubs/post';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
+let preparedSpaceTab: SpaceTabEntity | null = createSpaceTab(null, []);
 
 export const handlers = [
   rest.post(getHandlerUrl('/auth/send-code-email'), async (req, res, ctx) => {
@@ -65,6 +68,20 @@ export const handlers = [
     return res(ctx.json(
       createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))
     ));
+  }),
+
+  rest.get(getHandlerUrl('/spaceTabs/prepared'), async (req, res, ctx) => {
+    const response = createResponse(entityNames.spaceTab, [preparedSpaceTab]);
+
+    return res(ctx.json(response));
+  }),
+
+  rest.post(getHandlerUrl('/spaceTabs/prepared'), async (req, res, ctx) => {
+    preparedSpaceTab = createSpaceTab(null, []);
+
+    const response = createResponse(entityNames.spaceTab, preparedSpaceTab);
+
+    return res(ctx.json(response));
   }),
 
   rest.patch(getHandlerUrl('/spaceTabs/:id'), (req, res, ctx) => {

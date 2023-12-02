@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import api from 'shared/api';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { EMPTY_ARRAY } from 'shared/constants/common';
@@ -14,6 +14,8 @@ import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
+import { queryClient } from 'shared/api/queryClient';
+import { queries } from 'shared/api/queries';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
@@ -42,20 +44,32 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
     dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
       async (dispatch, getState) => {
         try {
-          const newTabId = await entityApi.spaceTab.create({ 
-            routes: [path || buildTabUrl({ routeName: tabNames.home })], 
-            spaceId 
-          });
-          
+          const data = queryClient.getQueryData(queries.spaceTabs.prepared().queryKey);
+
+          let preparedTabId = data?.[0];
+          if (!preparedTabId) {
+            preparedTabId = await entityApi.spaceTab.createPrepared();
+          }
           const tabs = selectActiveSpaceTabs(getState());
-          const newTabs = [...tabs, newTabId];
-          
-          entityApi.space.update(spaceId, { 
-            spaceTabs: newTabs,
-            ...navigate ? {
-              activeTabId: newTabId,
-            } : null,
-          });
+          const newTabs = [...tabs, preparedTabId];
+
+          await Promise.all([
+            entityApi.spaceTab.update(preparedTabId, { 
+              routes: [path || buildTabUrl({ routeName: tabNames.home })], 
+              spaceId,
+            }),
+            entityApi.space.update(spaceId, { 
+              spaceTabs: newTabs,
+              ...navigate ? {
+                activeTabId: preparedTabId,
+              } : null,
+            }),
+          ]);
+
+          queryClient.setQueryData(
+            queries.spaceTabs.prepared().queryKey, 
+            (old) => old ? old.filter(id => id !== preparedTabId) : []
+          );
         // eslint-disable-next-line no-empty
         } catch (err) {}
       })
@@ -170,6 +184,16 @@ export const selectActiveSpaceTabs = (state: AppState) => {
   return selectSpaceTabs(state, selectActiveSpaceId(state));
 };
 
+export const selectSortedSpaceTabs = createSelector(
+  [
+    selectActiveSpaceTabs,
+    (state: AppState) => state.entities.spaceTab
+  ], 
+  (tabs, spaceTabEntities) => {
+    return tabs.slice().sort((tabA, tabB) => (spaceTabEntities[tabA]?.pos || 0) - (spaceTabEntities[tabB]?.pos || 0));
+  });
+
+  
 export const selectActiveSpaceActiveTab = (state: AppState) => {
   return spaceTabSelector.getById(state, selectActiveSpace(state)?.activeTabId);
 };

@@ -22,8 +22,10 @@ import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
 import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
+import { usePreparedTab } from 'shared/api/hooks/usePreparedTab';
 
 function Space() {
+  usePreparedTab();
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
