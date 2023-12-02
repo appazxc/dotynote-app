@@ -1,4 +1,4 @@
-import { updateTab } from 'shared/actions/spaceTabs/updateTab';
+import { updateTab } from 'shared/actions/space/updateTab';
 import qs from 'qs';
 import { spaceTabSelector } from 'shared/selectors/entities';
 

@@ -8,7 +8,7 @@ export const activeUserSpaceTabs: SpaceTabEntity[] = [...Array(tabsCount)].map((
   spaceId: '1',
   pos: (index + 1) * 1000,
   isPinned: false,
-  routes: index % 2 ? ['/'] : [`/notes/${index + 1}`],
+  routes: index % 2 ? ['/'] : [`/n/${index + 1}`],
 }));
 
 

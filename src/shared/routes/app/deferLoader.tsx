@@ -1,3 +1,4 @@
+import { entityApi } from 'shared/api/entityApi';
 import { queries } from 'shared/api/queries';
 import { queryClient } from 'shared/api/queryClient';
 import { USER_ID } from 'shared/constants/queryParams';
@@ -15,5 +16,14 @@ export const deferLoader: RouteLoader = async ({ store }) => {
 
   if (!(activeSpaceId && userSpaceIds.includes(activeSpaceId)) || !activeSpaceId) {
     dispatch(updateActiveSpaceId(userSpaceIds[0]));
+  }
+
+  const { waitedRoute } = getState().app;
+
+  if (waitedRoute) {
+    await entityApi.spaceTab.create({
+      spaceId: activeSpaceId,
+      routes: [waitedRoute],
+    });
   }
 };

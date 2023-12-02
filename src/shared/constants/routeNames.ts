@@ -8,6 +8,7 @@ const routeNames = keymirror({
   profile: null,
   tabs: null,
   account: null,
+  redirectNote: null,
 });
 
 export type RouteName = keyof typeof routeNames;

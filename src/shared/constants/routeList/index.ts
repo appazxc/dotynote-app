@@ -15,6 +15,13 @@ const any = [
   },
 ];
 
+const redirectToApp = [
+  {
+    name: routeNames.redirectNote,
+    path: '/n/:noteId',
+  },
+];
+
 const user = [
   {
     name: routeNames.app,
@@ -49,4 +56,5 @@ export const routeList: RouteListItem[] = [
   ...any,
   ...guest.map((route) => ({ ...route, role: roles.guest })),
   ...user.map((route) => ({ ...route, role: roles.user })),
+  ...redirectToApp.map((route) => ({ ...route, role: roles.user })),
 ];

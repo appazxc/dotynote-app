@@ -8,6 +8,7 @@ const Tabs = () => import('mobile/routes/tabs');
 const Search = () => import('mobile/routes/search');
 const Profile = () => import('mobile/routes/profile');
 const Account = () => import('mobile/routes/account');
+const RedirectNote = () => import('shared/routes/redirectNote');
 
 const routeDictionary = {
   [routeNames.app]: App,
@@ -17,6 +18,7 @@ const routeDictionary = {
   [routeNames.search]: Search,
   [routeNames.profile]: Profile,
   [routeNames.account]: Account,
+  [routeNames.redirectNote]: RedirectNote,
 } as RouteDictionary;
 
 export { routeDictionary };

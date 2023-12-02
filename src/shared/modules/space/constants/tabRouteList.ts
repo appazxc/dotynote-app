@@ -14,7 +14,7 @@ export const tabList: TabListItem[] = [
   },
   {
     name: tabNames.note,
-    path: '/notes/:noteId',
+    path: '/n/:noteId',
     title: 'Note',
   },
 ];

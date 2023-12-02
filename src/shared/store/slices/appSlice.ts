@@ -28,7 +28,7 @@ type CreateSpaceTabParams = {
   fromTabId?: string, 
   path?: string, 
   spaceId: string, 
-  navigate?: boolean 
+  navigate?: boolean,
 };
 
 export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams): ThunkAction => 
@@ -115,6 +115,8 @@ type InitialState = {
   isSideOpen: boolean,
   isPageLoading: boolean,
   activeSpaceId: string | null,
+  // when user enter some link we redirect him to app and open tab with this route
+  waitedRoute: string | null,
 }
 
 const initialState: InitialState = {
@@ -122,6 +124,7 @@ const initialState: InitialState = {
   isSideOpen: false,
   isPageLoading: false,
   activeSpaceId: null,
+  waitedRoute: null,
 };
 
 export const appSlice = createSlice({
@@ -142,6 +145,12 @@ export const appSlice = createSlice({
     },
     updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
       state.activeSpaceId = payload;
+    },
+    addWaitedRoute: (state, { payload }: PayloadAction<string>) => {
+      state.waitedRoute = payload;
+    },
+    cleanWaitedRoute: (state) => {
+      state.waitedRoute = null;
     },
     toggleSide: (state) => {
       state.isSideOpen = !state.isSideOpen;
@@ -176,6 +185,8 @@ export const {
   stopPageLoading,
   updateActiveSpaceId,
   toggleSide,
+  addWaitedRoute,
+  cleanWaitedRoute,
 } = appSlice.actions;
 
 export default appSlice.reducer;
