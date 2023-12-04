@@ -3,7 +3,8 @@ import apiFactory, { Api } from "../apiFactory";
 import { getStore } from "shared/helpers/store/getStore";
 import { AppStore } from "shared/store";
 import { updateEntity } from "shared/store/slices/entitiesSlice";
-import { wait } from "shared/util/wait";
+import { selectUserId } from "shared/store/slices/authSlice";
+import { invariant } from "shared/util/invariant";
 
 export default class Essense<T> {
   api: Api;
@@ -20,6 +21,14 @@ export default class Essense<T> {
 
   get store(): AppStore {
     return getStore();
+  }
+
+  get userId(): string {
+    const userId = selectUserId(this.store.getState());
+
+    invariant(userId, 'Missing userId');
+
+    return userId;
   }
 
   async load(id: string) {
@@ -39,7 +48,6 @@ export default class Essense<T> {
 
     try {
       this.updateEntity(id, data);
-      await wait(2000);
       return await this.api.patch(`${this.path}/${id}`, data);
     } catch(e) {
       this.updateEntity(id, entity);

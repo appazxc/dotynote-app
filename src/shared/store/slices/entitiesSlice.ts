@@ -24,6 +24,28 @@ export const entitiesSlice = createSlice({
   name: 'entities',
   initialState,
   reducers: {
+    addEntity: (state, { payload }: PayloadAction<{ entityName: EntityName, data: any }>) => {
+      const { entityName, data } = payload;
+      const { id } = data;
+      if (!state[entityName]) {
+        state[entityName] = {};
+      }
+
+      const oldEntity = state[entityName][id];
+      const newEntity = data;
+
+      if (!oldEntity) {
+        state[entityName][id] = newEntity;
+        return;
+      }
+
+      if (!isEqual(oldEntity, newEntity)) {
+        state[entityName][id] = {
+          ...oldEntity,
+          ...newEntity,
+        };
+      }
+    },
     addEntities: (state, { payload }: PayloadAction<Entities>) => {
       Object.keys(payload).forEach(entityName => {
         Object.keys(payload[entityName]).forEach(entityId => {
@@ -61,10 +83,18 @@ export const entitiesSlice = createSlice({
           }
         }
       }
+    },
+    deleteEntity: (
+      state, 
+      { payload }: PayloadAction<{ id: string, type: EntityName }>
+    ) => {
+      const { id, type } = payload;
+
+      delete state[type][id];
     }
   },
 });
 
-export const { addEntities, updateEntity } = entitiesSlice.actions;
+export const { addEntities, updateEntity, addEntity, deleteEntity } = entitiesSlice.actions;
 
 export default entitiesSlice.reducer;

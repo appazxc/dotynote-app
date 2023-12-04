@@ -7,6 +7,7 @@ import identity from 'lodash/identity';
 import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import isArray from 'lodash/isArray';
+import { wait } from 'shared/util/wait';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -19,6 +20,8 @@ export type Params = {
 type Options = {
   shouldCamelize: boolean;
 };
+
+const delayMs = 2000;
 
 export type Api = {
   get<T>(
@@ -48,7 +51,7 @@ export default () => {
   });
 
   const api: Api = {
-    get(path, params = {}) {
+    async get(path, params = {}) {
       const updatedParams = mapValues(params, (value) => {
         if (isArray(value)) {
           return value.join(',');
@@ -57,6 +60,8 @@ export default () => {
         return value;
       });
 
+      await wait(delayMs);
+
       return axios
         .get(getBaseApi() + path, {
           params: pickBy(updatedParams, identity),
@@ -64,28 +69,32 @@ export default () => {
         })
         .then(response => handleResponse(response));
     },
-    post(path, body) {
+    async post(path, body) {
+      await wait(delayMs);
       return axios
         .post(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
-    patch(path, body) {
+    async patch(path, body) {
+      await wait(delayMs);
       return axios
         .patch(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
-    put(path, body) {
+    async put(path, body) {
+      await wait(delayMs);
       return axios
         .put(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
-    delete(path, params) {
+    async delete(path, params) {
+      await wait(delayMs);
       return axios
         .delete(getBaseApi() + path, {
           params,
@@ -93,7 +102,8 @@ export default () => {
         })
         .then(response => handleResponse(response));
     },
-    request(requestConfig) {
+    async request(requestConfig) {
+      await wait(delayMs);
       return axios
         .request(
           Object.assign(requestConfig, {

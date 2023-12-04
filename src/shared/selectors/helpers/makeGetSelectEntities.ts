@@ -7,6 +7,6 @@ export const makeGetSelectEntities = (entityName) => {
       (_, ids) => ids
     ],
     (entities, ids) => {
-      return ids.map(id => entities[entityName][id]);
+      return ids.map(id => entities[id]);
     });
 };

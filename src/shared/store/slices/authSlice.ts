@@ -59,4 +59,8 @@ export const selectUser = (state: AppState) => {
   return userSelector.getById(state, state.auth.userId);
 };
 
+export const selectUserId = (state: AppState) => {
+  return state.auth.userId;
+};
+
 export default authSlice.reducer;

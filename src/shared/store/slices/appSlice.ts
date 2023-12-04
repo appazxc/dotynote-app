@@ -14,8 +14,11 @@ import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
-import { queryClient } from 'shared/api/queryClient';
-import { queries } from 'shared/api/queries';
+import { addEntity, deleteEntity, updateEntity } from './entitiesSlice';
+import { entityNames } from 'shared/constants/entityNames';
+import { omit } from 'lodash';
+import { arrayMaxBy } from 'shared/util/arrayUtil';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
@@ -36,7 +39,7 @@ type CreateSpaceTabParams = {
 export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams): ThunkAction => 
   async (dispatch, getState) => {
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createSpaceTab);
-
+    
     if (isLoading) {
       return;
     }
@@ -44,34 +47,58 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
     dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
       async (dispatch, getState) => {
         try {
-          const data = queryClient.getQueryData(queries.spaceTabs.prepared().queryKey);
+          const { spaceTabs: spaceTabIds = [] } = spaceSelector.getById(getState(), spaceId) || {};
+          const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
+          const routes = [path || buildTabUrl({ routeName: tabNames.home })];
+          const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
+          const pos = maxPos + 1000;
 
-          let preparedTabId = data?.[0];
-          if (!preparedTabId) {
-            preparedTabId = await entityApi.spaceTab.createPrepared();
-          }
+          const fakeSpaceTab = entityApi.spaceTab.createFake({ spaceId, pos, routes });
+          const { id: fakeId } = fakeSpaceTab;
+
           const tabs = selectActiveSpaceTabs(getState());
-          const newTabs = [...tabs, preparedTabId];
+          const newTabs = [...tabs, fakeId];
 
-          await Promise.all([
-            entityApi.spaceTab.update(preparedTabId, { 
-              routes: [path || buildTabUrl({ routeName: tabNames.home })], 
-              spaceId,
-            }),
-            entityApi.space.update(spaceId, { 
-              spaceTabs: newTabs,
-              ...navigate ? {
-                activeTabId: preparedTabId,
-              } : null,
-            }),
-          ]);
+          const newTempSpace = { 
+            spaceTabs: newTabs,
+            ...navigate ? {
+              activeTabId: fakeId,
+            } : null,
+          };
 
-          queryClient.setQueryData(
-            queries.spaceTabs.prepared().queryKey, 
-            (old) => old ? old.filter(id => id !== preparedTabId) : []
-          );
-        // eslint-disable-next-line no-empty
-        } catch (err) {}
+          dispatch(addEntity({
+            entityName: entityNames.spaceTab,
+            data: fakeSpaceTab,
+          }));
+
+          dispatch(updateEntity({
+            id: spaceId,
+            type: entityNames.space,
+            data: newTempSpace,
+          }));
+
+          const spaceTabId = await entityApi.spaceTab.create(omit(fakeSpaceTab, 'id'));
+          
+          const { spaceTabs = [], activeTabId } = spaceSelector.getById(getState(), spaceId) || {};
+          const newSpace = { 
+            spaceTabs: spaceTabs.map(id => {
+              if (id !== fakeId) {
+                return id;
+              }
+
+              return spaceTabId;
+            }),
+            ...navigate && activeTabId === fakeId ? {
+              activeTabId: spaceTabId,
+            } : null,
+          };
+          
+          await entityApi.space.update(spaceId, newSpace);
+          dispatch(deleteEntity({ id: fakeId, type: entityNames.spaceTab }));
+          // eslint-disable-next-line no-empty
+        } catch (err) {
+          console.log('err', err);
+        }
       })
     ));
   };
