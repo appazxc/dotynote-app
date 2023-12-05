@@ -7,7 +7,7 @@ import { closeTab, selectActiveSpace, changeActiveTab } from 'shared/store/slice
 import { SpaceTabTitle } from './SpaceTabTitle';
 import { MdClose } from 'react-icons/md';
 
-export const SpaceTab = ({ id }) => {
+export const SpaceTab = React.memo(({ id }) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeSpace = useAppSelector(selectActiveSpace);
@@ -53,4 +53,4 @@ export const SpaceTab = ({ id }) => {
       <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
     </Button>
   );
-};
+});

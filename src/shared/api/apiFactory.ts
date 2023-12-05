@@ -8,6 +8,7 @@ import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import isArray from 'lodash/isArray';
 import { wait } from 'shared/util/wait';
+import config from 'shared/config';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -21,7 +22,7 @@ type Options = {
   shouldCamelize: boolean;
 };
 
-const delayMs = 2000;
+const delayMs = config.apiDelay;
 
 export type Api = {
   get<T>(

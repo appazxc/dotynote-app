@@ -28,24 +28,18 @@ function Space() {
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
   invariant(activeSpaceId, 'activeSpaceId is empty');
-
-  const { 
-    // isLoading: spaceIsLoading, 
-    isError: spaceIsError, 
-    isFetched: spaceIsFetched,
-  } = useQuery(queries.spaces.one(activeSpaceId));
-
+  
   const { 
     // isLoading: tabNotesIsLoading, 
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
   } = useQuery(queries.notes.tabNotes(activeSpaceId));
 
-  if (spaceIsError || tabNotesIsError) {
+  if (tabNotesIsError) {
     return <ErrorPage />;
   }
 
-  if (!spaceIsFetched || !tabNotesIsFetched) {
+  if (!tabNotesIsFetched) {
     return <LoadingPage />;
   }
 

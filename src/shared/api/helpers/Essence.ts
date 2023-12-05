@@ -6,7 +6,7 @@ import { updateEntity } from "shared/store/slices/entitiesSlice";
 import { selectUserId } from "shared/store/slices/authSlice";
 import { invariant } from "shared/util/invariant";
 
-export default class Essense<T> {
+export default class Essense<T extends { id?: string }> {
   api: Api;
   path: string;
   entityName: EntityName;
@@ -39,16 +39,21 @@ export default class Essense<T> {
     return await this.api.get<string[]>(`${this.path}`, filters);
   }
 
-  async update(id: string, data: Partial<T>) {
+  async update(id: string, data?: Partial<T> | null) {
     const entity = this.selector.getById(this.store.getState(), id);
-
-    if (!entity) {
+    
+    if (!entity || !data) {
       return;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: omitId, ...restData } = data;
 
     try {
       this.updateEntity(id, data);
-      return await this.api.patch(`${this.path}/${id}`, data);
+
+      if (!entity.isFake) {
+        return await this.api.patch(`${this.path}/${id}`, restData);
+      }
     } catch(e) {
       this.updateEntity(id, entity);
       console.log('error', e);

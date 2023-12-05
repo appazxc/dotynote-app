@@ -8,7 +8,6 @@ import { tabNames } from 'shared/modules/space/constants/tabNames';
 
 import { AppState, AppThunk, ThunkAction } from '..';
 import { loaderIds } from 'shared/constants/loaderIds';
-import { withAppLoader } from 'shared/modules/loaders/actions/withAppLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { entityApi } from 'shared/api/entityApi';
@@ -16,7 +15,7 @@ import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 import { addEntity, deleteEntity, updateEntity } from './entitiesSlice';
 import { entityNames } from 'shared/constants/entityNames';
-import { omit } from 'lodash';
+import { isEqual, omit } from 'lodash';
 import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
@@ -31,12 +30,12 @@ export const fetchUserSpace = (id?: string): ThunkAction<string> =>
 
 type CreateSpaceTabParams = { 
   fromTabId?: string, 
-  path?: string, 
+  route?: string, 
   spaceId: string, 
   navigate?: boolean,
 };
 
-export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams): ThunkAction => 
+export const createSpaceTab = ({ spaceId, route, navigate }: CreateSpaceTabParams): ThunkAction => 
   async (dispatch, getState) => {
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createSpaceTab);
     
@@ -44,17 +43,17 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
       return;
     }
 
-    dispatch(withLoader(loaderIds.createSpaceTab, withAppLoader(loaderIds.createSpaceTab, 
+    dispatch(withLoader(loaderIds.createSpaceTab, 
       async (dispatch, getState) => {
         try {
           const { spaceTabs: spaceTabIds = [] } = spaceSelector.getById(getState(), spaceId) || {};
           const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
-          const routes = [path || buildTabUrl({ routeName: tabNames.home })];
+          const routes = [route || buildTabUrl({ routeName: tabNames.home })];
           const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
           const pos = maxPos + 1000;
 
-          const fakeSpaceTab = entityApi.spaceTab.createFake({ spaceId, pos, routes });
-          const { id: fakeId } = fakeSpaceTab;
+          const tempSpaceTab = entityApi.spaceTab.createFake({ spaceId, pos, routes });
+          const { id: fakeId } = tempSpaceTab;
 
           const tabs = selectActiveSpaceTabs(getState());
           const newTabs = [...tabs, fakeId];
@@ -68,7 +67,7 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
 
           dispatch(addEntity({
             entityName: entityNames.spaceTab,
-            data: fakeSpaceTab,
+            data: tempSpaceTab,
           }));
 
           dispatch(updateEntity({
@@ -77,7 +76,7 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
             data: newTempSpace,
           }));
 
-          const spaceTabId = await entityApi.spaceTab.create(omit(fakeSpaceTab, 'id'));
+          const spaceTabId = await entityApi.spaceTab.create(omit(tempSpaceTab, 'id'));
           
           const { spaceTabs = [], activeTabId } = spaceSelector.getById(getState(), spaceId) || {};
           const newSpace = { 
@@ -92,6 +91,13 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
               activeTabId: spaceTabId,
             } : null,
           };
+
+
+          const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
+
+          if (!isEqual(tempSpaceTab, mayByChangedSpaceTab)) {
+            await entityApi.spaceTab.update(spaceTabId, mayByChangedSpaceTab);
+          }
           
           await entityApi.space.update(spaceId, newSpace);
           dispatch(deleteEntity({ id: fakeId, type: entityNames.spaceTab }));
@@ -99,8 +105,7 @@ export const createSpaceTab = ({ spaceId, path, navigate }: CreateSpaceTabParams
         } catch (err) {
           console.log('err', err);
         }
-      })
-    ));
+      }));
   };
 
 export const closeTab: AppThunk<string> = (tabId) => 

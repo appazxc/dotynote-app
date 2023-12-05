@@ -10,6 +10,7 @@ export const SpaceLayoutHeader = React.memo(() => {
   const spaceTabs = useAppSelector(selectSortedSpaceTabs);
   const space = useAppSelector(selectActiveSpace);
   const dispatch = useAppDispatch();
+
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 

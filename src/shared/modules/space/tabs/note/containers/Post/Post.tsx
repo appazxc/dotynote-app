@@ -4,7 +4,9 @@ import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { createSpaceTab, selectActiveSpaceId } from 'shared/store/slices/appSlice';
+import { invariant } from 'shared/util/invariant';
 
 type Props = {
   postId: string,
@@ -12,12 +14,27 @@ type Props = {
 }
 
 export const Post = React.memo(({ postId, className }: Props) => {
+  const dispatch = useAppDispatch();
+  const spaceId = useAppSelector(selectActiveSpaceId);
   const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.id));
 
+  invariant(spaceId, 'Missing spaceId');
+
   return (
     <Box>
-      <Link to={buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id }})}>
+      <Link
+        to={buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id }})}
+        onClick={(e) => {
+          if (e.metaKey) {
+            e.preventDefault();
+            dispatch(createSpaceTab({ 
+              route: buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id }}),
+              spaceId, 
+            }));
+          }
+        }}
+      >
         <Box
           className={className}
           h="80px"
@@ -27,6 +44,7 @@ export const Post = React.memo(({ postId, className }: Props) => {
           borderColor="slateDark.7"
           cursor="pointer"
           data-post-id={postId}
+          
         >
           {note?.title}
         </Box>

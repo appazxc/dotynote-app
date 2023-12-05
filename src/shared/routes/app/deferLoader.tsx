@@ -1,8 +1,12 @@
-import { entityApi } from 'shared/api/entityApi';
 import { queries } from 'shared/api/queries';
 import { queryClient } from 'shared/api/queryClient';
 import { USER_ID } from 'shared/constants/queryParams';
-import { selectActiveSpaceId, updateActiveSpaceId } from 'shared/store/slices/appSlice';
+import { 
+  cleanWaitedRoute,
+  createSpaceTab,
+  selectActiveSpaceId,
+  updateActiveSpaceId,
+} from 'shared/store/slices/appSlice';
 import { selectUser } from 'shared/store/slices/authSlice';
 import { RouteLoader } from 'shared/types/common/router';
 
@@ -20,10 +24,8 @@ export const deferLoader: RouteLoader = async ({ store }) => {
 
   const { waitedRoute } = getState().app;
 
-  if (waitedRoute) {
-    await entityApi.spaceTab.create({
-      spaceId: activeSpaceId,
-      routes: [waitedRoute],
-    });
+  if (waitedRoute && activeSpaceId) {
+    await dispatch(createSpaceTab({ route: waitedRoute, spaceId: activeSpaceId, navigate: true }));
+    dispatch(cleanWaitedRoute());
   }
 };
