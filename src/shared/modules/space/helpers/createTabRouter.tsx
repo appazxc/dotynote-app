@@ -6,7 +6,7 @@ import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice'
 
 import { Defer } from 'shared/util/router/Defer';
 import { TabsDictionary } from 'shared/types/tabs';
-import { tabList } from 'shared/modules/space/constants/tabRouteList';
+import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
 
 export type CreateRouterParams = {
   store: AppStore,
@@ -45,7 +45,7 @@ export const createTabRouter: CreateRouter = (params) => {
               element: deferLoader ?
                 <Defer element={el} loader={loaderComponent || pages.loadingPage} /> 
                 : el,
-              loader: createLoader({ loader, store, deferLoader }),
+              loader: createLoader({ loader, store, deferLoader, route }),
               errorElement: pages.errorPage,
             };
           };
@@ -70,16 +70,18 @@ type CreateLoader = (
   { 
     loader, 
     store, 
-    deferLoader
+    deferLoader,
+    route,
   }: 
   { 
     loader?: RouteLoader, 
     store: AppStore, 
-    deferLoader?: RouteLoader
+    deferLoader?: RouteLoader,
+    route: TabListItem,
   }
 ) => LoaderFunction
 
-const createLoader: CreateLoader = ({ loader, store, deferLoader }): LoaderFunction => {
+const createLoader: CreateLoader = ({ loader, store, deferLoader, route }): LoaderFunction => {
   return async (args) => {
     store.dispatch(startPageLoading());
 

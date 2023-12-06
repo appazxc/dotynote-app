@@ -5,7 +5,7 @@ export const activeUserSpace = {
   id: '1',
   name: '',
   isDefault: true,
-  sideNote: createNote('1'),
+  mainNote: createNote('1'),
   activeTabId: '1',
   spaceTabs: activeUserSpaceTabs,
 };
@@ -14,7 +14,7 @@ const createUserSpace = (id, userId) => ({
   id,
   name: `${id} userId: ${userId}`,
   isDefault: true,
-  sideNote: createNote('1'),
+  mainNote: createNote('1'),
   activeTabId: '1',
   spaceTabs: activeUserSpaceTabs,
 });

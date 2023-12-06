@@ -1,20 +1,22 @@
 import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { createSpaceTab, selectActiveSpace, selectSortedSpaceTabs, toggleSide } from 'shared/store/slices/appSlice';
+import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 import { GoDotFill } from "react-icons/go";
 import { SpaceTab } from './SpaceTab';
+import { createTab } from 'shared/actions/space/createTab';
+import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 
 export const SpaceLayoutHeader = React.memo(() => {
-  const spaceTabs = useAppSelector(selectSortedSpaceTabs);
+  const tabIds = useAppSelector(selectSortedSpaceTabs);
   const space = useAppSelector(selectActiveSpace);
   const dispatch = useAppDispatch();
 
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 
-    dispatch(createSpaceTab({ spaceId: space.id, navigate: true }));
+    dispatch(createTab({ spaceId: space.id, navigate: true }));
   }, [dispatch, space]);
 
   return (
@@ -38,7 +40,7 @@ export const SpaceLayoutHeader = React.memo(() => {
               aria-label="Side note menu"
               icon={<GoDotFill size="30" />}
               variant="outline"
-              onClick={() => dispatch(toggleSide())}
+              onClick={() => dispatch(openMainSpaceNote())}
             />
             <Box mx="2" color="gray">|</Box>
             <Box flexGrow="1" overflow="hidden">
@@ -48,7 +50,7 @@ export const SpaceLayoutHeader = React.memo(() => {
                 gap="1"
                 flexGrow="1"
               >
-                {spaceTabs.map(id => <SpaceTab key={id} id={id} />)}
+                {tabIds.map(id => <SpaceTab key={id} id={id} />)}
                 <IconButton
                   size="sm"
                   aria-label="Add"

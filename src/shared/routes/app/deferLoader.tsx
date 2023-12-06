@@ -1,9 +1,9 @@
+import { createTab } from 'shared/actions/space/createTab';
 import { queries } from 'shared/api/queries';
 import { queryClient } from 'shared/api/queryClient';
 import { USER_ID } from 'shared/constants/queryParams';
 import { 
   cleanWaitedRoute,
-  createSpaceTab,
   selectActiveSpaceId,
   updateActiveSpaceId,
 } from 'shared/store/slices/appSlice';
@@ -25,7 +25,7 @@ export const deferLoader: RouteLoader = async ({ store }) => {
   const { waitedRoute } = getState().app;
 
   if (waitedRoute && activeSpaceId) {
-    await dispatch(createSpaceTab({ route: waitedRoute, spaceId: activeSpaceId, navigate: true }));
+    await dispatch(createTab({ route: waitedRoute, spaceId: activeSpaceId, navigate: true }));
     dispatch(cleanWaitedRoute());
   }
 };

@@ -5,8 +5,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { createSpaceTab, selectActiveSpaceId } from 'shared/store/slices/appSlice';
+import { selectActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
+import { createTab } from 'shared/actions/space/createTab';
 
 type Props = {
   postId: string,
@@ -28,7 +29,7 @@ export const Post = React.memo(({ postId, className }: Props) => {
         onClick={(e) => {
           if (e.metaKey) {
             e.preventDefault();
-            dispatch(createSpaceTab({ 
+            dispatch(createTab({ 
               route: buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id }}),
               spaceId, 
             }));

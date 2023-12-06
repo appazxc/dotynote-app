@@ -13,6 +13,11 @@ export const tabList: TabListItem[] = [
     title: 'New Tab',
   },
   {
+    name: tabNames.addMainNote,
+    path: '/addMainNote',
+    title: 'Add main note',
+  },
+  {
     name: tabNames.note,
     path: '/n/:noteId',
     title: 'Note',

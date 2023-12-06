@@ -1,4 +1,4 @@
-import { Box, Center, IconButton } from '@chakra-ui/react';
+import { Box, Center, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router';
 import { CiMenuBurger } from "react-icons/ci";
@@ -6,15 +6,20 @@ import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
 import {router} from 'mobile/routes/router';
 import { routeNames } from 'shared/constants/routeNames';
 import { buildUrl } from 'shared/util/router/buildUrl';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
 
 export const NoteFooter = () => {
   const { noteId = "" } = useParams();
+  const dispatch = useAppDispatch();
+  const tabIds = useAppSelector(selectSortedSpaceTabs);
 
   const buttons = React.useMemo(() => {
     return [
       {
         label: 'home',
-        onClick: () => {},
+        onClick: () => dispatch(openMainSpaceNote()),
         icon: <GoHome size="25" />,
       },
       {
@@ -41,8 +46,8 @@ export const NoteFooter = () => {
           border="1px"
           borderColor="gray.700"
         >
-          <GoPlus />
-        </Center>,
+          {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text>: <GoPlus />}
+        </Center>
       },
       {
         label: 'account',
@@ -52,7 +57,7 @@ export const NoteFooter = () => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, []);
+  }, [dispatch, tabIds]);
 
   return (
     <Box

@@ -34,7 +34,7 @@ function Space() {
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
   } = useQuery(queries.notes.tabNotes(activeSpaceId));
-
+ 
   if (tabNotesIsError) {
     return <ErrorPage />;
   }
@@ -51,13 +51,20 @@ function Space() {
     );
   }
 
+  if (activeTab.isFake) {
+    return (
+      <SpaceLayout>
+        <ContentLoader />
+      </SpaceLayout>
+    );
+  }
+
   return (
     <TabProvider tab={activeTab}>
       <SpaceLayout>
         <SpaceTabContent activeTab={activeTab} />
       </SpaceLayout>
     </TabProvider>
-
   );
 }
 
