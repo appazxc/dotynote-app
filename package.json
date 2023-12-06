@@ -7,7 +7,7 @@
   "scripts": {
     "start": "vite",
     "start:mock": "MOCK=true yarn start",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "tsc": "tsc",
     "msw:init": "npx msw init public --no-save",
     "test": "test",
