@@ -1,0 +1,1 @@
+export { SpaceTabTitle } from './SpaceTabTitle';

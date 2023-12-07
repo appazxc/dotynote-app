@@ -1,6 +1,6 @@
 const log = console;
 
-const IS_TEST = process.env.NODE_ENV === 'test';
+const IS_TEST = import.meta.env.MODE === 'test';
 
 // Смысл в том, чтобы залогировать ошибку в любом случае
 // через наш логгер (сентри), но при этом все равно надо прервать поток выполнения,
@@ -15,7 +15,7 @@ export class InvariantError extends Error {
 }
 
 const makeInvariantError = (message: string, params?: unknown) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.MODE === 'development') {
     const paramsString = JSON.stringify(params, null, 2) || '';
 
     return new Error(`${message}: ${paramsString}`);
@@ -48,6 +48,7 @@ export function invariant<T>(
     if (!IS_TEST) {
       log.error(falsyErrorMessage, { ...(errorParams || {}), invariantStack: error.stack });
     }
+    
     throw error;
   }
 }

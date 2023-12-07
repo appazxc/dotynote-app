@@ -8,7 +8,7 @@ const fallback = { fallback: <ContentLoader /> };
 
 const Space = Loadable(() => import('mobile/modules/space'), fallback);
 
-export const Main = () => {
+export const Main = React.memo(() => {
   const isAppOpen = useAppSelector(state => state.app.isOpen);
 
   return (
@@ -17,4 +17,4 @@ export const Main = () => {
       {isAppOpen && <Space />}
     </>
   );
-};
+});

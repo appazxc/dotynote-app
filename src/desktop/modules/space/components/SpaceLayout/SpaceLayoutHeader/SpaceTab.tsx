@@ -4,7 +4,7 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { closeTab, selectActiveSpace, changeActiveTab } from 'shared/store/slices/appSlice';
 
-import { SpaceTabTitle } from './SpaceTabTitle';
+import { SpaceTabTitle } from '../../../../../../shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { MdClose } from 'react-icons/md';
 
 export const SpaceTab = React.memo(({ id }) => {

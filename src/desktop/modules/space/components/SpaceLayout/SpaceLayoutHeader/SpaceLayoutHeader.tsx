@@ -16,7 +16,7 @@ export const SpaceLayoutHeader = React.memo(() => {
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 
-    dispatch(createTab({ spaceId: space.id, navigate: true }));
+    dispatch(createTab({ spaceId: space.id, makeActive: true }));
   }, [dispatch, space]);
 
   return (

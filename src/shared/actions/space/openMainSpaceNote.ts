@@ -21,7 +21,7 @@ export const openMainSpaceNote = (): ThunkAction => async (dispatch, getState) =
   
   await dispatch(createTab({
     route,
-    navigate: true,
+    makeActive: true,
     spaceId: space.id,
   }));
 };

@@ -10,19 +10,21 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
+import { selectActiveSpaceId, selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/store';
+import { invariant } from 'shared/util/invariant';
 
 
 type CreateSpaceTabParams = { 
   fromTabId?: string, 
   route?: string, 
-  spaceId: string, 
-  navigate?: boolean,
+  spaceId?: string, 
+  makeActive?: boolean,
 };
 
-export const createTab = ({ spaceId, route, navigate }: CreateSpaceTabParams): ThunkAction => 
+export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction => 
   async (dispatch, getState) => {
+    const { spaceId: paramSpaceId, route, makeActive } = params;
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createTab);
     
     if (isLoading) {
@@ -32,11 +34,15 @@ export const createTab = ({ spaceId, route, navigate }: CreateSpaceTabParams): T
     dispatch(withLoader(loaderIds.createTab, 
       async (dispatch, getState) => {
         try {
+          const activeSpaceId = selectActiveSpaceId(getState());
+          const spaceId = paramSpaceId || activeSpaceId;
           const { spaceTabs: spaceTabIds = [] } = spaceSelector.getById(getState(), spaceId) || {};
           const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
           const routes = [route || buildTabUrl({ routeName: tabNames.home })];
           const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
           const pos = maxPos + 1000;
+
+          invariant(spaceId, 'Missing spaceId');
 
           const tempSpaceTab = entityApi.spaceTab.createFake({ spaceId, pos, routes });
           const { id: fakeId } = tempSpaceTab;
@@ -46,7 +52,7 @@ export const createTab = ({ spaceId, route, navigate }: CreateSpaceTabParams): T
 
           const newTempSpace = { 
             spaceTabs: newTabs,
-            ...navigate ? {
+            ...makeActive ? {
               activeTabId: fakeId,
             } : null,
           };
@@ -73,7 +79,7 @@ export const createTab = ({ spaceId, route, navigate }: CreateSpaceTabParams): T
 
               return spaceTabId;
             }),
-            ...navigate && activeTabId === fakeId ? {
+            ...makeActive && activeTabId === fakeId ? {
               activeTabId: spaceTabId,
             } : null,
           };

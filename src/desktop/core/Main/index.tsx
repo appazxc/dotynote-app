@@ -6,7 +6,7 @@ import { ContentLoader } from 'shared/components/ContentLoader';
 
 const fallback = { fallback: <ContentLoader /> };
 
-const App = Loadable(
+const Space = Loadable(
   () => import('desktop/modules/space'), 
   fallback
 );
@@ -17,7 +17,7 @@ function Main() {
   return (
     <>
       <Routes />
-      {isAppOpen && <App />}
+      {isAppOpen && <Space />}
     </>
   );
 }
