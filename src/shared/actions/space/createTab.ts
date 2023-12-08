@@ -1,4 +1,4 @@
-import { isEqual, omit } from 'lodash';
+import { isEqual, omit, pick } from 'lodash';
 import { entityApi } from 'shared/api/entityApi';
 import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
@@ -10,7 +10,12 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { selectActiveSpaceId, selectActiveSpaceTabs } from 'shared/store/slices/appSlice';
+import { 
+  selectActiveSpaceId,
+  selectActiveSpaceTabs,
+  selectActiveTabId,
+  updateActiveTabId
+} from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/store';
 import { invariant } from 'shared/util/invariant';
 
@@ -50,13 +55,6 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           const tabs = selectActiveSpaceTabs(getState());
           const newTabs = [...tabs, fakeId];
 
-          const newTempSpace = { 
-            spaceTabs: newTabs,
-            ...makeActive ? {
-              activeTabId: fakeId,
-            } : null,
-          };
-
           dispatch(addEntity({
             entityName: entityNames.spaceTab,
             data: tempSpaceTab,
@@ -65,12 +63,24 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           dispatch(updateEntity({
             id: spaceId,
             type: entityNames.space,
-            data: newTempSpace,
+            data: { 
+              spaceTabs: newTabs,
+            },
           }));
 
+          if (makeActive) {
+            dispatch(updateActiveTabId(fakeId));
+          }
+
           const spaceTabId = await entityApi.spaceTab.create(omit(tempSpaceTab, 'id'));
-          
-          const { spaceTabs = [], activeTabId } = spaceSelector.getById(getState(), spaceId) || {};
+          const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
+
+          const checkProps = ['routes', 'pos'];
+          if (!isEqual(pick(tempSpaceTab, checkProps), pick(mayByChangedSpaceTab, checkProps))) {
+            entityApi.spaceTab.update(spaceTabId, mayByChangedSpaceTab);
+          }
+
+          const { spaceTabs = [] } = spaceSelector.getById(getState(), spaceId) || {};
           const newSpace = { 
             spaceTabs: spaceTabs.map(id => {
               if (id !== fakeId) {
@@ -79,19 +89,15 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
               return spaceTabId;
             }),
-            ...makeActive && activeTabId === fakeId ? {
-              activeTabId: spaceTabId,
-            } : null,
           };
 
+          entityApi.space.update(spaceId, newSpace);
 
-          const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
-
-          if (!isEqual(tempSpaceTab, mayByChangedSpaceTab)) {
-            await entityApi.spaceTab.update(spaceTabId, mayByChangedSpaceTab);
+          const currentActiveTabId = selectActiveTabId(getState());
+          if (currentActiveTabId === fakeId) {
+            dispatch(updateActiveTabId(spaceTabId));
           }
-          
-          await entityApi.space.update(spaceId, newSpace);
+
           dispatch(deleteEntity({ id: fakeId, type: entityNames.spaceTab }));
           // eslint-disable-next-line no-empty
         } catch (err) {

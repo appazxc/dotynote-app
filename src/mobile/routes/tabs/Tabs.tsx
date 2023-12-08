@@ -7,11 +7,9 @@ import { useNavigate } from 'react-router';
 import { createTab } from 'shared/actions/space/createTab';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
-import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { changeActiveTab, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+import { selectSortedSpaceTabs, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 const Tab = ({ id }) => {
@@ -22,7 +20,7 @@ const Tab = ({ id }) => {
   const handleTabChange = React.useCallback(() => {
     if (!spaceTab) return;
 
-    dispatch(changeActiveTab(spaceTab.id));
+    dispatch(updateActiveTabId(spaceTab.id));
     navigate(buildUrl({ routeName: routeNames.app }));
   }, [dispatch, spaceTab, navigate]);
 

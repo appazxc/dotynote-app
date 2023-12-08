@@ -1,7 +1,7 @@
-import { HomeTab } from './HomeTab';
+import { Home } from './Home';
 
 export default function() {
   return {
-    Component: HomeTab,
+    Component: Home,
   };
 }

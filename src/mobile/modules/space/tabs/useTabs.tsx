@@ -9,7 +9,7 @@ import { tabsDictionary } from './tabsDictionary';
 import { createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
 import { LoadingTab } from './loading/LoadingTab';
 import { ErrorTab } from './error/ErrorTab';
-import { HomeTab } from './home/HomeTab';
+import { Home } from './home/Home';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -26,7 +26,7 @@ export const useTabRouter = (spaceTab: SpaceTabEntity) => {
       tabsDictionary,
       store,
       pages: {
-        notFoundPage: <HomeTab />,
+        notFoundPage: <Home />,
         errorPage: <ErrorTab />,
         loadingPage: <LoadingTab />,
       },

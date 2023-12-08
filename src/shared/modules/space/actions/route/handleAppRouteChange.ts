@@ -1,12 +1,12 @@
 import { AppThunk } from 'shared/store';
 import { RouterState } from '@remix-run/router';
-import { selectActiveSpaceActiveTab } from 'shared/store/slices/appSlice';
+import { selectActiveTab } from 'shared/store/slices/appSlice';
 import { updateTab } from 'shared/actions/space/updateTab';
 
 export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
   (dispatch, getState) => {
     const { historyAction, location, navigation } = routerState;
-    const activeTab = selectActiveSpaceActiveTab(getState());
+    const activeTab = selectActiveTab(getState());
 
     // router send two events when router change
     if (!activeTab || navigation.state !== 'idle') return;

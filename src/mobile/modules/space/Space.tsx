@@ -2,9 +2,9 @@ import React from 'react';
 import {
   RouterProvider,
 } from 'react-router-dom';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
-  selectActiveSpaceActiveTab,
+  selectActiveTab,
   selectActiveSpaceId,
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
@@ -19,22 +19,29 @@ import { queries } from 'shared/api/queries';
 import { invariant } from 'shared/util/invariant';
 import { ErrorTab } from 'mobile/modules/space/tabs/error/ErrorTab';
 import { LoadingTab } from 'mobile/modules/space/tabs/loading/LoadingTab';
-import { HomeTab } from 'mobile/modules/space/tabs/home/HomeTab';
+import { Home } from 'mobile/modules/space/tabs/home/Home';
 import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
 import { Box } from '@chakra-ui/react';
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 
 function Space() {
-  const activeTab = useAppSelector(selectActiveSpaceActiveTab);
+  const activeTab = useAppSelector(selectActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
+  const dispatch = useAppDispatch();
 
   invariant(activeSpaceId, 'activeSpaceId is empty');
 
-  const { 
-    // isLoading: tabNotesIsLoading, 
+  const {
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
   } = useQuery(queries.notes.tabNotes(activeSpaceId));
+
+  React.useEffect(() => {
+    if (!activeTab || !activeTab.routes.length) {
+      dispatch(openMainSpaceNote());
+    }
+  }, [dispatch, activeTab]);
 
   if (tabNotesIsError) {
     return <ErrorPage />;
@@ -45,11 +52,7 @@ function Space() {
   }
 
   if (!activeTab || !activeTab.routes.length) {
-    return (
-      <SpaceLayout>
-        no active tab
-      </SpaceLayout>
-    );
+    return null;
   }
 
   if (activeTab.isFake) {
@@ -87,7 +90,7 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
     activeTab,
     tabsDictionary,
     {
-      notFoundPage: <HomeTab />,
+      notFoundPage: <Home />,
       errorPage: <ErrorTab />,
       loadingPage: <LoadingTab />,
     }

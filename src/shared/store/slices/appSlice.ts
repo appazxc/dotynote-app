@@ -34,18 +34,6 @@ export const closeTab: AppThunk<string> = (tabId) =>
     });
   };
 
-
-
-export const changeActiveTab = (id: string) => async (dispatch, getState) => {
-  const activeSpaceId = selectActiveSpaceId(getState());
-
-  if (!activeSpaceId) {
-    return;
-  }
-
-  await entityApi.space.update(activeSpaceId, { activeTabId: id });
-};
-
 export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) => 
   async (dispatch, getState) => {
     const state = getState();
@@ -72,6 +60,7 @@ type InitialState = {
   isSideOpen: boolean,
   isPageLoading: boolean,
   activeSpaceId: string | null,
+  activeTabId: string | null,
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null,
 }
@@ -81,6 +70,7 @@ const initialState: InitialState = {
   isSideOpen: false,
   isPageLoading: false,
   activeSpaceId: null,
+  activeTabId: null,
   waitedRoute: null,
 };
 
@@ -102,6 +92,9 @@ export const appSlice = createSlice({
     },
     updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
       state.activeSpaceId = payload;
+    },
+    updateActiveTabId: (state, { payload }: PayloadAction<string>) => {
+      state.activeTabId = payload;
     },
     addWaitedRoute: (state, { payload }: PayloadAction<string>) => {
       state.waitedRoute = payload;
@@ -137,23 +130,45 @@ export const selectSortedSpaceTabs = createSelector(
   });
 
   
-export const selectActiveSpaceActiveTab = (state: AppState) => {
-  return spaceTabSelector.getById(state, selectActiveSpace(state)?.activeTabId);
-};
-
 export const selectActiveSpaceId = (state: AppState) => {
   return state.app.activeSpaceId;
 };
+  
+export const selectActiveTabId = (state: AppState) => {
+  return state.app.activeTabId;
+};
+
+export const selectActiveTab = createSelector(
+  [
+    (state: AppState) => state.entities.spaceTab,
+    selectActiveSpaceTabs,
+    selectActiveTabId,
+  ],
+  (spaceTabEntities, activeSpaceTabs, activeTabId) => {
+    if (!activeTabId) {
+      return null;
+    }
+
+    if (activeSpaceTabs.includes(activeTabId)) {
+      return spaceTabEntities[activeTabId] || null;
+    }
+
+    return null;
+  }
+);
+
+
 
 export const { 
   open,
   close,
   startPageLoading,
   stopPageLoading,
-  updateActiveSpaceId,
   toggleSide,
   addWaitedRoute,
   cleanWaitedRoute,
+  updateActiveSpaceId,
+  updateActiveTabId,
 } = appSlice.actions;
 
 export default appSlice.reducer;

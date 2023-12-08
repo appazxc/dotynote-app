@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import { useAppSelector } from 'shared/store/hooks';
 import {
-  selectActiveSpaceActiveTab,
+  selectActiveTab,
   selectActiveSpaceId,
 } from 'shared/store/slices/appSlice';
 import { useQuery } from '@tanstack/react-query';
@@ -24,7 +24,7 @@ import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 
 function Space() {
-  const activeTab = useAppSelector(selectActiveSpaceActiveTab);
+  const activeTab = useAppSelector(selectActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
   invariant(activeSpaceId, 'activeSpaceId is empty');

@@ -2,20 +2,20 @@ import { Button, IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { closeTab, selectActiveSpace, changeActiveTab } from 'shared/store/slices/appSlice';
+import { closeTab, updateActiveTabId, selectActiveTabId } from 'shared/store/slices/appSlice';
 
-import { SpaceTabTitle } from '../../../../../../shared/containers/SpaceTabTitle/SpaceTabTitle';
+import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { MdClose } from 'react-icons/md';
 
 export const SpaceTab = React.memo(({ id }) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
-  const activeSpace = useAppSelector(selectActiveSpace);
+  const activeTabId = useAppSelector(selectActiveTabId);
 
   const handleTabChange = React.useCallback(() => {
     if (!spaceTab) return;
 
-    dispatch(changeActiveTab(spaceTab.id));
+    dispatch(updateActiveTabId(spaceTab.id));
   }, [dispatch, spaceTab]);
 
   if (!spaceTab) {
@@ -26,7 +26,7 @@ export const SpaceTab = React.memo(({ id }) => {
     <Button
       as="div"
       size="sm"
-      variant={activeSpace?.activeTabId === id ? 'solid' : 'outline'}
+      variant={activeTabId === id ? 'solid' : 'outline'}
       alignItems="center"
       maxWidth="32"
       flexGrow='1'
