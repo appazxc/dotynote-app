@@ -15,7 +15,7 @@ const authPersistConfig = {
 const appPersistConfig = {
   key: 'app',
   storage,
-  whitelist: ['activeSpaceId'],
+  whitelist: ['activeSpaceId', 'activeTabId'],
 };
 
 const reducer = {
