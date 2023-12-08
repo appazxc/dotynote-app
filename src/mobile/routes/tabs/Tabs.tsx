@@ -1,5 +1,6 @@
 import { Box, Button, Card, Stack } from '@chakra-ui/react';
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
@@ -75,6 +76,9 @@ export const Tabs = () => {
   return (
     <Layout 
       header={renderedHeader}
+      footer={
+        <FooterNavigation isDotMenuDisabled />
+      }
     >
       <Stack p="4" gap="4">
         {tabIds.map((id) => <Tab key={id} id={id} />)}

@@ -21,6 +21,8 @@ import { ErrorTab } from 'mobile/modules/space/tabs/error/ErrorTab';
 import { LoadingTab } from 'mobile/modules/space/tabs/loading/LoadingTab';
 import { HomeTab } from 'mobile/modules/space/tabs/home/HomeTab';
 import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
+import { Box } from '@chakra-ui/react';
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveSpaceActiveTab);
@@ -53,7 +55,19 @@ function Space() {
   if (activeTab.isFake) {
     return (
       <SpaceLayout>
-        <ContentLoader />
+        <Box
+          w="full"
+          h="full"
+          display="flex"
+          flexDirection="column"
+        >
+          <Box flexGrow="1">
+            <ContentLoader />
+          </Box>
+          <Box flexShrink="0">
+            <FooterNavigation />
+          </Box>
+        </Box>
       </SpaceLayout>
     );
   }

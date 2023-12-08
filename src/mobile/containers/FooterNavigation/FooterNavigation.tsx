@@ -8,7 +8,6 @@ import { buildUrl } from 'shared/util/router/buildUrl';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
-import { useNavigate } from 'react-router';
 
 type Props = {
   isDotMenuDisabled?: boolean,
@@ -19,7 +18,6 @@ export const FooterNavigation = (props: Props) => {
   const { isDotMenuDisabled } = props;
   const dispatch = useAppDispatch();
   const tabIds = useAppSelector(selectSortedSpaceTabs);
-  const navigate = useNavigate();
 
   const buttons = React.useMemo(() => {
     return [
@@ -67,7 +65,7 @@ export const FooterNavigation = (props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, tabIds, isDotMenuDisabled, navigate]);
+  }, [dispatch, tabIds, isDotMenuDisabled]);
 
   return (
     <Box
