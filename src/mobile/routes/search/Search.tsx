@@ -3,7 +3,7 @@ import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import React from 'react';
 import { useNavigate } from 'react-router';
 
-export const SearchPage = () => {
+export const Search = () => {
   const navigate = useNavigate();
 
   return (

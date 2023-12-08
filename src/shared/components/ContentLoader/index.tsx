@@ -6,7 +6,7 @@ type Props = {
   delay?: number,
 }
 
-export const ContentLoader = ({ delay = 300 }: Props) => {
+export const ContentLoader = React.memo(({ delay = 300 }: Props) => {
   const [visible, setVisible] = React.useState(!delay);
 
   const show = () => setVisible(true);
@@ -18,4 +18,4 @@ export const ContentLoader = ({ delay = 300 }: Props) => {
       <Spinner />
     </Center>
   ): null;
-};
+});

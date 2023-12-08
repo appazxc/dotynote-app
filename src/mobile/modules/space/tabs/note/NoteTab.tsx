@@ -2,11 +2,21 @@ import React from 'react';
 import { TabLayout } from 'mobile/modules/space/components/TabLayout';
 import { NoteTabContent } from './NoteTabContent';
 import { NoteHeader } from './containers/NoteHeader';
-import { NoteFooter } from './containers/NoteFooter';
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { useParams } from 'react-router';
 
 export const NoteTab = () => {
+  const { noteId = "" } = useParams();
+
   return (
-    <TabLayout header={<NoteHeader />} footer={<NoteFooter />}>
+    <TabLayout 
+      header={<NoteHeader />} 
+      footer={(
+        <FooterNavigation
+          noteId={noteId}
+        />
+      )}
+    >
       <NoteTabContent />
     </TabLayout>
   );

@@ -1,6 +1,6 @@
 import { ContentLoader } from 'shared/components/ContentLoader';
 
-import { SearchPage } from './SearchPage';
+import { Search } from './Search';
 
 const loader = async () => {
 
@@ -12,7 +12,7 @@ const deferLoader = async () => {
 
 export default async function() {
   return {
-    Component: SearchPage,
+    Component: Search,
     loader,
     deferLoader,
     loaderComponent: <ContentLoader />,
