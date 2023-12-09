@@ -6,6 +6,7 @@ import { RouterState } from '@remix-run/router';
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { store } from 'shared/store';
 import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
+import { getRoutesMap } from './getRoutesMap';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {
@@ -22,12 +23,20 @@ export const useTabRouter = (
   const dispatch = useAppDispatch();
 
   const router = React.useMemo(() => {
-    const router = createTabRouter({
-      tabsDictionary,
-      store,
-      pages,
-      memoryRouteParams: getMemoryRouterParams(spaceTab),
-    });
+    let router;
+    const routesMap = getRoutesMap();
+    if (routesMap.get(spaceTab?.id)) {
+      router = routesMap.get(spaceTab?.id);
+    } else {
+      router = createTabRouter({
+        tabsDictionary,
+        store,
+        pages,
+        memoryRouteParams: getMemoryRouterParams(spaceTab),
+      });
+
+      routesMap.set(spaceTab?.id, router);
+    }
 
     return router;
     // updating only when the space tab is changed
@@ -43,6 +52,7 @@ export const useTabRouter = (
           callsCount++;
           return;
         }
+        console.log('action', action);
         
         callsCount++;
         dispatch(handleAppRouteChange(action));

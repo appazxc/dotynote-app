@@ -9,6 +9,8 @@ import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { entityApi } from 'shared/api/entityApi';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 import { AppState, AppThunk, ThunkAction } from '..';
+import { Device, devices } from 'shared/constants/devices';
+import { invariant } from 'shared/util/invariant';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
@@ -63,6 +65,7 @@ type InitialState = {
   activeTabId: string | null,
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null,
+  device: Device | null,
 }
 
 const initialState: InitialState = {
@@ -72,6 +75,7 @@ const initialState: InitialState = {
   activeSpaceId: null,
   activeTabId: null,
   waitedRoute: null,
+  device: null,
 };
 
 export const appSlice = createSlice({
@@ -95,6 +99,9 @@ export const appSlice = createSlice({
     },
     updateActiveTabId: (state, { payload }: PayloadAction<string>) => {
       state.activeTabId = payload;
+    },
+    updateDevice: (state, { payload }: PayloadAction<Device>) => {
+      state.device = payload;
     },
     addWaitedRoute: (state, { payload }: PayloadAction<string>) => {
       state.waitedRoute = payload;
@@ -138,6 +145,12 @@ export const selectActiveTabId = (state: AppState) => {
   return state.app.activeTabId;
 };
 
+export const selectIsMobile = (state: AppState) => {
+  invariant(state.app.device, 'Try use device before it was initialized');
+    
+  return state.app.device === devices.MOBILE;
+};
+
 export const selectActiveTab = createSelector(
   [
     (state: AppState) => state.entities.spaceTab,
@@ -169,6 +182,7 @@ export const {
   cleanWaitedRoute,
   updateActiveSpaceId,
   updateActiveTabId,
+  updateDevice,
 } = appSlice.actions;
 
 export default appSlice.reducer;

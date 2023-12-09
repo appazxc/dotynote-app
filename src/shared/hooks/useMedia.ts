@@ -1,7 +1,7 @@
 // https://github.com/streamich/react-use/blob/master/src/useMedia.ts
 import { useState, useEffect } from 'react';
 
-export function useMedia(query) {
+export function useMedia(query, cb) {
   const [state, setState] = useState<boolean | void>();
 
   useEffect(() => {
@@ -12,11 +12,16 @@ export function useMedia(query) {
         return;
       }
       setState(!!mql.matches);
+      if (cb) {
+        cb(!!mql.matches);
+      }
     };
 
     mql.addListener(onChange);
     setState(mql.matches);
-
+    if (cb) {
+      cb(mql.matches);
+    }
     return () => {
       mounted = false;
       mql.removeListener(onChange);

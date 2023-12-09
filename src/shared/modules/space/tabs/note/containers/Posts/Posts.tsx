@@ -46,7 +46,7 @@ export const Posts = ({ noteId, postId }) => {
     queryKey: ['posts', noteId, postId],
     queryFn: async ({ pageParam, queryKey }) => {
       const [,, middleId] = queryKey;
-      console.log('load', middleId);
+      // console.log('load', middleId);
       
       const { cursor, direction } = pageParam;
 
