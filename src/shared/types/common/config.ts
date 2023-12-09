@@ -3,5 +3,5 @@ export type Config = {
     query: boolean,
     redux: boolean,
   }>,
-  apiDelay: number,
+  apiDelay?: number,
 }

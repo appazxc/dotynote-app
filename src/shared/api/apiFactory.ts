@@ -61,7 +61,9 @@ export default () => {
         return value;
       });
 
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
 
       return axios
         .get(getBaseApi() + path, {
@@ -71,7 +73,9 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async post(path, body) {
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
       return axios
         .post(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -79,7 +83,9 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async patch(path, body) {
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
       return axios
         .patch(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -87,7 +93,9 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async put(path, body) {
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
       return axios
         .put(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -95,7 +103,9 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async delete(path, params) {
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
       return axios
         .delete(getBaseApi() + path, {
           params,
@@ -104,7 +114,9 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async request(requestConfig) {
-      await wait(delayMs);
+      if (delayMs) {
+        await wait(delayMs);
+      }
       return axios
         .request(
           Object.assign(requestConfig, {
