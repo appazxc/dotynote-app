@@ -1,16 +1,16 @@
 import { DefaultBodyType, rest } from 'msw';
+
+import { entityNames } from 'shared/constants/entityNames';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { wait } from 'shared/util/wait';
 
-import { me } from './stubs/user';
+import { createResponse } from './helpers/createResponse';
+import { getHandlerUrl } from './helpers/getHandlerUrl';
+import { createNote } from './stubs/note';
+import { getNotePosts } from './stubs/post';
 import { activeUserSpace, createUserSpaces } from './stubs/space';
 import { activeUserSpaceTabs, createSpaceTab } from './stubs/spaceTab';
-import { createNote } from './stubs/note';
-
-import { getHandlerUrl } from './helpers/getHandlerUrl';
-import { entityNames } from 'shared/constants/entityNames';
-import { createResponse } from './helpers/createResponse';
-import { getNotePosts } from './stubs/post';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { me } from './stubs/user';
 
 let preparedSpaceTab: SpaceTabEntity | null = createSpaceTab(null, []);
 

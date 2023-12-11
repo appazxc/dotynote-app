@@ -1,8 +1,10 @@
-import Routes from 'mobile/routes';
 import * as React from 'react';
+
+import { ContentLoader } from 'shared/components/ContentLoader';
 import Loadable from 'shared/components/Loadable';
 import { useAppSelector } from 'shared/store/hooks';
-import { ContentLoader } from 'shared/components/ContentLoader';
+
+import Routes from 'mobile/routes';
 
 const fallback = { fallback: <ContentLoader /> };
 

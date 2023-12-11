@@ -1,5 +1,7 @@
-import { Box, useTheme } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box, useTheme } from '@chakra-ui/react';
+
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
 type Props = {

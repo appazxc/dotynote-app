@@ -1,7 +1,7 @@
 import path from 'path';
 
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import vitePluginRequire from 'vite-plugin-require';
 import resolve from 'vite-plugin-resolve';

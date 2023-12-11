@@ -1,29 +1,33 @@
 import React from 'react';
+
+import { Box } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import {
   RouterProvider,
 } from 'react-router-dom';
+
+import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { queries } from 'shared/api/queries';
+import { ContentLoader } from 'shared/components/ContentLoader';
+import { TabProvider } from 'shared/modules/space/components/TabProvider';
+import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveTab,
   selectActiveSpaceId,
 } from 'shared/store/slices/appSlice';
-import { useQuery } from '@tanstack/react-query';
-
-import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
-import { ErrorPage } from 'mobile/modules/space/components/pages/ErrorPage';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { SpaceLayout } from './components/SpaceLayout/SpaceLayout';
-import { ContentLoader } from 'shared/components/ContentLoader';
-import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { queries } from 'shared/api/queries';
 import { invariant } from 'shared/util/invariant';
-import { ErrorTab } from 'mobile/modules/space/tabs/error/ErrorTab';
-import { LoadingTab } from 'mobile/modules/space/tabs/loading/LoadingTab';
-import { Home } from 'mobile/modules/space/tabs/home/Home';
-import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
-import { Box } from '@chakra-ui/react';
+
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { ErrorPage } from 'mobile/modules/space/components/pages/ErrorPage';
+
+import { ErrorTab } from 'mobile/modules/space/tabs/error/ErrorTab';
+import { Home } from 'mobile/modules/space/tabs/home/Home';
+import { LoadingTab } from 'mobile/modules/space/tabs/loading/LoadingTab';
+import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
+
+import { SpaceLayout } from './components/SpaceLayout/SpaceLayout';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);

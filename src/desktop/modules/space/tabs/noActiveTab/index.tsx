@@ -1,5 +1,5 @@
-import { NoActiveTab } from './NoActiveTab';
 import { loader } from './loader';
+import { NoActiveTab } from './NoActiveTab';
 
 export default function() {
   return {

@@ -1,8 +1,12 @@
-import { Box, Progress } from "@chakra-ui/react";
 import React from "react";
-import { SpaceLayoutHeader } from "../SpaceLayoutHeader";
-import { useAppSelector } from "shared/store/hooks";
+
+import { Box, Progress } from "@chakra-ui/react";
+
 import { useAppInProgress } from "shared/modules/loaders/loadersSlice";
+import { useAppSelector } from "shared/store/hooks";
+
+import { SpaceLayoutHeader } from "../SpaceLayoutHeader";
+
 type Props = React.PropsWithChildren<unknown>;
 
 export const SpaceLayout = ({ children }: Props) => {

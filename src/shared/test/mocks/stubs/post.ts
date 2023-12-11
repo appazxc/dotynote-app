@@ -1,4 +1,5 @@
 import { PAGE_SIZE, loadMoreDirection } from "shared/constants/requests";
+
 import { createNote } from "./note";
 
 const LAST_NOTE_CURSOR = 45;
@@ -27,7 +28,7 @@ export const getNotePosts = (noteId, cursorValue, direction) => {
 
     return ({
       id: id,
-      note: createNote(id)
+      note: createNote(id),
     });
   });
 };

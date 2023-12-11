@@ -1,15 +1,17 @@
 import React from 'react';
-import { useAppDispatch } from 'shared/store/hooks';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
 import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
-import { store } from 'shared/store';
-import { tabsDictionary } from './tabsDictionary';
 import { createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
-import { LoadingTab } from './loading/LoadingTab';
+import { store } from 'shared/store';
+import { useAppDispatch } from 'shared/store/hooks';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
 import { ErrorTab } from './error/ErrorTab';
 import { Home } from './home/Home';
+import { LoadingTab } from './loading/LoadingTab';
+import { tabsDictionary } from './tabsDictionary';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
   return {

@@ -1,12 +1,15 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import React from 'react';
-import api from 'shared/api';
-import { useIntersectionObserver } from 'usehooks-ts';
-import { Post } from '../Post';
+
 import { Stack } from '@chakra-ui/react';
-import { useScrollContext } from 'shared/components/ScrollProvider';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import throttle from 'lodash/throttle';
+import { useIntersectionObserver } from 'usehooks-ts';
+
+import api from 'shared/api';
+import { useScrollContext } from 'shared/components/ScrollProvider';
 import { loadMoreDirection, PAGE_SIZE } from 'shared/constants/requests';
+
+import { Post } from '../Post';
 
 const VISIBLE_POSTS_LENGTH = 20;
 const ROOT_MARGIN = '200px';
@@ -28,8 +31,6 @@ export const Posts = ({ noteId, postId }) => {
   const isVisibleNext = !!nextObserver?.isIntersecting;
   const [middlePostId, setMiddlePostId] = React.useState<string | null>(postId);
 
-  // console.log('queryKey', noteId, postId);
-  
   const {
     status,
     data,
@@ -54,11 +55,11 @@ export const Posts = ({ noteId, postId }) => {
         noteId, 
         { 
           cursor: cursor || middleId, 
-          direction: direction || (middleId && loadMoreDirection.AROUND) 
+          direction: direction || (middleId && loadMoreDirection.AROUND), 
         }
       );
       
-      return  res;
+      return res;
     },
     getPreviousPageParam: (page) => page.length === PAGE_SIZE && postId
       ? { cursor: page[0], direction: loadMoreDirection.PREVIOUS } 
@@ -83,7 +84,7 @@ export const Posts = ({ noteId, postId }) => {
     }
 
     const middleIndex = flatData.indexOf(middlePostId);
-    const startIndex = Math.max(0 , middleIndex - Math.floor(VISIBLE_POSTS_LENGTH / 2));
+    const startIndex = Math.max(0, middleIndex - Math.floor(VISIBLE_POSTS_LENGTH / 2));
     const endIndex = startIndex + VISIBLE_POSTS_LENGTH;
 
     return endIndex > flatData.length 

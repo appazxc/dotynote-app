@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { TabContext } from './TabContext';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
+import { TabContext } from './TabContext';
 
 type Props = {
   children: React.ReactNode,

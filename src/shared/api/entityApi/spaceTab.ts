@@ -1,6 +1,7 @@
-import { createFakeId } from "shared/util/getFakeId";
-import Essense from "../helpers/Essence";
 import { SpaceTabEntity } from "shared/types/entities/SpaceTabEntity";
+import { createFakeId } from "shared/util/getFakeId";
+
+import Essense from "../helpers/Essence";
 
 export class SpaceTabEssence extends Essense<SpaceTabEntity> {
   createFake({ pos, spaceId, routes }): SpaceTabEntity {

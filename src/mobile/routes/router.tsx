@@ -1,5 +1,5 @@
-import { createRouter } from 'shared/util/router/createRouter';
 import { store } from 'shared/store';
+import { createRouter } from 'shared/util/router/createRouter';
 
 import { routeDictionary } from './routeDictionary';
 
@@ -15,4 +15,3 @@ export const router = createRouter({
     errorPage: <Page />,
   },
 });
-

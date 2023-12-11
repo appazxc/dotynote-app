@@ -1,10 +1,11 @@
 import { EntityName } from "shared/constants/entityNames";
-import apiFactory, { Api } from "../apiFactory";
 import { getStore } from "shared/helpers/store/getStore";
 import { AppStore } from "shared/store";
-import { updateEntity } from "shared/store/slices/entitiesSlice";
 import { selectUserId } from "shared/store/slices/authSlice";
+import { updateEntity } from "shared/store/slices/entitiesSlice";
 import { invariant } from "shared/util/invariant";
+
+import apiFactory, { Api } from "../apiFactory";
 
 export default class Essense<T extends { id?: string }> {
   api: Api;

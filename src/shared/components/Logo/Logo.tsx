@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, BoxProps,  Text } from '@chakra-ui/react';
+
+import { Box, BoxProps, Text } from '@chakra-ui/react';
 
 type Props = BoxProps;
 

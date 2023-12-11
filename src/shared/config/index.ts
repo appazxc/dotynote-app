@@ -1,6 +1,6 @@
-import { Config } from 'shared/types/common/config';
 import merge from 'lodash/merge';
 
+import { Config } from 'shared/types/common/config';
 
 const getLocalConfig = () => {
   if (import.meta.env.PROD) {

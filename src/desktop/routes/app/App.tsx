@@ -1,6 +1,7 @@
 import React from 'react';
-import { open, close } from 'shared/store/slices/appSlice';
+
 import { useAppDispatch } from 'shared/store/hooks';
+import { open, close } from 'shared/store/slices/appSlice';
 
 function App() {
   const dispatch = useAppDispatch();

@@ -1,7 +1,9 @@
 import React from 'react';
-import { useScrollContext } from 'shared/components/ScrollProvider';
+
 import throttle from 'lodash/throttle';
 import { useLocation, useNavigation, useNavigationType } from 'react-router';
+
+import { useScrollContext } from 'shared/components/ScrollProvider';
 
 const scrollMap = new Map();
 

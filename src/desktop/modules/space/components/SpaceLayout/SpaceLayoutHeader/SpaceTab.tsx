@@ -1,11 +1,12 @@
-import { Button, IconButton } from '@chakra-ui/react';
 import React from 'react';
+
+import { Button, IconButton } from '@chakra-ui/react';
+import { MdClose } from 'react-icons/md';
+
+import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { closeTab, updateActiveTabId, selectActiveTabId } from 'shared/store/slices/appSlice';
-
-import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
-import { MdClose } from 'react-icons/md';
 
 export const SpaceTab = React.memo(({ id }) => {
   const dispatch = useAppDispatch();

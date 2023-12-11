@@ -27,7 +27,7 @@ const makeInvariantError = (message: string, params?: unknown) => {
 export function proxyInvariant<T>(
   value: T | undefined | null,
   falsyErrorMessage: string,
-  errorParams?: unknown,
+  errorParams?: unknown
 ): T {
   if (!value) {
     const error = makeInvariantError(falsyErrorMessage, errorParams);
@@ -41,7 +41,7 @@ export function proxyInvariant<T>(
 export function invariant<T>(
   value: T | undefined | null,
   falsyErrorMessage: string,
-  errorParams?: unknown,
+  errorParams?: unknown
 ): asserts value {
   if (!value) {
     const error = makeInvariantError(falsyErrorMessage, errorParams);
@@ -52,4 +52,3 @@ export function invariant<T>(
     throw error;
   }
 }
-

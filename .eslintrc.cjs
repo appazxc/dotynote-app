@@ -4,14 +4,66 @@ module.exports = {
     'eslint:recommended', 
     "plugin:react/recommended",
     'plugin:@typescript-eslint/recommended',
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', "@emotion"],
+  plugins: ['@typescript-eslint', "@emotion", "import"],
   root: true,
   rules: {
     indent: ['error', 2],
+    'comma-dangle': ['error', {
+      arrays: 'always-multiline',
+      objects: 'always-multiline',
+      imports: 'always-multiline',
+      exports: 'always-multiline',
+      functions: 'never',
+    }],
+    'object-curly-spacing': ['error', 'always'],
+    'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
+    'no-multi-spaces': 'error',
     semi: ['error', 'always'],
+    'import/order': [
+      'error',
+      {
+        'groups': [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+        ],
+        'newlines-between': 'always',
+        'alphabetize': {
+          'order': 'asc',
+          'caseInsensitive': true,
+        },
+        'pathGroups': [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before",
+          },
+          {
+            'pattern': 'shared/**',
+            'group': 'internal',
+            'position': 'after',
+          },
+          {
+            'pattern': 'desktop/**',
+            'group': 'internal',
+            'position': 'after',
+          },
+          {
+            'pattern': 'mobile/**',
+            'group': 'internal',
+            'position': 'after',
+          },
+          // Добавьте другие паттерны, если необходимо
+        ],
+        'pathGroupsExcludedImportTypes': ['builtin'],
+      },
+    ],
     'max-len': ["error", { "code": 120 }],
     '@typescript-eslint/no-explicit-any': 'off',
     'react/self-closing-comp': ['error', {
@@ -33,6 +85,6 @@ module.exports = {
     'react/display-name': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off'
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 };

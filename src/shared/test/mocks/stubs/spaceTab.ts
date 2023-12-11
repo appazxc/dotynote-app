@@ -11,9 +11,8 @@ export const activeUserSpaceTabs: SpaceTabEntity[] = [...Array(tabsCount)].map((
   routes: index % 2 ? ['/'] : [`/n/${index + 1}`],
 }));
 
-
 export const createSpaceTab = (spaceId: string | null, routes: string[]) => {
-  const result =  {
+  const result = {
     id: String(Math.random()),
     userId: '1',
     spaceId,

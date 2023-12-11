@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MainProviders from './components/Providers';
 import { Main } from './components/Main';
+import MainProviders from './components/Providers';
 
 export default function Core () {
   return (

@@ -1,5 +1,6 @@
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
 import loadersReducer from 'shared/modules/loaders/loadersSlice';
 
 import appReducer from './slices/appSlice';

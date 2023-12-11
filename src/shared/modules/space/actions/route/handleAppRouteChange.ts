@@ -1,7 +1,8 @@
-import { AppThunk } from 'shared/store';
 import { RouterState } from '@remix-run/router';
-import { selectActiveTab } from 'shared/store/slices/appSlice';
+
 import { updateTab } from 'shared/actions/space/updateTab';
+import { AppThunk } from 'shared/store';
+import { selectActiveTab } from 'shared/store/slices/appSlice';
 
 export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
   (dispatch, getState) => {
@@ -24,5 +25,5 @@ export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
       newRoutes.push(location.pathname + location.search);
     }
 
-    dispatch(updateTab({ id: activeTab.id, data: { routes: newRoutes }}));
+    dispatch(updateTab({ id: activeTab.id, data: { routes: newRoutes } }));
   };

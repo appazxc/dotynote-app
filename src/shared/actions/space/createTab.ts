@@ -1,24 +1,24 @@
 import { isEqual, omit, pick } from 'lodash';
+
 import { entityApi } from 'shared/api/entityApi';
 import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
-import { addEntity, deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { arrayMaxBy } from 'shared/util/arrayUtil';
-import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
+import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
+import { ThunkAction } from 'shared/store';
 import { 
   selectActiveSpaceId,
   selectActiveSpaceTabs,
   selectActiveTabId,
-  updateActiveTabId
+  updateActiveTabId,
 } from 'shared/store/slices/appSlice';
-import { ThunkAction } from 'shared/store';
+import { addEntity, deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
-
 
 type CreateSpaceTabParams = { 
   fromTabId?: string, 
@@ -99,7 +99,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }
 
           dispatch(deleteEntity({ id: fakeId, type: entityNames.spaceTab }));
-          // eslint-disable-next-line no-empty
+           
         } catch (err) {
           console.log('err', err);
         }

@@ -1,9 +1,9 @@
-import { Box, Button, Card, Stack } from '@chakra-ui/react';
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import React from 'react';
+
+import { Box, Button, Card, Stack } from '@chakra-ui/react';
 import { BsPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
+
 import { createTab } from 'shared/actions/space/createTab';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
@@ -11,6 +11,9 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectSortedSpaceTabs, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
+
+import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 
 const Tab = ({ id }) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
@@ -23,7 +26,6 @@ const Tab = ({ id }) => {
     dispatch(updateActiveTabId(spaceTab.id));
     navigate(buildUrl({ routeName: routeNames.app }));
   }, [dispatch, spaceTab, navigate]);
-
 
   if (!spaceTab) {
     return null;

@@ -1,8 +1,10 @@
+import React from 'react';
+
 import { Box } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
-import React from 'react';
+
 import api from 'shared/api';
+import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 

@@ -1,5 +1,6 @@
-import { updateTab } from 'shared/actions/space/updateTab';
 import qs from 'qs';
+
+import { updateTab } from 'shared/actions/space/updateTab';
 import { spaceTabSelector } from 'shared/selectors/entities';
 
 export const addQueryParamToTabLastRoute = (tabId, newParams) => (dispatch, getState) => {
@@ -14,9 +15,8 @@ export const addQueryParamToTabLastRoute = (tabId, newParams) => (dispatch, getS
   const newRoute = insertParam(lastRoute, newParams);
   const newRoutes = [...tab.routes.slice(0, -1), newRoute];
 
-  dispatch(updateTab({ id: tabId, data: { routes: newRoutes }}));
+  dispatch(updateTab({ id: tabId, data: { routes: newRoutes } }));
 };
-
 
 const insertParam = (route, newParams) => {
   const [path, queryString = ''] = route.split('?');
@@ -25,7 +25,7 @@ const insertParam = (route, newParams) => {
 
   const newQueryParams = qs.stringify({
     ...objParams,
-    ...newParams
+    ...newParams,
   });
   
   return `${path}?${newQueryParams}`;

@@ -1,13 +1,16 @@
-import { Box, Center, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box, Center, IconButton, Text } from '@chakra-ui/react';
 import { CiMenuBurger } from "react-icons/ci";
 import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
-import {router} from 'mobile/routes/router';
-import { routeNames } from 'shared/constants/routeNames';
-import { buildUrl } from 'shared/util/router/buildUrl';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { routeNames } from 'shared/constants/routeNames';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+import { buildUrl } from 'shared/util/router/buildUrl';
+
+import { router } from 'mobile/routes/router';
 
 type Props = {
   isDotMenuDisabled?: boolean,
@@ -45,7 +48,7 @@ export const FooterNavigation = (props: Props) => {
       {
         label: 'tabs',
         onClick: () => {
-          router.navigate(buildUrl({ routeName: routeNames.tabs}));
+          router.navigate(buildUrl({ routeName: routeNames.tabs }));
         },
         icon: <Center
           w="6"
@@ -55,12 +58,12 @@ export const FooterNavigation = (props: Props) => {
           borderColor="gray.700"
         >
           {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text>: <GoPlus />}
-        </Center>
+        </Center>,
       },
       {
         label: 'account',
         onClick: () => {
-          router.navigate(buildUrl({ routeName: routeNames.account}));
+          router.navigate(buildUrl({ routeName: routeNames.account }));
         },
         icon: <CiMenuBurger size="25" />,
       },

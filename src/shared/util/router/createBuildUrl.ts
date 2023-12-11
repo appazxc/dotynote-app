@@ -1,4 +1,5 @@
 import { generatePath } from 'react-router-dom';
+
 import { QueryParams, PathParams } from 'shared/types/common/router';
 
 export const createBuildUrl = <T extends { name: string, path: string }, K>(routeList: T[]) => {

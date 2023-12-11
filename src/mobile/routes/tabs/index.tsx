@@ -1,12 +1,12 @@
+import { loadSpacesAndMakeActive } from 'shared/actions/space/loadSpacesAndMakeActive';
 import { ContentLoader } from 'shared/components/ContentLoader';
+import { RouteLoader } from 'shared/types/common/router';
 
 import { Tabs } from './Tabs';
-import { RouteLoader } from 'shared/types/common/router';
-import { loadSpacesAndMakeActive } from 'shared/actions/space/loadSpacesAndMakeActive';
 
 const loader = async () => {};
 
-const deferLoader: RouteLoader = async ({ store: { dispatch }}) => {
+const deferLoader: RouteLoader = async ({ store: { dispatch } }) => {
   await dispatch(loadSpacesAndMakeActive());
 };
 

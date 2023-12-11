@@ -1,8 +1,9 @@
-import { Box, Button } from '@chakra-ui/react';
 import React from 'react';
 
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
+import { Box, Button } from '@chakra-ui/react';
+
 import { tabNames } from 'shared/modules/space/constants/tabNames';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 
 export const HomeTabContent = () => {
 
@@ -12,7 +13,7 @@ export const HomeTabContent = () => {
 
       <Button
         onClick={() => {
-          const url = buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: '1' }});
+          const url = buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: '1' } });
 
           console.log('url', url);
 
@@ -24,6 +25,5 @@ export const HomeTabContent = () => {
     </Box>
   );
 };
-
 
 export default HomeTabContent;

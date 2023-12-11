@@ -1,11 +1,14 @@
-import { Box, Button, Container } from '@chakra-ui/react';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
 import React from 'react';
+
+import { Box, Button, Container } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { Logo } from 'shared/components/Logo';
+
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
+import { Logo } from 'shared/components/Logo';
 import { useAppSelector } from 'shared/store/hooks';
 import { selectToken } from 'shared/store/slices/authSlice';
+
+import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 function Home() {
   const hasToken = !!useAppSelector(selectToken);

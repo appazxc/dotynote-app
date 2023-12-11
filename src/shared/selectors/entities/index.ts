@@ -1,9 +1,9 @@
 import { entityNames } from 'shared/constants/entityNames';
-import { UserEntity } from 'shared/types/entities/UserEntity';
-import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
+import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { UserEntity } from 'shared/types/entities/UserEntity';
 
 import Selector from '../helpers/Selector';
 

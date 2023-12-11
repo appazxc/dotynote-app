@@ -1,6 +1,6 @@
 import { PathMatch, matchPath } from 'react-router';
-import { tabNames } from 'shared/modules/space/constants/tabNames';
 
+import { tabNames } from 'shared/modules/space/constants/tabNames';
 import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
 
 type RouteMatch = {
@@ -19,7 +19,6 @@ export const getTabMatch = (path: string): RouteMatch | null => {
 
   return null;
 };
-
 
 export const getTabInfo = (path: string) => {
   const url = new URL(`http://example.ru${path}`);

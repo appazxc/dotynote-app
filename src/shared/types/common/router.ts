@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { LoaderFunctionArgs, LoaderFunction } from 'react-router-dom';
+
 import { RouteListItem } from 'shared/constants/routeList';
 import { RouteName } from 'shared/constants/routeNames';
 import { AppStore } from 'shared/store';
@@ -33,7 +35,6 @@ export type RouteDictionary = {
   [key in RouteName]?: () => Promise<{ default: RouteResolver }>
 };
 
-type GuardParams = { store: AppStore,  route: RouteListItem } & LoaderFunctionArgs
+type GuardParams = { store: AppStore, route: RouteListItem } & LoaderFunctionArgs
 
 export type Guard = (params: GuardParams) => Promise<Response | void>;
- 

@@ -1,7 +1,9 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom/client';
-import { initialize } from 'shared/core/actions/initializeActions';
+
 import { ColorModeScript } from '@chakra-ui/react';
+import * as ReactDOM from 'react-dom/client';
+
+import { initialize } from 'shared/core/actions/initializeActions';
 import theme from 'shared/styles/theme';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { userSelector } from 'shared/selectors/entities';
 import { AppState } from 'shared/store';
 

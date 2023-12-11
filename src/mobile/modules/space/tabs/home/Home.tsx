@@ -1,6 +1,7 @@
 import React from 'react';
-import { TabHeader, TabLayout } from 'mobile/modules/space/components/TabLayout';
+
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { TabHeader, TabLayout } from 'mobile/modules/space/components/TabLayout';
 
 export const Home = () => {
   return (

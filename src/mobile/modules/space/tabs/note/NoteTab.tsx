@@ -1,9 +1,12 @@
 import React from 'react';
-import { TabLayout } from 'mobile/modules/space/components/TabLayout';
-import { NoteTabContent } from './NoteTabContent';
-import { NoteHeader } from './containers/NoteHeader';
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+
 import { useParams } from 'react-router';
+
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { TabLayout } from 'mobile/modules/space/components/TabLayout';
+
+import { NoteHeader } from './containers/NoteHeader';
+import { NoteTabContent } from './NoteTabContent';
 
 export const NoteTab = () => {
   const { noteId = "" } = useParams();

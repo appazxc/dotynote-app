@@ -1,11 +1,12 @@
 import React from "react";
-import { queries } from "../queries";
+
 import { useQuery } from "@tanstack/react-query";
+
 import { entityApi } from "../entityApi";
+import { queries } from "../queries";
 
 export const usePreparedTab = () => {
   const { data: preparedTabs, isFetching, refetch } = useQuery(queries.spaceTabs.prepared());
-
 
   React.useEffect(() => {
     const refetchPrepared = async () => {

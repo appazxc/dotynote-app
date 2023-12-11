@@ -1,11 +1,13 @@
 import React from 'react';
-import { useAppDispatch } from 'shared/store/hooks';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
 import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
-import { store } from 'shared/store';
 import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
+import { store } from 'shared/store';
+import { useAppDispatch } from 'shared/store/hooks';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+
 import { getRoutesMap } from './getRoutesMap';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
@@ -18,7 +20,7 @@ function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
 export const useTabRouter = (
   spaceTab: SpaceTabEntity, 
   tabsDictionary: CreateRouterParams['tabsDictionary'],
-  pages: CreateRouterParams['pages'],
+  pages: CreateRouterParams['pages']
 ) => {
   const dispatch = useAppDispatch();
 

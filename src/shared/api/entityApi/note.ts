@@ -1,10 +1,10 @@
-import { spaceTabSelector } from "shared/selectors/entities";
-import Essense from "../helpers/Essence";
-import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { selectSpaceTabs } from "shared/store/slices/appSlice";
-import { getTabMatch } from "shared/modules/space/helpers/tabHelpers";
 import { tabNames } from "shared/modules/space/constants/tabNames";
+import { getTabMatch } from "shared/modules/space/helpers/tabHelpers";
+import { spaceTabSelector } from "shared/selectors/entities";
+import { selectSpaceTabs } from "shared/store/slices/appSlice";
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
+import Essense from "../helpers/Essence";
 
 export class NoteEssence extends Essense<NoteEntity> {
   async loadTabNotes(spaceId: string) {
@@ -28,6 +28,6 @@ export class NoteEssence extends Essense<NoteEntity> {
       })
       .filter(Boolean);
 
-    return this.loadList({ filters: { ids: noteIds }});
+    return this.loadList({ filters: { ids: noteIds } });
   }
 }

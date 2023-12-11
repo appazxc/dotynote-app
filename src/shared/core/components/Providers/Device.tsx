@@ -1,8 +1,10 @@
 import React from "react";
+
 import { useQuery } from '@chakra-ui/react';
-import { useMedia } from 'shared/hooks/useMedia';
-import { devices } from "shared/constants/devices";
 import { useDispatch } from "react-redux";
+
+import { devices } from "shared/constants/devices";
+import { useMedia } from 'shared/hooks/useMedia';
 import { updateDevice } from "shared/store/slices/appSlice";
 
 type Props = {

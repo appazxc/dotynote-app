@@ -1,10 +1,12 @@
-import Routes from 'desktop/routes';
 import * as React from 'react';
+
 import Loadable from 'shared/components/Loadable';
 import { useAppSelector } from 'shared/store/hooks';
 
+import Routes from 'desktop/routes';
+
 const Space = Loadable(
-  () => import('desktop/modules/space'), 
+  () => import('desktop/modules/space') 
 );
 
 function Main() {

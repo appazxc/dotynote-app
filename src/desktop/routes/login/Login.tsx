@@ -1,9 +1,12 @@
-import { Container } from '@chakra-ui/react';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
 import React from 'react';
+
+import { Container } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { Logo } from 'shared/components/Logo';
+
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
+import { Logo } from 'shared/components/Logo';
+
+import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 function Login() {
   return (

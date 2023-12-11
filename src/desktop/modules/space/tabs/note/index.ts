@@ -1,5 +1,5 @@
-import { NoteTab } from './NoteTab';
 import { loader } from './loader';
+import { NoteTab } from './NoteTab';
 
 export default function() {
   return {

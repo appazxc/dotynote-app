@@ -1,6 +1,8 @@
-import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box, BoxProps } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+
 import { Logo } from 'shared/components/Logo';
 
 type Props = {

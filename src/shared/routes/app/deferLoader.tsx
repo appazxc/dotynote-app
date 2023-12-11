@@ -2,7 +2,7 @@ import { createTab } from 'shared/actions/space/createTab';
 import { loadSpacesAndMakeActive } from 'shared/actions/space/loadSpacesAndMakeActive';
 import {
   cleanWaitedRoute,
-  selectActiveSpaceId
+  selectActiveSpaceId,
 } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/common/router';
 

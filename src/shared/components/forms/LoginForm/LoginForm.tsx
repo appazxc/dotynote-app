@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Box,
   Input,
@@ -12,19 +14,19 @@ import {
   FormHelperText,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
 import { useFormik } from 'formik';
 import { MdClose } from 'react-icons/md';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { object, string } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
+
 import { loginEmail, loginEmailWithCode } from 'shared/actions/auth';
-import { useLoaders } from 'shared/modules/loaders/hooks/useLoaders';
-import { useAppDispatch } from 'shared/store/hooks';
 import { loaderIds } from 'shared/constants/loaderIds';
-import { getApiError } from 'shared/helpers/api/getApiError';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
+import { getApiError } from 'shared/helpers/api/getApiError';
+import { useLoaders } from 'shared/modules/loaders/hooks/useLoaders';
+import { useAppDispatch } from 'shared/store/hooks';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 const schema = object({

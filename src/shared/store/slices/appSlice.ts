@@ -1,16 +1,17 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+
 import api from 'shared/api';
+import { entityApi } from 'shared/api/entityApi';
 import { EMPTY_ARRAY } from 'shared/constants/common';
+import { Device, devices } from 'shared/constants/devices';
 import { INVALID_ID } from 'shared/constants/errors';
+import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
 import { tabNames } from 'shared/modules/space/constants/tabNames';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
-
-import { entityApi } from 'shared/api/entityApi';
-import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
-import { AppState, AppThunk, ThunkAction } from '..';
-import { Device, devices } from 'shared/constants/devices';
 import { invariant } from 'shared/util/invariant';
+
+import { AppState, AppThunk, ThunkAction } from '..';
 
 export const fetchUserSpace = (id?: string): ThunkAction<string> => 
   async (dispatch, getState) => {
@@ -111,7 +112,7 @@ export const appSlice = createSlice({
     },
     toggleSide: (state) => {
       state.isSideOpen = !state.isSideOpen;
-    }
+    },
   },
 });
 
@@ -130,12 +131,11 @@ export const selectActiveSpaceTabs = (state: AppState) => {
 export const selectSortedSpaceTabs = createSelector(
   [
     selectActiveSpaceTabs,
-    (state: AppState) => state.entities.spaceTab
+    (state: AppState) => state.entities.spaceTab,
   ], 
   (tabs, spaceTabEntities) => {
     return tabs.slice().sort((tabA, tabB) => (spaceTabEntities[tabA]?.pos || 0) - (spaceTabEntities[tabB]?.pos || 0));
   });
-
   
 export const selectActiveSpaceId = (state: AppState) => {
   return state.app.activeSpaceId;
@@ -169,8 +169,6 @@ export const selectActiveTab = createSelector(
     return null;
   }
 );
-
-
 
 export const { 
   open,

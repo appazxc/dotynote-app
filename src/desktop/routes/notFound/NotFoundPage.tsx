@@ -1,7 +1,9 @@
-import { Center, Text, Link, Stack } from '@chakra-ui/react';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
 import React from 'react';
+
+import { Center, Text, Link, Stack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
+
+import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 function NotFoundPage() {
   return (

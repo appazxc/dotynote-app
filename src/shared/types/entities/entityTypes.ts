@@ -1,10 +1,10 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 
-import { UserEntity } from './UserEntity';
-import { SpaceEntity } from './SpaceEntity';
 import { NoteEntity } from './NoteEntity';
-import { SpaceTabEntity } from './SpaceTabEntity';
 import { PostEntity } from './PostEntity';
+import { SpaceEntity } from './SpaceEntity';
+import { SpaceTabEntity } from './SpaceTabEntity';
+import { UserEntity } from './UserEntity';
 
 export type EntityTypes = {
   [entityNames.user]: UserEntity,

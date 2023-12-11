@@ -1,12 +1,13 @@
-import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from 'react-router-dom';
 import * as React from 'react';
-import { AppStore } from 'shared/store';
-import { RouteLoader } from 'shared/types/common/router';
-import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 
-import { Defer } from 'shared/util/router/Defer';
-import { TabsDictionary } from 'shared/types/tabs';
+import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from 'react-router-dom';
+
 import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
+import { AppStore } from 'shared/store';
+import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
+import { RouteLoader } from 'shared/types/common/router';
+import { TabsDictionary } from 'shared/types/tabs';
+import { Defer } from 'shared/util/router/Defer';
 
 export type CreateRouterParams = {
   store: AppStore,
@@ -62,7 +63,7 @@ export const createTabRouter: CreateRouter = (params) => {
         element: pages.notFoundPage,
       },
     ],
-    memoryRouteParams,
+    memoryRouteParams
   );
 };
 

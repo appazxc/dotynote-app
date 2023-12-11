@@ -1,12 +1,15 @@
-import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+
+import { Box, IconButton } from '@chakra-ui/react';
 import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
 import { GoDotFill } from "react-icons/go";
-import { SpaceTab } from './SpaceTab';
+
 import { createTab } from 'shared/actions/space/createTab';
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+
+import { SpaceTab } from './SpaceTab';
 
 export const SpaceLayoutHeader = React.memo(() => {
   const tabIds = useAppSelector(selectSortedSpaceTabs);
@@ -29,7 +32,7 @@ export const SpaceLayoutHeader = React.memo(() => {
         alignItems="center"
         flexShrink="0"
       >
-        <Box flexGrow="1"   overflow="hidden">
+        <Box flexGrow="1" overflow="hidden">
           <Box
             display="flex"
             alignItems="center"

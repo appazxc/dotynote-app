@@ -1,5 +1,6 @@
-import { Box, IconButton } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box, IconButton } from '@chakra-ui/react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 

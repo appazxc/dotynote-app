@@ -5,7 +5,7 @@ const routesMapDesktop = new Map();
 const routesMapMobile = new Map();
 
 export const getRoutesMap = () => {
-  const {getState} = getStore();
+  const { getState } = getStore();
   const isMobile = selectIsMobile(getState());
   return isMobile ? routesMapMobile : routesMapDesktop;
 };

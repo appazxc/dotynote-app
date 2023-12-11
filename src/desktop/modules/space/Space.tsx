@@ -1,26 +1,28 @@
 import React from 'react';
+
+import { useQuery } from '@tanstack/react-query';
 import {
   RouterProvider,
 } from 'react-router-dom';
+
+import { queries } from 'shared/api/queries';
+import { ContentLoader } from 'shared/components/ContentLoader';
+import { TabProvider } from 'shared/modules/space/components/TabProvider';
+import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveTab,
   selectActiveSpaceId,
 } from 'shared/store/slices/appSlice';
-import { useQuery } from '@tanstack/react-query';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { invariant } from 'shared/util/invariant';
 
-import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { ErrorPage } from 'desktop/modules/space/components/pages/ErrorPage';
 import { LoadingPage } from 'desktop/modules/space/components/pages/LoadingPage';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
-import { ContentLoader } from 'shared/components/ContentLoader';
-import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { queries } from 'shared/api/queries';
-import { invariant } from 'shared/util/invariant';
 import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
-import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
+import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 
 function Space() {

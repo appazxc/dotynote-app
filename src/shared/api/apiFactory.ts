@@ -1,14 +1,15 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import identity from 'lodash/identity';
+import isArray from 'lodash/isArray';
+import mapValues from 'lodash/mapValues';
+import pickBy from 'lodash/pickBy';
+
+import config from 'shared/config';
+import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
-import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
-import identity from 'lodash/identity';
-import pickBy from 'lodash/pickBy';
-import mapValues from 'lodash/mapValues';
-import isArray from 'lodash/isArray';
 import { wait } from 'shared/util/wait';
-import config from 'shared/config';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any

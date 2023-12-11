@@ -1,5 +1,6 @@
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
+
 import { propToEntityMap } from './propToEntityMap';
 
 const IdSymbol = 'Id';
@@ -34,7 +35,6 @@ const getEntities = (acc, entityName, stub) => {
       return newEntity.id;
     }
 
-
     if (isArray(stubs) && isEntity(stubs[0])) {
       return stubs.map(entity => iter(acc, entityName, entity));
     }
@@ -52,6 +52,6 @@ export const createResponse = (entityName, stub, noEntities = false) => {
 
   return {
     data,
-    entities: noEntities ? {} : result
+    entities: noEntities ? {} : result,
   };
 };

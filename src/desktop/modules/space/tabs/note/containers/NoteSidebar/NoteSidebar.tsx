@@ -1,10 +1,13 @@
-import { Box, IconButton } from '@chakra-ui/react';
-import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 import React from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { PiDotsSixVerticalBold } from 'react-icons/pi';
+
+import { Box, IconButton } from '@chakra-ui/react';
 import { BsArrowLeft } from 'react-icons/bs';
+import { PiDotsSixVerticalBold } from 'react-icons/pi';
+import { useNavigate, useParams } from 'react-router';
+
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+
+import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
 export const NoteSidebar = () => {
   const { noteId = "" } = useParams();
