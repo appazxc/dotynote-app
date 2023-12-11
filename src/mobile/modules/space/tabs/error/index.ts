@@ -1,1 +1,7 @@
-export { ErrorTab as default } from './ErrorTab';
+import { Error } from './Error';
+
+export default function() {
+  return {
+    Component: Error,
+  };
+}

@@ -1,10 +1,7 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  RouterProvider,
-} from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { queries } from 'shared/api/queries';
@@ -13,21 +10,20 @@ import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
-  selectActiveTab,
   selectActiveSpaceId,
+  selectActiveTab,
 } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
 
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-import { ErrorPage } from 'mobile/modules/space/components/pages/ErrorPage';
-
-import { ErrorTab } from 'mobile/modules/space/tabs/error/ErrorTab';
-import { Home } from 'mobile/modules/space/tabs/home/Home';
-import { LoadingTab } from 'mobile/modules/space/tabs/loading/LoadingTab';
+import { Error as ErrorPage } from 'mobile/modules/space/components/pages/Error';
+import { FakeTabLoading } from 'mobile/modules/space/components/pages/FakeTabLoading';
+import { Loading as LoadingPage } from 'mobile/modules/space/components/pages/Loading';
+import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
+import { Error } from 'mobile/modules/space/tabs/error/Error';
+import { Loading } from 'mobile/modules/space/tabs/loading/Loading';
+import { NotFound } from 'mobile/modules/space/tabs/notFound/NotFound';
 import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
-
-import { SpaceLayout } from './components/SpaceLayout/SpaceLayout';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -52,7 +48,7 @@ function Space() {
   }
 
   if (!tabNotesIsFetched) {
-    return <ContentLoader />;
+    return <LoadingPage />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
@@ -61,21 +57,7 @@ function Space() {
 
   if (activeTab.isFake) {
     return (
-      <SpaceLayout>
-        <Box
-          w="full"
-          h="full"
-          display="flex"
-          flexDirection="column"
-        >
-          <Box flexGrow="1">
-            <ContentLoader />
-          </Box>
-          <Box flexShrink="0">
-            <FooterNavigation />
-          </Box>
-        </Box>
-      </SpaceLayout>
+      <FakeTabLoading />
     );
   }
 
@@ -94,9 +76,9 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
     activeTab,
     tabsDictionary,
     {
-      notFoundPage: <Home />,
-      errorPage: <ErrorTab />,
-      loadingPage: <LoadingTab />,
+      notFoundPage: <NotFound />,
+      errorPage: <Error />,
+      loadingPage: <Loading />,
     }
   );
 

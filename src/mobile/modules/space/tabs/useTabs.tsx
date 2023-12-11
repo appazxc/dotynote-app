@@ -8,9 +8,9 @@ import { store } from 'shared/store';
 import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
-import { ErrorTab } from './error/ErrorTab';
+import { ErrorTab } from './error/Error';
 import { Home } from './home/Home';
-import { LoadingTab } from './loading/LoadingTab';
+import { LoadingTab } from './loading/Loading';
 import { tabsDictionary } from './tabsDictionary';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {

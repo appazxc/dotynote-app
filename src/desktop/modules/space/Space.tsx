@@ -17,8 +17,8 @@ import {
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
 
-import { ErrorPage } from 'desktop/modules/space/components/pages/ErrorPage';
-import { LoadingPage } from 'desktop/modules/space/components/pages/LoadingPage';
+import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
+import { Loading as LoadingPage } from 'desktop/modules/space/components/pages/Loading';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
