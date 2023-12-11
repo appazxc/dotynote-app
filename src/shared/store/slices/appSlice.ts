@@ -1,62 +1,14 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import api from 'shared/api';
 import { entityApi } from 'shared/api/entityApi';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
-import { INVALID_ID } from 'shared/constants/errors';
 import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
-import { tabNames } from 'shared/modules/space/constants/tabNames';
-import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { invariant } from 'shared/util/invariant';
 
-import { AppState, AppThunk, ThunkAction } from '..';
+import { AppState, AppThunk } from '..';
 
-export const fetchUserSpace = (id?: string): ThunkAction<string> => 
-  async (dispatch, getState) => {
-    if (!id) {
-      return Promise.reject(new Error(INVALID_ID));
-    }
-
-    return await api.loadSpace(id);
-  };
-
-export const closeTab: AppThunk<string> = (tabId) => 
-  async (dispatch, getState) => {
-    const spaceTab = spaceTabSelector.getById(getState(), tabId);
-    const space = spaceSelector.getById(getState(), spaceTab?.spaceId);
-
-    if (!space || !spaceTab) {
-      return;
-    }
-
-    await entityApi.space.update(space.id, {
-      spaceTabs: space.spaceTabs.filter(id => id !== tabId),
-      ...space.activeTabId === tabId ? { activeTabId: getNextActiveTabId(space.spaceTabs, tabId) } : null,
-    });
-  };
-
-export const fetchSpaceTabsRouteNotes: AppThunk<string> = (spaceId) => 
-  async (dispatch, getState) => {
-    const state = getState();
-    const noteIds = selectSpaceTabs(state, spaceId)
-      .map(id => spaceTabSelector.getById(state, id))
-      .filter((spaceTab) => spaceTab && spaceTab.routes.length)
-      .map((spaceTab) => {
-        const { routes } = spaceTab!;
-        return getTabMatch(routes[0]);
-      })
-      .filter(match => match && match.route.name === tabNames.note)
-      .map(match => {
-
-        return match!.pathMatch.params.noteId;
-      });
-
-    await api.loadNotes({ ids: noteIds });
-
-    return [];
-  };
 
 type InitialState = {
   isOpen: boolean,
