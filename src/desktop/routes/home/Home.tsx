@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Container } from '@chakra-ui/react';
+import { Box, Button, Container, useTheme } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
@@ -12,15 +12,20 @@ import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 function Home() {
   const hasToken = !!useAppSelector(selectToken);
+  const theme = useTheme();
 
+  console.log('theme', theme);
+  
   const renderedAppButton = React.useMemo(() => {
     return (
       <Box>
         <Button
           as={Link}
           to="/app"
-          colorScheme="purple"
+          colorScheme="brand"
+          variant="solid"
           width="full"
+          // fontWeight="400"
         >
           Open App
         </Button>

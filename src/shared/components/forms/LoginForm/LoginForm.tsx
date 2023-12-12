@@ -134,7 +134,9 @@ export const LoginForm = () => {
                 )
               }
             </InputGroup>
-            {!formik.errors.email && isEmailSent && <FormHelperText>We sent verification code to your email</FormHelperText>}
+            {!formik.errors.email && isEmailSent && (
+              <FormHelperText>We sent verification code to your email</FormHelperText>
+            )}
             {!!formik.errors.email && <FormErrorMessage>{formik.errors.email}</FormErrorMessage>}
           </FormControl>
           {

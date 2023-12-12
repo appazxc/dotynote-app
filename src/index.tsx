@@ -4,7 +4,7 @@ import { ColorModeScript } from '@chakra-ui/react';
 import * as ReactDOM from 'react-dom/client';
 
 import { initialize } from 'shared/core/actions/initializeActions';
-import theme from 'shared/styles/theme';
+import theme from 'shared/theme';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import Main from './shared/core';

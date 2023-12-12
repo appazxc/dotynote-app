@@ -29,6 +29,7 @@ export const SpaceTab = React.memo(({ id }) => {
       as="div"
       size="sm"
       variant={activeTabId === id ? 'solid' : 'outline'}
+      colorScheme={activeTabId === id ? 'gray' : 'brand'}
       alignItems="center"
       maxWidth="32"
       flexGrow='1'
@@ -43,6 +44,8 @@ export const SpaceTab = React.memo(({ id }) => {
           w="5"
           minW="5"
           aria-label="close"
+          variant="ghost"
+          colorScheme='gray'
           icon={<MdClose size="13px" />}
           borderRadius="50%"
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {

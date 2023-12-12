@@ -41,6 +41,7 @@ export const SpaceLayoutHeader = React.memo(() => {
             <IconButton
               size="sm"
               aria-label="Side note menu"
+              colorScheme="brand"
               icon={<GoDotFill size="30" />}
               variant="outline"
               onClick={() => dispatch(openMainSpaceNote())}
