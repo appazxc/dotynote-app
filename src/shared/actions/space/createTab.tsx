@@ -9,7 +9,7 @@ import { tabNames } from 'shared/modules/space/constants/tabNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/store';
-import { 
+import {
   selectActiveSpaceId,
   selectActiveSpaceTabs,
   selectActiveTabId,
@@ -73,6 +73,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }
 
           const spaceTabId = await entityApi.spaceTab.create(omit(tempSpaceTab, 'id'));
+
           const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
 
           const checkProps = ['routes', 'pos'];
