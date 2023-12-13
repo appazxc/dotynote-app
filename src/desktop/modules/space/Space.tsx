@@ -85,7 +85,7 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
     <RouterProvider
       key={activeTab.id}
       router={router}
-      fallbackElement={<ContentLoader />}
+      fallbackElement={<ContentLoader text="Tab fallbackElement" />}
     />
   );
 }

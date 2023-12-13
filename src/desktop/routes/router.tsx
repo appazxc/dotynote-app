@@ -13,7 +13,7 @@ const router = createRouter({
   pages: {
     notFoundPage: <NotFoundPage />,
     errorPage: <ErrorPage />,
-    loadingPage: <ContentLoader />,
+    loadingPage: <ContentLoader text="createRouter loadingPage" />,
   },
 });
 

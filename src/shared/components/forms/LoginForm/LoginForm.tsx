@@ -155,7 +155,7 @@ export const LoginForm = () => {
           }
           <Button
             type="submit"
-            colorScheme="purple"
+            colorScheme="brand"
             width="full"
             isLoading={isLoading}
           >

@@ -25,7 +25,7 @@ export const LayoutHeader = ({ position, left, right, children }: Props) => {
   return (
     <Box
       {...rootProps}
-      background="white"
+      background="chakra-body-bg"
       display="flex"
       align="center"
       justify="space-between"

@@ -19,6 +19,7 @@ import { addEntity, deleteEntity, updateEntity } from 'shared/store/slices/entit
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
+import { toast } from 'shared/util/toast';
 
 type CreateSpaceTabParams = { 
   fromTabId?: string, 
@@ -73,7 +74,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }
 
           const spaceTabId = await entityApi.spaceTab.create(omit(tempSpaceTab, 'id'));
-
+          toast({ title: 'Space tab created' })
           const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
 
           const checkProps = ['routes', 'pos'];

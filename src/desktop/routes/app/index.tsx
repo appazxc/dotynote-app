@@ -7,6 +7,6 @@ export default async function() {
   return {
     Component: App,
     deferLoader,
-    loaderComponent: <ContentLoader />,
+    loaderComponent: <ContentLoader text="App" />,
   };
 }

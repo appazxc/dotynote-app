@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Box, IconButton } from '@chakra-ui/react';
-import { BsThreeDotsVertical, BsPlus } from 'react-icons/bs';
-import { GoDotFill } from "react-icons/go";
+import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode, useTheme } from '@chakra-ui/react';
+import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
 import { createTab } from 'shared/actions/space/createTab';
-import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+
+import { MainHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MainHeaderButton';
 
 import { SpaceTab } from './SpaceTab';
 
@@ -15,7 +15,10 @@ export const SpaceLayoutHeader = React.memo(() => {
   const tabIds = useAppSelector(selectSortedSpaceTabs);
   const space = useAppSelector(selectActiveSpace);
   const dispatch = useAppDispatch();
-
+  const { colorMode, toggleColorMode } = useColorMode();
+  const theme = useTheme();
+  console.log('theme', theme);
+  
   const handlePlusClick = React.useCallback(() => {
     if (!space) return;
 
@@ -38,14 +41,7 @@ export const SpaceLayoutHeader = React.memo(() => {
             alignItems="center"
             flexGrow="1"
           >
-            <IconButton
-              size="sm"
-              aria-label="Side note menu"
-              colorScheme="brand"
-              icon={<GoDotFill size="30" />}
-              variant="outline"
-              onClick={() => dispatch(openMainSpaceNote())}
-            />
+            <MainHeaderButton />
             <Box mx="2" color="gray">|</Box>
             <Box flexGrow="1" overflow="hidden">
               <Box
@@ -76,12 +72,25 @@ export const SpaceLayoutHeader = React.memo(() => {
           gap="2"
           flexShrink="0"
         >
-          <IconButton
-            size="sm"
-            aria-label="User menu"
-            icon={<BsThreeDotsVertical />}
-            variant="outline"
-          />
+          <Menu isLazy>
+            <MenuButton
+              as={IconButton}
+              size="sm"
+              aria-label="User menu"
+              icon={<BsThreeDotsVertical />}
+              variant="outline"
+              colorScheme="brand"
+              onContextMenu={() => {
+                console.log('here');
+              
+              }}
+            />
+            <MenuList>
+              <MenuItem onClick={toggleColorMode}>Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}</MenuItem>
+              <MenuItem>Open Closed Tab</MenuItem>
+              <MenuItem>Open File</MenuItem>
+            </MenuList>
+          </Menu>
         </Box>
       </Box>
     </>
