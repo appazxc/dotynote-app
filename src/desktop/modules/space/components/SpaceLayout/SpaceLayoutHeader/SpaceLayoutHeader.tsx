@@ -4,6 +4,9 @@ import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode, us
 import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
 import { createTab } from 'shared/actions/space/createTab';
+import { modalIds } from 'shared/constants/modalIds';
+import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
 
@@ -17,6 +20,7 @@ export const SpaceLayoutHeader = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
+  const [title, setTitle] = React.useState("Изменение цветовой темы");
   console.log('theme', theme);
   
   const handlePlusClick = React.useCallback(() => {
@@ -24,6 +28,14 @@ export const SpaceLayoutHeader = React.memo(() => {
 
     dispatch(createTab({ spaceId: space.id, makeActive: true }));
   }, [dispatch, space]);
+
+  const handleColorModeChange = React.useCallback(() => {
+    dispatch(showModal({ id: modalIds.confirm, modalKey: 'confirmColorChange' }));
+
+    setTimeout(() => {
+      setTitle('hmmm pomeniaal');
+    }, 5000);
+  }, [dispatch]);
 
   return (
     <>
@@ -86,11 +98,23 @@ export const SpaceLayoutHeader = React.memo(() => {
               }}
             />
             <MenuList>
-              <MenuItem onClick={toggleColorMode}>Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}</MenuItem>
+              <MenuItem onClick={handleColorModeChange}>
+                Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
+              </MenuItem>
               <MenuItem>Open Closed Tab</MenuItem>
               <MenuItem>Open File</MenuItem>
             </MenuList>
           </Menu>
+
+          <ConfirmModal
+            title={title}
+            modalKey="confirmColorChange"
+            description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+            onConfirm={() => {
+              dispatch(hideModal());
+              toggleColorMode();
+            }}
+          />
         </Box>
       </Box>
     </>

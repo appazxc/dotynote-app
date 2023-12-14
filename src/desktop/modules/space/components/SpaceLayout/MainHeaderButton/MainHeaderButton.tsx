@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { GoDotFill } from "react-icons/go";
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';

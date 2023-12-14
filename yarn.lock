@@ -9807,13 +9807,13 @@ react-dev-utils@^12.0.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-react-dom@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
-  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
+react-dom@18.3.0-canary-9377e1010-20230712:
+  version "18.3.0-canary-9377e1010-20230712"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.0-canary-9377e1010-20230712.tgz#0eb381d97e85acaea6a213d4b0e5c4b985bc5661"
+  integrity sha512-FO5XiviYzw54sMTz2goNvM6lyZwyEZeSa4PaJmoWAQPM2HeN3H5U6W40Ryic/xt0xz6X1egyaTCDFikLP13E1w==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.23.0"
+    scheduler "0.24.0-canary-9377e1010-20230712"
 
 react-error-overlay@^6.0.11:
   version "6.0.11"
@@ -9977,10 +9977,10 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-react@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@18.3.0-canary-9377e1010-20230712:
+  version "18.3.0-canary-9377e1010-20230712"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.0-canary-9377e1010-20230712.tgz#a564ce7886db93e6a4df59d0eb31a652cbfaf887"
+  integrity sha512-Ra5iJ5aCtpSympvD83HO4SDQIt3E9v5PpZxB7sLlCHVeJ3INPUIj++7IcJ9o8dEQnNShq/D9TzcHt7w9z+0B2g==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -10344,10 +10344,10 @@ saxes@^5.0.1:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
-  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
+scheduler@0.24.0-canary-9377e1010-20230712:
+  version "0.24.0-canary-9377e1010-20230712"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.24.0-canary-9377e1010-20230712.tgz#8f131138511279f5458ef2fffe3b71afed628306"
+  integrity sha512-q41gMmhVpNqY8Dofvbih1yroUWavo7eIi53tFUza5f4uuacC6DPUW7n9jhOT1rnKgWN9byF+Tl/ls5oRVLHnrA==
   dependencies:
     loose-envify "^1.1.0"
 
