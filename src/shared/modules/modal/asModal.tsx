@@ -5,23 +5,35 @@ import { AppDispatch } from 'shared/store';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 
+import { ModalLoader } from './ModalLoader';
 import { isTopModal } from './util/isTopModal';
 import { makeModalId } from './util/makeModalId';
 
-export type GetModalParamsType<Props extends Partial<ModalIdentity>> = 
-  (a: Props, dispatch: AppDispatch) => ModalIdentity & { loader?: () => Promise<void> };
+export type GetModalParamsType<Props extends object> = 
+  (a: Props) => ModalIdentity
 
 type HOCType<Props extends object> = 
-  (a: React.ComponentType<Omit<Props, keyof ModalIdentity>>) => React.ComponentType<Props>;
+  (a: () => Promise<{ default: React.ComponentType<Omit<Props, keyof ModalIdentity>> }>) => React.ComponentType<Props>;
 
-export default function asModal<Props extends Partial<ModalIdentity>>(
+type Loader = (dispatch: AppDispatch) => Promise<void>;
+
+type AsModalParams<Props extends object> = {
   getModalParams: GetModalParamsType<Props>,
-  Loader?: JSX.Element
-): HOCType<Props> {
-  return function (TargetComponent) {
+  loader?: Loader,
+  modalLoader?: JSX.Element | false,
+};
+
+export default function asModal<Props extends Partial<ModalIdentity>>({
+  getModalParams,
+  loader,
+  modalLoader,
+}: AsModalParams<Props>): HOCType<Props> {
+  return function (LazyTarget) {
+    const TargetComponent = React.lazy(LazyTarget);
+
     return React.memo(function Wrapper(props: Props) {
       const dispatch = useAppDispatch();
-      const { id, modalKey, loader } = getModalParams(props, dispatch);
+      const { id, modalKey } = getModalParams(props);
       const modalId = makeModalId(id, modalKey);
 
       const active = useAppSelector((state) => {
@@ -29,17 +41,12 @@ export default function asModal<Props extends Partial<ModalIdentity>>(
       });
 
       const promiseLoader = React.useMemo(() => {
-        if (!active) {
+        if (!active || !loader) {
           return null;
         }
 
-        if (loader) {
-          return loader();
-        }
-
-        return null;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [modalId, active]);
+        return loader(dispatch);
+      }, [active, dispatch]);
 
       const { 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,10 +60,15 @@ export default function asModal<Props extends Partial<ModalIdentity>>(
         return null;
       }
 
-      const fallbackComponent = Loader ? Loader : null;
+      const fallbackComponent = modalLoader 
+        ? modalLoader 
+        : modalLoader === false 
+          ? null 
+          : <ModalLoader />;
 
       return (
         <Suspense fallback={fallbackComponent}>
+          {/** @ts-ignore-error **/}
           <TargetComponent {...rest} />
           {promiseLoader && <SuspenseLoader loader={promiseLoader} />}
         </Suspense>

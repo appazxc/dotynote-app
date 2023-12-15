@@ -20,7 +20,6 @@ export const SpaceLayoutHeader = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
-  const [title, setTitle] = React.useState("Изменение цветовой темы");
   console.log('theme', theme);
   
   const handlePlusClick = React.useCallback(() => {
@@ -31,10 +30,6 @@ export const SpaceLayoutHeader = React.memo(() => {
 
   const handleColorModeChange = React.useCallback(() => {
     dispatch(showModal({ id: modalIds.confirm, modalKey: 'confirmColorChange' }));
-
-    setTimeout(() => {
-      setTitle('hmmm pomeniaal');
-    }, 5000);
   }, [dispatch]);
 
   return (
@@ -107,7 +102,7 @@ export const SpaceLayoutHeader = React.memo(() => {
           </Menu>
 
           <ConfirmModal
-            title={title}
+            title="Изменение цветовой темы"
             modalKey="confirmColorChange"
             description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
             onConfirm={() => {

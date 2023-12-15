@@ -85,6 +85,7 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    'jsx-quotes': ['error', 'prefer-double'],
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
   },
