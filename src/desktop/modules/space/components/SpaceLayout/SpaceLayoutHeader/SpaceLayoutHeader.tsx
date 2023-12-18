@@ -4,8 +4,11 @@ import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode, us
 import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
 import { createTab } from 'shared/actions/space/createTab';
+import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
+import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { showDrawer, hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
@@ -29,7 +32,10 @@ export const SpaceLayoutHeader = React.memo(() => {
   }, [dispatch, space]);
 
   const handleColorModeChange = React.useCallback(() => {
-    dispatch(showModal({ id: modalIds.confirm, modalKey: 'confirmColorChange' }));
+    dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
+  }, [dispatch]);
+  const handleDrawerOpen = React.useCallback(() => {
+    dispatch(showDrawer({ id: drawerIds.confirm }));
   }, [dispatch]);
 
   return (
@@ -96,17 +102,25 @@ export const SpaceLayoutHeader = React.memo(() => {
               <MenuItem onClick={handleColorModeChange}>
                 Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
               </MenuItem>
-              <MenuItem>Open Closed Tab</MenuItem>
+              <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
               <MenuItem>Open File</MenuItem>
             </MenuList>
           </Menu>
 
           <ConfirmModal
             title="Изменение цветовой темы"
-            modalKey="confirmColorChange"
+            extraId="confirmColorChange"
             description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
             onConfirm={() => {
               dispatch(hideModal());
+              toggleColorMode();
+            }}
+          />
+          <ConfirmDrawer
+            title="Изменение цветовой темы"
+            description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+            onConfirm={() => {
+              dispatch(hideDrawer());
               toggleColorMode();
             }}
           />

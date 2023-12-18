@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { ModalId } from 'shared/constants/modalIds';
+import { DrawerId } from 'shared/constants/drawerIds';
 
-import { makeModalId } from './util/makeModalId';
+import { makeDrawerId } from './helpers/makeDrawerId';
 
 type InitialState = {
  stack: string[],
@@ -13,20 +13,20 @@ const initialState: InitialState = {
 };
 
 export const modalSlice = createSlice({
-  name: 'modal',
+  name: 'drawer',
   initialState,
   reducers: {
-    showModal: (state, { payload }: PayloadAction<{ id: ModalId, extraId?: string | number }>) => {
+    showDrawer: (state, { payload }: PayloadAction<{ id: DrawerId, extraId?: string | number }>) => {
       const { id, extraId = '' } = payload;
 
-      state.stack.push(makeModalId(id, extraId));
+      state.stack.push(makeDrawerId(id, extraId));
     },
-    hideModal: (state) => {
+    hideDrawer: (state) => {
       state.stack = state.stack.slice(0, -1);
     },
   },
 });
 
-export const { showModal, hideModal } = modalSlice.actions;
+export const { showDrawer, hideDrawer } = modalSlice.actions;
 
 export default modalSlice.reducer;

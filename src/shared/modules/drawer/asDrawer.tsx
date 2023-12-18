@@ -4,41 +4,41 @@ import React, { Suspense } from 'react';
 // import { SuspenseLoader } from 'shared/components/SuspenseLoader';
 import { AppDispatch } from 'shared/store';
 import { useAppSelector } from 'shared/store/hooks';
-import { ModalIdentity } from 'shared/types/modal';
+import { DrawerIdentity } from 'shared/types/drawer';
 
-import { ModalLoader } from './ModalLoader';
-import { isTopModal } from './util/isTopModal';
-import { makeModalId } from './util/makeModalId';
+import { DrawerLoader } from './DrawerLoader';
+import { isTopDrawer } from './helpers/isTopDrawer';
+import { makeDrawerId } from './helpers/makeDrawerId';
 
-export type GetModalParamsType<Props extends object> = 
-  (a: Props) => ModalIdentity
+export type GetDrawerParams<Props extends object> = 
+  (a: Props) => DrawerIdentity
 
 type HOCType<Props extends object> = 
-  (a: () => Promise<{ default: React.ComponentType<Omit<Props, keyof ModalIdentity>> }>) => React.ComponentType<Props>;
+  (a: () => Promise<{ default: React.ComponentType<Omit<Props, keyof DrawerIdentity>> }>) => React.ComponentType<Props>;
 
 type Loader = (dispatch: AppDispatch) => Promise<void>;
 
-type AsModalParams<Props extends object> = {
-  getModalParams: GetModalParamsType<Props>,
+type AsDrawerParams<Props extends object> = {
+  getDrawerParams: GetDrawerParams<Props>,
   loader?: Loader,
-  modalLoader?: JSX.Element | false,
+  drawerLoader?: JSX.Element | false,
 };
 
-export default function asModal<Props extends Partial<ModalIdentity>>({
-  getModalParams,
+export default function asDrawer<Props extends Partial<DrawerIdentity>>({
+  getDrawerParams,
   // loader,
-  modalLoader,
-}: AsModalParams<Props>): HOCType<Props> {
+  drawerLoader,
+}: AsDrawerParams<Props>): HOCType<Props> {
   return function (LazyTarget) {
     const TargetComponent = React.lazy(LazyTarget);
 
     return React.memo(function Wrapper(props: Props) {
       // const dispatch = useAppDispatch();
-      const { id, extraId } = getModalParams(props);
-      const modalId = makeModalId(id, extraId);
+      const { id, extraId } = getDrawerParams(props);
+      const drawerId = makeDrawerId(id, extraId);
 
       const active = useAppSelector((state) => {
-        return isTopModal(state.modals.stack, modalId);
+        return isTopDrawer(state.drawers.stack, drawerId);
       });
 
       // const promiseLoader = React.useMemo(() => {
@@ -53,7 +53,7 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         id: omitIdKey, 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        extraId: omitExtraId, 
+        extraId: omitextraId, 
         ...rest 
       } = props;
 
@@ -61,11 +61,11 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
         return null;
       }
 
-      const fallbackComponent = modalLoader 
-        ? modalLoader 
-        : modalLoader === false 
+      const fallbackComponent = drawerLoader 
+        ? drawerLoader 
+        : drawerLoader === false 
           ? null 
-          : <ModalLoader />;
+          : <DrawerLoader />;
 
       return (
         <Suspense fallback={fallbackComponent}>

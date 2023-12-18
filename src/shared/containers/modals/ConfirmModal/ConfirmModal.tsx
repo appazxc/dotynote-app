@@ -7,7 +7,7 @@ import { Props } from './ConfirmModal.content';
 
 const getModalParams: GetModalParamsType<ModalProps<Props>> = (props) => ({
   id: modalIds.confirm,
-  modalKey: props.modalKey,
+  extraId: props.extraId,
 });
 
 export default asModal<ModalProps<Props>>({ 

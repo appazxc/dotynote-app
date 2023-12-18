@@ -1,6 +1,6 @@
 export type ModalIdentity = {
   id: string,
-  modalKey?: string | number
+  extraId?: string | number
 }
 
 export type ModalProps<Props> = Props & Partial<ModalIdentity>

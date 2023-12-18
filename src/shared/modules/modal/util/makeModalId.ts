@@ -1,3 +1,3 @@
-export const makeModalId = (id: string, modalKey: string | number = '') => {
-  return `${id}${modalKey}`;
+export const makeModalId = (id: string, extraId: string | number = '') => {
+  return `${id}${extraId}`;
 };
