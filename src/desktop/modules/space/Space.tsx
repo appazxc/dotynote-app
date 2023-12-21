@@ -19,6 +19,7 @@ import { invariant } from 'shared/util/invariant';
 
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { Loading as LoadingPage } from 'desktop/modules/space/components/pages/Loading';
+import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
@@ -47,9 +48,7 @@ function Space() {
 
   if (!activeTab || !activeTab.routes.length) {
     return (
-      <SpaceLayout>
-        no active tab
-      </SpaceLayout>
+      <NonActiveTab />
     );
   }
 

@@ -19,6 +19,7 @@ import { invariant } from 'shared/util/invariant';
 import { Error as ErrorPage } from 'mobile/modules/space/components/pages/Error';
 import { FakeTabLoading } from 'mobile/modules/space/components/pages/FakeTabLoading';
 import { Loading as LoadingPage } from 'mobile/modules/space/components/pages/Loading';
+import { NonActiveTab } from 'mobile/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
 import { Error } from 'mobile/modules/space/tabs/error/Error';
 import { Loading } from 'mobile/modules/space/tabs/loading/Loading';
@@ -28,7 +29,6 @@ import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
-  const dispatch = useAppDispatch();
 
   invariant(activeSpaceId, 'activeSpaceId is empty');
 
@@ -36,12 +36,6 @@ function Space() {
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
   } = useQuery(queries.notes.tabNotes(activeSpaceId));
-
-  React.useEffect(() => {
-    if (!activeTab || !activeTab.routes.length) {
-      dispatch(openMainSpaceNote());
-    }
-  }, [dispatch, activeTab]);
 
   if (tabNotesIsError) {
     return <ErrorPage />;
@@ -52,7 +46,7 @@ function Space() {
   }
 
   if (!activeTab || !activeTab.routes.length) {
-    return null;
+    return <NonActiveTab />;
   }
 
   if (activeTab.isFake) {

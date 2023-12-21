@@ -26,7 +26,7 @@ export const LayoutHeader = ({ children, left, right, showBackButton = true }: P
         icon={<BsArrowLeft />}
         onClick={() => navigate(-1)}
         variant="ghost"
-        colorScheme="whatsapp"
+        colorScheme="brand"
       />
     );
   }, [navigate, showBackButton]);

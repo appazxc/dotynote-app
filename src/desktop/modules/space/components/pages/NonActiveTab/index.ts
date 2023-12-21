@@ -1,0 +1,1 @@
+export { NonActiveTab } from './NonActiveTab';

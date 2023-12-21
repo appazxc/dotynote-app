@@ -15,8 +15,8 @@ export const Device = React.memo(({ children }: Props) => {
   const query = useQuery({ below: 'sm' });
   const dispatch = useDispatch();
   // standard media initialized with wrong values
-  const [isMobile, initialized] = useMedia(query, () => {
-    dispatch(updateDevice(isMobile ? devices.MOBILE : devices.DESKTOP));
+  const [, initialized] = useMedia(query, (isMobileMatch) => {
+    dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
   });
 
   if (!initialized) {

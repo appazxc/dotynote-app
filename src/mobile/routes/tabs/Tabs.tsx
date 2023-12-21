@@ -1,21 +1,23 @@
 import React from 'react';
 
-import { Box, Button, Card, Stack } from '@chakra-ui/react';
+import { Box, Button, Card, IconButton, Stack } from '@chakra-ui/react';
 import { BsPlus } from 'react-icons/bs';
+import { MdClose } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 
+import { closeTab } from 'shared/actions/space/closeTab';
 import { createTab } from 'shared/actions/space/createTab';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectSortedSpaceTabs, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { selectActiveTabId, selectSortedSpaceTabs, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 
-const Tab = ({ id }) => {
+const Tab = ({ id, isActive }) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,8 +39,25 @@ const Tab = ({ id }) => {
       py="2"
       onClick={handleTabChange}
       cursor="pointer"
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+      gap="2"
+      variant={isActive ? "filled" : "outline"}
     >
-      <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+      <Box overflow="hidden">
+        <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+      </Box>
+      <IconButton
+        icon={<MdClose /> }
+        aria-label="close"
+        size="sm"
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          event.stopPropagation();
+          dispatch(closeTab(id));
+        }}
+      />
     </Card>
   );
 };
@@ -47,6 +66,7 @@ export const Tabs = () => {
   const tabIds = useAppSelector(selectSortedSpaceTabs);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const activeTabId = useAppSelector(selectActiveTabId);
 
   const renderedHeader = React.useMemo(() => {
     const rightSide = (
@@ -81,7 +101,13 @@ export const Tabs = () => {
       }
     >
       <Stack p="4" gap="4">
-        {tabIds.map((id) => <Tab key={id} id={id} />)}
+        {tabIds.map((id) => (
+          <Tab
+            key={id}
+            id={id}
+            isActive={id === activeTabId}
+          />
+        ))}
       </Stack>
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 
 import api from 'shared/api';
@@ -40,6 +40,10 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
   }, [match, isNoteTab, isLoading, note]);
 
   return (
-    <Box display="block" overflow="hidden">{title}</Box>
+    <Text
+      noOfLines={1}
+    >
+      {title}
+    </Text>
   );
 });

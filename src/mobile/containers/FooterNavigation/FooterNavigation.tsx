@@ -86,7 +86,7 @@ export const FooterNavigation = (props: Props) => {
           icon={button.icon}
           onClick={button.onClick}
           variant="ghost"
-          colorScheme="whatsapp"
+          colorScheme="brand"
           isDisabled={button.isDisabled}
         />
       ))}

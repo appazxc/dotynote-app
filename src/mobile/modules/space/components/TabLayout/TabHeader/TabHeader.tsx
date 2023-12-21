@@ -29,7 +29,7 @@ export const TabHeader = ({ children, left, right, showBackButton = true }: Prop
         icon={<BsArrowLeft />}
         onClick={() => navigate(-1)}
         variant="ghost"
-        colorScheme="whatsapp"
+        colorScheme="brand"
       />
     );
   }, [tab.routes.length, navigate, showBackButton]);

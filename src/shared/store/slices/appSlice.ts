@@ -1,14 +1,11 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { entityApi } from 'shared/api/entityApi';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
-import { getNextActiveTabId } from 'shared/helpers/space/spaceTabsHelpers';
-import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
+import { spaceSelector } from 'shared/selectors/entities';
 import { invariant } from 'shared/util/invariant';
 
-import { AppState, AppThunk } from '..';
-
+import { AppState } from '..';
 
 type InitialState = {
   isOpen: boolean,
@@ -50,7 +47,7 @@ export const appSlice = createSlice({
     updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
       state.activeSpaceId = payload;
     },
-    updateActiveTabId: (state, { payload }: PayloadAction<string>) => {
+    updateActiveTabId: (state, { payload }: PayloadAction<string | null>) => {
       state.activeTabId = payload;
     },
     updateDevice: (state, { payload }: PayloadAction<Device>) => {
