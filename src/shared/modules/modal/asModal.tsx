@@ -7,7 +7,6 @@ import { useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 
 import { ModalLoader } from './ModalLoader';
-import { isTopModal } from './util/isTopModal';
 import { makeModalId } from './util/makeModalId';
 
 export type GetModalParamsType<Props extends object> = 

@@ -5,11 +5,14 @@ import { CiMenuBurger } from "react-icons/ci";
 import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { drawerIds } from 'shared/constants/drawerIds';
 import { routeNames } from 'shared/constants/routeNames';
+import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
+import { DotNoteMenuDrawer } from 'mobile/containers/drawers/DotNoteMenuDrawer';
 import { router } from 'mobile/routes/router';
 
 type Props = {
@@ -41,7 +44,9 @@ export const FooterNavigation = (props: Props) => {
       },
       {
         label: 'menu',
-        onClick: () => {},
+        onClick: () => {
+          dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
+        },
         icon: <GoDotFill size="35" />,
         isDisabled: isDotMenuDisabled,
       },
@@ -71,25 +76,28 @@ export const FooterNavigation = (props: Props) => {
   }, [dispatch, tabIds, isDotMenuDisabled]);
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      flexWrap="nowrap"
-      justifyContent="space-between"
-      px="2"
-    >
-      {buttons.map((button) => (
-        <IconButton
-          key={button.label}
-          size="md"
-          aria-label={button.label}
-          icon={button.icon}
-          onClick={button.onClick}
-          variant="ghost"
-          colorScheme="brand"
-          isDisabled={button.isDisabled}
-        />
-      ))}
-    </Box>
+    <>
+      <Box
+        display="flex"
+        alignItems="center"
+        flexWrap="nowrap"
+        justifyContent="space-between"
+        px="2"
+      >
+        {buttons.map((button) => (
+          <IconButton
+            key={button.label}
+            size="md"
+            aria-label={button.label}
+            icon={button.icon}
+            onClick={button.onClick}
+            variant="ghost"
+            colorScheme="brand"
+            isDisabled={button.isDisabled}
+          />
+        ))}
+      </Box>
+      <DotNoteMenuDrawer />
+    </>
   );
 };
