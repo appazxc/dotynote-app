@@ -8,6 +8,7 @@ import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { InfoModal } from 'shared/containers/modals/InfoModal';
 import { showDrawer, hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -109,13 +110,14 @@ export const SpaceLayoutHeader = React.memo(() => {
 
           <ConfirmModal
             title="Изменение цветовой темы"
-            extraId="confirmColorChange"
             description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+            extraId="confirmColorChange"
             onConfirm={() => {
               dispatch(hideModal());
               toggleColorMode();
             }}
           />
+          
           <ConfirmDrawer
             title="Изменение цветовой темы"
             description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}

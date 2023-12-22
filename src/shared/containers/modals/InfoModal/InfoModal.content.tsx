@@ -5,54 +5,53 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
 
-import { modalIds } from 'shared/constants/modalIds';
-import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
   title: string,
   description: string,
-  onConfirm: () => void,
 }
 
-const ConfirmModal = (props: Props) => {
-  const { title, description, onConfirm } = props;
+const InfoModal = (props: Props) => {
+  const { title, description } = props;
   const dispatch = useAppDispatch();
   
   return (
     <Modal
       isCentered
       isOpen
+      size="xs"
       onClose={() => dispatch(hideModal())}
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
+        <ModalHeader pb="1">{title}</ModalHeader>
         <ModalBody>
           {description}
-
-          <Button onClick={() => dispatch(showModal({ id: modalIds.info }))}>Open info modal</Button>
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter
+          p="0"
+          borderTop="1px solid"
+          borderColor="gray.100"
+          mt="4"
+        >
           <Button
+            width="full"
             colorScheme="brand"
             variant="ghost"
-            mr={3}
             onClick={() => dispatch(hideModal())}
           >
-              Close
+            Ok
           </Button>
-          <Button colorScheme="brand" onClick={onConfirm}>Confirm</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default ConfirmModal;
+export default InfoModal;

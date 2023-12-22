@@ -1,14 +1,12 @@
-import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 
-import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { queries } from 'shared/api/queries';
 import { ContentLoader } from 'shared/components/ContentLoader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveSpaceId,
   selectActiveTab,

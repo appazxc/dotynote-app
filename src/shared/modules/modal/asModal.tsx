@@ -38,7 +38,7 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
       const modalId = makeModalId(id, extraId);
 
       const active = useAppSelector((state) => {
-        return isTopModal(state.modals.stack, modalId);
+        return state.modals.stack.includes(modalId);
       });
 
       // const promiseLoader = React.useMemo(() => {

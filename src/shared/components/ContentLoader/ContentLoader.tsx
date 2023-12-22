@@ -12,7 +12,11 @@ type Props = {
 export const ContentLoader = React.memo(({ delay = 300, text }: Props) => {
   return (
     <Wait delay={delay}>
-      <Center w="full" h="full">
+      <Center
+        w="full"
+        h="full"
+        background="red"
+      >
         <Spinner />
         {text}
       </Center>
