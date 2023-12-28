@@ -25,7 +25,7 @@ export const TabLayout = ({ children, leftSide }: Props) => {
         {(ref) => (
           <Box
             ref={ref}
-            bg="red.100"
+            // bg="red.100"
             flexGrow="1"
             h="full"
             overflowX="hidden"

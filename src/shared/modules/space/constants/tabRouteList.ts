@@ -10,7 +10,7 @@ export const tabList: TabListItem[] = [
   {
     name: tabNames.home,
     path: '/',
-    title: 'New Tab',
+    title: 'New tab',
   },
   {
     name: tabNames.addMainNote,

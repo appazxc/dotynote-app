@@ -2,7 +2,7 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerOverlay
+  DrawerOverlay,
 } from '@chakra-ui/react';
 
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
