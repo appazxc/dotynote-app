@@ -15,22 +15,6 @@ import { me } from './stubs/user';
 let preparedSpaceTab: SpaceTabEntity | null = createSpaceTab(null, []);
 
 export const handlers = [
-  rest.post(getHandlerUrl('/auth/send-code-email'), async (req, res, ctx) => {
-    const { email } = await req.json<{ email: string }>();
-
-    return res(ctx.status(200));
-  }),
-
-  rest.post(getHandlerUrl('/auth/login-email'), async (req, res, ctx) => {
-    const { email, code } = await req.json<{ email: string, code: string }>();
-
-    return res(
-      ctx.json({
-        token: 'tokenId',
-      })
-    );
-  }),
-
   rest.get(getHandlerUrl('/users/me'), (req, res, ctx) => {
     return res(ctx.json(
       createResponse(entityNames.user, me)
