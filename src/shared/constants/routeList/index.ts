@@ -43,6 +43,10 @@ const user = [
     name: routeNames.account,
     path: '/account',
   },
+  {
+    name: routeNames.spaces,
+    path: '/spaces',
+  },
 ];
 
 const guest = [

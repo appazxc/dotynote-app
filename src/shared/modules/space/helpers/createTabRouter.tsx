@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from 'react-router-dom';
 
+import { Defer } from 'shared/components/Defer/Defer';
 import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
 import { AppStore } from 'shared/store';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/common/router';
 import { TabsDictionary } from 'shared/types/tabs';
-import { Defer } from 'shared/util/router/Defer';
 
 export type CreateRouterParams = {
   store: AppStore,

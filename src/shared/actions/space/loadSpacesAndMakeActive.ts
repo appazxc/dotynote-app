@@ -5,7 +5,6 @@ import { hour } from "shared/constants/time";
 import { ThunkAction } from "shared/store";
 import { selectActiveSpaceId, updateActiveSpaceId } from "shared/store/slices/appSlice";
 import { selectUser } from "shared/store/slices/authSlice";
-import { invariant } from "shared/util/invariant";
 
 export const loadSpacesAndMakeActive = (): ThunkAction => async (dispatch, getState) => {
   const activeSpaceId = selectActiveSpaceId(getState());
@@ -16,9 +15,7 @@ export const loadSpacesAndMakeActive = (): ThunkAction => async (dispatch, getSt
     staleTime: hour, 
   });
   
-  invariant(userSpaceIds.length, 'Missing user spaces');
-
-  if (!(activeSpaceId && userSpaceIds.includes(activeSpaceId)) || !activeSpaceId) {
+  if (userSpaceIds.length && !activeSpaceId && userSpaceIds.includes(activeSpaceId as string)) {
     dispatch(updateActiveSpaceId(userSpaceIds[0]));
   }
 };

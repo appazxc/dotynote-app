@@ -7,7 +7,7 @@ import { Tabs } from './Tabs';
 const loader = async () => {};
 
 const deferLoader: RouteLoader = async ({ store: { dispatch } }) => {
-  await dispatch(loadSpacesAndMakeActive());
+  return await dispatch(loadSpacesAndMakeActive());
 };
 
 export default async function() {

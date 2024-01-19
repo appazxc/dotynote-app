@@ -16,10 +16,6 @@ const createRoutes = (api: Api) => {
       return api.post('/auth/login-email', data);
     },
 
-    async loadMe(): Promise<{ name: string, id: string }> {
-      return api.get('/users/me');
-    },
-
     async loadSpace(id: string): Promise<string> {
       return api.get(`/spaces/${id}`);
     },
