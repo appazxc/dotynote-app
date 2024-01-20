@@ -86,6 +86,9 @@ module.exports = {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'jsx-quotes': ['error', 'prefer-double'],
+    'react/jsx-tag-spacing': ['error', {
+      "beforeClosing": "never",
+    }],
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
   },

@@ -10,9 +10,9 @@ type Props = {
   left?: React.ReactNode,
   right?: React.ReactNode,
   children?: React.ReactNode,
-}
+} & Omit<BoxProps, 'children' | 'left' | 'right'>
 
-export const LayoutHeader = ({ position, left, right, children }: Props) => {
+export const LayoutHeader = ({ position, left, right, children, ...boxProps }: Props) => {
   const rootProps: BoxProps = position === 'absolute'
     ? {
       position: 'absolute',
@@ -27,8 +27,9 @@ export const LayoutHeader = ({ position, left, right, children }: Props) => {
       {...rootProps}
       background="chakra-body-bg"
       display="flex"
-      align="center"
-      justify="space-between"
+      alignItems="center"
+      justifyContent="space-between"
+      {...boxProps}
     >
       {left && <Box>{left}</Box>}
       {children && <Box>{children}</Box>}

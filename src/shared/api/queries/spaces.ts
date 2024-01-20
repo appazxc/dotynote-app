@@ -11,9 +11,9 @@ export const one = (id: string) => {
   });
 };
 
-export const list = (filters) => {
+export const list = (filters = {}) => {
   return queryOptions({
-    queryKey: ['spaces', filters],
+    queryKey: ['userSpaces', filters],
     queryFn: () => {
       return entityApi.space.loadList({ filters });
     },
