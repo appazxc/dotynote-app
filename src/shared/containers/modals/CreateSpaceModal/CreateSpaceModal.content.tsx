@@ -7,12 +7,13 @@ import {
   ModalBody,
   Button,
   FormErrorMessage,
-  FormLabel,
   FormControl,
   Input,
   ModalCloseButton,
 } from '@chakra-ui/react';
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
+import * as z from "zod";
 
 import { useCreateSpace } from 'shared/api/hooks/useCreateSpace';
 import { queries } from 'shared/api/queries';
@@ -22,14 +23,26 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = Record<string, never>
 
+const schema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
+});
+
 const CreateSpaceModal = () => {
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<{ name: string }>();
+  } = useForm<{ name: string }>({ resolver: zodResolver(schema) });
   const { mutateAsync } = useCreateSpace();
+
   async function onSubmit(values) {
     try {
       await mutateAsync(values);
@@ -56,10 +69,7 @@ const CreateSpaceModal = () => {
               <Input
                 id="name"
                 placeholder="Space name"
-                {...register('name', {
-                  required: 'Required',
-                  minLength: { value: 4, message: 'Minimum length should be 4' },
-                })}
+                {...register('name')}
               />
               <FormErrorMessage>
                 {!!errors.name && errors.name.message}
