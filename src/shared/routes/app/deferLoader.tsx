@@ -1,21 +1,22 @@
 import { createTab } from 'shared/actions/space/createTab';
-import { loadSpacesAndMakeActive } from 'shared/actions/space/loadSpacesAndMakeActive';
+import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import {
   cleanWaitedRoute,
-  selectActiveSpaceId,
+  selectActiveSpace,
 } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/common/router';
 
+// TODO: редиректить если нет активного роута
 export const deferLoader: RouteLoader = async ({ store }) => {
   const { dispatch, getState } = store;
-  const activeSpaceId = selectActiveSpaceId(getState());
   
-  await dispatch(loadSpacesAndMakeActive());
+  await dispatch(loadSpaces());
+  const activeSpace = selectActiveSpace(getState());
 
   const { waitedRoute } = getState().app;
 
-  if (waitedRoute && activeSpaceId) {
-    await dispatch(createTab({ route: waitedRoute, spaceId: activeSpaceId, makeActive: true }));
+  if (waitedRoute && activeSpace) {
+    await dispatch(createTab({ route: waitedRoute, makeActive: true }));
     dispatch(cleanWaitedRoute());
   }
 };

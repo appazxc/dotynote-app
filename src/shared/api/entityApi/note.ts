@@ -1,16 +1,15 @@
 import { tabNames } from "shared/modules/space/constants/tabNames";
 import { getTabMatch } from "shared/modules/space/helpers/tabHelpers";
 import { spaceTabSelector } from "shared/selectors/entities";
-import { selectSpaceTabs } from "shared/store/slices/appSlice";
-import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { NoteEntity } from "shared/types/entities/NoteEntity";
 
-import Essense from "../helpers/Essence";
+import Essense from "./Essence";
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async loadTabNotes(spaceId: string) {
+  async loadTabNotes(tabIds: string[]) {
     const state = this.store.getState();
-    const noteIds = selectSpaceTabs(state, spaceId)
-      .map(id => {
+    const noteIds = tabIds
+      .map((id) => {
         const spaceTab = spaceTabSelector.getById(state, id);
 
         if (!spaceTab || !spaceTab.routes.length) {

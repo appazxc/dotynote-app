@@ -4,7 +4,8 @@ import { entityNames } from "shared/constants/entityNames";
 
 import { createResponse } from "./helpers/createResponse";
 import { getHandlerUrl } from "./helpers/getHandlerUrl";
-import { activeUserSpace, createUserSpaces } from "./stubs/space";
+import { createUserSpaces } from "./stubs/space";
+import { createSpaceTab } from "./stubs/spaceTab";
 import { me } from "./stubs/user";
 
 export const implementedHandlers = [
@@ -33,5 +34,11 @@ export const implementedHandlers = [
     const noEntities = req.url.searchParams.get("noEntities");
 
     return res(ctx.json(createResponse(entityNames.space, createUserSpaces(userId), noEntities === "true")));
+  }),
+
+  rest.post(getHandlerUrl("/spaceTabs"), async (req, res, ctx) => {
+    const { spaceId, routes } = await req.json<{ routes: string[]; spaceId: string }>();
+
+    return res(ctx.json(createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))));
   }),
 ];

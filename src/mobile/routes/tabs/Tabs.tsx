@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 
 import { closeTab } from 'shared/actions/space/closeTab';
 import { createTab } from 'shared/actions/space/createTab';
+import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -63,7 +64,7 @@ const Tab = ({ id, isActive }) => {
 };
 
 export const Tabs = () => {
-  const tabIds = useAppSelector(selectSortedSpaceTabs);
+  const { data: tabIds } = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);
@@ -101,7 +102,7 @@ export const Tabs = () => {
       }
     >
       <Stack p="4" gap="4">
-        {tabIds.map((id) => (
+        {tabIds && tabIds.map((id) => (
           <Tab
             key={id}
             id={id}

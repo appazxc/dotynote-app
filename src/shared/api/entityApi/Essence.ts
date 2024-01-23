@@ -2,7 +2,7 @@ import { EntityName } from "shared/constants/entityNames";
 import { getStore } from "shared/helpers/store/getStore";
 import { AppStore } from "shared/store";
 import { selectUserId } from "shared/store/slices/authSlice";
-import { updateEntity } from "shared/store/slices/entitiesSlice";
+import { deleteEntity, updateEntity } from "shared/store/slices/entitiesSlice";
 import { invariant } from "shared/util/invariant";
 
 import apiFactory, { Api } from "../apiFactory";
@@ -36,7 +36,7 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.get<string>(`${this.path}/${id}`);
   }
 
-  async loadList({ filters }) {
+  async loadList({ filters = {} } = {}) {
     return await this.api.get<string[]>(`${this.path}`, filters);
   }
 
@@ -65,7 +65,15 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.post<string>(this.path, data);
   }
 
+  async delete(id: string | number) {
+    return await this.api.delete<void>(`${this.path}/${id}`);
+  }
+
   updateEntity(id: string, data: Partial<T>) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
+  }
+
+  deleteEntity(id: string) {
+    this.store.dispatch(deleteEntity({ id, type: this.entityName }));
   }
 }

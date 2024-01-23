@@ -2,8 +2,7 @@ import { entityNames } from "shared/constants/entityNames";
 import { noteSelector, spaceSelector, spaceTabSelector, userSelector } from "shared/selectors/entities";
 import { SpaceEntity } from "shared/types/entities/SpaceEntity";
 
-import Essense from "../helpers/Essence";
-
+import Essense from "./Essence";
 import { NoteEssence } from "./note";
 import { SpaceTabEssence } from "./spaceTab";
 import { UserEssence } from "./user";

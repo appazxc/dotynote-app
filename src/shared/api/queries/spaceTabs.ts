@@ -1,12 +1,19 @@
 import { queryOptions } from "@tanstack/react-query";
 
+import { hour } from "shared/constants/time";
+
 import { entityApi } from "../entityApi";
 
-export const prepared = () => {
+type Filters = {
+  spaceId: string;
+};
+
+export const list = (filters: Filters) => {
   return queryOptions({
-    queryKey: ['spaceTabsPrepared'],
+    queryKey: ["spaceTabs", filters],
     queryFn: () => {
-      return entityApi.spaceTab.loadPrepared();
+      return entityApi.spaceTab.loadList({ filters });
     },
+    staleTime: hour,
   });
 };

@@ -25,12 +25,6 @@ export const handlers = [
     return res(ctx.json(createResponse(entityNames.spaceTab, activeUserSpaceTabs)));
   }),
 
-  rest.post(getHandlerUrl("/spaceTabs"), async (req, res, ctx) => {
-    const { spaceId, routes } = await req.json<{ routes: string[]; spaceId: string }>();
-
-    return res(ctx.json(createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))));
-  }),
-
   rest.get(getHandlerUrl("/spaceTabs/prepared"), async (req, res, ctx) => {
     const response = createResponse(entityNames.spaceTab, [preparedSpaceTab]);
 

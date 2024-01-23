@@ -9,7 +9,6 @@ import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
-import { wait } from 'shared/util/wait';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -62,10 +61,6 @@ export default () => {
         return value;
       });
 
-      if (delayMs) {
-        await wait(delayMs);
-      }
-
       return axios
         .get(getBaseApi() + path, {
           params: pickBy(updatedParams, identity),
@@ -74,9 +69,6 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async post(path, body) {
-      if (delayMs) {
-        await wait(delayMs);
-      }
       return axios
         .post(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -84,9 +76,6 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async patch(path, body) {
-      if (delayMs) {
-        await wait(delayMs);
-      }
       return axios
         .patch(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -94,9 +83,6 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async put(path, body) {
-      if (delayMs) {
-        await wait(delayMs);
-      }
       return axios
         .put(getBaseApi() + path, body, {
           headers: createHeaders(),
@@ -104,9 +90,6 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async delete(path, params) {
-      if (delayMs) {
-        await wait(delayMs);
-      }
       return axios
         .delete(getBaseApi() + path, {
           params,
@@ -115,9 +98,6 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async request(requestConfig) {
-      if (delayMs) {
-        await wait(delayMs);
-      }
       return axios
         .request(
           Object.assign(requestConfig, {

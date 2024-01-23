@@ -47,7 +47,7 @@ const CreateSpaceModal = () => {
     try {
       await mutateAsync(values);
     } finally {
-      await queryClient.invalidateQueries({ queryKey: [queries.spaces.list().queryKey[0]] });
+      await queryClient.invalidateQueries({ queryKey: queries.spaces.userList().queryKey });
       dispatch(hideModal());
     }
   }

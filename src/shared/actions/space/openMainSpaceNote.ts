@@ -9,20 +9,21 @@ import { createTab } from "./createTab";
 export const openMainSpaceNote = (): ThunkAction => async (dispatch, getState) => {
   const space = selectActiveSpace(getState());
 
-  invariant(space, 'Missing space');
+  invariant(space, "Missing space");
 
-  const route = space.mainNoteId 
+  const route = space.mainNoteId
     ? buildTabUrl({
       routeName: tabNames.note,
       pathParams: { noteId: space.mainNoteId },
-    }) 
+    })
     : buildTabUrl({
       routeName: tabNames.addMainNote,
     });
-  
-  dispatch(createTab({
-    route,
-    makeActive: true,
-    spaceId: space.id,
-  }));
+
+  dispatch(
+    createTab({
+      route,
+      makeActive: true,
+    })
+  );
 };

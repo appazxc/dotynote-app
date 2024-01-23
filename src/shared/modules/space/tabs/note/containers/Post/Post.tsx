@@ -33,7 +33,6 @@ export const Post = React.memo(({ postId, className }: Props) => {
             e.preventDefault();
             dispatch(createTab({ 
               route: buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id } }),
-              spaceId, 
             }));
           }
         }}
@@ -42,8 +41,8 @@ export const Post = React.memo(({ postId, className }: Props) => {
           className={className}
           h="80px"
           p="4"
-          borderWidth='2px'
-          borderRadius='lg'
+          borderWidth="2px"
+          borderRadius="lg"
           borderColor="slateDark.7"
           cursor="pointer"
           data-post-id={postId}

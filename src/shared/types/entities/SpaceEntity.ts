@@ -2,7 +2,6 @@ import { BaseEntity } from './BaseEntity';
 
 export type SpaceEntity = BaseEntity<{
   name: string,
-  isDefault: boolean,
+  userId: string,
   mainNoteId: string | null,
-  spaceTabs: string[],
 }>

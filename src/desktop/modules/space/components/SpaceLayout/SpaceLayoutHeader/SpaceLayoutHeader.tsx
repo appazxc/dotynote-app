@@ -1,36 +1,30 @@
 import React from 'react';
 
-import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode, useTheme } from '@chakra-ui/react';
+import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
 import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
 import { createTab } from 'shared/actions/space/createTab';
+import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { InfoModal } from 'shared/containers/modals/InfoModal';
-import { showDrawer, hideDrawer } from 'shared/modules/drawer/drawerSlice';
+import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpace, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
+import { useAppDispatch } from 'shared/store/hooks';
 
 import { MainHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MainHeaderButton';
 
 import { SpaceTab } from './SpaceTab';
 
 export const SpaceLayoutHeader = React.memo(() => {
-  const tabIds = useAppSelector(selectSortedSpaceTabs);
-  const space = useAppSelector(selectActiveSpace);
+  const { data: tabIds } = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
-  const theme = useTheme();
-  console.log('theme', theme);
   
   const handlePlusClick = React.useCallback(() => {
-    if (!space) return;
-
-    dispatch(createTab({ spaceId: space.id, makeActive: true }));
-  }, [dispatch, space]);
+    dispatch(createTab({ makeActive: true }));
+  }, [dispatch]);
 
   const handleColorModeChange = React.useCallback(() => {
     dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
@@ -64,7 +58,7 @@ export const SpaceLayoutHeader = React.memo(() => {
                 gap="1"
                 flexGrow="1"
               >
-                {tabIds.map(id => <SpaceTab key={id} id={id} />)}
+                {tabIds && tabIds.map(id => <SpaceTab key={id} id={id} />)}
                 <IconButton
                   size="sm"
                   aria-label="Add"

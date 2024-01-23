@@ -48,7 +48,8 @@ export const SpaceTab = React.memo(({ id }) => {
           colorScheme="gray"
           icon={<MdClose size="13px" />}
           borderRadius="50%"
-          onClick={() => {
+          onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
             dispatch(closeTab(id));
           }}
         />

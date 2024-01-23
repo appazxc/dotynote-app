@@ -2,8 +2,7 @@ import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import {
-  Navigate,
-  RouterProvider,
+  RouterProvider
 } from 'react-router-dom';
 
 import { queries } from 'shared/api/queries';
@@ -13,8 +12,8 @@ import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
 import {
-  selectActiveSpaceId,
-  selectActiveTab,
+  selectActiveSpace,
+  selectActiveTab
 } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { buildUrl } from 'shared/util/router/buildUrl';
@@ -31,27 +30,34 @@ import router from 'desktop/routes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
-  const activeSpaceId = useAppSelector(selectActiveSpaceId);
+  const activeSpace = useAppSelector(selectActiveSpace);
 
   const { 
-    // isLoading: tabNotesIsLoading, 
     isError: tabNotesIsError,
-    isFetched: tabNotesIsFetched,
+    isLoading: tabNotesIsLoading,
   } = useQuery({
-    ...queries.notes.tabNotes(activeSpaceId!),
-    enabled: !!activeSpaceId,
+    ...queries.notes.tabNotes(activeSpace!.id),
+    enabled: !!activeSpace,
+  });
+
+  const { 
+    isLoading: spaceTabsIsLoading, 
+    isError: spaceTabsIsError,
+  } = useQuery({
+    ...queries.spaceTabs.list({ spaceId: activeSpace!.id }),
+    enabled: !!activeSpace,
   });
  
   React.useEffect(() => {
-    if (activeSpaceId) return;
+    if (activeSpace?.id) return;
     router.navigate(buildUrl({ routeName: routeNames.spaces }));
-  }, [activeSpaceId]);
+  }, [activeSpace?.id]);
  
-  if (tabNotesIsError) {
+  if (tabNotesIsError || spaceTabsIsError) {
     return <ErrorPage />;
   }
 
-  if (!tabNotesIsFetched) {
+  if (tabNotesIsLoading || spaceTabsIsLoading) {
     return <LoadingPage />;
   }
 
