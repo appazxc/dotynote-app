@@ -1,4 +1,4 @@
-import { tabNames } from "shared/modules/space/constants/tabNames";
+import { tabRouteNames } from "shared/modules/space/constants/tabRouteNames";
 import { buildTabUrl } from "shared/modules/space/util/buildTabUrl";
 import { ThunkAction } from "shared/store";
 import { selectActiveSpace } from "shared/store/slices/appSlice";
@@ -13,11 +13,11 @@ export const openMainSpaceNote = (): ThunkAction => async (dispatch, getState) =
 
   const route = space.mainNoteId
     ? buildTabUrl({
-      routeName: tabNames.note,
+      routeName: tabRouteNames.note,
       pathParams: { noteId: space.mainNoteId },
     })
     : buildTabUrl({
-      routeName: tabNames.addMainNote,
+      routeName: tabRouteNames.addMainNote,
     });
 
   dispatch(

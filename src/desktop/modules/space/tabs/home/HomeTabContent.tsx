@@ -1,23 +1,25 @@
-import React from 'react';
-
-import { Box, Text, Button, Card, CardBody, CardHeader, Container, SimpleGrid, Heading, Input, CardFooter } from '@chakra-ui/react';
-import { BsPersonVideo3 } from "react-icons/bs";
+import { 
+  Box,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Container,
+  Heading,
+  Input,
+  SimpleGrid,
+  Text, 
+} from '@chakra-ui/react';
 import { GoFile } from "react-icons/go";
 import { HiOutlineVideoCamera } from "react-icons/hi2";
 import { IoImageOutline } from "react-icons/io5";
-import { LuVideo } from "react-icons/lu";
-import { LuListTodo } from "react-icons/lu";
-import { MdOutlineDraw } from "react-icons/md";
-import { MdOndemandVideo } from "react-icons/md";
-import { PiFeather } from "react-icons/pi";
-import { PiFileAudioFill } from "react-icons/pi";
-import { PiMusicNotes } from "react-icons/pi";
+import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from "react-icons/pi";
 import { SlNotebook } from "react-icons/sl";
 import { VscRecord } from "react-icons/vsc";
-import { CiBoxList } from "react-icons/ci";
-import { tabNames } from 'shared/modules/space/constants/tabNames';
+
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
-import { PiVideo } from "react-icons/pi";
+
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 export const HomeTabContent = () => {
@@ -25,7 +27,7 @@ export const HomeTabContent = () => {
     {
       icon: <SlNotebook size="35" />,
       title: 'Text',
-      to: '/',
+      to: buildTabUrl({ routeName: tabRouteNames }),
     },
     {
       icon: <IoImageOutline size="35" />,

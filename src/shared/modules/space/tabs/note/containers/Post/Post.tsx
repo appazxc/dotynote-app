@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { createTab } from 'shared/actions/space/createTab';
-import { tabNames } from 'shared/modules/space/constants/tabNames';
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -27,12 +27,12 @@ export const Post = React.memo(({ postId, className }: Props) => {
   return (
     <Box>
       <Link
-        to={buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id } })}
+        to={buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note?.id } })}
         onClick={(e) => {
           if (e.metaKey) {
             e.preventDefault();
             dispatch(createTab({ 
-              route: buildTabUrl({ routeName: tabNames.note, pathParams: { noteId: note?.id } }),
+              route: buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note?.id } }),
             }));
           }
         }}

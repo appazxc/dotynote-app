@@ -7,7 +7,7 @@ import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
-import { tabNames } from 'shared/modules/space/constants/tabNames';
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/store';
@@ -44,9 +44,9 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
           invariant(spaceId, 'Missing spaceId');
 
-          const spaceTabIds = await queryClient.fetchQuery(queries.spaceTabs.list({ spaceId }));
+          const spaceTabIds = queryClient.getQueryData(queries.spaceTabs.list({ spaceId }).queryKey) || [];
           const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
-          const routes = [route || buildTabUrl({ routeName: tabNames.home })];
+          const routes = [route || buildTabUrl({ routeName: tabRouteNames.home })];
           const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
           const pos = maxPos + 1000;
 

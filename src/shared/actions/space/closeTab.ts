@@ -11,19 +11,18 @@ export const closeTab =
     async (dispatch, getState) => {
       const spaceTab = spaceTabSelector.getById(getState(), tabId);
       const activeTabId = selectActiveTabId(getState());
-
+      
       if (!spaceTab) {
         return;
       }
 
-      if (activeTabId && activeTabId === tabId) {
-        const nextTabId = getNextActiveTabId(
-          await queryClient.fetchQuery(queries.spaceTabs.list({ spaceId: spaceTab.spaceId })),
-          tabId
-        );
+      const tabIds = queryClient.getQueryData(queries.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey);
+
+      if (activeTabId && activeTabId === tabId && tabIds) {
+        const nextTabId = getNextActiveTabId(tabIds, tabId);
         dispatch(updateActiveTabId(nextTabId));
       }
-
+      
       queryClient.setQueryData(
         queries.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey, 
         (oldTabs = []) => oldTabs.filter(spaceTabId => spaceTabId !== tabId)

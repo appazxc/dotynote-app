@@ -7,15 +7,21 @@ import { invariant } from "shared/util/invariant";
 
 import { AppState } from "..";
 
+type TempNote = {
+  title: string,
+  content?: any,
+}
+
 type InitialState = {
-  isOpen: boolean;
-  isSideOpen: boolean;
-  isPageLoading: boolean;
-  activeSpaceId: string | null;
-  activeTabId: string | null;
+  isOpen: boolean,
+  isSideOpen: boolean,
+  isPageLoading: boolean,
+  activeSpaceId: string | null,
+  activeTabId: string | null,
   // when user enter some link we redirect him to app and open tab with this route
-  waitedRoute: string | null;
-  device: Device | null;
+  waitedRoute: string | null,
+  device: Device | null,
+  tempNote: TempNote | null,
 };
 
 const initialState: InitialState = {
@@ -26,6 +32,7 @@ const initialState: InitialState = {
   activeTabId: null,
   waitedRoute: null,
   device: null,
+  tempNote: null,
 };
 
 export const appSlice = createSlice({

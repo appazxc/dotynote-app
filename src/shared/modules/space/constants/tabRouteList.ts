@@ -1,4 +1,4 @@
-import { tabNames, TabName } from './tabNames';
+import { tabRouteNames, TabName } from './tabRouteNames';
 
 export type TabListItem = {
   name: TabName,
@@ -8,18 +8,23 @@ export type TabListItem = {
 
 export const tabList: TabListItem[] = [
   {
-    name: tabNames.home,
+    name: tabRouteNames.home,
     path: '/',
     title: 'New tab',
   },
   {
-    name: tabNames.addMainNote,
+    name: tabRouteNames.addMainNote,
     path: '/addMainNote',
     title: 'Add main note',
   },
   {
-    name: tabNames.note,
+    name: tabRouteNames.note,
     path: '/n/:noteId',
     title: 'Note',
+  },
+  {
+    name: tabRouteNames.createNote,
+    path: '/createNote',
+    title: 'Create note',
   },
 ];

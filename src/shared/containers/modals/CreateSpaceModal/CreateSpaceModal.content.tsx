@@ -34,13 +34,15 @@ const schema = z.object({
     }),
 });
 
+type FormValues = z.infer<typeof schema>
+
 const CreateSpaceModal = () => {
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<{ name: string }>({ resolver: zodResolver(schema) });
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
   const { mutateAsync } = useCreateSpace();
 
   async function onSubmit(values) {

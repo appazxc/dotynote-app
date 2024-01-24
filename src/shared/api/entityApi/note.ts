@@ -1,4 +1,4 @@
-import { tabNames } from "shared/modules/space/constants/tabNames";
+import { tabRouteNames } from "shared/modules/space/constants/tabRouteNames";
 import { getTabMatch } from "shared/modules/space/helpers/tabHelpers";
 import { spaceTabSelector } from "shared/selectors/entities";
 import { NoteEntity } from "shared/types/entities/NoteEntity";
@@ -19,7 +19,7 @@ export class NoteEssence extends Essense<NoteEntity> {
         const { routes } = spaceTab;
         const match = getTabMatch(routes[0]);
 
-        if (!match || match.route.name !== tabNames.note) {
+        if (!match || match.route.name !== tabRouteNames.note) {
           return false;
         }
 
