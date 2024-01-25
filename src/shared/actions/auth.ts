@@ -35,7 +35,7 @@ export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
     const userId = await queryClient.fetchQuery(queries.users.me());
     dispatch(setUser(userId));
   } catch(e: any) {
-    dispatch(setToken(null));
-    throw Error('An unexpected error occurred');
+    // dispatch(setToken(null));
+    throw Error(e);
   }
 };

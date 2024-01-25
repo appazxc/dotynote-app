@@ -1,12 +1,12 @@
 import { tabRouteNames, TabName } from './tabRouteNames';
 
-export type TabListItem = {
+export type TabRouteListItem = {
   name: TabName,
   path: string,
   title: string,
 }
 
-export const tabList: TabListItem[] = [
+export const tabRouteList: TabRouteListItem[] = [
   {
     name: tabRouteNames.home,
     path: '/',

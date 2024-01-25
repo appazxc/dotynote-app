@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Center, Container } from '@chakra-ui/react';
+import { useRouteError } from 'react-router';
 
-export const ErrorTab = () => {
+export const ErrorTab = (props) => {
+  const error: any = useRouteError();
+
   return (
     <Box
       w="full"
       h="full"
     >
-      ErrorTab
+      <Center h="full">
+        {error?.message || 'Unknown error'}
+      </Center>
     </Box>
   );
 };

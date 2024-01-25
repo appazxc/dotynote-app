@@ -8,14 +8,21 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Strike from "@tiptap/extension-strike";
 import Text from "@tiptap/extension-text";
 import Underline from "@tiptap/extension-underline";
-import { useEditor as useTiptapEditor, EditorContent, Editor } from "@tiptap/react";
+import { useEditor as useTiptapEditor, Editor, mergeAttributes } from "@tiptap/react";
 
 export const useEditor = () => {
   const editor = useTiptapEditor({
     extensions: [
       Document,
       History,
-      Paragraph,
+      Paragraph.extend({
+        parseHTML() {
+          return [{ tag: 'div' }];
+        },
+        renderHTML({ HTMLAttributes }) {
+          return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+        },
+      }),
       Text,
       Link.configure({
         openOnClick: false,

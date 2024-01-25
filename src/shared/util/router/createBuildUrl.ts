@@ -12,7 +12,9 @@ export const createBuildUrl = <T extends { name: string, path: string }, K>(rout
     const route = routeList.find(({ name }) => name === routeName);
 
     if (!route) {
-      throw new Error('Route not found');
+      console.log('routeName', routeName);
+      
+      throw new Error(`Route "${routeName}" not found`);
     }
 
     return generatePath(route.path, pathParams) + (

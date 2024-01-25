@@ -1,15 +1,15 @@
 import { PathMatch, matchPath } from 'react-router';
 
-import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
+import { TabRouteListItem, tabRouteList } from 'shared/modules/space/constants/tabRouteList';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 
 type RouteMatch = {
-  route: TabListItem,
+  route: TabRouteListItem,
   pathMatch: PathMatch
 }
 
 export const getTabMatch = (path: string): RouteMatch | null => {
-  for (const route of tabList) {
+  for (const route of tabRouteList) {
     const match = matchPath(route.path, path);
 
     if (match) {

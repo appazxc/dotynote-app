@@ -4,7 +4,6 @@ import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
 import pickBy from 'lodash/pickBy';
 
-import config from 'shared/config';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/store/slices/authSlice';
@@ -21,8 +20,6 @@ export type Params = {
 type Options = {
   shouldCamelize: boolean;
 };
-
-const delayMs = config.apiDelay;
 
 export type Api = {
   get<T>(

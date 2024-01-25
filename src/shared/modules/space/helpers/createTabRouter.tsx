@@ -3,7 +3,7 @@ import * as React from 'react';
 import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from 'react-router-dom';
 
 import { Defer } from 'shared/components/Defer/Defer';
-import { TabListItem, tabList } from 'shared/modules/space/constants/tabRouteList';
+import { TabRouteListItem, tabRouteList } from 'shared/modules/space/constants/tabRouteList';
 import { AppStore } from 'shared/store';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/common/router';
@@ -30,7 +30,7 @@ export const createTabRouter: CreateRouter = (params) => {
 
   return createMemoryRouter(
     [
-      ...tabList
+      ...tabRouteList
         .filter(route => tabsDictionary[route.name])
         .map(route => {
           const lazy = async () => {
@@ -78,7 +78,7 @@ type CreateLoader = (
     loader?: RouteLoader, 
     store: AppStore, 
     deferLoader?: RouteLoader,
-    route: TabListItem,
+    route: TabRouteListItem,
   }
 ) => LoaderFunction
 

@@ -27,7 +27,7 @@ export const HomeTabContent = () => {
     {
       icon: <SlNotebook size="35" />,
       title: 'Text',
-      to: buildTabUrl({ routeName: tabRouteNames }),
+      to: buildTabUrl({ routeName: tabRouteNames.createNote }),
     },
     {
       icon: <IoImageOutline size="35" />,
