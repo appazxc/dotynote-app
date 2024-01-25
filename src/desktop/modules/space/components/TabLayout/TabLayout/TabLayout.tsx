@@ -7,9 +7,10 @@ import { ScrollProvider } from 'shared/components/ScrollProvider';
 type Props = {
   children: React.ReactNode,
   leftSide?: React.ReactNode,
+  footer?: React.ReactNode,
 }
 
-export const TabLayout = ({ children, leftSide }: Props) => {
+export const TabLayout = ({ children, leftSide, footer }: Props) => {
   return (
     <Box
       w="full"
@@ -21,25 +22,43 @@ export const TabLayout = ({ children, leftSide }: Props) => {
           {leftSide}
         </Box>
       )}
-      <ScrollProvider>
-        {(ref) => (
+      <Box
+        flexGrow="1"
+        h="full"
+        display="flex"
+        flexDirection="column"
+      >
+        <Box flexGrow="1" position="relative">
           <Box
-            ref={ref}
-            // bg="red.100"
-            flexGrow="1"
+            w="full"
             h="full"
-            overflowX="hidden"
-            overflowY="scroll"
-            css={{
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-            }}
+            position="absolute"
           >
-            {children}
+            <ScrollProvider>
+              {(ref) => (
+                <Box
+                  ref={ref}
+                  // bg="red.100"
+                  w="full"
+                  h="full"
+                  overflowX="hidden"
+                  overflowY="scroll"
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      display: "none",
+                    },
+                  }}
+                >
+                  {children}
+                </Box>
+              )}
+            </ScrollProvider>
           </Box>
-        )}
-      </ScrollProvider>
+        </Box>
+        <Box flexShrink="0" w="full">
+          {footer}
+        </Box>
+      </Box>
     </Box>
   );
 };

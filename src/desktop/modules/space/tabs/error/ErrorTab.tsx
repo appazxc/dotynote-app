@@ -1,9 +1,8 @@
-import React from 'react';
 
-import { Box, Center, Container } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import { useRouteError } from 'react-router';
 
-export const ErrorTab = (props) => {
+export const ErrorTab = () => {
   const error: any = useRouteError();
 
   return (

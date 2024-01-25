@@ -41,4 +41,12 @@ export const implementedHandlers = [
 
     return res(ctx.json(createResponse(entityNames.spaceTab, createSpaceTab(spaceId, routes))));
   }),
+
+  rest.patch(getHandlerUrl("/spaces/1"), (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+
+  rest.patch(getHandlerUrl("/spaceTabs/:id"), (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
