@@ -1,4 +1,6 @@
-import { 
+import React from 'react';
+
+import {
   Box,
   Card,
   CardBody,
@@ -8,7 +10,7 @@ import {
   Heading,
   Input,
   SimpleGrid,
-  Text, 
+  Text,
 } from '@chakra-ui/react';
 import { GoFile } from "react-icons/go";
 import { HiOutlineVideoCamera } from "react-icons/hi2";
@@ -16,20 +18,24 @@ import { IoImageOutline } from "react-icons/io5";
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from "react-icons/pi";
 import { SlNotebook } from "react-icons/sl";
 import { VscRecord } from "react-icons/vsc";
-import { Link } from 'react-router-dom';
 
-import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
+import { modalIds } from 'shared/constants/modalIds';
+import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
+import { showModal } from 'shared/modules/modal/modalSlice';
+import { useAppDispatch } from 'shared/store/hooks';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 export const HomeTabContent = () => {
-  const cards = [
+  const dispatch = useAppDispatch();
+
+  const cards = React.useMemo(() => [
     {
       icon: <SlNotebook size="35" />,
       title: 'Text',
-      to: buildTabUrl({ routeName: tabRouteNames.createNote }),
-      as: Link,
+      onClick: () => {
+        dispatch(showModal({ id: modalIds.createNote }));
+      },
     },
     {
       icon: <IoImageOutline size="35" />,
@@ -79,7 +85,7 @@ export const HomeTabContent = () => {
       to: '/',
       description: 'Under construction',
     },
-  ];
+  ], [dispatch]);
 
   return (
     <TabLayout>
@@ -128,6 +134,7 @@ export const HomeTabContent = () => {
           </Box>
         </Box>
       </Container>
+      <CreateNoteModal />
     </TabLayout>
   );
 };

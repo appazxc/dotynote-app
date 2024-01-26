@@ -1,39 +1,23 @@
-import Bold from "@tiptap/extension-bold";
-import Code from "@tiptap/extension-code";
-import Document from "@tiptap/extension-document";
-import History from "@tiptap/extension-history";
-import Italic from "@tiptap/extension-italic";
-import Link from "@tiptap/extension-link";
-import Paragraph from "@tiptap/extension-paragraph";
-import Strike from "@tiptap/extension-strike";
-import Text from "@tiptap/extension-text";
-import Underline from "@tiptap/extension-underline";
-import { useEditor as useTiptapEditor, Editor, mergeAttributes } from "@tiptap/react";
+import { Editor, EditorOptions, useEditor as useTiptapEditor } from "@tiptap/react";
 
-export const useEditor = () => {
+import { extensions } from "./extensions";
+
+export const useEditor = (props: Partial<EditorOptions>) => {
   const editor = useTiptapEditor({
-    extensions: [
-      Document,
-      History,
-      Paragraph.extend({
-        parseHTML() {
-          return [{ tag: 'div' }];
-        },
-        renderHTML({ HTMLAttributes }) {
-          return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
-        },
-      }),
-      Text,
-      Link.configure({
-        openOnClick: false,
-      }),
-      Bold,
-      Underline,
-      Italic,
-      Strike,
-      Code,
-    ],
+    extensions,
+    parseOptions: {
+      preserveWhitespace: true,
+    },
     content: undefined,
+    ...props,
+    // onUpdate(props) {
+    //   console.log('props.editor.getHTML()', props.editor.getHTML());
+
+    //   this.content = props.editor.getHTML().replace(/<div><\/div>/g, "<br>");
+
+    //   console.log('this.content = ', this.content);
+
+    // },
   }) as Editor;
 
   return editor;

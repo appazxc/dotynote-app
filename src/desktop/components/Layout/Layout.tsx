@@ -8,6 +8,11 @@ type Props = {
   footer?: React.ReactNode,
 }
 
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 const Layout = ({ children, header, footer }: Props) => {
   return (
     <Container>
@@ -17,10 +22,5 @@ const Layout = ({ children, header, footer }: Props) => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
 
 export { Layout };
