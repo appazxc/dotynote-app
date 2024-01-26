@@ -24,7 +24,9 @@ import { useEditor, EditorMenu, EditorContent, EditorView } from 'shared/modules
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export type Props = Record<string, never>
+export type Props = {
+  onCreate?: (id: string) => void,
+}
 
 const schema = z.object({
   title: z
@@ -36,7 +38,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-const CreateNoteModal = () => {
+const CreateNoteModal = ({ onCreate }: Props) => {
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
@@ -52,15 +54,20 @@ const CreateNoteModal = () => {
       
     }, 1000);
   }, []);
+
   const editor = useEditor({ onUpdate: handleEditorUpdate });
 
-  async function onSubmit(values) {
+  const onSubmit = React.useCallback(async (values) => {
     try {
-      await mutateAsync(values);
+      const id = await mutateAsync({ ...values, content: editor.getJSON() });
+
+      if (onCreate) {
+        onCreate(id);
+      }
     } finally {
       dispatch(hideModal());
     }
-  }
+  }, [dispatch, mutateAsync, editor, onCreate]);
 
   return (
     <Modal

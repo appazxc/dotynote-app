@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import {
-  RouterProvider
+  RouterProvider,
 } from 'react-router-dom';
 
 import { queries } from 'shared/api/queries';
@@ -13,7 +13,7 @@ import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveSpace,
-  selectActiveTab
+  selectActiveTab,
 } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { buildUrl } from 'shared/util/router/buildUrl';
@@ -36,7 +36,8 @@ function Space() {
     isError: tabNotesIsError,
     isLoading: tabNotesIsLoading,
   } = useQuery({
-    ...queries.notes.tabNotes(activeSpace!.id),
+    // проверить чтобы лишних квери не было
+    ...queries.notes.tabNotes(activeSpace?.id),
     enabled: !!activeSpace,
   });
 
@@ -44,7 +45,7 @@ function Space() {
     isLoading: spaceTabsIsLoading, 
     isError: spaceTabsIsError,
   } = useQuery({
-    ...queries.spaceTabs.list({ spaceId: activeSpace!.id }),
+    ...queries.spaceTabs.list({ spaceId: activeSpace?.id }),
     enabled: !!activeSpace,
   });
  

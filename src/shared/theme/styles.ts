@@ -10,12 +10,6 @@ export const styles = {
       display: "none",
     },
     body: {
-      a: {
-        color: "blue.500",
-        "&:hover": {
-          textDecoration: "none",
-        },
-      },
       // "*, ::before, ::after": {
       //   borderColor: "#9fa3b114",
       // },
@@ -23,8 +17,8 @@ export const styles = {
         clear: "both",
       },
       ".ProseMirror": {
-        "white-space": "normal",
-        "word-break": "break-word",
+        "whiteSpace": "normal",
+        "wordBreak": "break-word",
         "div.is-editor-empty:first-of-type::before": {
           content: "attr(data-placeholder)",
           color: "gray.500",
@@ -49,8 +43,8 @@ export const styles = {
           fontWeight: "700",
         },
         "ul, ol": {
-          "list-style-type": "initial",
-          "margin-inline-start": "1em",
+          "listStyleType": "initial",
+          "marginInlineStart": "1em",
         },
         code: {
           bg: "rgba(#616161, 0.1)",

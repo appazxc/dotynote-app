@@ -5,7 +5,7 @@ import { queries } from "../queries";
 import { queryClient } from "../queryClient";
 
 // need for show tab titles
-export const tabNotes = (spaceId: string) => {
+export const tabNotes = (spaceId?: string) => {
   return queryOptions({
     queryKey: ["tabNotes", spaceId],
     queryFn: async () => {

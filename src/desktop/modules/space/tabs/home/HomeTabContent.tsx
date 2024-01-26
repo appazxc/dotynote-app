@@ -18,16 +18,29 @@ import { IoImageOutline } from "react-icons/io5";
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from "react-icons/pi";
 import { SlNotebook } from "react-icons/sl";
 import { VscRecord } from "react-icons/vsc";
+import { useNavigate } from 'react-router';
 
 import { modalIds } from 'shared/constants/modalIds';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 export const HomeTabContent = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleCreateNote = React.useCallback((id: string) => {
+    navigate(buildTabUrl({
+      routeName: tabRouteNames.note,
+      pathParams: {
+        noteId: id,
+      },
+    }));
+  }, [navigate]);
 
   const cards = React.useMemo(() => [
     {
@@ -134,7 +147,7 @@ export const HomeTabContent = () => {
           </Box>
         </Box>
       </Container>
-      <CreateNoteModal />
+      <CreateNoteModal onCreate={handleCreateNote} />
     </TabLayout>
   );
 };

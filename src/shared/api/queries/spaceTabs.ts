@@ -5,7 +5,7 @@ import { hour } from "shared/constants/time";
 import { entityApi } from "../entityApi";
 
 type Filters = {
-  spaceId: string;
+  spaceId?: string;
 };
 
 export const list = (filters: Filters) => {
