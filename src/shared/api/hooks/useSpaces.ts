@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-
-import { queries } from "../queries";
+import { options } from '../options';
 
 export const useSpaces = () => {
-  return useQuery(queries.spaces.userList());
+  return useQuery(options.spaces.userList());
 };

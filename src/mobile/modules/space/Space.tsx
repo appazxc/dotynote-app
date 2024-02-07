@@ -1,8 +1,7 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 
-import { queries } from 'shared/api/queries';
+import { options } from 'shared/api/options';
 import { ContentLoader } from 'shared/components/ContentLoader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
@@ -33,7 +32,7 @@ function Space() {
   const {
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
-  } = useQuery(queries.notes.tabNotes(activeSpaceId));
+  } = useQuery(options.notes.tabNotes(activeSpaceId));
 
   if (tabNotesIsError) {
     return <ErrorPage />;

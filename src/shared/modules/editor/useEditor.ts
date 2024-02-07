@@ -2,7 +2,7 @@ import { Editor, EditorOptions, useEditor as useTiptapEditor } from "@tiptap/rea
 
 import { extensions } from "./extensions";
 
-export const useEditor = (props: Partial<EditorOptions>) => {
+export const useEditor = (props: Partial<EditorOptions> = {}) => {
   const editor = useTiptapEditor({
     extensions,
     parseOptions: {

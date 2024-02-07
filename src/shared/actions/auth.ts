@@ -1,12 +1,12 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
-import api from "shared/api";
-import { queries } from "shared/api/queries";
-import { queryClient } from "shared/api/queryClient";
-import { loaderIds } from "shared/constants/loaderIds";
-import { withLoader } from "shared/modules/loaders/actions/withLoaders";
-import { AppThunk, ThunkAction } from "shared/store";
-import { selectToken, selectUser, setToken, setUser } from "shared/store/slices/authSlice";
+import api from 'shared/api';
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
+import { loaderIds } from 'shared/constants/loaderIds';
+import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
+import { AppThunk, ThunkAction } from 'shared/store';
+import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
 
 export const loginEmail: AppThunk<string> = (email) =>
   withLoader(loaderIds.loginEmail, () => {
@@ -30,20 +30,22 @@ export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
   }
 
   if (!token) {
-    throw Error("Missing token");
+    throw Error('Missing token');
   }
 
   try {
-    const userId = await queryClient.fetchQuery(queries.users.me());
+    const userId = await queryClient.fetchQuery(options.users.me());
     dispatch(setUser(userId));
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
       dispatch(setToken(null));
+      return;
     }
 
     if (error instanceof Error) {
-      console.log("instanceof Error", error);
+      console.log('instanceof Error', error);
     }
-    throw Error(error);
+    
+    throw Error('Unexpected error occurred');
   }
 };

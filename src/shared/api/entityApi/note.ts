@@ -1,9 +1,9 @@
-import { tabRouteNames } from "shared/modules/space/constants/tabRouteNames";
-import { getTabMatch } from "shared/modules/space/helpers/tabHelpers";
-import { spaceTabSelector } from "shared/selectors/entities";
-import { NoteEntity } from "shared/types/entities/NoteEntity";
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
+import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
+import { spaceTabSelector } from 'shared/selectors/entities';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-import Essense from "./Essence";
+import Essense from './Essence';
 
 export class NoteEssence extends Essense<NoteEntity> {
   async loadTabNotes(tabIds: string[]) {
@@ -27,6 +27,10 @@ export class NoteEssence extends Essense<NoteEntity> {
       })
       .filter(Boolean);
 
+    if (!noteIds.length) {
+      return [];
+    }
+    
     return this.loadList({ filters: { ids: noteIds } });
   }
 }

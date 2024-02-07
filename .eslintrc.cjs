@@ -2,12 +2,12 @@
 module.exports = {
   extends: [
     'eslint:recommended', 
-    "plugin:react/recommended",
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    "plugin:react-hooks/recommended",
+    'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', "@emotion", "import"],
+  plugins: ['@typescript-eslint', '@emotion', 'import'],
   root: true,
   rules: {
     indent: ['error', 2],
@@ -40,9 +40,9 @@ module.exports = {
         },
         'pathGroups': [
           {
-            "pattern": "react",
-            "group": "external",
-            "position": "before",
+            'pattern': 'react',
+            'group': 'external',
+            'position': 'before',
           },
           {
             'pattern': 'shared/**',
@@ -64,7 +64,8 @@ module.exports = {
         'pathGroupsExcludedImportTypes': ['builtin'],
       },
     ],
-    'max-len': ["error", { "code": 120 }],
+    'max-len': ['error', { 'code': 120 }],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     '@typescript-eslint/no-explicit-any': 'off',
     'react/self-closing-comp': ['error', {
       component: true,
@@ -87,7 +88,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'jsx-quotes': ['error', 'prefer-double'],
     'react/jsx-tag-spacing': ['error', {
-      "beforeClosing": "never",
+      'beforeClosing': 'never',
     }],
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',

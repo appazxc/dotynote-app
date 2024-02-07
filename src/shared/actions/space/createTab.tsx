@@ -1,7 +1,7 @@
 import { isEqual, pick } from 'lodash';
 
 import { entityApi } from 'shared/api/entityApi';
-import { queries } from 'shared/api/queries';
+import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
@@ -44,7 +44,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
           invariant(spaceId, 'Missing spaceId');
 
-          const spaceTabIds = queryClient.getQueryData(queries.spaceTabs.list({ spaceId }).queryKey) || [];
+          const spaceTabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId }).queryKey) || [];
           const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
           const routes = [route || buildTabUrl({ routeName: tabRouteNames.home })];
           const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
@@ -61,7 +61,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }));
           
           queryClient.setQueryData(
-            queries.spaceTabs.list({ spaceId }).queryKey, 
+            options.spaceTabs.list({ spaceId }).queryKey, 
             (oldTabs = []) => [...oldTabs, fakeId]
           );
 
@@ -79,7 +79,7 @@ export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }
 
           queryClient.setQueryData(
-            queries.spaceTabs.list({ spaceId }).queryKey, 
+            options.spaceTabs.list({ spaceId }).queryKey, 
             (oldTabs = []) => oldTabs.map((tabId) => {
               if (tabId === fakeId) {
                 return spaceTabId;

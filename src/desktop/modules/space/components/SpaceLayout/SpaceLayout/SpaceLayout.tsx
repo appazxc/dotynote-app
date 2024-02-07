@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { Box, Progress } from "@chakra-ui/react";
+import { Box, Progress } from '@chakra-ui/react';
 
-import { useAppInProgress } from "shared/modules/loaders/loadersSlice";
-import { useAppSelector } from "shared/store/hooks";
+import { useAppInProgress } from 'shared/modules/loaders/loadersSlice';
+import { useAppSelector } from 'shared/store/hooks';
 
-import { SpaceLayoutHeader } from "../SpaceLayoutHeader";
+import { SpaceLayoutHeader } from '../SpaceLayoutHeader';
 
 type Props = React.PropsWithChildren<unknown>;
 

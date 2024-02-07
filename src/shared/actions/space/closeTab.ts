@@ -1,10 +1,10 @@
-import { entityApi } from "shared/api/entityApi";
-import { queries } from "shared/api/queries";
-import { queryClient } from "shared/api/queryClient";
-import { getNextActiveTabId } from "shared/helpers/space/getNextActiveTabId";
-import { spaceTabSelector } from "shared/selectors/entities";
-import { ThunkAction } from "shared/store";
-import { selectActiveTabId, updateActiveTabId } from "shared/store/slices/appSlice";
+import { entityApi } from 'shared/api/entityApi';
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
+import { getNextActiveTabId } from 'shared/helpers/space/getNextActiveTabId';
+import { spaceTabSelector } from 'shared/selectors/entities';
+import { ThunkAction } from 'shared/store';
+import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
 
 export const closeTab =
   (tabId: string): ThunkAction =>
@@ -16,7 +16,7 @@ export const closeTab =
         return;
       }
 
-      const tabIds = queryClient.getQueryData(queries.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey);
+      const tabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey);
 
       if (activeTabId && activeTabId === tabId && tabIds) {
         const nextTabId = getNextActiveTabId(tabIds, tabId);
@@ -24,7 +24,7 @@ export const closeTab =
       }
       
       queryClient.setQueryData(
-        queries.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey, 
+        options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey, 
         (oldTabs = []) => oldTabs.filter(spaceTabId => spaceTabId !== tabId)
       );
 

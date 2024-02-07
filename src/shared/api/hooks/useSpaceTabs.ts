@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { useAppSelector } from "shared/store/hooks";
-import { selectActiveSpaceId, selectSortedSpaceTabs } from "shared/store/slices/appSlice";
+import { useAppSelector } from 'shared/store/hooks';
+import { selectActiveSpaceId, selectSortedSpaceTabs } from 'shared/store/slices/appSlice';
 
-import { queries } from "../queries";
+import { options } from '../options';
 
 export const useSpaceTabs = ({ sorted }: { sorted?: boolean } = {}) => {
   const spaceId = useAppSelector(selectActiveSpaceId);
 
   const query = useQuery({
-    ...queries.spaceTabs.list({ spaceId: spaceId! }),
+    ...options.spaceTabs.list({ spaceId: spaceId! }),
     enabled: !!spaceId,
   });
 

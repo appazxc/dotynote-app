@@ -1,8 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { SpaceEntity } from "shared/types/entities/SpaceEntity";
+import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
 
-import { entityApi } from "../entityApi";
+import { entityApi } from '../entityApi';
 
 export const useCreateSpace = () => {
   return useMutation({

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Box, Button, Container, Text, VStack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router';
+import { Box, Button, Container, IconButton, Text, VStack } from '@chakra-ui/react';
+import { BsArrowLeft } from 'react-icons/bs';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
 import { modalIds } from 'shared/constants/modalIds';
@@ -19,7 +20,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
   const space = useAppSelector(state => spaceSelector.getById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  
   const handleClick = React.useCallback(() => {
     dispatch(updateActiveSpaceId(id));
     navigate(buildUrl({ routeName: routeNames.app }));
@@ -33,7 +34,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
     <Box
       p="4"
       border="2px solid"
-      borderColor={isActive ? 'gray:800' : "gray.300"}
+      borderColor={isActive ? 'gray:800' : 'gray.300'}
       borderRadius="md"
       display="flex"
       alignItems="flex-end"
@@ -53,15 +54,34 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
 
 function Spaces() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [] } = useSpaces();
-  
+  const location = useLocation();
+  const canGoBack = location.key !== 'default' && !!data.length;
+  const title = data.length ? 'Select or create space' : 'Create space';
+
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader
         p="2"
         px="4"
-        left={<Text fontSize="x-large">Select or create space</Text>}
+        left={(
+          <Box display="flex">
+            {canGoBack && (
+              <IconButton 
+                aria-label="Back"
+                icon={<BsArrowLeft />}
+                mr="3"
+                variant="ghost"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+            )}
+            <Text fontSize="x-large">{title}</Text>
+          </Box>
+        ) }
         right={(
           <Button
             size="sm"
@@ -75,7 +95,7 @@ function Spaces() {
         )}
       />
     );
-  }, [dispatch]);
+  }, [dispatch, canGoBack, navigate, title]);
 
   return (
     <Layout header={renderedHeader}>

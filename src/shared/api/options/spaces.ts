@@ -1,6 +1,6 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions } from '@tanstack/react-query';
 
-import { entityApi } from "../entityApi";
+import { entityApi } from '../entityApi';
 
 export const userList = () => {
   return queryOptions({

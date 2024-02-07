@@ -11,12 +11,12 @@ import {
   Input,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from "zod";
+import * as z from 'zod';
 
 import { useCreateSpace } from 'shared/api/hooks/useCreateSpace';
-import { queries } from 'shared/api/queries';
+import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -27,10 +27,10 @@ const schema = z.object({
   name: z
     .string()
     .min(2, {
-      message: "Name must be at least 2 characters.",
+      message: 'Name must be at least 2 characters.',
     })
     .max(30, {
-      message: "Name must not be longer than 30 characters.",
+      message: 'Name must not be longer than 30 characters.',
     }),
 });
 
@@ -49,7 +49,7 @@ const CreateSpaceModal = () => {
     try {
       await mutateAsync(values);
     } finally {
-      await queryClient.invalidateQueries({ queryKey: queries.spaces.userList().queryKey });
+      await queryClient.invalidateQueries({ queryKey: options.spaces.userList().queryKey });
       dispatch(hideModal());
     }
   }

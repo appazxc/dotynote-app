@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
-import { queries } from 'shared/api/queries';
+import { options } from 'shared/api/options';
 import { ContentLoader } from 'shared/components/ContentLoader';
 import { routeNames } from 'shared/constants/routeNames';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
@@ -37,7 +37,7 @@ function Space() {
     isLoading: tabNotesIsLoading,
   } = useQuery({
     // проверить чтобы лишних квери не было
-    ...queries.notes.tabNotes(activeSpace?.id),
+    ...options.notes.tabNotes(activeSpace?.id),
     enabled: !!activeSpace,
   });
 
@@ -45,7 +45,7 @@ function Space() {
     isLoading: spaceTabsIsLoading, 
     isError: spaceTabsIsError,
   } = useQuery({
-    ...queries.spaceTabs.list({ spaceId: activeSpace?.id }),
+    ...options.spaceTabs.list({ spaceId: activeSpace?.id }),
     enabled: !!activeSpace,
   });
  
@@ -58,7 +58,7 @@ function Space() {
     return <ErrorPage />;
   }
 
-  if (tabNotesIsLoading || spaceTabsIsLoading) {
+  if (tabNotesIsLoading || spaceTabsIsLoading || !activeSpace) {
     return <LoadingPage />;
   }
 
