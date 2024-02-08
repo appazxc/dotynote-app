@@ -13,14 +13,15 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { EditorEvents } from '@tiptap/react';
 import { debounce } from 'lodash';
 import { useForm } from 'react-hook-form';
-import * as z from "zod";
+import * as z from 'zod';
 
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
-import { useEditor, EditorMenu, EditorContent, EditorView } from 'shared/modules/editor';
+import { EditorContent, EditorMenu, EditorView, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -32,7 +33,7 @@ const schema = z.object({
   title: z
     .string()
     .max(120, {
-      message: "Title must not be longer than 120 characters.",
+      message: 'Title must not be longer than 120 characters.',
     }),
 });
 
@@ -47,7 +48,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
   const { mutateAsync } = useCreateNote();
   const handleEditorUpdate = React.useMemo(() => {
-    return debounce(({ editor }) => {
+    return debounce(({ editor }: EditorEvents['update']) => {
       const json = editor.getJSON();
 
       console.log('json', json);
@@ -85,8 +86,8 @@ const CreateNoteModal = ({ onCreate }: Props) => {
           <ModalBody
             pt="0"
             css={{
-              "&::-webkit-scrollbar": {
-                display: "none",
+              '&::-webkit-scrollbar': {
+                display: 'none',
               },
             }}
           >

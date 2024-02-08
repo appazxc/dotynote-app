@@ -1,12 +1,19 @@
+import React from 'react';
+
+import { Center, Spinner, Text, Box, VStack } from '@chakra-ui/react';
+
 import { useNotes } from 'shared/api/hooks/useNotes';
 
 import { NoteItem } from './NoteItem';
 
 type Props = {
-  query: string
+  query: string,
+  onClick?: (id: string) => void,
 }
 
-export function SearchResults({ query = '' }: Props) {
+const CenterBox = ({ children }: React.PropsWithChildren) => <Center h="full">{children}</Center>;
+
+export function SearchResults({ query = '', onClick }: Props) {
   const {
     data,
     isLoading,
@@ -15,25 +22,32 @@ export function SearchResults({ query = '' }: Props) {
   } = useNotes({
     filters: { query },
   });
+  console.log(data,
+    isLoading,
+    isFetching,
+    status);
 
-  if (isLoading) return <div className="loading">Loading...</div>;
+  const handleNoteClick = React.useCallback((value) => {
+    onClick?.(value);
+  }, [onClick]);
+
+  if (isLoading) return <CenterBox><Spinner /></CenterBox> ;
 
   return (
-    <div>
-      <div className="search-status">
-        Satus: {status} {isFetching && <span>fetching...</span>}
-      </div>
-      <div>
-        <div className="search-result">
-          {data && data.length > 0 ? (
-            data.map((id) => (
-              <NoteItem key={id} id={id} />
-            ))
-          ) : (
-            <h3>No products found!</h3>
-          )}
-        </div>
-      </div>
-    </div>
+    <Box h="full">
+      {data && data.length > 0 ? (
+        <VStack spacing="4" align="stretch">
+          {data.map((id) => (
+            <NoteItem
+              key={id}
+              id={id}
+              onClick={handleNoteClick}
+            />
+          ))}
+        </VStack>
+      ) : (
+        <CenterBox><Text>Notes not found</Text></CenterBox>  
+      )}
+    </Box>
   );
 }

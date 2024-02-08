@@ -38,6 +38,8 @@ export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
     dispatch(setUser(userId));
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
+      console.log('dispatch(setToken(null));');
+      
       dispatch(setToken(null));
       return;
     }

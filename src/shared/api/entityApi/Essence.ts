@@ -1,11 +1,11 @@
-import { EntityName } from "shared/constants/entityNames";
-import { getStore } from "shared/helpers/store/getStore";
-import { AppStore } from "shared/store";
-import { selectUserId } from "shared/store/slices/authSlice";
-import { deleteEntity, updateEntity } from "shared/store/slices/entitiesSlice";
-import { invariant } from "shared/util/invariant";
+import { EntityName } from 'shared/constants/entityNames';
+import { getStore } from 'shared/helpers/store/getStore';
+import { AppStore } from 'shared/store';
+import { selectUserId } from 'shared/store/slices/authSlice';
+import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
+import { invariant } from 'shared/util/invariant';
 
-import apiFactory, { Api } from "../apiFactory";
+import apiFactory, { Api } from '../apiFactory';
 
 export default class Essense<T extends { id?: string }> {
   api: Api;
@@ -55,9 +55,10 @@ export default class Essense<T extends { id?: string }> {
       if (!entity.isFake) {
         return await this.api.patch(`${this.path}/${id}`, restData);
       }
-    } catch(e) {
+    } catch(error) {
       this.updateEntity(id, entity);
-      console.log('error', e);
+
+      throw error;
     }
   }
 

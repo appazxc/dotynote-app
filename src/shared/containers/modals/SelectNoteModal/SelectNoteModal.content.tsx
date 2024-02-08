@@ -34,30 +34,44 @@ const SelectNoteModal = ({ onSelect }: Props) => {
     <Modal
       isCentered
       isOpen
-      size="2xl"
+      size="xl"
       scrollBehavior="inside"
       onClose={() => dispatch(hideModal())}
     >
       <ModalOverlay />
-      <ModalContent maxH="80vh">
+      <ModalContent h="80vh">
         <ModalHeader pb="1">Select note</ModalHeader>
         <ModalCloseButton />
         <ModalBody
           pt="0"
+          pb="4"
+          px="0"
           css={{
             '&::-webkit-scrollbar': {
               display: 'none',
             },
           }}
+          display="flex"
+          flexDirection="column"
         >
           <Box
             position="sticky"
             zIndex="1"
             top="0"
+            pt="1"
+            bgColor="white"
+            mb="4"
+            pb="2"
+            px="6"
           >
-            <Input onChange={handleOnChange} />
+            <Input
+              placeholder="Search..."
+              onChange={handleOnChange}
+            />
           </Box>
-          <SearchResults query={debouncedQuery} />
+          <Box px="6" flexGrow="1">
+            <SearchResults query={debouncedQuery} onClick={onSelect} />
+          </Box>
         </ModalBody>
       </ModalContent>
     </Modal>

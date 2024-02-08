@@ -15,5 +15,5 @@ export const useNotes = ({ filters }: Params = {}) => {
 
   invariant(userId, 'Missing userId');
   
-  return useQuery(options.notes.loadList({ ...filters, userId }));
+  return useQuery(options.notes.loadList({ userId, ...filters }));
 };

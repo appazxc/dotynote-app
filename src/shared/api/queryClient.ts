@@ -5,6 +5,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 100,
       gcTime: 1000 * 60 * 100, // 100 minutes
       retry(failureCount, error) {
         const axiosError = error as AxiosError;

@@ -1,8 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { NoteEntity } from "shared/types/entities/NoteEntity";
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-import { entityApi } from "../entityApi";
+import { entityApi } from '../entityApi';
 
 export const useCreateNote = () => {
   return useMutation({
