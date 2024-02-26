@@ -12,12 +12,12 @@ import {
   SimpleGrid,
   Text,
 } from '@chakra-ui/react';
-import { GoFile } from "react-icons/go";
-import { HiOutlineVideoCamera } from "react-icons/hi2";
-import { IoImageOutline } from "react-icons/io5";
-import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from "react-icons/pi";
-import { SlNotebook } from "react-icons/sl";
-import { VscRecord } from "react-icons/vsc";
+import { GoFile } from 'react-icons/go';
+import { HiOutlineVideoCamera } from 'react-icons/hi2';
+import { IoImageOutline } from 'react-icons/io5';
+import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
+import { SlNotebook } from 'react-icons/sl';
+import { VscRecord } from 'react-icons/vsc';
 import { useNavigate } from 'react-router';
 
 import { modalIds } from 'shared/constants/modalIds';
@@ -39,7 +39,7 @@ export const HomeTabContent = () => {
       pathParams: {
         noteId: id,
       },
-    }));
+    }), { replace: true });
   }, [navigate]);
 
   const cards = React.useMemo(() => [

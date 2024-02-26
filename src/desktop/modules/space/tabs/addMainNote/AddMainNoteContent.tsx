@@ -42,7 +42,7 @@ export const AddMainNoteContent = () => {
         pathParams: {
           noteId: value,
         },
-      }));
+      }), { replace: true });
     } });
   }, [mutate, isPending, dispatch, navigate]);
 
@@ -66,6 +66,7 @@ export const AddMainNoteContent = () => {
           </Button>
         </Center>
         <SelectNoteModal
+          title="Select main note"
           extraId={extraId}
           onSelect={handleNoteSelect}
         />

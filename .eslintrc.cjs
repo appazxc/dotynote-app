@@ -66,7 +66,10 @@ module.exports = {
     ],
     'max-len': ['error', { 'code': 120 }],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+    'jsx-quotes': ['error', 'prefer-double'],
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     'react/self-closing-comp': ['error', {
       component: true,
       html: true,
@@ -86,11 +89,8 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
-    'jsx-quotes': ['error', 'prefer-double'],
     'react/jsx-tag-spacing': ['error', {
       'beforeClosing': 'never',
     }],
-    '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
   },
 };

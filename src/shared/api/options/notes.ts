@@ -18,7 +18,7 @@ export const tabNotes = (spaceId?: string) => {
 
 export type LoadListFilters = {
   query?: string,
-  userId?: string,
+  authorId?: string,
 }
 
 export const loadList = (filters: LoadListFilters = {}) => {

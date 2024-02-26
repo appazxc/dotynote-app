@@ -95,6 +95,7 @@ export const MainHeaderButton = () => {
       </Menu>
 
       <SelectNoteModal
+        title="Select main note"
         extraId={extraId}
         onSelect={handleNoteSelect}
       />

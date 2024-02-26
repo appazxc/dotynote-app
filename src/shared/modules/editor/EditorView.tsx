@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { JSONContent } from '@tiptap/core';
-import { generateHTML } from '@tiptap/html';
+import { JSONContent, generateHTML } from '@tiptap/core';
 
+import { keepNDivs, removeEmptyDivsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
 
 type Props = {
   content?: JSONContent,
   maxLines?: number,
+  removeEmptyDivsFromEnd?: boolean
 }
 
 const Container = styled(Box)`
@@ -28,16 +29,22 @@ const Container = styled(Box)`
   }
 `;
 
-export const EditorView = ({ content: json, maxLines }: Props) => {
+export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
   const content = React.useMemo(() => {
     if (!json) {
       return '';
     }
 
     const html = generateHTML(json, extensions);
-
-    return maxLines ? html.split('</div>').slice(0, maxLines).join('</div>') : html;
-  }, [json, maxLines]);
+    
+    let result = maxLines ? keepNDivs(html, maxLines) : html;
+    
+    if (removeEmptyDivsFromEnd) {
+      result = removeEmptyDivsFromEndHelper(result);
+    }
+    
+    return result;
+  }, [json, maxLines, removeEmptyDivsFromEnd]);
 
   return (
     <Container dangerouslySetInnerHTML={{ __html: content }} />

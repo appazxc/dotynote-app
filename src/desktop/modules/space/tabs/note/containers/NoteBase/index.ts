@@ -1,0 +1,1 @@
+export { NoteBase } from './NoteBase';

@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { Box, Container, Stack, Text } from "@chakra-ui/react";
-import { useParams } from "react-router";
+import { Box, Container, Stack } from '@chakra-ui/react';
+import { useParams } from 'react-router';
 
-import { useScrollContext } from "shared/components/ScrollProvider";
-import { useQueryParams } from "shared/hooks/useQueryParams";
-import { Posts } from "shared/modules/space/tabs/note/containers/Posts";
+import { useScrollContext } from 'shared/components/ScrollProvider';
+import { useQueryParams } from 'shared/hooks/useQueryParams';
+import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
+
+import { NoteBase } from './containers/NoteBase';
 
 export const NoteTabContent = () => {
-  const { noteId = "" } = useParams();
-  const { postId = "" } = useQueryParams();
+  const { noteId = '' } = useParams();
+  const { postId = '' } = useQueryParams();
   const scrollRef = useScrollContext();
 
   React.useEffect(() => {
@@ -19,15 +21,10 @@ export const NoteTabContent = () => {
   }, [noteId, scrollRef]);
 
   return (
-    <Container>
+    <Container pt="10">
       <Stack gap="5">
-        <Box
-          h="150"
-          border="1px solid green"
-          borderRadius="lg"
-        >
-          <Text>note content {noteId}</Text>
-          <Text>postId {postId}</Text>
+        <Box>
+          <NoteBase id={noteId} />
         </Box>
         <Posts
           key={noteId}

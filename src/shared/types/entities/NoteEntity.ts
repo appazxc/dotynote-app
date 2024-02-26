@@ -3,6 +3,6 @@ import { JSONContent } from '@tiptap/core';
 import { BaseEntity } from './BaseEntity';
 
 export type NoteEntity = BaseEntity<{
-  title: string,
+  title?: string,
   content?: JSONContent
 }>

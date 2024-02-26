@@ -10,7 +10,7 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
 export const NoteSidebar = () => {
-  const { noteId = "" } = useParams();
+  const { noteId = '' } = useParams();
   const navigate = useNavigate();
   const tab = useTabContext();
 

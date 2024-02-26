@@ -17,7 +17,7 @@ export class NoteEssence extends Essense<NoteEntity> {
         }
 
         const { routes } = spaceTab;
-        const match = getTabMatch(routes[0]);
+        const match = getTabMatch(routes[routes.length - 1]);
 
         if (!match || match.route.name !== tabRouteNames.note) {
           return false;
@@ -31,6 +31,6 @@ export class NoteEssence extends Essense<NoteEntity> {
       return [];
     }
     
-    return this.loadList({ filters: { ids: noteIds } });
+    return this.loadList({ filters: { ids: noteIds, pageSize: 100 } });
   }
 }

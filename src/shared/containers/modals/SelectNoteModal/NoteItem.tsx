@@ -33,7 +33,11 @@ export const NoteItem = ({ id, onClick }) => {
           {title}
         </Text>
       )}
-      <EditorView content={content} maxLines={4} />
+      <EditorView
+        removeEmptyDivsFromEnd
+        content={content}
+        maxLines={4}
+      />
     </Card>
   );
 };

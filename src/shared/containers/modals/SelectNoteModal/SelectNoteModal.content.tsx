@@ -18,10 +18,17 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { SearchResults } from './SearchResults';
 
 export type Props = {
+  title?: string,
   onSelect?: (id: string) => void,
 }
 
-const SelectNoteModal = ({ onSelect }: Props) => {
+const DEFAULT_TITLE = 'Select note';
+
+const SelectNoteModal = (props: Props) => {
+  const { 
+    onSelect,
+    title = DEFAULT_TITLE,
+  } = props;
   const dispatch = useAppDispatch();
   const [query, setQuery] = React.useState('');
   const debouncedQuery = useDebounce<string>(query, 500);
@@ -40,7 +47,7 @@ const SelectNoteModal = ({ onSelect }: Props) => {
     >
       <ModalOverlay />
       <ModalContent h="80vh">
-        <ModalHeader pb="1">Select note</ModalHeader>
+        <ModalHeader pb="1">{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody
           pt="0"
