@@ -56,4 +56,10 @@ export const implementedHandlers = [
   rest.patch(getHandlerUrl('/spaceTabs/:id'), (req, res, ctx) => {
     return res(ctx.status(200));
   }),
+
+  rest.get<DefaultBodyType, { id: string }>(getHandlerUrl('/notes/:id'), (req, res, ctx) => {
+    const { id } = req.params;
+
+    return res(ctx.json(createResponse(entityNames.note, createNote(id))));
+  }),
 ];

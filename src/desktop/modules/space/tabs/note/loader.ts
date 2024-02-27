@@ -1,8 +1,9 @@
-import { RouteLoader } from "shared/types/common/router";
-import { wait } from "shared/util/wait";
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
+import { RouteLoader } from 'shared/types/common/router';
 
-export const loader: RouteLoader = async (params) => {
-  // console.log('loader params', params);
-
+export const loader: RouteLoader = async ({ params }) => {
+  const { noteId } = params;
+  await queryClient.fetchQuery(options.notes.load(noteId));
   // await wait(2000);
 };

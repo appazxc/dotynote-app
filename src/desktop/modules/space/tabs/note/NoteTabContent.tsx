@@ -26,11 +26,11 @@ export const NoteTabContent = () => {
         <Box>
           <NoteBase id={noteId} />
         </Box>
-        <Posts
+        {/* <Posts
           key={noteId}
           noteId={noteId}
           postId={postId}
-        />
+        /> */}
       </Stack>
     </Container>
   );

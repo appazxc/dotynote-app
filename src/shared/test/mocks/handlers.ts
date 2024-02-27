@@ -14,11 +14,5 @@ export const handlers = [
     const direction = req.url.searchParams.get('direction') || '';
 
     return res(ctx.json(createResponse(entityNames.post, getNotePosts(id, cursor, direction))));
-  }),
-
-  rest.get<DefaultBodyType, { id: string }>(getHandlerUrl('/notes/:id'), (req, res, ctx) => {
-    const { id } = req.params;
-
-    return res(ctx.json(createResponse(entityNames.note, createNote(id))));
-  }),
+  })
 ];

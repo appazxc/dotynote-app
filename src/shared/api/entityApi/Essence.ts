@@ -32,7 +32,9 @@ export default class Essense<T extends { id?: string }> {
     return userId;
   }
 
-  async load(id: string) {
+  async load(id?: string | number) {
+    invariant(id, 'Missing id');
+
     return await this.api.get<string>(`${this.path}/${id}`);
   }
 

@@ -9,7 +9,11 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId, selectActiveTabId } from 'shared/store/slices/appSlice';
 
-export const SpaceTab = React.memo(({ id }) => {
+type Props = {
+  id: string,
+}
+
+export const SpaceTab = React.memo(({ id }: Props) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeTabId = useAppSelector(selectActiveTabId);

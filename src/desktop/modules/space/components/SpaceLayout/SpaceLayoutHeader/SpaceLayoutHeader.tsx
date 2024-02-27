@@ -29,6 +29,7 @@ export const SpaceLayoutHeader = React.memo(() => {
   const handleColorModeChange = React.useCallback(() => {
     dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
   }, [dispatch]);
+  
   const handleDrawerOpen = React.useCallback(() => {
     dispatch(showDrawer({ id: drawerIds.confirm }));
   }, [dispatch]);

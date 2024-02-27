@@ -16,6 +16,15 @@ export const tabNotes = (spaceId?: string) => {
   });
 };
 
+export const load = (id?: string | number) => {
+  return queryOptions({
+    queryKey: ['note', id],
+    queryFn: async () => {
+      return entityApi.note.load(id);
+    },
+  });
+};
+
 export type LoadListFilters = {
   query?: string,
   authorId?: string,
