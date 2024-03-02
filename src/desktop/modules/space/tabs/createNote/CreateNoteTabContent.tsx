@@ -3,7 +3,7 @@ import {
   Button,
   Container,
 } from '@chakra-ui/react';
-import { EditorContent } from "@tiptap/react";
+import { EditorContent } from '@tiptap/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,7 +16,7 @@ const schema = z.object({
   title: z
     .string()
     .max(120, {
-      message: "Name must not be longer than 120 characters.",
+      message: 'Name must not be longer than 120 characters.',
     }),
 });
 

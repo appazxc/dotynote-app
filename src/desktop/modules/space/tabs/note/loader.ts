@@ -5,5 +5,4 @@ import { RouteLoader } from 'shared/types/common/router';
 export const loader: RouteLoader = async ({ params }) => {
   const { noteId } = params;
   await queryClient.fetchQuery(options.notes.load(noteId));
-  // await wait(2000);
 };

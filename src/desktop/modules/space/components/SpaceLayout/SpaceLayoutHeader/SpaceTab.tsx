@@ -32,8 +32,8 @@ export const SpaceTab = React.memo(({ id }: Props) => {
     <Button
       as="div"
       size="sm"
-      variant={activeTabId === id ? 'solid' : 'outline'}
-      colorScheme={activeTabId === id ? 'gray' : 'brand'}
+      variant={activeTabId !== id ? 'solid' : 'outline'}
+      colorScheme={activeTabId !== id ? 'gray' : 'brand'}
       alignItems="center"
       maxWidth="32"
       flexGrow="1"
