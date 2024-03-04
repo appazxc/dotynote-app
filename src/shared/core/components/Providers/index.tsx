@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { queryClient } from 'shared/api/queryClient';
 import config from 'shared/config';
-import { store, persistor } from 'shared/store/store';
+import { store, persistor } from 'shared/store';
 import theme from 'shared/theme';
 
 import { Device } from './Device';

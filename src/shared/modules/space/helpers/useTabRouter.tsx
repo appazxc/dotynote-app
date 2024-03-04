@@ -4,8 +4,8 @@ import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
+import { store } from 'shared/store';
 import { useAppDispatch } from 'shared/store/hooks';
-import { store } from 'shared/store/store';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 import { getRoutesMap } from './getRoutesMap';

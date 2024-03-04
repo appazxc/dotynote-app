@@ -1,4 +1,4 @@
-import { store } from 'shared/store/store';
+import { store } from 'shared/store';
 import { createRouter } from 'shared/util/router/createRouter';
 
 import { routeDictionary } from './routeDictionary';

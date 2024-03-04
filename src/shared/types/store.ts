@@ -1,4 +1,4 @@
-import { store } from '../store/store';
+import { store } from 'shared/store';
 
 export type AppState = ReturnType<typeof store.getState>
 

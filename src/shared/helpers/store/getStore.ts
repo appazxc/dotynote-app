@@ -1,4 +1,4 @@
-import { store } from 'shared/store/store';
+import { store } from 'shared/store';
 
 export const getStore = () => {
   return store;
