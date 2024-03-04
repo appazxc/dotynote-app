@@ -4,9 +4,9 @@ import { LoaderFunction, createBrowserRouter, createMemoryRouter, defer } from '
 
 import { Defer } from 'shared/components/Defer/Defer';
 import { TabRouteListItem, tabRouteList } from 'shared/modules/space/constants/tabRouteList';
-import { AppStore } from 'shared/store';
 import { startPageLoading, stopPageLoading } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/common/router';
+import { AppStore } from 'shared/types/store';
 import { TabsDictionary } from 'shared/types/tabs';
 
 export type CreateRouterParams = {

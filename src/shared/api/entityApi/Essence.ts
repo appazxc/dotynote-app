@@ -1,8 +1,8 @@
 import { EntityName } from 'shared/constants/entityNames';
 import { getStore } from 'shared/helpers/store/getStore';
-import { AppStore } from 'shared/store';
 import { selectUserId } from 'shared/store/slices/authSlice';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
+import { AppStore } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 import apiFactory, { Api } from '../apiFactory';

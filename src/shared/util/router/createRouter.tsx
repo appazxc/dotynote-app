@@ -8,8 +8,8 @@ import { RouteRole, roles } from 'shared/constants/routeList/roles';
 import { startPageLoading, stopPageLoading } from 'shared/modules/loaders/loadersSlice';
 import { guestGuard } from 'shared/routes/guards/guestGuard';
 import { userGuard } from 'shared/routes/guards/userGuard';
-import { AppStore } from 'shared/store';
 import { Guard, RouteDictionary, RouteLoader } from 'shared/types/common/router';
+import { AppStore } from 'shared/types/store';
 
 type CreateRouterParams = {
   store: AppStore,

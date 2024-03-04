@@ -1,6 +1,6 @@
 import { EntityName } from 'shared/constants/entityNames';
-import { AppState } from 'shared/store';
 import { Entity } from 'shared/types/entities/entityTypes';
+import { AppState } from 'shared/types/store';
 
 import { makeGetById } from './makeGetById';
 import { makeGetSelectEntities } from './makeGetSelectEntities';

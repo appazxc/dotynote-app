@@ -3,8 +3,8 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { getNextActiveTabId } from 'shared/helpers/space/getNextActiveTabId';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import { ThunkAction } from 'shared/store';
 import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { ThunkAction } from 'shared/types/store';
 
 export const closeTab =
   (tabId: string): ThunkAction =>

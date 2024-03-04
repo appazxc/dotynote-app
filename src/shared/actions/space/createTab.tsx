@@ -10,7 +10,6 @@ import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import { ThunkAction } from 'shared/store';
 import {
   selectActiveSpaceId,
   selectActiveTabId,
@@ -18,6 +17,7 @@ import {
 } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { ThunkAction } from 'shared/types/store';
 import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
 

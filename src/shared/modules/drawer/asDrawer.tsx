@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 
 // need 18.3 react version
 // import { SuspenseLoader } from 'shared/components/SuspenseLoader';
-import { AppDispatch } from 'shared/store';
 import { useAppSelector } from 'shared/store/hooks';
 import { DrawerIdentity } from 'shared/types/drawer';
+import { AppDispatch } from 'shared/types/store';
 
 import { DrawerLoader } from './DrawerLoader';
 import { isTopDrawer } from './helpers/isTopDrawer';

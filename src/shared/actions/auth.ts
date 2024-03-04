@@ -5,8 +5,8 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { loaderIds } from 'shared/constants/loaderIds';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
-import { AppThunk, ThunkAction } from 'shared/store';
 import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
+import { AppThunk, ThunkAction } from 'shared/types/store';
 
 export const loginEmail: AppThunk<string> = (email) =>
   withLoader(loaderIds.loginEmail, () => {

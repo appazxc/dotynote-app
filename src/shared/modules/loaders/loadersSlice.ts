@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Loader } from 'shared/constants/loaderIds';
-import { AppState } from 'shared/store';
 import { useAppSelector } from 'shared/store/hooks';
+import { AppState } from 'shared/types/store';
 
 type InitialState = {
   ids: {

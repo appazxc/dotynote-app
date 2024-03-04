@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 
 // need 18.3 react version
 // import { SuspenseLoader } from 'shared/components/SuspenseLoader';
-import { AppDispatch } from 'shared/store';
 import { useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
+import { AppDispatch } from 'shared/types/store';
 
 import { ModalLoader } from './ModalLoader';
 import { makeModalId } from './util/makeModalId';

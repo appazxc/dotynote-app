@@ -4,7 +4,7 @@ import { LoaderFunctionArgs, LoaderFunction } from 'react-router-dom';
 
 import { RouteListItem } from 'shared/constants/routeList';
 import { RouteName } from 'shared/constants/routeNames';
-import { AppStore } from 'shared/store';
+import { AppStore } from 'shared/types/store';
 
 type Args = LoaderFunctionArgs & { store: AppStore };
 

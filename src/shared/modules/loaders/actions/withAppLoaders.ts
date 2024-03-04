@@ -1,5 +1,5 @@
 import { Loader } from 'shared/constants/loaderIds';
-import { ThunkAction } from 'shared/store';
+import { ThunkAction } from 'shared/types/store';
 
 import { startAppLoader, stopAppLoader } from '../loadersSlice';
 
