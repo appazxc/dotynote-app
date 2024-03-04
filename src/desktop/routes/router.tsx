@@ -1,5 +1,5 @@
 import { ContentLoader } from 'shared/components/ContentLoader';
-import { store } from 'shared/store';
+import { store } from 'shared/store/store';
 import { createRouter } from 'shared/util/router/createRouter';
 
 import { ErrorPage } from 'desktop/routes/error';
