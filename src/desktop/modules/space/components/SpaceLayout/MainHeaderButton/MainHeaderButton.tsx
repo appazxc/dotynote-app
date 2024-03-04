@@ -86,7 +86,7 @@ export const MainHeaderButton = () => {
               dispatch(showModal({ id: modalIds.selectNote, extraId }));
             }}
           >
-          Change main note
+            Change main note
           </MenuItem>
           <MenuItem>Mark as Draft</MenuItem>
           <MenuItem>Delete</MenuItem>

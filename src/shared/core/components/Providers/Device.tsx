@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
 
 import { useQuery } from '@chakra-ui/react';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-import { devices } from "shared/constants/devices";
+import { devices } from 'shared/constants/devices';
 import { useMedia } from 'shared/hooks/useMedia';
-import { updateDevice } from "shared/store/slices/appSlice";
+import { useAppSelector } from 'shared/store/hooks';
+import { updateDevice } from 'shared/store/slices/appSlice';
 
 type Props = {
   children: React.ReactNode,
@@ -14,12 +15,17 @@ type Props = {
 export const Device = React.memo(({ children }: Props) => {
   const query = useQuery({ below: 'sm' });
   const dispatch = useDispatch();
+  const device = useAppSelector(state => state.app.device);
   // standard media initialized with wrong values
-  const [, initialized] = useMedia(query, (isMobileMatch) => {
-    dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
-  });
+  const [isMobileMatch] = useMedia(query);
 
-  if (!initialized) {
+  React.useEffect(() => {
+    if (!device && typeof isMobileMatch === 'boolean') {
+      dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
+    }
+  }, [dispatch, device, isMobileMatch]);
+
+  if (!device) {
     return null;
   }
   

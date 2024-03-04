@@ -3,9 +3,7 @@ import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
 import { spaceSelector } from 'shared/selectors/entities';
-import { invariant } from 'shared/util/invariant';
-
-import { AppState } from '../../types/store';
+import { AppState } from 'shared/types/store';
 
 type TempNote = {
   title: string,
@@ -92,8 +90,6 @@ export const selectActiveTabId = (state: AppState) => {
 };
 
 export const selectIsMobile = (state: AppState) => {
-  invariant(state.app.device, 'Try use device before it was initialized');
-
   return state.app.device === devices.MOBILE;
 };
 

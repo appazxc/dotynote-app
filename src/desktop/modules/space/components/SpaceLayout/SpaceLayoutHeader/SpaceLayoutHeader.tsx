@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
 import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
+import { logout } from 'shared/actions/auth';
 import { createTab } from 'shared/actions/space/createTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { drawerIds } from 'shared/constants/drawerIds';
@@ -99,7 +100,7 @@ export const SpaceLayoutHeader = React.memo(() => {
                 Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
               </MenuItem>
               <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
-              <MenuItem>Open File</MenuItem>
+              <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
             </MenuList>
           </Menu>
 
