@@ -1,17 +1,20 @@
-import React from 'react';
 
-import { Box, Heading, Stack } from '@chakra-ui/react';
+import { Heading, Stack } from '@chakra-ui/react';
 
-import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
+import { NoteEditorBase } from '../NoteEditorBase';
+
 type Props = {
-  id: string,
+  id: IdentityType,
+  isWriteMode: boolean,
 }
 
-export const NoteBase = ({ id }: Props) => {
+export const NoteBase = (props: Props) => {
+  const { id, isWriteMode } = props;
   const note = useAppSelector(state => noteSelector.getById(state, id));
 
   invariant(note, 'Missing note');
@@ -21,7 +24,11 @@ export const NoteBase = ({ id }: Props) => {
   return (
     <Stack gap="4">
       {title && <Heading>{title}</Heading>}
-      <EditorView content={content} />
+      <NoteEditorBase
+        id={id}
+        isWriteMode={isWriteMode}
+        content={content}
+      />
     </Stack>
   );
 };

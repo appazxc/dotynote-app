@@ -1,6 +1,6 @@
-import { Editor, EditorOptions, useEditor as useTiptapEditor } from "@tiptap/react";
+import { Editor, EditorOptions, useEditor as useTiptapEditor } from '@tiptap/react';
 
-import { extensions } from "./extensions";
+import { extensions } from './extensions';
 
 export const useEditor = (props: Partial<EditorOptions> = {}) => {
   const editor = useTiptapEditor({

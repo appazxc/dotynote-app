@@ -2,6 +2,8 @@ type FakeEntity = {
   isFake?: true,
 }
 
+export type IdentityType = number | string
+
 export type BaseEntity<T> = {
-  id: string,
+  id: IdentityType,
 } & T & FakeEntity;
