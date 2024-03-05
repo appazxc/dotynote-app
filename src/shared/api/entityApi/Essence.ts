@@ -2,6 +2,7 @@ import { EntityName } from 'shared/constants/entityNames';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectUserId } from 'shared/store/slices/authSlice';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { AppStore } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
@@ -42,7 +43,7 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.get<string[]>(`${this.path}`, filters);
   }
 
-  async update(id: string, data?: Partial<T> | null) {
+  async update(id: IdentityType, data?: Partial<T> | null) {
     const entity = this.selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
@@ -72,7 +73,7 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.delete<void>(`${this.path}/${id}`);
   }
 
-  updateEntity(id: string, data: Partial<T>) {
+  updateEntity(id: IdentityType, data: Partial<T>) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 

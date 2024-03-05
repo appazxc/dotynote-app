@@ -29,7 +29,15 @@ export const NoteTab = () => {
   }, []);
 
   return (
-    <TabLayout leftSide={<NoteSidebar rwMode={rwMode} toggleRwMode={handleToggleRwMode} />}>
+    <TabLayout
+      leftSide={(
+        <NoteSidebar
+          id={note.id}
+          rwMode={rwMode}
+          toggleRwMode={handleToggleRwMode}
+        />
+      )}
+    >
       <NoteTabContent noteId={note.id} isWriteMode={rwMode === rwModes.WRITE} />
     </TabLayout>
   );

@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { EntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
@@ -12,7 +13,7 @@ export type Entities = {
 
 type UpdateEntityPayload<T extends EntityName> = { 
   type: T, 
-  id: string, 
+  id: IdentityType, 
   data: Partial<EntityTypes[T]>
 }
 

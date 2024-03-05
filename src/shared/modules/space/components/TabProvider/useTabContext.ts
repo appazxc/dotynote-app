@@ -6,7 +6,7 @@ export const useTabContext = () => {
   const context = React.useContext(TabContext);
   
   if (context === undefined) {
-    throw new Error("useTabContext must be within TabProvider");
+    throw new Error('useTabContext must be within TabProvider');
   }
 
   return context;

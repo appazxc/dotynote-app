@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Box, BoxProps } from '@chakra-ui/react';
-import { Editor } from "@tiptap/react";
-import { EditorContent as TiptapEditorContent } from "@tiptap/react";
+import { Editor } from '@tiptap/react';
+import { EditorContent as TiptapEditorContent } from '@tiptap/react';
 
 type Props = {
   editor?: Editor

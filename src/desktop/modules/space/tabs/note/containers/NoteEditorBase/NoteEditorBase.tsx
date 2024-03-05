@@ -16,6 +16,6 @@ export const NoteEditorBase = (props: Props) => {
   const { isWriteMode, content } = props;
 
   return (
-    isWriteMode ? <NoteEditor content={content} /> : <EditorView content={content} />
+    isWriteMode ? <NoteEditor /> : <EditorView content={content} />
   );
 };
