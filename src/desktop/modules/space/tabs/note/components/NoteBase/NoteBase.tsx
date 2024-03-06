@@ -12,6 +12,8 @@ import { invariant } from 'shared/util/invariant';
 
 import { NoteEditorBase } from '../NoteEditorBase';
 
+import { NoteTitle } from './NoteTitle';
+
 type Props = {
   id: IdentityType,
   isWriteMode: boolean,
@@ -26,16 +28,22 @@ export const NoteBase = (props: Props) => {
 
   const { title, content } = note;
 
-  const debouncedSaveContent = React.useMemo(() => {
+  const debouncedUpdateContent = React.useMemo(() => {
     return debounce((content) => {
       mutate({ content });
+    }, 2000);
+  }, [mutate]);
+
+  const debouncedUpdateTitle = React.useMemo(() => {
+    return debounce((title) => {
+      mutate({ title });
     }, 2000);
   }, [mutate]);
   
   const editor = useEditor({
     content,
     onUpdate(props) {
-      debouncedSaveContent(props.editor.getJSON());
+      debouncedUpdateContent(props.editor.getJSON());
     },
   });
   console.log('editor', editor);
@@ -44,7 +52,11 @@ export const NoteBase = (props: Props) => {
     <EditorProvider editor={editor}>
       <Box pt="10" flexGrow="1">
         <Stack gap="4">
-          {title && <Heading>{title}</Heading>}
+          <NoteTitle
+            title={title}
+            isWriteMode={isWriteMode}
+            onChange={debouncedUpdateTitle}
+          />
           <NoteEditorBase
             id={id}
             isWriteMode={isWriteMode}

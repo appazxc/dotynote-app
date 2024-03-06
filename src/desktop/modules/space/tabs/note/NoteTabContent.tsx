@@ -8,8 +8,8 @@ import { useQueryParams } from 'shared/hooks/useQueryParams';
 import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 
+import { NoteBase } from './components/NoteBase';
 import { RwMode } from './constants';
-import { NoteBase } from './containers/NoteBase';
 
 type Props = {
   noteId: IdentityType,

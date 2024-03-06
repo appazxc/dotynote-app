@@ -9,8 +9,8 @@ import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
+import { NoteSidebar } from './components/NoteSidebar';
 import { RwMode, rwModes } from './constants';
-import { NoteSidebar } from './containers/NoteSidebar';
 import { getInitialRwMode } from './helpers/getInitialRwMode';
 import { NoteTabContent } from './NoteTabContent';
 
