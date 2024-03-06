@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Box } from '@chakra-ui/react';
+
 import { EditorView } from 'shared/modules/editor';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -16,6 +18,13 @@ export const NoteEditorBase = (props: Props) => {
   const { isWriteMode, content } = props;
 
   return (
-    isWriteMode ? <NoteEditor /> : <EditorView content={content} />
+    <Box
+      mt="4"
+      flexGrow="1"
+      display="flex"
+      flexDirection="column"
+    >
+      {isWriteMode ? <NoteEditor /> : <EditorView content={content} />}
+    </Box>
   );
 };

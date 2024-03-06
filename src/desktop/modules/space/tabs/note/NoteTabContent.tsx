@@ -28,15 +28,19 @@ export const NoteTabContent = (props: Props) => {
   }, [noteId, scrollRef]);
 
   return (
-    <Container minH="full">
-      <Stack gap="5" minH="full">
+    <Container h="full">
+      <Box
+        h="full"
+        display="flex"
+        flexDirection="column"
+      >
         <NoteBase id={noteId} isWriteMode={isWriteMode} />
         {/* <Posts
           key={noteId}
           noteId={noteId}
           postId={postId}
         /> */}
-      </Stack>
+      </Box>
     </Container>
   );
 };

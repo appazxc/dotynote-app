@@ -46,23 +46,25 @@ export const NoteBase = (props: Props) => {
       debouncedUpdateContent(props.editor.getJSON());
     },
   });
-  console.log('editor', editor);
   
   return (
     <EditorProvider editor={editor}>
-      <Box pt="10" flexGrow="1">
-        <Stack gap="4">
-          <NoteTitle
-            title={title}
-            isWriteMode={isWriteMode}
-            onChange={debouncedUpdateTitle}
-          />
-          <NoteEditorBase
-            id={id}
-            isWriteMode={isWriteMode}
-            content={content}
-          />
-        </Stack>
+      <Box
+        pt="10"
+        flexGrow="1"
+        display="flex"
+        flexDirection="column"
+      >
+        <NoteTitle
+          title={title}
+          isWriteMode={isWriteMode}
+          onChange={debouncedUpdateTitle}
+        />
+        <NoteEditorBase
+          id={id}
+          isWriteMode={isWriteMode}
+          content={content}
+        />
       </Box>
     </EditorProvider>
     
