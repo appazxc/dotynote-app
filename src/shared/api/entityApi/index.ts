@@ -1,11 +1,11 @@
-import { entityNames } from "shared/constants/entityNames";
-import { noteSelector, spaceSelector, spaceTabSelector, userSelector } from "shared/selectors/entities";
-import { SpaceEntity } from "shared/types/entities/SpaceEntity";
+import { entityNames } from 'shared/constants/entityNames';
+import { noteSelector, spaceSelector, spaceTabSelector, userSelector } from 'shared/selectors/entities';
+import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
 
-import Essense from "./Essence";
-import { NoteEssence } from "./note";
-import { SpaceTabEssence } from "./spaceTab";
-import { UserEssence } from "./user";
+import Essense from './Essence';
+import { NoteEssence } from './note';
+import { SpaceTabEssence } from './spaceTab';
+import { UserEssence } from './user';
 
 const user = new UserEssence(entityNames.user, userSelector);
 const note = new NoteEssence(entityNames.note, noteSelector);

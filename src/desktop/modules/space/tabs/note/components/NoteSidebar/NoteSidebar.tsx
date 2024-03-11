@@ -4,7 +4,6 @@ import { Box, IconButton } from '@chakra-ui/react';
 import { BsArrowLeft, BsPlus } from 'react-icons/bs';
 import { FaPencil } from 'react-icons/fa6';
 import { HiOutlineBookOpen } from 'react-icons/hi';
-import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -37,19 +36,15 @@ export const NoteSidebar = (props: Props) => {
       },
       {
         label: 'Note add',
-        component: SidebarPlusMenu,
+        element: <SidebarPlusMenu noteId={id} />,
       },
       ...rwMode !== rwModes.NONE ? [{
         label: 'Note write',
         icon: rwMode === rwModes.READ ? <FaPencil /> : <HiOutlineBookOpen size="18" />,
         onClick: toggleRwMode,
       }] : [],
-      {
-        label: 'Note menu',
-        icon: <PiDotsSixVerticalBold />,
-      },
     ];
-  }, [rwMode, navigate, tab.routes.length, toggleRwMode]);
+  }, [rwMode, id, navigate, tab.routes.length, toggleRwMode]);
 
   return (
     <TabSidebar footer={<SidebarFooter id={id} />}>
@@ -59,18 +54,16 @@ export const NoteSidebar = (props: Props) => {
         flexDirection="column"
         p="2"
       >
-        {items.map(({ label, component: Component, ...restItem }) => 
-          Component 
-            ? <Component key={label} />
-            : (
-              <IconButton
-                key={label}
-                size="sm"
-                variant="ghost"
-                aria-label={label}
-                {...restItem}
-              />
-            ))}
+        {items.map(({ label, element, ...restItem }) => 
+          element || (
+            <IconButton
+              key={label}
+              size="sm"
+              variant="ghost"
+              aria-label={label}
+              {...restItem}
+            />
+          ))}
       </Box>
     </TabSidebar>
   );

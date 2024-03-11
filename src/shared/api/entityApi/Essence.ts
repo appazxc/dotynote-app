@@ -8,7 +8,7 @@ import { invariant } from 'shared/util/invariant';
 
 import apiFactory, { Api } from '../apiFactory';
 
-export default class Essense<T extends { id?: string }> {
+export default class Essense<T extends { id?: IdentityType }> {
   api: Api;
   path: string;
   entityName: EntityName;
@@ -67,6 +67,10 @@ export default class Essense<T extends { id?: string }> {
 
   async create(data: Partial<T>) {
     return await this.api.post<string>(this.path, data);
+  }
+
+  async createRelation<R>(id: IdentityType, relation: string, data: Partial<R>) {
+    return this.api.post<string>(`${this.path}/${id}/${relation}`, data);
   }
 
   async delete(id: string | number) {

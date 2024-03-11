@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, useToken } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, useDisclosure, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
@@ -20,7 +20,7 @@ const extraId = 'MainHeaderButton';
 
 export const MainHeaderButton = () => {
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const space = useAppSelector(selectActiveSpace);
   const brand = useToken(
     'colors',
@@ -45,9 +45,7 @@ export const MainHeaderButton = () => {
     <>
       <Menu
         isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
+        onClose={onClose}
         placement="bottom-start"
         flip={false}
       >
@@ -63,7 +61,7 @@ export const MainHeaderButton = () => {
           onClick={() => dispatch(openMainSpaceNote())}
           onContextMenu={(e) => {
             e.preventDefault();
-            setIsOpen(true);
+            onOpen();
           }}
         />
         <MenuList

@@ -1,5 +1,8 @@
 import { BaseEntity } from './BaseEntity';
 
 export type PostEntity = BaseEntity<{
-  noteId: string,
+  pos: number,
+  parentId: number,
+  noteId: number,
+  authorId: string,
 }>

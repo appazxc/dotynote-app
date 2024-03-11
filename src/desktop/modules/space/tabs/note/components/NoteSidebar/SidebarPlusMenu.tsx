@@ -17,23 +17,65 @@ import {
   useBoolean,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { BsPlus } from 'react-icons/bs';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
+import { SlNotebook } from 'react-icons/sl';
 import { VscRecord } from 'react-icons/vsc';
 
+import { entityApi } from 'shared/api/entityApi';
 import { modalIds } from 'shared/constants/modalIds';
+import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
+import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
-import { useAppDispatch } from 'shared/store/hooks';
+import { noteSelector } from 'shared/selectors/entities';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
+
+const ICON_SIZE = 24;
+
+const extraId = 'sidebarPlusMenu';
+
+const Cards = ({ items }) => {
+  return (
+    <Box minH="180px" pt="3">
+      <SimpleGrid spacing={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
+        {items.map(({ title, icon, isDisabled, onClick }) => {
+          return (
+            <Card
+              key={title}
+              padding="small"
+              cursor={isDisabled ? 'default': 'pointer'}
+              opacity={isDisabled ? '0.6': '1'}
+              onClick={onClick}
+            >
+              <CardHeader p="2">
+                {icon}
+              </CardHeader>
+              <CardBody
+                pt="2"
+                pb="1"
+                px="2"
+                display="flex"
+                alignItems="flex-end"
+              >
+                <Text fontWeight="500" fontSize="sm">{title}</Text>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </SimpleGrid>
+    </Box>
+  );
+};
 
 const NoteContent = () => {
   const dispatch = useAppDispatch();
 
   const items = React.useMemo(() => {
-    const ICON_SIZE = 24;
-
     return [
       {
         icon: <IoImageOutline size={ICON_SIZE} />,
@@ -88,99 +130,129 @@ const NoteContent = () => {
   }, [dispatch]);
 
   return (
-    <Box minH="180px" pt="3">
-      <SimpleGrid spacing={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
-        {items.map(({ title, icon, isDisabled }) => {
-          return (
-            <Card
-              key={title}
-              padding="small"
-              cursor={isDisabled ? 'default': 'pointer'}
-              opacity={isDisabled ? '0.6': '1'}
-            >
-              <CardHeader p="2">
-                {icon}
-              </CardHeader>
-              <CardBody
-                pt="2"
-                pb="1"
-                px="2"
-                display="flex"
-                alignItems="flex-end"
-              >
-                <Text fontWeight="500" fontSize="sm">{title}</Text>
-              </CardBody>
-            </Card>
-          );
-        })}
-      </SimpleGrid>
-    </Box>
+    <Cards items={items} />
   );
 };
 
-const PostsContent = ({ onClose }) => {
+const PostsContent = ({ note, onClose }) => {
+  const dispatch = useAppDispatch();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (postSettings: Partial<PostSettingsEntity>) => {
+      return entityApi.note.createRelation(note.id, 'postSettings', postSettings);
+    },
+    onSuccess() {
+
+    },
+  });
+
+  const handleClick = React.useCallback(() => {
+    mutate({}, {
+      onSuccess: () => {
+        onClose();
+        dispatch(showModal({ id: modalIds.editPostSettings, extraId }));
+      },
+    });
+
+  }, [mutate, dispatch, onClose]);
+
+  const renderedCards = React.useMemo(() => {
+    const items = [
+      {
+        icon: <SlNotebook size={ICON_SIZE} />,
+        title: 'Text',
+        onClick: () => {
+          onClose();
+          dispatch(showModal({ id: modalIds.createPost, extraId }));
+        },
+      },
+    ];
+
+    return (
+      <Cards items={items} />
+    );
+  }, [dispatch, onClose]);
+
   return (
-    <Center minH="200px">
-      <Button onClick={onClose}>Create posts</Button>
-    </Center>
+    note.postSettingsId 
+      ? renderedCards
+      : (
+        <Center minH="200px">
+          <Button
+            onClick={handleClick}
+            isDisabled={isPending}
+          >
+            Create posts
+          </Button>
+        </Center>
+      )
   );
 };
 
-export const SidebarPlusMenu = () => {
+export const SidebarPlusMenu = ({ noteId }) => {
   const [noteContent, setNoteContent] = useBoolean(true);
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+
+  if (!note) {
+    return null;
+  }
 
   return (
-    <Popover
-      isOpen={isOpen}
-      onClose={onClose}
-      placement="right-start"
-      // closeOnBlur={false}
-    >
-      <PopoverTrigger>
-        <IconButton
-          size="sm"
-          variant="ghost"
-          aria-label="Note add"
-          icon={<BsPlus size="22px" />}
-          onClick={onToggle}
-        />
-      </PopoverTrigger>
-      <PopoverContent width="md">
-        <PopoverBody>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box>
-              <Text fontSize="sm" fontWeight="500">Add to</Text>
-            </Box>
+    <>
+      <Popover
+        isOpen={isOpen}
+        onClose={onClose}
+        placement="right-start"
+      >
+        <PopoverTrigger>
+          <IconButton
+            size="sm"
+            variant="ghost"
+            aria-label="Note add"
+            icon={<BsPlus size="22px" />}
+            onClick={onToggle}
+          />
+        </PopoverTrigger>
+        <PopoverContent width="md">
+          <PopoverBody>
             <Box
               display="flex"
               alignItems="center"
-              gap="2"
+              justifyContent="space-between"
             >
-              <Button
-                size="xs"
-                variant={noteContent ? 'solid' :'ghost'}
-                onClick={setNoteContent.toggle}
+              <Box>
+                <Text fontSize="sm" fontWeight="500">Add to</Text>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                gap="2"
               >
-                Note
-              </Button>
+                <Button
+                  size="xs"
+                  variant={noteContent ? 'solid' :'ghost'}
+                  onClick={setNoteContent.toggle}
+                >
+                  Note
+                </Button>
               /
-              <Button
-                size="xs"
-                variant={noteContent ? 'ghost' :'solid'}
-                onClick={setNoteContent.toggle}
-              >
+                <Button
+                  size="xs"
+                  variant={noteContent ? 'ghost' :'solid'}
+                  onClick={setNoteContent.toggle}
+                >
                 Posts
-              </Button>
+                </Button>
+              </Box>
             </Box>
-          </Box>
-          {noteContent ? <NoteContent /> : <PostsContent onClose={onClose} />}
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+            {noteContent ? <NoteContent /> : <PostsContent note={note} onClose={onClose} />}
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+
+      <EditPostSettingsModal noteId={noteId} extraId={extraId} />
+      <CreatePostModal noteId={noteId} extraId={extraId} />
+    </>
   );
 };
