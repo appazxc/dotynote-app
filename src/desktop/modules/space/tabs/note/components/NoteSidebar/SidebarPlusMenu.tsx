@@ -27,6 +27,7 @@ import { SlNotebook } from 'react-icons/sl';
 import { VscRecord } from 'react-icons/vsc';
 
 import { entityApi } from 'shared/api/entityApi';
+import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
@@ -159,8 +160,8 @@ const PostsContent = ({ note, onClose }) => {
   const renderedCards = React.useMemo(() => {
     const items = [
       {
-        icon: <SlNotebook size={ICON_SIZE} />,
         title: 'Text',
+        icon: <SlNotebook size={ICON_SIZE} />,
         onClick: () => {
           onClose();
           dispatch(showModal({ id: modalIds.createPost, extraId }));
@@ -194,6 +195,10 @@ export const SidebarPlusMenu = ({ noteId }) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
 
+  const handlePostCreate = React.useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
+  }, []);
+  
   if (!note) {
     return null;
   }
@@ -252,7 +257,11 @@ export const SidebarPlusMenu = ({ noteId }) => {
       </Popover>
 
       <EditPostSettingsModal noteId={noteId} extraId={extraId} />
-      <CreatePostModal noteId={noteId} extraId={extraId} />
+      <CreatePostModal
+        noteId={noteId}
+        extraId={extraId}
+        onCreate={handlePostCreate}
+      />
     </>
   );
 };

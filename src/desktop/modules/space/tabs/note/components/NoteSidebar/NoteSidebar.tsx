@@ -36,7 +36,7 @@ export const NoteSidebar = (props: Props) => {
       },
       {
         label: 'Note add',
-        element: <SidebarPlusMenu noteId={id} />,
+        element: <SidebarPlusMenu key={id} noteId={id} />,
       },
       ...rwMode !== rwModes.NONE ? [{
         label: 'Note write',

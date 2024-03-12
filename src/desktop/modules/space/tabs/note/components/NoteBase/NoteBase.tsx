@@ -17,10 +17,11 @@ import { NoteTitle } from './NoteTitle';
 type Props = {
   id: IdentityType,
   isWriteMode: boolean,
+  onEditorInit: () => void,
 }
 
 export const NoteBase = (props: Props) => {
-  const { id, isWriteMode } = props;
+  const { id, isWriteMode, onEditorInit } = props;
   const note = useAppSelector(state => noteSelector.getById(state, id));
   invariant(note, 'Missing note');
 
@@ -45,6 +46,7 @@ export const NoteBase = (props: Props) => {
     onUpdate(props) {
       debouncedUpdateContent(props.editor.getJSON());
     },
+    onCreate: onEditorInit,
   });
   
   return (

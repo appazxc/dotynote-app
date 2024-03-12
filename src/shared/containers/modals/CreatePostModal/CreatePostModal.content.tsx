@@ -53,7 +53,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
   const onSubmit = React.useCallback(async (values) => {
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
-
+      
       if (onCreate) {
         onCreate(id);
       }

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { Box, Container, Stack, Text } from "@chakra-ui/react";
-import { useParams } from "react-router";
+import { Box, Container, Stack, Text } from '@chakra-ui/react';
+import { useParams } from 'react-router';
 
-import { useScrollContext } from "shared/components/ScrollProvider";
-import { useQueryParams } from "shared/hooks/useQueryParams";
-import { Posts } from "shared/modules/space/tabs/note/containers/Posts";
+import { useScrollContext } from 'shared/components/ScrollProvider';
+import { useQueryParams } from 'shared/hooks/useQueryParams';
+import { Posts } from 'shared/modules/space/tabs/note/containers/_Posts';
 
 export const NoteTabContent = () => {
-  const { noteId = "" } = useParams();
-  const { postId = "" } = useQueryParams();
+  const { noteId = '' } = useParams();
+  const { postId = '' } = useQueryParams();
   const scrollRef = useScrollContext();
 
   React.useEffect(() => {

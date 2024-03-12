@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { createTab } from 'shared/actions/space/createTab';
+import { EditorView } from 'shared/modules/editor';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
@@ -18,11 +18,10 @@ type Props = {
 
 export const Post = React.memo(({ postId, className }: Props) => {
   const dispatch = useAppDispatch();
-  const spaceId = useAppSelector(selectActiveSpaceId);
   const post = useAppSelector(state => postSelector.getById(state, postId));
-  const note = useAppSelector(state => noteSelector.getById(state, post?.id));
+  const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
 
-  invariant(spaceId, 'Missing spaceId');
+  invariant(note, 'Missing note');
 
   return (
     <Box>
@@ -39,7 +38,6 @@ export const Post = React.memo(({ postId, className }: Props) => {
       >
         <Box
           className={className}
-          h="80px"
           p="4"
           borderWidth="2px"
           borderRadius="lg"
@@ -48,7 +46,8 @@ export const Post = React.memo(({ postId, className }: Props) => {
           data-post-id={postId}
           
         >
-          {note?.title}
+          <Text fontWeight="500">{note?.title}</Text>
+          <EditorView removeEmptyDivsFromEnd content={note?.content} />
         </Box>
       </Link>
     </Box>

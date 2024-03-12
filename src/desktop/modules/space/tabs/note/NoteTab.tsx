@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Button } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { noteSelector } from 'shared/selectors/entities';
@@ -14,7 +15,7 @@ import { RwMode, rwModes } from './constants';
 import { getInitialRwMode } from './helpers/getInitialRwMode';
 import { NoteTabContent } from './NoteTabContent';
 
-export const NoteTab = () => {
+export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const userId = useAppSelector(selectUserId);
@@ -30,15 +31,20 @@ export const NoteTab = () => {
 
   return (
     <TabLayout
+      key={noteId}
       leftSide={(
         <NoteSidebar
-          id={note.id}
+          id={noteId}
           rwMode={rwMode}
           toggleRwMode={handleToggleRwMode}
         />
       )}
     >
-      <NoteTabContent noteId={note.id} isWriteMode={rwMode === rwModes.WRITE} />
+      <NoteTabContent
+        noteId={noteId}
+        showPosts={!!note.postSettingsId}
+        isWriteMode={rwMode === rwModes.WRITE}
+      />
     </TabLayout>
   );
-};
+});
