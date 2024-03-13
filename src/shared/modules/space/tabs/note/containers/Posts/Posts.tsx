@@ -1,26 +1,42 @@
 import React from 'react';
 
 import { Box, Stack } from '@chakra-ui/react';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import throttle from 'lodash/throttle';
-import { useIntersectionObserver } from 'usehooks-ts';
+import { useInView } from 'react-intersection-observer';
 
-import api from 'shared/api';
-import { usePosts } from 'shared/api/hooks/usePosts';
-import { useScrollContext } from 'shared/components/ScrollProvider';
-import { loadMoreDirection, PAGE_SIZE } from 'shared/constants/requests';
+import { useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 
 import { Post } from '../Post';
 
 export const Posts = ({ noteId, postId }) => {
   const postsId = React.useId();
-  const { data } = usePosts(noteId, {});
- 
+  const { ref, inView } = useInView();
+
+  const { 
+    data, 
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchPreviousPage,
+    ...rest
+  } = useInfinityPosts(noteId, {});
+  console.log('rest', data, rest);
+  // console.log('inView', inView);
+
+  // const isFetchingFirstTime = isFetching && !isFetchingNextPage && !isFetchingPreviousPage;
+
+  React.useEffect(() => {
+    if (inView) {
+      fetchPreviousPage();
+    }
+  }, [fetchPreviousPage, inView]);
+
+  const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
+
   return (
     <Box pb="10" flexGrow={data ? '1' : '0'}>
       <Stack gap="2">
         {
-          data?.map((postId) => (
+          flatData.map((postId) => (
             <Post
               key={postId}
               postId={postId} 
@@ -28,6 +44,7 @@ export const Posts = ({ noteId, postId }) => {
             />
           ))
         }
+        <Box ref={ref}>in view {String(inView)} isFetching {String(isFetching)}</Box>
       </Stack>
     </Box>
   );

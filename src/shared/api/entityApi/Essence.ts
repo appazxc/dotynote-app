@@ -40,7 +40,7 @@ export default class Essense<T extends { id?: IdentityType }> {
   }
 
   async loadList({ filters = {} } = {}) {
-    return await this.api.get<string[]>(`${this.path}`, filters);
+    return await this.api.get<IdentityType[]>(`${this.path}`, filters);
   }
 
   async update(id: IdentityType, data?: Partial<T> | null) {
