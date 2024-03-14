@@ -11,6 +11,7 @@ import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 import { RwMode, rwModes } from 'desktop/modules/space/tabs/note/constants';
+import { useNoteTabId } from 'desktop/modules/space/tabs/note/hooks/useNoteTabId';
 
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
@@ -25,6 +26,7 @@ export const NoteSidebar = (props: Props) => {
   const { id, rwMode, toggleRwMode } = props;
   const navigate = useNavigate();
   const tab = useTabContext();
+  useNoteTabId();
 
   const items = React.useMemo(() => {
     return [

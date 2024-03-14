@@ -1,9 +1,13 @@
+import React from 'react';
+
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { LoadListFilters } from 'shared/api/options/posts';
 import { LoadMoreDirection, PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { getCursorName } from 'shared/util/api/getCursorName';
+
+import { useSaveNoteTabQueryKey } from 'desktop/modules/space/tabs/note/hooks/useSaveNoteTabQueryKey';
 
 import { entityApi } from '../entityApi';
 
@@ -15,19 +19,22 @@ type PageParam = {
 }
 
 const initialPageParam: PageParam = 
-// {
-//   cursor: null,
-//   direction: null,
-// }; 
 {
-  cursor: 100,
-  direction: loadMoreDirection.AROUND,
+  cursor: null,
+  direction: null,
 };
 
 export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) => {
+  const queryKey = React.useMemo(
+    () => ['posts', noteId, filters], 
+    [noteId, filters]
+  );
+
+  useSaveNoteTabQueryKey(queryKey);
+
   return useInfiniteQuery({
-    queryKey: ['posts', noteId, filters],
-    queryFn: async ({ pageParam, queryKey }) => {
+    queryKey,
+    queryFn: async ({ pageParam }) => {
       const { cursor, direction } = pageParam;
 
       const apiFilters = {
@@ -35,7 +42,6 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
         pageSize: PAGE_SIZE,
         ...filters,
       };
-      console.log('query cursor', pageParam);
 
       if (cursor && direction) {
         apiFilters[getCursorName(direction)] = cursor;

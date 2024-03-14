@@ -33,8 +33,8 @@ export const TabLayout = ({ children, header, footer }: Props) => {
             overflowX="hidden"
             overflowY="scroll"
             css={{
-              "&::-webkit-scrollbar": {
-                display: "none",
+              '&::-webkit-scrollbar': {
+                display: 'none',
               },
             }}
           >

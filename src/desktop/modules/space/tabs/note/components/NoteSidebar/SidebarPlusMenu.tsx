@@ -36,6 +36,9 @@ import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
+import { useNoteTabId } from '../../hooks/useNoteTabId';
+import { noteTabStore } from '../../lib/noteTabStore';
+
 const ICON_SIZE = 24;
 
 const extraId = 'sidebarPlusMenu';
@@ -194,10 +197,12 @@ export const SidebarPlusMenu = ({ noteId }) => {
   const [noteContent, setNoteContent] = useBoolean(true);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
-
+  const noteTabId = useNoteTabId();
   const handlePostCreate = React.useCallback(() => {
-    queryClient.invalidateQueries({ queryKey: ['posts'] });
-  }, []);
+    const { queryKey } = noteTabStore.get(noteTabId) || {};
+
+    queryClient.resetQueries({ queryKey });
+  }, [noteTabId]);
   
   if (!note) {
     return null;
