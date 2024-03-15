@@ -31,14 +31,14 @@ export const Posts = ({ noteId, postId }) => {
   const { 
     data, 
     isFetching,
+    isFetched,
     isFetchingNextPage,
     isFetchingPreviousPage,
     fetchPreviousPage,
     fetchNextPage,
-    ...rest
   } = useInfinityPosts(noteId, filters);
 
-  const isFetchingFirstTime = isFetching && !isFetchingNextPage && !isFetchingPreviousPage;
+  const isFetchingFirstTime = isFetching && !isFetched;
 
   React.useEffect(() => {
     if (inViewPrev) {

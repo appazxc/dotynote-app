@@ -201,7 +201,7 @@ export const SidebarPlusMenu = ({ noteId }) => {
   const handlePostCreate = React.useCallback(() => {
     const { queryKey } = noteTabStore.get(noteTabId) || {};
 
-    queryClient.resetQueries({ queryKey });
+    queryClient.invalidateQueries({ queryKey });
   }, [noteTabId]);
   
   if (!note) {
