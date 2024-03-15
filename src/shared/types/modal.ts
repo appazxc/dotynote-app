@@ -4,3 +4,7 @@ export type ModalIdentity = {
 }
 
 export type ModalProps<Props> = Props & Partial<ModalIdentity>
+
+export type ModalBase<Props> = Props & {
+  isOpen?: boolean,
+}

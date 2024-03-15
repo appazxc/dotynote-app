@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 
 // need 18.3 react version
 // import { SuspenseLoader } from 'shared/components/SuspenseLoader';
+import { Box } from '@chakra-ui/react';
+
 import { useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 import { AppDispatch } from 'shared/types/store';
@@ -36,9 +38,9 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
       const { id, extraId } = getModalParams(props);
       const modalId = makeModalId(id, extraId);
 
-      const active = useAppSelector((state) => {
-        return state.modals.stack.includes(modalId);
-      });
+      const modalsStack = useAppSelector((state) => state.modals.stack);
+      const active = modalsStack.includes(modalId);
+      const hidden = active && modalsStack[modalsStack.length - 1] !== modalId;
 
       // const promiseLoader = React.useMemo(() => {
       //   if (!active || !loader) {
@@ -66,10 +68,15 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
           ? null 
           : <ModalLoader />;
 
+      const targetProps = {
+        ...rest,
+        isOpen: !hidden,
+      };
+
       return (
         <Suspense fallback={fallbackComponent}>
           {/** @ts-ignore-error **/}
-          <TargetComponent {...rest} />
+          <TargetComponent {...targetProps} />
           {/* {promiseLoader && <SuspenseLoader loader={promiseLoader} />} */}
         </Suspense>
       );

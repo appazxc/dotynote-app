@@ -73,6 +73,10 @@ export default class Essense<T extends { id?: IdentityType }> {
     return this.api.post<string>(`${this.path}/${id}/${relation}`, data);
   }
 
+  async deleteRelation(id: IdentityType, relation: string) {
+    return this.api.delete<void>(`${this.path}/${id}/${relation}`);
+  }
+
   async delete(id: string | number) {
     return await this.api.delete<void>(`${this.path}/${id}`);
   }

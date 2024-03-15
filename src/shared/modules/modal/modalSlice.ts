@@ -24,9 +24,12 @@ export const modalSlice = createSlice({
     hideModal: (state) => {
       state.stack = state.stack.slice(0, -1);
     },
+    hideModals: (state) => {
+      state.stack = [];
+    },
   },
 });
 
-export const { showModal, hideModal } = modalSlice.actions;
+export const { showModal, hideModal, hideModals } = modalSlice.actions;
 
 export default modalSlice.reducer;

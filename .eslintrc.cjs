@@ -70,6 +70,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-unused-vars': ['error', {
+      args: 'all',
+      caughtErrors: 'none',
+      ignoreRestSiblings: true,
+      argsIgnorePattern: '^_',
+      vars: 'all',
+    }],
     'react/self-closing-comp': ['error', {
       component: true,
       html: true,
