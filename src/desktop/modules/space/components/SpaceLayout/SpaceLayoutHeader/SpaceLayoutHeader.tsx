@@ -59,8 +59,15 @@ export const SpaceLayoutHeader = React.memo(() => {
                 flexDirection="row"
                 gap="1"
                 flexGrow="1"
+                position="relative"
               >
-                {tabIds && tabIds.map(id => <SpaceTab key={id} id={id} />)}
+                {tabIds && tabIds.map((id, index) => (
+                  <SpaceTab
+                    key={id}
+                    id={id}
+                    isLast={tabIds.length === index + 1}
+                  />
+                ))}
                 <IconButton
                   size="sm"
                   aria-label="Add"

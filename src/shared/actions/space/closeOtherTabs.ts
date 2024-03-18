@@ -6,26 +6,7 @@ import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSli
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { ThunkAction } from 'shared/types/store';
 
-const getNextActiveTabId = (tabIds: IdentityType[], closedTabId: IdentityType): IdentityType | null => {
-  const index = tabIds.indexOf(closedTabId);
-
-  if (index === -1) {
-    // log error
-    return null;
-  }
-
-  if (tabIds.length <= 1) {
-    return null;
-  }
-
-  if (index === tabIds.length - 1) {
-    return tabIds[index - 1];
-  }
-
-  return tabIds[index + 1];
-};
-
-export const closeTab =
+export const closeOtherTabs =
   (tabId: IdentityType): ThunkAction =>
     async (dispatch, getState) => {
       const spaceTab = spaceTabSelector.getById(getState(), tabId);
@@ -37,15 +18,20 @@ export const closeTab =
 
       const tabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey);
 
-      if (activeTabId && activeTabId === tabId && tabIds) {
-        const nextTabId = getNextActiveTabId(tabIds, tabId);
-        dispatch(updateActiveTabId(nextTabId));
+      if (!tabIds) {
+        return;
+      }
+
+      if (tabId !== activeTabId) {
+        dispatch(updateActiveTabId(tabId));
       }
       
       queryClient.setQueryData(
         options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey, 
-        (oldTabs = []) => oldTabs.filter(spaceTabId => spaceTabId !== tabId)
+        () => [tabId]
       );
 
-      await entityApi.spaceTab.delete(tabId);
+      tabIds.filter(id => id !== tabId).forEach((closingTabId) => {
+        entityApi.spaceTab.delete(closingTabId);
+      });
     };
