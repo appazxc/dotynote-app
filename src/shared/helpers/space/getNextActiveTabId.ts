@@ -1,4 +1,6 @@
-export const getNextActiveTabId = (tabIds: string[], closedTabId: string): string | null => {
+import { IdentityType } from 'shared/types/entities/BaseEntity';
+
+export const getNextActiveTabId = (tabIds: IdentityType[], closedTabId: IdentityType): IdentityType | null => {
   const index = tabIds.indexOf(closedTabId);
 
   if (index === -1) {
@@ -6,13 +8,13 @@ export const getNextActiveTabId = (tabIds: string[], closedTabId: string): strin
     return null;
   }
 
-  if (index >= 1) {
+  if (tabIds.length <= 1) {
+    return null;
+  }
+
+  if (index === tabIds.length - 1) {
     return tabIds[index - 1];
   }
 
-  if (index === 0 && tabIds.length > 1) {
-    return tabIds[1];
-  }
-
-  return null;
+  return tabIds[index + 1];
 };

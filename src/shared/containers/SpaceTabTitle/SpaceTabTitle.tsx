@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 import { useNote } from 'shared/api/hooks/useNote';
 import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
@@ -41,10 +41,6 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
   }, [match, isNoteTab, isLoading, note]);
 
   return (
-    <Text
-      noOfLines={1}
-    >
-      {title}
-    </Text>
+    <Text noOfLines={1}>{title}</Text>
   );
 });

@@ -3,6 +3,7 @@ import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
 import { spaceSelector } from 'shared/selectors/entities';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { AppState } from 'shared/types/store';
 
 type TempNote = {
@@ -14,8 +15,8 @@ type InitialState = {
   isOpen: boolean,
   isSideOpen: boolean,
   isPageLoading: boolean,
-  activeSpaceId: string | null,
-  activeTabId: string | null,
+  activeSpaceId: IdentityType | null,
+  activeTabId: IdentityType | null,
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null,
   device: Device | null,
@@ -49,10 +50,10 @@ export const appSlice = createSlice({
     close: (state) => {
       state.isOpen = false;
     },
-    updateActiveSpaceId: (state, { payload }: PayloadAction<string>) => {
+    updateActiveSpaceId: (state, { payload }: PayloadAction<IdentityType>) => {
       state.activeSpaceId = payload;
     },
-    updateActiveTabId: (state, { payload }: PayloadAction<string | null>) => {
+    updateActiveTabId: (state, { payload }: PayloadAction<IdentityType | null>) => {
       state.activeTabId = payload;
     },
     updateDevice: (state, { payload }: PayloadAction<Device>) => {

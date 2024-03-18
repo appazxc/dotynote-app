@@ -79,7 +79,7 @@ export const SpaceLayoutHeader = React.memo(() => {
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          gap="2"
+          ml="1"
           flexShrink="0"
         >
           <Menu isLazy>
