@@ -28,7 +28,7 @@ import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 import router from 'desktop/routes/router';
 
-function Space() {
+const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
   const activeSpace = useAppSelector(selectActiveSpace);
 
@@ -83,7 +83,7 @@ function Space() {
       </SpaceLayout>
     </TabProvider>
   );
-}
+});
 
 function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useTabRouter(

@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
 
+import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
@@ -23,7 +24,6 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
-import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 
 type Props = {
   id: IdentityType,

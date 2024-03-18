@@ -1,16 +1,17 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions } from '@tanstack/react-query';
 
-import { hour } from "shared/constants/time";
+import { hour } from 'shared/constants/time';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 
-import { entityApi } from "../entityApi";
+import { entityApi } from '../entityApi';
 
 type Filters = {
-  spaceId?: string;
+  spaceId?: IdentityType;
 };
 
 export const list = (filters: Filters) => {
   return queryOptions({
-    queryKey: ["spaceTabs", filters],
+    queryKey: ['spaceTabs', filters],
     queryFn: () => {
       return entityApi.spaceTab.loadList({ filters });
     },
