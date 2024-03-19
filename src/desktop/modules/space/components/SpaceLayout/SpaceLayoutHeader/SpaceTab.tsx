@@ -1,24 +1,22 @@
 import React from 'react';
 
-import { 
+import {
   Box,
-  Button,
+  IconButton,
+  Menu,
   MenuButton,
   MenuDivider,
-  IconButton,
-  Portal,
-  Menu,
   MenuItem,
   MenuList,
+  Portal,
   useDisclosure,
-  ButtonProps,
-  forwardRef,
 } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
+import { ChakraBox } from 'shared/components/ChakraBox';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -30,20 +28,11 @@ type Props = {
   isLast: boolean,
 }
 
-const Tab = forwardRef<ButtonProps, 'div'>((props, ref) => (
-  <Button
-    as="div"
-    ref={ref}
-    {...props}
-  />
-));
-
 export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeTabId = useAppSelector(selectActiveTabId);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const handleTabChange = React.useCallback(() => {
     if (!spaceTab) return;
 
@@ -63,20 +52,23 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
       placement="bottom-start"
       isLazy
     >
-      <MenuButton
-        as={Tab}
-        size="sm"
-        variant={!isActive ? 'solid' : 'outline'}
-        colorScheme={!isActive ? 'gray' : 'brand'}
-        alignItems="center"
+      <ChakraBox
+        // as={ChakraBox}
+        layout
+        alignItems="stretch"
         maxWidth="32"
         minW={isActive ? '7': '3'}
         flexGrow="1"
         justifyContent="space-between"
         position="relative"
         px="1.5"
-        iconSpacing="1"
         cursor="pointer"
+        backgroundColor={isActive ? 'white' : 'gray.100'}
+        borderRadius="6"
+        borderColor={isActive ? 'gray.900' : 'gray.100'}
+        borderWidth="1px"
+        borderStyle="solid"
+        display="flex"
         onClick={handleTabChange}
         onContextMenu={(e) => {
           e.preventDefault();
@@ -95,9 +87,55 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
             },
           } : {},
         }}
-        rightIcon={(
+      >
+        <MenuButton
+          as={Box}
+          left="0"
+          w="full"
+          h="full"
+          position="absolute"
+        />
+        <ChakraBox
+          layout
+          position="relative"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          w="full"
+        >
           <Box
-            sx={isActive ? {} : {
+            position="relative"
+            display="flex"
+            flexGrow="1"
+            h="full"
+            sx={isActive ? {
+              '@container (max-width: 25px)': {
+                '&': { display: 'none' },
+              },
+            } : {}}
+          >
+            <Box
+              position="absolute"
+              h="full"
+              w="full"
+              display="flex"
+              alignItems="center"
+              overflow="hidden"
+            >
+              <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            flexShrink="0"
+            position="relative"
+            ml="1"
+            sx={isActive ? {
+              '@container (max-width: 30px)': {
+                '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
+              },
+            } : {
               '@container (max-width: 30px)': {
                 '&': { display: 'none' },
               },
@@ -118,30 +156,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
               }}
             />
           </Box>
-        )}
-      >
-        <Box
-          position="relative"
-          display="flex"
-          flexGrow="1"
-          h="full"
-          sx={isActive ? {
-            '@container (max-width: 25px)': {
-              '&': { display: 'none' },
-            },
-          } : {}}
-        >
-          <Box
-            position="absolute"
-            h="full"
-            w="full"
-            display="flex"
-            alignItems="center"
-          >
-            <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
-          </Box>
-        </Box>
-      </MenuButton>
+        </ChakraBox>
+      </ChakraBox>
       <Portal>
         <MenuList
           onAnimationEnd={() => {

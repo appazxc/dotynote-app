@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Box, Text } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 import { useNote } from 'shared/api/hooks/useNote';
+import { ChakraBox } from 'shared/components/ChakraBox';
 import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
@@ -41,6 +43,13 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
   }, [match, isNoteTab, isLoading, note]);
 
   return (
-    <Text noOfLines={1}>{title}</Text>
+    <Box
+      as={motion.div}
+      layout
+      fontSize="sm"
+      whiteSpace="nowrap"
+    >
+      {title}
+    </Box>
   );
 });

@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
 
 import { logout } from 'shared/actions/auth';
 import { createTab } from 'shared/actions/space/createTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
+import { ChakraBox } from 'shared/components/ChakraBox';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
@@ -54,28 +56,35 @@ export const SpaceLayoutHeader = React.memo(() => {
             <MainHeaderButton />
             <Box mx="2" color="gray">|</Box>
             <Box flexGrow="1" overflow="hidden">
+
               <Box
+                as={motion.div}
                 display="flex"
+                layout
                 flexDirection="row"
                 gap="1"
                 flexGrow="1"
-                position="relative"
               >
-                {tabIds && tabIds.map((id, index) => (
-                  <SpaceTab
-                    key={id}
-                    id={id}
-                    isLast={tabIds.length === index + 1}
-                  />
-                ))}
-                <IconButton
-                  size="sm"
-                  aria-label="Add"
-                  icon={<BsPlus size="22px" />}
-                  borderRadius="full"
-                  variant="ghost"
-                  onClick={handlePlusClick}
-                />
+                <LayoutGroup>
+                  {tabIds && tabIds.map((id, index) => (
+                    <SpaceTab
+                      key={id}
+                      id={id}
+                      isLast={tabIds.length === index + 1}
+                    />
+                  ))}
+                  <ChakraBox layout>
+                    <IconButton
+                      size="sm"
+                      aria-label="Add"
+                      icon={<BsPlus size="22px" />}
+                      borderRadius="full"
+                      variant="ghost"
+                      onClick={handlePlusClick}
+                    />
+                  </ChakraBox>
+                </LayoutGroup>
+
               </Box>
             </Box>
             
