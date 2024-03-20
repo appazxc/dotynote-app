@@ -4,7 +4,7 @@ import { selectActiveSpace } from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
-import { createTab } from './createTab';
+import { openTab } from './openTab';
 
 export const openMainSpaceNote = (): ThunkAction => async (dispatch, getState) => {
   const space = selectActiveSpace(getState());
@@ -21,7 +21,7 @@ export const openMainSpaceNote = (): ThunkAction => async (dispatch, getState) =
     });
 
   dispatch(
-    createTab({
+    openTab({
       route,
       makeActive: true,
     })

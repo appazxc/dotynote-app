@@ -6,7 +6,7 @@ import { MdClose } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 
 import { closeTab } from 'shared/actions/space/closeTab';
-import { createTab } from 'shared/actions/space/createTab';
+import { openTab } from 'shared/actions/space/openTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
@@ -45,7 +45,7 @@ const Tab = ({ id, isActive }) => {
       justifyContent="space-between"
       alignItems="center"
       gap="2"
-      variant={isActive ? "filled" : "outline"}
+      variant={isActive ? 'filled' : 'outline'}
     >
       <Box overflow="hidden">
         <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
@@ -76,7 +76,7 @@ export const Tabs = () => {
           size="xs"
           leftIcon={<BsPlus size="22px" />}
           onClick={() => {
-            dispatch(createTab({ makeActive: true }));
+            dispatch(openTab({ makeActive: true }));
             navigate(buildUrl({ routeName: routeNames.app }));
           }}
         >

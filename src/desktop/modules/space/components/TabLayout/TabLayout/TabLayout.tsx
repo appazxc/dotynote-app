@@ -4,22 +4,25 @@ import { Box } from '@chakra-ui/react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
+import { DefaultTabSidebar } from '../DefaultTabSidebar';
+
 type Props = {
   children: React.ReactNode,
   leftSide?: React.ReactNode,
   footer?: React.ReactNode,
+  defaultSidebar?: React.ReactNode,
 }
 
-export const TabLayout = ({ children, leftSide, footer }: Props) => {
+export const TabLayout = ({ children, leftSide, footer, defaultSidebar }: Props) => {
   return (
     <Box
       w="full"
       h="full"
       display="flex"
     >
-      {leftSide && (
+      {leftSide || defaultSidebar && (
         <Box h="full" flexShrink="0">
-          {leftSide}
+          {leftSide || <DefaultTabSidebar />}
         </Box>
       )}
       <Box

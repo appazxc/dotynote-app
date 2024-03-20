@@ -5,7 +5,7 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { entityApi } from '../entityApi';
 
-export const updateNoteMutationKey = (id: IdentityType): (string | number)[] => ['note', id];
+export const updateNoteMutationKey = (id: IdentityType): (string | IdentityType)[] => ['note', id];
 
 export const useUpdateNote = (id: IdentityType) => {
   return useMutation({

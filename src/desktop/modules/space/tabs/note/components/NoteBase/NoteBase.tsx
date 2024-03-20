@@ -52,7 +52,7 @@ export const NoteBase = (props: Props) => {
   return (
     <EditorProvider editor={editor}>
       <Box
-        pt="10"
+        py="10"
         flexGrow="1"
         display="flex"
         flexDirection="column"

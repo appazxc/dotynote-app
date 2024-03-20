@@ -27,7 +27,7 @@ type CreateSpaceTabParams = {
   makeActive?: boolean,
 };
 
-export const createTab = (params: CreateSpaceTabParams = {}): ThunkAction => 
+export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction => 
   async (dispatch, getState) => {
     const { route, makeActive } = params;
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createTab);

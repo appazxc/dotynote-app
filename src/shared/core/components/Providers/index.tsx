@@ -27,7 +27,7 @@ function Providers({ children }: Props) {
               {children}
             </Device>
           </ChakraProvider>
-          {config.devtools.query && <ReactQueryDevtools initialIsOpen={false} />}
+          {config.devtools.query && <ReactQueryDevtools initialIsOpen />}
         </QueryClientProvider>
       </PersistGate>
     </Provider>

@@ -1,7 +1,7 @@
-import { BaseEntity } from './BaseEntity';
+import { BaseEntity, IdentityType } from './BaseEntity';
 
 export type SpaceEntity = BaseEntity<{
   name: string,
-  userId: string,
-  mainNoteId: string | null,
+  userId: IdentityType,
+  mainNoteId: IdentityType | null,
 }>

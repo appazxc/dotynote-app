@@ -4,7 +4,7 @@ import { Box, IconButton } from '@chakra-ui/react';
 import { motion, LayoutGroup } from 'framer-motion';
 import { BsPlus } from 'react-icons/bs';
 
-import { createTab } from 'shared/actions/space/createTab';
+import { openTab } from 'shared/actions/space/openTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { ChakraBox } from 'shared/components/ChakraBox';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -16,7 +16,7 @@ export const SpaceTabs = React.memo(() => {
   const dispatch = useAppDispatch();
  
   const handlePlusClick = React.useCallback(() => {
-    dispatch(createTab({ makeActive: true }));
+    dispatch(openTab({ makeActive: true }));
   }, [dispatch]);
   
   return (

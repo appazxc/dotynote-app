@@ -1,27 +1,44 @@
 import React from 'react';
 
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 import { logout } from 'shared/actions/auth';
+import { openTab } from 'shared/actions/space/openTab';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
+import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
-  
+
   const handleColorModeChange = React.useCallback(() => {
     dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
   }, [dispatch]);
   
   const handleDrawerOpen = React.useCallback(() => {
     dispatch(showDrawer({ id: drawerIds.confirm }));
+  }, [dispatch]);
+
+  const handleSettingsClick = React.useCallback(() => {
+    dispatch(openTab({
+      route: buildTabUrl({ routeName: tabRouteNames.settings }),
+      makeActive: true,
+    }));
+  }, [dispatch]);
+
+  const handleProfileClick = React.useCallback(() => {
+    dispatch(openTab({
+      route: buildTabUrl({ routeName: tabRouteNames.profile }),
+      makeActive: true,
+    }));
   }, [dispatch]);
 
   return (
@@ -40,10 +57,13 @@ export const MenuHeaderButton = React.memo(() => {
           }}
         />
         <MenuList>
+          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
           <MenuItem onClick={handleColorModeChange}>
                 Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
           </MenuItem>
           <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
+          <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+          <MenuDivider />
           <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
         </MenuList>
       </Menu>

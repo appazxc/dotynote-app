@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Button } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { noteSelector } from 'shared/selectors/entities';
@@ -34,14 +33,14 @@ export const NoteTab = React.memo(() => {
       key={noteId}
       leftSide={(
         <NoteSidebar
-          id={noteId}
+          id={Number(noteId)}
           rwMode={rwMode}
           toggleRwMode={handleToggleRwMode}
         />
       )}
     >
       <NoteTabContent
-        noteId={noteId}
+        noteId={Number(noteId)}
         showPosts={!!note.postSettingsId}
         isWriteMode={rwMode === rwModes.WRITE}
       />

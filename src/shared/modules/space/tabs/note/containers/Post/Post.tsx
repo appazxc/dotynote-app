@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { createTab } from 'shared/actions/space/createTab';
+import { openTab } from 'shared/actions/space/openTab';
 import { EditorView } from 'shared/modules/editor';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
@@ -32,7 +32,7 @@ export const Post = React.memo(({ postId, className }: Props) => {
         onClick={(e) => {
           if (e.metaKey) {
             e.preventDefault();
-            dispatch(createTab({ 
+            dispatch(openTab({ 
               route: buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } }),
             }));
           }

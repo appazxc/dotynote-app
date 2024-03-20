@@ -1,8 +1,8 @@
-import { BaseEntity } from './BaseEntity';
+import { BaseEntity, IdentityType } from './BaseEntity';
 
 export type PostEntity = BaseEntity<{
   pos: number,
   parentId: number,
   noteId: number,
-  authorId: string,
+  authorId: IdentityType,
 }>

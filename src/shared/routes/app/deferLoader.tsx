@@ -1,5 +1,5 @@
-import { createTab } from 'shared/actions/space/createTab';
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
+import { openTab } from 'shared/actions/space/openTab';
 import {
   cleanWaitedRoute,
   selectActiveSpace,
@@ -16,7 +16,7 @@ export const deferLoader: RouteLoader = async ({ store }) => {
   const { waitedRoute } = getState().app;
 
   if (waitedRoute && activeSpace) {
-    await dispatch(createTab({ route: waitedRoute, makeActive: true }));
+    await dispatch(openTab({ route: waitedRoute, makeActive: true }));
     dispatch(cleanWaitedRoute());
   }
 };

@@ -1,0 +1,1 @@
+export { DefaultTabSidebar } from './DefaultTabSidebar';

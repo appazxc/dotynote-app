@@ -14,6 +14,8 @@ const getLocalConfig = () => {
   } catch (e) {
     return localConfig;
   }
+
+  return localConfig;
 };
 
 const getConfig = (): Config => {
