@@ -1,1 +1,0 @@
-export { SpaceLayoutHeader } from './SpaceLayoutHeader';

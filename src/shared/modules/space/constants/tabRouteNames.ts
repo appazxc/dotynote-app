@@ -5,6 +5,9 @@ export const tabRouteNames = keymirror({
   note: null,
   addMainNote: null,
   createNote: null,
+  profile: null,
+  settings: null,
+  notePreferences: null,
 });
 
 export type TabName = keyof typeof tabRouteNames;

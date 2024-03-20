@@ -5,7 +5,7 @@ import { Box, Progress } from '@chakra-ui/react';
 import { useAppInProgress } from 'shared/modules/loaders/loadersSlice';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { SpaceLayoutHeader } from '../SpaceLayoutHeader';
+import { SpaceHeader } from '../SpaceHeader';
 
 type Props = React.PropsWithChildren<unknown>;
 
@@ -20,7 +20,7 @@ export const SpaceLayout = ({ children }: Props) => {
       display="flex"
       flexDirection="column"
     >
-      <SpaceLayoutHeader />
+      <SpaceHeader />
       {(isLoading || isAppInProgress) && (
         <Progress
           size="xs"

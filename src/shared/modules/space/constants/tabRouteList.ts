@@ -27,4 +27,19 @@ export const tabRouteList: TabRouteListItem[] = [
     path: '/createNote',
     title: 'Create note',
   },
+  {
+    name: tabRouteNames.profile,
+    path: '/profile',
+    title: 'Profile',
+  },
+  {
+    name: tabRouteNames.notePreferences,
+    path: '/settings/note',
+    title: 'Note preferences',
+  },
+  {
+    name: tabRouteNames.settings,
+    path: '/settings',
+    title: 'Settings',
+  },
 ];

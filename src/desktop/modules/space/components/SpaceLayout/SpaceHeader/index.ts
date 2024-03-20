@@ -1,2 +1,1 @@
-export { SpaceLayout } from './SpaceLayout';
 export { SpaceHeader } from './SpaceHeader';

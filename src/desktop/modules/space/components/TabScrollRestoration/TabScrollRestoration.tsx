@@ -1,7 +1,7 @@
 import React from 'react';
 
 import throttle from 'lodash/throttle';
-import { useLocation, useNavigation, useNavigationType } from 'react-router';
+import { useLocation } from 'react-router';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -18,15 +18,10 @@ export const TabScrollRestoration = React.memo(() => {
     const value = scrollMap.get(id);
     
     if (scroll?.current && value) {
-      window.sss = scroll?.current;
-      console.log('scroll', id, value);
-      
       scroll?.current.scrollTo(0, value);
     }
 
     const updatePosition = throttle(() => {
-      console.log('scroll?.current?.scrollTop', scroll?.current?.scrollTop);
-      
       scrollMap.set(id, scroll?.current?.scrollTop);
     }, 100);
 

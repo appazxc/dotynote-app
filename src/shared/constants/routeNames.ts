@@ -5,7 +5,6 @@ const routeNames = keymirror({
   app: null,
   login: null,
   search: null,
-  profile: null,
   tabs: null,
   account: null,
   spaces: null,
