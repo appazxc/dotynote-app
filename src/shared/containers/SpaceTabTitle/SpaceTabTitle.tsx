@@ -44,12 +44,12 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
 
   return (
     <Box
-      as={motion.div}
-      layout
       fontSize="sm"
       whiteSpace="nowrap"
     >
-      {title}
+      <Box>
+        {title}
+      </Box>
     </Box>
   );
 });

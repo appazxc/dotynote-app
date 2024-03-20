@@ -1,0 +1,1 @@
+export { TabScrollRestoration } from './TabScrollRestoration';

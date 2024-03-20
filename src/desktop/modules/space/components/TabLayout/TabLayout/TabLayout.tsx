@@ -36,21 +36,23 @@ export const TabLayout = ({ children, leftSide, footer }: Props) => {
           >
             <ScrollProvider>
               {(ref) => (
-                <Box
-                  ref={ref}
-                  // bg="red.100"
-                  w="full"
-                  h="full"
-                  overflowX="hidden"
-                  overflowY="scroll"
-                  css={{
-                    '&::-webkit-scrollbar': {
-                      display: 'none',
-                    },
-                  }}
-                >
-                  {children}
-                </Box>
+                <>
+                  <Box
+                    ref={ref}
+                    // bg="red.100"
+                    w="full"
+                    h="full"
+                    overflowX="hidden"
+                    overflowY="scroll"
+                    css={{
+                      '&::-webkit-scrollbar': {
+                        display: 'none',
+                      },
+                    }}
+                  >
+                    {children}
+                  </Box>
+                </>
               )}
             </ScrollProvider>
           </Box>

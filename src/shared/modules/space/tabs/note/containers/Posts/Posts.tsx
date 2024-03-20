@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer';
 import { useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 
+import { TabScrollRestoration } from 'desktop/modules/space/components/TabScrollRestoration';
+
 import { Post } from '../Post';
 
 import { PostsSkeleton } from './Posts.skeleton';
@@ -37,6 +39,7 @@ export const Posts = ({ noteId, postId }) => {
     fetchPreviousPage,
     fetchNextPage,
   } = useInfinityPosts(noteId, filters);
+  console.log('data', data);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 
@@ -55,21 +58,24 @@ export const Posts = ({ noteId, postId }) => {
   const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
 
   return (
-    <Box pb="10" flexGrow={data ? '1' : '0'}>
-      {isFetchingFirstTime && <PostsSkeleton />}
-      <Stack gap="2">
-        {isFetchingNextPage ? <PostsSkeleton /> : <Box ref={nextRef} />}
-        {
-          flatData.map((postId) => (
-            <Post
-              key={postId}
-              postId={postId} 
-              className={postsId}
-            />
-          ))
-        }
-        {isFetchingPreviousPage ? <PostsSkeleton /> : <Box ref={prevRef} />}
-      </Stack>
-    </Box>
+    <>
+      <Box pb="10" flexGrow={data ? '1' : '0'}>
+        {isFetchingFirstTime && <PostsSkeleton />}
+        <Stack gap="2">
+          {isFetchingNextPage ? <PostsSkeleton /> : <Box ref={nextRef} />}
+          {
+            flatData.map((postId) => (
+              <Post
+                key={postId}
+                postId={postId} 
+                className={postsId}
+              />
+            ))
+          }
+          {isFetchingPreviousPage ? <PostsSkeleton /> : <Box ref={prevRef} />}
+        </Stack>
+      </Box>
+      <TabScrollRestoration />
+    </>
   );
 };
