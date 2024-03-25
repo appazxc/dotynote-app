@@ -3,10 +3,6 @@ import React from 'react';
 import {
   Box,
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
   IconButton,
   Input,
   InputGroup,
@@ -20,6 +16,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
 import { loginEmail, loginEmailWithCode } from 'shared/actions/auth';
+import { 
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from 'shared/components/Form';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
@@ -33,22 +38,29 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
+const defaultValues: Partial<FormValues> = {
+  email: '',
+  code: '',
+};
+
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const form = useForm<FormValues>({ 
+    defaultValues,
+    resolver: zodResolver(schema), 
+  });
+
   const {
     handleSubmit,
-    register,
-    formState: { errors, dirtyFields, isSubmitting },
+    formState: { dirtyFields, isSubmitting },
     setValue,
     setError,
     reset,
-  } = useForm<FormValues>({ 
-    resolver: zodResolver(schema), 
-  });
+  } = form;
 
   const handleEmailChange = React.useCallback((e) => {
     if (isEmailSent) {
@@ -60,10 +72,7 @@ export const LoginForm = () => {
   }, [isEmailSent, setValue]);
 
   const handleEmailReset = React.useCallback(() => {
-    reset({
-      code: '',
-      email: '',
-    });
+    reset(defaultValues);
     setIsEmailSent(false);
   }, [reset]);
 
@@ -100,64 +109,76 @@ export const LoginForm = () => {
       p={6}
       rounded="md"
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack
-          spacing={4}
-          align="flex-start"
-        >
-          <FormControl
-            isInvalid={!!errors.email}
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack
+            spacing={4}
+            align="flex-start"
           >
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <InputGroup>
-              <Input
-                variant="filled"
-                placeholder="Your email address"
-                {...register('email')}
-                onChange={handleEmailChange}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <FormLabel>Email</FormLabel>
+                      <InputGroup>
+                        <Input
+                          variant="filled"
+                          placeholder="Your email address"
+                          {...field}
+                          onChange={handleEmailChange}
+                        />
+                        {
+                          dirtyFields.email && (
+                            <InputRightElement>
+                              <IconButton
+                                size="xs"
+                                aria-label="close"
+                                icon={<MdClose />}
+                                borderRadius="50%"
+                                onClick={handleEmailReset}
+                              />
+                            </InputRightElement>
+                          )
+                        }
+                      </InputGroup>
+                      {isEmailSent && (
+                        <FormDescription>We sent verification code to your email</FormDescription>
+                      )}
+                      <FormMessage />
+                    </FormControl>
+                  </FormItem>
+                );
+              }}
+            />
+            {isEmailSent && (
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <FormLabel>Code</FormLabel>
+                      <Input variant="filled" {...field} />
+                      <FormMessage />
+                    </FormControl>
+                  </FormItem>
+                )}
               />
-              {
-                dirtyFields.email && (
-                  <InputRightElement>
-                    <IconButton
-                      size="xs"
-                      aria-label="close"
-                      icon={<MdClose />}
-                      borderRadius="50%"
-                      onClick={handleEmailReset}
-                    />
-                  </InputRightElement>
-                )
-              }
-            </InputGroup>
-            {!errors.email && isEmailSent && (
-              <FormHelperText>We sent verification code to your email</FormHelperText>
             )}
-            {!!errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
-          </FormControl>
-          {
-            isEmailSent && (
-              <FormControl isInvalid={!!errors.code}>
-                <FormLabel htmlFor="code">Code</FormLabel>
-                <Input
-                  id="code"
-                  variant="filled"
-                  {...register('code')}
-                />
-                {!!errors.code && <FormErrorMessage>{errors.code.message}</FormErrorMessage>}
-              </FormControl>
-            )
-          }
-          <Button
-            type="submit"
-            colorScheme="brand"
-            width="full"
-            isLoading={isSubmitting}
-          >
-            {isEmailSent ? 'Continue with login code' : 'Login / Register'}
-          </Button>
-        </VStack>
-      </form>
+            <Button
+              type="submit"
+              colorScheme="brand"
+              width="full"
+              isLoading={isSubmitting}
+            >
+              {isEmailSent ? 'Continue with login code' : 'Login / Register'}
+            </Button>
+          </VStack>
+        </form>
+      </Form>
     </Box>
   );
 };
