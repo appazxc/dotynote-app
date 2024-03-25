@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {
+  Avatar,
   Box,
+  Circle,
   IconButton,
   Menu,
   MenuButton,
@@ -11,11 +13,13 @@ import {
   Portal,
   useDisclosure,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
+import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
 import { ChakraBox } from 'shared/components/ChakraBox';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -33,6 +37,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeTabId = useAppSelector(selectActiveTabId);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { mutate } = useUpdateSpaceTab(id);
   const handleTabChange = React.useCallback(() => {
     if (!spaceTab) return;
 
@@ -44,6 +49,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   }
 
   const isActive = activeTabId === id;
+  const { isPinned } = spaceTab;
   
   return (
     <Menu
@@ -56,8 +62,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         // as={ChakraBox}
         layout
         alignItems="stretch"
-        maxWidth="32"
-        minW={isActive ? '7': '3'}
+        maxWidth={isPinned ? '9' : '32'}
+        minW={isActive || isPinned ? '7': '3'}
         flexGrow="1"
         justifyContent="space-between"
         position="relative"
@@ -99,63 +105,74 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
           layout
           position="relative"
           display="flex"
-          justifyContent="space-between"
+          justifyContent={isPinned ? 'center' : 'space-between'}
           alignItems="center"
           w="full"
         >
-          <Box
-            position="relative"
-            display="flex"
-            flexGrow="1"
-            h="full"
-            sx={isActive ? {
-              '@container (max-width: 25px)': {
-                '&': { display: 'none' },
-              },
-            } : {}}
-          >
-            <Box
-              position="absolute"
-              h="full"
-              w="full"
-              display="flex"
-              alignItems="center"
-              overflow="hidden"
-            >
-              <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
-            </Box>
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            flexShrink="0"
-            position="relative"
-            ml="1"
-            sx={isActive ? {
-              '@container (max-width: 30px)': {
-                '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
-              },
-            } : {
-              '@container (max-width: 30px)': {
-                '&': { display: 'none' },
-              },
-            }}
-          >
-            <IconButton
-              h="5"
-              w="5"
-              minW="5"
-              aria-label="close"
-              variant="ghost"
-              colorScheme="gray"
-              icon={<MdClose size="13px" />}
-              borderRadius="50%"
-              onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
-                event.stopPropagation();
-                dispatch(closeTab(id));
-              }}
+          {isPinned ? (
+            <Circle
+              as={motion.div}
+              layout
+              size="18px"
+              bg="purple.100"
             />
-          </Box>
+          ) : (
+            <>
+              <Box
+                position="relative"
+                display="flex"
+                flexGrow="1"
+                h="full"
+                sx={isActive ? {
+                  '@container (max-width: 25px)': {
+                    '&': { display: 'none' },
+                  },
+                } : {}}
+              >
+                <Box
+                  position="absolute"
+                  h="full"
+                  w="full"
+                  display="flex"
+                  alignItems="center"
+                  overflow="hidden"
+                >
+                  <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                flexShrink="0"
+                position="relative"
+                ml="1"
+                sx={isActive ? {
+                  '@container (max-width: 30px)': {
+                    '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
+                  },
+                } : {
+                  '@container (max-width: 30px)': {
+                    '&': { display: 'none' },
+                  },
+                }}
+              >
+                <IconButton
+                  h="5"
+                  w="5"
+                  minW="5"
+                  aria-label="close"
+                  variant="ghost"
+                  colorScheme="gray"
+                  icon={<MdClose size="13px" />}
+                  borderRadius="50%"
+                  onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+                    event.stopPropagation();
+                    dispatch(closeTab(id));
+                  }}
+                />
+              </Box>
+            </>
+          )}
         </ChakraBox>
       </ChakraBox>
       <Portal>
@@ -167,9 +184,10 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         >
           <MenuItem
             onClick={() => {
+              mutate({ isPinned: !isPinned });
             }}
           >
-          Pin
+            {isPinned ? 'Unpin': 'Pin'}
           </MenuItem>
           <MenuDivider />
           <MenuItem

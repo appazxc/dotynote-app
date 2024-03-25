@@ -8,6 +8,7 @@ const PostSkeleton = () => {
       padding="6"
       boxShadow="lg"
       bg="white"
+      opacity="0.3"
     >
       <Skeleton height="20px" />
       <SkeletonText
