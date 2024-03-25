@@ -1,27 +1,11 @@
 import { AxiosError } from 'axios';
 
-import api from 'shared/api';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { actions } from 'shared/constants/actions';
-import { loaderIds } from 'shared/constants/loaderIds';
-import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { persistor } from 'shared/store';
 import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
-import { AppThunk, ThunkAction } from 'shared/types/store';
-
-export const loginEmail: AppThunk<string> = (email) =>
-  withLoader(loaderIds.loginEmail, () => {
-    return api.sendCodeEmail(email);
-  });
-
-export const loginEmailWithCode: AppThunk<{ email: string; code: string }> = ({ email, code }) =>
-  withLoader(loaderIds.loginEmailWithCode, async (dispatch) => {
-    const { token } = await api.loginEmail({ email, code });
-
-    dispatch(setToken(token));
-    await dispatch(authoriseUser());
-  });
+import { ThunkAction } from 'shared/types/store';
 
 export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
   const token = selectToken(getState());

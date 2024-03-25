@@ -15,8 +15,9 @@ import { MdClose } from 'react-icons/md';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
-import { loginEmail, loginEmailWithCode } from 'shared/actions/auth';
-import { 
+import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
+import { useSendCodeEmail } from 'shared/api/hooks/useSendCodeEmail';
+import {
   Form,
   FormControl,
   FormDescription,
@@ -48,6 +49,8 @@ export const LoginForm = () => {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { mutateAsync: sendCodeEmail } = useSendCodeEmail();
+  const { mutateAsync: loginEmail } = useLoginEmail();
 
   const form = useForm<FormValues>({ 
     defaultValues,
@@ -79,7 +82,7 @@ export const LoginForm = () => {
   const onSubmit = React.useCallback(async ({ email, code }) => {
     if (code && email) {
       try {
-        await dispatch(loginEmailWithCode({ email, code }));
+        await loginEmail({ email, code });
         const backUrl = searchParams.get(BACK_URL) || buildUrl({ routeName: routeNames.app });
 
         navigate(backUrl);
@@ -93,7 +96,7 @@ export const LoginForm = () => {
 
     if (email) {
       try {
-        await dispatch(loginEmail(email));
+        await sendCodeEmail(email);
         setIsEmailSent(true);
       } catch (e) {
         setError('email', {
@@ -101,7 +104,7 @@ export const LoginForm = () => {
         });
       }
     }
-  }, [dispatch, navigate, searchParams, setError]);
+  }, [dispatch, sendCodeEmail, navigate, searchParams, setError]);
 
   return (
     <Box
