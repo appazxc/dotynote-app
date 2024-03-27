@@ -30,7 +30,6 @@ import { Menu, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
-import { useAppDispatch } from 'shared/store/hooks';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 const schema = z.object({
@@ -46,7 +45,6 @@ const defaultValues: Partial<FormValues> = {
 };
 
 export const LoginForm = () => {
-  const dispatch = useAppDispatch();
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

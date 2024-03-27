@@ -5,15 +5,14 @@ interface MenuTriggerProps<T extends React.ElementType> {
   children?: React.ReactNode;
 }
 
-const MenuTrigger = <T extends React.ElementType = 'div'>({
+const MenuTriggerInner = <T extends React.ElementType = 'div'>({
   as,
   ...props
 }:
   MenuTriggerProps<T>
-  & Omit<React.ComponentPropsWithoutRef<T>, keyof MenuTriggerProps<T>>
-) => {
+  & Omit<React.ComponentPropsWithoutRef<T>, keyof MenuTriggerProps<T>>, ref) => {
   const Component = as || 'div';
-  return <Component {...props} />;
+  return <Component ref={ref} {...props} />;
 };
 
-export { MenuTrigger };
+export const MenuTrigger = React.forwardRef(MenuTriggerInner);
