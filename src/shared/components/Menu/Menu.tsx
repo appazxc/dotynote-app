@@ -20,7 +20,7 @@ export const Menu = ({ children }) => {
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const timeout = React.useRef();
   const listItemsRef = React.useRef<Array<HTMLButtonElement | null>>([]);
   const listContentRef = React.useRef(
     React.Children.map(children, (child) =>
@@ -65,66 +65,75 @@ export const Menu = ({ children }) => {
     typeahead,
   ]);
 
-  React.useEffect(() => {
-    let timeout: number;
+  function onContextMenu(e: MouseEvent) {
+    e.preventDefault();
 
-    function onContextMenu(e: MouseEvent) {
-      e.preventDefault();
+    refs.setPositionReference({
+      getBoundingClientRect() {
+        return {
+          width: 0,
+          height: 0,
+          x: e.clientX,
+          y: e.clientY,
+          top: e.clientY,
+          right: e.clientX,
+          bottom: e.clientY,
+          left: e.clientX,
+        };
+      },
+    });
 
-      refs.setPositionReference({
-        getBoundingClientRect() {
-          return {
-            width: 0,
-            height: 0,
-            x: e.clientX,
-            y: e.clientY,
-            top: e.clientY,
-            right: e.clientX,
-            bottom: e.clientY,
-            left: e.clientX,
-          };
-        },
-      });
+    setIsOpen(true);
+    clearTimeout(timeout.current);
 
-      setIsOpen(true);
-      clearTimeout(timeout);
+    allowMouseUpCloseRef.current = false;
+    timeout.current = window.setTimeout(() => {
+      allowMouseUpCloseRef.current = true;
+    }, 300);
+  }
 
-      allowMouseUpCloseRef.current = false;
-      timeout = window.setTimeout(() => {
-        allowMouseUpCloseRef.current = true;
-      }, 300);
+  function onMouseUp() {
+    if (allowMouseUpCloseRef.current) {
+      setIsOpen(false);
     }
+  }
+  
+  // React.useEffect(() => {
+  //   let timeout: number;
 
-    function onMouseUp() {
-      if (allowMouseUpCloseRef.current) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener('contextmenu', onContextMenu);
-    document.addEventListener('mouseup', onMouseUp);
-    return () => {
-      document.removeEventListener('contextmenu', onContextMenu);
-      document.removeEventListener('mouseup', onMouseUp);
-      clearTimeout(timeout);
-    };
-  }, [refs]);
+  //   document.addEventListener('contextmenu', onContextMenu);
+  //   document.addEventListener('mouseup', onMouseUp);
+  //   return () => {
+  //     document.removeEventListener('contextmenu', onContextMenu);
+  //     document.removeEventListener('mouseup', onMouseUp);
+  //     clearTimeout(timeout);
+  //   };
+  // }, [refs]);
 
   return (
-    <FloatingPortal>
-      {isOpen && (
-        <FloatingOverlay lockScroll>
-          <FloatingFocusManager context={context} initialFocus={refs.floating}>
-            <div
-              className="ContextMenu"
-              ref={refs.setFloating}
-              style={floatingStyles}
-              {...getFloatingProps()}
-            >
-              {React.Children.map(
-                children,
-                (child, index) =>
-                  React.isValidElement(child) &&
+    <>
+      {React.isValidElement(menuTrigger) && 
+        React.cloneElement(
+          menuTrigger,
+          {
+            onContextMenu,
+          }
+        )
+      }
+      <FloatingPortal>
+        {isOpen && (
+          <FloatingOverlay lockScroll>
+            <FloatingFocusManager context={context} initialFocus={refs.floating}>
+              <div
+                className="ContextMenu"
+                ref={refs.setFloating}
+                style={floatingStyles}
+                {...getFloatingProps()}
+              >
+                {React.Children.map(
+                  children,
+                  (child, index) =>
+                    React.isValidElement(child) &&
                 React.cloneElement(
                   child,
                   getItemProps({
@@ -142,21 +151,18 @@ export const Menu = ({ children }) => {
                     },
                   })
                 )
-              )}
-            </div>
-          </FloatingFocusManager>
-        </FloatingOverlay>
-      )}
-    </FloatingPortal>
+                )}
+              </div>
+            </FloatingFocusManager>
+          </FloatingOverlay>
+        )}
+      </FloatingPortal>
+    </>
   );
+
   return (
     <>
-      {React.isValidElement(menuTrigger) && 
-        React.cloneElement(
-          menuTrigger,
-          props
-        )
-      }
+      
       {React.isValidElement(menuList) && 
         React.cloneElement(
           menuList,
