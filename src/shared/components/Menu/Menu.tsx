@@ -1,33 +1,31 @@
 import React from 'react';
 
 import {
-  useFloating,
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
   autoUpdate,
   flip,
   offset,
   shift,
-  useRole,
   useDismiss,
+  useFloating,
   useInteractions,
   useListNavigation,
+  useRole,
   useTypeahead,
-  FloatingPortal,
-  FloatingFocusManager,
-  FloatingOverlay,
 } from '@floating-ui/react';
 
 export const Menu = ({ children }) => {
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
-  const timeout = React.useRef();
   const listItemsRef = React.useRef<Array<HTMLButtonElement | null>>([]);
   const listContentRef = React.useRef(
     React.Children.map(children, (child) =>
       React.isValidElement(child) ? child.props.label : null
     ) as Array<string | null>
   );
-  const allowMouseUpCloseRef = React.useRef(false);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -84,40 +82,18 @@ export const Menu = ({ children }) => {
     });
 
     setIsOpen(true);
-    clearTimeout(timeout.current);
-
-    allowMouseUpCloseRef.current = false;
-    timeout.current = window.setTimeout(() => {
-      allowMouseUpCloseRef.current = true;
-    }, 300);
-  }
-
-  function onMouseUp() {
-    if (allowMouseUpCloseRef.current) {
-      setIsOpen(false);
-    }
   }
   
-  // React.useEffect(() => {
-  //   let timeout: number;
-
-  //   document.addEventListener('contextmenu', onContextMenu);
-  //   document.addEventListener('mouseup', onMouseUp);
-  //   return () => {
-  //     document.removeEventListener('contextmenu', onContextMenu);
-  //     document.removeEventListener('mouseup', onMouseUp);
-  //     clearTimeout(timeout);
-  //   };
-  // }, [refs]);
+  const triggerProps = {
+    onContextMenu,
+  };
 
   return (
     <>
       {React.isValidElement(menuTrigger) && 
         React.cloneElement(
           menuTrigger,
-          {
-            onContextMenu,
-          }
+          triggerProps
         )
       }
       <FloatingPortal>
@@ -125,50 +101,28 @@ export const Menu = ({ children }) => {
           <FloatingOverlay lockScroll>
             <FloatingFocusManager context={context} initialFocus={refs.floating}>
               <div
-                className="ContextMenu"
                 ref={refs.setFloating}
                 style={floatingStyles}
                 {...getFloatingProps()}
               >
-                {React.Children.map(
-                  children,
-                  (child, index) =>
-                    React.isValidElement(child) &&
-                React.cloneElement(
-                  child,
-                  getItemProps({
-                    tabIndex: activeIndex === index ? 0 : -1,
-                    ref(node: HTMLButtonElement) {
-                      listItemsRef.current[index] = node;
-                    },
-                    onClick() {
-                      child.props.onClick?.();
-                      setIsOpen(false);
-                    },
-                    onMouseUp() {
-                      child.props.onClick?.();
-                      setIsOpen(false);
-                    },
-                  })
-                )
-                )}
+                {React.isValidElement(menuList) &&
+                  React.cloneElement(
+                    menuList,
+                    getItemProps({
+                      onClick() {
+                        // menuList.props.onClick?.();
+                        // setIsOpen(false);
+                        console.log('click outside');
+                        
+                      },
+                    })
+                  )
+                }
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>
         )}
       </FloatingPortal>
-    </>
-  );
-
-  return (
-    <>
-      
-      {React.isValidElement(menuList) && 
-        React.cloneElement(
-          menuList,
-          props
-        )
-      }
     </>
   );
 };

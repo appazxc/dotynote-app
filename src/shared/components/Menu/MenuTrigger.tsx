@@ -24,8 +24,12 @@ interface CustomComponent<
 }
 
 // @ts-ignore
-const Component: CustomComponent<'div', object> = (props, ref) => (
-  <div ref={ref} {...props} />
-);
+const Component: CustomComponent<'div', object> = ({ as, ...props }, ref) => {
+  const As = as || 'div';
+  
+  return (
+    <As ref={ref} {...props} />
+  );
+};
 
 export const MenuTrigger = React.forwardRef(Component);

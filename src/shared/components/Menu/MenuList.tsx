@@ -9,11 +9,14 @@ export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, 
       w="150px"
       h="150px"
       bgColor="green"
-      onClick={() => {
-        console.log('click menulist');
-        
-      }}
       {...props}
+      onContextMenu={(e) => {
+        e.preventDefault();
+      }}
+      // onClick={() => {
+      //   console.log('click inside');
+        
+      // }}
     >
       {children}
     </Box>
