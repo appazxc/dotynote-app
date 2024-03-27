@@ -26,6 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from 'shared/components/Form';
+import { Menu, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
@@ -104,7 +105,7 @@ export const LoginForm = () => {
         });
       }
     }
-  }, [dispatch, sendCodeEmail, navigate, searchParams, setError]);
+  }, [loginEmail, sendCodeEmail, navigate, searchParams, setError]);
 
   return (
     <Box
@@ -171,14 +172,20 @@ export const LoginForm = () => {
                 )}
               />
             )}
-            <Button
-              type="submit"
-              colorScheme="brand"
-              width="full"
-              isLoading={isSubmitting}
-            >
-              {isEmailSent ? 'Continue with login code' : 'Login / Register'}
-            </Button>
+            <Menu>
+              <MenuTrigger
+                as={Button}
+                type="submit"
+                colorScheme="brand"
+                width="full"
+                isLoading={isSubmitting}
+              >
+                {isEmailSent ? 'Continue with login code' : 'Login / Register'}
+              </MenuTrigger>
+              <MenuList>
+                hhallo
+              </MenuList>
+            </Menu>
           </VStack>
         </form>
       </Form>
