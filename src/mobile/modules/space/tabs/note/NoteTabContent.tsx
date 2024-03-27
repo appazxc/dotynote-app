@@ -5,7 +5,6 @@ import { useParams } from 'react-router';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { useQueryParams } from 'shared/hooks/useQueryParams';
-import { Posts } from 'shared/modules/space/tabs/note/containers/_Posts';
 
 export const NoteTabContent = () => {
   const { noteId = '' } = useParams();
@@ -29,11 +28,11 @@ export const NoteTabContent = () => {
           <Text>note content {noteId}</Text>
           <Text>postId {postId}</Text>
         </Box>
-        <Posts
+        {/* <Posts
           key={noteId}
           noteId={noteId}
           postId={postId}
-        />
+        /> */}
       </Stack>
     </Container>
   );
