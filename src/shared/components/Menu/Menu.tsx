@@ -8,6 +8,7 @@ import {
   flip,
   offset,
   shift,
+  useClick,
   useDismiss,
   useFloating,
   useInteractions,
@@ -16,7 +17,13 @@ import {
   useTypeahead,
 } from '@floating-ui/react';
 
-export const Menu = ({ children }) => {
+import { MenuContext } from './MenuContext';
+
+type Props = React.PropsWithChildren<{
+  isContextMenu?: boolean,
+}>
+
+export const Menu = ({ isContextMenu, children }: Props) => {
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -37,7 +44,7 @@ export const Menu = ({ children }) => {
       }),
       shift({ padding: 10 }),
     ],
-    placement: 'right-start',
+    placement: 'bottom-start',
     strategy: 'fixed',
     whileElementsMounted: autoUpdate,
   });
@@ -55,13 +62,31 @@ export const Menu = ({ children }) => {
     onMatch: setActiveIndex,
     activeIndex,
   });
+  const click = useClick(context);
 
-  const { getFloatingProps, getItemProps } = useInteractions([
+  const interactions = React.useMemo(() => {
+    const result = [role,
+      dismiss,
+      listNavigation,
+      typeahead];
+
+    if (!isContextMenu) {
+      result.push(click);
+    }
+
+    return result;
+  }, [
+    isContextMenu,
     role,
     dismiss,
     listNavigation,
     typeahead,
+    click,
   ]);
+
+  const close = () => setIsOpen(false);
+
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(interactions);
 
   function onContextMenu(e: MouseEvent) {
     e.preventDefault();
@@ -84,8 +109,14 @@ export const Menu = ({ children }) => {
     setIsOpen(true);
   }
   
-  const triggerProps = {
+  const triggerProps = isContextMenu ? {
     onContextMenu,
+  } : {
+    // onClick: () => {
+    //   setIsOpen(true);
+    // },
+    ref: refs.setReference,
+    ...getReferenceProps(),
   };
 
   return (
@@ -96,33 +127,30 @@ export const Menu = ({ children }) => {
           triggerProps
         )
       }
-      <FloatingPortal>
-        {isOpen && (
-          <FloatingOverlay lockScroll>
-            <FloatingFocusManager context={context} initialFocus={refs.floating}>
-              <div
-                ref={refs.setFloating}
-                style={floatingStyles}
-                {...getFloatingProps()}
-              >
-                {React.isValidElement(menuList) &&
-                  React.cloneElement(
-                    menuList,
-                    getItemProps({
-                      onClick() {
-                        // menuList.props.onClick?.();
-                        // setIsOpen(false);
-                        console.log('click outside');
-                        
-                      },
-                    })
-                  )
-                }
-              </div>
-            </FloatingFocusManager>
-          </FloatingOverlay>
-        )}
-      </FloatingPortal>
+      <MenuContext.Provider
+        value={{
+          getItemProps,
+          isOpen,
+          close,
+        }}
+      >
+        <FloatingPortal>
+          {isOpen && (
+            <FloatingOverlay lockScroll>
+              <FloatingFocusManager context={context} initialFocus={refs.floating}>
+                <div
+                  ref={refs.setFloating}
+                  style={floatingStyles}
+                  {...getFloatingProps()}
+                >
+                  {menuList}
+                </div>
+              </FloatingFocusManager>
+            </FloatingOverlay>
+          )}
+        </FloatingPortal>
+      </MenuContext.Provider>
+
     </>
   );
 };

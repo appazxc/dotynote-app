@@ -6,17 +6,16 @@ export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, 
   return (
     <Box
       ref={ref}
-      w="150px"
-      h="150px"
-      bgColor="green"
+      boxShadow="md"
+      bgColor="white"
+      borderRadius="6"
+      display="flex"
+      flexDirection="column"
+      p="1"
       {...props}
       onContextMenu={(e) => {
         e.preventDefault();
       }}
-      // onClick={() => {
-      //   console.log('click inside');
-        
-      // }}
     >
       {children}
     </Box>
