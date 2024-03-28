@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from 'shared/components/Form';
-import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
@@ -186,7 +186,9 @@ export const LoginForm = () => {
                     console.log('hello item');
                   
                   }}
-                >hello</MenuItem>
+                >
+                  hello
+                </MenuItem>
                 <MenuItem>hello2</MenuItem>
               </MenuList>
             </Menu>
