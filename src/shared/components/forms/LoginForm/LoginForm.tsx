@@ -26,7 +26,6 @@ import {
   FormLabel,
   FormMessage,
 } from 'shared/components/Form';
-import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { BACK_URL } from 'shared/constants/queryParams';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
@@ -170,28 +169,14 @@ export const LoginForm = () => {
                 )}
               />
             )}
-            <Menu isContextMenu>
-              <MenuTrigger
-                as={Button}
-                type="submit"
-                colorScheme="brand"
-                width="full"
-                isLoading={isSubmitting}
-              >
-                {isEmailSent ? 'Continue with login code' : 'Login / Register'}
-              </MenuTrigger>
-              <MenuList>
-                <MenuItem
-                  onClick={() => {
-                    console.log('hello item');
-                  
-                  }}
-                >
-                  hello
-                </MenuItem>
-                <MenuItem>hello2</MenuItem>
-              </MenuList>
-            </Menu>
+            <Button
+              type="submit"
+              colorScheme="brand"
+              width="full"
+              isLoading={isSubmitting}
+            >
+              {isEmailSent ? 'Continue with login code' : 'Login / Register'}
+            </Button>
           </VStack>
         </form>
       </Form>

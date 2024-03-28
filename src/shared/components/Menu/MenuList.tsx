@@ -11,6 +11,9 @@ export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, 
       borderRadius="6"
       display="flex"
       flexDirection="column"
+      sx={{
+        outlineColor: 'red!important',
+      }}
       p="1"
       {...props}
       onContextMenu={(e) => {

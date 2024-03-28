@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, useColorMode } from '@chakra-ui/react';
+import { IconButton, useColorMode } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 import { logout } from 'shared/actions/auth';
 import { openTab } from 'shared/actions/space/openTab';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
@@ -43,23 +44,19 @@ export const MenuHeaderButton = React.memo(() => {
 
   return (
     <>
-      <Menu isLazy>
-        <MenuButton
+      <Menu placement="bottom-end">
+        <MenuTrigger
           as={IconButton}
           size="sm"
           aria-label="User menu"
           icon={<BsThreeDotsVertical />}
           variant="outline"
           colorScheme="brand"
-          onContextMenu={() => {
-            console.log('here');
-              
-          }}
         />
         <MenuList>
           <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
           <MenuItem onClick={handleColorModeChange}>
-                Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
+            Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
           </MenuItem>
           <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
           <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>

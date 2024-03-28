@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Box } from '@chakra-ui/react';
 import {
   FloatingFocusManager,
   FloatingOverlay,
@@ -21,9 +22,17 @@ import { MenuContext } from './MenuContext';
 
 type Props = React.PropsWithChildren<{
   isContextMenu?: boolean,
+  contextMousePosition?: boolean,
+  placement?: string,
 }>
 
-export const Menu = ({ isContextMenu, children }: Props) => {
+export const Menu = (props: Props) => {
+  const { 
+    isContextMenu,
+    contextMousePosition = true,
+    placement,
+    children, 
+  } = props;
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -44,7 +53,7 @@ export const Menu = ({ isContextMenu, children }: Props) => {
       }),
       shift({ padding: 10 }),
     ],
-    placement: 'bottom-start',
+    placement: placement || 'bottom-start',
     strategy: 'fixed',
     whileElementsMounted: autoUpdate,
   });
@@ -88,29 +97,37 @@ export const Menu = ({ isContextMenu, children }: Props) => {
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(interactions);
 
-  function onContextMenu(e: MouseEvent) {
+  function onContextMenu(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
 
-    refs.setPositionReference({
-      getBoundingClientRect() {
-        return {
-          width: 0,
-          height: 0,
-          x: e.clientX,
-          y: e.clientY,
-          top: e.clientY,
-          right: e.clientX,
-          bottom: e.clientY,
-          left: e.clientX,
-        };
-      },
-    });
+    if (contextMousePosition) {
+      refs.setPositionReference({
+        getBoundingClientRect() {
+          return {
+            width: 0,
+            height: 0,
+            x: e.clientX,
+            y: e.clientY,
+            top: e.clientY,
+            right: e.clientX,
+            bottom: e.clientY,
+            left: e.clientX,
+          };
+        },
+      });
+    }
 
     setIsOpen(true);
   }
   
   const triggerProps = isContextMenu ? {
-    onContextMenu,
+    ref: refs.setReference,
+    ...getReferenceProps({
+      onContextMenu,
+      onClick: () => {
+        React.isValidElement(menuTrigger) && menuTrigger.props.onClick?.();
+      },
+    }),
   } : {
     // onClick: () => {
     //   setIsOpen(true);
@@ -138,13 +155,14 @@ export const Menu = ({ isContextMenu, children }: Props) => {
           {isOpen && (
             <FloatingOverlay lockScroll>
               <FloatingFocusManager context={context} initialFocus={refs.floating}>
-                <div
+                <Box
                   ref={refs.setFloating}
                   style={floatingStyles}
                   {...getFloatingProps()}
+                  outline="transparent"
                 >
                   {menuList}
-                </div>
+                </Box>
               </FloatingFocusManager>
             </FloatingOverlay>
           )}

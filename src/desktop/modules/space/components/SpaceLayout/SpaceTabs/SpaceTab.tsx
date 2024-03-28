@@ -1,17 +1,9 @@
 import React from 'react';
 
 import {
-  Avatar,
   Box,
   Circle,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Portal,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
@@ -21,6 +13,7 @@ import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
 import { ChakraBox } from 'shared/components/ChakraBox';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -36,7 +29,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeTabId = useAppSelector(selectActiveTabId);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate } = useUpdateSpaceTab(id);
   const handleTabChange = React.useCallback(() => {
     if (!spaceTab) return;
@@ -52,14 +44,9 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const { isPinned } = spaceTab;
   
   return (
-    <Menu
-      isOpen={isOpen}
-      onClose={onClose}
-      placement="bottom-start"
-      isLazy
-    >
-      <ChakraBox
-        // as={ChakraBox}
+    <Menu isContextMenu>
+      <MenuTrigger
+        as={ChakraBox}
         layout
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
@@ -76,10 +63,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         borderStyle="solid"
         display="flex"
         onClick={handleTabChange}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          onOpen();
-        }}
         sx={{
           containerType: 'size',
           ...isActive ? {
@@ -94,13 +77,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
           } : {},
         }}
       >
-        <MenuButton
-          as={Box}
-          left="0"
-          w="full"
-          h="full"
-          position="absolute"
-        />
         <ChakraBox
           layout
           position="relative"
@@ -174,46 +150,39 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
             </>
           )}
         </ChakraBox>
-      </ChakraBox>
-      <Portal>
-        <MenuList
-          onAnimationEnd={() => {
-            const menu = document.querySelector<HTMLDivElement>('[role=menu]');
-            menu?.focus();
+      </MenuTrigger>
+      <MenuList>
+        <MenuItem
+          onClick={() => {
+            mutate({ isPinned: !isPinned });
           }}
         >
-          <MenuItem
-            onClick={() => {
-              mutate({ isPinned: !isPinned });
-            }}
-          >
-            {isPinned ? 'Unpin': 'Pin'}
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem
-            onClick={() => {
-              dispatch(closeTab(id));
-            }}
-          >
+          {isPinned ? 'Unpin': 'Pin'}
+        </MenuItem>
+        <MenuDivider />
+        <MenuItem
+          onClick={() => {
+            dispatch(closeTab(id));
+          }}
+        >
             Close
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              dispatch(closeOtherTabs(id));
-            }}
-          >
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(closeOtherTabs(id));
+          }}
+        >
             Close other tabs
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              dispatch(closeRightTabs(id));
-            }}
-            isDisabled={isLast}
-          >
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(closeRightTabs(id));
+          }}
+          isDisabled={isLast}
+        >
             Close to the Right
-          </MenuItem>
-        </MenuList>
-      </Portal>
+        </MenuItem>
+      </MenuList>
     </Menu>
   );
 });

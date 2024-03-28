@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, useDisclosure, useToken } from '@chakra-ui/react';
+import { IconButton, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { routeNames } from 'shared/constants/routeNames';
 import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
@@ -20,7 +21,6 @@ const extraId = 'MainHeaderButton';
 
 export const MainHeaderButton = () => {
   const dispatch = useAppDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const space = useAppSelector(selectActiveSpace);
   const brand = useToken(
     'colors',
@@ -44,12 +44,10 @@ export const MainHeaderButton = () => {
   return (
     <>
       <Menu
-        isOpen={isOpen}
-        onClose={onClose}
-        placement="bottom-start"
-        flip={false}
+        isContextMenu
+        contextMousePosition={false}
       >
-        <MenuButton
+        <MenuTrigger
           as={IconButton}
           position="relative"
           size="sm"
@@ -59,17 +57,8 @@ export const MainHeaderButton = () => {
           variant="outline"
           isActive={false}
           onClick={() => dispatch(openMainSpaceNote())}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            onOpen();
-          }}
         />
-        <MenuList
-          onAnimationEnd={() => {
-            const menu = document.querySelector<HTMLDivElement>('[role=menu]');
-            menu?.focus();
-          }}
-        >
+        <MenuList>
           <MenuItem
             onClick={() => {
               router.navigate(buildUrl({
@@ -77,7 +66,7 @@ export const MainHeaderButton = () => {
               }));
             }}
           >
-          Spaces
+            Spaces
           </MenuItem>
           <MenuItem
             onClick={() => {
