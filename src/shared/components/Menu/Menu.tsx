@@ -5,6 +5,7 @@ import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  Placement,
   autoUpdate,
   flip,
   offset,
@@ -23,7 +24,7 @@ import { MenuContext } from './MenuContext';
 type Props = React.PropsWithChildren<{
   isContextMenu?: boolean,
   contextMousePosition?: boolean,
-  placement?: string,
+  placement?: Placement,
 }>
 
 export const Menu = (props: Props) => {
