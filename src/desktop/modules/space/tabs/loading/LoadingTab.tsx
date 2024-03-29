@@ -1,11 +1,9 @@
-import React from 'react';
-
-import { Box } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
 
 export const LoadingTab = () => {
   return (
-    <Box w="full" h="full">
-      LoadingTab
-    </Box>
+    <Center w="full" h="full">
+      <Spinner />
+    </Center>
   );
 };

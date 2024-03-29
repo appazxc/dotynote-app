@@ -1,7 +1,7 @@
 import { SettingsLayout } from 'desktop/modules/space/components/SettingsLayout';
 
-export const SettingsContent = () => {
+export const NoteSettingsContent = () => {
   return (
-    <SettingsLayout>Settings</SettingsLayout>
+    <SettingsLayout>NoteSettings</SettingsLayout>
   );
 };

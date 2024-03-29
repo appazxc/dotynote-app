@@ -4,13 +4,13 @@ import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
+import { store } from 'shared/store';
 import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { store } from 'shared/types/store';
 
-import { ErrorTab } from './error/Error';
+import { Error } from './error/Error';
 import { Home } from './home/Home';
-import { LoadingTab } from './loading/Loading';
+import { Loading } from './loading/Loading';
 import { tabsDictionary } from './tabsDictionary';
 
 function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
@@ -29,8 +29,8 @@ export const useTabRouter = (spaceTab: SpaceTabEntity) => {
       store,
       pages: {
         notFoundPage: <Home />,
-        errorPage: <ErrorTab />,
-        loadingPage: <LoadingTab />,
+        errorPage: <Error />,
+        loadingPage: <Loading />,
       },
       memoryRouteParams: getMemoryRouterParams(spaceTab),
     });

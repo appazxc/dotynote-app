@@ -1,16 +1,12 @@
-import {
-  Container,
-  Heading,
-} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
-import { TabLayout } from 'desktop/modules/space/components/TabLayout';
+import { SettingsLayout } from 'desktop/modules/space/components/SettingsLayout';
 
 export const ProfileContent = () => {
   return (
-    <TabLayout defaultSidebar>
-      <Container py="10">
-        <Heading size="md">Profile</Heading>
-      </Container>
-    </TabLayout>
+    <SettingsLayout>
+      <div>ProfileContent</div>
+      <Link to="/settings/note">настройки заметки</Link>
+    </SettingsLayout>
   );
 };

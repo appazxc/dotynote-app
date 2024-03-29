@@ -7,6 +7,7 @@ const CreateNote = () => import('./createNote');
 const AddMainNote = () => import('./addMainNote');
 const Settings = () => import('./settings');
 const Profile = () => import('./profile');
+const NoteSettings = () => import('./noteSettings');
 
 const tabsDictionary = {
   [tabRouteNames.home]: Home,
@@ -15,7 +16,7 @@ const tabsDictionary = {
   [tabRouteNames.addMainNote]: AddMainNote,
   [tabRouteNames.profile]: Profile,
   [tabRouteNames.settings]: Settings,
-  [tabRouteNames.notePreferences]: Note,
+  [tabRouteNames.notePreferences]: NoteSettings,
 } as TabsDictionary;
 
 export { tabsDictionary };
