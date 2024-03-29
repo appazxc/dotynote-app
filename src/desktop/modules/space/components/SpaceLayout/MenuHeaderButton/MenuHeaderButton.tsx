@@ -61,7 +61,7 @@ export const MenuHeaderButton = React.memo(() => {
           <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
           <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
           <MenuDivider />
-          <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+          <MenuItem onClick={() => dispatch(logout())} colorScheme="red">Logout</MenuItem>
         </MenuList>
       </Menu>
 
