@@ -15,10 +15,16 @@ export const SettingsLayout = ({ children }) => {
     <TabLayout
       leftSide={(
         <Box display="flex" pl="2">
-          <Box minW="200px" pt="2">
+          <Box
+            minW="200px"
+            pt="2"
+            flexDirection="column"
+            display="flex"
+          >
+            <DefaultTabSidebar inline />  
+
             <Sidebar />
-          </Box>
-          <DefaultTabSidebar />  
+          </Box>  
         </Box>
       ) }
     >

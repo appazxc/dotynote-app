@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 
 // need 18.3 react version
 // import { SuspenseLoader } from 'shared/components/SuspenseLoader';
-import { Box } from '@chakra-ui/react';
 
 import { useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
@@ -15,7 +14,7 @@ export type GetModalParamsType<Props extends object> =
   (a: Props) => ModalIdentity
 
 type HOCType<Props extends object> = 
-  (a: () => Promise<{ default: React.ComponentType<Omit<Props, keyof ModalIdentity>> }>) => React.ComponentType<Props>;
+  (a: () => Promise<{ default: React.ComponentType<Omit<Props, 'extraId'>> }>) => React.ComponentType<Props>;
 
 type Loader = (dispatch: AppDispatch) => Promise<void>;
 
@@ -25,7 +24,7 @@ type AsModalParams<Props extends object> = {
   modalLoader?: JSX.Element | false,
 };
 
-export default function asModal<Props extends Partial<ModalIdentity>>({
+export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
   getModalParams,
   // loader,
   modalLoader,
@@ -51,8 +50,6 @@ export default function asModal<Props extends Partial<ModalIdentity>>({
       // }, [active, dispatch]);
 
       const { 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        id: omitIdKey, 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         extraId: omitExtraId, 
         ...rest 

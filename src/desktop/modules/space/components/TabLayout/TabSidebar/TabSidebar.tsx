@@ -6,14 +6,16 @@ type Props = {
   children?: React.ReactNode,
   header?: React.ReactNode,
   footer?: React.ReactNode,
+  inline?: boolean,
 }
 
-export const TabSidebar = ({ children, header, footer }: Props) => {
+export const TabSidebar = ({ children, header, footer, inline }: Props) => {
   return (
     <Box
-      h="full"
+      h={inline ? undefined : 'full'}
+      w={inline ? 'full' : undefined}
       display="flex"
-      flexDirection="column"
+      flexDirection={inline ? 'row' : 'column'}
     >
       <Box flexShrink="0">
         {header}

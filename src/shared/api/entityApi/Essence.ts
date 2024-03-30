@@ -81,8 +81,12 @@ export default class Essense<T extends { id?: IdentityType }> {
     return this.api.post<D>(`${this.path}/${action}`, data);
   }
 
-  async delete(id: string | number) {
-    return await this.api.delete<void>(`${this.path}/${id}`);
+  async delete(id: IdentityType) {
+    const result = await this.api.delete<void>(`${this.path}/${id}`);
+
+    this.store.dispatch(deleteEntity({ id, type: this.entityName }));
+
+    return result;
   }
 
   updateEntity(id: IdentityType, data: Partial<T>) {

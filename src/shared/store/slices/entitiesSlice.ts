@@ -88,7 +88,7 @@ export const entitiesSlice = createSlice({
     },
     deleteEntity: (
       state, 
-      { payload }: PayloadAction<{ id: string, type: EntityName }>
+      { payload }: PayloadAction<{ id: IdentityType, type: EntityName }>
     ) => {
       const { id, type } = payload;
 

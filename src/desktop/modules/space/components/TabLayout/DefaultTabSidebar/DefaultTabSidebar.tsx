@@ -8,7 +8,11 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
-export const DefaultTabSidebar = React.memo(() => {
+type Props = {
+  inline?: boolean,
+}
+
+export const DefaultTabSidebar = React.memo(({ inline }: Props) => {
   const navigate = useNavigate();
   const tab = useTabContext();
 
@@ -24,11 +28,11 @@ export const DefaultTabSidebar = React.memo(() => {
   }, [navigate, tab.routes.length]);
 
   return (
-    <TabSidebar>
+    <TabSidebar inline={inline}>
       <Box
         gap="2"
         display="flex"
-        flexDirection="column"
+        flexDirection={inline ? 'row' : 'column'}
         p="2"
       >
         {items.map(({ label, ...rest }) => 

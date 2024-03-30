@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { Box, BoxProps } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-
-import { Logo } from 'shared/components/Logo';
 
 type Props = {
   position?: BoxProps['position'],
@@ -31,7 +28,7 @@ export const LayoutHeader = ({ position, left, right, children, ...boxProps }: P
       justifyContent="space-between"
       {...boxProps}
     >
-      {left && <Box>{left}</Box>}
+      {<Box>{left}</Box>}
       {children && <Box>{children}</Box>}
       {right && <Box>{right}</Box>}
     </Box>
