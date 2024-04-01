@@ -10,7 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { useDebounce } from 'usehooks-ts';
+import { useDebounceValue } from 'usehooks-ts';
 
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -31,7 +31,7 @@ const SelectNoteModal = (props: Props) => {
   } = props;
   const dispatch = useAppDispatch();
   const [query, setQuery] = React.useState('');
-  const debouncedQuery = useDebounce<string>(query, 500);
+  const debouncedQuery = useDebounceValue<string>(query, 500);
 
   const handleOnChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
