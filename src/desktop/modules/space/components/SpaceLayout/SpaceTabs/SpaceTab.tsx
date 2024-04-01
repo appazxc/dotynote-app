@@ -141,7 +141,12 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                   colorScheme="gray"
                   icon={<MdClose size="13px" />}
                   borderRadius="50%"
+                  onContextMenu={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                  }}
                   onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+                    event.preventDefault();
                     event.stopPropagation();
                     dispatch(closeTab(id));
                   }}
