@@ -62,7 +62,11 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           
           queryClient.setQueryData(
             options.spaceTabs.list({ spaceId }).queryKey, 
-            (oldTabs = []) => [...oldTabs, fakeId]
+            (oldTabs = []) => {
+              console.log('oldTabs', oldTabs);
+              
+              return [...oldTabs, fakeId]
+            }
           );
 
           if (makeActive) {

@@ -18,7 +18,7 @@ const makeInvariantError = (message: string, params?: unknown) => {
   if (import.meta.env.MODE === 'development') {
     const paramsString = JSON.stringify(params, null, 2) || '';
 
-    return new Error(`${message}: ${paramsString}`);
+    return new Error(`${message}${paramsString ? `: ${paramsString}` : ''}`);
   }
 
   return new InvariantError();

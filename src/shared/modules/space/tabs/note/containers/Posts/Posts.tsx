@@ -38,8 +38,9 @@ export const Posts = ({ noteId, postId }) => {
     isFetchingPreviousPage,
     fetchPreviousPage,
     fetchNextPage,
+    ...rest
   } = useInfinityPosts(noteId, filters);
-  console.log('data', data);
+  console.log('rest', rest);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 

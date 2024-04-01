@@ -13,7 +13,7 @@ import { entityApi } from '../entityApi';
 
 type Filters = Omit<LoadListFilters, 'parentId'>;
 
-type PageParam = { 
+export type PageParam = { 
   cursor?: IdentityType | null,
   direction?: LoadMoreDirection | null, 
 }

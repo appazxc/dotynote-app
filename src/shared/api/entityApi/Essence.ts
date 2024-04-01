@@ -8,6 +8,9 @@ import { invariant } from 'shared/util/invariant';
 
 import apiFactory, { Api } from '../apiFactory';
 
+type DeleteOptions = {
+  deleteFlag?: boolean,
+}
 export default class Essense<T extends { id?: IdentityType }> {
   api: Api;
   path: string;
@@ -81,10 +84,14 @@ export default class Essense<T extends { id?: IdentityType }> {
     return this.api.post<D>(`${this.path}/${action}`, data);
   }
 
-  async delete(id: IdentityType) {
+  async delete(id: IdentityType, { deleteFlag }: DeleteOptions = {}) {
     const result = await this.api.delete<void>(`${this.path}/${id}`);
 
-    this.store.dispatch(deleteEntity({ id, type: this.entityName }));
+    if (deleteFlag) {
+      this.store.dispatch(updateEntity({ id, type: this.entityName, data: { _isDeleted: true } }));
+    } else {
+      this.store.dispatch(deleteEntity({ id, type: this.entityName }));
+    }
 
     return result;
   }
@@ -93,7 +100,7 @@ export default class Essense<T extends { id?: IdentityType }> {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 
-  deleteEntity(id: string) {
+  deleteEntity(id: IdentityType) {
     this.store.dispatch(deleteEntity({ id, type: this.entityName }));
   }
 }
