@@ -7,12 +7,6 @@ import { JSONContent, generateHTML } from '@tiptap/core';
 import { keepNDivs, removeEmptyDivsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
 
-type Props = {
-  content?: JSONContent,
-  maxLines?: number,
-  removeEmptyDivsFromEnd?: boolean
-}
-
 const Container = styled(Box)`
   white-space: pre-wrap;
   text-overflow: unset;
@@ -28,6 +22,12 @@ const Container = styled(Box)`
     display: block;
   }
 `;
+
+type Props = {
+  content?: JSONContent,
+  maxLines?: number,
+  removeEmptyDivsFromEnd?: boolean
+}
 
 export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
   const content = React.useMemo(() => {

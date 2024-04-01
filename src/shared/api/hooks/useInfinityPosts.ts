@@ -3,7 +3,7 @@ import React from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { LoadListFilters } from 'shared/api/options/posts';
-import { LoadMoreDirection, PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
+import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
@@ -39,7 +39,7 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
 
       const apiFilters = {
         parentId: noteId,
-        pageSize: PAGE_SIZE,
+        pageSize: DEFAULT_PAGE_SIZE,
         ...filters,
       };
 
@@ -50,12 +50,12 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
       return entityApi.post.loadList({ filters: apiFilters });
     },
     getPreviousPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      return lastPage.length === PAGE_SIZE 
+      return lastPage.length === DEFAULT_PAGE_SIZE 
         ? { cursor: lastPage[lastPage.length - 1], direction: loadMoreDirection.PREVIOUS } 
         : null;
     },
     getNextPageParam: (firstPage, allPages, firstPageParam, allPageParams) => {
-      return firstPage.length === PAGE_SIZE && firstPageParam.cursor
+      return firstPage.length === DEFAULT_PAGE_SIZE && firstPageParam.cursor
         ? { cursor: firstPage[0], direction: loadMoreDirection.NEXT } 
         : null;
     },

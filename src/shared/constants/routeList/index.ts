@@ -36,10 +36,6 @@ const user = [
     path: '/search',
   },
   {
-    name: routeNames.profile,
-    path: '/profile',
-  },
-  {
     name: routeNames.account,
     path: '/account',
   },

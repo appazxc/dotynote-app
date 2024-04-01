@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from 'shared/components/Form';
-import { BACK_URL } from 'shared/constants/queryParams';
+import { BACK_URL } from 'shared/constants/queryKeys';
 import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
 import { buildUrl } from 'shared/util/router/buildUrl';

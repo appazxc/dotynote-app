@@ -14,8 +14,7 @@ import { PostsSkeleton } from './Posts.skeleton';
 
 const ROOT_MARGIN = '400px';
 
-export const Posts = ({ noteId, postId }) => {
-  const postsId = React.useId();
+export const Posts = ({ noteId }) => {
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
     rootMargin: ROOT_MARGIN,
@@ -69,7 +68,6 @@ export const Posts = ({ noteId, postId }) => {
               <Post
                 key={postId}
                 postId={postId} 
-                className={postsId}
               />
             ))
           }

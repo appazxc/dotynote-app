@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
-import { MenuTrigger, Menu, MenuList, MenuItem } from 'shared/components/Menu';
-import { EditorView } from 'shared/modules/editor';
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Post as PostBase } from 'shared/components/Post';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
@@ -16,10 +16,9 @@ import { invariant } from 'shared/util/invariant';
 
 type Props = {
   postId: IdentityType,
-  className: string,
 }
 
-export const Post = React.memo(({ postId, className }: Props) => {
+export const Post = React.memo(({ postId }: Props) => {
   const dispatch = useAppDispatch();
   const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
@@ -47,19 +46,10 @@ export const Post = React.memo(({ postId, className }: Props) => {
             }
           }}
         >
-          <Box
-            className={className}
-            p="4"
-            borderWidth="2px"
-            borderRadius="lg"
-            borderColor="slateDark.7"
-            cursor="pointer"
-            data-post-id={postId}
-          
-          >
-            <Text fontWeight="500">#{post.id} {note.title}</Text>
-            <EditorView removeEmptyDivsFromEnd content={note.content} />
-          </Box>
+          <PostBase
+            noteId={note.id}
+            postId={postId}
+          />
         </Link>
       </MenuTrigger>
       <MenuList>

@@ -1,6 +1,6 @@
-import { PAGE_SIZE, loadMoreDirection } from "shared/constants/requests";
+import { DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
 
-import { createNote } from "./note";
+import { createNote } from './note';
 
 const LAST_NOTE_CURSOR = 45;
 
@@ -8,19 +8,19 @@ export const getNotePosts = (noteId, cursorValue, direction) => {
   const cursor = parseInt(cursorValue) || 0;
 
   let startCursor = cursor;
-  let size = PAGE_SIZE;
+  let size = DEFAULT_PAGE_SIZE;
   if (direction === loadMoreDirection.AROUND) {
-    startCursor = Math.max(0, startCursor - Math.floor(PAGE_SIZE / 2));
-    startCursor = startCursor < LAST_NOTE_CURSOR - PAGE_SIZE ? startCursor : LAST_NOTE_CURSOR - PAGE_SIZE;
+    startCursor = Math.max(0, startCursor - Math.floor(DEFAULT_PAGE_SIZE / 2));
+    startCursor = startCursor < LAST_NOTE_CURSOR - DEFAULT_PAGE_SIZE ? startCursor : LAST_NOTE_CURSOR - DEFAULT_PAGE_SIZE;
   }
 
   if (direction === loadMoreDirection.PREVIOUS) {
-    startCursor = Math.max(0, cursor - PAGE_SIZE);
-    size = startCursor < PAGE_SIZE ? cursor - 1 : PAGE_SIZE;
+    startCursor = Math.max(0, cursor - DEFAULT_PAGE_SIZE);
+    size = startCursor < DEFAULT_PAGE_SIZE ? cursor - 1 : DEFAULT_PAGE_SIZE;
   }
 
   if (direction === loadMoreDirection.NEXT) {
-    size = startCursor >= LAST_NOTE_CURSOR ? 0 : Math.min(LAST_NOTE_CURSOR - startCursor, PAGE_SIZE);
+    size = startCursor >= LAST_NOTE_CURSOR ? 0 : Math.min(LAST_NOTE_CURSOR - startCursor, DEFAULT_PAGE_SIZE);
   }
 
   return [...Array(size)].map((_, index) => {

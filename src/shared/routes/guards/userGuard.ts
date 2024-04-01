@@ -1,11 +1,11 @@
-import { redirect } from "react-router";
+import { redirect } from 'react-router';
 
-import { authoriseUser } from "shared/actions/auth";
-import { BACK_URL } from "shared/constants/queryParams";
-import { routeNames } from "shared/constants/routeNames";
-import { selectIsAuthorized, selectToken } from "shared/store/slices/authSlice";
-import { Guard } from "shared/types/common/router";
-import { buildUrl } from "shared/util/router/buildUrl";
+import { authoriseUser } from 'shared/actions/auth';
+import { BACK_URL } from 'shared/constants/queryKeys';
+import { routeNames } from 'shared/constants/routeNames';
+import { selectIsAuthorized, selectToken } from 'shared/store/slices/authSlice';
+import { Guard } from 'shared/types/common/router';
+import { buildUrl } from 'shared/util/router/buildUrl';
 
 export const userGuard: Guard = async ({ store, request }) => {
   const state = store.getState();

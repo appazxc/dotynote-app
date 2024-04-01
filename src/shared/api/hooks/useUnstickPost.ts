@@ -41,7 +41,7 @@ export const useUnstickPost = (id: IdentityType) => {
     async onSuccess() {
       const { queryKey } = noteTabStore.get(noteTabId) || {};
       await queryClient.invalidateQueries({ queryKey });
-      entityApi.post.deleteEntity(id);
+      // entityApi.post.deleteEntity(id);
     },
   });
 };
