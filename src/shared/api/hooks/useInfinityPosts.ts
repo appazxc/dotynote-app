@@ -1,15 +1,18 @@
 import React from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { debounce } from 'lodash';
 
 import { LoadListFilters } from 'shared/api/options/posts';
 import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
+import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { useSaveNoteTabQueryKey } from 'desktop/modules/space/tabs/note/hooks/useSaveNoteTabQueryKey';
 
 import { entityApi } from '../entityApi';
+import { queryClient } from '../queryClient';
 
 type Filters = Omit<LoadListFilters, 'parentId'>;
 
@@ -32,6 +35,18 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
 
   useSaveNoteTabQueryKey(queryKey);
 
+  React.useEffect(() => {
+    const invalidate = debounce(() => {
+      queryClient.invalidateQueries({ queryKey });
+    }, 500);
+
+    noteEmitter.on(noteEvents.foundDeletedPost, invalidate);
+
+    return () => {
+      noteEmitter.removeListener(noteEvents.foundDeletedPost, invalidate);
+    };
+  }, [queryKey]);
+
   return useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam }) => {
@@ -49,15 +64,24 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
 
       return entityApi.post.loadList({ filters: apiFilters });
     },
-    getPreviousPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      return lastPage.length === DEFAULT_PAGE_SIZE 
+    getPreviousPageParam: (lastPage, allPages, pageParam, allPageParams) => {
+      const result = lastPage.length === DEFAULT_PAGE_SIZE 
         ? { cursor: lastPage[lastPage.length - 1], direction: loadMoreDirection.PREVIOUS } 
         : null;
+
+      return result;
     },
-    getNextPageParam: (firstPage, allPages, firstPageParam, allPageParams) => {
-      return firstPage.length === DEFAULT_PAGE_SIZE && firstPageParam.cursor
+    getNextPageParam: (firstPage, allPages, pageParam, allPageParams) => {
+      const loadedOnlyPreviousPage = allPageParams.length === 1 
+      && allPageParams[0].direction === loadMoreDirection.PREVIOUS;
+        
+      const result = (firstPage.length === DEFAULT_PAGE_SIZE && pageParam.direction) || loadedOnlyPreviousPage
         ? { cursor: firstPage[0], direction: loadMoreDirection.NEXT } 
         : null;
+
+      // console.log('getNextPageParam result', result, firstPage, allPages,firstPageParam, allPageParams);
+      
+      return result;
     },
     initialPageParam,
   });

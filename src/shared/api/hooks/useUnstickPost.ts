@@ -38,10 +38,5 @@ export const useUnstickPost = (id: IdentityType) => {
       // }
       // queryClient.invalidateQueries({ queryKey });
     },
-    async onSuccess() {
-      const { queryKey } = noteTabStore.get(noteTabId) || {};
-      await queryClient.invalidateQueries({ queryKey });
-      // entityApi.post.deleteEntity(id);
-    },
   });
 };

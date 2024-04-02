@@ -37,32 +37,39 @@ export const Posts = ({ noteId }) => {
     isFetchingPreviousPage,
     fetchPreviousPage,
     fetchNextPage,
+    hasNextPage,
+    hasPreviousPage,
     ...rest
   } = useInfinityPosts(noteId, filters);
-  console.log('rest', rest);
+  console.log('data', data);
+  // console.log('rest', rest);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 
   React.useEffect(() => {
-    if (inViewPrev) {
+    if (inViewPrev && hasPreviousPage) {      
       fetchPreviousPage();
     }
-  }, [fetchPreviousPage, inViewPrev]);
+  }, [fetchPreviousPage, inViewPrev, hasPreviousPage]);
 
   React.useEffect(() => {
-    if (inViewNext) {
+    if (inViewNext && hasNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage, inViewNext]);
+  }, [fetchNextPage, inViewNext, hasNextPage]);
 
   const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
+
+  const showNextPageObserver = !isFetching && hasNextPage;
+  const showPreviousPageObserver = !isFetching && hasPreviousPage;
 
   return (
     <>
       <Box pb="10" flexGrow={data ? '1' : '0'}>
         {isFetchingFirstTime && <PostsSkeleton />}
         <Stack gap="2">
-          {isFetchingNextPage ? <PostsSkeleton /> : <Box ref={nextRef} />}
+          {showNextPageObserver && <Box ref={nextRef} />}
+          {isFetchingNextPage && <PostsSkeleton />}
           {
             flatData.map((postId) => (
               <Post
@@ -71,7 +78,8 @@ export const Posts = ({ noteId }) => {
               />
             ))
           }
-          {isFetchingPreviousPage ? <PostsSkeleton /> : <Box ref={prevRef} />}
+          {isFetchingPreviousPage && <PostsSkeleton />}
+          {showPreviousPageObserver && <Box ref={prevRef} />}
         </Stack>
       </Box>
       <TabScrollRestoration />

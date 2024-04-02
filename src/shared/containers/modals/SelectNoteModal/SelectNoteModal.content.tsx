@@ -31,7 +31,7 @@ const SelectNoteModal = (props: Props) => {
   } = props;
   const dispatch = useAppDispatch();
   const [query, setQuery] = React.useState('');
-  const debouncedQuery = useDebounceValue<string>(query, 500);
+  const [debouncedQuery] = useDebounceValue<string>(query, 500);
 
   const handleOnChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);

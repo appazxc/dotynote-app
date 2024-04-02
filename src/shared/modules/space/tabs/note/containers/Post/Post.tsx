@@ -8,6 +8,7 @@ import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostBase } from 'shared/components/Post';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
+import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -28,6 +29,12 @@ export const Post = React.memo(({ postId }: Props) => {
 
   const { mutate: unstick } = useUnstickPost(postId);
 
+  React.useEffect(() => {
+    if (post._isDeleted) {
+      noteEmitter.emit(noteEvents.foundDeletedPost);
+    }
+  }, [post._isDeleted]);
+  
   if (post._isDeleted) {
     return null;
   }
