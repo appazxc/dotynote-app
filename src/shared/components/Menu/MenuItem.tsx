@@ -24,7 +24,7 @@ export const MenuItem = ({ onClick, isDisabled, children, ...buttonProps }: Prop
       size="sm"
       justifyContent="start"
       isDisabled={isDisabled}
-      fontWeight="normal"
+      fontWeight="medium"
       {...buttonProps}
     >
       {children}

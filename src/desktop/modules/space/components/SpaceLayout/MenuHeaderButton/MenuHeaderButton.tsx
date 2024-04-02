@@ -2,6 +2,9 @@ import React from 'react';
 
 import { IconButton, useColorMode } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FiUser } from 'react-icons/fi';
+import { TbLogout2, TbSettings2 } from 'react-icons/tb';
+import { VscColorMode } from 'react-icons/vsc';
 
 import { logout } from 'shared/actions/auth';
 import { openTab } from 'shared/actions/space/openTab';
@@ -54,14 +57,18 @@ export const MenuHeaderButton = React.memo(() => {
           colorScheme="brand"
         />
         <MenuList>
-          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-          <MenuItem onClick={handleColorModeChange}>
+          <MenuItem leftIcon={<FiUser />} onClick={handleProfileClick}>Profile</MenuItem>
+          <MenuItem leftIcon={<VscColorMode />} onClick={handleColorModeChange}>
             Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
           </MenuItem>
-          <MenuItem onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
-          <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+          <MenuItem leftIcon={<VscColorMode />} onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
+          <MenuItem leftIcon={<TbSettings2 />} onClick={handleSettingsClick}>Settings</MenuItem>
           <MenuDivider />
-          <MenuItem onClick={() => dispatch(logout())} colorScheme="red">Logout</MenuItem>
+          <MenuItem
+            leftIcon={<TbLogout2 />}
+            onClick={() => dispatch(logout())}
+            colorScheme="red"
+          >Logout</MenuItem>
         </MenuList>
       </Menu>
 

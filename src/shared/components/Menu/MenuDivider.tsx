@@ -4,6 +4,6 @@ import { Divider } from '@chakra-ui/react';
 
 export const MenuDivider = () => {
   return (
-    <Divider my="1" />
+    <Divider my="0.5" />
   );
 };
