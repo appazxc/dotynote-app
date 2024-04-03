@@ -25,8 +25,7 @@ export const NoteBase = (props: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, id));
   invariant(note, 'Missing note');
 
-  const { mutate, ...rest } = useUpdateNote(note.id);
-console.log('rest', rest);
+  const { mutate } = useUpdateNote(note.id);
 
   const { title, content } = note;
 

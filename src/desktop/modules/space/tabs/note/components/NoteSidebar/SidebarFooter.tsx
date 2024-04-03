@@ -48,7 +48,6 @@ const NoteMenu = ({ id }: { id: string }) => {
           )}
         </MenuList>
       </Menu>
-
       <EditPostSettingsModal noteId={id} extraId="sidebarFooter" />
     </>
   );
@@ -68,7 +67,6 @@ export const SidebarFooter = ({ id }) => {
   });
 
   const error = last(errors);
-  // const error = mutation?.error?.response?.data.errors[0];
 
   const errorTooltip = React.useMemo(() => {
     if (!error || !error.path[0]) {

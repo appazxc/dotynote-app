@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, IconButton } from '@chakra-ui/react';
-import { BsArrowLeft, BsPlus } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
 import { FaPencil } from 'react-icons/fa6';
 import { HiOutlineBookOpen } from 'react-icons/hi';
 import { useNavigate } from 'react-router';

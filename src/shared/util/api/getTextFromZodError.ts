@@ -9,6 +9,7 @@ const getTextFromCode = (code: string): string => {
   case codes.tooBig:
     return 'is too big';
   default:
+    throw Error('unhandled zod code: ' + code);
     return 'unknown error';
   }
 };
