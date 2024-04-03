@@ -4,6 +4,8 @@ import { Box } from '@chakra-ui/react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
+import { TabScrollRestoration } from 'desktop/modules/space/components/TabScrollRestoration';
+
 import { DefaultTabSidebar } from '../DefaultTabSidebar';
 
 type Props = {
@@ -11,9 +13,12 @@ type Props = {
   leftSide?: React.ReactNode,
   footer?: React.ReactNode,
   defaultSidebar?: React.ReactNode,
+  scrollRestoration?: boolean,
 }
 
-export const TabLayout = ({ children, leftSide, footer, defaultSidebar }: Props) => {
+export const TabLayout = (props: Props) => {
+  const { children, leftSide, footer, defaultSidebar, scrollRestoration = true } = props;
+
   return (
     <Box
       w="full"
@@ -54,6 +59,7 @@ export const TabLayout = ({ children, leftSide, footer, defaultSidebar }: Props)
                     }}
                   >
                     {children}
+                    {scrollRestoration && <TabScrollRestoration />}
                   </Box>
                 </>
               )}

@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
-import { useQueryParams } from 'shared/hooks/useQueryParams';
 import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 
@@ -17,7 +16,6 @@ type Props = {
 
 export const NoteTabContent = React.memo((props: Props) => {
   const { noteId, isWriteMode, showPosts } = props;
-  const { postId = '' } = useQueryParams();
   const scrollRef = useScrollContext();
   const [editorInitialized, { on }] = useBoolean(!isWriteMode);
 
@@ -43,7 +41,6 @@ export const NoteTabContent = React.memo((props: Props) => {
           <Posts
             key={noteId}
             noteId={noteId}
-            postId={postId}
           />
         )}
       </Box>

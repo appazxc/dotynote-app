@@ -63,5 +63,3 @@ export const HomeTabContent = () => {
     </TabLayout>
   );
 };
-
-export default HomeTabContent;

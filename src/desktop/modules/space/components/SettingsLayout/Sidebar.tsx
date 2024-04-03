@@ -25,9 +25,14 @@ export const Sidebar = () => {
   return (
     <VStack alignItems="stretch" gap="1">
       {list.map(({ name, url }) => (
-        <NavLink key={name} to={url}>
+        <NavLink
+          key={name}
+          to={url}
+          replace
+        >
           {({ isActive, isPending, isTransitioning }) => (
             <Button
+              size="sm"
               w="full"
               justifyContent="start"
               variant={isActive ? 'solid' : 'ghost'}

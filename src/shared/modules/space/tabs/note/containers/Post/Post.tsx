@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
@@ -23,7 +23,7 @@ export const Post = React.memo(({ postId }: Props) => {
   const dispatch = useAppDispatch();
   const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
-
+  const navigate = useNavigate();
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
 
@@ -42,14 +42,15 @@ export const Post = React.memo(({ postId }: Props) => {
   return (
     <Menu isContextMenu>
       <MenuTrigger as={Box}>
-        <Link
-          to={buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } })}
+        <Box
           onClick={(e) => {
+            e.preventDefault();
             if (e.metaKey) {
-              e.preventDefault();
               dispatch(openTab({ 
                 route: buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } }),
               }));
+            } else {
+              navigate(buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } }));
             }
           }}
         >
@@ -57,7 +58,7 @@ export const Post = React.memo(({ postId }: Props) => {
             noteId={note.id}
             postId={postId}
           />
-        </Link>
+        </Box>
       </MenuTrigger>
       <MenuList>
         <MenuItem onClick={() => unstick()}>

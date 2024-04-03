@@ -29,18 +29,18 @@ export const NoteBase = (props: Props) => {
 
   const { title, content } = note;
 
+  const debouncedUpdateTitle = React.useMemo(() => {
+    return debounce((title) => {
+      mutate({ title });
+    }, 2000);
+  }, [mutate]);
+
   const debouncedUpdateContent = React.useMemo(() => {
     return debounce((content) => {
       mutate({ content });
     }, 2000);
   }, [mutate]);
 
-  const debouncedUpdateTitle = React.useMemo(() => {
-    return debounce((title) => {
-      mutate({ title });
-    }, 2000);
-  }, [mutate]);
-  
   const editor = useEditor({
     content,
     onUpdate(props) {

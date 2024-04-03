@@ -31,6 +31,7 @@ export const NoteTab = React.memo(() => {
   return (
     <TabLayout
       key={noteId}
+      scrollRestoration={false}
       leftSide={(
         <NoteSidebar
           id={Number(noteId)}
