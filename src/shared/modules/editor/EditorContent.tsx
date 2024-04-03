@@ -25,7 +25,7 @@ export const EditorContent = ({ editor, ...boxProps }: Props) => {
         w="full"
         h="full"
         onClick={() => {
-          editor.commands.focus();
+          editor.commands.focus('end');
         }}
       />
 

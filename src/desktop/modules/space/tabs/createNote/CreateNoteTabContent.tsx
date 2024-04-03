@@ -3,11 +3,11 @@ import {
   Button,
   Container,
 } from '@chakra-ui/react';
-import { EditorContent } from '@tiptap/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
+import { EditorContent } from 'shared/modules/editor';
 import { useEditor } from 'shared/modules/editor/useEditor';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
@@ -57,18 +57,7 @@ export const CreateNoteTabContent = () => {
               {...register('title')}
             />
           </Box>
-          <Box flexGrow="1" position="relative">
-            <Box
-              position="absolute"
-              w="full"
-              h="full"
-              onClick={() => {
-                editor.commands.focus();
-              }}
-            />
-
-            <EditorContent editor={editor} />
-          </Box>
+          <EditorContent editor={editor} />
         </Box>
       </Container>
     </TabLayout>
