@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { Text, Box, BoxProps } from '@chakra-ui/react';
+import { Box, BoxProps, Text } from '@chakra-ui/react';
 
 import { EditorView } from 'shared/modules/editor';
-import { noteSelector, postSelector } from 'shared/selectors/entities';
+import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
@@ -16,7 +14,6 @@ type Props = {
 export const Post = (props: Props) => {
   const { postId, noteId, ...restProps } = props;
 
-  // const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
   invariant(note, 'Missing note');

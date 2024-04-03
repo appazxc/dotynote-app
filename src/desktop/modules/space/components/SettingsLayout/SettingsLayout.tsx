@@ -1,7 +1,5 @@
 import {
   Box,
-  Container,
-  GridItem,
 } from '@chakra-ui/react';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';

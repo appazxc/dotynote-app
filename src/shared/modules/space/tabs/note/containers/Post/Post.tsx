@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
