@@ -37,7 +37,7 @@ export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) =>
 
   React.useEffect(() => {
     const invalidate = debounce(() => {
-      queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 2) });
     }, 500);
 
     noteEmitter.on(noteEvents.foundDeletedPost, invalidate);

@@ -34,6 +34,7 @@ import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettings
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
 import { useNoteTabId } from '../../hooks/useNoteTabId';
@@ -193,7 +194,7 @@ const PostsContent = ({ note, onClose }) => {
   );
 };
 
-export const SidebarPlusMenu = ({ noteId }) => {
+export const SidebarPlusMenu = React.memo(({ noteId }: { noteId: IdentityType }) => {
   const [noteContent, setNoteContent] = useBoolean(true);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
@@ -214,6 +215,7 @@ export const SidebarPlusMenu = ({ noteId }) => {
         isOpen={isOpen}
         onClose={onClose}
         placement="right-start"
+        isLazy
       >
         <PopoverTrigger>
           <IconButton
@@ -269,4 +271,4 @@ export const SidebarPlusMenu = ({ noteId }) => {
       />
     </>
   );
-};
+});
