@@ -47,7 +47,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
     <Menu isContextMenu>
       <MenuTrigger
         as={ChakraBox}
-        layout
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
         minW={isActive || isPinned ? '7': '3'}
@@ -78,7 +77,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         }}
       >
         <ChakraBox
-          layout
           position="relative"
           display="flex"
           justifyContent={isPinned ? 'center' : 'space-between'}

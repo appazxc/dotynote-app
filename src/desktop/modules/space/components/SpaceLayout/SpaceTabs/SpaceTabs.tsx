@@ -12,8 +12,9 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTab } from './SpaceTab';
 
 export const SpaceTabs = React.memo(() => {
-  const { data: tabIds } = useSpaceTabs({ sorted: true });
+  const { tabs } = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
+  console.log('data', tabs);
  
   const handlePlusClick = React.useCallback(() => {
     dispatch(openTab({ makeActive: true }));
@@ -27,26 +28,23 @@ export const SpaceTabs = React.memo(() => {
       flexDirection="row"
       gap="1"
       flexGrow="1"
+      pr="40px"
     >
-      <LayoutGroup>
-        {tabIds && tabIds.map((id, index) => (
-          <SpaceTab
-            key={id}
-            id={id}
-            isLast={tabIds.length === index + 1}
-          />
-        ))}
-        <ChakraBox layout>
-          <IconButton
-            size="sm"
-            aria-label="Add"
-            icon={<BsPlus size="22px" />}
-            borderRadius="full"
-            variant="ghost"
-            onClick={handlePlusClick}
-          />
-        </ChakraBox>
-      </LayoutGroup>
+      {tabs?.map(({ id }, index) => (
+        <SpaceTab
+          key={id}
+          id={id}
+          isLast={tabs.length === index + 1}
+        />
+      ))}
+      <IconButton
+        size="sm"
+        aria-label="Add"
+        icon={<BsPlus size="22px" />}
+        borderRadius="full"
+        variant="ghost"
+        onClick={handlePlusClick}
+      />
     </Box>
   );
 });
