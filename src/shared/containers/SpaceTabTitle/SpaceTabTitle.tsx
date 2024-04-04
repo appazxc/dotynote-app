@@ -47,7 +47,10 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
       fontSize="sm"
       whiteSpace="nowrap"
     >
-      <Box>
+      <Box
+        as={motion.div}
+        layout="position"
+      >
         {title}
       </Box>
     </Box>

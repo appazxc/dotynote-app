@@ -128,13 +128,22 @@ export const Menu = (props: Props) => {
       onClick: () => {
         React.isValidElement(menuTrigger) && menuTrigger.props.onClick?.();
       },
+      onPointerDown: (event) => {
+        if (event.button !== 2 && React.isValidElement(menuTrigger)) {
+          menuTrigger.props.onMouseDown?.(event);
+        }
+      },
     }),
   } : {
     // onClick: () => {
     //   setIsOpen(true);
     // },
     ref: refs.setReference,
-    ...getReferenceProps(),
+    ...getReferenceProps({
+      // onPointerDown: () => {
+      //   React.isValidElement(menuTrigger) && menuTrigger.props.onPointerDown?.();
+      // },
+    }),
   };
 
   return (

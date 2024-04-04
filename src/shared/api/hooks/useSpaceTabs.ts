@@ -18,17 +18,13 @@ export const useSpaceTabs = ({ sorted }: { sorted?: boolean } = {}) => {
   });
 
   const tabs = useAppSelector((state) => spaceTabSelector.getByIds(state, query.data));
-  const sortedTabs = React.useMemo(() => {
-    console.log('tabs');
-    
-    return tabs;
-  }, [tabs]);
+  const sortedTabs = useAppSelector((state) => selectSortedSpaceTabEntities(state, { ids: query.data}));
 
   if (!spaceId) {
     return query as typeof query & { tabs?: SpaceTabEntity[]};
   }
 
-  const tabsData = sorted ? tabs : tabs;
+  const tabsData = sorted ? sortedTabs : tabs;
 
   return {
     ...query,

@@ -61,7 +61,7 @@ export default class Essense<T extends { id?: IdentityType }> {
       if (!entity.isFake) {
         return await this.api.patch(`${this.path}/${id}`, restData);
       }
-    } catch(error) {
+    } catch (error) {
       this.updateEntity(id, entity);
 
       throw error;

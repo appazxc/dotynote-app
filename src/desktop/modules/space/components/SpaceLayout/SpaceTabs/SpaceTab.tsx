@@ -5,7 +5,8 @@ import {
   Circle,
   IconButton,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { chakra, shouldForwardProp, useToken } from '@chakra-ui/react';
+import { motion, Reorder, isValidMotionProp } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
@@ -19,6 +20,13 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
+
+export const ReorderItemBox = chakra(Reorder.Item, {
+  /**
+   * Allow motion props and non-Chakra props to be forwarded.
+   */
+  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
+});
 
 type Props = {
   id: IdentityType,
@@ -46,7 +54,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   return (
     <Menu isContextMenu>
       <MenuTrigger
-        as={ChakraBox}
+        as={ReorderItemBox}
+        value={spaceTab}
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
         minW={isActive || isPinned ? '7': '3'}
@@ -61,6 +70,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         borderWidth="1px"
         borderStyle="solid"
         display="flex"
+        onMouseDown={handleTabChange}
         onClick={handleTabChange}
         sx={{
           containerType: 'size',
