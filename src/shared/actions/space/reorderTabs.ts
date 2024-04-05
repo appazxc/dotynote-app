@@ -1,11 +1,10 @@
 import { entityApi } from 'shared/api/entityApi';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
-import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpaceId, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
-export const reorderTabs = (newTabs: SpaceTabEntity[]) => async (dispatch, getState) => {
+export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => async (dispatch, getState) => {
   const activeSpaceId = selectActiveSpaceId(getState());
 
   if (!activeSpaceId) {
@@ -13,9 +12,7 @@ export const reorderTabs = (newTabs: SpaceTabEntity[]) => async (dispatch, getSt
   }
     
   const tabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId: activeSpaceId }).queryKey);
-  const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds });
-
-  console.log('newTabs', newTabs, sortedTabs);
+  const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds, isPinned });
   
   let first: SpaceTabEntity | null = null;
   let updated: SpaceTabEntity | null = null;
@@ -26,8 +23,6 @@ export const reorderTabs = (newTabs: SpaceTabEntity[]) => async (dispatch, getSt
     const oldTab = sortedTabs[i];
 
     if (newTab.id === oldTab.id) {
-      console.log('continue', newTab, oldTab);
-      
       continue;
     }
 
@@ -35,8 +30,6 @@ export const reorderTabs = (newTabs: SpaceTabEntity[]) => async (dispatch, getSt
       break;
     }
 
-    console.log('FIRST', newTab);
-    
     first = newTab;
     updated = newTabs[i + 1];
     next = newTabs[i + 2] || null;
@@ -48,15 +41,11 @@ export const reorderTabs = (newTabs: SpaceTabEntity[]) => async (dispatch, getSt
     break;
   }
 
-  console.log(first, updated, next);
-  
   if (!updated || !first) {
     return;
   }
 
   const newPos = next ? Math.floor((next.pos + first.pos) / 2) : first.pos + 1000;
 
-  console.log('new Pos', newPos);
-  
   await entityApi.spaceTab.update(updated.id, { pos: newPos });
 };

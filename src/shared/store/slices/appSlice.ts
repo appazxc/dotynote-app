@@ -1,9 +1,11 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { isBoolean } from 'lodash';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
 import { spaceSelector } from 'shared/selectors/entities';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { AppState } from 'shared/types/store';
 
 type TempNote = {
@@ -94,10 +96,17 @@ export const selectSortedSpaceTabs = createSelector(
 export const selectSortedSpaceTabEntities = createSelector(
   [
     selectSortedSpaceTabs, 
-    (state: AppState) => state.entities.spaceTab,
+    (state) => state.entities.spaceTab,
+    (_, { isPinned }) => isPinned,
   ],
-  (tabIds, spaceTabEntities) => {
-    return tabIds.map((id) => spaceTabEntities[id]);
+  (tabIds, spaceTabEntities, isPinned): SpaceTabEntity[] => {
+    let result = tabIds.map((id) => spaceTabEntities[id]);
+
+    if (isBoolean(isPinned)) {
+      result = result.filter(({ isPinned: isPinnedValue }) => isPinnedValue === isPinned);
+    }
+
+    return result;
   }
 );
 

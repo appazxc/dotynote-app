@@ -125,8 +125,8 @@ export const Menu = (props: Props) => {
     ref: refs.setReference,
     ...getReferenceProps({
       onContextMenu,
-      onClick: () => {
-        React.isValidElement(menuTrigger) && menuTrigger.props.onClick?.();
+      onClick: (event) => {
+        React.isValidElement(menuTrigger) && menuTrigger.props.onClick?.(event);
       },
       onPointerDown: (event) => {
         if (event.button !== 2 && React.isValidElement(menuTrigger)) {

@@ -35,11 +35,21 @@ type Props = {
 
 export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
+  const mousePosition = React.useRef({ x: null, y: null });
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const activeTabId = useAppSelector(selectActiveTabId);
   const { mutate } = useUpdateSpaceTab(id);
-  const handleTabChange = React.useCallback(() => {
-    if (!spaceTab) return;
+
+  const handleMouseDown = React.useCallback((event) => {
+    mousePosition.current = { x: event.clientX, y: event.clientY };
+  }, []);
+
+  const handleTabChange = React.useCallback((event) => {
+    const mouseMoved = Math.abs(mousePosition.current.x - event.clientX) > 3 
+      || Math.abs(mousePosition.current.y - event.clientY) > 3;
+    mousePosition.current= { x: null, y: null };
+
+    if (!spaceTab || mouseMoved) return;
 
     dispatch(updateActiveTabId(spaceTab.id));
   }, [dispatch, spaceTab]);
@@ -55,6 +65,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
     <Menu isContextMenu>
       <MenuTrigger
         as={ReorderItemBox}
+        layout
         value={spaceTab}
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
@@ -70,7 +81,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         borderWidth="1px"
         borderStyle="solid"
         display="flex"
-        onMouseDown={handleTabChange}
+        onMouseDown={handleMouseDown}
         onClick={handleTabChange}
         sx={{
           containerType: 'size',

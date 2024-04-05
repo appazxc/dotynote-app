@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { Box, IconButton } from '@chakra-ui/react';
-import { AnimatePresence, Reorder } from 'framer-motion';
+import { Box } from '@chakra-ui/react';
+import { AnimatePresence, LayoutGroup, Reorder } from 'framer-motion';
 import { BsPlus } from 'react-icons/bs';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { reorderTabs } from 'shared/actions/space/reorderTabs';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
+import { ChakraBox } from 'shared/components/ChakraBox';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { SpaceTab } from './SpaceTab';
@@ -19,40 +20,94 @@ export const SpaceTabs = React.memo(() => {
     dispatch(openTab({ makeActive: true }));
   }, [dispatch]);
   
-  const handleReorderTabs = React.useCallback((data) => {
-    dispatch(reorderTabs(data));
+  const handleReorderPinnedTabs = React.useCallback((data) => {
+    dispatch(reorderTabs(data, true));
+  }, [dispatch]);
+
+  const handleReorderUnpinnedTabs = React.useCallback((data) => {
+    dispatch(reorderTabs(data, false));
   }, [dispatch]);
   
-  return (
-    <Box
-      as={Reorder.Group}
-      display="flex"
-      layout
-      flexDirection="row"
-      gap="1"
-      flexGrow="1"
-      axis="x"
-      values={tabs}
-      onReorder={handleReorderTabs}
-    >
-      <AnimatePresence initial={false}>
-        {tabs?.map((tab, index) => (
-          <SpaceTab
-            key={tab.id}
-            id={tab.id}
-            isLast={tabs.length === index + 1}
-          />
-        ))}
-      </AnimatePresence>
+  const pinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => isPinned), [tabs]);
+  const unpinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => !isPinned), [tabs]);
 
-      <IconButton
-        size="sm"
-        aria-label="Add"
-        icon={<BsPlus size="22px" />}
-        borderRadius="full"
-        variant="ghost"
-        onClick={handlePlusClick}
-      />
-    </Box>
+  return (
+    <LayoutGroup>
+      <Box 
+        display="flex"
+        flexDirection="row"
+        gap="1"
+      >
+        <Box
+          as={Reorder.Group}
+          display="flex"
+          layout
+          flexDirection="row"
+          flexShrink="0"
+          gap="1"
+          axis="x"
+          values={pinnedTabs}
+          onReorder={handleReorderPinnedTabs}
+        >
+          <AnimatePresence initial={false}>
+            {pinnedTabs?.map((tab, index) => (
+              <SpaceTab
+                key={tab.id}
+                id={tab.id}
+                isLast={pinnedTabs.length === index + 1 && unpinnedTabs?.length === 0}
+              />
+            ))}
+          </AnimatePresence>
+        </Box>
+        <Box
+          as={Reorder.Group}
+          display="flex"
+          layout
+          flexDirection="row"
+          gap="1"
+          flexGrow="1"
+          axis="x"
+          values={unpinnedTabs}
+          onReorder={handleReorderUnpinnedTabs}
+        >
+          <AnimatePresence initial={false}>
+            {unpinnedTabs?.map((tab, index) => (
+              <SpaceTab
+                key={tab.id}
+                id={tab.id}
+                isLast={unpinnedTabs.length === index + 1}
+              />
+            ))}
+            <ChakraBox
+              layout
+              w="30px"
+              h="30px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              // @ts-ignore
+              transition={{
+                type: 'spring', // Тип анимации
+                ease: 'linear',
+                bounce: 0,
+                duration: 0.71,
+              }}
+              borderRadius="full"
+              cursor="pointer"
+              onClick={handlePlusClick}
+              sx={{
+                transition: 'background-color 0.3s',
+              }}
+              backgroundColor="gray.100"
+              _hover={{
+                backgroundColor: 'gray.200',
+              }}
+            >
+              <BsPlus size="22px" />
+            </ChakraBox>
+          </AnimatePresence>
+        </Box>
+      </Box>
+    </LayoutGroup>
   );
 });
