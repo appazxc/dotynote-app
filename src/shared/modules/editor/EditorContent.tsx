@@ -17,7 +17,7 @@ export const EditorContent = ({ editor, ...boxProps }: Props) => {
     <Box
       flexGrow="1"
       position="relative"
-      minH="150"
+      minH="40vh"
       {...boxProps}
     >
       <Box

@@ -92,6 +92,9 @@ export const SpaceTabs = React.memo(() => {
                 bounce: 0,
                 duration: 0.71,
               }}
+              whileTap={{ 
+                scale: 0.9,
+              }}
               borderRadius="full"
               cursor="pointer"
               onClick={handlePlusClick}

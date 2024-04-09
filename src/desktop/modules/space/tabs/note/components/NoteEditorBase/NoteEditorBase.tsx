@@ -23,6 +23,7 @@ export const NoteEditorBase = (props: Props) => {
       flexGrow="1"
       display="flex"
       flexDirection="column"
+      minH="40vh"
     >
       {isWriteMode ? <NoteEditor /> : <EditorView content={content} />}
     </Box>

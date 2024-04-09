@@ -4,9 +4,12 @@ import { RouterState } from '@remix-run/router';
 
 import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
 import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
+import { spaceTabSelector } from 'shared/selectors/entities';
 import { store } from 'shared/store';
-import { useAppDispatch } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { invariant } from 'shared/util/invariant';
 
 import { getRoutesMap } from './getRoutesMap';
 
@@ -18,17 +21,20 @@ function getMemoryRouterParams(spaceTab: SpaceTabEntity) {
 }
 
 export const useTabRouter = (
-  spaceTab: SpaceTabEntity, 
+  spaceTabId: IdentityType, 
   tabsDictionary: CreateRouterParams['tabsDictionary'],
   pages: CreateRouterParams['pages']
 ) => {
   const dispatch = useAppDispatch();
+  const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, spaceTabId));
 
+  invariant(spaceTab, 'Missing spaceTab');
+  
   const router = React.useMemo(() => {
     let router;
     const routesMap = getRoutesMap();
-    if (routesMap.get(spaceTab?.id)) {
-      router = routesMap.get(spaceTab?.id);
+    if (routesMap.get(spaceTabId)) {
+      router = routesMap.get(spaceTabId);
     } else {
       router = createTabRouter({
         tabsDictionary,
@@ -37,12 +43,12 @@ export const useTabRouter = (
         memoryRouteParams: getMemoryRouterParams(spaceTab),
       });
 
-      routesMap.set(spaceTab?.id, router);
+      routesMap.set(spaceTabId, router);
     }
 
     return router;
     // updating only when the space tab is changed
-  }, [spaceTab?.id]);
+  }, [spaceTabId]);
 
   React.useEffect(() => {
     function handleChange() {

@@ -45,6 +45,10 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   }, []);
 
   const handleTabChange = React.useCallback((event) => {
+    if (!mousePosition.current.x || !mousePosition.current.y) {
+      return;
+    }
+    
     const mouseMoved = Math.abs(mousePosition.current.x - event.clientX) > 3 
       || Math.abs(mousePosition.current.y - event.clientY) > 3;
     mousePosition.current= { x: null, y: null };

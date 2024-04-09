@@ -27,6 +27,7 @@ import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 import router from 'desktop/routes/router';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
@@ -79,15 +80,17 @@ const Space = React.memo(() => {
   return (
     <TabProvider tab={activeTab}>
       <SpaceLayout>
-        <SpaceTabContent activeTab={activeTab} />
+        <SpaceTabContent activeTabId={activeTab.id} />
       </SpaceLayout>
     </TabProvider>
   );
 });
 
-function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
+function SpaceTabContent({ activeTabId }: { activeTabId: IdentityType }) {
+  console.log('SpaceTabContent');
+  
   const router = useTabRouter(
-    activeTab,
+    activeTabId,
     tabsDictionary,
     {
       notFoundPage: <HomeTab />,
@@ -98,7 +101,7 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
 
   return (
     <RouterProvider
-      key={activeTab.id}
+      key={activeTabId}
       router={router}
       fallbackElement={<ContentLoader />}
     />

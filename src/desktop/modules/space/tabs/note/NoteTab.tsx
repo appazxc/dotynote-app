@@ -18,6 +18,7 @@ export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const userId = useAppSelector(selectUserId);
+console.log('updated');
 
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');

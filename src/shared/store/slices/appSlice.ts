@@ -52,7 +52,7 @@ export const appSlice = createSlice({
     close: (state) => {
       state.isOpen = false;
     },
-    updateActiveSpaceId: (state, { payload }: PayloadAction<IdentityType>) => {
+    updateActiveSpaceId: (state, { payload }: PayloadAction<IdentityType | null>) => {
       state.activeSpaceId = payload;
     },
     updateActiveTabId: (state, { payload }: PayloadAction<IdentityType | null>) => {

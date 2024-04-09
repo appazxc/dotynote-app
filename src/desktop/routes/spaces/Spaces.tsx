@@ -34,7 +34,13 @@ const SpaceCard = ({ id, isActive }: { id: IdentityType, isActive: boolean }) =>
   }, [dispatch, id, navigate]);
   
   const { mutate: deleteSpace } = useMutation({
-    mutationFn: () => entityApi.space.delete(id),
+    mutationFn: () => {
+      if (isActive) {
+        dispatch(updateActiveSpaceId(null));
+      }
+
+      return entityApi.space.delete(id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: options.spaces.userList().queryKey });
     },
@@ -107,7 +113,7 @@ function Spaces() {
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [], isLoading } = useSpaces();
   const location = useLocation();
-  const canGoBack = location.key !== 'default' && !!data.length;
+  const canGoBack = location.key !== 'default' && !!data.length && !!activeSpaceId;
   const title = data.length ? 'Select or create space' : 'Create space';
 
   const renderedHeader = React.useMemo(() => {
@@ -117,17 +123,16 @@ function Spaces() {
         px="4"
         left={!isLoading && (
           <Box display="flex" alignItems="center">
-            {canGoBack && (
-              <IconButton 
-                aria-label="Back"
-                icon={<BsArrowLeft />}
-                mr="3"
-                variant="ghost"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
-            )}
+            <IconButton 
+              aria-label="Back"
+              icon={<BsArrowLeft />}
+              mr="3"
+              isDisabled={!canGoBack}
+              variant="ghost"
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
             <Text fontSize="xl">{title}</Text>
           </Box>
         ) }
