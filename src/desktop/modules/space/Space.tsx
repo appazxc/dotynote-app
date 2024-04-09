@@ -15,7 +15,7 @@ import {
   selectActiveSpace,
   selectActiveTab,
 } from 'shared/store/slices/appSlice';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
@@ -27,7 +27,6 @@ import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
 import router from 'desktop/routes/router';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
@@ -86,9 +85,7 @@ const Space = React.memo(() => {
   );
 });
 
-function SpaceTabContent({ activeTabId }: { activeTabId: IdentityType }) {
-  console.log('SpaceTabContent');
-  
+const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
   const router = useTabRouter(
     activeTabId,
     tabsDictionary,
@@ -106,6 +103,6 @@ function SpaceTabContent({ activeTabId }: { activeTabId: IdentityType }) {
       fallbackElement={<ContentLoader />}
     />
   );
-}
+});
 
 export { Space };

@@ -29,7 +29,7 @@ export const useTabRouter = (
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, spaceTabId));
 
   invariant(spaceTab, 'Missing spaceTab');
-  
+
   const router = React.useMemo(() => {
     let router;
     const routesMap = getRoutesMap();
@@ -60,7 +60,6 @@ export const useTabRouter = (
           callsCount++;
           return;
         }
-        console.log('action', action);
         
         callsCount++;
         dispatch(handleAppRouteChange(action));
