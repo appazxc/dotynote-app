@@ -21,7 +21,6 @@ type Props = React.PropsWithChildren<{
 export const EditorProvider = ({ id, isWriteMode, children }: Props) => {
   const { mutate } = useUpdateNote(id);
   const note = useAppSelector(state => noteSelector.getById(state, id));
-
   invariant(note, 'Missing note');
 
   const [editorInitialized, { on }] = useBoolean(!isWriteMode);

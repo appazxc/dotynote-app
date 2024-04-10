@@ -8,7 +8,7 @@ type Props = {
   editor?: Editor
 } & BoxProps
 
-export const EditorContent = ({ editor, ...boxProps }: Props) => {
+export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
   if (!editor) {
     return null;
   }
@@ -32,4 +32,4 @@ export const EditorContent = ({ editor, ...boxProps }: Props) => {
       <TiptapEditorContent editor={editor} />
     </Box>
   );
-};
+});

@@ -36,7 +36,6 @@ export const NoteBase = (props: Props) => {
   
   return (
     <Box
-      py="10"
       flexGrow="1"
       display="flex"
       flexDirection="column"
