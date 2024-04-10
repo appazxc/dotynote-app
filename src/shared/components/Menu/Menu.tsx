@@ -27,7 +27,7 @@ type Props = React.PropsWithChildren<{
   placement?: Placement,
 }>
 
-export const Menu = (props: Props) => {
+export const Menu = React.memo((props: Props) => {
   const { 
     isContextMenu,
     contextMousePosition = true,
@@ -181,4 +181,4 @@ export const Menu = (props: Props) => {
 
     </>
   );
-};
+});

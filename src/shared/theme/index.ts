@@ -2,6 +2,7 @@ import { extendTheme } from '@chakra-ui/react';
 
 import { Button } from './components/button';
 import { Container } from './components/container';
+import { Menu } from './components/menu';
 import { Textarea } from './components/textarea';
 import { colors } from './foundations/colors';
 import { semanticTokens } from './foundations/semanticTokens';
@@ -15,6 +16,10 @@ const overrides = {
     Button,
     Container,
     Textarea,
+    Menu,
+  },
+  config: {
+    cssVarPrefix: 'dn',
   },
 };
 

@@ -22,7 +22,7 @@ export const LayoutHeader = ({ position, left, right, children, ...boxProps }: P
   return (
     <Box
       {...rootProps}
-      background="chakra-body-bg"
+      background="body"
       display="flex"
       alignItems="center"
       justifyContent="space-between"
