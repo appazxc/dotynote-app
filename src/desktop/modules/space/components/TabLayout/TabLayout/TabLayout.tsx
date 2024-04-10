@@ -12,12 +12,13 @@ type Props = {
   children: React.ReactNode,
   leftSide?: React.ReactNode,
   footer?: React.ReactNode,
+  header?: React.ReactNode,
   defaultSidebar?: React.ReactNode,
   scrollRestoration?: boolean,
 }
 
 export const TabLayout = (props: Props) => {
-  const { children, leftSide, footer, defaultSidebar, scrollRestoration = true } = props;
+  const { children, leftSide, header, footer, defaultSidebar, scrollRestoration = true } = props;
 
   return (
     <Box
@@ -36,6 +37,9 @@ export const TabLayout = (props: Props) => {
         display="flex"
         flexDirection="column"
       >
+        <Box flexShrink="0">
+          {header}
+        </Box>
         <Box flexGrow="1" position="relative">
           <Box
             w="full"
@@ -66,7 +70,7 @@ export const TabLayout = (props: Props) => {
             </ScrollProvider>
           </Box>
         </Box>
-        <Box flexShrink="0" w="full">
+        <Box flexShrink="0">
           {footer}
         </Box>
       </Box>

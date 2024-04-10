@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box, Container, useBoolean } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 
-import { useScrollContext } from 'shared/components/ScrollProvider';
+// import { useScrollContext } from 'shared/components/ScrollProvider';
 import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 
@@ -16,14 +16,13 @@ type Props = {
 
 export const NoteTabContent = React.memo((props: Props) => {
   const { noteId, isWriteMode, showPosts } = props;
-  const scrollRef = useScrollContext();
-  const [editorInitialized, { on }] = useBoolean(!isWriteMode);
+  // const scrollRef = useScrollContext();
 
-  React.useEffect(() => {
-    if (scrollRef?.current) {
-      scrollRef.current.scrollTo(0, 0);
-    }
-  }, [noteId, scrollRef]);
+  // React.useEffect(() => {
+  //   if (scrollRef?.current) {
+  //     scrollRef.current.scrollTo(0, 0);
+  //   }
+  // }, [noteId, scrollRef]);
   
   return (
     <Container h="full">
@@ -35,9 +34,8 @@ export const NoteTabContent = React.memo((props: Props) => {
         <NoteBase
           id={noteId}
           isWriteMode={isWriteMode}
-          onEditorInit={on}
         />
-        {editorInitialized && showPosts && (
+        {showPosts && (
           <Posts
             key={noteId}
             noteId={noteId}

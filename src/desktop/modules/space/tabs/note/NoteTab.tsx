@@ -9,6 +9,8 @@ import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
+import { NoteHeader } from './components/NoteHeader';
+import { NoteProviders } from './components/NoteProviders';
 import { NoteSidebar } from './components/NoteSidebar';
 import { RwMode, rwModes } from './constants';
 import { getInitialRwMode } from './helpers/getInitialRwMode';
@@ -29,22 +31,28 @@ export const NoteTab = React.memo(() => {
   }, []);
 
   return (
-    <TabLayout
+    <NoteProviders
       key={noteId}
-      scrollRestoration={false}
-      leftSide={(
-        <NoteSidebar
-          id={Number(noteId)}
-          rwMode={rwMode}
-          toggleRwMode={handleToggleRwMode}
-        />
-      )}
+      id={Number(noteId)}
+      isWriteMode={rwMode === rwModes.WRITE}
     >
-      <NoteTabContent
-        noteId={Number(noteId)}
-        showPosts={!!note.postSettingsId}
-        isWriteMode={rwMode === rwModes.WRITE}
-      />
-    </TabLayout>
+      <TabLayout
+        scrollRestoration={false}
+        leftSide={(
+          <NoteSidebar
+            id={Number(noteId)}
+            rwMode={rwMode}
+            toggleRwMode={handleToggleRwMode}
+          />
+        )}
+        header={<NoteHeader />}
+      >
+        <NoteTabContent
+          noteId={Number(noteId)}
+          showPosts={!!note.postSettingsId}
+          isWriteMode={rwMode === rwModes.WRITE}
+        />
+      </TabLayout>
+    </NoteProviders>
   );
 });

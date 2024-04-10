@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { Box, Heading, Stack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { debounce } from 'lodash';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
-import { EditorProvider, useEditor } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
@@ -17,15 +16,15 @@ import { NoteTitle } from './NoteTitle';
 type Props = {
   id: IdentityType,
   isWriteMode: boolean,
-  onEditorInit: () => void,
 }
 
 export const NoteBase = (props: Props) => {
-  const { id, isWriteMode, onEditorInit } = props;
+  const { id, isWriteMode } = props;
   const note = useAppSelector(state => noteSelector.getById(state, id));
+
   invariant(note, 'Missing note');
 
-  const { mutate } = useUpdateNote(note.id);
+  const { mutate } = useUpdateNote(id);
 
   const { title, content } = note;
 
@@ -34,41 +33,24 @@ export const NoteBase = (props: Props) => {
       mutate({ title });
     }, 2000);
   }, [mutate]);
-
-  const debouncedUpdateContent = React.useMemo(() => {
-    return debounce((content) => {
-      mutate({ content });
-    }, 2000);
-  }, [mutate]);
-
-  const editor = useEditor({
-    content,
-    onUpdate(props) {
-      debouncedUpdateContent(props.editor.getJSON());
-    },
-    onCreate: onEditorInit,
-  });
   
   return (
-    <EditorProvider editor={editor}>
-      <Box
-        py="10"
-        flexGrow="1"
-        display="flex"
-        flexDirection="column"
-      >
-        <NoteTitle
-          title={title}
-          isWriteMode={isWriteMode}
-          onChange={debouncedUpdateTitle}
-        />
-        <NoteEditorBase
-          id={id}
-          isWriteMode={isWriteMode}
-          content={content}
-        />
-      </Box>
-    </EditorProvider>
-    
+    <Box
+      py="10"
+      flexGrow="1"
+      display="flex"
+      flexDirection="column"
+    >
+      <NoteTitle
+        title={title}
+        isWriteMode={isWriteMode}
+        onChange={debouncedUpdateTitle}
+      />
+      <NoteEditorBase
+        id={id}
+        isWriteMode={isWriteMode}
+        content={content}
+      />
+    </Box>
   );
 };
