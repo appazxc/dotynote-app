@@ -13,7 +13,6 @@ const Container = styled(Box)`
   word-wrap: break-word;
   
   ul {
-    list-style-type: initial;
     margin-inline-start: 1em;
   }
 

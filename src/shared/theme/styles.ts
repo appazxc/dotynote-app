@@ -44,11 +44,11 @@ export const styles = {
           fontWeight: '700',
         },
         'ul, ol': {
-          'listStyleType': 'initial',
+          // 'listStyleType': 'initial',
           'marginInlineStart': '1em',
         },
         code: {
-          bg: 'rgba(#616161, 0.1)',
+          bg: '#6161611a',
           color: '#616161',
         },
         pre: {
@@ -58,6 +58,7 @@ export const styles = {
           padding: '0.75rem 1rem',
           rounded: 'lg',
           whiteSpace: 'pre-wrap',
+          margin: '10px 0',
           code: {
             color: 'inherit',
             p: 0,
