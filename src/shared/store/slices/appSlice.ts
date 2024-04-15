@@ -3,6 +3,7 @@ import { isBoolean } from 'lodash';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
+import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabs/note/constants';
 import { spaceSelector } from 'shared/selectors/entities';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
@@ -23,6 +24,11 @@ type InitialState = {
   waitedRoute: string | null,
   device: Device | null,
   tempNote: TempNote | null,
+  note: {
+    rwMode: RwMode,
+    isAdvancedEditActive: boolean,
+    addTo: AddTo,
+  },
 };
 
 const initialState: InitialState = {
@@ -34,6 +40,11 @@ const initialState: InitialState = {
   waitedRoute: null,
   device: null,
   tempNote: null,
+  note: {
+    rwMode: rwModes.WRITE,
+    isAdvancedEditActive: false,
+    addTo: addTo.NOTE,
+  },
 };
 
 export const appSlice = createSlice({
@@ -61,6 +72,9 @@ export const appSlice = createSlice({
     updateDevice: (state, { payload }: PayloadAction<Device>) => {
       state.device = payload;
     },
+    updateAddTo: (state, { payload }: PayloadAction<AddTo>) => {
+      state.note.addTo = payload;
+    },
     addWaitedRoute: (state, { payload }: PayloadAction<string>) => {
       state.waitedRoute = payload;
     },
@@ -69,6 +83,12 @@ export const appSlice = createSlice({
     },
     toggleSide: (state) => {
       state.isSideOpen = !state.isSideOpen;
+    },
+    toggleRwMode: (state) => {
+      state.note.rwMode = state.note.rwMode === rwModes.WRITE ? rwModes.READ : rwModes.WRITE;
+    },
+    toggleAdvancedEdit: (state) => {
+      state.note.isAdvancedEditActive = !state.note.isAdvancedEditActive;
     },
   },
 });
@@ -140,12 +160,15 @@ export const {
   close,
   startPageLoading,
   stopPageLoading,
-  toggleSide,
   addWaitedRoute,
   cleanWaitedRoute,
   updateActiveSpaceId,
   updateActiveTabId,
+  updateAddTo,
   updateDevice,
+  toggleSide,
+  toggleRwMode,
+  toggleAdvancedEdit,
 } = appSlice.actions;
 
 export default appSlice.reducer;

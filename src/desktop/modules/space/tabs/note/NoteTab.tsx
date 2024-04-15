@@ -1,8 +1,13 @@
 import React from 'react';
 
+import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'react-router';
 
+import { canWriteNote } from 'shared/helpers/user/userRights';
+import { rwModes } from 'shared/modules/space/tabs/note/constants';
 import { noteSelector } from 'shared/selectors/entities';
+import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
+import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppSelector } from 'shared/store/hooks';
 import { selectUserId } from 'shared/store/slices/authSlice';
 import { invariant } from 'shared/util/invariant';
@@ -12,8 +17,6 @@ import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 import { NoteHeader } from './components/NoteHeader';
 import { NoteProviders } from './components/NoteProviders';
 import { NoteSidebar } from './components/NoteSidebar';
-import { RwMode, rwModes } from './constants';
-import { getInitialRwMode } from './helpers/getInitialRwMode';
 import { NoteTabContent } from './NoteTabContent';
 
 export const NoteTab = React.memo(() => {
@@ -24,11 +27,8 @@ export const NoteTab = React.memo(() => {
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
   
-  const [rwMode, setRwMode] = React.useState<RwMode>(getInitialRwMode(note, userId));
-  
-  const handleToggleRwMode = React.useCallback(() => {
-    setRwMode(activeRwMode => activeRwMode === rwModes.READ ? rwModes.WRITE : rwModes.READ);
-  }, []);
+  const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
+  const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
 
   return (
     <NoteProviders
@@ -42,10 +42,14 @@ export const NoteTab = React.memo(() => {
           <NoteSidebar
             id={Number(noteId)}
             rwMode={rwMode}
-            toggleRwMode={handleToggleRwMode}
+            showRwMode={showRwMode}
           />
         )}
-        header={<NoteHeader />}
+        header={(
+          <AnimatePresence>
+            <NoteHeader />
+          </AnimatePresence>  
+        )}
       >
         <NoteTabContent
           noteId={Number(noteId)}

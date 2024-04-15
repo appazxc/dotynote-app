@@ -20,7 +20,7 @@ const authPersistConfig = {
 const appPersistConfig = {
   key: 'app',
   storage,
-  whitelist: ['activeSpaceId', 'activeTabId'],
+  whitelist: ['activeSpaceId', 'activeTabId', 'note'],
 };
 
 const reducer = combineReducers({

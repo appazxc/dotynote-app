@@ -32,8 +32,11 @@ import { modalIds } from 'shared/constants/modalIds';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { addTo } from 'shared/modules/space/tabs/note/constants';
 import { noteSelector } from 'shared/selectors/entities';
+import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { updateAddTo } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
@@ -194,8 +197,16 @@ const PostsContent = ({ note, onClose }) => {
   );
 };
 
-export const SidebarPlusMenu = React.memo(({ noteId }: { noteId: IdentityType }) => {
-  const [noteContent, setNoteContent] = useBoolean(true);
+type Props = { 
+  canAddToNote: boolean,
+  canAddToPosts: boolean,
+  noteId: IdentityType 
+};
+ 
+export const SidebarPlusMenu = React.memo(({ noteId, canAddToNote, canAddToPosts }: Props) => {
+  const dispatch = useAppDispatch();
+  const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
+  const noteContent = addToState === addTo.NOTE;
   const { isOpen, onToggle, onClose } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const noteTabId = useNoteTabId();
@@ -241,21 +252,25 @@ export const SidebarPlusMenu = React.memo(({ noteId }: { noteId: IdentityType })
                 alignItems="center"
                 gap="2"
               >
-                <Button
-                  size="xs"
-                  variant={noteContent ? 'solid' :'ghost'}
-                  onClick={setNoteContent.toggle}
-                >
-                  Note
-                </Button>
-              /
-                <Button
-                  size="xs"
-                  variant={noteContent ? 'ghost' :'solid'}
-                  onClick={setNoteContent.toggle}
-                >
-                Posts
-                </Button>
+                {canAddToNote && (
+                  <Button
+                    size="xs"
+                    variant={noteContent ? 'solid' :'ghost'}
+                    onClick={() => dispatch(updateAddTo(addTo.NOTE))}
+                  >
+                    Note
+                  </Button>
+                )}
+                {canAddToNote && canAddToPosts && '/'}
+                {canAddToPosts && (
+                  <Button
+                    size="xs"
+                    variant={noteContent ? 'ghost' :'solid'}
+                    onClick={() => dispatch(updateAddTo(addTo.POSTS))}
+                  >
+                    Posts
+                  </Button>
+                )}
               </Box>
             </Box>
             {noteContent ? <NoteContent /> : <PostsContent note={note} onClose={onClose} />}

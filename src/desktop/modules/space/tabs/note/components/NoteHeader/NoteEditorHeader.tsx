@@ -1,12 +1,10 @@
-import React from 'react';
 
 import { Box, Divider, IconButton, Tooltip } from '@chakra-ui/react';
-import { BsChatLeftQuote } from 'react-icons/bs';
+import { motion } from 'framer-motion';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
-import { LuStrikethrough, LuUndo, LuRedo, LuSquareCode } from 'react-icons/lu';
-import { PiListNumbers, PiListBullets } from 'react-icons/pi';
-import { PiLinkBold } from 'react-icons/pi';
-import { RiDoubleQuotesL, RiUDiskFill } from 'react-icons/ri';
+import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
+import { PiLinkBold, PiListBullets, PiListNumbers } from 'react-icons/pi';
+import { RiDoubleQuotesL } from 'react-icons/ri';
 
 import { modalIds } from 'shared/constants/modalIds';
 import { UrlModal } from 'shared/containers/modals/UrlModal';
@@ -119,6 +117,10 @@ export const NoteEditorHeader = ({ editor }) => {
   return (
     <>
       <Box
+        as={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         h={headerHeight}
         // bg="red"
         justifyContent="center"
