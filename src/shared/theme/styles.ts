@@ -47,6 +47,12 @@ export const styles = {
           // 'listStyleType': 'initial',
           'marginInlineStart': '1em',
         },
+        a: {
+          color: 'editorLink',
+          '&:hover': {
+            textDecoration: 'underline',
+          },
+        },
         code: {
           bg: '#6161611a',
           color: '#616161',

@@ -30,6 +30,7 @@ export const NoteTabContent = React.memo((props: Props) => {
         h="full"
         display="flex"
         flexDirection="column"
+        gap="10"
       >
         <NoteBase
           id={noteId}

@@ -5,10 +5,21 @@ import { BsChatLeftQuote } from 'react-icons/bs';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
 import { LuStrikethrough, LuUndo, LuRedo, LuSquareCode } from 'react-icons/lu';
 import { PiListNumbers, PiListBullets } from 'react-icons/pi';
+import { PiLinkBold } from 'react-icons/pi';
+import { RiDoubleQuotesL, RiUDiskFill } from 'react-icons/ri';
+
+import { modalIds } from 'shared/constants/modalIds';
+import { UrlModal } from 'shared/containers/modals/UrlModal';
+import { showModal } from 'shared/modules/modal/modalSlice';
+import { useAppDispatch } from 'shared/store/hooks';
 
 import { headerHeight } from './constants';
 
+const extraId = 'NoteEditorHeader';
+
 export const NoteEditorHeader = ({ editor }) => {
+  const dispatch = useAppDispatch();
+  
   const items = [
     {
       label: 'Undo',
@@ -52,8 +63,14 @@ export const NoteEditorHeader = ({ editor }) => {
       isDivider: true,
     },
     {
+      label: 'Link',
+      icon: <PiLinkBold />,
+      onClick: () => dispatch(showModal({ id: modalIds.url, extraId })),
+      isActive: editor.isActive('link'),
+    },
+    {
       label: 'Blockquote',
-      icon: <BsChatLeftQuote />,
+      icon: <RiDoubleQuotesL />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
       isDisabled: !editor.can().chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
@@ -100,46 +117,50 @@ export const NoteEditorHeader = ({ editor }) => {
   ];
 
   return (
-    <Box
-      h={headerHeight}
-      // bg="red"
-      justifyContent="center"
-      alignItems="center"
-      gap="1"
-      display="flex"
-    >
-      {items.map((itemProps) => {
-        if ('isDivider' in itemProps) {
+    <>
+      <Box
+        h={headerHeight}
+        // bg="red"
+        justifyContent="center"
+        alignItems="center"
+        gap="1"
+        display="flex"
+      >
+        {items.map((itemProps) => {
+          if ('isDivider' in itemProps) {
+            return (
+              <Divider
+                key={itemProps.label}
+                orientation="vertical"
+                h="20px"
+                mx="1"
+              />
+            );
+          }
+
+          const { label, isActive, ...buttonProps } = itemProps;
+
           return (
-            <Divider
-              key={itemProps.label}
-              orientation="vertical"
-              h="20px"
-              mx="1"
-            />
+            <Tooltip
+              key={label}
+              label={label}
+              openDelay={1000}
+            >
+              <IconButton
+                aria-label={label}
+                size="sm"
+                h="7"
+                minW="7"
+                colorScheme={isActive ? 'brand': 'gray'}
+                variant={isActive ? 'outline' : 'ghost'}
+                {...buttonProps}
+              />
+            </Tooltip>
           );
-        }
+        })}
+      </Box>
 
-        const { label, isActive, ...buttonProps } = itemProps;
-
-        return (
-          <Tooltip
-            key={label}
-            label={label}
-            openDelay={1000}
-          >
-            <IconButton
-              aria-label={label}
-              size="sm"
-              h="7"
-              minW="7"
-              colorScheme={isActive ? 'brand': 'gray'}
-              variant={isActive ? 'outline' : 'ghost'}
-              {...buttonProps}
-            />
-          </Tooltip>
-        );
-      })}
-    </Box>
+      <UrlModal extraId={extraId} editor={editor} />
+    </>
   );
 };
