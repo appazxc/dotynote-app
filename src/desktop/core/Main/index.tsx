@@ -4,7 +4,7 @@ import { ContentLoader } from 'shared/components/ContentLoader';
 import Loadable from 'shared/components/Loadable';
 import { useAppSelector } from 'shared/store/hooks';
 
-import Routes from 'desktop/routes';
+import Routes from 'desktop/_routes';
 
 const Space = Loadable(
   () => import('desktop/modules/space'),

@@ -15,7 +15,7 @@ import { selectActiveSpace } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
-import router from 'desktop/routes/router';
+import router from 'desktop/_routes/router';
 
 const extraId = 'MainHeaderButton';
 

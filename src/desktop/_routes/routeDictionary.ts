@@ -1,10 +1,10 @@
 import { routeNames } from 'shared/constants/routeNames';
 import { RouteDictionary } from 'shared/types/common/router';
 
-const Home = () => import('desktop/routes/home');
-const App = () => import('desktop/routes/app');
-const Login = () => import('desktop/routes/login');
-const Spaces = () => import('desktop/routes/spaces');
+const Home = () => import('desktop/_routes/home');
+const App = () => import('desktop/_routes/app');
+const Login = () => import('desktop/_routes/login');
+const Spaces = () => import('desktop/_routes/spaces');
 const RedirectNote = () => import('shared/routes/redirectNote');
 
 const routeDictionary = {

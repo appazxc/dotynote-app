@@ -18,6 +18,7 @@ import {
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
+import router from 'desktop/_routes/router';
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { Loading as LoadingPage } from 'desktop/modules/space/components/pages/Loading';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
@@ -26,7 +27,6 @@ import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
 import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
-import router from 'desktop/routes/router';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
