@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Box, Button, Container, useTheme } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 import { Logo } from 'shared/components/Logo';

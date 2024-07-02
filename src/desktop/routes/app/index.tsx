@@ -1,4 +1,4 @@
-import { lazyRouteComponent } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
