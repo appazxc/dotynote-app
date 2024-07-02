@@ -1,4 +1,4 @@
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { store } from 'shared/store';
 import { createRouter } from 'shared/util/router/createRouter';
 
@@ -13,7 +13,7 @@ const router = createRouter({
   pages: {
     notFoundPage: <NotFoundPage />,
     errorPage: <ErrorPage />,
-    loadingPage: <ContentLoader text="createRouter loadingPage" />,
+    loadingPage: <Loader text="createRouter loadingPage" />,
   },
 });
 

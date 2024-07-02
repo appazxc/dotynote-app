@@ -1,5 +1,5 @@
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { RouteLoader } from 'shared/types/common/router';
 
 import { Tabs } from './Tabs';
@@ -15,6 +15,6 @@ export default async function() {
     Component: Tabs,
     loader,
     deferLoader,
-    loaderComponent: <ContentLoader />,
+    loaderComponent: <Loader />,
   };
 }

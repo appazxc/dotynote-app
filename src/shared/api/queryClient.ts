@@ -5,6 +5,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      // Specify a staleTime to only fetch when the data is older than a certain amount of time
       staleTime: 1000 * 60 * 100,
       gcTime: 1000 * 60 * 100, // 100 minutes
       retry(failureCount, error) {

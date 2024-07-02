@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { deferLoader } from 'shared/routes/app/deferLoader';
 import { RouteLoader } from 'shared/types/common/router';
 
@@ -13,6 +13,6 @@ export default async function() {
     Component: App,
     loader,
     deferLoader,
-    loaderComponent: <ContentLoader />,
+    loaderComponent: <Loader />,
   };
 }

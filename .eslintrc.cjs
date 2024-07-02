@@ -77,6 +77,16 @@ module.exports = {
       argsIgnorePattern: '^_',
       vars: 'all',
     }],
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        'types': {
+          // un-ban a type that's banned by default
+          '{}': false,
+        },
+        'extendDefaults': true,
+      },
+    ],
     'react/self-closing-comp': ['error', {
       component: true,
       html: true,

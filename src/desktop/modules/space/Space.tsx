@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import { options } from 'shared/api/options';
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { routeNames } from 'shared/constants/routeNames';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
@@ -20,9 +20,9 @@ import { buildUrl } from 'shared/util/router/buildUrl';
 
 import router from 'desktop/_routes/router';
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
-import { Loading as LoadingPage } from 'desktop/modules/space/components/pages/Loading';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
+import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
 import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
 import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
 import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
@@ -59,7 +59,7 @@ const Space = React.memo(() => {
   }
 
   if (tabNotesIsLoading || spaceTabsIsLoading || !activeSpace) {
-    return <LoadingPage />;
+    return <SpaceLoading />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
@@ -71,7 +71,7 @@ const Space = React.memo(() => {
   if (activeTab.isFake) {
     return (
       <SpaceLayout>
-        <ContentLoader />
+        <Loader />
       </SpaceLayout>
     );
   }
@@ -100,7 +100,7 @@ const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType
     <RouterProvider
       key={activeTabId}
       router={router}
-      fallbackElement={<ContentLoader />}
+      fallbackElement={<Loader />}
     />
   );
 });

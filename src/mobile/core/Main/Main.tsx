@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
 import Loadable from 'shared/components/Loadable';
+import { Loader } from 'shared/components/Loader';
 import { useAppSelector } from 'shared/store/hooks';
 
 import Routes from 'mobile/routes';
 
-const fallback = { fallback: <ContentLoader /> };
+const fallback = { fallback: <Loader /> };
 
 const Space = Loadable(() => import('mobile/modules/space'), fallback);
 

@@ -5,6 +5,6 @@ export default function() {
   return {
     Component: NoActiveTab,
     loader,
-    // loaderComponent: <ContentLoader />,
+    // loaderComponent: <Loader />,
   };
 }

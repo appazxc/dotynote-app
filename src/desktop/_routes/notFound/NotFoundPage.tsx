@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Center, Text, Link, Stack } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
 
+import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 function NotFoundPage() {
@@ -19,7 +19,7 @@ function NotFoundPage() {
           <Text fontSize="2xl">Not Found</Text>
 
           <Link
-            as={RouterLink}
+            as={DesktopLink}
             to="/"
             color="teal.500"
             mt="10"

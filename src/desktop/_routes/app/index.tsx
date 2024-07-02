@@ -1,4 +1,4 @@
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { deferLoader } from 'shared/routes/app/deferLoader';
 
 import { App } from './App';
@@ -7,6 +7,6 @@ export default async function() {
   return {
     Component: App,
     deferLoader,
-    loaderComponent: <ContentLoader text="App" />,
+    loaderComponent: <Loader text="App" />,
   };
 }

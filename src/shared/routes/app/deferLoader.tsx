@@ -4,7 +4,7 @@ import {
   cleanWaitedRoute,
   selectActiveSpace,
 } from 'shared/store/slices/appSlice';
-import { RouteLoader } from 'shared/types/common/router';
+import { RouteLoader } from 'shared/types/_router';
 
 // TODO: редиректить если нет активного роута
 export const deferLoader: RouteLoader = async ({ store }) => {

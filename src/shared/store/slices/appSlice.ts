@@ -15,7 +15,6 @@ type TempNote = {
 }
 
 type InitialState = {
-  isOpen: boolean,
   isSideOpen: boolean,
   isPageLoading: boolean,
   activeSpaceId: IdentityType | null,
@@ -32,7 +31,6 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  isOpen: false,
   isSideOpen: false,
   isPageLoading: false,
   activeSpaceId: null,
@@ -56,12 +54,6 @@ export const appSlice = createSlice({
     },
     stopPageLoading: (state) => {
       state.isPageLoading = false;
-    },
-    open: (state) => {
-      state.isOpen = true;
-    },
-    close: (state) => {
-      state.isOpen = false;
     },
     updateActiveSpaceId: (state, { payload }: PayloadAction<IdentityType | null>) => {
       state.activeSpaceId = payload;
@@ -156,8 +148,6 @@ export const selectActiveTab = createSelector(
 );
 
 export const {
-  open,
-  close,
   startPageLoading,
   stopPageLoading,
   addWaitedRoute,

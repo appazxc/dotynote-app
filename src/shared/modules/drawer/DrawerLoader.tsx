@@ -1,6 +1,6 @@
 import { Box, Drawer, DrawerBody, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { Wait } from 'shared/components/Wait';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -23,7 +23,7 @@ export const DrawerLoader = ({ delay }: Props) => {
         <DrawerContent>
           <DrawerBody>
             <Box p="4">
-              <ContentLoader delay={0} />
+              <Loader delay={0} />
             </Box>
           </DrawerBody>
         </DrawerContent>

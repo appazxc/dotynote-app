@@ -1,6 +1,6 @@
 import { Box, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { Wait } from 'shared/components/Wait';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -24,7 +24,7 @@ export const ModalLoader = ({ delay }: Props) => {
         <ModalContent>
           <ModalBody>
             <Box p="4">
-              <ContentLoader delay={0} />
+              <Loader delay={0} />
             </Box>
           </ModalBody>
         </ModalContent>

@@ -9,7 +9,7 @@ type Props = {
   text?: string
 }
 
-export const ContentLoader = React.memo(({ delay = 300, text }: Props) => {
+export const Loader = React.memo(({ delay = 300, text }: Props) => {
   return (
     <Wait delay={delay}>
       <Center
