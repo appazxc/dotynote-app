@@ -1,5 +1,4 @@
 import { RouterState } from '@remix-run/router';
-import { createMemoryHistory } from '@tanstack/react-router';
 
 import { updateTab } from 'shared/actions/space/updateTab';
 import { selectActiveTab } from 'shared/store/slices/appSlice';
@@ -9,7 +8,7 @@ export const handleAppRouteChange: AppThunk<RouterState> = (routerState) =>
   (dispatch, getState) => {
     const { historyAction, location, navigation } = routerState;
     const activeTab = selectActiveTab(getState());
-createMemoryHistory
+
     // router send two events when router change
     if (!activeTab || navigation.state !== 'idle') return;
     
