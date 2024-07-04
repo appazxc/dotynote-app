@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { useLocation } from '@tanstack/react-router';
 import throttle from 'lodash/throttle';
-import { useLocation } from 'react-router';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -10,7 +10,7 @@ const scrollMap = new Map();
 
 export const TabScrollRestoration = React.memo(() => {
   const scroll = useScrollContext();
-  const { key } = useLocation();
+  const { state: { key = '' } } = useLocation();
   const tab = useTabContext();
   const id = key + tab.id;
   

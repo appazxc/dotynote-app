@@ -16,44 +16,28 @@ import { spaces } from './spaces';
 
 const routeTree = root.addChildren([
   idx, 
-  about, 
-  app, 
-  login,
-  spaces,
 ]);
 
-const router = createRouter({ 
+const defaultRouterOptions = {
   routeTree,
   context,
-  history: extendHistory(createBrowserHistory(), ['push', 'back', 'replace', 'go']),
-  defaultPendingMinMs: 0,
   defaultStaleTime: Infinity,
   defaultPreloadStaleTime: Infinity,
+  defaultPendingMinMs: 0,
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
+};
+
+const router = createRouter({ 
+  ...defaultRouterOptions,
 });
 
-function extendHistory(history: RouterHistory, listenTo: string[]): RouterHistory {
-  Object.keys(history).forEach((key) => {
-    if (typeof history[key] === 'function' && listenTo.includes(key)) {
-      const oldFunction = history[key];
-
-      const newFunction = function(...args) {
-        console.log(key);
-        return oldFunction(...args);
-      };
-
-      newFunction.bind(history);
-      history[key] = newFunction;
-    }
+export const createTabRouter = (history) => {
+  return createRouter({ 
+    history,
+    ...defaultRouterOptions,
   });
-
-  return history;
-}
-
-router.history.subscribe(() => {
-  console.log('change');
-});
+};
 
 export type Router = typeof router;
 

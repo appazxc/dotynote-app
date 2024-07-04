@@ -5,12 +5,10 @@ import {
   Container,
   Input,
 } from '@chakra-ui/react';
-import qs from 'qs';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounceCallback } from 'usehooks-ts';
 
-import { SEARCH } from 'shared/constants/queryKeys';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';

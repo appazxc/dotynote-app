@@ -23,11 +23,6 @@ export const tabRouteList: TabRouteListItem[] = [
     title: 'Note',
   },
   {
-    name: tabRouteNames.createNote,
-    path: '/createNote',
-    title: 'Create note',
-  },
-  {
     name: tabRouteNames.profile,
     path: '/profile',
     title: 'Profile',

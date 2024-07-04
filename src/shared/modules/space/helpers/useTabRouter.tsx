@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RouterState } from '@remix-run/router';
 
-import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
+import { handleAppRouteChange } from 'shared/modules/space/actions/router/handleAppRouteChange';
 import { CreateRouterParams, createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { store } from 'shared/store';

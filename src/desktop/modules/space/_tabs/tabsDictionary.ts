@@ -3,7 +3,6 @@ import { TabsDictionary } from 'shared/types/tabs';
 
 const Home = () => import('./home');
 const Note = () => import('./note');
-const CreateNote = () => import('./createNote');
 const AddMainNote = () => import('./addMainNote');
 const Settings = () => import('./settings');
 const Profile = () => import('./profile');
@@ -12,7 +11,6 @@ const NoteSettings = () => import('./noteSettings');
 const tabsDictionary = {
   [tabRouteNames.home]: Home,
   [tabRouteNames.note]: Note,
-  [tabRouteNames.createNote]: CreateNote,
   [tabRouteNames.addMainNote]: AddMainNote,
   [tabRouteNames.profile]: Profile,
   [tabRouteNames.settings]: Settings,

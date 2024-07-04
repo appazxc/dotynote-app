@@ -1,15 +1,16 @@
 import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import { RouterProvider } from '@tanstack/react-router';
 import {
-  RouterProvider,
+  RouterProvider as OldRouterProvider,
 } from 'react-router-dom';
 
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { routeNames } from 'shared/constants/routeNames';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
+import { useTabRouter as useOldTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveSpace,
@@ -27,6 +28,8 @@ import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
+
+import { useTabRouter } from './tabRoutes/useTabRouter';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
@@ -76,17 +79,27 @@ const Space = React.memo(() => {
     );
   }
 
+  const newRouter = true;
+
   return (
     <TabProvider tab={activeTab}>
       <SpaceLayout>
-        <SpaceTabContent activeTabId={activeTab.id} />
+        {newRouter ? <SpaceTabContent activeTabId={activeTab.id} /> : <OldSpaceTabContent activeTabId={activeTab.id} />}
       </SpaceLayout>
     </TabProvider>
   );
 });
 
 const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
-  const router = useTabRouter(
+  const router = useTabRouter(activeTabId);
+
+  return (
+    <RouterProvider key={activeTabId} router={router} />
+  );
+});
+
+const OldSpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
+  const router = useOldTabRouter(
     activeTabId,
     tabsDictionary,
     {
@@ -97,7 +110,7 @@ const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType
   );
 
   return (
-    <RouterProvider
+    <OldRouterProvider
       key={activeTabId}
       router={router}
       fallbackElement={<Loader />}
