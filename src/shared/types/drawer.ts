@@ -3,4 +3,4 @@ export type DrawerIdentity = {
   extraId?: string | number
 }
 
-export type DrawerProps<Props> = Props & Partial<DrawerIdentity>
+export type DrawerProps<Props> = Props & Pick<DrawerIdentity, 'extraId'>

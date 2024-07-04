@@ -28,7 +28,7 @@ export default class Essense<T extends { id?: IdentityType }> {
     return getStore();
   }
 
-  get userId(): string {
+  get userId(): IdentityType {
     const userId = selectUserId(this.store.getState());
 
     invariant(userId, 'Missing userId');

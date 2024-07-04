@@ -1,4 +1,4 @@
-import { RouteResolver } from 'shared/types/common/router';
+import { RouteResolver } from 'shared/types/_router';
 
 import { TabName } from '../modules/space/constants/tabRouteNames';
 

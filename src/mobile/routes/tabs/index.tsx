@@ -1,6 +1,6 @@
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { Loader } from 'shared/components/Loader';
-import { RouteLoader } from 'shared/types/common/router';
+import { RouteLoader } from 'shared/types/_router';
 
 import { Tabs } from './Tabs';
 

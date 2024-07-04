@@ -1,5 +1,5 @@
 import { routeNames } from 'shared/constants/routeNames';
-import { RouteDictionary } from 'shared/types/common/router';
+import { RouteDictionary } from 'shared/types/_router';
 
 const Home = () => import('mobile/routes/home');
 const App = () => import('mobile/routes/app');

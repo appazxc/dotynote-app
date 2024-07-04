@@ -93,7 +93,7 @@ const PINNED_SORT_VALUE = -1000000;
 
 export const selectSortedSpaceTabs = createSelector(
   [
-    (_, { ids }) => ids || EMPTY_ARRAY, 
+    (_, { ids }: { ids?: string[]} = {}) => ids || EMPTY_ARRAY, 
     (state: AppState) => state.entities.spaceTab,
   ],
   (tabs, spaceTabEntities) => {

@@ -64,7 +64,7 @@ function Space() {
 
 function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useTabRouter(
-    activeTab,
+    activeTab.id,
     tabsDictionary,
     {
       notFoundPage: <NotFound />,

@@ -73,10 +73,10 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 );
 
-const FormItem = React.forwardRef<
+const FormItem: React.FC<React.PropsWithChildren> = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+>(({ className, ...props }) => {
   const id = React.useId();
 
   return (
@@ -87,7 +87,7 @@ const FormItem = React.forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
-const FormControl = React.forwardRef<
+const FormControl: React.FC<React.PropsWithChildren> = React.forwardRef<
   React.ElementRef<typeof FormControlBase>,
   React.ComponentPropsWithoutRef<typeof FormControlBase>
 >(({ ...props }, ref) => {
@@ -109,7 +109,7 @@ const FormControl = React.forwardRef<
 });
 FormControl.displayName = 'FormControl';
 
-const FormLabel = React.forwardRef<
+const FormLabel: React.FC<React.PropsWithChildren> = React.forwardRef<
   React.ElementRef<typeof FormLabelBase>,
   React.ComponentPropsWithoutRef<typeof FormLabelBase>
 >(({ className, ...props }, ref) => {
@@ -125,7 +125,7 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
-const FormDescription = React.forwardRef<
+const FormDescription: React.FC<React.PropsWithChildren> = React.forwardRef<
   React.ElementRef<typeof FormHelperText>,
   FormHelperTextProps & { visibleOnError?: boolean }
 >(({ className, visibleOnError, ...props }, ref) => {
@@ -143,7 +143,7 @@ const FormDescription = React.forwardRef<
 });
 FormDescription.displayName = 'FormDescription';
 
-const FormMessage = React.forwardRef<
+const FormMessage: React.FC<React.PropsWithChildren> = React.forwardRef<
   React.ElementRef<typeof FormErrorMessage>,
   React.ComponentPropsWithoutRef<typeof FormErrorMessage>
 >(({ className, children, ...props }, ref) => {

@@ -7,17 +7,14 @@ import { useNavigate } from 'react-router';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
-import { useNoteMenuRefContext } from 'desktop/modules/space/components/SpaceLayout/SpaceMenuRefProvider';
-
 export const NoteMenu = ({ noteId }) => {
-  const noteMenuRef = useNoteMenuRefContext();
   const navigate = useNavigate();
   const tab = useTabContext();
 
   return (
     noteId
       ? (
-        <Portal containerRef={noteMenuRef}>
+        <Portal>
           <Box
             borderRadius="md"
             border="1px solid"

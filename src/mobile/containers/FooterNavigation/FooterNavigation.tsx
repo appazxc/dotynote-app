@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Box, Center, IconButton, Text } from '@chakra-ui/react';
-import { CiMenuBurger } from "react-icons/ci";
-import { GoDotFill, GoSearch, GoPlus, GoHome } from "react-icons/go";
+import { CiMenuBurger } from 'react-icons/ci';
+import { GoDotFill, GoSearch, GoPlus, GoHome } from 'react-icons/go';
 
 import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { drawerIds } from 'shared/constants/drawerIds';
@@ -97,7 +97,7 @@ export const FooterNavigation = (props: Props) => {
           />
         ))}
       </Box>
-      <DotNoteMenuDrawer />
+      <DotNoteMenuDrawer noteId="test" />
     </>
   );
 };

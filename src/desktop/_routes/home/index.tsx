@@ -1,4 +1,4 @@
-import { RouteLoader } from 'shared/types/common/router';
+import { RouteLoader } from 'shared/types/_router';
 
 import { Home } from './Home';
 
