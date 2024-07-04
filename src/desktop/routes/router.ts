@@ -25,18 +25,19 @@ const routeTree = root.addChildren([
 const router = createRouter({ 
   routeTree,
   context,
-  history: extendHistory(createBrowserHistory()),
+  history: extendHistory(createBrowserHistory(), ['push', 'back', 'replace', 'go']),
   defaultPendingMinMs: 0,
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
 });
 
-function extendHistory(history: RouterHistory): RouterHistory {
+function extendHistory(history: RouterHistory, listenTo: string[]): RouterHistory {
   Object.keys(history).forEach((key) => {
-    if (typeof history[key] === 'function') {
+    if (typeof history[key] === 'function' && listenTo.includes(key)) {
       const oldFunction = history[key];
 
       const newFunction = function(...args) {
+        console.log(key);
         return oldFunction(...args);
       };
 
@@ -47,6 +48,10 @@ function extendHistory(history: RouterHistory): RouterHistory {
 
   return history;
 }
+
+router.history.subscribe(() => {
+  console.log('change');
+});
 
 export type Router = typeof router;
 

@@ -8,6 +8,7 @@ import { Context } from './routerContext';
 
 // @ts-ignore
 export const createAuthRoute: typeof createRoute = (params: RouteOptions) => {
+
   return createRoute({
     ...params,
     // @ts-ignore
