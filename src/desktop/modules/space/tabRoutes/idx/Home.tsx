@@ -8,6 +8,8 @@ import {
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { debounce } from 'lodash';
 
+import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
+
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 import { NoteCreate } from './NoteCreate';
@@ -27,14 +29,13 @@ export const Home = React.memo(() => {
     debouncedNavigate(event.target.value);
   }, [debouncedNavigate]);
 
-  // const handleCreateNote = React.useCallback((id: string) => {
-  //   navigate(buildTabUrl({
-  //     routeName: tabRouteNames.note,
-  //     pathParams: {
-  //       noteId: id,
-  //     },
-  //   }), { replace: true });
-  // }, [navigate]);
+  const handleCreateNote = React.useCallback((id: string) => {
+    navigate({
+      to: '/n/$noteId',
+      params: { noteId: id }, 
+      replace: true,
+    });
+  }, [navigate]);
 
   const showSearch = search.length >= 2;
 
@@ -51,7 +52,7 @@ export const Home = React.memo(() => {
           {showSearch ? <NoteSearch value={search} /> :<NoteCreate />}
         </Box>
       </Container>
-      {/* <CreateNoteModal onCreate={handleCreateNote} /> */}
+      <CreateNoteModal onCreate={handleCreateNote} />
     </TabLayout>
   );
 });

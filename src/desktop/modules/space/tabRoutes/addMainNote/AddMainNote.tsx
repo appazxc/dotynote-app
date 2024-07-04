@@ -5,19 +5,17 @@ import {
   Center,
   Container,
 } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
-import { useNavigate } from '@tanstack/react-router';
 
 const extraId = 'AddMainNoteContent';
 
@@ -37,12 +35,10 @@ export const AddMainNote = React.memo(() => {
 
     dispatch(hideModal());
     mutate({ mainNoteId: value }, { onSuccess: () => {
-      // navigate(buildTabUrl({
-      //   routeName: tabRouteNames.note,
-      //   pathParams: {
-      //     noteId: value,
-      //   },
-      // }), { replace: true });
+      navigate({
+        to: '/n/$noteId',
+        params: { noteId: value },
+      });
     } });
   }, [mutate, isPending, dispatch, navigate]);
 

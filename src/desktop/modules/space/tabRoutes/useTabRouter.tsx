@@ -65,21 +65,6 @@ export const useTabRouter = (spaceTabId: IdentityType) => {
 
   React.useEffect(() => {
     function handleChange() {
-      // need to remove first call because router send not valid event
-      // let callsCount = 0;
-
-      // return (
-      // action: RouterState
-      // ) => {
-      // if (!callsCount) {
-      //   callsCount++;
-      //   return;
-      // }
-        
-      // callsCount++;
-      // dispatch(handleAppRouteChange(action));
-      // };
-
       if (lastAction) {
         dispatch(handleTabRouteChange(lastAction, router.history.location));
         lastAction = null;

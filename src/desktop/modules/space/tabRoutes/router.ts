@@ -5,17 +5,19 @@ import {
 } from '@tanstack/react-router';
 
 import { about } from './about';
-import { app } from './app';
+import { addMainNote } from './addMainNote';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
-import { login } from './login';
+import { note } from './note';
 import { root } from './root';
 import { context } from './routerContext';
 import { spaces } from './spaces';
 
 const routeTree = root.addChildren([
   idx, 
+  note,
+  addMainNote,
 ]);
 
 const defaultRouterOptions = {

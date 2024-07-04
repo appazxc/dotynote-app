@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Text, Center, Spinner, VStack } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useNotes } from 'shared/api/hooks/useNotes';
@@ -59,9 +59,7 @@ export const NoteSearch = React.memo((props: Props) => {
   }
   
   return (
-    <Box
-      pt="10"
-    >
+    <Box pt="10">
       <VStack gap="4" alignItems="stretch">
         {data.map(id => (
           <Note key={id} noteId={id} />
