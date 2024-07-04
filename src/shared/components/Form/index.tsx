@@ -76,7 +76,8 @@ const FormItemContext = React.createContext<FormItemContextValue>(
 const FormItem: React.FC<React.PropsWithChildren> = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(({ className, ...props }, ref) => {
   const id = React.useId();
 
   return (
