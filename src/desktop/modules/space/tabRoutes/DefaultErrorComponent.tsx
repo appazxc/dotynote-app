@@ -6,8 +6,6 @@ import { Layout, LayoutHeader } from 'desktop/components/Layout';
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
 function DefaultErrorComponent({ error }) {
-  console.log('error', error);
-
   return (
     <Layout header={<LayoutHeader position="absolute" />}>
       <Center

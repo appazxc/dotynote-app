@@ -40,7 +40,7 @@ export const createTabRouter = (history) => {
     ...defaultRouterOptions,
   });
 };
-
+router.buildLocation({ to: '/'})
 export type Router = typeof router;
 
 export { router };
