@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Box, Text, Center, Spinner, VStack } from '@chakra-ui/react';
-import { Link } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useNotes } from 'shared/api/hooks/useNotes';
@@ -13,16 +12,15 @@ import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch } from 'shared/store/hooks';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 
-type Props = {
-  value: string,
-}
+import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
 const Note = ({ noteId }: { noteId: IdentityType }) => {
   const dispatch = useAppDispatch();
   
   return (
-    <Link
-      to={buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId } })}
+    <DesktopTabLink
+      to="/n/$noteId"
+      params={{ noteId: String(noteId) }}  
       onClick={(e) => {
         if (e.metaKey) {
           e.preventDefault();
@@ -32,11 +30,13 @@ const Note = ({ noteId }: { noteId: IdentityType }) => {
         }
       }}
     >
-      <Post
-        noteId={noteId}
-      />
-    </Link>
+      <Post noteId={noteId} />
+    </DesktopTabLink>
   );
+};
+
+type Props = {
+  value: string;
 };
 
 export const NoteSearch = React.memo((props: Props) => {

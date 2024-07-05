@@ -21,7 +21,7 @@ export const Home = React.memo(() => {
   const [value, setValue] = React.useState(search);
 
   const debouncedNavigate = React.useMemo(() => debounce((value) => {
-    navigate({ search: (prev) => ({ ...prev, search: value }) });
+    navigate({ search: (prev) => ({ ...prev, search: value }), replace: true });
   }, 500), [navigate]);
 
   const handleChange = React.useCallback((event) => {

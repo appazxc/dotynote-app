@@ -5,11 +5,15 @@ import { queryClient } from 'shared/api/queryClient';
 
 import { root } from '../root';
 
+import Note from './Note';
+
 export const note = createRoute({
   getParentRoute: () => root,
   path: 'n/$noteId',
-  component: lazyRouteComponent(() => import('./Note')),
+  component: Note,
   loader: async ({ params }) => {
+    console.log('loader', params.noteId);
     await queryClient.fetchQuery(options.notes.load(params.noteId));
   },
+  // shouldReload: false,
 });
