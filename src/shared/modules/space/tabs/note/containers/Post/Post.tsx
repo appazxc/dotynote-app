@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
@@ -24,21 +24,21 @@ export const Post = React.memo(({ postId }: Props) => {
   const post = useAppSelector(state => postSelector.getById(state, postId));
   const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
   const navigate = useNavigate();
+  const router = useRouter();
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
-
   const { mutate: unstick } = useUnstickPost(postId);
-
   React.useEffect(() => {
     if (post._isDeleted) {
       noteEmitter.emit(noteEvents.foundDeletedPost);
     }
   }, [post._isDeleted]);
-  
+      
   if (post._isDeleted) {
     return null;
   }
-
+        
+  console.log('router', router, router.buildLocation({ to: '/n/$noteId', params: { noteId: note.id } }));
   return (
     <Menu isContextMenu>
       <MenuTrigger as={Box}>
@@ -50,7 +50,7 @@ export const Post = React.memo(({ postId }: Props) => {
                 route: buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } }),
               }));
             } else {
-              navigate(buildTabUrl({ routeName: tabRouteNames.note, pathParams: { noteId: note.id } }));
+              navigate({ to: '/n/$noteId', params: { noteId: note.id } });
             }
           }}
         >

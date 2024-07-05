@@ -18,7 +18,7 @@ export const styles = {
         clear: 'both',
       },
       '.ProseMirror': {
-        'whiteSpace': 'normal',
+        'whiteSpace': 'pre-wrap',
         'wordBreak': 'break-word',
         'div.is-editor-empty:first-of-type::before': {
           content: 'attr(data-placeholder)',

@@ -5,7 +5,6 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import vitePluginRequire from 'vite-plugin-require';
 import resolve from 'vite-plugin-resolve';
-console.log('wtf');
 
 const proxyUrl = 'http://localhost:4000/';
 

@@ -1,1 +1,0 @@
-export { NoteBase } from './NoteBase';

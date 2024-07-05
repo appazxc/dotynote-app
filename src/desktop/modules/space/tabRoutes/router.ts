@@ -1,23 +1,23 @@
-import {
-  createBrowserHistory,
-  createRouter,
-  RouterHistory,
-} from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 
-import { about } from './about';
 import { addMainNote } from './addMainNote';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
 import { note } from './note';
+import { noteSettings } from './noteSettings';
+import { profile } from './profile';
 import { root } from './root';
 import { context } from './routerContext';
-import { spaces } from './spaces';
+import { settings } from './settings';
 
 const routeTree = root.addChildren([
   idx, 
   note,
   addMainNote,
+  profile,
+  noteSettings,
+  settings,
 ]);
 
 const defaultRouterOptions = {
@@ -34,6 +34,7 @@ const router = createRouter({
   ...defaultRouterOptions,
 });
 
+router.buildLocation({ to: '' });
 export const createTabRouter = (history) => {
   return createRouter({ 
     history,

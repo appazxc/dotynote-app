@@ -9,7 +9,7 @@ import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/not
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
-import { useSaveNoteTabQueryKey } from 'desktop/modules/space/_tabs/note/hooks/useSaveNoteTabQueryKey';
+import { useSaveNoteTabQueryKey } from 'desktop/modules/space/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
 
 import { entityApi } from '../entityApi';
 import { queryClient } from '../queryClient';
