@@ -83,9 +83,11 @@ const Space = React.memo(() => {
 const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
   const router = useTabRouter(activeTabId);
 
-  return (
-    <RouterProvider key={activeTabId} router={router} />
-  );
+  const renderedProvider = React.useMemo(() => 
+    <RouterProvider key={activeTabId} router={router} />, 
+  [activeTabId, router]);
+
+  return (renderedProvider);
 });
 
 export { Space };

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Button } from '@chakra-ui/button';
 import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
@@ -21,10 +20,8 @@ import { NoteTabContent } from './NoteTabContent';
 
 export const Note = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
-  const [count, setCount] = React.useState(0);
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const userId = useAppSelector(selectUserId);
-  console.log('note', noteId, count);
 
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
@@ -53,7 +50,6 @@ export const Note = React.memo(() => {
           </AnimatePresence>  
         )}
       >
-        <Button onClick={() => setCount(x => x +1)}>count</Button>
         <NoteTabContent
           noteId={Number(noteId)}
           showPosts={!!note.postSettingsId}

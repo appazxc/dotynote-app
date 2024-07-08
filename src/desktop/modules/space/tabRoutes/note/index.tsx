@@ -4,6 +4,7 @@ import { Outlet, createRoute, lazyRouteComponent } from '@tanstack/react-router'
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+import { wait } from 'shared/util/wait';
 
 import { root } from '../root';
 
@@ -28,9 +29,10 @@ export const notePage = createRoute({
   path: '$noteId',
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
-    console.log('loader', params.noteId);
     await queryClient.fetchQuery(options.notes.load(params.noteId));
   },
+  pendingMinMs: 0,
+  pendingMs: 300,
   shouldReload: false,
 });
 
