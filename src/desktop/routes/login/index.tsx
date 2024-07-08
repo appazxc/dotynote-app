@@ -1,20 +1,10 @@
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { createGuestRoute } from '../createGuestRoute';
+import { root } from '../root';
 
 import { Login } from './Login';
 
-const loader = async () => {
-
-};
-
-const deferLoader = async () => {
-
-};
-
-export default async function() {
-  return {
-    Component: Login,
-    loader,
-    deferLoader,
-    loaderComponent: <ContentLoader />,
-  };
-}
+export const login = createGuestRoute({
+  getParentRoute: () => root,
+  path: 'login',
+  component: Login,
+});

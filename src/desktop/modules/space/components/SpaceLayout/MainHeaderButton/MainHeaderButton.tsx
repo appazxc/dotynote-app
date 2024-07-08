@@ -15,7 +15,7 @@ import { selectActiveSpace } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
-import router from 'desktop/routes/router';
+import { router } from 'desktop/routes/router';
 
 const extraId = 'MainHeaderButton';
 
@@ -61,9 +61,9 @@ export const MainHeaderButton = () => {
         <MenuList>
           <MenuItem
             onClick={() => {
-              router.navigate(buildUrl({
-                routeName: routeNames.spaces,
-              }));
+              router.navigate({
+                to: '/spaces',
+              });
             }}
           >
             Spaces

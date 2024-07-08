@@ -10,9 +10,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { MdClose } from 'react-icons/md';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
@@ -27,9 +27,7 @@ import {
   FormMessage,
 } from 'shared/components/Form';
 import { BACK_URL } from 'shared/constants/queryKeys';
-import { routeNames } from 'shared/constants/routeNames';
 import { getApiError } from 'shared/helpers/api/getApiError';
-import { buildUrl } from 'shared/util/router/buildUrl';
 
 const schema = z.object({
   email: z.string().email('Enter a valid email'),
@@ -46,7 +44,7 @@ const defaultValues: Partial<FormValues> = {
 export const LoginForm = () => {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const backUrl = useSearch({ strict: false })[BACK_URL];
   const { mutateAsync: sendCodeEmail } = useSendCodeEmail();
   const { mutateAsync: loginEmail } = useLoginEmail();
 
@@ -81,9 +79,9 @@ export const LoginForm = () => {
     if (code && email) {
       try {
         await loginEmail({ email, code });
-        const backUrl = searchParams.get(BACK_URL) || buildUrl({ routeName: routeNames.app });
+        const to = backUrl || '/app';
 
-        navigate(backUrl);
+        navigate({ to });
       } catch (e) {
         setError('code', {
           message: getApiError(e).message,
@@ -102,7 +100,7 @@ export const LoginForm = () => {
         });
       }
     }
-  }, [loginEmail, sendCodeEmail, navigate, searchParams, setError]);
+  }, [loginEmail, sendCodeEmail, navigate, backUrl, setError]);
 
   return (
     <Box

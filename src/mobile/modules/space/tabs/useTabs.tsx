@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RouterState } from '@remix-run/router';
 
-import { handleAppRouteChange } from 'shared/modules/space/actions/route/handleAppRouteChange';
+import { handleAppRouteChange } from 'shared/modules/space/actions/router/handleAppRouteChange';
 import { createTabRouter } from 'shared/modules/space/helpers/createTabRouter';
 import { store } from 'shared/store';
 import { useAppDispatch } from 'shared/store/hooks';

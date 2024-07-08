@@ -1,20 +1,10 @@
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { createAuthRoute } from '../createAuthRoute';
+import { root } from '../root';
 
 import { Spaces } from './Spaces';
 
-const loader = async () => {
-
-};
-
-const deferLoader = async () => {
-
-};
-
-export default async function() {
-  return {
-    Component: Spaces,
-    loader,
-    deferLoader,
-    loaderComponent: <ContentLoader />,
-  };
-}
+export const spaces = createAuthRoute({
+  getParentRoute: () => root,
+  path: 'spaces',
+  component: Spaces,
+});

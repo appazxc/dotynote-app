@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Box, IconButton } from '@chakra-ui/react';
+import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
-import { useNavigate } from 'react-router';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const DefaultTabSidebar = React.memo(({ inline }: Props) => {
-  const navigate = useNavigate();
+  const { history } = useRouter();
   const tab = useTabContext();
 
   const items = React.useMemo(() => {
@@ -21,11 +21,11 @@ export const DefaultTabSidebar = React.memo(({ inline }: Props) => {
       {
         label: 'Back',
         icon: <BsArrowLeft />,
-        onClick: () => navigate(-1),
+        onClick: () => history.back(),
         isDisabled: tab.routes.length <= 1,
       },
     ];
-  }, [navigate, tab.routes.length]);
+  }, [history, tab.routes.length]);
 
   return (
     <TabSidebar inline={inline}>

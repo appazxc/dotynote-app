@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
@@ -15,7 +15,7 @@ export const FakeTabLoading = () => {
         flexDirection="column"
       >
         <Box flexGrow="1">
-          <ContentLoader />
+          <Loader />
         </Box>
         <Box flexShrink="0">
           <FooterNavigation />

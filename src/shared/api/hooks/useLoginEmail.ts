@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { authoriseUser } from 'shared/actions/auth';
+import { getUser } from 'shared/actions/auth';
 import { useAppDispatch } from 'shared/store/hooks';
 import { setToken } from 'shared/store/slices/authSlice';
 
@@ -15,7 +15,7 @@ export const useLoginEmail = () => {
     },
     onSuccess: async ({ token }) => {
       dispatch(setToken(token));
-      await dispatch(authoriseUser());
+      await dispatch(getUser());
     },
   });
 };

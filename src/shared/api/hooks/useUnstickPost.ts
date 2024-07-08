@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 
-import { useNoteTabId } from 'desktop/modules/space/tabs/note/hooks/useNoteTabId';
-import { noteTabStore } from 'desktop/modules/space/tabs/note/lib/noteTabStore';
+import { useNoteTabId } from 'desktop/modules/space/tabRoutes/note/hooks/useNoteTabId';
+import { noteTabStore } from 'desktop/modules/space/tabRoutes/note/lib/noteTabStore';
 
 import { entityApi } from '../entityApi';
 import { queryClient } from '../queryClient';

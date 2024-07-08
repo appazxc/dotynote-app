@@ -1,10 +1,10 @@
 import { redirect } from 'react-router';
 
-import { authoriseUser } from 'shared/actions/auth';
+import { getUser } from 'shared/actions/auth';
 import { BACK_URL } from 'shared/constants/queryKeys';
 import { routeNames } from 'shared/constants/routeNames';
 import { selectIsAuthorized, selectToken } from 'shared/store/slices/authSlice';
-import { Guard } from 'shared/types/common/router';
+import { Guard } from 'shared/types/_router';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 export const userGuard: Guard = async ({ store, request }) => {
@@ -19,6 +19,6 @@ export const userGuard: Guard = async ({ store, request }) => {
   }
 
   if (token && !isAuthorized) {
-    await store.dispatch(authoriseUser());
+    await store.dispatch(getUser());
   }
 };

@@ -4,7 +4,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 
 import { router } from './router';
 
@@ -12,7 +12,7 @@ function Routes() {
   return (
     <RouterProvider 
       router={router}
-      fallbackElement={<ContentLoader />}
+      fallbackElement={<Loader />}
     />
   );
 }

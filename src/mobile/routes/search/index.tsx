@@ -1,4 +1,4 @@
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 
 import { Search } from './Search';
 
@@ -15,6 +15,6 @@ export default async function() {
     Component: Search,
     loader,
     deferLoader,
-    loaderComponent: <ContentLoader />,
+    loaderComponent: <Loader />,
   };
 }

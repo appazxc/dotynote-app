@@ -1,15 +1,12 @@
 import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import {
-  RouterProvider,
-} from 'react-router-dom';
+import { RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { routeNames } from 'shared/constants/routeNames';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
 import {
   selectActiveSpace,
@@ -18,15 +15,13 @@ import {
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
+import router from 'desktop/_routes/router';
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
-import { Loading as LoadingPage } from 'desktop/modules/space/components/pages/Loading';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
-import { ErrorTab } from 'desktop/modules/space/tabs/error/ErrorTab';
-import { HomeTab } from 'desktop/modules/space/tabs/home/HomeTab';
-import { LoadingTab } from 'desktop/modules/space/tabs/loading/LoadingTab';
-import { tabsDictionary } from 'desktop/modules/space/tabs/tabsDictionary';
-import router from 'desktop/routes/router';
+import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
+
+import { useTabRouter } from './tabRoutes/useTabRouter';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
@@ -59,7 +54,7 @@ const Space = React.memo(() => {
   }
 
   if (tabNotesIsLoading || spaceTabsIsLoading || !activeSpace) {
-    return <LoadingPage />;
+    return <SpaceLoading />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
@@ -71,7 +66,7 @@ const Space = React.memo(() => {
   if (activeTab.isFake) {
     return (
       <SpaceLayout>
-        <ContentLoader />
+        <Loader />
       </SpaceLayout>
     );
   }
@@ -86,23 +81,13 @@ const Space = React.memo(() => {
 });
 
 const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
-  const router = useTabRouter(
-    activeTabId,
-    tabsDictionary,
-    {
-      notFoundPage: <HomeTab />,
-      errorPage: <ErrorTab />,
-      loadingPage: <LoadingTab />,
-    }
-  );
+  const router = useTabRouter(activeTabId);
 
-  return (
-    <RouterProvider
-      key={activeTabId}
-      router={router}
-      fallbackElement={<ContentLoader />}
-    />
-  );
+  const renderedProvider = React.useMemo(() => 
+    <RouterProvider key={activeTabId} router={router} />, 
+  [activeTabId, router]);
+
+  return (renderedProvider);
 });
 
 export { Space };

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 
 import { options } from 'shared/api/options';
-import { ContentLoader } from 'shared/components/ContentLoader';
+import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
 import { useAppSelector } from 'shared/store/hooks';
@@ -64,7 +64,7 @@ function Space() {
 
 function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
   const router = useTabRouter(
-    activeTab,
+    activeTab.id,
     tabsDictionary,
     {
       notFoundPage: <NotFound />,
@@ -77,7 +77,7 @@ function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
     <RouterProvider
       key={activeTab.id}
       router={router}
-      fallbackElement={<ContentLoader />}
+      fallbackElement={<Loader />}
     />
   );
 }

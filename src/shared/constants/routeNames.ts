@@ -8,6 +8,7 @@ const routeNames = keymirror({
   tabs: null,
   account: null,
   spaces: null,
+  profile: null,
   redirectNote: null,
 });
 

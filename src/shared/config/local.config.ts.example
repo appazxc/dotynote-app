@@ -1,4 +1,4 @@
-import { Config } from 'shared/types/common/config';
+import { Config } from 'shared/types/config';
 
 const config: Config = {
   devtools: {

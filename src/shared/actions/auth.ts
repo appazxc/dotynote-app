@@ -7,7 +7,9 @@ import { persistor } from 'shared/store';
 import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 
-export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
+import { router } from 'desktop/routes/router';
+
+export const getUser = (): ThunkAction => async (dispatch, getState) => {
   const token = selectToken(getState());
   const user = selectUser(getState());
 
@@ -20,20 +22,14 @@ export const authoriseUser = (): ThunkAction => async (dispatch, getState) => {
   }
 
   try {
-    const userId = await queryClient.fetchQuery(options.users.me());
+    const userId = await queryClient.fetchQuery({ ...options.users.me(), staleTime: 0 });
     dispatch(setUser(userId));
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
-      console.log('dispatch(setToken(null));');
-      
       dispatch(setToken(null));
-      return;
+      throw Error('Can not authorize user');
     }
 
-    if (error instanceof Error) {
-      console.log('instanceof Error', error);
-    }
-    
     throw Error('Unexpected error occurred');
   }
 };
@@ -44,4 +40,6 @@ export const logout = (): ThunkAction => (dispatch) => {
   dispatch({
     type: actions.RESET_APP,
   });
+  
+  router.navigate({ to: '/' });
 };
