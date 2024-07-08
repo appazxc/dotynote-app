@@ -1,8 +1,11 @@
-import { Link } from '@chakra-ui/react';
-import { Outlet, createRoute, lazyRouteComponent, useParams } from '@tanstack/react-router';
+import React from 'react';
 
-import { DesktopTabLink } from '../../components/DesktopTabLink';
-import { SettingsLayout } from '../../components/SettingsLayout';
+import { Button, Link } from '@chakra-ui/react';
+import { Outlet, createRoute, useParams } from '@tanstack/react-router';
+
+import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
+import { SettingsLayout } from 'desktop/modules/space/components/SettingsLayout';
+
 import { root } from '../root';
 
 export const settingsRoot = createRoute({
@@ -44,8 +47,10 @@ export const settingsId = createRoute({
   path: '$id',
   component: function Settings() {
     const { id } = useParams({ strict: false });
-
-    return id;
+    const [count, setCount] = React.useState(0);
+    console.log('id', id, count);
+    return <Button onClick={() => setCount(x => x +1)}>id: {id} count: {count}</Button>
+    ;
   },
 });
 
