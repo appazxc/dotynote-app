@@ -2,11 +2,12 @@ import React from 'react';
 
 import {
   Box,
+  chakra,
   Circle,
   IconButton,
+  shouldForwardProp,
 } from '@chakra-ui/react';
-import { chakra, shouldForwardProp, useToken } from '@chakra-ui/react';
-import { motion, Reorder, isValidMotionProp } from 'framer-motion';
+import { isValidMotionProp, motion, Reorder } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
