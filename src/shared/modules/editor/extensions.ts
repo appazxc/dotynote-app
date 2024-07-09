@@ -6,6 +6,7 @@ import CodeBlock from '@tiptap/extension-code-block';
 // backend not supported this esm module
 // import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
 import History from '@tiptap/extension-history';
 import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
@@ -37,14 +38,16 @@ export const extensions = [
   Placeholder.configure({
     placeholder: 'Note',
   }),
-  Paragraph.extend({
-    parseHTML() {
-      return [{ tag: 'div' }];
-    },
-    renderHTML({ HTMLAttributes }) {
-      return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
-    },
-  }),
+  // Paragraph.extend({
+  //   parseHTML() {
+  //     return [{ tag: 'div' }];
+  //   },
+  //   renderHTML({ HTMLAttributes }) {
+  //     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  //   },
+  // }),
+  HardBreak,
+  Paragraph,
   Text,
   Link.configure({
     openOnClick: false,

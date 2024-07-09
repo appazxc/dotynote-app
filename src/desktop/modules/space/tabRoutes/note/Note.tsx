@@ -46,7 +46,7 @@ export const Note = React.memo(() => {
         )}
         header={(
           <AnimatePresence>
-            <NoteHeader />
+            <NoteHeader isWriteMode={rwMode === rwModes.WRITE} />
           </AnimatePresence>  
         )}
       >

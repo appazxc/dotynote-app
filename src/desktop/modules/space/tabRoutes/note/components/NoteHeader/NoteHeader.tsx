@@ -6,7 +6,11 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteEditorHeader } from './NoteEditorHeader';
 import { NoteGapHeader } from './NoteGapHeader';
 
-export const NoteHeader = React.memo(() => {
+type Props = {
+  isWriteMode: boolean,
+}
+
+export const NoteHeader = React.memo(({ isWriteMode }: Props) => {
   const editor = useEditorContext();
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
 
@@ -14,7 +18,7 @@ export const NoteHeader = React.memo(() => {
     return null;
   }
 
-  if (isAdvancedEditActive) {
+  if (isAdvancedEditActive && isWriteMode) {
     return <NoteEditorHeader editor={editor} />;
   }
 

@@ -54,15 +54,15 @@ export const NoteSidebar = React.memo((props: Props) => {
       }] : [],
       ...showRwMode ? [{
         label: 'Note write',
-        icon: rwMode === rwModes.READ ? <FaPencil /> : <HiOutlineBookOpen size="18" />,
+        icon: <FaPencil />,
+        variant: rwMode === rwModes.READ ? 'ghost' : 'solid',
         onClick: () => dispatch(toggleRwMode()),
       }] : [],
       ...showRwMode && rwMode === rwModes.WRITE ? [{
         label: 'Advanced edit',
         icon: <FaA />,
         onClick: () => dispatch(toggleAdvancedEdit()),
-        variant: isAdvancedEditActive ? 'outline' : 'ghost',
-        colorScheme: isAdvancedEditActive ? 'brand' : 'gray',
+        variant: isAdvancedEditActive ? 'solid' : 'ghost',
       }] : [],
     ];
   }, [
@@ -81,7 +81,7 @@ export const NoteSidebar = React.memo((props: Props) => {
   return (
     <TabSidebar footer={<SidebarFooter id={id} />}>
       <Box
-        gap="2"
+        gap="1.5"
         display="flex"
         flexDirection="column"
         p="2"
