@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
 import { useNote } from 'shared/api/hooks/useNote';
-import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
+import { getTabInfo, getTabTitleByRouteId } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
@@ -38,7 +38,7 @@ export const SpaceTabTitle = React.memo(({ path }: Props) => {
       return note.title || 'Untitled';
     }
 
-    return match?.route.title || 'New Tab';
+    return getTabTitleByRouteId(match.routeId, 'New Tab');
   }, [match, isNoteTab, isLoading, note]);
 
   return (

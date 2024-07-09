@@ -20,11 +20,11 @@ export class NoteEssence extends Essense<NoteEntity> {
         const { routes } = spaceTab;
         const match = getTabMatch(routes[routes.length - 1]);
 
-        if (!match || match.route.name !== tabRouteNames.note) {
+        if (!match || match.routeId !== '/n/$noteId') {
           return false;
         }
 
-        return match.pathMatch.params.noteId;
+        return match.params.noteId;
       })
       .filter(Boolean);
 
