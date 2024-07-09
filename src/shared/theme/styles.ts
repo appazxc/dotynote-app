@@ -65,7 +65,7 @@ export const getEditorStyles = (props) => {
         color: 'inherit',
         p: 0,
         background: 'none',
-        fontSize: '0.8rem',
+        fontSize: '0.8em',
       },
   
       '.hljs-comment, .hljs-quote': {

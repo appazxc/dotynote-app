@@ -39,6 +39,7 @@ export const NoteBase = (props: Props) => {
       flexGrow="1"
       display="flex"
       flexDirection="column"
+      pb="5"
     >
       <NoteTitle
         title={title}
