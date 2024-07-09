@@ -1,17 +1,22 @@
-import { lazyRouteComponent } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
 import { Loader } from 'shared/components/Loader';
 import { cleanWaitedRoute, selectActiveSpace } from 'shared/store/slices/appSlice';
 
-import { createAuthRoute } from '../createAuthRoute';
-import { root } from '../root';
+import { auth } from '../guards';
 import { Context } from '../routerContext';
+import { spaces } from '../spaces';
 
-export const app = createAuthRoute({
-  getParentRoute: () => root,
+export const appRoute = createRoute({
+  getParentRoute: () => auth,
   path: 'app',
+});
+
+const appIndexRoute = createRoute({
+  getParentRoute: () => appRoute,
+  path: '/',
   loader: async (ctx) => {
     const context = ctx.context as Context;
     const { store } = context;
@@ -30,3 +35,7 @@ export const app = createAuthRoute({
   pendingComponent: Loader,
   component: lazyRouteComponent(() => import('desktop/modules/space')),
 });
+
+export const app = auth.addChildren([
+  appRoute.addChildren([appIndexRoute, spaces]),
+]);

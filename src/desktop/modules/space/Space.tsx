@@ -5,7 +5,6 @@ import { RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
-import { routeNames } from 'shared/constants/routeNames';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useAppSelector } from 'shared/store/hooks';
 import {
@@ -13,13 +12,12 @@ import {
   selectActiveTab,
 } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
-import { buildUrl } from 'shared/util/router/buildUrl';
 
-import router from 'desktop/_routes/router';
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
+import { router } from 'desktop/routes/router';
 
 import { useTabRouter } from './tabRoutes/useTabRouter';
 
@@ -46,7 +44,7 @@ const Space = React.memo(() => {
  
   React.useEffect(() => {
     if (activeSpace?.id) return;
-    router.navigate(buildUrl({ routeName: routeNames.spaces }));
+    router.navigate({ to: '/app/spaces' });
   }, [activeSpace?.id]);
  
   if (tabNotesIsError || spaceTabsIsError) {

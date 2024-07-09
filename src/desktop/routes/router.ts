@@ -12,14 +12,12 @@ import { idx } from './idx';
 import { login } from './login';
 import { root } from './root';
 import { context } from './routerContext';
-import { spaces } from './spaces';
 
 const routeTree = root.addChildren([
   idx, 
   about, 
   app, 
   login,
-  spaces,
 ]);
 
 const router = createRouter({ 
@@ -39,7 +37,6 @@ function extendHistory(history: RouterHistory, listenTo: string[]): RouterHistor
       const oldFunction = history[key];
 
       const newFunction = function(...args) {
-        console.log(key);
         return oldFunction(...args);
       };
 
@@ -50,10 +47,6 @@ function extendHistory(history: RouterHistory, listenTo: string[]): RouterHistor
 
   return history;
 }
-
-router.history.subscribe(() => {
-  console.log('change');
-});
 
 export type Router = typeof router;
 

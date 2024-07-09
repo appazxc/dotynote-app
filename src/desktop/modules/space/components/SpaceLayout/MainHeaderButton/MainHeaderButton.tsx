@@ -62,7 +62,7 @@ export const MainHeaderButton = () => {
           <MenuItem
             onClick={() => {
               router.navigate({
-                to: '/spaces',
+                to: '/app/spaces',
               });
             }}
           >

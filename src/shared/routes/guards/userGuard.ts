@@ -17,7 +17,7 @@ export const userGuard: Guard = async ({ store, request }) => {
   if (!isAuthorized && !token) {
     return redirect(buildUrl({ routeName: routeNames.login, queryParams: { [BACK_URL]: pathname } }));
   }
-
+  
   if (token && !isAuthorized) {
     await store.dispatch(getUser());
   }

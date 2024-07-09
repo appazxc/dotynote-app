@@ -50,7 +50,6 @@ export const useTabRouter = (spaceTabId: IdentityType) => {
     if (routesMap.get(spaceTabId)) {
       router = routesMap.get(spaceTabId);
     } else {
-      console.log('newRouter', spaceTabId);
       router = createTabRouter(extendHistory(
         createMemoryHistory((getMemoryHistoryParams(spaceTab))),
         ['push', 'back', 'replace', 'go']

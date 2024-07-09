@@ -1,10 +1,11 @@
-import { createAuthRoute } from '../createAuthRoute';
-import { root } from '../root';
+import { createRoute } from '@tanstack/react-router';
+
+import { appRoute } from '../app';
 
 import { Spaces } from './Spaces';
 
-export const spaces = createAuthRoute({
-  getParentRoute: () => root,
+export const spaces = createRoute({
+  getParentRoute: () => appRoute,
   path: 'spaces',
   component: Spaces,
 });
