@@ -17,13 +17,13 @@ export const Post = (props: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
   invariant(note, 'Missing note');
-  
+  console.log('note', note);
   return (
     <Box
       p="4"
       borderWidth="2px"
       borderRadius="lg"
-      borderColor="slateDark.7"
+      borderColor="gray.200"
       cursor="pointer"
       data-post-id={postId}
       {...restProps}

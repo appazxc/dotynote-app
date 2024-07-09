@@ -4,9 +4,10 @@ import { Box, useColorMode } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { JSONContent, generateHTML } from '@tiptap/core';
 
-import { keepNDivs, removeEmptyDivsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
-import { extensions } from './extensions';
 import { getEditorStyles } from 'shared/theme/styles';
+
+import { keepNParagraphs, removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
+import { extensions } from './extensions';
 
 const Container = styled(Box)`
   white-space: pre-wrap;
@@ -52,7 +53,7 @@ export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: 
 
     const html = generateHTML(json, extensions);
     
-    let result = maxLines ? keepNDivs(html, maxLines) : html;
+    let result = maxLines ? keepNParagraphs(html, maxLines) : html;
     
     if (removeEmptyDivsFromEnd) {
       result = removeEmptyDivsFromEndHelper(result);

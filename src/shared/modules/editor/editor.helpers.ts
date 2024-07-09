@@ -1,9 +1,9 @@
-export function removeEmptyDivsFromEnd(html: string): string {
-  // Находим все пустые div в конце строки
-  const regex = /<div><\/div>\s*$/;
+export function removeEmptyParagraphsFromEnd(html: string): string {
+  // Находим все пустые p в конце строки
+  const regex = /<p><\/p>\s*$/;
   let modifiedHtml = html.replace(regex, '');
 
-  // Повторяем процесс до тех пор, пока находим пустые div в конце
+  // Повторяем процесс до тех пор, пока находим пустые p в конце
   while (modifiedHtml.match(regex)) {
     modifiedHtml = modifiedHtml.replace(regex, '');
   }
@@ -11,16 +11,16 @@ export function removeEmptyDivsFromEnd(html: string): string {
   return modifiedHtml;
 }
 
-export function keepNDivs(html: string, n: number): string {
+export function keepNParagraphs(html: string, n: number): string {
   // Находим все div
-  const regex = /<div>.*?<\/div>/g;
-  const divs = html.match(regex) || [];
+  const regex = /<p>.*?<\/p>/g;
+  const paragraphs = html.match(regex) || [];
 
   // Оставляем только первые n div
-  const selectedDivs = divs.slice(0, n);
+  const selectedParagraphs = paragraphs.slice(0, n);
 
   // Собираем их обратно в строку
-  const modifiedHtml = selectedDivs.join('');
+  const modifiedHtml = selectedParagraphs.join('');
 
   return modifiedHtml;
 }
