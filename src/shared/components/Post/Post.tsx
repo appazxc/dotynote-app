@@ -17,7 +17,7 @@ export const Post = (props: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
   invariant(note, 'Missing note');
-  console.log('note', note);
+
   return (
     <Box
       p="4"

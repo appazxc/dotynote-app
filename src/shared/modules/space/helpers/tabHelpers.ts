@@ -1,10 +1,11 @@
 import { ToOptions } from '@tanstack/react-router';
 
+import { note } from 'desktop/modules/space/tabRoutes/note';
 import { router } from 'desktop/modules/space/tabRoutes/router';
 
 export const getTabInfo = (path: string) => {
   const match = getTabMatch(path);
-  const isNoteTab = match.routeId === '/n/$noteId';
+  const isNoteTab = match.routeId === note.id;
   const noteId = match.params.noteId;
 
   return {
