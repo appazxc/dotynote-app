@@ -4,9 +4,6 @@ import { colorMode } from 'shared/util/theme/colorMode';
 
 export const getEditorStyles = (props) => {
   return {
-    '& :first-of-type': {
-      marginTop: '0',
-    },
     'whiteSpace': 'pre-wrap',
     'wordBreak': 'break-word',
     'div.is-editor-empty:first-of-type::before': {
@@ -33,7 +30,7 @@ export const getEditorStyles = (props) => {
       fontWeight: '700',
     },
     'p:empty::before': {
-      content: '"\u000A"',
+      content: '"\\A"',
     },
     // p: {
     //   marginBlockStart: '1em',
@@ -44,7 +41,7 @@ export const getEditorStyles = (props) => {
     },
     'ul, ol': {
       padding: '0 1rem',
-      margin: '1.25rem 1rem 1.25rem .4rem',
+      margin: '0 1rem 0 .4rem',
     },
     a: {
       color: 'editorLink',
