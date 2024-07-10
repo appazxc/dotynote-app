@@ -1,10 +1,15 @@
 import React from 'react';
 
 import { Box, Container } from '@chakra-ui/react';
-
 // import { useScrollContext } from 'shared/components/ScrollProvider';
+import { useNavigate } from '@tanstack/react-router';
+
+import { openTab } from 'shared/actions/space/openTab';
 import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
+import { useAppDispatch } from 'shared/store/hooks';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
+
+import { buildTabHref } from '../../helpers/buildTabHref';
 
 import { NoteBase } from './components/NoteBase';
 
@@ -16,6 +21,8 @@ type Props = {
 
 export const NoteTabContent = React.memo((props: Props) => {
   const { noteId, isWriteMode, showPosts } = props;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   // const scrollRef = useScrollContext();
 
   // React.useEffect(() => {
@@ -24,6 +31,18 @@ export const NoteTabContent = React.memo((props: Props) => {
   //   }
   // }, [noteId, scrollRef]);
   
+  const onPostClick = React.useCallback((e) => (noteId: IdentityType) => {
+    console.log('e',e, noteId );
+    e.preventDefault();
+    if (e.metaKey) {
+      dispatch(openTab({ 
+        route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),
+      }));
+    } else {
+      navigate({ to: '/n/$noteId', params: { noteId } });
+    }
+  }, [navigate, dispatch]);
+
   return (
     <Container h="full">
       <Box
@@ -40,6 +59,7 @@ export const NoteTabContent = React.memo((props: Props) => {
           <Posts
             key={noteId}
             noteId={noteId}
+            onPostClick={onPostClick}
           />
         )}
       </Box>
