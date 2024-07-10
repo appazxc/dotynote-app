@@ -32,7 +32,6 @@ export const NoteTabContent = React.memo((props: Props) => {
   // }, [noteId, scrollRef]);
   
   const onPostClick = React.useCallback((e) => (noteId: IdentityType) => {
-    console.log('e',e, noteId );
     e.preventDefault();
     if (e.metaKey) {
       dispatch(openTab({ 

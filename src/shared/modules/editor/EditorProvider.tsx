@@ -1,6 +1,5 @@
-import React, { createContext } from 'react';
+import React from 'react';
 
-import { Editor } from '@tiptap/react';
 import { debounce } from 'lodash';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
@@ -10,7 +9,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
-const EditorContext = createContext<{ editor: Editor } | null>(null);
+import { EditorContext } from './EditorContext';
 
 type Props = React.PropsWithChildren<{
   id: IdentityType,
@@ -47,14 +46,4 @@ export const EditorProvider = ({ id, children }: Props) => {
       {children}
     </EditorContext.Provider>
   );
-};
-
-export const useEditorContext = () => {
-  const context = React.useContext(EditorContext);
-  
-  if (context === null) {
-    throw new Error('useEditorContext must be within EditorProvider');
-  }
-
-  return context.editor;
 };
