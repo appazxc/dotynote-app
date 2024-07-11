@@ -1,13 +1,34 @@
 import React from 'react';
 
-import { Link, LinkProps } from '@tanstack/react-router';
+import { Link, LinkProps, Router } from '@tanstack/react-router';
 
-import { Router } from 'desktop/modules/space/tabRoutes/router';
+import { openTab } from 'shared/actions/space/openTab';
+import { useAppDispatch } from 'shared/store/hooks';
 
-type Props = LinkProps<Router> & Omit<React.AnchorHTMLAttributes<'a'>, 'children'>;
+import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
+import { Router as RouterType } from 'desktop/modules/space/tabRoutes/router';
+
+type Props = LinkProps<Router<RouterType['routeTree'], 'never'>> & Omit<React.AnchorHTMLAttributes<'a'>, 'children'>;
 
 const DesktopTabLinkComponent = (props: Props, ref) => {
-  return <Link ref={ref} {...props} />;
+  const dispatch = useAppDispatch();
+  
+  return (
+    <Link 
+      ref={ref} 
+      {...props}
+      onClick={(e) => {
+        if (e.metaKey) {
+          e.preventDefault();
+          dispatch(openTab({ 
+            route: buildTabHref({ to: props.to, params: props.params }),
+          }));
+        }
+
+        props.onClick?.(e);
+      }}
+    />
+  );
 };
 
 export const DesktopTabLink = React.memo(React.forwardRef(DesktopTabLinkComponent));

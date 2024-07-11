@@ -4,7 +4,6 @@ import { Box, Center, IconButton, Text } from '@chakra-ui/react';
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoSearch, GoPlus, GoHome } from 'react-icons/go';
 
-import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { routeNames } from 'shared/constants/routeNames';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
@@ -30,7 +29,8 @@ export const FooterNavigation = (props: Props) => {
       {
         label: 'home',
         onClick: () => {
-          dispatch(openMainSpaceNote());
+          // look src/desktop/modules/space/components/SpaceLayout/MainHeaderButton/MainHeaderButton.tsx 
+          // dispatch(openMainSpaceNote());
           router.navigate(buildUrl({ routeName: routeNames.app }));
         },
         icon: <GoHome size="25" />,

@@ -19,6 +19,8 @@ import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
 import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch } from 'shared/store/hooks';
 
+import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
+
 export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -33,14 +35,14 @@ export const MenuHeaderButton = React.memo(() => {
 
   const handleSettingsClick = React.useCallback(() => {
     dispatch(openTab({
-      route: buildTabUrl({ routeName: tabRouteNames.settings }),
+      route: buildTabHref({ to: '/settings' }),
       makeActive: true,
     }));
   }, [dispatch]);
 
   const handleProfileClick = React.useCallback(() => {
     dispatch(openTab({
-      route: buildTabUrl({ routeName: tabRouteNames.profile }),
+      route: buildTabHref({ to: '/profile' }),
       makeActive: true,
     }));
   }, [dispatch]);

@@ -3,18 +3,17 @@ import React from 'react';
 import { IconButton, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
-import { openMainSpaceNote } from 'shared/actions/space/openMainSpaceNote';
+import { openTab } from 'shared/actions/space/openTab';
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
-import { routeNames } from 'shared/constants/routeNames';
 import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpace } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
-import { buildUrl } from 'shared/util/router/buildUrl';
 
+import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
 
 const extraId = 'MainHeaderButton';
@@ -41,6 +40,28 @@ export const MainHeaderButton = () => {
     } });
   }, [mutate, isPending, dispatch]);
   
+  const openMainSpaceNote = React.useCallback(() => {
+    if (!space) {
+      return;
+    }
+
+    const route = space.mainNoteId
+      ? buildTabHref({
+        to: '/n/$noteId',
+        params: { noteId: String(space.mainNoteId) },
+      })
+      : buildTabHref({
+        to: '/addMainNote',
+      });
+    
+    dispatch(
+      openTab({
+        route,
+        makeActive: true,
+      })
+    );
+  }, [dispatch, space]);
+  
   return (
     <>
       <Menu
@@ -56,7 +77,7 @@ export const MainHeaderButton = () => {
           icon={<GoDotFill size="30" color={space.mainNoteId ? brand : 'gray'} />}
           variant="outline"
           isActive={false}
-          onClick={() => dispatch(openMainSpaceNote())}
+          onClick={openMainSpaceNote}
         />
         <MenuList>
           <MenuItem
