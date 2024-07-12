@@ -11,7 +11,7 @@ export class SpaceTabEssence extends Essense<SpaceTabEntity> {
       pos,
       isPinned: false,
       routes,
-      isFake: true,
+      _isFake: true,
     };
   }
 }

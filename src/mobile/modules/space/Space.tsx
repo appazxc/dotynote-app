@@ -46,7 +46,7 @@ function Space() {
     return <NonActiveTab />;
   }
 
-  if (activeTab.isFake) {
+  if (activeTab._isFake) {
     return (
       <FakeTabLoading />
     );

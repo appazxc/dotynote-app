@@ -1,17 +1,15 @@
 import { entityApi } from 'shared/api/entityApi';
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
-import { selectActiveSpaceId, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
+import { selectActiveSpace, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => async (dispatch, getState) => {
-  const activeSpaceId = selectActiveSpaceId(getState());
+  const activeSpace = selectActiveSpace(getState());
 
-  if (!activeSpaceId) {
+  if (!activeSpace) {
     return;
   }
     
-  const tabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId: activeSpaceId }).queryKey);
+  const tabIds = activeSpace.spaceTabs;
   const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds, isPinned });
   
   let first: SpaceTabEntity | null = null;

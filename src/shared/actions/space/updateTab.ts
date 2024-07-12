@@ -1,26 +1,23 @@
 import { find, findLast } from 'lodash';
 
 import { entityApi } from 'shared/api/entityApi';
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import { selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
+import { selectActiveSpace, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const updateTab = ({ id, data }: { id: IdentityType, data: Partial<SpaceTabEntity>}) => 
   async (dispatch, getState) => {
     const oldTab = spaceTabSelector.getById(getState(), id);
+    const activeSpace = selectActiveSpace(getState());
 
-    if (!oldTab) return;
-
-    const spaceTabsQueryKey = options.spaceTabs.list({ spaceId: oldTab.spaceId }).queryKey;
+    if (!oldTab || !activeSpace) return;
 
     const posData: { pos?: SpaceTabEntity['pos'] } = {};
 
     if ('isPinned' in data) {
       const { isPinned } = data;
-      const tabIds = queryClient.getQueryData(spaceTabsQueryKey);
+      const tabIds = activeSpace.spaceTabs;
       const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds });
       const findFunc = isPinned ? findLast : find;
       const targetTab = findFunc(sortedTabs, (tab) => tab.isPinned === isPinned);
@@ -37,8 +34,4 @@ export const updateTab = ({ id, data }: { id: IdentityType, data: Partial<SpaceT
     };
 
     await entityApi.spaceTab.update(id, entity);
-
-    if (entity.pos === 0) {
-      queryClient.invalidateQueries({ queryKey: spaceTabsQueryKey });
-    }
   };

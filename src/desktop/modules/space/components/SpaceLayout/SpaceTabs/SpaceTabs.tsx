@@ -13,7 +13,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { SpaceTab } from './SpaceTab';
 
 export const SpaceTabs = React.memo(() => {
-  const { tabs } = useSpaceTabs({ sorted: true });
+  const tabs = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
  
   const handlePlusClick = React.useCallback(() => {

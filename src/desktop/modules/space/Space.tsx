@@ -34,24 +34,16 @@ const Space = React.memo(() => {
     enabled: !!activeSpace,
   });
 
-  const { 
-    isLoading: spaceTabsIsLoading, 
-    isError: spaceTabsIsError,
-  } = useQuery({
-    ...options.spaceTabs.list({ spaceId: activeSpace?.id }),
-    enabled: !!activeSpace,
-  });
- 
   React.useEffect(() => {
     if (activeSpace?.id) return;
     router.navigate({ to: '/app/spaces' });
   }, [activeSpace?.id]);
  
-  if (tabNotesIsError || spaceTabsIsError) {
+  if (tabNotesIsError) {
     return <ErrorPage />;
   }
 
-  if (tabNotesIsLoading || spaceTabsIsLoading || !activeSpace) {
+  if (tabNotesIsLoading || !activeSpace) {
     return <SpaceLoading />;
   }
 
@@ -61,7 +53,7 @@ const Space = React.memo(() => {
     );
   }
 
-  if (activeTab.isFake) {
+  if (activeTab._isFake) {
     return (
       <SpaceLayout>
         <Loader />

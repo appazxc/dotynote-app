@@ -12,7 +12,7 @@ import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveTabId, selectSortedSpaceTabs, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
@@ -64,7 +64,7 @@ const Tab = ({ id, isActive }) => {
 };
 
 export const Tabs = () => {
-  const { data: tabIds } = useSpaceTabs({ sorted: true });
+  const tabs = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);
@@ -102,11 +102,11 @@ export const Tabs = () => {
       }
     >
       <Stack p="4" gap="4">
-        {tabIds && tabIds.map((id) => (
+        {tabs.map((tab) => (
           <Tab
-            key={id}
-            id={id}
-            isActive={id === activeTabId}
+            key={tab.id}
+            id={tab.id}
+            isActive={tab.id === activeTabId}
           />
         ))}
       </Stack>

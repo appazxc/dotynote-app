@@ -1,9 +1,12 @@
 import { entityApi } from 'shared/api/entityApi';
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import { selectActiveTabId, selectSortedSpaceTabEntities, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { 
+  selectActiveSpace, 
+  selectActiveTabId, 
+  selectSortedSpaceTabEntities,
+  updateActiveTabId, 
+} from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
@@ -61,33 +64,29 @@ const getNextActiveTabByType = (tabs: SpaceTabEntity[], closedTab: SpaceTabEntit
   return otherTabs[checkIndex];
 };
 
-export const closeTab =
-  (tabId: IdentityType): ThunkAction =>
-    async (dispatch, getState) => {
-      const spaceTab = spaceTabSelector.getById(getState(), tabId);
-      const activeTabId = selectActiveTabId(getState());
+export const closeTab = (tabId: IdentityType): ThunkAction => async (dispatch, getState) => {
+  const spaceTab = spaceTabSelector.getById(getState(), tabId);
+  const activeTabId = selectActiveTabId(getState());
+  const activeSpace = selectActiveSpace(getState());
       
-      if (!spaceTab) {
-        return;
-      }
+  if (!spaceTab || !activeSpace) {
+    return;
+  }
 
-      const tabIds = queryClient.getQueryData(options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey);
+  const tabIds = activeSpace.spaceTabs;
+  const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds });
 
-      const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds });
-
-      if (activeTabId && activeTabId === tabId && tabIds) {
-        const nextTab = getNextActiveTabByType(sortedTabs, spaceTab);
-        dispatch(updateActiveTabId(nextTab?.id || null));
-      }
+  if (activeTabId && activeTabId === tabId && tabIds) {
+    const nextTab = getNextActiveTabByType(sortedTabs, spaceTab);
+    dispatch(updateActiveTabId(nextTab?.id || null));
+  }
       
-      queryClient.setQueryData(
-        options.spaceTabs.list({ spaceId: spaceTab.spaceId }).queryKey, 
-        (oldTabs = []) => oldTabs.filter(spaceTabId => spaceTabId !== tabId)
-      );
+  entityApi.space.updateEntity(activeSpace.id, {
+    spaceTabs: tabIds.filter(spaceTabId => spaceTabId !== tabId),
+  });
 
-      const routesMap = getRoutesMap();
-      routesMap.delete(tabId);
+  const routesMap = getRoutesMap();
+  routesMap.delete(tabId);
       
-      await entityApi.spaceTab.delete(tabId);
-
-    };
+  await entityApi.spaceTab.delete(tabId);
+};

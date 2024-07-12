@@ -1,5 +1,5 @@
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
-import { spaceTabSelector } from 'shared/selectors/entities';
+import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
@@ -8,9 +8,16 @@ import { note } from 'desktop/modules/space/tabRoutes/note';
 import Essense from './Essence';
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async loadTabNotes(tabIds: IdentityType[]) {
+  async loadTabNotes(spaceId?: IdentityType) {
+
     const state = this.store.getState();
-    const noteIds = tabIds
+    const space = spaceSelector.getById(state, spaceId);
+
+    if (!space) {
+      return [];
+    }
+
+    const noteIds = space.spaceTabs
       .map((id) => {
         const spaceTab = spaceTabSelector.getById(state, id);
 
