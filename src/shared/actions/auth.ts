@@ -7,8 +7,6 @@ import { persistor } from 'shared/store';
 import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 
-import { router } from 'desktop/routes/router';
-
 export const getUser = (): ThunkAction => async (dispatch, getState) => {
   const token = selectToken(getState());
   const user = selectUser(getState());
@@ -40,6 +38,4 @@ export const logout = (): ThunkAction => (dispatch) => {
   dispatch({
     type: actions.RESET_APP,
   });
-  
-  router.navigate({ to: '/' });
 };

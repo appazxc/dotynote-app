@@ -5,9 +5,8 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { useScrollContext } from 'shared/components/ScrollProvider';
+import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
-
-import { TabScrollRestoration } from 'desktop/modules/space/components/TabScrollRestoration';
 
 import { Post } from '../Post';
 

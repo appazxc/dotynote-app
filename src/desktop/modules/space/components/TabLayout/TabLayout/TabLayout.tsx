@@ -3,8 +3,7 @@ import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
-
-import { TabScrollRestoration } from 'desktop/modules/space/components/TabScrollRestoration';
+import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 
 import { DefaultTabSidebar } from '../DefaultTabSidebar';
 

@@ -40,8 +40,8 @@ import { updateAddTo } from 'shared/store/slices/appSlice';
 import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
-import { useNoteTabId } from '../../hooks/useNoteTabId';
-import { noteTabStore } from '../../lib/noteTabStore';
+import { useNoteTabId } from '../../../../../../../shared/modules/space/tabRoutes/note/hooks/useNoteTabId';
+import { noteTabStore } from '../../../../../../../shared/modules/space/tabRoutes/note/lib/noteTabStore';
 
 const ICON_SIZE = 24;
 

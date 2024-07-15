@@ -15,11 +15,10 @@ import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { tabRouteNames } from 'shared/modules/space/constants/tabRouteNames';
-import { buildTabUrl } from 'shared/modules/space/util/buildTabUrl';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
+import { router } from 'desktop/routes/router';
 
 export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -68,7 +67,10 @@ export const MenuHeaderButton = React.memo(() => {
           <MenuDivider />
           <MenuItem
             leftIcon={<TbLogout2 />}
-            onClick={() => dispatch(logout())}
+            onClick={() => {
+              dispatch(logout());
+              router.navigate({ to: '/' });
+            }}
             colorScheme="red"
           >Logout</MenuItem>
         </MenuList>
