@@ -7,14 +7,13 @@ import { useNavigate } from '@tanstack/react-router';
 import { openTab } from 'shared/actions/space/openTab';
 import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
 import { useAppDispatch } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { buildTabHref } from '../../helpers/buildTabHref';
 
 import { NoteBase } from './components/NoteBase';
 
 type Props = {
-  noteId: IdentityType,
+  noteId: string,
   isWriteMode: boolean,
   showPosts: boolean,
 }
@@ -31,7 +30,7 @@ export const NoteTabContent = React.memo((props: Props) => {
   //   }
   // }, [noteId, scrollRef]);
   
-  const onPostClick = React.useCallback((e) => (noteId: IdentityType) => {
+  const onPostClick = React.useCallback((e) => (noteId: string) => {
     e.preventDefault();
     if (e.metaKey) {
       dispatch(openTab({ 

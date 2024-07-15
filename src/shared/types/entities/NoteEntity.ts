@@ -1,11 +1,11 @@
 import { JSONContent } from '@tiptap/core';
 
-import { BaseEntity, IdentityType } from './BaseEntity';
+import { BaseEntity, string } from './BaseEntity';
 
 export type NoteEntity = BaseEntity<{
   title?: string,
   content?: JSONContent,
-  authorId: IdentityType,
+  authorId: string,
   access: 'PRIVATE' | 'PUBLIC',
   postSettingsId?: string,
 }>

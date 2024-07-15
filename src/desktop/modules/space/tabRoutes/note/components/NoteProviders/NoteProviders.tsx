@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { EditorProvider } from 'shared/modules/editor';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 type Props = React.PropsWithChildren<{
-  id: IdentityType,
+  id: string,
   isWriteMode: boolean,
 }>
 

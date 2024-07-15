@@ -3,13 +3,12 @@ import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import { EditorView } from 'shared/modules/editor';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { NoteEditor } from '../NoteEditor';
 
 type Props = {
-  id: IdentityType,
+  id: string,
   isWriteMode: boolean,
   content: NoteEntity['content']
 }

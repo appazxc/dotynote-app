@@ -8,12 +8,11 @@ import { Post as PostBase } from 'shared/components/Post';
 import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId: IdentityType,
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => (postId: IdentityType) => void
+  postId: string,
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => (postId: string) => void
 }
 
 export const Post = React.memo(({ postId, onClick }: Props) => {

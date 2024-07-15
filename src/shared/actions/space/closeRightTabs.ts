@@ -6,11 +6,10 @@ import {
   selectSortedSpaceTabEntities,
   updateActiveTabId,
 } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { ThunkAction } from 'shared/types/store';
 
 export const closeRightTabs =
-  (tabId: IdentityType): ThunkAction =>
+  (tabId: string): ThunkAction =>
     async (dispatch, getState) => {
       const spaceTab = spaceTabSelector.getById(getState(), tabId);
       const activeTabId = selectActiveTabId(getState());

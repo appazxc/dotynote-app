@@ -11,7 +11,6 @@ import {
   selectActiveSpace,
   selectActiveTab,
 } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
@@ -70,7 +69,7 @@ const Space = React.memo(() => {
   );
 });
 
-const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: IdentityType }) => {
+const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: string }) => {
   const router = useTabRouter(activeTabId);
 
   const renderedProvider = React.useMemo(() => 

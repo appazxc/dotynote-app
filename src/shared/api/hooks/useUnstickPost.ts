@@ -1,20 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useNoteTabId } from 'shared/modules/space/tabRoutes/note/hooks/useNoteTabId';
-import { noteTabStore } from 'shared/modules/space/tabRoutes/note/lib/noteTabStore';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { entityApi } from '../entityApi';
-import { queryClient } from '../queryClient';
 
 import { PageParam } from './useInfinityPosts';
 
 type QueryData = {
   pageParams: PageParam[],
-  pages: IdentityType[][]
+  pages: string[][]
 }
 
-export const useUnstickPost = (id: IdentityType) => {
+export const useUnstickPost = (id: string) => {
   const noteTabId = useNoteTabId();
 
   return useMutation({

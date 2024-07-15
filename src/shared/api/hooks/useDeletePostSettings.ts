@@ -1,10 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { IdentityType } from 'shared/types/entities/BaseEntity';
-
 import { entityApi } from '../entityApi';
 
-export const useDeletePostSettings = (id: IdentityType) => {
+export const useDeletePostSettings = (id: string) => {
   return useMutation({
     mutationFn: (_?: null) => {
       return entityApi.note.deleteRelation(id, 'postSettings');

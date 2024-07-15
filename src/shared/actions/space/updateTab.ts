@@ -3,10 +3,9 @@ import { find, findLast } from 'lodash';
 import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
-export const updateTab = ({ id, data }: { id: IdentityType, data: Partial<SpaceTabEntity>}) => 
+export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEntity>}) => 
   async (dispatch, getState) => {
     const oldTab = spaceTabSelector.getById(getState(), id);
     const activeSpace = selectActiveSpace(getState());

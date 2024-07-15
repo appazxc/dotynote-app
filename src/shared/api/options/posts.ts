@@ -1,11 +1,9 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { IdentityType } from 'shared/types/entities/BaseEntity';
-
 import { entityApi } from '../entityApi';
 
 export type LoadListFilters = {
-  parentId: IdentityType,
+  parentId: string,
 }
 
 export const loadList = (filters: LoadListFilters) => {

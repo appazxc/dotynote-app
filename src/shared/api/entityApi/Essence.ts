@@ -2,7 +2,6 @@ import { EntityName } from 'shared/constants/entityNames';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectUserId } from 'shared/store/slices/authSlice';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { AppStore } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
@@ -11,7 +10,7 @@ import apiFactory, { Api } from '../apiFactory';
 type DeleteOptions = {
   deleteFlag?: boolean,
 }
-export default class Essense<T extends { id?: IdentityType }> {
+export default class Essense<T extends { id?: string }> {
   api: Api;
   path: string;
   entityName: EntityName;
@@ -28,7 +27,7 @@ export default class Essense<T extends { id?: IdentityType }> {
     return getStore();
   }
 
-  get userId(): IdentityType {
+  get userId(): string {
     const userId = selectUserId(this.store.getState());
 
     invariant(userId, 'Missing userId');
@@ -43,10 +42,10 @@ export default class Essense<T extends { id?: IdentityType }> {
   }
 
   async loadList({ filters = {} } = {}) {
-    return await this.api.get<IdentityType[]>(`${this.path}`, filters);
+    return await this.api.get<string[]>(`${this.path}`, filters);
   }
 
-  async update(id: IdentityType, data?: Partial<T> | null) {
+  async update(id: string, data?: Partial<T> | null) {
     const entity = this.selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
@@ -72,11 +71,11 @@ export default class Essense<T extends { id?: IdentityType }> {
     return await this.api.post<string>(this.path, data);
   }
 
-  async createRelation<R>(id: IdentityType, relation: string, data: Partial<R>) {
+  async createRelation<R>(id: string, relation: string, data: Partial<R>) {
     return this.api.post<string>(`${this.path}/${id}/${relation}`, data);
   }
 
-  async deleteRelation(id: IdentityType, relation: string) {
+  async deleteRelation(id: string, relation: string) {
     return this.api.delete<void>(`${this.path}/${id}/${relation}`);
   }
 
@@ -84,7 +83,7 @@ export default class Essense<T extends { id?: IdentityType }> {
     return this.api.post<D>(`${this.path}/${action}`, data);
   }
 
-  async delete(id: IdentityType, { deleteFlag }: DeleteOptions = {}) {
+  async delete(id: string, { deleteFlag }: DeleteOptions = {}) {
     const entity = this.selector.getById(this.store.getState(), id);
 
     if (deleteFlag) {
@@ -100,11 +99,11 @@ export default class Essense<T extends { id?: IdentityType }> {
     await this.api.delete<void>(`${this.path}/${id}`);
   }
 
-  updateEntity(id: IdentityType, data: Partial<T>) {
+  updateEntity(id: string, data: Partial<T>) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 
-  deleteEntity(id: IdentityType) {
+  deleteEntity(id: string) {
     this.store.dispatch(deleteEntity({ id, type: this.entityName }));
   }
 }

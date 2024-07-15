@@ -12,7 +12,6 @@ import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleRwMode } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
@@ -20,7 +19,7 @@ import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
 
 type Props = {
-  id: IdentityType,
+  id: string,
   rwMode: RwMode,
   showRwMode: boolean,
 }

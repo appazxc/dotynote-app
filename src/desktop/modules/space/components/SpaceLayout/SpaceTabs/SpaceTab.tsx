@@ -20,7 +20,6 @@ import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**
@@ -30,7 +29,7 @@ export const ReorderItemBox = chakra(Reorder.Item, {
 });
 
 type Props = {
-  id: IdentityType,
+  id: string,
   isLast: boolean,
 }
 

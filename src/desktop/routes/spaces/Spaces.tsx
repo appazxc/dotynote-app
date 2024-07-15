@@ -17,11 +17,10 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { spaceSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { selectActiveSpaceId, updateActiveSpaceId } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
-const SpaceCard = ({ id, isActive }: { id: IdentityType, isActive: boolean }) => {
+const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
   const space = useAppSelector(state => spaceSelector.getById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -6,7 +6,6 @@ import { useInView } from 'react-intersection-observer';
 import { useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { Post } from '../Post';
 
@@ -15,8 +14,8 @@ import { PostsSkeleton } from './Posts.skeleton';
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId: IdentityType,
-  onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => (noteId: IdentityType) => void,
+  noteId: string,
+  onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => (noteId: string) => void,
 }
 
 export const Posts = ({ noteId, onPostClick }: Props) => {

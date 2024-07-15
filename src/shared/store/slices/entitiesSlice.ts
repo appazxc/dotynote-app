@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { EntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
@@ -13,7 +12,7 @@ export type Entities = {
 
 type UpdateEntityPayload<T extends EntityName> = { 
   type: T, 
-  id: IdentityType, 
+  id: string, 
   data: Partial<EntityTypes[T]>
 }
 
@@ -88,7 +87,7 @@ export const entitiesSlice = createSlice({
     },
     deleteEntity: (
       state, 
-      { payload }: PayloadAction<{ id: IdentityType, type: EntityName }>
+      { payload }: PayloadAction<{ id: string, type: EntityName }>
     ) => {
       const { id, type } = payload;
 

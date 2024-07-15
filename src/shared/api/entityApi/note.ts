@@ -1,12 +1,11 @@
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import Essense from './Essence';
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async loadTabNotes(spaceId?: IdentityType) {
+  async loadTabNotes(spaceId?: string) {
 
     const state = this.store.getState();
     const space = spaceSelector.getById(state, spaceId);

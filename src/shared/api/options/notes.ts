@@ -1,11 +1,9 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { IdentityType } from 'shared/types/entities/BaseEntity';
-
 import { entityApi } from '../entityApi';
 
 // need for show tab titles
-export const tabNotes = (spaceId?: IdentityType) => {
+export const tabNotes = (spaceId?: string) => {
   return queryOptions({
     queryKey: ['tabNotes', spaceId],
     queryFn: async () => {

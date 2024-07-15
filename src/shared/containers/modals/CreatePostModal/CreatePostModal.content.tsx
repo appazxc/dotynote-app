@@ -22,10 +22,9 @@ import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { EditorContent, EditorMenu, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 export type Props = {
-  noteId: IdentityType,
+  noteId: string,
   onCreate?: (id: string) => void,
 }
 

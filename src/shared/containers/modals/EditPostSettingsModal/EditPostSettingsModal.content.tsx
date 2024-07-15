@@ -19,14 +19,13 @@ import { modalIds } from 'shared/constants/modalIds';
 import { hideModal, hideModals, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector, postSettingsSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { ModalBase } from 'shared/types/modal';
 import { invariant } from 'shared/util/invariant';
 
 import { ConfirmModal } from '../ConfirmModal';
 
 export type Props = ModalBase<{
-  noteId: IdentityType,
+  noteId: string,
 }>
 
 const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {

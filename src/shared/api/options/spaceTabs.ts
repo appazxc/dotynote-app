@@ -1,12 +1,11 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { hour } from 'shared/constants/time';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { entityApi } from '../entityApi';
 
 type Filters = {
-  spaceId?: IdentityType;
+  spaceId?: string;
 };
 
 export const list = (filters: Filters) => {

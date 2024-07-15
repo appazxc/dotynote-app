@@ -6,13 +6,12 @@ import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { useEditor } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
 import { EditorContext } from './EditorContext';
 
 type Props = React.PropsWithChildren<{
-  id: IdentityType,
+  id: string,
   isWriteMode: boolean,
 }>
 

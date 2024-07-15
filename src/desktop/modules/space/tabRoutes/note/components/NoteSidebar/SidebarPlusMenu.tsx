@@ -32,16 +32,14 @@ import { modalIds } from 'shared/constants/modalIds';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { useNoteTabId } from 'shared/modules/space/tabRoutes/note/hooks/useNoteTabId';
+import { noteTabStore } from 'shared/modules/space/tabRoutes/note/lib/noteTabStore';
 import { addTo } from 'shared/modules/space/tabs/note/constants';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateAddTo } from 'shared/store/slices/appSlice';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
-
-import { useNoteTabId } from '../../../../../../../shared/modules/space/tabRoutes/note/hooks/useNoteTabId';
-import { noteTabStore } from '../../../../../../../shared/modules/space/tabRoutes/note/lib/noteTabStore';
 
 const ICON_SIZE = 24;
 
@@ -200,7 +198,7 @@ const PostsContent = ({ note, onClose }) => {
 type Props = { 
   canAddToNote: boolean,
   canAddToPosts: boolean,
-  noteId: IdentityType 
+  noteId: string 
 };
  
 export const SidebarPlusMenu = React.memo(({ noteId, canAddToNote, canAddToPosts }: Props) => {

@@ -6,7 +6,6 @@ import { debounce } from 'lodash';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
 import { NoteEditorBase } from '../NoteEditorBase';
@@ -14,7 +13,7 @@ import { NoteEditorBase } from '../NoteEditorBase';
 import { NoteTitle } from './NoteTitle';
 
 type Props = {
-  id: IdentityType,
+  id: string,
   isWriteMode: boolean,
 }
 

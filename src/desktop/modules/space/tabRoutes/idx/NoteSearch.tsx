@@ -6,11 +6,10 @@ import { useNotes } from 'shared/api/hooks/useNotes';
 import { Post } from 'shared/components/Post';
 import { PAGE_SIZE } from 'shared/constants/queryKeys';
 import { MAX_PAGE_SIZE } from 'shared/constants/requests';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
-const Note = ({ noteId }: { noteId: IdentityType }) => {
+const Note = ({ noteId }: { noteId: string }) => {
   return (
     <DesktopTabLink
       to="/n/$noteId"

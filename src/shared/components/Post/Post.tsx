@@ -3,12 +3,11 @@ import { Box, BoxProps, Text } from '@chakra-ui/react';
 import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId?: IdentityType,
-  noteId: IdentityType,
+  postId?: string,
+  noteId: string,
 } & BoxProps;
 
 export const Post = (props: Props) => {

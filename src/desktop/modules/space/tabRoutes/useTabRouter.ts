@@ -6,7 +6,6 @@ import { handleTabRouteChange } from 'shared/modules/space/actions/router/handle
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
 
@@ -38,7 +37,7 @@ function getMemoryHistoryParams(spaceTab: SpaceTabEntity) {
   };
 }
 
-export const useTabRouter = (spaceTabId: IdentityType) => {
+export const useTabRouter = (spaceTabId: string) => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, spaceTabId));
 

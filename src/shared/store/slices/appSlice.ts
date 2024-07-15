@@ -5,7 +5,6 @@ import { EMPTY_ARRAY } from 'shared/constants/common';
 import { Device, devices } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabs/note/constants';
 import { spaceSelector } from 'shared/selectors/entities';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { AppState } from 'shared/types/store';
 
@@ -17,8 +16,8 @@ type TempNote = {
 type InitialState = {
   isSideOpen: boolean,
   isPageLoading: boolean,
-  activeSpaceId: IdentityType | null,
-  activeTabId: IdentityType | null,
+  activeSpaceId: string | null,
+  activeTabId: string | null,
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null,
   device: Device | null,
@@ -55,10 +54,10 @@ export const appSlice = createSlice({
     stopPageLoading: (state) => {
       state.isPageLoading = false;
     },
-    updateActiveSpaceId: (state, { payload }: PayloadAction<IdentityType | null>) => {
+    updateActiveSpaceId: (state, { payload }: PayloadAction<string | null>) => {
       state.activeSpaceId = payload;
     },
-    updateActiveTabId: (state, { payload }: PayloadAction<IdentityType | null>) => {
+    updateActiveTabId: (state, { payload }: PayloadAction<string | null>) => {
       state.activeTabId = payload;
     },
     updateDevice: (state, { payload }: PayloadAction<Device>) => {

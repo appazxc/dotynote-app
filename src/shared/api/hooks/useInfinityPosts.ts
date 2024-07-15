@@ -7,7 +7,6 @@ import { LoadListFilters } from 'shared/api/options/posts';
 import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/space/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
 import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';
@@ -16,7 +15,7 @@ import { queryClient } from '../queryClient';
 type Filters = Omit<LoadListFilters, 'parentId'>;
 
 export type PageParam = { 
-  cursor?: IdentityType | null,
+  cursor?: string | null,
   direction?: LoadMoreDirection | null, 
 }
 
@@ -26,7 +25,7 @@ const initialPageParam: PageParam =
   direction: null,
 };
 
-export const useInfinityPosts = (noteId: IdentityType, filters: Filters = {}) => {
+export const useInfinityPosts = (noteId: string, filters: Filters = {}) => {
   const queryKey = React.useMemo(
     () => ['posts', noteId, filters], 
     [noteId, filters]

@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userSelector } from 'shared/selectors/entities';
-import { IdentityType } from 'shared/types/entities/BaseEntity';
 import { AppState } from 'shared/types/store';
 
 type InitialState = {
   token: null | string,
-  userId: null | IdentityType,
+  userId: null | string,
   isLoading: boolean,
 }
 
