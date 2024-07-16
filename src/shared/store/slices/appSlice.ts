@@ -1,12 +1,7 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import { isBoolean } from 'lodash';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { EMPTY_ARRAY } from 'shared/constants/common';
-import { Device, devices } from 'shared/constants/devices';
+import { Device } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabs/note/constants';
-import { spaceSelector } from 'shared/selectors/entities';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-import { AppState } from 'shared/types/store';
 
 type TempNote = {
   title: string,
@@ -83,68 +78,6 @@ export const appSlice = createSlice({
     },
   },
 });
-
-export const selectActiveSpace = (state: AppState) => {
-  return spaceSelector.getById(state, state.app.activeSpaceId);
-};
-
-const PINNED_SORT_VALUE = -1000000;
-
-export const selectSortedSpaceTabs = createSelector(
-  [
-    (_, { ids }: { ids?: string[]} = {}) => ids || EMPTY_ARRAY, 
-    (state: AppState) => state.entities.spaceTab,
-  ],
-  (tabs, spaceTabEntities) => {
-    return tabs.slice().sort((tabA, tabB) => {
-      const valueA = (spaceTabEntities[tabA]?.pos || 0) + (spaceTabEntities[tabA]?.isPinned ? PINNED_SORT_VALUE : 0);
-      const valueB = (spaceTabEntities[tabB]?.pos || 0) + (spaceTabEntities[tabB]?.isPinned ? PINNED_SORT_VALUE : 0);
-      return valueA - valueB;
-    });
-  }
-);
-
-export const selectSortedSpaceTabEntities = createSelector(
-  [
-    selectSortedSpaceTabs, 
-    (state) => state.entities.spaceTab,
-    (_, { isPinned }) => isPinned,
-  ],
-  (tabIds, spaceTabEntities, isPinned): SpaceTabEntity[] => {
-    let result = tabIds.map((id) => spaceTabEntities[id]);
-
-    if (isBoolean(isPinned)) {
-      result = result.filter(({ isPinned: isPinnedValue }) => isPinnedValue === isPinned);
-    }
-
-    return result;
-  }
-);
-
-export const selectActiveSpaceId = (state: AppState) => {
-  return state.app.activeSpaceId;
-};
-
-export const selectActiveTabId = (state: AppState) => {
-  return state.app.activeTabId;
-};
-
-export const selectIsMobile = (state: AppState) => {
-  return state.app.device === devices.MOBILE;
-};
-
-export const selectActiveTab = createSelector(
-  [(state: AppState) => state.entities.spaceTab, selectActiveSpaceId, selectActiveTabId],
-  (spaceTabEntities, activeSpaceId, activeTabId) => {
-    if (!activeTabId) {
-      return null;
-    }
-
-    const activeTab = spaceTabEntities[activeTabId];
-
-    return activeTab && activeTab.spaceId === activeSpaceId ? activeTab : null;
-  }
-);
 
 export const {
   startPageLoading,

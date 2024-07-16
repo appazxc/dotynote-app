@@ -6,11 +6,9 @@ import { loaderIds } from 'shared/constants/loaderIds';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import {
-  selectActiveSpace,
-  selectActiveTabId,
-  updateActiveTabId,
-} from 'shared/store/slices/appSlice';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
+import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';

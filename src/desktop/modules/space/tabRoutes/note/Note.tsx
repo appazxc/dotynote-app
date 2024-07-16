@@ -4,11 +4,11 @@ import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
 import { rwModes } from 'shared/modules/space/tabs/note/constants';
+import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppSelector } from 'shared/store/hooks';
-import { selectUserId } from 'shared/store/slices/authSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
@@ -32,14 +32,14 @@ export const Note = React.memo(() => {
   return (
     <NoteProviders
       key={noteId}
-      id={Number(noteId)}
+      id={noteId}
       isWriteMode={rwMode === rwModes.WRITE}
     >
       <TabLayout
         scrollRestoration={false}
         leftSide={(
           <NoteSidebar
-            id={Number(noteId)}
+            id={noteId}
             rwMode={rwMode}
             showRwMode={showRwMode}
           />
@@ -51,7 +51,7 @@ export const Note = React.memo(() => {
         )}
       >
         <NoteTabContent
-          noteId={Number(noteId)}
+          noteId={noteId}
           showPosts={!!note.postSettingsId}
           isWriteMode={rwMode === rwModes.WRITE}
         />

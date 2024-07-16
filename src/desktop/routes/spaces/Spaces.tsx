@@ -15,8 +15,9 @@ import { CreateSpaceModal } from 'shared/containers/modals/CreateSpaceModal';
 import { EditSpaceModal } from 'shared/containers/modals/EditSpaceModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { spaceSelector } from 'shared/selectors/entities';
+import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpaceId, updateActiveSpaceId } from 'shared/store/slices/appSlice';
+import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 

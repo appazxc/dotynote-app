@@ -1,4 +1,4 @@
-import { BaseEntity, string } from './BaseEntity';
+import { BaseEntity } from './BaseEntity';
 
 export type SpaceTabEntity = BaseEntity<{
   spaceId: string,

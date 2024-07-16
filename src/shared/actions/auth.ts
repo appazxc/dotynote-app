@@ -3,8 +3,10 @@ import { AxiosError } from 'axios';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { actions } from 'shared/constants/actions';
+import { selectToken } from 'shared/selectors/auth/selectToken';
+import { selectUser } from 'shared/selectors/auth/selectUser';
 import { persistor } from 'shared/store';
-import { selectToken, selectUser, setToken, setUser } from 'shared/store/slices/authSlice';
+import { setToken, setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 
 export const getUser = (): ThunkAction => async (dispatch, getState) => {

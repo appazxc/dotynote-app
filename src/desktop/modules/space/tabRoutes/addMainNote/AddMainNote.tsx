@@ -11,8 +11,8 @@ import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';

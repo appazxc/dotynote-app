@@ -3,7 +3,8 @@ import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
 import { Loader } from 'shared/components/Loader';
-import { cleanWaitedRoute, selectActiveSpace } from 'shared/store/slices/appSlice';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { auth } from '../guards';
 import { Context } from '../routerContext';

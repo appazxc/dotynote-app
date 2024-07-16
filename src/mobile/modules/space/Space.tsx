@@ -5,11 +5,9 @@ import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
+import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
+import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
-import {
-  selectActiveSpaceId,
-  selectActiveTab,
-} from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
 
@@ -27,7 +25,7 @@ function Space() {
   const activeTab = useAppSelector(selectActiveTab);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
-  invariant(activeSpaceId, 'activeSpaceId is empty');
+  invariant(activeSpaceId, 'activeSpaceId is missings');
 
   const {
     isError: tabNotesIsError,

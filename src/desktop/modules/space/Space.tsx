@@ -6,11 +6,9 @@ import { RouterProvider } from '@tanstack/react-router';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
-import {
-  selectActiveSpace,
-  selectActiveTab,
-} from 'shared/store/slices/appSlice';
 
 import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';

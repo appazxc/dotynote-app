@@ -11,8 +11,9 @@ import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { routeNames } from 'shared/constants/routeNames';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
+import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';

@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { canAddToPosts } from 'shared/helpers/user/userRights';
-import { selectUserId } from 'shared/store/slices/authSlice';
+import { selectUserId } from 'shared/selectors/auth/selectUserId';
 
 import { noteSelector } from '../entities';
 

@@ -4,8 +4,8 @@ import { Box, Button, Container, useTheme } from '@chakra-ui/react';
 
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 import { Logo } from 'shared/components/Logo';
+import { selectToken } from 'shared/selectors/auth/selectToken';
 import { useAppSelector } from 'shared/store/hooks';
-import { selectToken } from 'shared/store/slices/authSlice';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';

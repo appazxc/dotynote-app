@@ -6,7 +6,7 @@ import pickBy from 'lodash/pickBy';
 
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
-import { selectToken } from 'shared/store/slices/authSlice';
+import { selectToken } from 'shared/selectors/auth/selectToken';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
 
 export type ApiError = AxiosError<

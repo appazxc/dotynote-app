@@ -1,8 +1,8 @@
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import {
   cleanWaitedRoute,
-  selectActiveSpace,
 } from 'shared/store/slices/appSlice';
 import { RouteLoader } from 'shared/types/_router';
 

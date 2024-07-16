@@ -1,11 +1,9 @@
 import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import {
-  selectActiveSpace,
-  selectActiveTabId,
-  selectSortedSpaceTabEntities,
-  updateActiveTabId,
-} from 'shared/store/slices/appSlice';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
+import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
+import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/types/store';
 
 export const closeRightTabs =
@@ -20,7 +18,7 @@ export const closeRightTabs =
       }
 
       const tabIds = activeSpace.spaceTabs;
-      const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds }).map(({ id }) => id);
+      const sortedTabs = selectSortedSpaceTabs(getState(), { ids: tabIds }).map(({ id }) => id);
 
       const targetTabIndex = sortedTabs.indexOf(tabId);
       const closingTabIds = sortedTabs.slice(targetTabIndex + 1);

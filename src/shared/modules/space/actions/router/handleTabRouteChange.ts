@@ -1,7 +1,7 @@
 import { HistoryLocation } from '@tanstack/react-router';
 
 import { updateTab } from 'shared/actions/space/updateTab';
-import { selectActiveTab } from 'shared/store/slices/appSlice';
+import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { ThunkAction } from 'shared/types/store';
 
 export const handleTabRouteChange = (action: string, location: HistoryLocation): ThunkAction =>

@@ -1,6 +1,6 @@
 import { createRoute, redirect } from '@tanstack/react-router';
 
-import { selectIsAuthorized, selectToken } from 'shared/store/slices/authSlice';
+import { selectToken } from 'shared/selectors/auth/selectToken';
 
 import { root } from '../root';
 import { Context } from '../routerContext';
@@ -12,10 +12,9 @@ export const guest = createRoute({
     const context = ctx.context as Context;
     const { store } = context;
     const state = store.getState();
-    const isAuthorized = selectIsAuthorized(state);
     const token = selectToken(state);
 
-    if (token || isAuthorized) {
+    if (token) {
       throw redirect({
         to: '/',
       });

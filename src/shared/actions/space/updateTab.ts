@@ -2,7 +2,8 @@ import { find, findLast } from 'lodash';
 
 import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';
-import { selectActiveSpace, selectSortedSpaceTabEntities } from 'shared/store/slices/appSlice';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEntity>}) => 
@@ -17,7 +18,7 @@ export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEnti
     if ('isPinned' in data) {
       const { isPinned } = data;
       const tabIds = activeSpace.spaceTabs;
-      const sortedTabs = selectSortedSpaceTabEntities(getState(), { ids: tabIds });
+      const sortedTabs = selectSortedSpaceTabs(getState(), { ids: tabIds });
       const findFunc = isPinned ? findLast : find;
       const targetTab = findFunc(sortedTabs, (tab) => tab.isPinned === isPinned);
 

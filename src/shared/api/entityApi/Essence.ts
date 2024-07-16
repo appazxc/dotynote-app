@@ -1,6 +1,6 @@
 import { EntityName } from 'shared/constants/entityNames';
 import { getStore } from 'shared/helpers/store/getStore';
-import { selectUserId } from 'shared/store/slices/authSlice';
+import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { AppStore } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';

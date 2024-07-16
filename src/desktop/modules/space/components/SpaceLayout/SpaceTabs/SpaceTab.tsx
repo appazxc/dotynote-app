@@ -18,8 +18,9 @@ import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
+import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveTabId, updateActiveTabId } from 'shared/store/slices/appSlice';
+import { updateActiveTabId } from 'shared/store/slices/appSlice';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**

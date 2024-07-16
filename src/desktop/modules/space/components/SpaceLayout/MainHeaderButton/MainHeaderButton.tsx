@@ -9,8 +9,8 @@ import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { selectActiveSpace } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
