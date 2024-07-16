@@ -1,6 +1,6 @@
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
-import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
@@ -9,8 +9,8 @@ export const useSpaceTabs = ({ sorted }: { sorted?: boolean } = {}) => {
 
   invariant(activeSpace, 'Missing active space');
 
-  const tabs = useAppSelector((state) => spaceTabSelector.getByIds(state, activeSpace?.spaceTabs));
-  const sortedTabs = useAppSelector((state) => selectSortedSpaceTabs(state, { ids: activeSpace?.spaceTabs }));
+  const tabs = useAppSelector((state) => spaceTabSelector.getByIds(state, activeSpace?.tabs));
+  const sortedTabs = useAppSelector((state) => selectSortedTabs(state, { ids: activeSpace?.tabs }));
 
   const tabsData = sorted ? sortedTabs : tabs;
 

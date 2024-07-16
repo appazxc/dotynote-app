@@ -14,7 +14,7 @@ export class NoteEssence extends Essense<NoteEntity> {
       return [];
     }
 
-    const noteIds = space.spaceTabs
+    const noteIds = space.tabs
       .map((id) => {
         const spaceTab = spaceTabSelector.getById(state, id);
 

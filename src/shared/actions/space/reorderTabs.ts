@@ -1,6 +1,6 @@
 import { entityApi } from 'shared/api/entityApi';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
-import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => async (dispatch, getState) => {
@@ -10,8 +10,8 @@ export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => asy
     return;
   }
     
-  const tabIds = activeSpace.spaceTabs;
-  const sortedTabs = selectSortedSpaceTabs(getState(), { ids: tabIds, isPinned });
+  const tabIds = activeSpace.tabs;
+  const sortedTabs = selectSortedTabs(getState(), { ids: tabIds, isPinned });
   
   let first: SpaceTabEntity | null = null;
   let updated: SpaceTabEntity | null = null;

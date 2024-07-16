@@ -16,14 +16,14 @@ export const closeOtherTabs =
         return;
       }
 
-      const tabIds = activeSpace.spaceTabs;
+      const tabIds = activeSpace.tabs;
 
       if (tabId !== activeTabId) {
         dispatch(updateActiveTabId(tabId));
       }
       
       entityApi.space.updateEntity(activeSpace.id, {
-        spaceTabs: [tabId],
+        tabs: [tabId],
       });
 
       tabIds.filter(id => id !== tabId).forEach((closingTabId) => {

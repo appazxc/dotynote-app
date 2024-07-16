@@ -3,11 +3,11 @@ import isBoolean from 'lodash/isBoolean';
 
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
-import { selectSortedSpaceTabIds } from './selectSortedSpaceTabIds';
+import { selectSortedTabIds } from './selectSortedTabIds';
 
-export const selectSortedSpaceTabs = createSelector(
+export const selectSortedTabs = createSelector(
   [
-    selectSortedSpaceTabIds, 
+    selectSortedTabIds, 
     (state) => state.entities.spaceTab,
     (_, { isPinned }) => isPinned,
   ],

@@ -5,7 +5,7 @@ import { AppState } from 'shared/types/store';
 
 const PINNED_SORT_VALUE = -1000000;
 
-export const selectSortedSpaceTabIds = createSelector(
+export const selectSortedTabIds = createSelector(
   [
     (_, { ids }: { ids?: string[]} = {}) => ids || EMPTY_ARRAY, 
     (state: AppState) => state.entities.spaceTab,

@@ -7,7 +7,7 @@ import { GoDotFill, GoSearch, GoPlus, GoHome } from 'react-icons/go';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { routeNames } from 'shared/constants/routeNames';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
-import { selectSortedSpaceTabIds } from 'shared/selectors/tab/selectSortedSpaceTabIds';
+import { selectSortedTabIds } from 'shared/selectors/tab/selectSortedTabIds';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { buildUrl } from 'shared/util/router/buildUrl';
 
@@ -22,7 +22,7 @@ type Props = {
 export const FooterNavigation = (props: Props) => {
   const { isDotMenuDisabled } = props;
   const dispatch = useAppDispatch();
-  const tabIds = useAppSelector(selectSortedSpaceTabIds);
+  const tabIds = useAppSelector(selectSortedTabIds);
 
   const buttons = React.useMemo(() => {
     return [

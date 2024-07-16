@@ -6,6 +6,6 @@ export type NoteEntity = BaseEntity<{
   title?: string,
   content?: JSONContent,
   authorId: string,
-  access: 'PRIVATE' | 'PUBLIC',
+  access: 'private' | 'public',
   postSettingsId?: string,
 }>

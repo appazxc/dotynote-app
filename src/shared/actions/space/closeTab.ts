@@ -3,7 +3,7 @@ import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
-import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
@@ -70,8 +70,8 @@ export const closeTab = (tabId: string): ThunkAction => async (dispatch, getStat
     return;
   }
 
-  const tabIds = activeSpace.spaceTabs;
-  const sortedTabs = selectSortedSpaceTabs(getState(), { ids: tabIds });
+  const tabIds = activeSpace.tabs;
+  const sortedTabs = selectSortedTabs(getState(), { ids: tabIds });
 
   if (activeTabId && activeTabId === tabId && tabIds) {
     const nextTab = getNextActiveTabByType(sortedTabs, spaceTab);
@@ -79,7 +79,7 @@ export const closeTab = (tabId: string): ThunkAction => async (dispatch, getStat
   }
       
   entityApi.space.updateEntity(activeSpace.id, {
-    spaceTabs: tabIds.filter(spaceTabId => spaceTabId !== tabId),
+    tabs: tabIds.filter(spaceTabId => spaceTabId !== tabId),
   });
 
   const routesMap = getRoutesMap();

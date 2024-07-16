@@ -2,7 +2,7 @@ import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
-import { selectSortedSpaceTabs } from 'shared/selectors/tab/selectSortedSpaceTabs';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/types/store';
 
@@ -17,8 +17,8 @@ export const closeRightTabs =
         return;
       }
 
-      const tabIds = activeSpace.spaceTabs;
-      const sortedTabs = selectSortedSpaceTabs(getState(), { ids: tabIds }).map(({ id }) => id);
+      const tabIds = activeSpace.tabs;
+      const sortedTabs = selectSortedTabs(getState(), { ids: tabIds }).map(({ id }) => id);
 
       const targetTabIndex = sortedTabs.indexOf(tabId);
       const closingTabIds = sortedTabs.slice(targetTabIndex + 1);
@@ -28,7 +28,7 @@ export const closeRightTabs =
       }
       
       entityApi.space.updateEntity(activeSpace.id, {
-        spaceTabs: tabIds.filter((id) => !closingTabIds.includes(id)),
+        tabs: tabIds.filter((id) => !closingTabIds.includes(id)),
       });
 
       closingTabIds.forEach((closingTabId) => {

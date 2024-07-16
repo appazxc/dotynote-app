@@ -79,7 +79,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
             ml="4"
             whiteSpace="nowrap"
           >
-            {space.spaceTabs.length} tabs
+            {space.tabs.length} tabs
           </Text>
         </MenuTrigger>
         <MenuList>
