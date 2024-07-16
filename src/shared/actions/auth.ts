@@ -27,6 +27,7 @@ export const getUser = (): ThunkAction => async (dispatch, getState) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
       dispatch(setToken(null));
+      dispatch(logout());
       throw Error('Can not authorize user');
     }
 

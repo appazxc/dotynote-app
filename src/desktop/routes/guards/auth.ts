@@ -32,4 +32,9 @@ export const auth = createRoute({
       await store.dispatch(getUser());
     }
   },
+  onError: () => {
+    throw redirect({
+      to: '/',
+    });
+  },
 });
