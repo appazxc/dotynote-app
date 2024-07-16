@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { EntityTypes } from 'shared/types/entities/entityTypes';

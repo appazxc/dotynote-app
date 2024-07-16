@@ -1,4 +1,5 @@
-import { find, findLast } from 'lodash';
+import find from 'lodash/find';
+import findLast from 'lodash/findLast';
 
 import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';

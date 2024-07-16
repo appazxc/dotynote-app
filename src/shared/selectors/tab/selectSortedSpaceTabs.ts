@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { isBoolean } from 'lodash';
+import isBoolean from 'lodash/isBoolean';
 
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 

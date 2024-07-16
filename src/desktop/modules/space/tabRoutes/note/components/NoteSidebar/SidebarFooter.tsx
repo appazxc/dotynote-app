@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Center, IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner, Tooltip } from '@chakra-ui/react';
 import { useIsMutating, useMutationState } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { last } from 'lodash';
+import last from 'lodash/last';
 import { GoInfo } from 'react-icons/go';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { ZodIssue } from 'zod';

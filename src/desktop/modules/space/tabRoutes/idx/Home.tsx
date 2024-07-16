@@ -6,7 +6,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 

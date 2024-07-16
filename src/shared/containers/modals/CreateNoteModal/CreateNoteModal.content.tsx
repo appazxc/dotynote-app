@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditorEvents } from '@tiptap/react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 

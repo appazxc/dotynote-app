@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { useEditor } from 'shared/modules/editor';

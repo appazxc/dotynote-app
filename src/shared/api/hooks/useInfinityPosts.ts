@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { LoadListFilters } from 'shared/api/options/posts';
 import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';

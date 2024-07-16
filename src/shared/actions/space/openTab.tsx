@@ -1,4 +1,5 @@
-import { isEqual, pick } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 
 import { entityApi } from 'shared/api/entityApi';
 import { entityNames } from 'shared/constants/entityNames';

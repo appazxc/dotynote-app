@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@chakra-ui/react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { noteSelector } from 'shared/selectors/entities';
