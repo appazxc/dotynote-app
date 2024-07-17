@@ -3,11 +3,11 @@ import { queryOptions } from '@tanstack/react-query';
 import { entityApi } from '../entityApi';
 
 // need for show tab titles
-export const tabNotes = (spaceId?: string) => {
+export const tabNotes = (spaceId: string | undefined, router) => {
   return queryOptions({
     queryKey: ['tabNotes', spaceId],
     queryFn: async () => {
-      return entityApi.note.loadTabNotes(spaceId);
+      return entityApi.note.loadTabNotes(spaceId, router);
     },
   });
 };

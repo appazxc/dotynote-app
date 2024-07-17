@@ -10,7 +10,6 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { Error as ErrorPage } from 'desktop/modules/space/components/pages/Error';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
@@ -27,7 +26,7 @@ const Space = React.memo(() => {
     isLoading: tabNotesIsLoading,
   } = useQuery({
     // проверить чтобы лишних квери не было
-    ...options.notes.tabNotes(activeSpace?.id),
+    ...options.notes.tabNotes(activeSpace?.id, router),
     enabled: !!activeSpace,
   });
 
@@ -35,9 +34,9 @@ const Space = React.memo(() => {
     if (activeSpace?.id) return;
     router.navigate({ to: '/app/spaces' });
   }, [activeSpace?.id]);
- 
+
   if (tabNotesIsError) {
-    return <ErrorPage />;
+    throw Error('Tab notes loading failed');
   }
 
   if (tabNotesIsLoading || !activeSpace) {

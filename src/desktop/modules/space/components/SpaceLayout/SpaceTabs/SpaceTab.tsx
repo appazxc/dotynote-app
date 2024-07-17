@@ -16,11 +16,15 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
 import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
-import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle/SpaceTabTitle';
+import { useTabTitle } from 'shared/hooks/useTabTitle';
+import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
+import { invariant } from 'shared/util/invariant';
+
+import { router } from 'desktop/routes/router';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**
@@ -38,7 +42,12 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const mousePosition = React.useRef({ x: null, y: null });
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
+
+  invariant(spaceTab, 'Missing space tab');
+
+  const title = useTabTitle(spaceTab.routes[spaceTab.routes.length - 1], router);
   const activeTabId = useAppSelector(selectActiveTabId);
+  
   const { mutate } = useUpdateSpaceTab(id);
 
   const handleMouseDown = React.useCallback((event) => {
@@ -58,10 +67,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
 
     dispatch(updateActiveTabId(spaceTab.id));
   }, [dispatch, spaceTab]);
-
-  if (!spaceTab) {
-    return null;
-  }
 
   const isActive = activeTabId === id;
   const { isPinned } = spaceTab;
@@ -137,7 +142,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                   alignItems="center"
                   overflow="hidden"
                 >
-                  <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+                  <SpaceTabTitle title={title} />
                 </Box>
               </Box>
               <Box

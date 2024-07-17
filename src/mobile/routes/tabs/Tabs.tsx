@@ -9,7 +9,7 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { routeNames } from 'shared/constants/routeNames';
-import { SpaceTabTitle } from 'shared/containers/SpaceTabTitle';
+import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';

@@ -5,8 +5,8 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import Essense from './Essence';
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async loadTabNotes(spaceId?: string) {
-
+  async loadTabNotes(spaceId: string | undefined, router, hmm) {
+hmm.dasdsa
     const state = this.store.getState();
     const space = spaceSelector.getById(state, spaceId);
 
@@ -23,7 +23,7 @@ export class NoteEssence extends Essense<NoteEntity> {
         }
 
         const { routes } = spaceTab;
-        const match = getTabMatch(routes[routes.length - 1]);
+        const match = getTabMatch(routes[routes.length - 1], router);
 
         if (!match || match.routeId !== '/n/$noteId') {
           return false;
