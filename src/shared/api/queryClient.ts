@@ -14,6 +14,8 @@ export const queryClient = new QueryClient({
         const errorCode = axiosError?.response?.status;
 
         if (failureCount <= 3 && errorCode === 500 || errorCode === 408) {
+          console.log('');
+          
           return true;
         }
 
