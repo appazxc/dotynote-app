@@ -28,13 +28,12 @@ export const SettingsLayout = ({ children }) => {
     >
       <Box
         maxW="md"
-        py="2"
         px="3"
+        py="6"
       >
         <Box
           maxW="md"
           mx="auto"
-          bg="papayawhip"
         >
           {children}
         </Box>

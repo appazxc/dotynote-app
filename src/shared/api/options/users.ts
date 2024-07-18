@@ -10,3 +10,12 @@ export const me = () => {
     },
   });
 };
+
+export const usernameCheck = (username) => {
+  return queryOptions({
+    queryKey: ['usernameCheck', username],
+    queryFn: () => {
+      return entityApi.user.usernameCheck(username);
+    },
+  });
+};

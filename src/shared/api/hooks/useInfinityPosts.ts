@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { LoadListFilters } from 'shared/api/options/posts';
 import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/space/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
-import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
+import { noteEmitter, noteEvents } from 'shared/modules/space/tabRoutes/note/util/noteEmitter';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';

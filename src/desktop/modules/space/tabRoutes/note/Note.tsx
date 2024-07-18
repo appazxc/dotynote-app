@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
-import { rwModes } from 'shared/modules/space/tabs/note/constants';
+import { rwModes } from 'shared/modules/space/tabRoutes/note/constants';
 import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';

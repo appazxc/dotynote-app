@@ -7,7 +7,7 @@ import { FaA, FaPencil } from 'react-icons/fa6';
 import { HiOutlineBookOpen } from 'react-icons/hi';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
-import { RwMode, rwModes } from 'shared/modules/space/tabs/note/constants';
+import { RwMode, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';

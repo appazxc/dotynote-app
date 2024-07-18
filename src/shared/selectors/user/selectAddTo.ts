@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { addTo } from 'shared/modules/space/tabs/note/constants';
+import { addTo } from 'shared/modules/space/tabRoutes/note/constants';
 import { AppState } from 'shared/types/store';
 
 import { selectCanAddToNote } from './selectCanAddToNote';

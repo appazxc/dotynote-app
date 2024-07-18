@@ -5,7 +5,7 @@ import { Box, Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { Posts } from 'shared/modules/space/tabs/note/containers/Posts';
+import { Posts } from 'shared/modules/space/tabRoutes/note/containers/Posts';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { buildTabHref } from '../../helpers/buildTabHref';

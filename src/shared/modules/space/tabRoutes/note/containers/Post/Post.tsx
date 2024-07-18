@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostBase } from 'shared/components/Post';
-import { noteEmitter, noteEvents } from 'shared/modules/space/tabs/note/util/noteEmitter';
+import { noteEmitter, noteEvents } from 'shared/modules/space/tabRoutes/note/util/noteEmitter';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';

@@ -35,17 +35,15 @@ export default class Essense<T extends { id?: string }> {
     return userId;
   }
 
-  async load(id?: string | number) {
-    invariant(id, 'Missing id');
-
-    return await this.api.get<string>(`${this.path}/${id}`);
+  async load<T extends string>(route: string | number, filters = {}) {
+    return await this.api.get<T>(`${this.path}/${route}`, filters);
   }
 
   async loadList({ filters = {} } = {}) {
     return await this.api.get<string[]>(`${this.path}`, filters);
   }
 
-  async update(id: string, data?: Partial<T> | null) {
+  async update(id: string, data: Partial<T>) {
     const entity = this.selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
