@@ -66,7 +66,10 @@ export const ProfileForm = React.memo(() => {
   
   const { data: usernameIsAvailable, isFetching: isUsernameAvailableFetching } = useUsernameCheck(
     debouncedUsername!, 
-    { enabled: !!debouncedUsername && debouncedUsername !== user.username && debouncedUsername.length >= 3 }
+    { 
+      enabled: !!debouncedUsername && debouncedUsername !== user.username && debouncedUsername.length >= 3,
+      staleTime: 0,
+    }
   );
 
   const { mutateAsync } = useUpdateUser();
