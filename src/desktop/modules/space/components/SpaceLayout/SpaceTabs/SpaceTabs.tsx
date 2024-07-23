@@ -30,7 +30,7 @@ export const SpaceTabs = React.memo(() => {
   
   const pinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => isPinned), [tabs]);
   const unpinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => !isPinned), [tabs]);
-
+console.log('unpinnedTabs', unpinnedTabs);
   return (
     <LayoutGroup>
       <Box 

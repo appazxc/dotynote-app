@@ -3,6 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 import { Button } from './components/button';
 import { Container } from './components/container';
 import { Menu } from './components/menu';
+import { Modal } from './components/modal';
 import { Textarea } from './components/textarea';
 import { Tooltip } from './components/tooltip';
 import { colors } from './foundations/colors';
@@ -15,6 +16,7 @@ const overrides = {
   semanticTokens,
   components: {
     Button,
+    Modal,
     Container,
     Textarea,
     Menu,

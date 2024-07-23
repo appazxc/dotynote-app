@@ -6,6 +6,7 @@ import {
   Circle,
   IconButton,
   shouldForwardProp,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { isValidMotionProp, motion, Reorder } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
@@ -24,7 +25,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
-import { router } from 'desktop/routes/router';
+import { router } from 'desktop/modules/space/tabRoutes/router';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**
@@ -42,7 +43,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const mousePosition = React.useRef({ x: null, y: null });
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
-
+console.log('spaceTab', spaceTab, id);
   invariant(spaceTab, 'Missing space tab');
 
   const title = useTabTitle(spaceTab.routes[spaceTab.routes.length - 1], router);
@@ -67,9 +68,11 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
 
     dispatch(updateActiveTabId(spaceTab.id));
   }, [dispatch, spaceTab]);
-
+  
   const isActive = activeTabId === id;
   const { isPinned } = spaceTab;
+  const bg = useColorModeValue(isActive ? 'white' : 'gray.100', isActive ? 'brand.500' : 'brand.400');
+  const borderColor = useColorModeValue(isActive ? 'gray.900' : 'gray.100', isActive ? 'white' : 'brand.400');
   
   return (
     <Menu isContextMenu>
@@ -85,9 +88,9 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         position="relative"
         px="1.5"
         cursor="pointer"
-        backgroundColor={isActive ? 'white' : 'gray.100'}
         borderRadius="6"
-        borderColor={isActive ? 'gray.900' : 'gray.100'}
+        bg={bg}
+        borderColor={borderColor}
         borderWidth="1px"
         borderStyle="solid"
         display="flex"

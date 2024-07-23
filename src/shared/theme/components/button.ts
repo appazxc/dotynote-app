@@ -16,5 +16,5 @@ const brandPrimary = defineStyle({
 });
 
 export const Button = defineStyleConfig({
-  variants: { brandPrimary },
+  variants: { brand: brandPrimary },
 });

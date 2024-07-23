@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { Box, BoxProps } from '@chakra-ui/react';
+import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 
 export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, ...props }, ref) => {
+  const bg = useColorModeValue('white', 'brand.700');
+  
   return (
     <Box
       ref={ref}
       boxShadow="md"
-      bgColor="white"
       borderRadius="6"
+      bg={bg}
       display="flex"
       flexDirection="column"
-      sx={{
-        outlineColor: 'red!important',
-      }}
       p="1"
       {...props}
       onContextMenu={(e) => {
