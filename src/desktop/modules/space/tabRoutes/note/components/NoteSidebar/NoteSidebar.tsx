@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleRwMode } from 'shared/store/slices/appSlice';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
+import { SidebarRwButton } from 'desktop/modules/space/tabRoutes/note/components/NoteSidebar/SidebarRwButton';
 
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
@@ -44,15 +45,23 @@ export const NoteSidebar = React.memo((props: Props) => {
       },
       ...showAddTo ? [{
         label: 'Note add',
-        element: <SidebarPlusMenu
-          key={id}
-          noteId={id}
-          canAddToNote={canAddToNote}
-          canAddToPosts={canAddToPosts}
-        />,
+        element: (
+          <SidebarPlusMenu
+            key={id}
+            noteId={id}
+            canAddToNote={canAddToNote}
+            canAddToPosts={canAddToPosts}
+          />
+        ),
       }] : [],
       ...showRwMode ? [{
         label: 'Note write',
+        element: (
+          <SidebarRwButton
+            rwMode={rwMode}
+            label="Note write"
+          />
+        ),
         icon: <FaPencil />,
         variant: rwMode === rwModes.READ ? 'ghost' : 'solid',
         onClick: () => dispatch(toggleRwMode()),

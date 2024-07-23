@@ -1,5 +1,5 @@
-
 import { Box, Divider, IconButton, Tooltip } from '@chakra-ui/react';
+import { Editor } from '@tiptap/react';
 import { motion } from 'framer-motion';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
 import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
@@ -15,7 +15,7 @@ import { headerHeight } from './constants';
 
 const extraId = 'NoteEditorHeader';
 
-export const NoteEditorHeader = ({ editor }) => {
+export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
   const dispatch = useAppDispatch();
   
   const items = [
