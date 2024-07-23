@@ -21,7 +21,7 @@ export function SearchResults({ query = '', onClick }: Props) {
     status,
   } = useNotes({
     filters: { query },
-  });
+  }, { staleTime: 0 });
   console.log(data,
     isLoading,
     isFetching,

@@ -66,7 +66,6 @@ const SelectNoteModal = (props: Props) => {
             zIndex="1"
             top="0"
             pt="1"
-            bgColor="white"
             mb="4"
             pb="2"
             px="6"

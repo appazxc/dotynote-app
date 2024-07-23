@@ -55,8 +55,8 @@ export const getEditorStyles = (props) => {
     },
     pre: {
       fontFamily: "JetBrainsMono, 'Courier New', Courier, monospace",
-      background: colorMode('gray.900', 'blue.200')(props),
-      color: colorMode('white', 'gray.900')(props),
+      background: colorMode('gray.900', 'gray.900')(props),
+      color: colorMode('white', 'white')(props),
       padding: '0.75rem 1rem',
       rounded: 'lg',
       whiteSpace: 'pre-wrap',

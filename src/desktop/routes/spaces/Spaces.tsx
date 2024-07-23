@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Container, IconButton, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, IconButton, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -18,6 +18,7 @@ import { spaceSelector } from 'shared/selectors/entities';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
+import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
@@ -26,6 +27,8 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   
+  invariant(space, 'Missing space');
+
   const handleClick = React.useCallback(() => {
     dispatch(updateActiveSpaceId(id));
     navigate({ to: '/app' });
@@ -44,9 +47,12 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
     },
   });
 
-  if (!space) {
-    return null;
-  }
+  const borderColor = useColorModeValue(
+    isActive ? 'gray.600' : 'gray.300', 
+    isActive ? 'whiteAlpha.900' : 'whiteAlpha.100');
+  const hoverBorderColor = useColorModeValue(
+    isActive ? 'gray.600' : 'purple.400', 
+    isActive ? 'whiteAlpha.800' : 'purple.400');
 
   const extraId = `Spaces_${space.id}`;
   
@@ -57,7 +63,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
           as={Box}
           p="4"
           border="2px solid"
-          borderColor={isActive ? 'gray:800' : 'gray.300'}
+          borderColor={borderColor}
           borderRadius="md"
           display="flex"
           alignItems="flex-end"
@@ -66,7 +72,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
           minH="20"
           pt="10"
           _hover={{
-            borderColor: 'gray.900',
+            borderColor: hoverBorderColor,
           }}
           cursor="pointer"
           transitionDuration="slow"
@@ -97,7 +103,9 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
               deleteSpace();
             }}
             colorScheme="red"
-          >Delete</MenuItem>
+          >
+            Delete
+          </MenuItem>
         </MenuList>
       </Menu>
       <EditSpaceModal id={space.id} extraId={extraId} />

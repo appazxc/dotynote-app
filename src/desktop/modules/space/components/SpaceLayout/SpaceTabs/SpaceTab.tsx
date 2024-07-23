@@ -43,7 +43,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const mousePosition = React.useRef({ x: null, y: null });
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
-console.log('spaceTab', spaceTab, id);
+
   invariant(spaceTab, 'Missing space tab');
 
   const title = useTabTitle(spaceTab.routes[spaceTab.routes.length - 1], router);
@@ -83,6 +83,7 @@ console.log('spaceTab', spaceTab, id);
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
         minW={isActive || isPinned ? '7': '3'}
+        h="30"
         flexGrow="1"
         justifyContent="space-between"
         position="relative"

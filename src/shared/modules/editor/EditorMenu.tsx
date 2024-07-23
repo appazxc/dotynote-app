@@ -1,5 +1,5 @@
-import { Box, Button } from "@chakra-ui/react";
-import { Editor } from "@tiptap/react";
+import { Box, Button } from '@chakra-ui/react';
+import { Editor } from '@tiptap/react';
 
 type Props = {
   editor?: Editor
@@ -11,7 +11,7 @@ export const EditorMenu = ({ editor }: Props) => {
   }
 
   return (
-    <Box py="2" background="white">
+    <Box py="2">
       <Button
         size="xs"
         onClick={() => editor.chain().focus().toggleBulletList().run()}

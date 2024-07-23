@@ -9,6 +9,7 @@ import {
   Heading,
   SimpleGrid,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
@@ -81,6 +82,7 @@ export const NoteCreate = () => {
       description: 'Under construction',
     },
   ], [dispatch]);
+
   return (
     <Box mt="10">
       <Heading size="lg" mb="6">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconButton, useToken } from '@chakra-ui/react';
+import { IconButton, useColorModeValue, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
 import { openTab } from 'shared/actions/space/openTab';
@@ -21,10 +21,12 @@ const extraId = 'MainHeaderButton';
 export const MainHeaderButton = () => {
   const dispatch = useAppDispatch();
   const space = useAppSelector(selectActiveSpace);
-  const brand = useToken(
-    'colors',
-    'brand.700'
+  const brandToken = useColorModeValue(
+    'brand.700',
+    'white'
   );
+  const brand = useToken('colors', brandToken);
+
   invariant(space, 'Missing space');
   
   const { mutate, isPending } = useUpdateSpace(space.id);
