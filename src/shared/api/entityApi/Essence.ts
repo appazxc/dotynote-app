@@ -84,17 +84,15 @@ export default class Essense<T extends { id?: string }> {
   async delete(id: string, { deleteFlag }: DeleteOptions = {}) {
     const entity = this.selector.getById(this.store.getState(), id);
 
+    if (!entity._isFake) {
+      await this.api.delete<void>(`${this.path}/${id}`);
+    }
+
     if (deleteFlag) {
       this.store.dispatch(updateEntity({ id, type: this.entityName, data: { _isDeleted: true } }));
     } else {
       this.store.dispatch(deleteEntity({ id, type: this.entityName }));
     }
-
-    if (entity._isFake) {
-      return;
-    }
-
-    await this.api.delete<void>(`${this.path}/${id}`);
   }
 
   updateEntity(id: string, data: Partial<T>) {

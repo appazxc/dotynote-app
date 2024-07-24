@@ -67,6 +67,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
       isOpen
       size="2xl"
       scrollBehavior="inside"
+      returnFocusOnClose={false}
       onClose={() => dispatch(hideModal())}
     >
       <ModalOverlay />

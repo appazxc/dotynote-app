@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Center } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
@@ -28,6 +29,14 @@ export const Note = React.memo(() => {
 
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
+
+  if (note._isDeleted) {
+    return (
+      <Center>
+        Note is deleted
+      </Center>
+    );
+  }
 
   return (
     <NoteProviders

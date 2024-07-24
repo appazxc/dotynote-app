@@ -21,6 +21,7 @@ const SidebarRwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
     <IconButton
       ref={ref}
       size="sm"
+      position="relative"
       icon={<FaPencil />}
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
       aria-label={label}

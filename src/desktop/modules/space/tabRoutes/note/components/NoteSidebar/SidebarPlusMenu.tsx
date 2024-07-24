@@ -14,8 +14,7 @@ import {
   PopoverTrigger,
   SimpleGrid,
   Text,
-  useBoolean,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { BsPlus } from 'react-icons/bs';
@@ -224,13 +223,16 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
         isOpen={isOpen}
         onClose={onClose}
         placement="right-start"
-        isLazy
+        returnFocusOnClose={false}
+        // isLazy
       >
         <PopoverTrigger>
           <IconButton
             ref={ref}
             size="sm"
+            tabIndex={0}
             variant="ghost"
+            position="relative"
             aria-label="Note add"
             icon={<BsPlus size="22px" />}
             {...rest}

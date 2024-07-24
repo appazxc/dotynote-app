@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Center, IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner, Tooltip } from '@chakra-ui/react';
+import { Box, Center, IconButton, Spinner, Tooltip } from '@chakra-ui/react';
 import { useIsMutating, useMutationState } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import last from 'lodash/last';
@@ -8,7 +8,9 @@ import { GoInfo } from 'react-icons/go';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { ZodIssue } from 'zod';
 
+import { deleteNoteMutationKey, useDeleteNote } from 'shared/api/hooks/useDeleteNote';
 import { updateNoteMutationKey } from 'shared/api/hooks/useUpdateNote';
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -19,7 +21,8 @@ import { getTextFromZodError } from 'shared/util/api/getTextFromZodError';
 const NoteMenu = ({ id }: { id: string }) => {
   const note = useAppSelector(state => noteSelector.getById(state, id));
   const dispatch = useAppDispatch();
-
+  const { mutateAsync } = useDeleteNote(id);
+  
   if (!note) {
     return null;
   }
@@ -29,7 +32,7 @@ const NoteMenu = ({ id }: { id: string }) => {
       <Menu
         placement="right-start"
       >
-        <MenuButton
+        <MenuTrigger
           as={IconButton}
           size="sm"
           variant="ghost"
@@ -43,9 +46,17 @@ const NoteMenu = ({ id }: { id: string }) => {
                 dispatch(showModal({ id: modalIds.editPostSettings, extraId: 'sidebarFooter' }));
               }}
             >
-            Edit posts settings
+              Edit posts settings
             </MenuItem>
           )}
+          <MenuItem
+            onClick={() => {
+              mutateAsync();
+            }}
+            colorScheme="red"
+          >
+            Delete
+          </MenuItem>
         </MenuList>
       </Menu>
       <EditPostSettingsModal noteId={id} extraId="sidebarFooter" />
@@ -54,7 +65,9 @@ const NoteMenu = ({ id }: { id: string }) => {
 };
 
 export const SidebarFooter = ({ id }) => {
-  const isMutatingNotes = useIsMutating({ mutationKey: updateNoteMutationKey(id) });
+  const isUpdatingNote = useIsMutating({ mutationKey: updateNoteMutationKey(id) });
+  const isDeletingNote = useIsMutating({ mutationKey: deleteNoteMutationKey(id) });
+
   const errors = useMutationState<ZodIssue>({
     filters: { mutationKey: updateNoteMutationKey(id) },
     select: (mutation) => {
@@ -94,7 +107,7 @@ export const SidebarFooter = ({ id }) => {
   }, [error]);
   
   const content = React.useMemo(() => {
-    if (isMutatingNotes) {
+    if (isUpdatingNote || isDeletingNote) {
       return (
         <Center h="32px" w="32px">
           <Spinner size="sm" />
@@ -107,7 +120,7 @@ export const SidebarFooter = ({ id }) => {
     }
 
     return <NoteMenu id={id} />;
-  }, [id, isMutatingNotes, errorTooltip]);
+  }, [id, isUpdatingNote, isDeletingNote, errorTooltip]);
 
   return (
     <Box

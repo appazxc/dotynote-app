@@ -3,15 +3,14 @@ import React from 'react';
 import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
-import { FaA, FaPencil } from 'react-icons/fa6';
-import { HiOutlineBookOpen } from 'react-icons/hi';
+import { FaA } from 'react-icons/fa6';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { RwMode, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { toggleAdvancedEdit, toggleRwMode } from 'shared/store/slices/appSlice';
+import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 import { SidebarRwButton } from 'desktop/modules/space/tabRoutes/note/components/NoteSidebar/SidebarRwButton';
@@ -38,12 +37,14 @@ export const NoteSidebar = React.memo((props: Props) => {
   const items = React.useMemo(() => {
     return [
       {
+        id: 'Note back',
         label: 'Note back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
         isDisabled: tab.routes.length <= 1,
       },
       ...showAddTo ? [{
+        id: 'Add',
         label: 'Add',
         element: (
           <SidebarPlusMenu
@@ -55,7 +56,8 @@ export const NoteSidebar = React.memo((props: Props) => {
         ),
       }] : [],
       ...showRwMode ? [{
-        label: rwMode === rwModes.READ ? 'Note edit' : 'Note read',
+        id: 'NodeRw',
+        label: 'wtf', //rwMode === rwModes.READ ? 'Note edit' : 'Note read',
         element: (
           <SidebarRwButton
             rwMode={rwMode}
@@ -64,6 +66,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         ),
       }] : [],
       ...showRwMode && rwMode === rwModes.WRITE ? [{
+        id: 'Advanced edit',
         label: 'Advanced edit',
         icon: <FaA />,
         onClick: () => dispatch(toggleAdvancedEdit()),
@@ -83,6 +86,31 @@ export const NoteSidebar = React.memo((props: Props) => {
     tab.routes.length,
   ]);
 
+  const renderedItems = React.useMemo(() => {
+    return items.map(({ id, label, element, ...restItem }) => {
+      return (
+        <Tooltip
+          key={id}
+          label={label}
+          openDelay={300}
+          placement="right"
+          backgroundColor="black"
+          hasArrow
+        >
+          {element || (
+            <IconButton
+              size="sm"
+              variant="ghost"
+              position="relative"
+              aria-label={label}
+              {...restItem}
+            />
+          )}
+        </Tooltip>
+      );
+    });
+  }, [items]);
+
   return (
     <TabSidebar footer={<SidebarFooter id={id} />}>
       <Box
@@ -91,27 +119,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         flexDirection="column"
         p="2"
       >
-        {items.map(({ label, element, ...restItem }) => {
-          return (
-            <Tooltip
-              key={label}
-              label={label}
-              openDelay={300}
-              placement="right"
-              backgroundColor="black"
-              hasArrow
-            >
-              {element || (
-                <IconButton
-                  size="sm"
-                  variant="ghost"
-                  aria-label={label}
-                  {...restItem}
-                />
-              )}
-            </Tooltip>
-          );
-        })}
+        {renderedItems}
       </Box>
     </TabSidebar>
   );
