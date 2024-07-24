@@ -201,7 +201,7 @@ type Props = {
   noteId: string 
 };
  
-export const SidebarPlusMenu = React.memo(({ noteId, canAddToNote, canAddToPosts }: Props) => {
+const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
   const dispatch = useAppDispatch();
   const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
   const noteContent = addToState === addTo.NOTE;
@@ -228,10 +228,12 @@ export const SidebarPlusMenu = React.memo(({ noteId, canAddToNote, canAddToPosts
       >
         <PopoverTrigger>
           <IconButton
+            ref={ref}
             size="sm"
             variant="ghost"
             aria-label="Note add"
             icon={<BsPlus size="22px" />}
+            {...rest}
             onClick={onToggle}
           />
         </PopoverTrigger>
@@ -284,4 +286,6 @@ export const SidebarPlusMenu = React.memo(({ noteId, canAddToNote, canAddToPosts
       />
     </>
   );
-});
+};
+
+export const SidebarPlusMenu = React.memo(React.forwardRef(SidebarPlusMenuComponent));

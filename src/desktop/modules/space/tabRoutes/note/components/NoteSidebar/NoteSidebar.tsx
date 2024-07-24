@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, IconButton } from '@chakra-ui/react';
+import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA, FaPencil } from 'react-icons/fa6';
@@ -44,7 +44,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         isDisabled: tab.routes.length <= 1,
       },
       ...showAddTo ? [{
-        label: 'Note add',
+        label: 'Add',
         element: (
           <SidebarPlusMenu
             key={id}
@@ -55,16 +55,13 @@ export const NoteSidebar = React.memo((props: Props) => {
         ),
       }] : [],
       ...showRwMode ? [{
-        label: 'Note write',
+        label: rwMode === rwModes.READ ? 'Note edit' : 'Note read',
         element: (
           <SidebarRwButton
             rwMode={rwMode}
-            label="Note write"
+            label={rwMode === rwModes.READ ? 'Note edit' : 'Note read'}
           />
         ),
-        icon: <FaPencil />,
-        variant: rwMode === rwModes.READ ? 'ghost' : 'solid',
-        onClick: () => dispatch(toggleRwMode()),
       }] : [],
       ...showRwMode && rwMode === rwModes.WRITE ? [{
         label: 'Advanced edit',
@@ -94,16 +91,27 @@ export const NoteSidebar = React.memo((props: Props) => {
         flexDirection="column"
         p="2"
       >
-        {items.map(({ label, element, ...restItem }) => 
-          element || (
-            <IconButton
+        {items.map(({ label, element, ...restItem }) => {
+          return (
+            <Tooltip
               key={label}
-              size="sm"
-              variant="ghost"
-              aria-label={label}
-              {...restItem}
-            />
-          ))}
+              label={label}
+              openDelay={300}
+              placement="right"
+              backgroundColor="black"
+              hasArrow
+            >
+              {element || (
+                <IconButton
+                  size="sm"
+                  variant="ghost"
+                  aria-label={label}
+                  {...restItem}
+                />
+              )}
+            </Tooltip>
+          );
+        })}
       </Box>
     </TabSidebar>
   );

@@ -13,20 +13,24 @@ type Props = {
   rwMode: RwMode,
 }
 
-export const SidebarRwButton = React.memo(({ label, rwMode }: Props) => {
+const SidebarRwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
   const dispatch = useAppDispatch();
   const editor = useEditorContext();
   
   return (
     <IconButton
-      onClick={() => {
-        dispatch(toggleRwMode());
-        editor.commands.focus('end');
-      }}
+      ref={ref}
       size="sm"
       icon={<FaPencil />}
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
       aria-label={label}
+      {...rest}
+      onClick={() => {
+        dispatch(toggleRwMode());
+        editor.commands.focus('end');
+      }}
     />
   );
-});
+};
+
+export const SidebarRwButton = React.memo(React.forwardRef(SidebarRwButtonComponent));
