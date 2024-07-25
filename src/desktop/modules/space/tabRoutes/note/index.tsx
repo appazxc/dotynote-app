@@ -1,9 +1,10 @@
-import { Center } from '@chakra-ui/react';
 import { createRoute, lazyRouteComponent, notFound } from '@tanstack/react-router';
 import { AxiosError } from 'axios';
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+
+import { NoteNotFound } from 'desktop/modules/space/tabRoutes/note/NoteNotFound';
 
 import { root } from '../root';
 
@@ -24,15 +25,7 @@ export const note = createRoute({
       throw notFound();
     }
   },
-  // в текучей версии роутера не работает
-  notFoundComponent: () => {
-    return (
-      <Center>
-        not found
-      </Center>
-    );
-  },
-
+  notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
   shouldReload: false,
