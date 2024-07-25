@@ -1,4 +1,4 @@
-import { Box, BoxProps, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Card, CardBody, Text } from '@chakra-ui/react';
 
 import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
@@ -16,6 +16,16 @@ export const Post = (props: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
   invariant(note, 'Missing note');
+
+  if (note._isDeleted) {
+    return (
+      <Card>
+        <CardBody>
+          Note is deleted.
+        </CardBody>
+      </Card>
+    );
+  }
 
   return (
     <Box
