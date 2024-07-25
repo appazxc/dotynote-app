@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center } from '@chakra-ui/react';
+import { Center, Text } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
@@ -32,8 +32,10 @@ export const Note = React.memo(() => {
 
   if (note._isDeleted) {
     return (
-      <Center>
-        Note is deleted
+      <Center h="full">
+        <Text color="gray.500">
+          Note is deleted.
+        </Text>
       </Center>
     );
   }

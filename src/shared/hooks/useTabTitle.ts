@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { generateText } from '@tiptap/core';
 import { AxiosError } from 'axios';
 
 import { useNote } from 'shared/api/hooks/useNote';
+import { extensions } from 'shared/modules/editor/extensions';
 import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
@@ -26,7 +28,7 @@ export const useTabTitle = (path: string, router) => {
     }
 
     if (note) {
-      return note.title || 'Untitled';
+      return note.title || generateText(note.content || {}, extensions) || 'Untitled';
     }
 
     return tabTitle;

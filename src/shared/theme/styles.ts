@@ -6,7 +6,7 @@ export const getEditorStyles = (props) => {
   return {
     'whiteSpace': 'pre-wrap',
     'wordBreak': 'break-word',
-    'div.is-editor-empty:first-of-type::before': {
+    'p.is-editor-empty:first-of-type::before': {
       content: 'attr(data-placeholder)',
       color: 'gray.500',
       float: 'left',

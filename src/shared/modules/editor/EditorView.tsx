@@ -1,41 +1,12 @@
 import React from 'react';
 
 import { Box, useColorMode } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { JSONContent, generateHTML } from '@tiptap/core';
 
 import { getEditorStyles } from 'shared/theme/styles';
 
 import { keepNParagraphs, removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
-
-const Container = styled(Box)`
-  white-space: pre-wrap;
-  text-overflow: unset;
-  word-wrap: break-word;
-  
-  ul {
-    margin-inline-start: 1em;
-  }
-
-  div:empty::before {
-    content: " ";
-    display: block;
-  }
-
-  a {
-    color: ${({ theme }) => {
-
-    console.log('theme', theme);
-
-    return theme.colors.blue['500'];
-  }};
-
-    &:hover {
-      text-decoration: 'underline';
-    }
-  }
-`;
 
 type Props = {
   content?: JSONContent,
