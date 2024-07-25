@@ -7,9 +7,11 @@ import { queryClient } from 'shared/api/queryClient';
 
 import { root } from '../root';
 
+export const noteRoutePath = '/n/$noteId';
+
 export const note = createRoute({
   getParentRoute: () => root,
-  path: 'n/$noteId',
+  path: noteRoutePath,
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
     try {

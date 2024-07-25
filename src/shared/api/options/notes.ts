@@ -12,12 +12,13 @@ export const tabNotes = (spaceId: string | undefined, router) => {
   });
 };
 
-export const load = (id?: string | number) => {
+export const load = (id?: string) => {
   return queryOptions({
     queryKey: ['note', id],
     queryFn: async () => {
-      return entityApi.note.load(id);
+      return entityApi.note.load(id!);
     },
+    enabled: !!id,
   });
 };
 

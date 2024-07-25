@@ -1,6 +1,10 @@
+import union from 'lodash/union';
+
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
+
+import { noteRoutePath } from 'desktop/modules/space/tabRoutes/note';
 
 import Essense from './Essence';
 
@@ -14,7 +18,7 @@ export class NoteEssence extends Essense<NoteEntity> {
       return [];
     }
 
-    const noteIds = space.tabs
+    const noteIds = union(space.tabs
       .map((id) => {
         const spaceTab = spaceTabSelector.getById(state, id);
 
@@ -25,18 +29,18 @@ export class NoteEssence extends Essense<NoteEntity> {
         const { routes } = spaceTab;
         const match = getTabMatch(routes[routes.length - 1], router);
 
-        if (!match || match.routeId !== '/n/$noteId') {
+        if (!match || match.routeId !== noteRoutePath) {
           return false;
         }
 
         return match.params.noteId;
       })
-      .filter(Boolean);
+      .filter(Boolean));
 
     if (!noteIds.length) {
       return [];
     }
-    
+
     return this.loadList({ filters: { ids: noteIds, pageSize: 100 } });
   }
 }

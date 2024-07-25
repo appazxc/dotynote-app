@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { AxiosError } from 'axios';
+
 import { useNote } from 'shared/api/hooks/useNote';
 import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
@@ -12,11 +14,15 @@ export const useTabTitle = (path: string, router) => {
 
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
 
-  const { isLoading } = useNote(noteId, { enabled: !!noteId && !note });
+  const { isLoading, error } = useNote(noteId, { enabled: !!noteId && !note });
 
   const title = React.useMemo(() => {
-    if (isNoteTab && !note && isLoading) {
+    if (isNoteTab && !note && isLoading && !error) {
       return 'Loading...';
+    }
+
+    if (error && error instanceof AxiosError) {
+      return `Error: ${error.response?.status}`;
     }
 
     if (note) {
@@ -24,7 +30,7 @@ export const useTabTitle = (path: string, router) => {
     }
 
     return tabTitle;
-  }, [isNoteTab, isLoading, note, tabTitle]);
+  }, [isNoteTab, error, isLoading, note, tabTitle]);
 
   return title;
 };

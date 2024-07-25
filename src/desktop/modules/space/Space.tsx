@@ -13,7 +13,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
-import { router } from 'desktop/routes/router';
+import { router } from 'desktop/modules/space/tabRoutes/router';
 
 import { useTabRouter } from './tabRoutes/useTabRouter';
 
@@ -22,24 +22,15 @@ const Space = React.memo(() => {
   const activeSpace = useAppSelector(selectActiveSpace);
 
   const { 
-    isError: tabNotesIsError,
     isLoading: tabNotesIsLoading,
   } = useQuery({
     // проверить чтобы лишних квери не было
     ...options.notes.tabNotes(activeSpace?.id, router),
     enabled: !!activeSpace,
+    throwOnError: true,
   });
 
-  React.useEffect(() => {
-    if (activeSpace?.id) return;
-    router.navigate({ to: '/app/spaces' });
-  }, [activeSpace?.id]);
-
-  if (tabNotesIsError) {
-    throw Error('Tab notes loading failed');
-  }
-
-  if (tabNotesIsLoading || !activeSpace) {
+  if (tabNotesIsLoading) {
     return <SpaceLoading />;
   }
 
@@ -49,31 +40,23 @@ const Space = React.memo(() => {
     );
   }
 
-  if (activeTab._isFake) {
-    return (
-      <SpaceLayout>
-        <Loader />
-      </SpaceLayout>
-    );
-  }
-
   return (
     <TabProvider tab={activeTab}>
       <SpaceLayout>
-        <SpaceTabContent activeTabId={activeTab.id} />
+        <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
       </SpaceLayout>
     </TabProvider>
   );
 });
 
-const SpaceTabContent = React.memo(({ activeTabId }: { activeTabId: string }) => {
+const SpaceTabContent = React.memo(({ activeTabId, isFake }: { activeTabId: string, isFake?: boolean }) => {
   const router = useTabRouter(activeTabId);
 
   const renderedProvider = React.useMemo(() => 
     <RouterProvider key={activeTabId} router={router} />, 
   [activeTabId, router]);
 
-  return (renderedProvider);
+  return isFake ? <Loader />: (renderedProvider);
 });
 
 export { Space };

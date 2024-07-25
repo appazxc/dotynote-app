@@ -1,4 +1,4 @@
-import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
@@ -28,6 +28,12 @@ const appIndexRoute = createRoute({
   
     const { waitedRoute } = getState().app;
   
+    if (!activeSpace) {
+      throw redirect({
+        to: '/app/spaces',
+      });
+    }
+
     if (waitedRoute && activeSpace) {
       await dispatch(openTab({ route: waitedRoute, makeActive: true }));
       dispatch(cleanWaitedRoute());
