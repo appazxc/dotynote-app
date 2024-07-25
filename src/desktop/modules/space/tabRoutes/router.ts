@@ -36,7 +36,7 @@ const defaultRouterOptions = {
 const router = createRouter({ 
   ...defaultRouterOptions,
 });
-router.buildLocation({ to: '..'})
+
 export const createTabRouter = (history) => {
   return createRouter({ 
     history,
