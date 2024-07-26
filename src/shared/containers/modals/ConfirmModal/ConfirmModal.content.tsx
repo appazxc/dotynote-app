@@ -6,6 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -23,7 +24,8 @@ export type Props = ModalBase<{
 const ConfirmModal = (props: Props) => {
   const { title, description, isOpen = true, isLoading, confirmText, onConfirm } = props;
   const dispatch = useAppDispatch();
-  
+  const borderColor = useColorModeValue('gray.100', 'brand.400');
+
   return (
     <Modal
       isCentered
@@ -45,7 +47,7 @@ const ConfirmModal = (props: Props) => {
         <ModalFooter
           p="0"
           borderTop="1px solid"
-          borderColor="gray.100"
+          borderColor={borderColor}
           mt="4"
         >
           <Button
