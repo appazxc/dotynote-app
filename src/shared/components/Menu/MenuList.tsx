@@ -9,7 +9,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, 
     <Box
       ref={ref}
       boxShadow="md"
-      borderRadius="6"
+      borderRadius="md"
       bg={bg}
       display="flex"
       flexDirection="column"

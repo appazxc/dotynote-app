@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import debounce from 'lodash/debounce';
 
 import { LoadListFilters } from 'shared/api/options/posts';
-import { LoadMoreDirection, DEFAULT_PAGE_SIZE, loadMoreDirection } from 'shared/constants/requests';
+import { DEFAULT_PAGE_SIZE, LoadMoreDirection, loadMoreDirection } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/space/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
-import { noteEmitter, noteEvents } from 'shared/modules/space/tabRoutes/note/util/noteEmitter';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';
-import { queryClient } from '../queryClient';
 
 type Filters = Omit<LoadListFilters, 'parentId'>;
 
@@ -25,25 +22,15 @@ const initialPageParam: PageParam =
   direction: null,
 };
 
+export const getInfinityPostsQueryKey = (noteId: string, filters: Filters = {}) => ['posts', noteId, filters];
+
 export const useInfinityPosts = (noteId: string, filters: Filters = {}) => {
   const queryKey = React.useMemo(
-    () => ['posts', noteId, filters], 
+    () => getInfinityPostsQueryKey(noteId, filters), 
     [noteId, filters]
   );
 
   useSaveNoteTabQueryKey(queryKey);
-
-  React.useEffect(() => {
-    const invalidate = debounce(() => {
-      queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 2) });
-    }, 500);
-
-    noteEmitter.on(noteEvents.foundDeletedPost, invalidate);
-
-    return () => {
-      noteEmitter.removeListener(noteEvents.foundDeletedPost, invalidate);
-    };
-  }, [queryKey]);
 
   return useInfiniteQuery({
     queryKey,

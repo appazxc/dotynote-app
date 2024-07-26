@@ -3,7 +3,8 @@ import React from 'react';
 import { Box, Stack } from '@chakra-ui/react';
 import { useInView } from 'react-intersection-observer';
 
-import { useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
+import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
+import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 
@@ -62,6 +63,10 @@ export const Posts = ({ noteId, onPostClick }: Props) => {
     }
   }, [fetchNextPage, inViewNext, hasNextPage]);
 
+  const handleOnPostDelete = React.useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId).slice(0, 2) });
+  }, [noteId]);
+  
   const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
 
   const showNextPageObserver = !isFetching && hasNextPage;
@@ -80,6 +85,7 @@ export const Posts = ({ noteId, onPostClick }: Props) => {
                 key={postId}
                 postId={postId} 
                 onClick={onPostClick}
+                onDelete={handleOnPostDelete}
               />
             ))
           }

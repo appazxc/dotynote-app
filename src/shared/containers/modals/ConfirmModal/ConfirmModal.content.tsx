@@ -2,7 +2,6 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -17,11 +16,12 @@ export type Props = ModalBase<{
   title: string,
   description: string,
   isLoading?: boolean,
+  confirmText?: string,
   onConfirm: () => void,
 }>
 
 const ConfirmModal = (props: Props) => {
-  const { title, description, isOpen = true, isLoading, onConfirm } = props;
+  const { title, description, isOpen = true, isLoading, confirmText, onConfirm } = props;
   const dispatch = useAppDispatch();
   
   return (
@@ -29,27 +29,43 @@ const ConfirmModal = (props: Props) => {
       isCentered
       isOpen={isOpen}
       onClose={() => dispatch(hideModal())}
+      size="xs"
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{description}</ModalBody>
-        <ModalFooter>
+        <ModalHeader
+          pb="1"
+          px="4"
+          textAlign="center"
+          fontSize="md"
+        >
+          {title}
+        </ModalHeader>
+        <ModalBody px="4" textAlign="center">{description}</ModalBody>
+        <ModalFooter
+          p="0"
+          borderTop="1px solid"
+          borderColor="gray.100"
+          mt="4"
+        >
           <Button
-            colorScheme="brand"
             variant="ghost"
-            mr={3}
+            width="50%"
+            borderRadius="0"
+            borderBottomLeftRadius="md"
             onClick={() => dispatch(hideModal())}
           >
             Close
           </Button>
           <Button
+            width="50%"
+            borderRadius="0"
+            borderBottomRightRadius="md"
             colorScheme="brand"
             onClick={onConfirm}
             isLoading={isLoading}
           >
-            Confirm
+            {confirmText || 'Confirm'}
           </Button>
         </ModalFooter>
       </ModalContent>

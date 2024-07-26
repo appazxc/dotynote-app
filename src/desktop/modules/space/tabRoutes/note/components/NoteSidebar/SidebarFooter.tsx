@@ -10,10 +10,11 @@ import { ZodIssue } from 'zod';
 
 import { deleteNoteMutationKey, useDeleteNote } from 'shared/api/hooks/useDeleteNote';
 import { updateNoteMutationKey } from 'shared/api/hooks/useUpdateNote';
-import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
+import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
-import { showModal } from 'shared/modules/modal/modalSlice';
+import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { getTextFromZodError } from 'shared/util/api/getTextFromZodError';
@@ -29,9 +30,7 @@ const NoteMenu = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Menu
-        placement="right-start"
-      >
+      <Menu placement="right-start">
         <MenuTrigger
           as={IconButton}
           size="sm"
@@ -49,10 +48,9 @@ const NoteMenu = ({ id }: { id: string }) => {
               Edit posts settings
             </MenuItem>
           )}
+          <MenuDivider />
           <MenuItem
-            onClick={() => {
-              mutateAsync();
-            }}
+            onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
             colorScheme="red"
           >
             Delete
@@ -60,6 +58,15 @@ const NoteMenu = ({ id }: { id: string }) => {
         </MenuList>
       </Menu>
       <EditPostSettingsModal noteId={id} extraId="sidebarFooter" />
+      <ConfirmModal
+        title="This action can't be undone"
+        description="Delete this note?"
+        confirmText="Delete"
+        onConfirm={() => {
+          dispatch(hideModal());
+          mutateAsync();
+        }}
+      />
     </>
   );
 };
