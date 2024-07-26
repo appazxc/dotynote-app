@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { isArray } from 'lodash';
 
 import { Device } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
@@ -6,6 +7,16 @@ import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabRoutes/no
 type TempNote = {
   title: string,
   content?: any,
+}
+
+type NoOperation = {
+  type: null,
+};
+
+type StickOperation = {
+  type: 'stick',
+  noteIds: string[],
+  concretePlace: boolean,
 }
 
 type InitialState = {
@@ -22,7 +33,10 @@ type InitialState = {
     isAdvancedEditActive: boolean,
     addTo: AddTo,
   },
+  operation: NoOperation | StickOperation,
 };
+
+const noOperation = { type: null };
 
 const initialState: InitialState = {
   isSideOpen: false,
@@ -37,6 +51,7 @@ const initialState: InitialState = {
     isAdvancedEditActive: false,
     addTo: addTo.NOTE,
   },
+  operation: noOperation,
 };
 
 export const appSlice = createSlice({
@@ -76,6 +91,16 @@ export const appSlice = createSlice({
     toggleAdvancedEdit: (state) => {
       state.note.isAdvancedEditActive = !state.note.isAdvancedEditActive;
     },
+    stopOperation: (state) => {
+      state.operation = noOperation;
+    },
+    startStickOperation: (state, { payload }: PayloadAction<string | string[]>) => {
+      state.operation = {
+        type: 'stick',
+        data: isArray(payload) ? payload : [payload],
+        concretePlace: false,
+      };
+    },
   },
 });
 
@@ -91,6 +116,8 @@ export const {
   toggleSide,
   toggleRwMode,
   toggleAdvancedEdit,
+  stopOperation,
+  startStickOperation,
 } = appSlice.actions;
 
 export default appSlice.reducer;

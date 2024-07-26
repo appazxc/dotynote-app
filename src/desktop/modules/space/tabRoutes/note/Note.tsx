@@ -13,10 +13,11 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
+import { NoteFooter } from 'desktop/modules/space/tabRoutes/note/NoteFooter';
 
-import { NoteHeader } from './components/NoteHeader';
-import { NoteProviders } from './components/NoteProviders';
-import { NoteSidebar } from './components/NoteSidebar';
+import { NoteHeader } from './NoteHeader';
+import { NoteProviders } from './NoteProviders';
+import { NoteSidebar } from './NoteSidebar';
 import { NoteTabContent } from './NoteTabContent';
 
 export const Note = React.memo(() => {
@@ -58,6 +59,11 @@ export const Note = React.memo(() => {
         header={(
           <AnimatePresence>
             <NoteHeader isWriteMode={rwMode === rwModes.WRITE} />
+          </AnimatePresence>  
+        )}
+        footer={(
+          <AnimatePresence>
+            <NoteFooter />
           </AnimatePresence>  
         )}
       >

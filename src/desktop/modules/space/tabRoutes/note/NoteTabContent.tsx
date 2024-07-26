@@ -1,16 +1,15 @@
 import React from 'react';
 
 import { Box, Container } from '@chakra-ui/react';
-// import { useScrollContext } from 'shared/components/ScrollProvider';
 import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { Posts } from 'shared/modules/space/tabRoutes/note/containers/Posts';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { buildTabHref } from '../../helpers/buildTabHref';
+import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 
-import { NoteBase } from './components/NoteBase';
+import { NoteBase } from './NoteBase';
 
 type Props = {
   noteId: string,
@@ -22,13 +21,6 @@ export const NoteTabContent = React.memo((props: Props) => {
   const { noteId, isWriteMode, showPosts } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const scrollRef = useScrollContext();
-
-  // React.useEffect(() => {
-  //   if (scrollRef?.current) {
-  //     scrollRef.current.scrollTo(0, 0);
-  //   }
-  // }, [noteId, scrollRef]);
   
   const onPostClick = React.useCallback((e) => (noteId: string) => {
     e.preventDefault();

@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
-import { SidebarRwButton } from 'desktop/modules/space/tabRoutes/note/components/NoteSidebar/SidebarRwButton';
+import { SidebarRwButton } from 'desktop/modules/space/tabRoutes/note/NoteSidebar/SidebarRwButton';
 
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';

@@ -1,0 +1,1 @@
+export { NoteFooter } from './NoteFooter';

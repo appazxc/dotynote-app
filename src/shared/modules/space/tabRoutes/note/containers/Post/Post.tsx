@@ -11,6 +11,7 @@ import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { startStickOperation } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
@@ -53,8 +54,11 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           />
         </MenuTrigger>
         <MenuList>
+          <MenuItem onClick={() => dispatch(startStickOperation(note.id))}>
+            Stick
+          </MenuItem>
           <MenuItem onClick={() => unstick()}>
-          Unstick
+            Unstick
           </MenuItem>
           <MenuDivider />
           <MenuItem 
