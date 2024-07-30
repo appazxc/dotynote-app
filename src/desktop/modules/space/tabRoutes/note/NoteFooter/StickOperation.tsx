@@ -1,13 +1,85 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 
-type Props = {};
+import { entityApi } from 'shared/api/entityApi';
+import { modalIds } from 'shared/constants/modalIds';
+import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
+import { useTabNote } from 'shared/hooks/useTabNote';
+import { showModal } from 'shared/modules/modal/modalSlice';
+import { useAppDispatch } from 'shared/store/hooks';
+import { StickOperation as StickOperationType, toggleConcretePlace } from 'shared/store/slices/appSlice';
+import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
-export const StickOperation = React.memo((props: Props) => {
+import { Operation } from './Operation';
+
+type Props = StickOperationType;
+
+const extraId = 'stickOperation';
+
+export const StickOperation = React.memo(({ fromNoteId, concretePlace }: Props) => {
+  const dispatch = useAppDispatch();
+  const note = useTabNote();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (postSettings: Partial<PostSettingsEntity>) => {
+      return entityApi.note.createRelation(note.id, 'postSettings', postSettings);
+    },
+    onSuccess() {},
+  });
+
+  const handleCreatePostSettings = React.useCallback(() => {
+    mutate({}, {
+      onSuccess: () => {
+        dispatch(showModal({ id: modalIds.editPostSettings, extraId }));
+      },
+    });
+  }, [mutate, dispatch]);
+
+  const isSameNote = note.id == fromNoteId;
+  
+  const options = [
+    {
+      label: 'Concrete place',
+      onClick: () => dispatch(toggleConcretePlace()),
+      selected: concretePlace,
+    },
+  ];
+
+  if (!note.postSettingsId) {
+    return (
+      <Operation
+        title={(
+          <Text fontWeight="medium" fontSize="sm">
+            To <Text fontWeight="bold" as="span">stick</Text> here you need create posts first
+          </Text>
+        )}
+        confirmText="Create"
+        onConfirm={handleCreatePostSettings}
+        isLoading={isPending}
+      />
+    );
+  }
+
+  if (isSameNote) {
+    return (
+      <Operation
+        title="Open note where you want to stick"
+      />
+    );
+  }
+
   return (
-    <Box>
-      stick operation
-    </Box>
+    <>
+      <Operation
+        title={concretePlace ? 'Stick near': 'Stick'}
+        description={concretePlace ? 'Click on post and select where you want to stick': undefined}
+        options={options}
+        onConfirm={() => {}}
+      />
+
+      <EditPostSettingsModal noteId={note.id} extraId={extraId} />
+    </>
   );
 });

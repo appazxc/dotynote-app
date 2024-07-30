@@ -3,6 +3,6 @@ type SystemProps = {
   _isFake?: true,
 }
 
-export type BaseEntity<T> = {
-  id: string,
+export type BaseEntity<T, IdType = string> = {
+  id: IdType,
 } & T & SystemProps;

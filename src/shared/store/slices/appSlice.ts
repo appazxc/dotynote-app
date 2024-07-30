@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { isArray } from 'lodash';
 
 import { Device } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
@@ -13,8 +12,9 @@ type NoOperation = {
   type: null,
 };
 
-type StickOperation = {
+export type StickOperation = {
   type: 'stick',
+  fromNoteId: string,
   noteIds: string[],
   concretePlace: boolean,
 }
@@ -94,12 +94,21 @@ export const appSlice = createSlice({
     stopOperation: (state) => {
       state.operation = noOperation;
     },
-    startStickOperation: (state, { payload }: PayloadAction<string | string[]>) => {
+    startStickOperation: (state, { payload }: PayloadAction<{
+      fromNoteId: string,
+      noteIds: string[],
+    }>) => {
       state.operation = {
         type: 'stick',
-        data: isArray(payload) ? payload : [payload],
+        fromNoteId: payload.fromNoteId,
+        noteIds: payload.noteIds,
         concretePlace: false,
       };
+    },
+    toggleConcretePlace: (state) => {
+      if ('concretePlace' in state.operation) {
+        state.operation.concretePlace = !state.operation.concretePlace;
+      } 
     },
   },
 });
@@ -118,6 +127,7 @@ export const {
   toggleAdvancedEdit,
   stopOperation,
   startStickOperation,
+  toggleConcretePlace,
 } = appSlice.actions;
 
 export default appSlice.reducer;

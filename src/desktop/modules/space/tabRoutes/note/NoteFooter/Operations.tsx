@@ -3,7 +3,6 @@ import React from 'react';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { OperationWrapper } from './OperationWrapper';
 import { StickOperation } from './StickOperation';
 
 export const Operations = () => {
@@ -20,8 +19,6 @@ export const Operations = () => {
   }
 
   return (
-    <OperationWrapper>
-      {activeOperation}
-    </OperationWrapper>
+    activeOperation
   );
 };

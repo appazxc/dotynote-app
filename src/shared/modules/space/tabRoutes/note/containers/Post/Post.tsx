@@ -54,7 +54,12 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           />
         </MenuTrigger>
         <MenuList>
-          <MenuItem onClick={() => dispatch(startStickOperation(note.id))}>
+          <MenuItem
+            onClick={() => dispatch(startStickOperation({
+              fromNoteId: post.parentId,
+              noteIds: [note.id],
+            }))}
+          >
             Stick
           </MenuItem>
           <MenuItem onClick={() => unstick()}>

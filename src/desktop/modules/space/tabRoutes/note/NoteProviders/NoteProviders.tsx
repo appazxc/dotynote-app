@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { EditorProvider } from 'shared/modules/editor';
+import { NoteProvider } from 'shared/modules/space/components/NoteProvider';
 
 type Props = React.PropsWithChildren<{
   id: string,
@@ -9,8 +10,10 @@ type Props = React.PropsWithChildren<{
 
 export const NoteProviders = React.memo(({ id, isWriteMode, children }: Props) => {
   return (
-    <EditorProvider id={id} isWriteMode={isWriteMode}>
-      {children}
-    </EditorProvider>
+    <NoteProvider id={id}>
+      <EditorProvider id={id} isWriteMode={isWriteMode}>
+        {children}
+      </EditorProvider>
+    </NoteProvider>
   );
 });

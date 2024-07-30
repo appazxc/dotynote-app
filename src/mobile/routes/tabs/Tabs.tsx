@@ -49,7 +49,7 @@ const Tab = ({ id, isActive }) => {
       variant={isActive ? 'filled' : 'outline'}
     >
       <Box overflow="hidden">
-        <SpaceTabTitle path={spaceTab.routes[spaceTab.routes.length - 1]} />
+        <SpaceTabTitle title={spaceTab.routes[spaceTab.routes.length - 1]} />
       </Box>
       <IconButton
         icon={<MdClose /> }

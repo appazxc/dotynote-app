@@ -29,6 +29,7 @@ const appIndexRoute = createRoute({
     const { waitedRoute } = getState().app;
   
     if (!activeSpace) {
+      console.log('active space missing', getState());
       throw redirect({
         to: '/app/spaces',
       });

@@ -74,7 +74,7 @@ export const Posts = ({ noteId, onPostClick }: Props) => {
 
   return (
     <>
-      <Box pb="10" flexGrow={data ? '1' : '0'}>
+      <Box pb="20" flexGrow={data ? '1' : '0'}>
         {isFetchingFirstTime && <PostsSkeleton />}
         <Stack gap="2">
           {showNextPageObserver && <Box ref={nextRef} />}

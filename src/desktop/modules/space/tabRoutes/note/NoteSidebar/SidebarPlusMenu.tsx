@@ -158,7 +158,6 @@ const PostsContent = ({ note, onClose }) => {
         dispatch(showModal({ id: modalIds.editPostSettings, extraId }));
       },
     });
-
   }, [mutate, dispatch, onClose]);
 
   const renderedCards = React.useMemo(() => {

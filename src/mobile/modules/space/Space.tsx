@@ -30,7 +30,7 @@ function Space() {
   const {
     isError: tabNotesIsError,
     isFetched: tabNotesIsFetched,
-  } = useQuery(options.notes.tabNotes(activeSpaceId));
+  } = useQuery(options.notes.tabNotes(activeSpaceId, 'replace'));
 
   if (tabNotesIsError) {
     return <ErrorPage />;

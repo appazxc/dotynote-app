@@ -35,6 +35,7 @@ export const TabLayout = (props: Props) => {
         h="full"
         display="flex"
         flexDirection="column"
+        position="relative"
       >
         <Box flexShrink="0">
           {header}
@@ -69,7 +70,14 @@ export const TabLayout = (props: Props) => {
             </ScrollProvider>
           </Box>
         </Box>
-        <Box flexShrink="0">
+        <Box
+          flexShrink="0"
+          position="absolute"
+          w="full"
+          left="0"
+          bottom="0"
+          background="body"
+        >
           {footer}
         </Box>
       </Box>
