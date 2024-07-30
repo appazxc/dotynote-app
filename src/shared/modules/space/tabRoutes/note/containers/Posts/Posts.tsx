@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Stack } from '@chakra-ui/react';
+import debounce from 'lodash/debounce';
 import { useInView } from 'react-intersection-observer';
 
 import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
@@ -63,9 +64,9 @@ export const Posts = ({ noteId, onPostClick }: Props) => {
     }
   }, [fetchNextPage, inViewNext, hasNextPage]);
 
-  const handleOnPostDelete = React.useCallback(() => {
+  const handleOnPostDelete = React.useMemo(() => debounce(() => {
     queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId).slice(0, 2) });
-  }, [noteId]);
+  }, 100), [noteId]);
   
   const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
 
