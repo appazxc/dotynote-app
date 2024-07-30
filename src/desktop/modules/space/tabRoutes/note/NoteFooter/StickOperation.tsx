@@ -12,7 +12,7 @@ import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettings
 import { useTabNote } from 'shared/hooks/useTabNote';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
-import { StickOperation as StickOperationType, toggleConcretePlace } from 'shared/store/slices/appSlice';
+import { StickOperation as StickOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
 
 import { Operation } from './Operation';
@@ -29,10 +29,9 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
     mutationFn: (postSettings: Partial<PostSettingsEntity>) => {
       return entityApi.note.createRelation(note.id, 'postSettings', postSettings);
     },
-    onSuccess() {},
   });
 
-  const { mutateAsync: stick } = useStickNote();
+  const { mutateAsync: stick, isPending: isStickPending } = useStickNote();
   
   const handleCreatePostSettings = React.useCallback(() => {
     mutate({}, {
@@ -49,10 +48,11 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
       parentId: note.id,
     }, {
       onSuccess: () => {
+        dispatch(stopOperation());
         queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
       },
     });
-  }, [stick, fromNoteId, noteIds, note.id]);
+  }, [dispatch, stick, fromNoteId, noteIds, note.id]);
 
   const isSameNote = note.id == fromNoteId;
   
@@ -93,6 +93,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
         title={concretePlace ? 'Stick near': 'Stick'}
         description={concretePlace ? 'Click on post and select where you want to stick': undefined}
         options={options}
+        isLoading={isStickPending}
         onConfirm={handleStick}
       />
 
