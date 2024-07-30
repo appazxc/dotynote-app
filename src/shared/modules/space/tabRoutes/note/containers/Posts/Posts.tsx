@@ -15,7 +15,7 @@ import { PostsSkeleton } from './Posts.skeleton';
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId: string,
+  noteId: number,
   onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => (noteId: string) => void,
 }
 

@@ -1,13 +1,10 @@
-import { createStandaloneToast } from "@chakra-ui/react";
+import { createStandaloneToast } from '@chakra-ui/react';
+
+import { toastOptions } from 'shared/constants/toastOptions';
 
 const { toast } = createStandaloneToast({ 
-  defaultOptions: { 
-    colorScheme: 'brand',
-    containerStyle: { 
-      m: '1' ,
-      fontWeight: 400,
-    },
-  } });
+  defaultOptions: toastOptions, 
+});
 
 export { 
   toast,

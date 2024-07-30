@@ -12,7 +12,7 @@ import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { NoteBase } from './NoteBase';
 
 type Props = {
-  noteId: string,
+  noteId: number,
   isWriteMode: boolean,
   showPosts: boolean,
 }
@@ -42,7 +42,7 @@ export const NoteTabContent = React.memo((props: Props) => {
         gap="10"
       >
         <NoteBase
-          id={noteId}
+          id={String(noteId)}
           isWriteMode={isWriteMode}
         />
         {showPosts && (

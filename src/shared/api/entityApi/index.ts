@@ -1,3 +1,4 @@
+import ActionEssense from 'shared/api/entityApi/ActionEssence';
 import { entityNames } from 'shared/constants/entityNames';
 import { noteSelector, postSelector, spaceSelector, spaceTabSelector, userSelector } from 'shared/selectors/entities';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -13,6 +14,7 @@ const note = new NoteEssence(entityNames.note, noteSelector);
 const space = new Essense<SpaceEntity>(entityNames.space, spaceSelector);
 const post = new Essense<PostEntity>(entityNames.post, postSelector);
 const spaceTab = new SpaceTabEssence(entityNames.spaceTab, spaceTabSelector);
+const stickNote = new ActionEssense('/notes/stick');
 
 export const entityApi = {
   user,
@@ -20,4 +22,5 @@ export const entityApi = {
   spaceTab,
   note,
   post,
+  stickNote,
 };

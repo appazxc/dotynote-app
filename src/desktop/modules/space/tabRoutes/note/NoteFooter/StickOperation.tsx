@@ -4,6 +4,9 @@ import { Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 
 import { entityApi } from 'shared/api/entityApi';
+import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { useStickNote } from 'shared/api/hooks/useStickNote';
+import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { useTabNote } from 'shared/hooks/useTabNote';
@@ -18,7 +21,7 @@ type Props = StickOperationType;
 
 const extraId = 'stickOperation';
 
-export const StickOperation = React.memo(({ fromNoteId, concretePlace }: Props) => {
+export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
 
@@ -29,6 +32,8 @@ export const StickOperation = React.memo(({ fromNoteId, concretePlace }: Props) 
     onSuccess() {},
   });
 
+  const { mutateAsync: stick } = useStickNote();
+  
   const handleCreatePostSettings = React.useCallback(() => {
     mutate({}, {
       onSuccess: () => {
@@ -36,6 +41,18 @@ export const StickOperation = React.memo(({ fromNoteId, concretePlace }: Props) 
       },
     });
   }, [mutate, dispatch]);
+
+  const handleStick = React.useCallback(() => {
+    stick({
+      fromNoteId,
+      noteIds,
+      parentId: note.id,
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
+      },
+    });
+  }, [stick, fromNoteId, noteIds, note.id]);
 
   const isSameNote = note.id == fromNoteId;
   
@@ -76,7 +93,7 @@ export const StickOperation = React.memo(({ fromNoteId, concretePlace }: Props) 
         title={concretePlace ? 'Stick near': 'Stick'}
         description={concretePlace ? 'Click on post and select where you want to stick': undefined}
         options={options}
-        onConfirm={() => {}}
+        onConfirm={handleStick}
       />
 
       <EditPostSettingsModal noteId={note.id} extraId={extraId} />

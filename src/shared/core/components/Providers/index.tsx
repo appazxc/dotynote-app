@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { queryClient } from 'shared/api/queryClient';
 import config from 'shared/config';
+import { toastOptions } from 'shared/constants/toastOptions';
 import { store, persistor } from 'shared/store';
 import theme from 'shared/theme';
 
@@ -22,7 +23,10 @@ function Providers({ children }: Props) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider theme={theme}>
+          <ChakraProvider
+            theme={theme}
+            toastOptions={{ defaultOptions: toastOptions }}
+          >
             <Device>
               {children}
             </Device>

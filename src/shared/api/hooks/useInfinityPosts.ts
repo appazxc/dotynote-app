@@ -22,9 +22,9 @@ const initialPageParam: PageParam =
   direction: null,
 };
 
-export const getInfinityPostsQueryKey = (noteId: string, filters: Filters = {}) => ['posts', noteId, filters];
+export const getInfinityPostsQueryKey = (noteId: number, filters: Filters = {}) => ['posts', noteId, filters];
 
-export const useInfinityPosts = (noteId: string, filters: Filters = {}) => {
+export const useInfinityPosts = (noteId: number, filters: Filters = {}) => {
   const queryKey = React.useMemo(
     () => getInfinityPostsQueryKey(noteId, filters), 
     [noteId, filters]
