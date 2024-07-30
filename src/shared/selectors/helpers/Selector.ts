@@ -6,7 +6,7 @@ import { makeGetById } from './makeGetById';
 import { makeGetSelectEntities } from './makeGetSelectEntities';
 
 export default class Selector<T extends Entity> {
-  getById: (state: AppState, id?: string | null) => T | null;
+  getById: (state: AppState, id?: string | number | null) => T | null;
   getByIds: (state: AppState, ids?: string[]) => T[];
 
   constructor(entityName: EntityName) {

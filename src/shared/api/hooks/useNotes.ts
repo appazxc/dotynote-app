@@ -11,5 +11,5 @@ export const useNotes = (
   { filters }: Params = {},
   queryOptions?: Partial<ReturnType<typeof options.notes.loadList>>
 ) => {
-  return useQuery({ ...options.notes.loadList(filters), ...queryOptions});
+  return useQuery({ ...options.notes.loadList(filters), ...queryOptions });
 };

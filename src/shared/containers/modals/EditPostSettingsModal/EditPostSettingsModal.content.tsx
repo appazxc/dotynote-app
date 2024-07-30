@@ -25,7 +25,7 @@ import { invariant } from 'shared/util/invariant';
 import { ConfirmModal } from '../ConfirmModal';
 
 export type Props = ModalBase<{
-  noteId: string,
+  noteId: number,
 }>
 
 const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {

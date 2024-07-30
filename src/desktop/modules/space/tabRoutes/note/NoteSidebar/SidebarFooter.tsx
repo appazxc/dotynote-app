@@ -19,7 +19,7 @@ import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { getTextFromZodError } from 'shared/util/api/getTextFromZodError';
 
-const NoteMenu = ({ id }: { id: string }) => {
+const NoteMenu = ({ id }: { id: number }) => {
   const note = useAppSelector(state => noteSelector.getById(state, id));
   const dispatch = useAppDispatch();
   const { mutateAsync } = useDeleteNote(id);

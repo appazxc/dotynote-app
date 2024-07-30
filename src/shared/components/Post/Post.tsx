@@ -6,8 +6,8 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId?: string,
-  noteId: string,
+  postId?: number,
+  noteId: number,
 } & BoxProps;
 
 export const Post = (props: Props) => {

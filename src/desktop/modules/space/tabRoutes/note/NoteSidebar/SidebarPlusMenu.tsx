@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
   SimpleGrid,
   Text,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { BsPlus } from 'react-icons/bs';
@@ -196,7 +196,7 @@ const PostsContent = ({ note, onClose }) => {
 type Props = { 
   canAddToNote: boolean,
   canAddToPosts: boolean,
-  noteId: string 
+  noteId: number,
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {

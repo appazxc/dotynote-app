@@ -51,7 +51,7 @@ export const Note = React.memo(() => {
         scrollRestoration={false}
         leftSide={(
           <NoteSidebar
-            id={noteId}
+            id={note.id}
             rwMode={rwMode}
             showRwMode={showRwMode}
           />

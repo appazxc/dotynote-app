@@ -10,7 +10,7 @@ import apiFactory, { Api } from '../apiFactory';
 type DeleteOptions = {
   deleteFlag?: boolean,
 }
-export default class Essense<T extends { id?: string }> {
+export default class Essense<T extends { id?: string | number }> {
   api: Api;
   path: string;
   entityName: EntityName;
@@ -39,8 +39,8 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.get<T>(`${this.path}/${route}`, filters);
   }
 
-  async loadList({ filters = {} } = {}) {
-    return await this.api.get<string[]>(`${this.path}`, filters);
+  async loadList<T = string>({ filters = {} } = {}) {
+    return await this.api.get<T[]>(`${this.path}`, filters);
   }
 
   async update(id: string, data: Partial<T>) {
@@ -69,11 +69,11 @@ export default class Essense<T extends { id?: string }> {
     return await this.api.post<string>(this.path, data);
   }
 
-  async createRelation<R>(id: string, relation: string, data: Partial<R>) {
+  async createRelation<R>(id: string | number, relation: string, data: Partial<R>) {
     return this.api.post<string>(`${this.path}/${id}/${relation}`, data);
   }
 
-  async deleteRelation(id: string, relation: string) {
+  async deleteRelation(id: string | number, relation: string) {
     return this.api.delete<void>(`${this.path}/${id}/${relation}`);
   }
 
@@ -81,7 +81,7 @@ export default class Essense<T extends { id?: string }> {
     return this.api.post<D>(`${this.path}/${action}`, data);
   }
 
-  async delete(id: string, { deleteFlag }: DeleteOptions = {}) {
+  async delete(id: string | number, { deleteFlag }: DeleteOptions = {}) {
     const entity = this.selector.getById(this.store.getState(), id);
 
     if (!entity._isFake) {
@@ -95,7 +95,7 @@ export default class Essense<T extends { id?: string }> {
     }
   }
 
-  updateEntity(id: string, data: Partial<T>) {
+  updateEntity(id: string, data: any) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 

@@ -4,7 +4,7 @@ import { entityApi } from '../entityApi';
 
 export const deleteNoteMutationKey = (id: string) => ['deleteNote', id];
 
-export const useDeleteNote = (id: string) => {
+export const useDeleteNote = (id: number) => {
   return useMutation({
     mutationKey: ['deleteNote', id],
     mutationFn: () => {

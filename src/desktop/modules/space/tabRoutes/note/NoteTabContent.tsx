@@ -22,7 +22,7 @@ export const NoteTabContent = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   
-  const onPostClick = React.useCallback((e) => (noteId: string) => {
+  const onPostClick = React.useCallback((e) => (noteId: number) => {
     e.preventDefault();
     if (e.metaKey) {
       dispatch(openTab({ 

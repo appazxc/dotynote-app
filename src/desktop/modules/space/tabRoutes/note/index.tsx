@@ -16,7 +16,7 @@ export const note = createRoute({
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
     try {
-      await queryClient.fetchQuery(options.notes.load(params.noteId));
+      await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));
     } catch (err: unknown) {
       if (!(err instanceof AxiosError)) {
         throw err;

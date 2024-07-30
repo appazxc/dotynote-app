@@ -16,7 +16,7 @@ import { invariant } from 'shared/util/invariant';
 
 type Props = {
   postId: string,
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => (postId: string) => void,
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => (postId: number) => void,
   onDelete: () => void,
 }
 
@@ -47,7 +47,7 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
         <MenuTrigger as={Box}>
           <PostBase
             noteId={note.id}
-            postId={postId}
+            postId={post.id}
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
               onClick?.(e)(note.id);
             }}

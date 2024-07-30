@@ -16,7 +16,7 @@ const ROOT_MARGIN = '400px';
 
 type Props = {
   noteId: number,
-  onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => (noteId: string) => void,
+  onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => (noteId: number) => void,
 }
 
 export const Posts = ({ noteId, onPostClick }: Props) => {

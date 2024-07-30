@@ -2,7 +2,7 @@ import { BaseEntity } from './BaseEntity';
 
 export type PostEntity = BaseEntity<{
   pos: number,
-  parentId: string,
-  noteId: string,
+  parentId: number,
+  noteId: number,
   authorId: string,
-}>
+}, number>

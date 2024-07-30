@@ -9,7 +9,7 @@ import { MAX_PAGE_SIZE } from 'shared/constants/requests';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
-const Note = ({ noteId }: { noteId: string }) => {
+const Note = ({ noteId }: { noteId: number }) => {
   return (
     <DesktopTabLink
       to="/n/$noteId"

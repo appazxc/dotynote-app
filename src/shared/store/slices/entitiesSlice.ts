@@ -12,7 +12,7 @@ export type Entities = {
 
 type UpdateEntityPayload<T extends EntityName> = { 
   type: T, 
-  id: string, 
+  id: string | number, 
   data: Partial<EntityTypes[T]>
 }
 
@@ -87,7 +87,7 @@ export const entitiesSlice = createSlice({
     },
     deleteEntity: (
       state, 
-      { payload }: PayloadAction<{ id: string, type: EntityName }>
+      { payload }: PayloadAction<{ id: string | number, type: EntityName }>
     ) => {
       const { id, type } = payload;
 

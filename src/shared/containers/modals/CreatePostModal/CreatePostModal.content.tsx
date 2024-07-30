@@ -24,7 +24,7 @@ import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
-  noteId: string,
+  noteId: number,
   onCreate?: (id: string) => void,
 }
 

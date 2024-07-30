@@ -19,7 +19,7 @@ import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
 
 type Props = {
-  id: string,
+  id: number,
   rwMode: RwMode,
   showRwMode: boolean,
 }

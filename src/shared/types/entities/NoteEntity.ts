@@ -8,4 +8,4 @@ export type NoteEntity = BaseEntity<{
   authorId: string,
   access: 'private' | 'public',
   postSettingsId?: string,
-}>
+}, number>

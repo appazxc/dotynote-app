@@ -5,9 +5,9 @@ import { toast } from 'shared/util/toast';
 import { entityApi } from '../entityApi';
 
 type Params = {
-  fromNoteId: string,
-  noteIds: string[],
-  parentId: string,
+  fromNoteId: number,
+  noteIds: number[],
+  parentId: number,
 }
 
 export const useStickNote = () => {
@@ -17,9 +17,6 @@ export const useStickNote = () => {
     },
     onError: () => {
       toast({ title: 'Error', status: 'error' });
-    },
-    meta: {
-      hello: 2,
     },
   });
 };
