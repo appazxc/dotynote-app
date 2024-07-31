@@ -14,8 +14,15 @@ type NoOperation = {
 
 export type StickOperation = {
   type: 'stick',
-  fromNoteId: number,
+  fromNoteId: number | null,
   noteIds: number[],
+  concretePlace: boolean,
+}
+
+export type MoveOperation = {
+  type: 'move',
+  fromNoteId: number,
+  postIds: number[],
   concretePlace: boolean,
 }
 
@@ -33,7 +40,7 @@ type InitialState = {
     isAdvancedEditActive: boolean,
     addTo: AddTo,
   },
-  operation: NoOperation | StickOperation,
+  operation: NoOperation | StickOperation | MoveOperation,
 };
 
 const noOperation = { type: null };
@@ -94,14 +101,31 @@ export const appSlice = createSlice({
     stopOperation: (state) => {
       state.operation = noOperation;
     },
-    startStickOperation: (state, { payload }: PayloadAction<{
-      fromNoteId: number,
-      noteIds: number[],
-    }>) => {
+    startStickOperation: (
+      state, 
+      { payload }: PayloadAction<{
+        fromNoteId?: number,
+        noteIds: number[],
+      }>
+    ) => {
       state.operation = {
         type: 'stick',
-        fromNoteId: payload.fromNoteId,
+        fromNoteId: payload.fromNoteId || null,
         noteIds: payload.noteIds,
+        concretePlace: false,
+      };
+    },
+    startMoveOperation: (
+      state, 
+      { payload }: PayloadAction<{
+        fromNoteId: number,
+        postIds: number[],
+      }>
+    ) => {
+      state.operation = {
+        type: 'move',
+        fromNoteId: payload.fromNoteId,
+        postIds: payload.postIds,
         concretePlace: false,
       };
     },
@@ -127,6 +151,7 @@ export const {
   toggleAdvancedEdit,
   stopOperation,
   startStickOperation,
+  startMoveOperation,
   toggleConcretePlace,
 } = appSlice.actions;
 

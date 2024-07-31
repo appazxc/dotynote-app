@@ -15,6 +15,7 @@ const space = new Essense<SpaceEntity>(entityNames.space, spaceSelector);
 const post = new Essense<PostEntity>(entityNames.post, postSelector);
 const spaceTab = new SpaceTabEssence(entityNames.spaceTab, spaceTabSelector);
 const stickNote = new ActionEssense('/notes/stick');
+const movePost = new ActionEssense('/posts/move');
 
 export const entityApi = {
   user,
@@ -23,4 +24,5 @@ export const entityApi = {
   note,
   post,
   stickNote,
+  movePost,
 };
