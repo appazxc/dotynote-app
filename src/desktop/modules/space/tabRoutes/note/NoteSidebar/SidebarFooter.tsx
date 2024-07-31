@@ -17,6 +17,7 @@ import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettings
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { startStickOperation } from 'shared/store/slices/appSlice';
 import { getTextFromZodError } from 'shared/util/api/getTextFromZodError';
 
 const NoteMenu = ({ id }: { id: number }) => {
@@ -48,6 +49,13 @@ const NoteMenu = ({ id }: { id: number }) => {
               Edit posts settings
             </MenuItem>
           )}
+          <MenuItem
+            onClick={() => dispatch(startStickOperation({
+              noteIds: [note.id],
+            }))}
+          >
+            Stick
+          </MenuItem>
           <MenuDivider />
           <MenuItem
             onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}

@@ -5,7 +5,7 @@ import { toast } from 'shared/util/toast';
 import { entityApi } from '../entityApi';
 
 type Params = {
-  fromNoteId: number,
+  fromNoteId: number | null,
   noteIds: number[],
   parentId: number,
 }
