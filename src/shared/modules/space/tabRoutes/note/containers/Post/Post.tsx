@@ -12,11 +12,12 @@ import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startStickOperation } from 'shared/store/slices/appSlice';
+import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
   postId: string,
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => (postId: number) => void,
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
   onDelete: () => void,
 }
 
@@ -48,8 +49,8 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           <PostBase
             noteId={note.id}
             postId={post.id}
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-              onClick?.(e)(note.id);
+            onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+              onClick?.(event)(post);
             }}
           />
         </MenuTrigger>

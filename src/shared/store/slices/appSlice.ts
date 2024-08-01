@@ -17,6 +17,7 @@ export type StickOperation = {
   fromNoteId: number | null,
   noteIds: number[],
   concretePlace: boolean,
+  concretePostId?: number,
 }
 
 export type MoveOperation = {
@@ -24,6 +25,7 @@ export type MoveOperation = {
   fromNoteId: number,
   postIds: number[],
   concretePlace: boolean,
+  concretePostId?: number,
 }
 
 type InitialState = {
@@ -101,6 +103,14 @@ export const appSlice = createSlice({
     stopOperation: (state) => {
       state.operation = noOperation;
     },
+    updateOperationConcretePost: (
+      state, 
+      { payload }: PayloadAction<number>
+    ) => {
+      if ('concretePlace' in state.operation) {
+        state.operation.concretePostId = payload;
+      } 
+    },
     startStickOperation: (
       state, 
       { payload }: PayloadAction<{
@@ -153,6 +163,7 @@ export const {
   startStickOperation,
   startMoveOperation,
   toggleConcretePlace,
+  updateOperationConcretePost,
 } = appSlice.actions;
 
 export default appSlice.reducer;

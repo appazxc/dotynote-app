@@ -8,6 +8,8 @@ type Params = {
   fromNoteId: number | null,
   noteIds: number[],
   parentId: number,
+  concretePostId?: number,
+  place?: 'top' | 'bottom',
 }
 
 export const useStickNote = () => {

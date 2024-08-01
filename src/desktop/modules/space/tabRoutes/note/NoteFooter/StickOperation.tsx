@@ -94,7 +94,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
         description={concretePlace ? 'Click on post and select where you want to stick': undefined}
         options={options}
         isLoading={isStickPending}
-        onConfirm={handleStick}
+        onConfirm={concretePlace ? undefined : handleStick}
       />
 
       <EditPostSettingsModal noteId={note.id} extraId={extraId} />

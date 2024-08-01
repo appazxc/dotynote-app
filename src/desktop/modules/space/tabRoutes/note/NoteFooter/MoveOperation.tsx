@@ -30,13 +30,14 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
       onSuccess: () => {
         dispatch(stopOperation());
         queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
-        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
+
+        if (note.id !== fromNoteId) {
+          queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
+        }
       },
     });
   }, [dispatch, move, fromNoteId, postIds, note.id]);
 
-  const isSameNote = note.id == fromNoteId;
-  
   const options = [
     {
       label: 'Concrete place',
@@ -57,14 +58,6 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     );
   }
 
-  if (isSameNote) {
-    return (
-      <Operation
-        title="Open note where you want to move"
-      />
-    );
-  }
-
   return (
     <>
       <Operation
@@ -72,7 +65,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
         description={concretePlace ? 'Click on post and select where you want to move': undefined}
         options={options}
         isLoading={isStickPending}
-        onConfirm={handleMove}
+        onConfirm={concretePlace ? undefined : handleMove}
       />
 
       <EditPostSettingsModal noteId={note.id} extraId={extraId} />

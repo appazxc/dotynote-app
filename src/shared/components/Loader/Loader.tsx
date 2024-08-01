@@ -15,7 +15,6 @@ export const Loader = React.memo(({ delay = 300, text }: Props) => {
       <Center
         w="full"
         h="full"
-        background="red"
       >
         <Spinner />
         {text}

@@ -10,6 +10,7 @@ export const modalIds = keymirror({
   editPostSettings: null,
   createPost: null,
   url: null,
+  selectConcretePlace: null,
 });
 
 export type ModalId = keyof typeof modalIds;
