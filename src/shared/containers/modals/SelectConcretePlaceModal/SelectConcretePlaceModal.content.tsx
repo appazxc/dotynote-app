@@ -16,6 +16,7 @@ import { useTabNote } from 'shared/hooks/useTabNote';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { stopOperation } from 'shared/store/slices/appSlice';
 import { ModalBase } from 'shared/types/modal';
 import { invariant } from 'shared/util/invariant';
 
@@ -58,6 +59,7 @@ const SelectConcretePlaceModal = (props: Props) => {
     queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
 
     dispatch(hideModal());
+    dispatch(stopOperation());
   };
 
   const isLoading = isPendingMove || isPendingStick;
