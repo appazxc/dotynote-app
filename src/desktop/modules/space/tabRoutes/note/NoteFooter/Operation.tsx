@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Text, Button, IconButton } from '@chakra-ui/react';
+import { Box, Text, Button, IconButton, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdClose, MdOutlineDone } from 'react-icons/md';
@@ -30,7 +30,9 @@ export const Operation = React.memo((props: Props) => {
     onConfirm,
   } = props;
   const dispatch = useAppDispatch();
-  
+  const borderColor = useColorModeValue('gray.700', 'white');
+  const descriptionColor = useColorModeValue('gray.500', 'gray.400');
+
   const handleClose = () => {
     dispatch(stopOperation());
     onClose?.();
@@ -45,7 +47,7 @@ export const Operation = React.memo((props: Props) => {
       p="2"
       borderRadius="md"
       border="2px solid"
-      borderColor="gray.700"
+      borderColor={borderColor}
       alignItems="stretch"
       flexDirection="column"
       display="flex"
@@ -59,7 +61,7 @@ export const Operation = React.memo((props: Props) => {
       >
         <Box>
           {typeof title === 'string' ? <Text fontWeight="bold" fontSize="sm">{title}</Text>: title}
-          <Text fontSize="sm" color="gray.500">{description}</Text>
+          <Text fontSize="sm" color={descriptionColor}>{description}</Text>
         </Box>
         <Box
           display="flex"

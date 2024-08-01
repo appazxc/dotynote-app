@@ -57,7 +57,7 @@ export const NoteSidebar = React.memo((props: Props) => {
       }] : [],
       ...showRwMode ? [{
         id: 'NodeRw',
-        label: 'wtf', //rwMode === rwModes.READ ? 'Note edit' : 'Note read',
+        label: rwMode === rwModes.READ ? 'Note edit' : 'Note read',
         element: (
           <SidebarRwButton
             rwMode={rwMode}

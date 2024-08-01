@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -19,7 +18,7 @@ import * as z from 'zod';
 
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
-import { EditorContent, EditorMenu, useEditor } from 'shared/modules/editor';
+import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -83,13 +82,6 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
               },
             }}
           >
-            <Box
-              position="sticky"
-              zIndex="1"
-              top="0"
-            >
-              <EditorMenu editor={editor} />
-            </Box>
             <FormControl isInvalid={!!errors.title}>
               <AutoResizeTextarea
                 placeholder="Title"
