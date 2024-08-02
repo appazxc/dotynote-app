@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styled from '@emotion/styled';
+import { Box } from '@chakra-ui/react';
 
 type Props = {
   children: React.ReactNode,
@@ -8,18 +8,13 @@ type Props = {
   footer?: React.ReactNode,
 }
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
 const Layout = ({ children, header, footer }: Props) => {
   return (
-    <Container>
+    <Box h="full" w="full">
       {header && header}
       {children}
       {footer}
-    </Container>
+    </Box>
   );
 };
 

@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
 const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
   const space = useAppSelector(state => spaceSelector.getById(state, id));
@@ -126,12 +126,11 @@ function Spaces() {
     return (
       <LayoutHeader
         p="2"
-        px="4"
         left={!isLoading && (
           <Box display="flex" alignItems="center">
             <IconButton 
-              aria-label="Back"
               size="sm"
+              aria-label="Back"
               icon={<BsArrowLeft />}
               mr="3"
               isDisabled={!canGoBack}

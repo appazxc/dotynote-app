@@ -12,15 +12,24 @@ type Props = {
   children: React.ReactNode,
 }
 
+const deviceBoolMap = {
+  [devices.DESKTOP]: false,
+  [devices.MOBILE]: true,
+};
+
 export const Device = React.memo(({ children }: Props) => {
   const query = useQuery({ below: 'sm' });
   const dispatch = useDispatch();
   const device = useAppSelector(state => state.app.device);
   // standard media initialized with wrong values
   const [isMobileMatch] = useMedia(query);
-
+  
   React.useEffect(() => {
-    if (!device && typeof isMobileMatch === 'boolean') {
+    if (typeof isMobileMatch !== 'boolean') {
+      return;
+    }
+
+    if (!device || isMobileMatch !== deviceBoolMap[device]) {
       dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
     }
   }, [dispatch, device, isMobileMatch]);

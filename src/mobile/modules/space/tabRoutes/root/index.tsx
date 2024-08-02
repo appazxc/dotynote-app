@@ -10,7 +10,6 @@ import config from 'shared/config';
 
 export const root = createRootRoute({
   component: React.memo(() => {
-
     return (
       <>
         <Outlet />

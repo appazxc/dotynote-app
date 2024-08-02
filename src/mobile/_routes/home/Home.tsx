@@ -3,7 +3,7 @@ import React from 'react';
 import { Container } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
+import { LoginForm } from 'shared/components/forms/LoginForm';
 import { Logo } from 'shared/components/Logo';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';

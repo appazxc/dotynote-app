@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Center, Text, Link, Stack } from '@chakra-ui/react';
 
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
+import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 
 function DefaultNotFoundComponent() {
   return (
@@ -16,7 +16,7 @@ function DefaultNotFoundComponent() {
         <Text fontSize="2xl">Not Found</Text>
 
         <Link
-          as={DesktopTabLink}
+          as={MobileTabLink}
           to="/"
           color="teal.500"
           mt="10"
@@ -24,6 +24,7 @@ function DefaultNotFoundComponent() {
             Go to home page
         </Link>
       </Stack>
+
     </Center>
   );
 }

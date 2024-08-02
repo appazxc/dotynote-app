@@ -1,32 +1,32 @@
 import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { RouterProvider } from '@tanstack/react-router';
+import { invariant, RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { useTabRouter } from 'shared/modules/space/tabRoutes/useTabRouter';
+import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
-import { router } from 'desktop/modules/space/tabRoutes/router';
-
-import { useTabRouter } from './tabRoutes/useTabRouter';
+import { createTabRouter, router } from 'desktop/modules/space/tabRoutes/router';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
-  const activeSpace = useAppSelector(selectActiveSpace);
+  const activeSpaceId = useAppSelector(selectActiveSpaceId);
+
+  invariant(activeSpaceId, 'activeSpaceId is missings');
 
   const { 
     isLoading: tabNotesIsLoading,
   } = useQuery({
     // проверить чтобы лишних квери не было
-    ...options.notes.tabNotes(activeSpace?.id, router),
-    enabled: !!activeSpace,
+    ...options.notes.tabNotes(activeSpaceId, router),
     throwOnError: true,
   });
 
@@ -50,7 +50,7 @@ const Space = React.memo(() => {
 });
 
 const SpaceTabContent = React.memo(({ activeTabId, isFake }: { activeTabId: string, isFake?: boolean }) => {
-  const router = useTabRouter(activeTabId);
+  const router = useTabRouter(activeTabId, createTabRouter);
 
   const renderedProvider = React.useMemo(() => 
     <RouterProvider key={activeTabId} router={router} />, 

@@ -11,7 +11,6 @@ function DefaultNotFoundComponent() {
       <Center
         w="full"
         h="full"
-        bg="slate.1"
       >
         <Stack textAlign="center">
 

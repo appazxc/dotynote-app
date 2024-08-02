@@ -2,8 +2,9 @@ import React from 'react';
 
 import { Center, Text, Link, Stack } from '@chakra-ui/react';
 
-import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
+
+import { MobileLink } from 'mobile/components/MobileLink';
 
 function DefaultErrorComponent({ error }) {
   console.log('error', error);
@@ -13,6 +14,7 @@ function DefaultErrorComponent({ error }) {
       <Center
         w="full"
         h="full"
+        bg="slate.1"
       >
         <Stack textAlign="center">
 
@@ -20,7 +22,7 @@ function DefaultErrorComponent({ error }) {
           <Text fontSize="2xl">Try to reload the page</Text>
 
           <Link
-            as={DesktopLink}
+            as={MobileLink}
             to="/"
             color="teal.500"
             mt="10"

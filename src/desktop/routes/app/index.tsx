@@ -2,7 +2,6 @@ import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-route
 
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
-import { Loader } from 'shared/components/Loader';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
@@ -22,7 +21,7 @@ const appIndexRoute = createRoute({
     const context = ctx.context as Context;
     const { store } = context;
     const { dispatch, getState } = store;
-  
+
     await dispatch(loadSpaces());
     const activeSpace = selectActiveSpace(getState());
   
@@ -40,7 +39,6 @@ const appIndexRoute = createRoute({
       dispatch(cleanWaitedRoute());
     }
   },
-  pendingComponent: Loader,
   component: lazyRouteComponent(() => import('desktop/modules/space')),
 });
 

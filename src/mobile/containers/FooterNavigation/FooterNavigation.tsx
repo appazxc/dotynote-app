@@ -31,14 +31,14 @@ export const FooterNavigation = (props: Props) => {
         onClick: () => {
           // look src/desktop/modules/space/components/SpaceLayout/MainHeaderButton/MainHeaderButton.tsx 
           // dispatch(openMainSpaceNote());
-          router.navigate(buildUrl({ routeName: routeNames.app }));
+          router.navigate({ to: '/app' });
         },
         icon: <GoHome size="25" />,
       },
       {
         label: 'search',
         onClick: () => {
-          router.navigate(buildUrl({ routeName: routeNames.search }));
+          // router.navigate(buildUrl({ routeName: routeNames.search }));
         },
         icon: <GoSearch size="25" />,
       },
@@ -53,7 +53,7 @@ export const FooterNavigation = (props: Props) => {
       {
         label: 'tabs',
         onClick: () => {
-          router.navigate(buildUrl({ routeName: routeNames.tabs }));
+          // router.navigate(buildUrl({ routeName: routeNames.tabs }));
         },
         icon: <Center
           w="6"
@@ -68,7 +68,7 @@ export const FooterNavigation = (props: Props) => {
       {
         label: 'account',
         onClick: () => {
-          router.navigate(buildUrl({ routeName: routeNames.account }));
+          // router.navigate(buildUrl({ routeName: routeNames.account }));
         },
         icon: <CiMenuBurger size="25" />,
       },

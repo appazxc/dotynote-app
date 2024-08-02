@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Box, IconButton } from '@chakra-ui/react';
+import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
-import { useNavigate } from 'react-router';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
@@ -13,8 +13,8 @@ type Props = {
   showBackButton?: React.ReactNode,
 }
 
-export const TabHeader = ({ children, left, right, showBackButton = true }: Props) => {
-  const navigate = useNavigate();
+export const TabHeader = ({ children, left, right, showBackButton }: Props) => {
+  const { history } = useRouter();
   const tab = useTabContext();
 
   const renderedBackButton = React.useMemo(() => {
@@ -27,12 +27,12 @@ export const TabHeader = ({ children, left, right, showBackButton = true }: Prop
         size="sm"
         aria-label="Note back"
         icon={<BsArrowLeft />}
-        onClick={() => navigate(-1)}
+        onClick={() => history.back()}
         variant="ghost"
         colorScheme="brand"
       />
     );
-  }, [tab.routes.length, navigate, showBackButton]);
+  }, [tab.routes.length, history, showBackButton]);
 
   return (
     <Box
@@ -41,7 +41,13 @@ export const TabHeader = ({ children, left, right, showBackButton = true }: Prop
       flexDirection="row"
       alignItems="center"
     >
-      <Box flexShrink="0">{renderedBackButton}{left}</Box>
+      <Box
+        flexShrink="0"
+        alignItems="center"
+        display="flex"
+      >
+        {renderedBackButton}{left}
+      </Box>
       <Box flexGrow="1">{children}</Box>
       <Box flexShrink="0">{right}</Box>
     </Box>

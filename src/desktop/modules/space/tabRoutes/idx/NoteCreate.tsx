@@ -9,7 +9,6 @@ import {
   Heading,
   SimpleGrid,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';

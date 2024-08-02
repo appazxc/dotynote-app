@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RouterHistory, createMemoryHistory } from '@tanstack/react-router';
+import { AnyRouter, RouterHistory, createMemoryHistory } from '@tanstack/react-router';
 
 import { handleTabRouteChange } from 'shared/modules/space/actions/router/handleTabRouteChange';
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
@@ -8,8 +8,6 @@ import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
-
-import { createTabRouter } from './router';
 
 let lastAction: string | null = null;
 function extendHistory(history: RouterHistory, listenTo: string[]): RouterHistory {
@@ -37,14 +35,16 @@ function getMemoryHistoryParams(spaceTab: SpaceTabEntity) {
   };
 }
 
-export const useTabRouter = (spaceTabId: string) => {
+type CreateTabRouter = (history: RouterHistory) => AnyRouter;
+
+export const useTabRouter = (spaceTabId: string, createTabRouter: CreateTabRouter): AnyRouter => {
   const dispatch = useAppDispatch();
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, spaceTabId));
 
   invariant(spaceTab, 'Missing spaceTab');
 
   const router = React.useMemo(() => {
-    let router: ReturnType<typeof createTabRouter>;
+    let router;
     const routesMap = getRoutesMap();
     if (routesMap.get(spaceTabId)) {
       router = routesMap.get(spaceTabId);

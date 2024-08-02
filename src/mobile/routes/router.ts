@@ -4,20 +4,20 @@ import {
 
 import { Loader } from 'shared/components/Loader';
 
-import { about } from './about';
+// import { about } from './about';
 import { app } from './app';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
-import { login } from './login';
+// import { login } from './login';
 import { root } from './root';
 import { context } from './routerContext';
 
 const routeTree = root.addChildren([
   idx, 
-  about, 
+  // about, 
   app, 
-  login,
+  // login,
 ]);
 
 const router = createRouter({ 

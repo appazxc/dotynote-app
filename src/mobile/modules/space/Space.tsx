@@ -1,25 +1,21 @@
+import React from 'react';
+
 import { useQuery } from '@tanstack/react-query';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { useTabRouter } from 'shared/modules/space/helpers/useTabRouter';
+import { useTabRouter } from 'shared/modules/space/tabRoutes/useTabRouter';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { invariant } from 'shared/util/invariant';
 
-import { Error as ErrorPage } from 'mobile/modules/space/components/pages/Error';
-import { FakeTabLoading } from 'mobile/modules/space/components/pages/FakeTabLoading';
-import { Loading as LoadingPage } from 'mobile/modules/space/components/pages/Loading';
 import { NonActiveTab } from 'mobile/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
-import { Error } from 'mobile/modules/space/tabs/error/Error';
-import { Loading } from 'mobile/modules/space/tabs/loading/Loading';
-import { NotFound } from 'mobile/modules/space/tabs/notFound/NotFound';
-import { tabsDictionary } from 'mobile/modules/space/tabs/tabsDictionary';
+import { createTabRouter } from 'mobile/modules/space/tabRoutes/router';
+import { router } from 'mobile/routes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -28,56 +24,38 @@ function Space() {
   invariant(activeSpaceId, 'activeSpaceId is missings');
 
   const {
-    isError: tabNotesIsError,
-    isFetched: tabNotesIsFetched,
-  } = useQuery(options.notes.tabNotes(activeSpaceId, 'replace'));
+    isLoading: tabNotesIsLoading,
+  } = useQuery({
+    ...options.notes.tabNotes(activeSpaceId, router),
+    throwOnError: true,
+  });
 
-  if (tabNotesIsError) {
-    return <ErrorPage />;
-  }
-
-  if (!tabNotesIsFetched) {
-    return <LoadingPage />;
+  if (!tabNotesIsLoading) {
+    return <Loader delay={300} />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
     return <NonActiveTab />;
   }
 
-  if (activeTab._isFake) {
-    return (
-      <FakeTabLoading />
-    );
-  }
-
   return (
     <TabProvider tab={activeTab}>
       <SpaceLayout>
-        <SpaceTabContent activeTab={activeTab} />
+        <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
       </SpaceLayout>
     </TabProvider>
 
   );
 }
 
-function SpaceTabContent({ activeTab }: { activeTab: SpaceTabEntity }) {
-  const router = useTabRouter(
-    activeTab.id,
-    tabsDictionary,
-    {
-      notFoundPage: <NotFound />,
-      errorPage: <Error />,
-      loadingPage: <Loading />,
-    }
-  );
+function SpaceTabContent({ activeTabId, isFake }: { activeTabId: string, isFake?: boolean }) {
+  const router = useTabRouter(activeTabId, createTabRouter);
 
-  return (
-    <RouterProvider
-      key={activeTab.id}
-      router={router}
-      fallbackElement={<Loader />}
-    />
-  );
+  const renderedProvider = React.useMemo(() => 
+    <RouterProvider key={activeTabId} router={router} />, 
+  [activeTabId, router]);
+
+  return isFake ? <Loader />: (renderedProvider);
 }
 
 export { Space };

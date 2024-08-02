@@ -2,22 +2,19 @@ import React from 'react';
 
 import { Center, Text, Link, Stack } from '@chakra-ui/react';
 
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
+import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 
 function DefaultErrorComponent({ error }) {
   return (
     <Center
       w="full"
       h="full"
-      bg="slate.1"
     >
       <Stack textAlign="center">
-
         <Text fontSize="6xl">Error</Text>
         <Text fontSize="2xl">Try to reload the page</Text>
-
         <Link
-          as={DesktopTabLink}
+          as={MobileTabLink}
           to="/"
           color="teal.500"
           mt="10"

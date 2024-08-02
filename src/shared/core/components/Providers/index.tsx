@@ -23,13 +23,8 @@ function Providers({ children }: Props) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider
-            theme={theme}
-            toastOptions={{ defaultOptions: toastOptions }}
-          >
-            <Device>
-              {children}
-            </Device>
+          <ChakraProvider theme={theme} toastOptions={{ defaultOptions: toastOptions }}>
+            <Device>{children}</Device>
           </ChakraProvider>
           {config.devtools.query && <ReactQueryDevtools initialIsOpen />}
         </QueryClientProvider>

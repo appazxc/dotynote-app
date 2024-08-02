@@ -1,18 +1,47 @@
-import React from 'react';
+import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 
-import { Loader } from 'shared/components/Loader';
-import { deferLoader } from 'shared/routes/app/deferLoader';
-import { RouteLoader } from 'shared/types/_router';
+import { loadSpaces } from 'shared/actions/space/loadSpaces';
+import { openTab } from 'shared/actions/space/openTab';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
-import { App } from './App';
+import { auth } from '../guards';
+import { Context } from '../routerContext';
+import { spaces } from '../spaces';
 
-const loader: RouteLoader = async (args) => {};
+export const appRoute = createRoute({
+  getParentRoute: () => auth,
+  path: 'app',
+});
 
-export default async function() {
-  return {
-    Component: App,
-    loader,
-    deferLoader,
-    loaderComponent: <Loader />,
-  };
-}
+const appIndexRoute = createRoute({
+  getParentRoute: () => appRoute,
+  path: '/',
+  loader: async (ctx) => {
+    const context = ctx.context as Context;
+    const { store } = context;
+    const { dispatch, getState } = store;
+  
+    await dispatch(loadSpaces());
+    const activeSpace = selectActiveSpace(getState());
+  
+    const { waitedRoute } = getState().app;
+  
+    if (!activeSpace) {
+      console.log('active space missing', getState());
+      throw redirect({
+        to: '/app/spaces',
+      });
+    }
+
+    if (waitedRoute && activeSpace) {
+      await dispatch(openTab({ route: waitedRoute, makeActive: true }));
+      dispatch(cleanWaitedRoute());
+    }
+  },
+  component: lazyRouteComponent(() => import('mobile/modules/space')),
+});
+
+export const app = auth.addChildren([
+  appRoute.addChildren([appIndexRoute, spaces]),
+]);
