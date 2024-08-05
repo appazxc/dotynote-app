@@ -30,7 +30,6 @@ const appIndexRoute = createRoute({
     const { waitedRoute } = getState().app;
   
     if (!activeSpace) {
-      console.log('active space missing', getState());
       throw redirect({
         to: '/app/spaces',
       });
@@ -44,6 +43,4 @@ const appIndexRoute = createRoute({
   component: lazyRouteComponent(() => import('desktop/modules/space')),
 });
 
-export const app = auth.addChildren([
-  appRoute.addChildren([appIndexRoute, spaces, tabs]),
-]);
+export const app = appRoute.addChildren([appIndexRoute, spaces, tabs]);

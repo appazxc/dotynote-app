@@ -1,11 +1,11 @@
 import { createRoute } from '@tanstack/react-router';
 
-import { root } from '../root';
+import { guest } from '../guards';
 
 import { Home } from './Home';
 
 export const idx = createRoute({
-  getParentRoute: () => root,
+  getParentRoute: () => guest,
   path: '/',
   component: Home,
 });

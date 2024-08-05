@@ -105,7 +105,7 @@ export const LoginForm = () => {
   return (
     <Box
       bg="white"
-      p={6}
+      py={6}
       rounded="md"
     >
       <Form {...form}>

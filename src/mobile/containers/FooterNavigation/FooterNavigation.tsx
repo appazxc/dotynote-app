@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { Box, Center, IconButton, Text } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
 import { CiMenuBurger } from 'react-icons/ci';
-import { GoDotFill, GoSearch, GoPlus, GoHome } from 'react-icons/go';
+import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
 import { drawerIds } from 'shared/constants/drawerIds';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';

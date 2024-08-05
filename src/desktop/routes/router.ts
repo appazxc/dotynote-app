@@ -4,7 +4,8 @@ import {
 
 import { Loader } from 'shared/components/Loader';
 
-import { about } from './about';
+import { auth, guest } from 'desktop/routes/guards';
+
 import { app } from './app';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
@@ -14,10 +15,8 @@ import { root } from './root';
 import { context } from './routerContext';
 
 const routeTree = root.addChildren([
-  idx, 
-  about, 
-  app, 
-  login,
+  guest.addChildren([idx, login]),
+  auth.addChildren([app]), 
 ]);
 
 const router = createRouter({ 

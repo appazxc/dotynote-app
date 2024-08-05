@@ -4,20 +4,19 @@ import {
 
 import { Loader } from 'shared/components/Loader';
 
-// import { about } from './about';
+import { auth, guest } from 'mobile/routes/guards';
+
 import { app } from './app';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
-// import { login } from './login';
+import { login } from './login';
 import { root } from './root';
 import { context } from './routerContext';
 
 const routeTree = root.addChildren([
-  idx, 
-  // about, 
-  app, 
-  // login,
+  auth.addChildren([app]), 
+  guest.addChildren([idx, login]),
 ]);
 
 const router = createRouter({ 
