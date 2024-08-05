@@ -8,17 +8,18 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { NoteEditor } from '../NoteEditor';
 
 type Props = {
-  id: string,
+  id: number,
   isWriteMode: boolean,
+  isMobile: boolean,
   content: NoteEntity['content']
 }
 
 export const NoteEditorBase = (props: Props) => {
-  const { isWriteMode, content } = props;
+  const { isWriteMode, isMobile, content } = props;
 
   return (
     <Box
-      mt="4"
+      mt={isMobile ? '2' : '4'}
       flexGrow="1"
       display="flex"
       flexDirection="column"

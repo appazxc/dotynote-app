@@ -5,6 +5,8 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
+import { tabs } from 'mobile/routes/tabs';
+
 import { auth } from '../guards';
 import { Context } from '../routerContext';
 import { spaces } from '../spaces';
@@ -43,5 +45,5 @@ const appIndexRoute = createRoute({
 });
 
 export const app = auth.addChildren([
-  appRoute.addChildren([appIndexRoute, spaces]),
+  appRoute.addChildren([appIndexRoute, spaces, tabs]),
 ]);

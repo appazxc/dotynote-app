@@ -13,12 +13,13 @@ import { NoteEditorBase } from '../NoteEditorBase';
 import { NoteTitle } from './NoteTitle';
 
 type Props = {
-  id: string,
+  id: number,
   isWriteMode: boolean,
+  isMobile: boolean,
 }
 
 export const NoteBase = (props: Props) => {
-  const { id, isWriteMode } = props;
+  const { id, isWriteMode, isMobile } = props;
   const note = useAppSelector(state => noteSelector.getById(state, id));
 
   invariant(note, 'Missing note');
@@ -41,12 +42,14 @@ export const NoteBase = (props: Props) => {
       pb="5"
     >
       <NoteTitle
+        isMobile={isMobile}
         title={title}
         isWriteMode={isWriteMode}
         onChange={debouncedUpdateTitle}
       />
       <NoteEditorBase
         id={id}
+        isMobile={isMobile}
         isWriteMode={isWriteMode}
         content={content}
       />

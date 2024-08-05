@@ -28,7 +28,7 @@ export const NoteNotFound = () => {
           Note Not Found
         </Text>
         <Text color={'gray.500'} mb={6}>
-        The note you{"'"}re looking for does not seem to exist
+          The note you{"'"}re looking for does not seem to exist
         </Text>
         <Button
           colorScheme="brand"

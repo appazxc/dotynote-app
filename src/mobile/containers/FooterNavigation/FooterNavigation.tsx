@@ -1,29 +1,27 @@
 import React from 'react';
 
 import { Box, Center, IconButton, Text } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoSearch, GoPlus, GoHome } from 'react-icons/go';
 
 import { drawerIds } from 'shared/constants/drawerIds';
-import { routeNames } from 'shared/constants/routeNames';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { selectSortedTabIds } from 'shared/selectors/tab/selectSortedTabIds';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { buildUrl } from 'shared/util/router/buildUrl';
 
 import { DotNoteMenuDrawer } from 'mobile/containers/drawers/DotNoteMenuDrawer';
 import { router } from 'mobile/routes/router';
 
 type Props = {
-  isDotMenuDisabled?: boolean,
-  noteId?: string,
+  noteId?: number,
 }
 
 export const FooterNavigation = (props: Props) => {
-  const { isDotMenuDisabled } = props;
+  const { noteId } = props;
   const dispatch = useAppDispatch();
   const tabIds = useAppSelector(selectSortedTabIds);
-
+  
   const buttons = React.useMemo(() => {
     return [
       {
@@ -48,12 +46,12 @@ export const FooterNavigation = (props: Props) => {
           dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
         },
         icon: <GoDotFill size="35" />,
-        isDisabled: isDotMenuDisabled,
+        isDisabled: !noteId,
       },
       {
         label: 'tabs',
         onClick: () => {
-          // router.navigate(buildUrl({ routeName: routeNames.tabs }));
+          router.navigate({ to: '/app/tabs' });
         },
         icon: <Center
           w="6"
@@ -62,7 +60,7 @@ export const FooterNavigation = (props: Props) => {
           border="1px"
           borderColor="gray.700"
         >
-          {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text>: <GoPlus />}
+          {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text> : <GoPlus />}
         </Center>,
       },
       {
@@ -73,7 +71,7 @@ export const FooterNavigation = (props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, tabIds, isDotMenuDisabled]);
+  }, [dispatch, tabIds, noteId]);
 
   return (
     <>
@@ -82,7 +80,8 @@ export const FooterNavigation = (props: Props) => {
         alignItems="center"
         flexWrap="nowrap"
         justifyContent="space-between"
-        px="2"
+        h="10"
+        px="4"
       >
         {buttons.map((button) => (
           <IconButton
@@ -91,7 +90,8 @@ export const FooterNavigation = (props: Props) => {
             aria-label={button.label}
             icon={button.icon}
             onClick={button.onClick}
-            variant="ghost"
+            variant="unstyled"
+            display="inline-flex"
             colorScheme="brand"
             isDisabled={button.isDisabled}
           />

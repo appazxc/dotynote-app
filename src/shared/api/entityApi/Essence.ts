@@ -43,7 +43,7 @@ export default class Essense<T extends { id?: string | number }> {
     return await this.api.get<T[]>(`${this.path}`, filters);
   }
 
-  async update(id: string, data: Partial<T>) {
+  async update(id: string | number, data: Partial<T>) {
     const entity = this.selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
@@ -95,7 +95,7 @@ export default class Essense<T extends { id?: string | number }> {
     }
   }
 
-  updateEntity(id: string, data: any) {
+  updateEntity(id: string | number, data: any) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 

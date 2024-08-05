@@ -4,6 +4,7 @@ import { Center, Text } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 
+import { NoteProviders } from 'shared/modules/space/tabRoutes/note/components/NoteProviders';
 import { rwModes } from 'shared/modules/space/tabRoutes/note/constants';
 import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { noteSelector } from 'shared/selectors/entities';
@@ -16,7 +17,6 @@ import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 import { NoteFooter } from 'desktop/modules/space/tabRoutes/note/NoteFooter';
 
 import { NoteHeader } from './NoteHeader';
-import { NoteProviders } from './NoteProviders';
 import { NoteSidebar } from './NoteSidebar';
 import { NoteTabContent } from './NoteTabContent';
 
@@ -43,8 +43,8 @@ export const Note = React.memo(() => {
 
   return (
     <NoteProviders
-      key={noteId}
-      id={noteId}
+      key={note.id}
+      id={note.id}
       isWriteMode={rwMode === rwModes.WRITE}
     >
       <TabLayout

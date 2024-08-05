@@ -1,2 +1,2 @@
 export { TabLayout } from './TabLayout';
-export { TabHeader } from './TabHeader';
+export { TabHeader } from '../TabHeader';

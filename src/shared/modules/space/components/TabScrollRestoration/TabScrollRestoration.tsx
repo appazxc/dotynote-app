@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useLocation, useRouter } from '@tanstack/react-router';
+import { useLocation } from '@tanstack/react-router';
 import throttle from 'lodash/throttle';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';

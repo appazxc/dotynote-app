@@ -14,8 +14,7 @@ import { invariant } from 'shared/util/invariant';
 
 import { NonActiveTab } from 'mobile/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
-import { createTabRouter } from 'mobile/modules/space/tabRoutes/router';
-import { router } from 'mobile/routes/router';
+import { createTabRouter, router } from 'mobile/modules/space/tabRoutes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -30,7 +29,7 @@ function Space() {
     throwOnError: true,
   });
 
-  if (!tabNotesIsLoading) {
+  if (tabNotesIsLoading) {
     return <Loader delay={300} />;
   }
 

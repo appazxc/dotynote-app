@@ -7,7 +7,7 @@ import { openTab } from 'shared/actions/space/openTab';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { Posts } from 'shared/modules/space/tabRoutes/note/containers/Posts';
+import { Posts } from 'shared/modules/space/tabRoutes/note/components/Posts';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
@@ -63,7 +63,7 @@ export const NoteTabContent = React.memo((props: Props) => {
         gap="10"
       >
         <NoteBase
-          id={String(noteId)}
+          id={noteId}
           isWriteMode={isWriteMode}
         />
         {showPosts && (
@@ -74,13 +74,7 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
       </Box>
-      <SelectConcretePlaceModal
-        title="Изменение цветовой темы"
-        description={'Подтвердите изменение темы на'}
-        onConfirm={() => {
-          dispatch(hideModal());
-        }}
-      />
+      <SelectConcretePlaceModal />
     </Container>
   );
 });

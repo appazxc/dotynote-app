@@ -7,17 +7,24 @@ import { EditableTitle } from './EditableTitle';
 type Props = {
   title?: string,
   isWriteMode: boolean,
+  isMobile: boolean,
   onChange: (title: string) => void,
 }
 
-export const NoteTitle = ({ title, isWriteMode, onChange }: Props) => {
+export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => {
   const content = React.useMemo(() => {
     if (!isWriteMode) {
       return title ? <Heading>{title}</Heading> : null;
     }
 
-    return <EditableTitle title={title} onChange={onChange} />;
-  }, [title, isWriteMode, onChange]);
+    return (
+      <EditableTitle
+        isMobile={isMobile}
+        title={title}
+        onChange={onChange}
+      />
+    );
+  }, [title, isWriteMode, isMobile, onChange]);
 
   return (
     <Box>

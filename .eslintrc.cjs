@@ -67,6 +67,7 @@ module.exports = {
     'max-len': ['error', { 'code': 120 }],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'jsx-quotes': ['error', 'prefer-double'],
+    'space-infix-ops': ['error', { 'int32Hint': false }],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',

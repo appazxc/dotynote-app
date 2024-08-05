@@ -6,7 +6,7 @@ import { Loader } from 'shared/components/Loader';
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
-// import { note } from './note';
+import { note } from './note';
 // import { noteSettings } from './noteSettings';
 // import { profile } from './profile';
 import { root } from './root';
@@ -15,7 +15,7 @@ import { context } from './routerContext';
 
 const routeTree = root.addChildren([
   idx, 
-  // note,
+  note,
   // addMainNote,
   // profile,
   // noteSettings,
