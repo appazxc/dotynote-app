@@ -17,7 +17,7 @@ export const TabHeader = ({ children, left, right }: Props) => {
       flexDirection="row"
       alignItems="center"
       h="10"
-      px="2"
+      px="4"
       gap="2"
     >
       {left && (

@@ -49,7 +49,7 @@ export const Home = React.memo(() => {
             borderRadius="20"
             onChange={handleChange}
           />
-          {showSearch ? <NoteSearch value={search} /> :<NoteCreate />}
+          {showSearch ? <NoteSearch value={search} /> : <NoteCreate />}
         </Box>
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -21,9 +20,10 @@ import * as z from 'zod';
 
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
-import { EditorContent, EditorMenu, EditorView, useEditor } from 'shared/modules/editor';
+import { EditorContent, EditorView, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
-import { useAppDispatch } from 'shared/store/hooks';
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   onCreate?: (id: string) => void,
@@ -41,6 +41,7 @@ type FormValues = z.infer<typeof schema>
 
 const CreateNoteModal = ({ onCreate }: Props) => {
   const dispatch = useAppDispatch();
+  const isMobile = useAppSelector(selectIsMobile);
   const {
     handleSubmit,
     register,
@@ -74,7 +75,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
     <Modal
       isCentered
       isOpen
-      size="2xl"
+      size={isMobile ? 'full' : '2xl'}
       scrollBehavior="inside"
       onClose={() => dispatch(hideModal())}
     >
@@ -91,13 +92,6 @@ const CreateNoteModal = ({ onCreate }: Props) => {
               },
             }}
           >
-            <Box
-              position="sticky"
-              zIndex="1"
-              top="0"
-            >
-              <EditorMenu editor={editor} />
-            </Box>
             <FormControl isInvalid={!!errors.title}>
               <AutoResizeTextarea
                 placeholder="Title"

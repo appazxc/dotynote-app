@@ -78,7 +78,7 @@ export const Tabs = () => {
     const rightSide = (
       <Box pr="4" py="1">
         <Button
-          size="xs"
+          size="sm"
           leftIcon={<BsPlus size="22px" />}
           onClick={() => {
             dispatch(openTab({ makeActive: true }));

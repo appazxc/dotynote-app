@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Center, Text } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
 
 import { NoteProviders } from 'shared/modules/space/tabRoutes/note/components/NoteProviders';
@@ -23,6 +24,16 @@ export const Note = () => {
   
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
 
+  if (note._isDeleted) {
+    return (
+      <Center h="full">
+        <Text color="gray.500">
+          Note is deleted.
+        </Text>
+      </Center>
+    );
+  }
+  
   return (
     <NoteProviders
       key={note.id}
