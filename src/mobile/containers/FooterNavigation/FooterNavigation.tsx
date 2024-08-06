@@ -6,8 +6,9 @@ import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
 import { drawerIds } from 'shared/constants/drawerIds';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
-import { selectSortedTabIds } from 'shared/selectors/tab/selectSortedTabIds';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { invariant } from 'shared/util/invariant';
 
 import { DotNoteMenuDrawer } from 'mobile/containers/drawers/DotNoteMenuDrawer';
 import { router } from 'mobile/routes/router';
@@ -19,8 +20,10 @@ type Props = {
 export const FooterNavigation = (props: Props) => {
   const { noteId } = props;
   const dispatch = useAppDispatch();
-  const tabIds = useAppSelector(selectSortedTabIds);
+  const activeSpace = useAppSelector(selectActiveSpace);
   
+  invariant(activeSpace, 'Missing active space');
+
   const buttons = React.useMemo(() => {
     return [
       {
@@ -60,7 +63,7 @@ export const FooterNavigation = (props: Props) => {
           border="2px"
           borderColor="gray.600"
         >
-          {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text> : <GoPlus />}
+          {activeSpace.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
         </Center>,
       },
       {
@@ -71,7 +74,7 @@ export const FooterNavigation = (props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, tabIds, noteId]);
+  }, [dispatch, activeSpace.tabs.length, noteId]);
 
   return (
     <>
