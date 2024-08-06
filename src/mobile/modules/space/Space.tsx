@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Center, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 
@@ -12,6 +13,9 @@ import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
+import { TabLayout } from 'desktop/modules/space/components/TabLayout';
+
+import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { NonActiveTab } from 'mobile/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'mobile/modules/space/components/SpaceLayout';
 import { createTabRouter, router } from 'mobile/modules/space/tabRoutes/router';
@@ -43,7 +47,6 @@ function Space() {
         <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
       </SpaceLayout>
     </TabProvider>
-
   );
 }
 
@@ -54,7 +57,9 @@ function SpaceTabContent({ activeTabId, isFake }: { activeTabId: string, isFake?
     <RouterProvider key={activeTabId} router={router} />, 
   [activeTabId, router]);
 
-  return isFake ? <Loader />: (renderedProvider);
+  return isFake 
+    ? <TabLayout footer={<FooterNavigation />}><Loader /></TabLayout>
+    : renderedProvider;
 }
 
 export { Space };

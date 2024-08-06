@@ -90,7 +90,7 @@ export const NoteContentCards = React.memo(({ isMobile }: Props) => {
   return (
     <SimpleGrid
       spacing={4}
-      templateColumns={isMobile ? 'repeat(auto-fill, minmax(80px, 1fr))' : 'repeat(auto-fill, minmax(150px, 1fr))'}
+      templateColumns={isMobile ? 'repeat(auto-fill, minmax(90px, 1fr))' : 'repeat(auto-fill, minmax(180px, 1fr))'}
     >
       {cards.map(({ title, icon, description, isDisabled, ...restProps }) => {
         return (
