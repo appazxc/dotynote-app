@@ -8,6 +8,7 @@ import {
   CardHeader,
   Center,
   IconButton,
+  LightMode,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -53,8 +54,8 @@ const Cards = ({ items }) => {
             <Card
               key={title}
               padding="small"
-              cursor={isDisabled ? 'default': 'pointer'}
-              opacity={isDisabled ? '0.6': '1'}
+              cursor={isDisabled ? 'default' : 'pointer'}
+              opacity={isDisabled ? '0.6' : '1'}
               onClick={onClick}
             >
               <CardHeader p="2">
@@ -181,7 +182,7 @@ const PostsContent = ({ note, onClose }) => {
     note.postSettingsId 
       ? renderedCards
       : (
-        <Center minH="200px">
+        <Center minH="180px">
           <Button
             onClick={handleClick}
             isDisabled={isPending}
@@ -238,45 +239,54 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
             onClick={onToggle}
           />
         </PopoverTrigger>
-        <PopoverContent width="md">
-          <PopoverBody>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Box>
-                <Text fontSize="sm" fontWeight="500">Add to</Text>
-              </Box>
+        <LightMode>
+          <PopoverContent width="md">
+            <PopoverBody>
               <Box
                 display="flex"
                 alignItems="center"
-                gap="2"
+                justifyContent="space-between"
               >
-                {canAddToNote && (
-                  <Button
-                    size="xs"
-                    variant={noteContent ? 'solid' :'ghost'}
-                    onClick={() => dispatch(updateAddTo(addTo.NOTE))}
+                <Box color="chakra-body-text">
+                  <Text
+                    fontSize="sm"
+                    fontWeight="500"
                   >
+                    Add
+                  </Text>
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap="2"
+                  color="chakra-body-text"
+                >
+                  <Text fontSize="sm" fontWeight="500">to</Text>
+                  {canAddToNote && (
+                    <Button
+                      size="xs"
+                      variant={noteContent ? 'solid' : 'ghost'}
+                      onClick={() => dispatch(updateAddTo(addTo.NOTE))}
+                    >
                     Note
-                  </Button>
-                )}
-                {canAddToNote && canAddToPosts && '/'}
-                {canAddToPosts && (
-                  <Button
-                    size="xs"
-                    variant={noteContent ? 'ghost' :'solid'}
-                    onClick={() => dispatch(updateAddTo(addTo.POSTS))}
-                  >
+                    </Button>
+                  )}
+                  {canAddToNote && canAddToPosts && '/'}
+                  {canAddToPosts && (
+                    <Button
+                      size="xs"
+                      variant={noteContent ? 'ghost' : 'solid'}
+                      onClick={() => dispatch(updateAddTo(addTo.POSTS))}
+                    >
                     Posts
-                  </Button>
-                )}
+                    </Button>
+                  )}
+                </Box>
               </Box>
-            </Box>
-            {noteContent ? <NoteContent /> : <PostsContent note={note} onClose={onClose} />}
-          </PopoverBody>
-        </PopoverContent>
+              {noteContent ? <NoteContent /> : <PostsContent note={note} onClose={onClose} />}
+            </PopoverBody>
+          </PopoverContent>
+        </LightMode>
       </Popover>
 
       <EditPostSettingsModal noteId={noteId} extraId={extraId} />

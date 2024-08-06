@@ -1,1 +1,1 @@
-export { NoteEditor } from './NoteEditor';
+export { NoteEditor } from '../../../../../../shared/modules/space/tabRoutes/note/components/NoteEditor';

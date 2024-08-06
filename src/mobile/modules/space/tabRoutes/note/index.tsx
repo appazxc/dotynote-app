@@ -5,6 +5,8 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { NoteNotFound } from 'shared/modules/space/tabRoutes/note/NoteNotFound';
 
+import { NotePendingComponent } from 'mobile/modules/space/tabRoutes/note/NotePendingComponent';
+
 import { root } from '../root';
 
 export const noteRoutePath = '/n/$noteId';
@@ -24,6 +26,7 @@ export const note = createRoute({
       throw notFound();
     }
   },
+  pendingComponent: NotePendingComponent,
   notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,

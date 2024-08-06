@@ -68,7 +68,6 @@ export const Note = React.memo(() => {
         )}
       >
         <NoteTabContent
-          // @ts-ignore
           noteId={note.id}
           showPosts={!!note.postSettingsId}
           isWriteMode={rwMode === rwModes.WRITE}

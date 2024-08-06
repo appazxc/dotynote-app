@@ -13,7 +13,7 @@ import { invariant } from 'shared/util/invariant';
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { TabLayout } from 'mobile/modules/space/components/TabLayout';
 
-import { NoteHeader } from './containers/NoteHeader';
+import { NoteHeader } from './NoteHeader';
 import { NoteTabContent } from './NoteTabContent';
 
 export const Note = () => {

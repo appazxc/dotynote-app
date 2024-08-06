@@ -1,16 +1,21 @@
 import React from 'react';
 
-import { Container, Text } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
+import { Container } from '@chakra-ui/react';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 
+import { NoteInPost } from 'shared/components/NoteInPost';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
-import { NoteContentCards } from 'shared/modules/space/tabRoutes/note/components/NoteContentCards';
+import { HomeNoteSearch } from 'shared/modules/space/tabRoutes/idx/HomeNoteSearch';
+import { HomeSearchInput } from 'shared/modules/space/tabRoutes/idx/HomeSearchInput';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 import { TabHeader, TabLayout } from 'mobile/modules/space/components/TabLayout';
+import { NoteCreate } from 'mobile/modules/space/tabRoutes/idx/NoteCreate';
 
 export const Home = () => {
   const navigate = useNavigate();
+  const { search = '' } = useSearch({ strict: false }); 
 
   const handleCreateNote = React.useCallback((id: string) => {
     navigate({
@@ -20,14 +25,31 @@ export const Home = () => {
     });
   }, [navigate]);
 
+  const renderNote = (id: number) => {
+    return (
+      <MobileTabLink
+        key={id}
+        to="/n/$noteId"
+        params={{ noteId: String(id) }}
+      >
+        <NoteInPost noteId={id} />
+      </MobileTabLink>
+    );
+  };
+
+  const showSearch = search.length >= 2;
+  
   return (
     <TabLayout 
-      header={<TabHeader>Search</TabHeader>} 
+      header={(
+        <TabHeader>
+          <HomeSearchInput isMobile />
+        </TabHeader>
+      )} 
       footer={<FooterNavigation />}
     >
       <Container pt="4">
-        <Text fontWeight="500" mb="4">Create note</Text>
-        <NoteContentCards isMobile />
+        {showSearch ? <HomeNoteSearch value={search} renderNote={renderNote} /> : <NoteCreate />}
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />
     </TabLayout>

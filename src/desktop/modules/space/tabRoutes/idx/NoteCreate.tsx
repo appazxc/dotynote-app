@@ -7,7 +7,7 @@ import { NoteContentCards } from 'shared/modules/space/tabRoutes/note/components
 
 export const NoteCreate = () => {
   return (
-    <Box mt="10">
+    <Box>
       <Heading size="lg" mb="6">
         Create note with:
       </Heading>

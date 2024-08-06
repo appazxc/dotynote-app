@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, Card, CardBody, CardFooter, CardHeader, SimpleGrid } from '@chakra-ui/react';
+import { Text, Card, CardBody, CardHeader, SimpleGrid } from '@chakra-ui/react';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
@@ -90,7 +90,7 @@ export const NoteContentCards = React.memo(({ isMobile }: Props) => {
   return (
     <SimpleGrid
       spacing={4}
-      templateColumns={isMobile ? 'repeat(auto-fill, minmax(100px, 1fr))' : 'repeat(auto-fill, minmax(200px, 1fr))'}
+      templateColumns={isMobile ? 'repeat(auto-fill, minmax(80px, 1fr))' : 'repeat(auto-fill, minmax(150px, 1fr))'}
     >
       {cards.map(({ title, icon, description, isDisabled, ...restProps }) => {
         return (
@@ -98,28 +98,20 @@ export const NoteContentCards = React.memo(({ isMobile }: Props) => {
             key={title}
             {...restProps}
             cursor={isDisabled ? 'default' : 'pointer'}
-            opacity={isDisabled ? '0.5' : '1'}
+            opacity={isDisabled ? '0.6' : '1'}
           >
-            <CardHeader>
+            <CardHeader p="2">
               {icon}
             </CardHeader>
             <CardBody
-              pb="0"
+              pt="2"
+              pb="1"
+              px="2"
               display="flex"
               alignItems="flex-end"
             >
               <Text fontWeight="500" fontSize={isMobile ? 'sm' : 'lg'}>{title}</Text>
             </CardBody>
-            <CardFooter
-              px="5"
-              pt="0"
-              pb="0"
-              h="5"
-            >
-              <Text fontSize={isMobile ? 'xs' : 'sm'} color="gray.400">
-                {description}
-              </Text>
-            </CardFooter>
           </Card>
         );
       })}

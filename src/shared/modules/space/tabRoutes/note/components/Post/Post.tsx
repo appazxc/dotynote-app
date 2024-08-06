@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
 import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
-import { Post as PostBase } from 'shared/components/Post';
+import { NoteInPost } from 'shared/components/NoteInPost';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
@@ -46,9 +46,8 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
     <>
       <Menu isContextMenu>
         <MenuTrigger as={Box}>
-          <PostBase
+          <NoteInPost
             noteId={note.id}
-            postId={post.id}
             onClick={(event: React.MouseEvent<HTMLDivElement>) => {
               onClick?.(event)(post);
             }}

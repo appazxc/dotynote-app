@@ -4,7 +4,7 @@ import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 
 type Props = {
   title?: string,
-  isMobile: boolean,
+  isMobile?: boolean,
   onChange: (title: string) => void,
 }
 

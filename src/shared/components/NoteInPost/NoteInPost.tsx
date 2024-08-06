@@ -6,12 +6,11 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId?: number,
   noteId: number,
 } & BoxProps;
 
-export const Post = (props: Props) => {
-  const { postId, noteId, ...restProps } = props;
+export const NoteInPost = (props: Props) => {
+  const { noteId, ...restProps } = props;
 
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
@@ -34,10 +33,9 @@ export const Post = (props: Props) => {
       borderRadius="lg"
       borderColor="gray.200"
       cursor="pointer"
-      data-post-id={postId}
       {...restProps}
     >
-      <Text fontWeight="500">{postId ? `#${postId} ` : ''}{note.title}</Text>
+      <Text fontWeight="500">#{note.id} {note.title}</Text>
       <EditorView
         maxLines={4}
         removeEmptyDivsFromEnd

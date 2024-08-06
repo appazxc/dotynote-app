@@ -7,7 +7,7 @@ import { EditableTitle } from './EditableTitle';
 type Props = {
   title?: string,
   isWriteMode: boolean,
-  isMobile: boolean,
+  isMobile?: boolean,
   onChange: (title: string) => void,
 }
 

@@ -64,8 +64,6 @@
     "react-icons": "^4.10.1",
     "react-intersection-observer": "^9.8.1",
     "react-redux": "^8.0.5",
-    "react-router": "^6.20.0",
-    "react-router-dom": "^6.20.0",
     "react-scripts": "5.0.1",
     "react-textarea-autosize": "^8.5.3",
     "redux-persist": "^6.0.0",

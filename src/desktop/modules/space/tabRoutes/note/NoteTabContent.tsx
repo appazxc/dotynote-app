@@ -6,7 +6,8 @@ import { useNavigate } from '@tanstack/react-router';
 import { openTab } from 'shared/actions/space/openTab';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
-import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { showModal } from 'shared/modules/modal/modalSlice';
+import { NoteBase } from 'shared/modules/space/tabRoutes/note/components/NoteBase';
 import { Posts } from 'shared/modules/space/tabRoutes/note/components/Posts';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -14,8 +15,6 @@ import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
-
-import { NoteBase } from './NoteBase';
 
 type Props = {
   noteId: number,
@@ -74,7 +73,7 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
       </Box>
-      <SelectConcretePlaceModal />
+      <SelectConcretePlaceModal noteId={noteId} />
     </Container>
   );
 });

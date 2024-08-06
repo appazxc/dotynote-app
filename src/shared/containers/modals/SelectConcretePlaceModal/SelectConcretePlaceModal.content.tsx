@@ -12,7 +12,6 @@ import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMoveNote } from 'shared/api/hooks/useMoveNote';
 import { useStickNote } from 'shared/api/hooks/useStickNote';
 import { queryClient } from 'shared/api/queryClient';
-import { useTabNote } from 'shared/hooks/useTabNote';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -20,13 +19,14 @@ import { stopOperation } from 'shared/store/slices/appSlice';
 import { ModalBase } from 'shared/types/modal';
 import { invariant } from 'shared/util/invariant';
 
-export type Props = ModalBase<{}>
+export type Props = ModalBase<{
+  noteId: number,
+}>
 
 const SelectConcretePlaceModal = (props: Props) => {
-  const { isOpen = true } = props;
+  const { noteId, isOpen = true } = props;
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
-  const note = useTabNote();
 
   const { mutateAsync: move, isPending: isPendingMove } = useMoveNote();
   const { mutateAsync: stick, isPending: isPendingStick } = useStickNote();
@@ -36,19 +36,19 @@ const SelectConcretePlaceModal = (props: Props) => {
   const handleClick = (place: 'top' | 'bottom') => async () => {
     if (operation.type === 'move') {
       await move({
-        parentId: note.id,
+        parentId: noteId,
         postIds: operation.postIds,
         concretePostId: operation.concretePostId,
         place,
       });
 
-      if (operation.fromNoteId !== note.id)
+      if (operation.fromNoteId !== noteId)
         queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(operation.fromNoteId).slice(0, 2) });
     }
 
     if (operation.type === 'stick') {
       await stick({
-        parentId: note.id,
+        parentId: noteId,
         noteIds: operation.noteIds,
         fromNoteId: operation.fromNoteId,
         concretePostId: operation.concretePostId,
@@ -56,7 +56,7 @@ const SelectConcretePlaceModal = (props: Props) => {
       });
     }
 
-    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
+    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId).slice(0, 2) });
 
     dispatch(hideModal());
     dispatch(stopOperation());

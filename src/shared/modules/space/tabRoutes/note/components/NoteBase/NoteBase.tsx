@@ -15,7 +15,7 @@ import { NoteTitle } from './NoteTitle';
 type Props = {
   id: number,
   isWriteMode: boolean,
-  isMobile: boolean,
+  isMobile?: boolean,
 }
 
 export const NoteBase = (props: Props) => {

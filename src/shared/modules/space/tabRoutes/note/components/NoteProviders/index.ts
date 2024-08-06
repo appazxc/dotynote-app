@@ -1,1 +1,1 @@
-export { NoteProviders } from './NoteProviders';
+export { NoteProviders } from '../NoteProviders';

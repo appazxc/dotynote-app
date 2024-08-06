@@ -3,31 +3,22 @@ import React from 'react';
 import {
   Box,
   Container,
-  Input,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import debounce from 'lodash/debounce';
 
+import { NoteInPost } from 'shared/components/NoteInPost';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
+import { HomeNoteSearch } from 'shared/modules/space/tabRoutes/idx/HomeNoteSearch';
+import { HomeSearchInput } from 'shared/modules/space/tabRoutes/idx/HomeSearchInput';
 
+import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 import { NoteCreate } from './NoteCreate';
-import { NoteSearch } from './NoteSearch';
 
 export const Home = React.memo(() => {
   const navigate = useNavigate();
   const { search = '' } = useSearch({ strict: false }); 
-  const [value, setValue] = React.useState(search);
-
-  const debouncedNavigate = React.useMemo(() => debounce((value) => {
-    navigate({ search: (prev) => ({ ...prev, search: value }), replace: true });
-  }, 500), [navigate]);
-
-  const handleChange = React.useCallback((event) => {
-    setValue(event.target.value);
-    debouncedNavigate(event.target.value);
-  }, [debouncedNavigate]);
 
   const handleCreateNote = React.useCallback((id: string) => {
     navigate({
@@ -37,19 +28,32 @@ export const Home = React.memo(() => {
     });
   }, [navigate]);
 
+  const renderNote = (id: number) => {
+    return (
+      <DesktopTabLink
+        key={id}
+        to="/n/$noteId"
+        params={{ noteId: String(id) }}
+      >
+        <NoteInPost noteId={id} />
+      </DesktopTabLink>
+    );
+  };
+
   const showSearch = search.length >= 2;
 
   return (
     <TabLayout>
       <Container>
-        <Box pb="10" pt="5">
-          <Input
-            value={value}
-            placeholder="Search"
-            borderRadius="20"
-            onChange={handleChange}
-          />
-          {showSearch ? <NoteSearch value={search} /> : <NoteCreate />}
+        <Box
+          pb="10"
+          pt="5"
+          flexDirection="column"
+          display="flex"
+          gap="10"
+        >
+          <HomeSearchInput />
+          {showSearch ? <HomeNoteSearch value={search} renderNote={renderNote} /> : <NoteCreate />}
         </Box>
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />

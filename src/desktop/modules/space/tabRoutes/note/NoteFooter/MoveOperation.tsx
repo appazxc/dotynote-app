@@ -6,7 +6,7 @@ import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMoveNote } from 'shared/api/hooks/useMoveNote';
 import { queryClient } from 'shared/api/queryClient';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
-import { useTabNote } from 'shared/hooks/useTabNote';
+import { useTabNote } from 'shared/modules/space/tabRoutes/note/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
 
@@ -61,8 +61,8 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   return (
     <>
       <Operation
-        title={concretePlace ? 'Move near': 'Move'}
-        description={concretePlace ? 'Click on post and select where you want to move': undefined}
+        title={concretePlace ? 'Move near' : 'Move'}
+        description={concretePlace ? 'Click on post and select where you want to move' : undefined}
         options={options}
         isLoading={isStickPending}
         onConfirm={concretePlace ? undefined : handleMove}

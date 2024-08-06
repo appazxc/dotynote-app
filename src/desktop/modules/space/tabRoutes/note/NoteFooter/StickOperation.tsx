@@ -9,8 +9,8 @@ import { useStickNote } from 'shared/api/hooks/useStickNote';
 import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
-import { useTabNote } from 'shared/hooks/useTabNote';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { useTabNote } from 'shared/modules/space/tabRoutes/note/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { StickOperation as StickOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
 import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
@@ -90,8 +90,8 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
   return (
     <>
       <Operation
-        title={concretePlace ? 'Stick near': 'Stick'}
-        description={concretePlace ? 'Click on post and select where you want to stick': undefined}
+        title={concretePlace ? 'Stick near' : 'Stick'}
+        description={concretePlace ? 'Click on post and select where you want to stick' : undefined}
         options={options}
         isLoading={isStickPending}
         onConfirm={concretePlace ? undefined : handleStick}

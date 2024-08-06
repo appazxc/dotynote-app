@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { EditorProvider } from 'shared/modules/editor';
-import { NoteProvider } from 'shared/modules/space/components/NoteProvider';
+import { NoteProvider } from 'shared/modules/space/tabRoutes/note/components/NoteProvider';
 
 type Props = React.PropsWithChildren<{
   id: number,

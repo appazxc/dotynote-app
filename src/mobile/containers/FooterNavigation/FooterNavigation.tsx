@@ -56,8 +56,8 @@ export const FooterNavigation = (props: Props) => {
           w="6"
           h="6"
           rounded="6"
-          border="1px"
-          borderColor="gray.700"
+          border="2px"
+          borderColor="gray.600"
         >
           {tabIds.length ? <Text fontSize="sm">{tabIds.length}</Text> : <GoPlus />}
         </Center>,
