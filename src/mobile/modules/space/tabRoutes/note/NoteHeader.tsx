@@ -1,11 +1,18 @@
 import React from 'react';
 
-import { IconButton } from '@chakra-ui/react';
+import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+import { NoteMenu } from 'shared/modules/space/tabRoutes/note/components/NoteMenu';
+import { RwButton } from 'shared/modules/space/tabRoutes/note/components/RwButton';
+import { rwModes } from 'shared/modules/space/tabRoutes/note/constants';
+import { useIsNoteMutating } from 'shared/modules/space/tabRoutes/note/hooks/useIsNoteMutating';
+import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
+import { selectRwMode } from 'shared/selectors/user/selectRwMode';
+import { useAppSelector } from 'shared/store/hooks';
 
 import { TabHeader } from 'mobile/modules/space/components/TabHeader';
 import { router } from 'mobile/modules/space/tabRoutes/router';
@@ -18,23 +25,61 @@ export const NoteHeader = ({ noteId }: Props) => {
   const { history } = useRouter();
   const tab = useTabContext();
   const title = useTabTitle(tab.routes[tab.routes.length - 1], router);
+  const isMutating = useIsNoteMutating(noteId);
+  const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
+  const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
 
   const renderedBackButton = React.useMemo(() => {
     return (
       <IconButton
         size="sm"
         aria-label="Note back"
-        icon={<BsArrowLeft />}
+        icon={<BsArrowLeft size="18" />}
         onClick={() => history.back()}
         isDisabled={tab.routes.length <= 1}
-        variant="ghost"
+        variant="unstyled"
         colorScheme="brand"
+        display="inline-flex"
       />
     );
   }, [tab.routes.length, history]);
 
+  const renderedMenu = React.useMemo(() => {
+    return isMutating ? (
+      <Center h="32px" w="32px">
+        <Spinner size="sm" />
+      </Center>
+    ) : (
+      <NoteMenu
+        isMobile
+        noteId={noteId}
+        place="noteMobileHeader"
+      />
+    ); 
+  }, [isMutating, noteId]);
+
+  const renderedRwButton = React.useMemo(() => {
+    if (!showRwMode) {
+      return null;
+    }
+
+    return (
+      <RwButton
+        rwMode={rwMode}
+        label={rwMode === rwModes.READ ? 'Note edit' : 'Note read'}
+      />
+    ); 
+  }, [showRwMode, rwMode]);
+
+  const renderedRightSide = React.useMemo(() => {
+    return <HStack gap="2">{renderedRwButton}{renderedMenu}</HStack>;
+  }, [renderedMenu, renderedRwButton]);
+
   return (
-    <TabHeader left={renderedBackButton}>
+    <TabHeader
+      left={renderedBackButton}
+      right={renderedRightSide}
+    >
       {title}
     </TabHeader>
   );

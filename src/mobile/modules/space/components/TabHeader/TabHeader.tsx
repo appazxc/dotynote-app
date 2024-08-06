@@ -1,15 +1,14 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 
 type Props = {
   left?: React.ReactNode,
   children?: React.ReactNode,
   right?: React.ReactNode,
-  showBackButton?: React.ReactNode,
-}
+} & Omit<BoxProps, 'children' | 'left' | 'right'>;
 
-export const TabHeader = ({ children, left, right }: Props) => {
+export const TabHeader = ({ children, left, right, ...restProps }: Props) => {
   return (
     <Box
       w="full"
@@ -17,8 +16,9 @@ export const TabHeader = ({ children, left, right }: Props) => {
       flexDirection="row"
       alignItems="center"
       h="10"
-      px="4"
+      px="2"
       gap="2"
+      {...restProps}
     >
       {left && (
         <Box

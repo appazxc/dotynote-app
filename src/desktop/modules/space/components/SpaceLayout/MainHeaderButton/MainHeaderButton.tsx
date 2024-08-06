@@ -98,9 +98,6 @@ export const MainHeaderButton = () => {
           >
             Change main note
           </MenuItem>
-          <MenuItem>Mark as Draft</MenuItem>
-          <MenuItem>Delete</MenuItem>
-          <MenuItem>Attend a Workshop</MenuItem>
         </MenuList>
       </Menu>
 

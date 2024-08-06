@@ -6,6 +6,7 @@ import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+import { RwButton } from 'shared/modules/space/tabRoutes/note/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
@@ -13,7 +14,6 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
-import { SidebarRwButton } from 'desktop/modules/space/tabRoutes/note/NoteSidebar/SidebarRwButton';
 
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
@@ -59,7 +59,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         id: 'NodeRw',
         label: rwMode === rwModes.READ ? 'Note edit' : 'Note read',
         element: (
-          <SidebarRwButton
+          <RwButton
             rwMode={rwMode}
             label={rwMode === rwModes.READ ? 'Note edit' : 'Note read'}
           />

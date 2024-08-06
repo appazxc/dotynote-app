@@ -125,7 +125,6 @@ function Spaces() {
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader
-        p="2"
         left={!isLoading && (
           <Box display="flex" alignItems="center">
             <IconButton 

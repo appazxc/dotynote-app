@@ -23,14 +23,19 @@ export const Note = () => {
   invariant(note, 'Missing note');
   
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
+  const isWriteMode = rwMode === rwModes.WRITE;
 
   if (note._isDeleted) {
     return (
-      <Center h="full">
-        <Text color="gray.500">
-          Note is deleted.
-        </Text>
-      </Center>
+      <TabLayout 
+        footer={<FooterNavigation />}
+      >
+        <Center h="full">
+          <Text color="gray.500">
+            Note is deleted.
+          </Text>
+        </Center>
+      </TabLayout>
     );
   }
   
@@ -38,7 +43,7 @@ export const Note = () => {
     <NoteProviders
       key={note.id}
       id={note.id}
-      isWriteMode={rwMode === rwModes.WRITE}
+      isWriteMode={isWriteMode}
     >
       <TabLayout 
         header={<NoteHeader noteId={note.id} />} 
@@ -48,7 +53,7 @@ export const Note = () => {
           />
         )}
       >
-        <NoteTabContent noteId={note.id} />
+        <NoteTabContent noteId={note.id} isWriteMode={isWriteMode} />
       </TabLayout>
     </NoteProviders>
   );

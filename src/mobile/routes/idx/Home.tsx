@@ -10,7 +10,7 @@ import { MobileLink } from 'mobile/components/MobileLink';
 
 export const Home = React.memo(() => {
   return (
-    <Layout header={<LayoutHeader showBackButton={false} left={<MobileLink to="/"><Logo p="2" /></MobileLink>} />}>
+    <Layout header={<LayoutHeader left={<MobileLink to="/"><Logo p="2" /></MobileLink>} />}>
       <Container pt="24" maxW="md">
         <LoginForm />
       </Container>

@@ -20,7 +20,7 @@ import * as z from 'zod';
 
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
-import { EditorContent, EditorView, useEditor } from 'shared/modules/editor';
+import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -106,7 +106,6 @@ const CreateNoteModal = ({ onCreate }: Props) => {
             </FormControl>
 
             <EditorContent editor={editor} />
-            <EditorView content={editor?.getJSON()} />
           </ModalBody>
 
           <ModalFooter>

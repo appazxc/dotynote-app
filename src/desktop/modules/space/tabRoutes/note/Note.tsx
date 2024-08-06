@@ -30,6 +30,7 @@ export const Note = React.memo(() => {
 
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
+  const isWriteMode = rwMode === rwModes.WRITE;
 
   if (note._isDeleted) {
     return (
@@ -45,7 +46,7 @@ export const Note = React.memo(() => {
     <NoteProviders
       key={note.id}
       id={note.id}
-      isWriteMode={rwMode === rwModes.WRITE}
+      isWriteMode={isWriteMode}
     >
       <TabLayout
         scrollRestoration={false}
@@ -58,7 +59,7 @@ export const Note = React.memo(() => {
         )}
         header={(
           <AnimatePresence>
-            <NoteHeader isWriteMode={rwMode === rwModes.WRITE} />
+            <NoteHeader isWriteMode={isWriteMode} />
           </AnimatePresence>  
         )}
         footer={(
@@ -70,7 +71,7 @@ export const Note = React.memo(() => {
         <NoteTabContent
           noteId={note.id}
           showPosts={!!note.postSettingsId}
-          isWriteMode={rwMode === rwModes.WRITE}
+          isWriteMode={isWriteMode}
         />
       </TabLayout>
     </NoteProviders>

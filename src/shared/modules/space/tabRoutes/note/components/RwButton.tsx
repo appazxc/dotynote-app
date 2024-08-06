@@ -13,7 +13,7 @@ type Props = {
   rwMode: RwMode,
 }
 
-const SidebarRwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
+const RwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
   const dispatch = useAppDispatch();
   const editor = useEditorContext();
   
@@ -34,4 +34,4 @@ const SidebarRwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
   );
 };
 
-export const SidebarRwButton = React.memo(React.forwardRef(SidebarRwButtonComponent));
+export const RwButton = React.memo(React.forwardRef(RwButtonComponent));

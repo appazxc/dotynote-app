@@ -1,16 +1,21 @@
 import React from 'react';
 
 import { Box, Button, Card, IconButton, Stack } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import { LayoutGroup, motion } from 'framer-motion';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 
 import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
+import { options } from 'shared/api/options';
+import { Loader } from 'shared/components/Loader';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
+import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
@@ -41,6 +46,8 @@ const Tab = ({ id, isActive }) => {
 
   return (
     <Card
+      as={motion.div}
+      layout
       px="3"
       py="1"
       onClick={handleTabChange}
@@ -50,7 +57,8 @@ const Tab = ({ id, isActive }) => {
       justifyContent="space-between"
       alignItems="center"
       gap="2"
-      variant={isActive ? 'filled' : 'outline'}
+      variant="filled"
+      bg={isActive ? 'gray.300' : 'gray.100'}
     >
       <Box overflow="hidden">
         <SpaceTabTitle title={tabTitle} />
@@ -59,6 +67,8 @@ const Tab = ({ id, isActive }) => {
         icon={<MdClose /> }
         aria-label="close"
         size="sm"
+        variant="unstyled"
+        display="inline-flex"
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();
           dispatch(closeTab(id));
@@ -73,6 +83,16 @@ export const Tabs = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);
+  const activeSpaceId = useAppSelector(selectActiveSpaceId);
+
+  invariant(activeSpaceId, 'activeSpaceId is missings');
+
+  const {
+    isLoading: tabNotesIsLoading,
+  } = useQuery({
+    ...options.notes.tabNotes(activeSpaceId, router),
+    throwOnError: true,
+  });
 
   const renderedHeader = React.useMemo(() => {
     const rightSide = (
@@ -97,6 +117,10 @@ export const Tabs = () => {
     );
   }, [dispatch, navigate]);
   
+  if (tabNotesIsLoading) {
+    return <Loader delay={300} />;
+  }
+  
   return (
     <Layout 
       header={renderedHeader}
@@ -104,15 +128,21 @@ export const Tabs = () => {
         <FooterNavigation />
       }
     >
-      <Stack p="4" gap="4">
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.id}
-            id={tab.id}
-            isActive={tab.id === activeTabId}
-          />
-        ))}
-      </Stack>
+      <LayoutGroup>
+        <Stack
+          p="4"
+          gap="2"
+        >
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.id}
+              id={tab.id}
+              isActive={tab.id === activeTabId}
+            />
+          ))}
+        </Stack>
+      </LayoutGroup>
+
     </Layout>
   );
 };

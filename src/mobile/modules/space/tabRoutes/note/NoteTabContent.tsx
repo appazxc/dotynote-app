@@ -18,9 +18,10 @@ import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
 type Props = {
   noteId: number,
+  isWriteMode: boolean,
 }
 
-export const NoteTabContent = ({ noteId }: Props) => {
+export const NoteTabContent = ({ noteId, isWriteMode }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
@@ -56,7 +57,7 @@ export const NoteTabContent = ({ noteId }: Props) => {
         <NoteBase
           id={noteId}
           isMobile
-          isWriteMode
+          isWriteMode={isWriteMode}
         />
         <Posts
           key={noteId}

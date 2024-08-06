@@ -38,6 +38,7 @@ export const FooterNavigation = (props: Props) => {
           // router.navigate(buildUrl({ routeName: routeNames.search }));
         },
         icon: <GoSearch size="25" />,
+        isDisabled: true,
       },
       {
         label: 'menu',

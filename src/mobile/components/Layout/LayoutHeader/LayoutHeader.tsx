@@ -21,12 +21,12 @@ export const LayoutHeader = ({ children, left, right, showBackButton, ...restPro
 
     return (
       <IconButton
-        size="sm"
+        size="md"
         aria-label="Note back"
-        icon={<BsArrowLeft />}
+        icon={<BsArrowLeft size="18" />}
         onClick={() => history.back()}
-        variant="ghost"
-        colorScheme="brand"
+        variant="unstyled"
+        display="inline-flex"
       />
     );
   }, [history, showBackButton]);
@@ -38,6 +38,8 @@ export const LayoutHeader = ({ children, left, right, showBackButton, ...restPro
       flexDirection="row"
       alignItems="center"
       background="body"
+      p="2"
+      minH="10"
       {...restProps}
     >
       <Box flexShrink="0">{renderedBackButton}{left}</Box>

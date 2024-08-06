@@ -5,7 +5,6 @@ import { Text } from '@chakra-ui/react';
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMoveNote } from 'shared/api/hooks/useMoveNote';
 import { queryClient } from 'shared/api/queryClient';
-import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
 import { useTabNote } from 'shared/modules/space/tabRoutes/note/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
@@ -13,8 +12,6 @@ import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace 
 import { Operation } from './Operation';
 
 type Props = MoveOperationType;
-
-const extraId = 'moveOperation';
 
 export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }: Props) => {
   const dispatch = useAppDispatch();
@@ -67,8 +64,6 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
         isLoading={isStickPending}
         onConfirm={concretePlace ? undefined : handleMove}
       />
-
-      <EditPostSettingsModal noteId={note.id} extraId={extraId} />
     </>
   );
 });
