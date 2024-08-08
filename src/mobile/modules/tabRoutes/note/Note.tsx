@@ -42,7 +42,7 @@ export const Note = () => {
   
   return (
     <NoteProviders
-      key={note.id}
+      // key={note.id}
       id={note.id}
       isWriteMode={isWriteMode}
     >

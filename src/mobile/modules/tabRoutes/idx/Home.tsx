@@ -31,6 +31,7 @@ export const Home = () => {
         key={id}
         to="/n/$noteId"
         params={{ noteId: String(id) }}
+        replace
       >
         <NoteInPost noteId={id} />
       </MobileTabLink>
