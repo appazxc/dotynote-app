@@ -1,1 +1,0 @@
-export { TabLayout } from './TabLayout';

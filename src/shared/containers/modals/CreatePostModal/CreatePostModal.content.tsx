@@ -20,7 +20,8 @@ import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
-import { useAppDispatch } from 'shared/store/hooks';
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   noteId: number,
@@ -39,6 +40,7 @@ type FormValues = z.infer<typeof schema>
 
 const CreatePostModal = ({ noteId, onCreate }: Props) => {
   const dispatch = useAppDispatch();
+  const isMobile = useAppSelector(selectIsMobile);
   const {
     handleSubmit,
     register,
@@ -64,7 +66,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
     <Modal
       isCentered
       isOpen
-      size="2xl"
+      size={isMobile ? 'full' : '2xl'}
       scrollBehavior="inside"
       returnFocusOnClose={false}
       onClose={() => dispatch(hideModal())}

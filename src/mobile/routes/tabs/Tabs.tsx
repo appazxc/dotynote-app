@@ -96,7 +96,7 @@ export const Tabs = () => {
 
   const renderedHeader = React.useMemo(() => {
     const rightSide = (
-      <Box pr="4" py="1">
+      <Box pr="2">
         <Button
           size="sm"
           leftIcon={<BsPlus size="22px" />}

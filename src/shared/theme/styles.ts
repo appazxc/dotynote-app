@@ -8,7 +8,7 @@ export const getEditorStyles = (props) => {
     'wordBreak': 'break-word',
     'p.is-editor-empty:first-of-type::before': {
       content: 'attr(data-placeholder)',
-      color: 'gray.500',
+      color: colorMode('gray.500', 'whiteAlpha.400')(props),
       float: 'left',
       pointerEvents: 'none',
       height: 0,

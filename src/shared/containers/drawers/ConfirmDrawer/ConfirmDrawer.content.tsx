@@ -29,8 +29,8 @@ const ConfirmDrawer = (props: Props) => {
     >
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader>{title}</DrawerHeader>
         <DrawerCloseButton />
+        <DrawerHeader>{title}</DrawerHeader>
         <DrawerBody>
           {description}
         </DrawerBody>

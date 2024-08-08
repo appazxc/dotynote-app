@@ -38,7 +38,7 @@ export const LayoutHeader = ({ children, left, right, showBackButton, ...restPro
       flexDirection="row"
       alignItems="center"
       background="body"
-      p="2"
+      px="2"
       minH="10"
       {...restProps}
     >

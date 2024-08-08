@@ -4,8 +4,8 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
 export const useNoteTabId = () => {
   const tab = useTabContext();
-  const { state: { key } } = useLocation();
+  const { href } = useLocation();
   const { noteId = '' } = useParams({ strict: false });
   
-  return `${key}${tab.id}${noteId}`;
+  return `${href}${tab.id}${noteId}`;
 };

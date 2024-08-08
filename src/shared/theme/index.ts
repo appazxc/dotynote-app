@@ -1,16 +1,17 @@
 import { extendTheme } from '@chakra-ui/react';
 
-import { Button } from './components/button';
-import { Card } from './components/card';
-import { Container } from './components/container';
-import { Menu } from './components/menu';
-import { Modal } from './components/modal';
-import { Popover } from './components/popover';
-import { Textarea } from './components/textarea';
-import { Tooltip } from './components/tooltip';
-import { colors } from './foundations/colors';
-import { semanticTokens } from './foundations/semanticTokens';
-import { styles } from './styles';
+import { Button } from 'shared/theme/components/button';
+import { Card } from 'shared/theme/components/card';
+import { Container } from 'shared/theme/components/container';
+import { Drawer } from 'shared/theme/components/drawer';
+import { Menu } from 'shared/theme/components/menu';
+import { Modal } from 'shared/theme/components/modal';
+import { Popover } from 'shared/theme/components/popover';
+import { Textarea } from 'shared/theme/components/textarea';
+import { Tooltip } from 'shared/theme/components/tooltip';
+import { colors } from 'shared/theme/foundations/colors';
+import { semanticTokens } from 'shared/theme/foundations/semanticTokens';
+import { styles } from 'shared/theme/styles';
 
 const overrides = {
   styles,
@@ -25,6 +26,7 @@ const overrides = {
     Textarea,
     Menu,
     Tooltip,
+    Drawer,
   },
   config: {
     cssVarPrefix: 'dn',

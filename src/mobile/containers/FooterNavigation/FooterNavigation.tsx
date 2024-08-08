@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Center, IconButton, Text } from '@chakra-ui/react';
+import { Box, Center, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
@@ -10,7 +10,7 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { DotNoteMenuDrawer } from 'mobile/containers/drawers/DotNoteMenuDrawer';
+import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
 import { router } from 'mobile/routes/router';
 
 type Props = {
@@ -21,7 +21,9 @@ export const FooterNavigation = (props: Props) => {
   const { noteId } = props;
   const dispatch = useAppDispatch();
   const activeSpace = useAppSelector(selectActiveSpace);
-  
+
+  const borderColor = useColorModeValue('gray.600', 'gray.300');
+
   invariant(activeSpace, 'Missing active space');
 
   const buttons = React.useMemo(() => {
@@ -61,7 +63,7 @@ export const FooterNavigation = (props: Props) => {
           h="6"
           rounded="6"
           border="2px"
-          borderColor="gray.600"
+          borderColor={borderColor}
         >
           {activeSpace.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
         </Center>,
@@ -74,7 +76,7 @@ export const FooterNavigation = (props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, activeSpace.tabs.length, noteId]);
+  }, [dispatch, borderColor, activeSpace.tabs.length, noteId]);
 
   return (
     <>
@@ -100,7 +102,9 @@ export const FooterNavigation = (props: Props) => {
           />
         ))}
       </Box>
-      <DotNoteMenuDrawer noteId="test" />
+      {noteId && (
+        <FooterNoteDialogs noteId={noteId} />
+      )}
     </>
   );
 };

@@ -56,7 +56,7 @@ const SpaceTabContent = React.memo(({ activeTabId, isFake }: { activeTabId: stri
     <RouterProvider key={activeTabId} router={router} />, 
   [activeTabId, router]);
 
-  return isFake ? <Loader />: (renderedProvider);
+  return isFake ? <Loader /> : (renderedProvider);
 });
 
 export { Space };

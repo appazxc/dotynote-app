@@ -2,82 +2,52 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
+  DrawerHeader,
   DrawerOverlay,
 } from '@chakra-ui/react';
 
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
+import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
+import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
-  noteId: string,
+  noteId: number,
+  canAddToNote: boolean,
+  canAddToPosts: boolean,
+  modalsExtraId: string,
 }
 
 const DotNoteMenuDrawer = (props: Props) => {
-  const { noteId } = props;
+  const { noteId, modalsExtraId, canAddToNote, canAddToPosts } = props;
   const dispatch = useAppDispatch();
   
+  const onClose = () => {
+    dispatch(hideDrawer());
+  };
+
   return (
     <Drawer
       isOpen
       placement="bottom"
-      onClose={() => dispatch(hideDrawer())}
+      onClose={onClose}
     >
       <DrawerOverlay />
-      <DrawerContent>
-        <DrawerBody py="6">
-          daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as 
-             daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as  daskjdksadsa 
-          das d
-          async  
-            das
-             d
-             as 
-          
+      <DrawerContent borderTopLeftRadius="lg" borderTopRightRadius="lg">
+        <DrawerHeader>
+          <EntryMediaSelect
+            noteId={noteId}
+            canAddToNote={canAddToNote}
+            canAddToPosts={canAddToPosts}
+          />
+        </DrawerHeader>
+        <DrawerBody>
+          <EntryMediaContent
+            noteId={noteId}
+            onFinish={onClose}
+            createPostModalExtraId={modalsExtraId}
+            editPostSettingsModalExtraId={modalsExtraId}
+          />
         </DrawerBody>
       </DrawerContent>
     </Drawer>
