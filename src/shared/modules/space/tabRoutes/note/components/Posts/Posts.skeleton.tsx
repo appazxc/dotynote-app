@@ -1,21 +1,31 @@
 import React from 'react';
 
-import { Box, Stack, Skeleton, SkeletonText } from '@chakra-ui/react';
+import { Box, Stack, Skeleton, SkeletonText, useColorModeValue } from '@chakra-ui/react';
 
 const PostSkeleton = () => {
+  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.300');
+  const startColor = useColorModeValue('gray.100', 'whiteAlpha.100');
+  const endColor = useColorModeValue('gray.200', 'whiteAlpha.200');
+
   return (
     <Box
+      borderRadius="md"
       padding="6"
-      boxShadow="lg"
-      bg="white"
-      opacity="0.3"
+      borderWidth="2px"
+      borderColor={borderColor}
     >
-      <Skeleton height="20px" />
+      <Skeleton
+        height="15px"
+        startColor={startColor}
+        endColor={endColor}
+      />
       <SkeletonText
         mt="4"
-        noOfLines={4}
+        noOfLines={3}
         spacing="4"
         skeletonHeight="2"
+        startColor={startColor}
+        endColor={endColor}
       />
     </Box>
   );
