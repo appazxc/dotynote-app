@@ -12,6 +12,7 @@ import { invariant } from 'shared/util/invariant';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { TabLayout } from 'mobile/modules/space/components/TabLayout';
+import { NoteFooter } from 'mobile/modules/space/tabRoutes/note/NoteFooter';
 
 import { NoteHeader } from './NoteHeader';
 import { NoteTabContent } from './NoteTabContent';
@@ -48,7 +49,7 @@ export const Note = () => {
       <TabLayout 
         header={<NoteHeader noteId={note.id} />} 
         footer={(
-          <FooterNavigation
+          <NoteFooter
             noteId={note.id}
           />
         )}
