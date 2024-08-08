@@ -7,7 +7,7 @@ import { options } from 'shared/api/options';
 import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { useTabRouter } from 'shared/modules/space/tabRoutes/useTabRouter';
+import { useTabRouter } from 'shared/modules/tabRoutes/useTabRouter';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
@@ -17,7 +17,7 @@ import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { NonActiveTab } from 'mobile/modules/space/components/NonActiveTab';
-import { createTabRouter, router } from 'mobile/modules/space/tabRoutes/router';
+import { createTabRouter, router } from 'mobile/modules/tabRoutes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);

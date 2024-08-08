@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { LoadListFilters } from 'shared/api/options/posts';
 import { DEFAULT_PAGE_SIZE, LoadMoreDirection, loadMoreDirection } from 'shared/constants/requests';
-import { useSaveNoteTabQueryKey } from 'shared/modules/space/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
+import { useSaveNoteTabQueryKey } from 'shared/modules/tabRoutes/note/hooks/useSaveNoteTabQueryKey';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';

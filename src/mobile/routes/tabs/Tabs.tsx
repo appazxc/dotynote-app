@@ -23,7 +23,7 @@ import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-import { router } from 'mobile/modules/space/tabRoutes/router';
+import { router } from 'mobile/modules/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));

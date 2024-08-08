@@ -6,7 +6,7 @@ import { invariant, RouterProvider } from '@tanstack/react-router';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
-import { useTabRouter } from 'shared/modules/space/tabRoutes/useTabRouter';
+import { useTabRouter } from 'shared/modules/tabRoutes/useTabRouter';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
@@ -14,7 +14,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
-import { createTabRouter, router } from 'desktop/modules/space/tabRoutes/router';
+import { createTabRouter, router } from 'desktop/modules/tabRoutes/router';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);

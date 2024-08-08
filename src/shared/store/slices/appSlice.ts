@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Device } from 'shared/constants/devices';
-import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/space/tabRoutes/note/constants';
+import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/tabRoutes/note/constants';
 
 type TempNote = {
   title: string,

@@ -4,7 +4,7 @@ import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-import { noteRoutePath } from 'desktop/modules/space/tabRoutes/note';
+import { noteRoutePath } from 'desktop/modules/tabRoutes/note';
 
 import Essense from './Essence';
 

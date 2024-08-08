@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { rwModes } from 'shared/modules/space/tabRoutes/note/constants';
+import { rwModes } from 'shared/modules/tabRoutes/note/constants';
 import { AppState } from 'shared/types/store';
 
 import { selectCanWriteNote } from './selectCanWriteNote';

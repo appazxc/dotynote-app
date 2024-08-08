@@ -1,1 +1,0 @@
-export { NoteEditorBase } from '../../../../../../shared/modules/space/tabRoutes/note/components/NoteEditorBase';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { EntryNoteMedia } from 'shared/modules/entry/EntryNoteMedia';
 import { EntryPostsMedia } from 'shared/modules/entry/EntryPostsMedia';
-import { addTo } from 'shared/modules/space/tabRoutes/note/constants';
+import { addTo } from 'shared/modules/tabRoutes/note/constants';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppSelector } from 'shared/store/hooks';

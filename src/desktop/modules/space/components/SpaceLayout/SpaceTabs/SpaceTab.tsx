@@ -25,7 +25,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
-import { router } from 'desktop/modules/space/tabRoutes/router';
+import { router } from 'desktop/modules/tabRoutes/router';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**
@@ -62,7 +62,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
     
     const mouseMoved = Math.abs(mousePosition.current.x - event.clientX) > 3 
       || Math.abs(mousePosition.current.y - event.clientY) > 3;
-    mousePosition.current= { x: null, y: null };
+    mousePosition.current = { x: null, y: null };
 
     if (!spaceTab || mouseMoved) return;
 
@@ -82,7 +82,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         value={spaceTab}
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
-        minW={isActive || isPinned ? '7': '3'}
+        minW={isActive || isPinned ? '7' : '3'}
         h="30"
         flexGrow="1"
         justifyContent="space-between"
@@ -195,7 +195,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
             mutate({ isPinned: !isPinned });
           }}
         >
-          {isPinned ? 'Unpin': 'Pin'}
+          {isPinned ? 'Unpin' : 'Pin'}
         </MenuItem>
         <MenuDivider />
         <MenuItem
