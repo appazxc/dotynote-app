@@ -4,6 +4,7 @@ import { Box, Center, IconButton, Text, useColorModeValue } from '@chakra-ui/rea
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
+import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -11,19 +12,17 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
-import { router } from 'mobile/routes/router';
 
 type Props = {
   noteId?: number,
 }
 
-export const FooterNavigation = (props: Props) => {
+export const FooterNavigation = React.memo((props: Props) => {
   const { noteId } = props;
   const dispatch = useAppDispatch();
   const activeSpace = useAppSelector(selectActiveSpace);
-
+  const { navigate } = useBrowserRouter();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
-
   invariant(activeSpace, 'Missing active space');
 
   const buttons = React.useMemo(() => {
@@ -33,7 +32,7 @@ export const FooterNavigation = (props: Props) => {
         onClick: () => {
           // look src/desktop/modules/space/components/SpaceLayout/MainHeaderButton/MainHeaderButton.tsx 
           // dispatch(openMainSpaceNote());
-          router.navigate({ to: '/app' });
+          navigate({ to: '/app' });
         },
         icon: <GoHome size="25" />,
       },
@@ -56,7 +55,7 @@ export const FooterNavigation = (props: Props) => {
       {
         label: 'tabs',
         onClick: () => {
-          router.navigate({ to: '/app/tabs' });
+          navigate({ to: '/app/tabs' });
         },
         icon: <Center
           w="6"
@@ -76,7 +75,7 @@ export const FooterNavigation = (props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, borderColor, activeSpace.tabs.length, noteId]);
+  }, [dispatch, borderColor, navigate, activeSpace.tabs.length, noteId]);
 
   return (
     <>
@@ -107,4 +106,4 @@ export const FooterNavigation = (props: Props) => {
       )}
     </>
   );
-};
+});

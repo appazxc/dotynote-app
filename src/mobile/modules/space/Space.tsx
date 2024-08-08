@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
+import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
 import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/space/tabRoutes/useTabRouter';
@@ -40,9 +41,11 @@ function Space() {
   }
 
   return (
-    <TabProvider tab={activeTab}>
-      <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
-    </TabProvider>
+    <BrowserRouterProvider>
+      <TabProvider tab={activeTab}>
+        <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
+      </TabProvider>
+    </BrowserRouterProvider>
   );
 }
 

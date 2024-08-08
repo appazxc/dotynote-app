@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Card, IconButton, Stack } from '@chakra-ui/react';
+import { Box, Button, Card, IconButton, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
@@ -29,20 +29,16 @@ const Tab = ({ id, isActive }) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const bg = useColorModeValue(isActive ? 'gray.300' : 'gray.100', isActive ? 'whiteAlpha.300' : 'whiteAlpha.100');
 
   invariant(spaceTab, 'Tab is missing');
 
   const tabTitle = useTabTitle(spaceTab.routes[spaceTab.routes.length - 1], router);
-  const handleTabChange = React.useCallback(() => {
-    if (!spaceTab) return;
 
+  const handleTabChange = React.useCallback(() => {
     dispatch(updateActiveTabId(spaceTab.id));
     navigate({ to: '/app' });
   }, [dispatch, spaceTab, navigate]);
-
-  if (!spaceTab) {
-    return null;
-  }
 
   return (
     <Card
@@ -50,6 +46,7 @@ const Tab = ({ id, isActive }) => {
       layout
       px="3"
       py="1"
+      pr="1"
       onClick={handleTabChange}
       cursor="pointer"
       display="flex"
@@ -58,7 +55,7 @@ const Tab = ({ id, isActive }) => {
       alignItems="center"
       gap="2"
       variant="filled"
-      bg={isActive ? 'gray.300' : 'gray.100'}
+      bg={bg}
     >
       <Box overflow="hidden">
         <SpaceTabTitle title={tabTitle} />
@@ -99,6 +96,7 @@ export const Tabs = () => {
       <Box pr="2">
         <Button
           size="sm"
+          variant="ghost"
           leftIcon={<BsPlus size="22px" />}
           onClick={() => {
             dispatch(openTab({ makeActive: true }));
