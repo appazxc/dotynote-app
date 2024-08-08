@@ -17,6 +17,7 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { hideModal, hideModals, showModal } from 'shared/modules/modal/modalSlice';
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { noteSelector, postSettingsSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
@@ -32,6 +33,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
   const dispatch = useAppDispatch();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const postSettings = useAppSelector(state => postSettingsSelector.getById(state, note?.postSettingsId));
+  const isMobile = useAppSelector(selectIsMobile);
 
   invariant(postSettings, 'Missing postSettings');
 
@@ -53,7 +55,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
       <Modal
         isCentered
         isOpen={isOpen}
-        size="2xl"
+        size={isMobile ? 'full' : '2xl'}
         onClose={() => dispatch(hideModal())}
       >
         <ModalOverlay />
