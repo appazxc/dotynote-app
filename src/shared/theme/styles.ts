@@ -147,5 +147,8 @@ export const styles = {
       },
       '.ProseMirror': getEditorStyles(props), // .ProseMirror
     },
+    '*': {
+      '-webkit-tap-highlight-color': 'transparent',
+    },
   }),
 };
