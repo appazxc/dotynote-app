@@ -13,6 +13,9 @@ export const getEditorStyles = (props) => {
       pointerEvents: 'none',
       height: 0,
     },
+    p: {
+      'lineHeight': '1.3',
+    },
     '&:focus': {
       outline: 'none',
     },

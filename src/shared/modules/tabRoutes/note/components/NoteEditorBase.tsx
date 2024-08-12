@@ -14,11 +14,11 @@ type Props = {
 }
 
 export const NoteEditorBase = (props: Props) => {
-  const { isWriteMode, isMobile, content } = props;
+  const { isWriteMode, content } = props;
 
   return (
     <Box
-      mt={isMobile ? '2' : '4'}
+      mt="4"
       flexGrow="1"
       display="flex"
       flexDirection="column"
