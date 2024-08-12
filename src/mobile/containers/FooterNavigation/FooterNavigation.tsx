@@ -26,12 +26,8 @@ export const FooterNavigation = React.memo((props: Props) => {
   const borderColor = useColorModeValue('gray.600', 'gray.300');
 
   const tabsButtonProps = useLongPress(
-    () => {
-      navigate({ to: '/app' });
-    },
-    {
-      threshold: 500,
-    }
+    () => navigate({ to: '/app' }),
+    { threshold: 500 }
   );
   
   invariant(activeSpace, 'Missing active space');
