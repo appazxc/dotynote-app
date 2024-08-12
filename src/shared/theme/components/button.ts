@@ -27,7 +27,7 @@ export const Button = defineStyleConfig({
       return ({
         ...omitedProps,
         _hover: {},
-        '@media(hover: none)': {
+        '@media(hover: hover)': {
           _hover: {
             bg: 'blue',//defaultTheme.components.Button.variants?.solid(props).bg,
           },
@@ -40,7 +40,7 @@ export const Button = defineStyleConfig({
       return ({
         ...omitedProps,
         _hover: {},
-        '@media(hover: none)': {
+        '@media(hover: hover)': {
           _hover: {
             bg: 'yellow',//defaultTheme.components.Button.variants?.ghost(props).bg,
           },
