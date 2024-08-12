@@ -20,7 +20,7 @@ export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
     <AutoResizeTextarea
       placeholder="Title"
       p="0"
-      fontSize={isMobile ? 'xl' : '4xl'}
+      fontSize={isMobile ? '2xl' : '4xl'}
       variant="plain"
       lineHeight="1.2"
       value={ value }
