@@ -26,9 +26,10 @@ export const Button = defineStyleConfig({
 
       return ({
         ...omitedProps,
+        _hover: {},
         '@media(hover: none)': {
           _hover: {
-            bg: 'red'//defaultTheme.components.Button.variants?.solid(props).bg,
+            bg: 'blue',//defaultTheme.components.Button.variants?.solid(props).bg,
           },
         },
       });
@@ -38,9 +39,10 @@ export const Button = defineStyleConfig({
 
       return ({
         ...omitedProps,
+        _hover: {},
         '@media(hover: none)': {
           _hover: {
-            bg: 'green'//defaultTheme.components.Button.variants?.ghost(props).bg,
+            bg: 'yellow',//defaultTheme.components.Button.variants?.ghost(props).bg,
           },
         },
       });
