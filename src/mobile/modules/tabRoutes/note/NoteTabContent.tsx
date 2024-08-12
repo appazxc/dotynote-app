@@ -53,8 +53,12 @@ export const NoteTabContent = ({ noteId, showPosts, isWriteMode }: Props) => {
   }, [operation, defaultPostClick, concretePostClick]);
   
   return (
-    <Container>
-      <Stack gap="5" pt="3">
+    <Container h="full">
+      <Stack
+        gap="5"
+        pt="3"
+        h="full"
+      >
         <NoteBase
           id={noteId}
           isMobile
