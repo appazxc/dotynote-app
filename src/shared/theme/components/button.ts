@@ -27,7 +27,7 @@ export const Button = defineStyleConfig({
       return ({
         ...omitedProps,
         _hover: {
-          bg: undefined,
+          bg: 'red',
         },
         '@media(hover: hover) and (pointer: fine)': {
           _hover: {
@@ -42,7 +42,7 @@ export const Button = defineStyleConfig({
       return ({
         ...omitedProps,
         _hover: {
-          bg: undefined,
+          bg: 'green',
         },
         '@media(hover: hover) and (pointer: fine)': {
           _hover: {
