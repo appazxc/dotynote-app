@@ -64,7 +64,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
 
   return (
     <Modal
-      isCentered
+      isCentered={!isMobile}
       isOpen
       size={isMobile ? 'full' : '2xl'}
       scrollBehavior="inside"
@@ -73,8 +73,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
     >
       <ModalOverlay />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent maxH="90vh">
-          <ModalHeader pb="1">Create post</ModalHeader>
+        <ModalContent>
+          <ModalHeader>Create post</ModalHeader>
           <ModalCloseButton />
           <ModalBody
             pt="0"

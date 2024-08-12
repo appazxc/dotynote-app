@@ -27,14 +27,15 @@ export const EntryMediaSelect = React.memo((props: Props) => {
     <Box
       display="flex"
       alignItems="center"
-      justifyContent="space-between"
+      gap="1"
+      // justifyContent="space-between"
     >
       <Box color="chakra-body-text">
         <Text
           fontSize="sm"
           fontWeight="500"
         >
-                Add
+          Add to
         </Text>
       </Box>
       <Box
@@ -42,12 +43,14 @@ export const EntryMediaSelect = React.memo((props: Props) => {
         alignItems="center"
         gap="2"
         color="chakra-body-text"
+        fontSize="sm"
       >
-        <Text fontSize="sm" fontWeight="500">to</Text>
         {canAddToNote && (
           <Button
             size="xs"
             variant={isNoteMedia ? 'solid' : 'ghost'}
+            // bg={isNoteMedia ? undefined : 'gray.100'}
+            // colorScheme="brand"
             onClick={() => dispatch(updateAddTo(addTo.NOTE))}
           >
             Note
@@ -58,6 +61,8 @@ export const EntryMediaSelect = React.memo((props: Props) => {
           <Button
             size="xs"
             variant={isNoteMedia ? 'ghost' : 'solid'}
+            // bg={isNoteMedia ? 'gray.100' : undefined}
+            // colorScheme="brand"
             onClick={() => dispatch(updateAddTo(addTo.POSTS))}
           >
             Posts
