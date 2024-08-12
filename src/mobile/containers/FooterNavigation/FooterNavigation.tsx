@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Center, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
+import { useLongPress } from '@uidotdev/usehooks';
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
@@ -23,6 +24,16 @@ export const FooterNavigation = React.memo((props: Props) => {
   const activeSpace = useAppSelector(selectActiveSpace);
   const { navigate } = useBrowserRouter();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
+
+  const tabsButtonProps = useLongPress(
+    () => {
+      navigate({ to: '/app' });
+    },
+    {
+      threshold: 500,
+    }
+  );
+  
   invariant(activeSpace, 'Missing active space');
 
   const buttons = React.useMemo(() => {
@@ -66,6 +77,10 @@ export const FooterNavigation = React.memo((props: Props) => {
         >
           {activeSpace.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
         </Center>,
+        ...tabsButtonProps,
+        onContextMenu: (event) => {
+          event.preventDefault();
+        },
       },
       {
         label: 'account',
@@ -75,7 +90,7 @@ export const FooterNavigation = React.memo((props: Props) => {
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, borderColor, navigate, activeSpace.tabs.length, noteId]);
+  }, [dispatch, tabsButtonProps, borderColor, navigate, activeSpace.tabs.length, noteId]);
 
   return (
     <>
@@ -87,17 +102,18 @@ export const FooterNavigation = React.memo((props: Props) => {
         h="10"
         px="4"
       >
-        {buttons.map((button) => (
+        {buttons.map(({ label, icon, onClick, isDisabled, ...rest }) => (
           <IconButton
-            key={button.label}
+            key={label}
             size="md"
-            aria-label={button.label}
-            icon={button.icon}
-            onClick={button.onClick}
+            aria-label={label}
+            icon={icon}
+            onClick={onClick}
             variant="unstyled"
             display="inline-flex"
             colorScheme="brand"
-            isDisabled={button.isDisabled}
+            isDisabled={isDisabled}
+            {...rest}
           />
         ))}
       </Box>
