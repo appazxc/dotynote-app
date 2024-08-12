@@ -54,7 +54,11 @@ export const Note = () => {
           />
         )}
       >
-        <NoteTabContent noteId={note.id} isWriteMode={isWriteMode} />
+        <NoteTabContent
+          noteId={note.id}
+          isWriteMode={isWriteMode}
+          showPosts={!!note.postSettingsId}
+        />
       </TabLayout>
     </NoteProviders>
   );

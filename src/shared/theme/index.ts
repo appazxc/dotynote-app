@@ -36,5 +36,5 @@ const overrides = {
 const appTheme = extendTheme(
   overrides
 );
-
+console.log('appTheme', appTheme);
 export default appTheme;

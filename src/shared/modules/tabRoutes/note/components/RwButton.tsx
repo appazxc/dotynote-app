@@ -25,6 +25,7 @@ const RwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
       icon={<FaPencil />}
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
       aria-label={label}
+      // sx={{ _hover: {} }}
       {...rest}
       onClick={() => {
         dispatch(toggleRwMode());

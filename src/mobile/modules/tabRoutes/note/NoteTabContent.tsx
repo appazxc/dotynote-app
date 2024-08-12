@@ -18,10 +18,11 @@ import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
 type Props = {
   noteId: number,
+  showPosts: boolean,
   isWriteMode: boolean,
 }
 
-export const NoteTabContent = ({ noteId, isWriteMode }: Props) => {
+export const NoteTabContent = ({ noteId, showPosts, isWriteMode }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
@@ -59,11 +60,13 @@ export const NoteTabContent = ({ noteId, isWriteMode }: Props) => {
           isMobile
           isWriteMode={isWriteMode}
         />
-        <Posts
-          key={noteId}
-          noteId={noteId}
-          onPostClick={handlePostClick}
-        />
+        {showPosts && (
+          <Posts
+            key={noteId}
+            noteId={noteId}
+            onPostClick={handlePostClick}
+          />
+        )}
       </Stack>
       <SelectConcretePlaceModal noteId={noteId} />
     </Container>

@@ -3,7 +3,7 @@
 import { defineStyle, defineStyleConfig, theme as defaultTheme, StyleFunctionProps } from '@chakra-ui/react';
 import { omit } from 'lodash';
 
-const brandPrimary = defineStyle({
+const brand = defineStyle({
   background: 'orange.500',
   color: 'white',
   fontFamily: 'serif',
@@ -16,44 +16,22 @@ const brandPrimary = defineStyle({
   },
 });
 
+const ghost = defineStyle((props: StyleFunctionProps) => {
+  const omitedProps = omit(defaultTheme.components.Button.variants?.ghost(props), '_hover');
+
+  return ({
+    ...omitedProps,
+    '@media(hover: none)': {
+      _hover: {
+        bg: 'unset',
+      },
+    },
+  });
+});
+
 export const Button = defineStyleConfig({
   variants: { 
-    brand: brandPrimary,
-    solid: (props: StyleFunctionProps) => {
-      const omitedProps = omit(defaultTheme.components.Button.variants?.solid(props), '_hover');
-
-      console.log('omitedProps', omitedProps);
-
-      return ({
-        ...omitedProps,
-        '@media(hover: none)': {
-          _hover: {
-            bg: undefined,//defaultTheme.components.Button.variants?.solid(props).bg,
-          },
-        },
-        '@media(hover: hover) and (pointer: fine)': {
-          _hover: {
-            bg: 'blue',//defaultTheme.components.Button.variants?.solid(props).bg,
-          },
-        },
-      });
-    },
-    ghost: (props: StyleFunctionProps) => {
-      const omitedProps = omit(defaultTheme.components.Button.variants?.ghost(props), '_hover');
-
-      return ({
-        ...omitedProps,
-        '@media(hover: none)': {
-          _hover: {
-            bg: undefined,//defaultTheme.components.Button.variants?.solid(props).bg,
-          },
-        },
-        '@media(hover: hover) and (pointer: fine)': {
-          _hover: {
-            bg: 'yellow',//defaultTheme.components.Button.variants?.ghost(props).bg,
-          },
-        },
-      });
-    },
+    brand,
+    ghost,
   },
 });
