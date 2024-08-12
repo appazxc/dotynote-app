@@ -21,14 +21,14 @@ export const Button = defineStyleConfig({
     solid: (props: StyleFunctionProps) => ({
       '@media(hover: none)': {
         _hover: {
-          bg: 'red' //defaultTheme.components.Button.variants?.solid(props).bg,
+          bg: undefined //defaultTheme.components.Button.variants?.solid(props).bg,
         },
       },
     }),
     ghost: (props: StyleFunctionProps) => ({
       '@media(hover: none)': {
         _hover: {
-          bg: 'green' //defaultTheme.components.Button.variants?.ghost(props).bg,
+          bg: undefined //defaultTheme.components.Button.variants?.ghost(props).bg,
         },
       },
     }),
