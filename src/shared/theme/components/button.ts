@@ -1,6 +1,7 @@
 // https://github.com/chakra-ui/chakra-ui/blob/HEAD/packages/components/theme/src/components/button.ts
 
 import { defineStyle, defineStyleConfig, theme as defaultTheme, StyleFunctionProps } from '@chakra-ui/react';
+import { omit } from 'lodash';
 
 const brandPrimary = defineStyle({
   background: 'orange.500',
@@ -18,19 +19,31 @@ const brandPrimary = defineStyle({
 export const Button = defineStyleConfig({
   variants: { 
     brand: brandPrimary,
-    solid: (props: StyleFunctionProps) => ({
-      '@media(hover: none)': {
-        _hover: {
-          bg: undefined //defaultTheme.components.Button.variants?.solid(props).bg,
+    solid: (props: StyleFunctionProps) => {
+      const omitedProps = omit(defaultTheme.components.Button.variants?.solid(props), '_hover');
+
+      console.log('omitedProps', omitedProps);
+
+      return ({
+        ...omitedProps,
+        '@media(hover: none)': {
+          _hover: {
+            bg: 'red'//defaultTheme.components.Button.variants?.solid(props).bg,
+          },
         },
-      },
-    }),
-    ghost: (props: StyleFunctionProps) => ({
-      '@media(hover: none)': {
-        _hover: {
-          bg: undefined //defaultTheme.components.Button.variants?.ghost(props).bg,
+      });
+    },
+    ghost: (props: StyleFunctionProps) => {
+      const omitedProps = omit(defaultTheme.components.Button.variants?.ghost(props), '_hover');
+
+      return ({
+        ...omitedProps,
+        '@media(hover: none)': {
+          _hover: {
+            bg: 'green'//defaultTheme.components.Button.variants?.ghost(props).bg,
+          },
         },
-      },
-    }),
+      });
+    },
   },
 });
