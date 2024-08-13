@@ -22,8 +22,8 @@ export const NoteNotFound = () => {
         </Heading>
         <Text
           fontSize="18px"
-          mt={3}
-          mb={2}
+          mt="3"
+          mb="2"
         >
           Note Not Found
         </Text>

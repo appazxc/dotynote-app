@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
+import { Center, Text, HStack, IconButton, Spinner } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
@@ -101,7 +101,14 @@ export const NoteHeader = ({ noteId }: Props) => {
       left={renderedBackButton}
       right={renderedRightSide}
     >
-      {title}
+      <Text
+        noOfLines={2}
+        overflow="hidden" 
+        textOverflow="ellipsis"
+        lineHeight="1.2"
+      >
+        {title}
+      </Text>
     </TabHeader>
   );
 };

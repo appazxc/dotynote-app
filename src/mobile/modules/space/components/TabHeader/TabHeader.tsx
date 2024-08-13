@@ -29,7 +29,7 @@ export const TabHeader = ({ children, left, right, ...restProps }: Props) => {
           {left}
         </Box>
       )}
-      {children && <Box flexGrow="1">{children}</Box>}
+      {children && <Box flexGrow="1" overflow="hidden">{children}</Box>}
       {right && <Box flexShrink="0">{right}</Box>}
     </Box>
   );

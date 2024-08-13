@@ -14,7 +14,11 @@ type Props = {
 export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => {
   const content = React.useMemo(() => {
     if (!isWriteMode) {
-      return title ? <Heading>{title}</Heading> : null;
+      return title ? (
+        <Heading>
+          {title}
+        </Heading>
+      ) : null;
     }
 
     return (
