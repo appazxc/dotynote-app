@@ -10,8 +10,7 @@ import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-import { TabLayout } from 'mobile/modules/space/components/TabLayout';
+import { Layout } from 'mobile/components/Layout';
 import { NoteFooter } from 'mobile/modules/tabRoutes/note/NoteFooter';
 
 import { NoteHeader } from './NoteHeader';
@@ -28,30 +27,25 @@ export const Note = () => {
 
   if (note._isDeleted) {
     return (
-      <TabLayout 
-        footer={<FooterNavigation />}
-      >
+      <Layout>
         <Center h="full">
           <Text color="gray.500">
             Note is deleted.
           </Text>
         </Center>
-      </TabLayout>
+      </Layout>
     );
   }
   
   return (
     <NoteProviders
-      // key={note.id}
       id={note.id}
       isWriteMode={isWriteMode}
     >
-      <TabLayout 
+      <Layout 
         header={<NoteHeader noteId={note.id} />} 
         footer={(
-          <NoteFooter
-            noteId={note.id}
-          />
+          <NoteFooter />
         )}
       >
         <NoteTabContent
@@ -59,7 +53,7 @@ export const Note = () => {
           isWriteMode={isWriteMode}
           showPosts={!!note.postSettingsId}
         />
-      </TabLayout>
+      </Layout>
     </NoteProviders>
   );
 };

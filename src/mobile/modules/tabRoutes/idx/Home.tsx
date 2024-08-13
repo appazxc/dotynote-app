@@ -8,9 +8,9 @@ import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { HomeNoteSearch } from 'shared/modules/tabRoutes/idx/HomeNoteSearch';
 import { HomeSearchInput } from 'shared/modules/tabRoutes/idx/HomeSearchInput';
 
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
+import { Layout } from 'mobile/components/Layout';
 import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
-import { TabHeader, TabLayout } from 'mobile/modules/space/components/TabLayout';
+import { TabHeader } from 'mobile/modules/space/components/TabHeader';
 import { NoteCreate } from 'mobile/modules/tabRoutes/idx/NoteCreate';
 
 export const Home = () => {
@@ -41,18 +41,17 @@ export const Home = () => {
   const showSearch = search.length >= 2;
   
   return (
-    <TabLayout 
+    <Layout 
       header={(
         <TabHeader>
           <HomeSearchInput isMobile />
         </TabHeader>
       )} 
-      footer={<FooterNavigation />}
     >
       <Container pt="4">
         {showSearch ? <HomeNoteSearch value={search} renderNote={renderNote} /> : <NoteCreate />}
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />
-    </TabLayout>
+    </Layout>
   );
 };

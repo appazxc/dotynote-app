@@ -3,6 +3,7 @@ import { createRoute, redirect } from '@tanstack/react-router';
 import { loadSpaces } from 'shared/actions/space/loadSpaces';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 
+import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { appRoute } from 'mobile/routes/app';
 import { Context } from 'mobile/routes/routerContext';
 import { Tabs } from 'mobile/routes/tabs/Tabs';
@@ -18,7 +19,7 @@ export const tabs = createRoute({
   
     await dispatch(loadSpaces());
     const activeSpace = selectActiveSpace(getState());
-  
+
     if (!activeSpace) {
       throw redirect({
         to: '/app/spaces',
@@ -26,4 +27,5 @@ export const tabs = createRoute({
       });
     }
   },
+  pendingComponent: LayoutLoader,
 });

@@ -4,8 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
-import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
-import { Loader } from 'shared/components/Loader';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/tabRoutes/useTabRouter';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
@@ -13,10 +11,7 @@ import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { TabLayout } from 'desktop/modules/space/components/TabLayout';
-
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-import { NonActiveTab } from 'mobile/modules/space/components/NonActiveTab';
+import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { createTabRouter, router } from 'mobile/modules/tabRoutes/router';
 
 function Space() {
@@ -24,6 +19,7 @@ function Space() {
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
 
   invariant(activeSpaceId, 'activeSpaceId is missings');
+  invariant(activeTab, 'activeTab is missings');
 
   const {
     isLoading: tabNotesIsLoading,
@@ -32,32 +28,33 @@ function Space() {
     throwOnError: true,
   });
 
-  if (tabNotesIsLoading) {
-    return <Loader delay={300} />;
-  }
-
-  if (!activeTab || !activeTab.routes.length) {
-    return <NonActiveTab />;
-  }
-
   return (
-    <BrowserRouterProvider>
-      <TabProvider tab={activeTab}>
-        <SpaceTabContent isFake={activeTab._isFake} activeTabId={activeTab.id} />
-      </TabProvider>
-    </BrowserRouterProvider>
+    <TabProvider tab={activeTab}>
+      <SpaceTabContent
+        isFake={activeTab._isFake}
+        isLoading={tabNotesIsLoading}
+        activeTabId={activeTab.id}
+      />
+    </TabProvider>
   );
 }
 
-function SpaceTabContent({ activeTabId, isFake }: { activeTabId: string, isFake?: boolean }) {
+type SpaceTabContentProps = { 
+  activeTabId: string, 
+  isLoading: boolean, 
+  isFake?: boolean 
+};
+
+function SpaceTabContent({ activeTabId, isFake, isLoading }: SpaceTabContentProps) {
   const router = useTabRouter(activeTabId, createTabRouter);
 
-  const renderedProvider = React.useMemo(() => 
-    <RouterProvider key={activeTabId} router={router} />, 
-  [activeTabId, router]);
+  const renderedProvider = React.useMemo(() => (
+    <RouterProvider key={activeTabId} router={router} />
+  ), 
+  [router, activeTabId]);
 
-  return isFake 
-    ? <TabLayout footer={<FooterNavigation />}><Loader /></TabLayout>
+  return isFake || isLoading
+    ? <LayoutLoader />
     : renderedProvider;
 }
 

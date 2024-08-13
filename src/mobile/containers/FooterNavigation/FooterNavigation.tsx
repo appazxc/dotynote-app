@@ -5,32 +5,30 @@ import { useLongPress } from '@uidotdev/usehooks';
 import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 
+import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
 import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { invariant } from 'shared/util/invariant';
 
 import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
+import { useTabNoteId } from 'mobile/hooks/useTabNoteId';
 
-type Props = {
-  noteId?: number,
-}
-
-export const FooterNavigation = React.memo((props: Props) => {
-  const { noteId } = props;
+export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
   const activeSpace = useAppSelector(selectActiveSpace);
   const { navigate } = useBrowserRouter();
+  const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
-
+  const noteId = useTabNoteId();
+  
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }
   );
-  
-  invariant(activeSpace, 'Missing active space');
+
+  const isAppRoute = pathname === '/app';
 
   const buttons = React.useMemo(() => {
     return [
@@ -57,7 +55,7 @@ export const FooterNavigation = React.memo((props: Props) => {
           dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
         },
         icon: <GoDotFill size="35" />,
-        isDisabled: !noteId,
+        isDisabled: !noteId || !isAppRoute,
       },
       {
         label: 'tabs',
@@ -71,7 +69,7 @@ export const FooterNavigation = React.memo((props: Props) => {
           border="2px"
           borderColor={borderColor}
         >
-          {activeSpace.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
+          {activeSpace?.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
         </Center>,
         ...tabsButtonProps,
         onContextMenu: (event) => {
@@ -81,12 +79,21 @@ export const FooterNavigation = React.memo((props: Props) => {
       {
         label: 'account',
         onClick: () => {
+          navigate({ to: '/app/spaces' });
           // router.navigate(buildUrl({ routeName: routeNames.account }));
         },
         icon: <CiMenuBurger size="25" />,
       },
     ];
-  }, [dispatch, tabsButtonProps, borderColor, navigate, activeSpace.tabs.length, noteId]);
+  }, [
+    dispatch,
+    tabsButtonProps,
+    borderColor,
+    navigate,
+    activeSpace?.tabs.length,
+    noteId,
+    isAppRoute,
+  ]);
 
   return (
     <>
@@ -113,7 +120,7 @@ export const FooterNavigation = React.memo((props: Props) => {
           />
         ))}
       </Box>
-      {noteId && (
+      {noteId && isAppRoute && (
         <FooterNoteDialogs noteId={noteId} />
       )}
     </>

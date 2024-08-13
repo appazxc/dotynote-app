@@ -125,6 +125,7 @@ function Spaces() {
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader
+        pr="4"
         left={!isLoading && (
           <Box display="flex" alignItems="center">
             <IconButton 
@@ -138,7 +139,7 @@ function Spaces() {
                 history.back();
               }}
             />
-            <Text fontSize="lg">{title}</Text>
+            <Text fontSize="md">{title}</Text>
           </Box>
         ) }
         right={(

@@ -12,7 +12,7 @@ import { Tooltip } from 'shared/theme/components/tooltip';
 import { colors } from 'shared/theme/foundations/colors';
 import { semanticTokens } from 'shared/theme/foundations/semanticTokens';
 import { styles } from 'shared/theme/styles';
-console.log('Button',Button );
+
 const overrides = {
   styles,
   colors,
@@ -36,5 +36,5 @@ const overrides = {
 const appTheme = extendTheme(
   overrides
 );
-console.log('appTheme', appTheme);
+
 export default appTheme;

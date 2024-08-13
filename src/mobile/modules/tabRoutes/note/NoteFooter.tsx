@@ -7,13 +7,7 @@ import { useAppSelector } from 'shared/store/hooks';
 
 import { Operations } from 'desktop/modules/tabRoutes/note/NoteFooter/Operations';
 
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
-
-type Props = {
-  noteId: number,
-}
-
-export const NoteFooter = React.memo(({ noteId }: Props) => {
+export const NoteFooter = React.memo(() => {
   const isOperationActive = useAppSelector(selectIsOperationActive);
 
   return (
@@ -23,7 +17,6 @@ export const NoteFooter = React.memo(({ noteId }: Props) => {
           <Operations />
         </Container>
       )}
-      <FooterNavigation noteId={noteId} />
     </>
   );
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Card, IconButton, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text, Button, Card, Center, IconButton, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
@@ -22,7 +22,6 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 import { router } from 'mobile/modules/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
@@ -92,40 +91,41 @@ export const Tabs = () => {
   });
 
   const renderedHeader = React.useMemo(() => {
-    const rightSide = (
-      <Box pr="2">
-        <Button
-          size="sm"
-          variant="ghost"
-          leftIcon={<BsPlus size="22px" />}
-          onClick={() => {
-            dispatch(openTab({ makeActive: true }));
-            navigate({ to: '/app' });
-          }}
-        >
-          New tab
-        </Button>
-      </Box>
-    );
-
     return (
       <LayoutHeader 
-        right={rightSide}
+        right={(
+          <Box pr="2">
+            <Button
+              size="sm"
+              variant="ghost"
+              leftIcon={<BsPlus size="22px" />}
+              onClick={() => {
+                dispatch(openTab({ makeActive: true }));
+                navigate({ to: '/app' });
+              }}
+            >
+            New tab
+            </Button>
+          </Box>
+        )}
       />
     );
   }, [dispatch, navigate]);
   
-  if (tabNotesIsLoading) {
-    return <Loader delay={300} />;
-  }
-  
-  return (
-    <Layout 
-      header={renderedHeader}
-      footer={
-        <FooterNavigation />
-      }
-    >
+  const renderedContent = React.useMemo(() => {
+    if (tabNotesIsLoading) {
+      return <Loader />;
+    }
+
+    if (!tabs.length) {
+      return (
+        <Center h="full">
+          <Text color="gray.500">Create new tab</Text>
+        </Center>
+      );
+    }
+
+    return (
       <LayoutGroup>
         <Stack
           p="4"
@@ -140,7 +140,12 @@ export const Tabs = () => {
           ))}
         </Stack>
       </LayoutGroup>
-
+    );
+  }, [tabNotesIsLoading, tabs, activeTabId]);
+  
+  return (
+    <Layout header={renderedHeader}>
+      {renderedContent}
     </Layout>
   );
 };
