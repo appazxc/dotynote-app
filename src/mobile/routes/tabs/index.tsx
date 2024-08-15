@@ -12,7 +12,7 @@ export const tabs = createRoute({
   getParentRoute: () => appRoute,
   path: 'tabs',
   component: Tabs,
-  loader: async (ctx) => {
+  beforeLoad: async (ctx) => {
     const context = ctx.context as Context;
     const { store } = context;
     const { dispatch, getState } = store;
