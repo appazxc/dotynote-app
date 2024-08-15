@@ -9,11 +9,10 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { toggleRwMode } from 'shared/store/slices/appSlice';
 
 type Props = {
-  label: string,
   rwMode: RwMode,
 }
 
-const RwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
+const RwButtonComponent = ({ rwMode, ...rest }: Props, ref) => {
   const dispatch = useAppDispatch();
   const editor = useEditorContext();
   
@@ -24,8 +23,7 @@ const RwButtonComponent = ({ label, rwMode, ...rest }: Props, ref) => {
       position="relative"
       icon={<FaPencil />}
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
-      aria-label={label}
-      // sx={{ _hover: {} }}
+      aria-label="Note read/edit"
       {...rest}
       onClick={() => {
         dispatch(toggleRwMode());

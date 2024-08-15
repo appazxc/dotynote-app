@@ -14,7 +14,7 @@ import { useIsNoteMutating } from 'shared/modules/tabRoutes/note/hooks/useIsNote
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
+import { offAdvancedEdit, toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabHeader } from 'mobile/modules/space/components/TabHeader';
 import { router } from 'mobile/modules/tabRoutes/router';
@@ -32,6 +32,7 @@ export const NoteHeader = ({ noteId }: Props) => {
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
+  const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
 
   const renderedBackButton = React.useMemo(() => {
     return (
@@ -70,7 +71,6 @@ export const NoteHeader = ({ noteId }: Props) => {
     return (
       <RwButton
         rwMode={rwMode}
-        label={rwMode === rwModes.READ ? 'Note edit' : 'Note read'}
       />
     ); 
   }, [showRwMode, rwMode]);
@@ -95,6 +95,16 @@ export const NoteHeader = ({ noteId }: Props) => {
   const renderedRightSide = React.useMemo(() => {
     return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedMenu}</HStack>;
   }, [renderedMenu, renderedRwButton, renderedAdvancedEditButton]);
+
+  React.useEffect(() => () => {
+    lastIsAdvancedEditActive.current = isAdvancedEditActive;
+  }, [isAdvancedEditActive]);
+
+  React.useEffect(() => () => {
+    if (lastIsAdvancedEditActive.current) {
+      dispatch(toggleAdvancedEdit());
+    }
+  }, [dispatch]);
 
   return (
     <TabHeader

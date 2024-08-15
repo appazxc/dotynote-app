@@ -102,7 +102,7 @@ export const FooterNavigation = React.memo(() => {
         alignItems="center"
         flexWrap="nowrap"
         justifyContent="space-between"
-        h="10"
+        h="44px"
         px="4"
       >
         {buttons.map(({ label, icon, onClick, isDisabled, ...rest }) => (

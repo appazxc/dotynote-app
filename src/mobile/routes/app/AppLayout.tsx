@@ -4,6 +4,7 @@ import { Box, useTheme } from '@chakra-ui/react';
 
 import { BrowserLocationProvider } from 'shared/components/BrowserLocationProvider';
 import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
+import { useAppSelector } from 'shared/store/hooks';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 
@@ -13,6 +14,7 @@ type Props = {
 
 export const AppLayout = React.memo(({ children }: Props) => {
   const theme = useTheme();
+  const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
 
   return (
     <BrowserRouterProvider>
@@ -37,9 +39,11 @@ export const AppLayout = React.memo(({ children }: Props) => {
             >
               {children}
             </Box>
-            <Box w="full" flexShrink="0">
-              <FooterNavigation />
-            </Box>
+            {!isAdvancedEditActive && (
+              <Box w="full" flexShrink="0">
+                <FooterNavigation />
+              </Box>
+            )}
           </Box>
         </Box>
       </BrowserLocationProvider>

@@ -39,13 +39,14 @@ export const Note = () => {
   
   return (
     <NoteProviders
+      // key={note.id}
       id={note.id}
       isWriteMode={isWriteMode}
     >
       <Layout 
         header={<NoteHeader noteId={note.id} />} 
         footer={(
-          <NoteFooter />
+          <NoteFooter isWriteMode={isWriteMode} />
         )}
       >
         <NoteTabContent

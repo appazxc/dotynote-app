@@ -13,11 +13,10 @@ import { UrlModal } from 'shared/containers/modals/UrlModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { headerHeight } from './constants';
-
+const headerHeight = '44px';
 const extraId = 'NoteEditorHeader';
 
-export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
+export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
   const dispatch = useAppDispatch();
 
   const items = [
@@ -117,54 +116,68 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
   ];
 
   return (
-    <>
+    <Box
+      px="4"
+    >
       <Box
-        as={motion.div}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        h={headerHeight}
-        // bg="red"
-        justifyContent="center"
-        alignItems="center"
-        gap="1"
-        display="flex"
+        overflowX="scroll"
+        css={{
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        }}
       >
-        {items.map((itemProps) => {
-          if ('isDivider' in itemProps) {
+        <Box
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          h={headerHeight}
+          justifyContent="start"
+          alignItems="center"
+          gap="2"
+          display="flex"
+          flexWrap="nowrap"
+          maxW="max-content"
+        
+        >
+          {items.map((itemProps) => {
+            if ('isDivider' in itemProps) {
+              return (
+                <Divider
+                  key={itemProps.label}
+                  orientation="vertical"
+                  h="20px"
+                  mx="1"
+                />
+              );
+            }
+
+            const { label, isActive, ...buttonProps } = itemProps;
+
             return (
-              <Divider
-                key={itemProps.label}
-                orientation="vertical"
-                h="20px"
-                mx="1"
-              />
+              <Tooltip
+                key={label}
+                label={label}
+                openDelay={1000}
+                placement="top"
+              >
+                <IconButton
+                  aria-label={label}
+                  size="lg"
+                  h="8"
+                  minW="8"
+                  colorScheme={isActive ? 'brand' : 'gray'}
+                  variant={isActive ? 'outline' : 'ghost'}
+                  {...buttonProps}
+                />
+              </Tooltip>
             );
-          }
+          })}
+        </Box>
 
-          const { label, isActive, ...buttonProps } = itemProps;
-
-          return (
-            <Tooltip
-              key={label}
-              label={label}
-              openDelay={1000}
-            >
-              <IconButton
-                aria-label={label}
-                size="sm"
-                h="7"
-                minW="7"
-                colorScheme={isActive ? 'brand' : 'gray'}
-                variant={isActive ? 'outline' : 'ghost'}
-                {...buttonProps}
-              />
-            </Tooltip>
-          );
-        })}
+        <UrlModal extraId={extraId} editor={editor} />
       </Box>
-
-      <UrlModal extraId={extraId} editor={editor} />
-    </>
+    </Box>
   );
 };
