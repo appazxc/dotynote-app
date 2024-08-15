@@ -116,9 +116,7 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
   ];
 
   return (
-    <Box
-      px="4"
-    >
+    <Box px="4">
       <Box
         overflowX="scroll"
         css={{
