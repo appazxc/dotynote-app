@@ -40,7 +40,7 @@ const SpaceCard = ({ id, isActive }: { id: string, isActive: boolean }) => {
         dispatch(updateActiveSpaceId(null));
       }
 
-      return entityApi.space.delete(id);
+      return entityApi.space.delete(id, { deleteFlag: true });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: options.spaces.userList().queryKey });
