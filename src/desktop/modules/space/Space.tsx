@@ -14,7 +14,8 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
-import { createTabRouter, router } from 'desktop/modules/tabRoutes/router';
+import { noteRoutePath } from 'desktop/modules/space/tabRoutes/note';
+import { createTabRouter, router } from 'desktop/modules/space/tabRoutes/router';
 
 const Space = React.memo(() => {
   const activeTab = useAppSelector(selectActiveTab);
@@ -26,7 +27,7 @@ const Space = React.memo(() => {
     isLoading: tabNotesIsLoading,
   } = useQuery({
     // проверить чтобы лишних квери не было
-    ...options.notes.tabNotes(activeSpaceId, router),
+    ...options.notes.tabNotes(activeSpaceId, router, noteRoutePath),
     throwOnError: true,
   });
 

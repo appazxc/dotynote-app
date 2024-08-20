@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { offAdvancedEdit, toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabHeader } from 'mobile/modules/space/components/TabHeader';
-import { router } from 'mobile/modules/tabRoutes/router';
+import { router } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
   noteId: number,

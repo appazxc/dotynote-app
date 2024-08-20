@@ -11,7 +11,7 @@ import { HomeSearchInput } from 'shared/modules/tabRoutes/idx/HomeSearchInput';
 import { Layout } from 'mobile/components/Layout';
 import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 import { TabHeader } from 'mobile/modules/space/components/TabHeader';
-import { NoteCreate } from 'mobile/modules/tabRoutes/idx/NoteCreate';
+import { NoteCreate } from 'mobile/modules/space/tabRoutes/idx/NoteCreate';
 
 export const Home = () => {
   const navigate = useNavigate();

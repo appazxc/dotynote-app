@@ -12,7 +12,8 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
-import { createTabRouter, router } from 'mobile/modules/tabRoutes/router';
+import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
+import { createTabRouter, router } from 'mobile/modules/space/tabRoutes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -24,7 +25,7 @@ function Space() {
   const {
     isLoading: tabNotesIsLoading,
   } = useQuery({
-    ...options.notes.tabNotes(activeSpaceId, router),
+    ...options.notes.tabNotes(activeSpaceId, router, noteRoutePath),
     throwOnError: true,
   });
 

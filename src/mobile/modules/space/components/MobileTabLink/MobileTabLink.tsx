@@ -6,7 +6,7 @@ import { openTab } from 'shared/actions/space/openTab';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
-import { Router as RouterType } from 'mobile/modules/tabRoutes/router';
+import { Router as RouterType } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = LinkProps<Router<RouterType['routeTree'], 'never'>> & Omit<React.AnchorHTMLAttributes<'a'>, 'children'>;
 
