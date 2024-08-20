@@ -1,0 +1,1 @@
+export { NoteEditorBase } from '../../../../../../shared/modules/noteTab/components/NoteEditorBase';

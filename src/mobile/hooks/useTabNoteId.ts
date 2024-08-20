@@ -4,7 +4,7 @@ import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { noteRoutePath } from 'mobile/modules/tabRoutes/note';
+import { noteRoutePath } from 'mobile/modules/noteTab';
 import { router } from 'mobile/modules/tabRoutes/router';
 
 export const useTabNoteId = () => {

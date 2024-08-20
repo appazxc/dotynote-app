@@ -8,7 +8,10 @@ import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
 import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
+import { modalIds } from 'shared/constants/modalIds';
+import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
+import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
@@ -35,9 +38,16 @@ export const FooterNavigation = React.memo(() => {
       {
         label: 'home',
         onClick: () => {
-          // look src/desktop/modules/space/components/SpaceLayout/MainHeaderButton/MainHeaderButton.tsx 
-          // dispatch(openMainSpaceNote());
-          navigate({ to: '/app' });
+          if (!activeSpace) {
+            return;
+          }
+
+          if (!activeSpace.mainNoteId) {
+            dispatch(showModal({ id: modalIds.primaryNote }));
+            return;
+          }
+          
+          navigate({ to: '/app/primary' });
         },
         icon: <GoHome size="25" />,
       },
@@ -90,7 +100,7 @@ export const FooterNavigation = React.memo(() => {
     tabsButtonProps,
     borderColor,
     navigate,
-    activeSpace?.tabs.length,
+    activeSpace,
     noteId,
     isAppRoute,
   ]);
@@ -120,6 +130,7 @@ export const FooterNavigation = React.memo(() => {
           />
         ))}
       </Box>
+      <PrimaryNoteModal />
       {noteId && isAppRoute && (
         <FooterNoteDialogs noteId={noteId} />
       )}

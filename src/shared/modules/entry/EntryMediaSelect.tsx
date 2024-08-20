@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Button, Text } from '@chakra-ui/react';
 
-import { addTo } from 'shared/modules/tabRoutes/note/constants';
+import { addTo } from 'shared/modules/noteTab/constants';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateAddTo } from 'shared/store/slices/appSlice';

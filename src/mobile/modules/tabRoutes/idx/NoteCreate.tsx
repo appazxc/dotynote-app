@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Text } from '@chakra-ui/react';
 
-import { NoteContentCards } from 'shared/modules/tabRoutes/note/components/NoteContentCards';
+import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
 
 type Props = {};
 

@@ -7,7 +7,7 @@ import { openTab } from 'shared/actions/space/openTab';
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
-import { SelectNoteModal } from 'shared/containers/modals/SelectNoteModal';
+import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -15,8 +15,6 @@ import { invariant } from 'shared/util/invariant';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
-
-const extraId = 'MainHeaderButton';
 
 export const MainHeaderButton = () => {
   const dispatch = useAppDispatch();
@@ -47,21 +45,20 @@ export const MainHeaderButton = () => {
       return;
     }
 
-    const route = space.mainNoteId
-      ? buildTabHref({
-        to: '/n/$noteId',
-        params: { noteId: String(space.mainNoteId) },
-      })
-      : buildTabHref({
-        to: '/addMainNote',
-      });
+    if (space.mainNoteId) {
+      dispatch(
+        openTab({
+          route: buildTabHref({
+            to: '/n/$noteId',
+            params: { noteId: String(space.mainNoteId) },
+          }),
+          makeActive: true,
+        })
+      );
+    } else {
+      dispatch(showModal({ id: modalIds.primaryNote }));
+    }
     
-    dispatch(
-      openTab({
-        route,
-        makeActive: true,
-      })
-    );
   }, [dispatch, space]);
   
   return (
@@ -93,7 +90,7 @@ export const MainHeaderButton = () => {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              dispatch(showModal({ id: modalIds.selectNote, extraId }));
+              dispatch(showModal({ id: modalIds.primaryNote }));
             }}
           >
             Change main note
@@ -101,11 +98,7 @@ export const MainHeaderButton = () => {
         </MenuList>
       </Menu>
 
-      <SelectNoteModal
-        title="Select main note"
-        extraId={extraId}
-        onSelect={handleNoteSelect}
-      />
+      <PrimaryNoteModal />
     </>
   );
 };

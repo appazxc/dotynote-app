@@ -3,10 +3,11 @@ import { createRouter } from '@tanstack/react-router';
 import { Loader } from 'shared/components/Loader';
 
 // import { addMainNote } from './addMainNote';
+import { note } from '../noteTab';
+
 import { DefaultErrorComponent } from './DefaultErrorComponent';
 import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
-import { note } from './note';
 // import { noteSettings } from './noteSettings';
 // import { profile } from './profile';
 import { root } from './root';

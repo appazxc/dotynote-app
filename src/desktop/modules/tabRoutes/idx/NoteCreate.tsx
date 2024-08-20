@@ -3,7 +3,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import { NoteContentCards } from 'shared/modules/tabRoutes/note/components/NoteContentCards';
+import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
 
 export const NoteCreate = () => {
   return (

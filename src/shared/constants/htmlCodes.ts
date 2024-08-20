@@ -1,0 +1,1 @@
+export const apos = '\u0027'; // '

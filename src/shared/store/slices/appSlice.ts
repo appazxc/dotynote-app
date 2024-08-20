@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Device } from 'shared/constants/devices';
-import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/tabRoutes/note/constants';
+import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/noteTab/constants';
 
 type TempNote = {
   title: string,
@@ -18,6 +18,10 @@ export type StickOperation = {
   noteIds: number[],
   concretePlace: boolean,
   concretePostId?: number,
+}
+
+export type MainNoteOperation = {
+  type: 'mainNote',
 }
 
 export type MoveOperation = {
@@ -42,7 +46,7 @@ type InitialState = {
     isAdvancedEditActive: boolean,
     addTo: AddTo,
   },
-  operation: NoOperation | StickOperation | MoveOperation,
+  operation: NoOperation | StickOperation | MoveOperation | MainNoteOperation,
 };
 
 const noOperation = { type: null };
@@ -139,6 +143,11 @@ export const appSlice = createSlice({
         concretePlace: false,
       };
     },
+    startPrimaryNoteOperation: (state) => {
+      state.operation = {
+        type: 'mainNote',
+      };
+    },
     toggleConcretePlace: (state) => {
       if ('concretePlace' in state.operation) {
         state.operation.concretePlace = !state.operation.concretePlace;
@@ -162,6 +171,7 @@ export const {
   stopOperation,
   startStickOperation,
   startMoveOperation,
+  startPrimaryNoteOperation,
   toggleConcretePlace,
   updateOperationConcretePost,
 } = appSlice.actions;

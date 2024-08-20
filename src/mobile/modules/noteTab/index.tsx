@@ -5,6 +5,8 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
+import { LayoutLoader } from 'mobile/components/LayoutLoader';
+
 import { root } from '../tabRoutes/root';
 
 export const noteRoutePath = '/n/$noteId';
@@ -24,6 +26,7 @@ export const note = createRoute({
       throw notFound();
     }
   },
+  pendingComponent: LayoutLoader,
   notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
