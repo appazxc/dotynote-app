@@ -12,12 +12,11 @@ export const tabs = createRoute({
   getParentRoute: () => appRoute,
   path: 'tabs',
   component: Tabs,
-  beforeLoad: async (ctx) => {
+  loader: async (ctx) => {
     const context = ctx.context as Context;
     const { store } = context;
-    const { dispatch, getState } = store;
+    const { getState } = store;
   
-    await dispatch(loadSpaces());
     const activeSpace = selectActiveSpace(getState());
 
     if (!activeSpace) {

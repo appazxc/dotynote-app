@@ -23,7 +23,6 @@ const router = createRouter({
   routeTree,
   context,
   defaultPendingMinMs: 0,
-  defaultStaleTime: Infinity,
   defaultPreloadStaleTime: Infinity,
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,

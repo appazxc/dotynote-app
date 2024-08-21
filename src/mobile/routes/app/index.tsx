@@ -7,19 +7,28 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
+import { wait } from 'shared/util/wait';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
+import { spaces } from 'mobile/routes/spaces';
 import { tabs } from 'mobile/routes/tabs';
 
 import { auth } from '../guards';
+import { primaryNote } from '../primaryNote';
 import { Context } from '../routerContext';
-import { spaces } from '../spaces';
 
 import { AppLayout } from './AppLayout';
 
 export const appRoute = createRoute({
   getParentRoute: () => auth,
   path: 'app',
+  beforeLoad: async (ctx) => {
+    const context = ctx.context as unknown as Context;
+    const { store } = context;
+    const { dispatch } = store;
+   
+    await dispatch(loadSpaces());
+  },
   component: React.memo(() => {
     return (
       <AppLayout>
@@ -32,17 +41,16 @@ export const appRoute = createRoute({
 const appIndexRoute = createRoute({
   getParentRoute: () => appRoute,
   path: '/',
-  beforeLoad: async (ctx) => {
+  loader: async (ctx) => {
     const context = ctx.context as unknown as Context;
     const { store } = context;
     const { dispatch, getState } = store;
-  
-    await dispatch(loadSpaces());
+
     const activeSpace = selectActiveSpace(getState());
     const activeTab = selectActiveTab(getState());
 
     const { waitedRoute } = getState().app;
-  
+    
     if (!activeSpace) {
       console.log('redirect to spaces', getState());
       throw redirect({
@@ -65,4 +73,4 @@ const appIndexRoute = createRoute({
   pendingComponent: LayoutLoader,
 });
 
-export const app = appRoute.addChildren([appIndexRoute, spaces, tabs]);
+export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primaryNote]);

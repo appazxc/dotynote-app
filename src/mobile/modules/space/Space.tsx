@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 
-import { options } from 'shared/api/options';
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/tabRoutes/useTabRouter';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
@@ -12,8 +10,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
-import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
-import { createTabRouter, router } from 'mobile/modules/space/tabRoutes/router';
+import { createTabRouter } from 'mobile/modules/space/tabRoutes/router';
 
 function Space() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -22,18 +19,10 @@ function Space() {
   invariant(activeSpaceId, 'activeSpaceId is missings');
   invariant(activeTab, 'activeTab is missings');
 
-  const {
-    isLoading: tabNotesIsLoading,
-  } = useQuery({
-    ...options.notes.tabNotes(activeSpaceId, router, noteRoutePath),
-    throwOnError: true,
-  });
-
   return (
     <TabProvider tab={activeTab}>
       <SpaceTabContent
         isFake={activeTab._isFake}
-        isLoading={tabNotesIsLoading}
         activeTabId={activeTab.id}
       />
     </TabProvider>
@@ -42,7 +31,7 @@ function Space() {
 
 type SpaceTabContentProps = { 
   activeTabId: string, 
-  isLoading: boolean, 
+  isLoading?: boolean, 
   isFake?: boolean 
 };
 

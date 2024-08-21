@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Center, Text } from '@chakra-ui/react';
-import { useParams } from '@tanstack/react-router';
 
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';
@@ -16,8 +15,12 @@ import { NoteFooter } from 'mobile/modules/noteTab/NoteFooter';
 import { NoteHeader } from './NoteHeader';
 import { NoteTabContent } from './NoteTabContent';
 
-export const Note = () => {
-  const { noteId = '' } = useParams({ strict: false });
+type Props = {
+  noteId: number,
+  isPrimary?: boolean,
+}
+
+export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   
   invariant(note, 'Missing note');
@@ -44,12 +47,13 @@ export const Note = () => {
       isWriteMode={isWriteMode}
     >
       <Layout 
-        header={<NoteHeader noteId={note.id} />} 
+        header={<NoteHeader isPrimary={isPrimary} noteId={note.id} />} 
         footer={(
           <NoteFooter isWriteMode={isWriteMode} />
         )}
       >
         <NoteTabContent
+          isPrimary={isPrimary}
           noteId={note.id}
           isWriteMode={isWriteMode}
           showPosts={!!note.postSettingsId}
@@ -57,6 +61,4 @@ export const Note = () => {
       </Layout>
     </NoteProviders>
   );
-};
-
-export default Note;
+});

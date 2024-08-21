@@ -33,7 +33,7 @@ export const MainNoteOperation = React.memo((props: Props) => {
     }, {
       onSuccess: () => {
         toast({
-          title: 'Main note changed.',
+          title: 'Primary note changed.',
           status: 'success',
           isClosable: true,
         });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center, Text, HStack, IconButton, Spinner } from '@chakra-ui/react';
+import { Center, HStack, IconButton, Spinner, Text } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
@@ -14,16 +14,17 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { offAdvancedEdit, toggleAdvancedEdit } from 'shared/store/slices/appSlice';
+import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
 import { TabHeader } from 'mobile/modules/space/components/TabHeader';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
   noteId: number,
+  isPrimary?: boolean,
 }
 
-export const NoteHeader = ({ noteId }: Props) => {
+export const NoteHeader = ({ noteId, isPrimary }: Props) => {
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
@@ -35,6 +36,10 @@ export const NoteHeader = ({ noteId }: Props) => {
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
 
   const renderedBackButton = React.useMemo(() => {
+    if (isPrimary) {
+      return null;
+    }
+
     return (
       <IconButton
         size="sm"
@@ -47,7 +52,7 @@ export const NoteHeader = ({ noteId }: Props) => {
         display="inline-flex"
       />
     );
-  }, [tab.routes.length, history]);
+  }, [tab.routes.length, history, isPrimary]);
 
   const renderedMenu = React.useMemo(() => {
     return isMutating ? (
@@ -110,12 +115,14 @@ export const NoteHeader = ({ noteId }: Props) => {
     <TabHeader
       left={renderedBackButton}
       right={renderedRightSide}
+      pl={isPrimary ? '4' : undefined}
     >
       <Text
         noOfLines={2}
         overflow="hidden" 
         textOverflow="ellipsis"
         lineHeight="1.2"
+        fontWeight="500"
       >
         {title}
       </Text>
