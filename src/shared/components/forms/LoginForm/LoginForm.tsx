@@ -96,7 +96,7 @@ export const LoginForm = () => {
         setIsEmailSent(true);
       } catch (e) {
         setError('email', {
-          message: getApiError(e).message,
+          message: getApiError(e).message || 'Error sending code',
         });
       }
     }
