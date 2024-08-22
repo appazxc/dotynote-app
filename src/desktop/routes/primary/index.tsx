@@ -2,4 +2,4 @@ import { createRedirectRoute } from 'shared/modules/space/tabRoutes/createRedire
 
 import { appRoute } from 'desktop/routes/app';
 
-export const tabs = createRedirectRoute('tabs', '/app', () => appRoute);
+export const primary = createRedirectRoute('primary', '/app', () => appRoute);

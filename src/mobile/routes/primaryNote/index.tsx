@@ -7,7 +7,6 @@ import { modalIds } from 'shared/constants/modalIds';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
-import { wait } from 'shared/util/wait';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { Context } from 'mobile/routes/routerContext';

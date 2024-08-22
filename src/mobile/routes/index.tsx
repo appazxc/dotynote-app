@@ -4,12 +4,12 @@ import {
   RouterProvider,
 } from '@tanstack/react-router';
 
-import { router } from './router';
+import { createRouterInstance } from './router';
 
 function Routes() {
   return (
     <RouterProvider 
-      router={router} 
+      router={createRouterInstance()} 
     />
   );
 }

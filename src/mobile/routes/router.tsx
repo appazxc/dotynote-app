@@ -19,7 +19,7 @@ const routeTree = root.addChildren([
   guest.addChildren([idx, login]),
 ]);
 
-const router = createRouter({ 
+export const createRouterInstance = () => createRouter({ 
   routeTree,
   context,
   defaultPendingMinMs: 0,
@@ -28,6 +28,8 @@ const router = createRouter({
   defaultErrorComponent: DefaultErrorComponent,
   defaultPendingComponent: Loader,
 });
+
+const router = createRouterInstance();
 
 export type Router = typeof router;
 

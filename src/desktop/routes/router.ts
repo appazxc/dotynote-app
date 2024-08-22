@@ -19,16 +19,17 @@ const routeTree = root.addChildren([
   auth.addChildren([app]), 
 ]);
 
-const router = createRouter({ 
+export const createRouterInstance = () => createRouter({ 
   routeTree,
   context,
   defaultPendingMinMs: 0,
-  defaultStaleTime: Infinity,
   defaultPreloadStaleTime: Infinity,
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
   defaultPendingComponent: Loader,
 });
+
+const router = createRouterInstance();
 
 export type Router = typeof router;
 
