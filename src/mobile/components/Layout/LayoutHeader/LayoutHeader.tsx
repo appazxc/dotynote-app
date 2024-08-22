@@ -1,19 +1,27 @@
 import React from 'react';
 
-import { Box, BoxProps, IconButton } from '@chakra-ui/react';
+import { Box, BoxProps, IconButton, Text } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 
 type Props = {
+  title?: React.ReactNode,
   left?: React.ReactNode,
   children?: React.ReactNode,
   right?: React.ReactNode,
   showBackButton?: React.ReactNode,
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
-export const LayoutHeader = ({ children, left, right, showBackButton, ...restProps }: Props) => {
+export const LayoutHeader = (props: Props) => {
   const { history } = useRouter();
-  
+  const { 
+    children, 
+    left, 
+    right, 
+    showBackButton, 
+    title,
+    ...restProps
+  } = props;
   const renderedBackButton = React.useMemo(() => {
     if (!showBackButton) {
       return null;
@@ -31,6 +39,14 @@ export const LayoutHeader = ({ children, left, right, showBackButton, ...restPro
     );
   }, [history, showBackButton]);
 
+  const renderedTitle = React.useMemo(() => {
+    if (!title) {
+      return null;
+    }
+
+    return <Text fontWeight="500">{title}</Text>;
+  }, [title]);
+
   return (
     <Box
       w="full"
@@ -38,12 +54,13 @@ export const LayoutHeader = ({ children, left, right, showBackButton, ...restPro
       flexDirection="row"
       alignItems="center"
       background="body"
-      px="2"
-      minH="10"
+      pl={renderedBackButton ? '2' : '4'}
+      pr={right ? '2' : '4'}
+      minH="44px"
       {...restProps}
     >
       <Box flexShrink="0">{renderedBackButton}{left}</Box>
-      <Box flexGrow="1">{children}</Box>
+      <Box flexGrow="1">{renderedTitle || children}</Box>
       <Box flexShrink="0">{right}</Box>
     </Box>
   );

@@ -8,8 +8,8 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 
 import { NoteInPost } from 'shared/components/NoteInPost';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
-import { HomeNoteSearch } from 'shared/modules/tabRoutes/idx/HomeNoteSearch';
-import { HomeSearchInput } from 'shared/modules/tabRoutes/idx/HomeSearchInput';
+import { SearchInput } from 'shared/modules/search/SearchInput';
+import { SearchResults } from 'shared/modules/search/SearchResults';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
@@ -44,16 +44,24 @@ export const Home = React.memo(() => {
 
   return (
     <TabLayout>
-      <Container>
+      <Container h="full">
         <Box
-          pb="10"
-          pt="5"
           flexDirection="column"
           display="flex"
-          gap="10"
+          gap="4"
+          position="relative"
+          h="full"
         >
-          <HomeSearchInput />
-          {showSearch ? <HomeNoteSearch value={search} renderNote={renderNote} /> : <NoteCreate />}
+          <Box
+            position="sticky"
+            bg="body"
+            top="0"
+            pt="5"
+            pb="4"
+          >
+            <SearchInput />
+          </Box>
+          {showSearch ? <SearchResults value={search} renderNote={renderNote} /> : <NoteCreate />}
         </Box>
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />

@@ -7,9 +7,9 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
-import { wait } from 'shared/util/wait';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
+import { search } from 'mobile/routes/search';
 import { spaces } from 'mobile/routes/spaces';
 import { tabs } from 'mobile/routes/tabs';
 
@@ -73,4 +73,4 @@ const appIndexRoute = createRoute({
   pendingComponent: LayoutLoader,
 });
 
-export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primaryNote]);
+export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primaryNote, search]);

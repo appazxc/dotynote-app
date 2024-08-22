@@ -11,27 +11,27 @@ type Props = {
   renderNote: (id: number) => React.ReactNode,
 };
 
-export const HomeNoteSearch = React.memo((props: Props) => {
+export const SearchResults = React.memo((props: Props) => {
   const { value, renderNote } = props;
   
   const { data, isLoading } = useNotes({ filters: { [PAGE_SIZE]: MAX_PAGE_SIZE, query: value } });
 
   if (isLoading) {
     return (
-      <Center minH="200">
+      <Center h="full">
         <Spinner />
       </Center>
     );
   } else if (!data || data.length === 0) {
     return (
-      <Center minH="200">
+      <Center h="full">
         <Text>Notes not found</Text>
       </Center>
     );
   }
   
   return (
-    <Box>
+    <Box pb="10">
       <VStack gap="4" alignItems="stretch">
         {data.map(renderNote)}
       </VStack>

@@ -11,8 +11,6 @@ type Props = {
   onClick?: (id: string) => void,
 }
 
-const CenterBox = ({ children }: React.PropsWithChildren) => <Center h="full">{children}</Center>;
-
 export function SearchResults({ query = '', onClick }: Props) {
   const {
     data,
@@ -31,7 +29,7 @@ export function SearchResults({ query = '', onClick }: Props) {
     onClick?.(value);
   }, [onClick]);
 
-  if (isLoading) return <CenterBox><Spinner /></CenterBox> ;
+  if (isLoading) return <Center h="full"><Spinner /></Center> ;
 
   return (
     <Box h="full">
@@ -46,7 +44,7 @@ export function SearchResults({ query = '', onClick }: Props) {
           ))}
         </VStack>
       ) : (
-        <CenterBox><Text>Notes not found</Text></CenterBox>  
+        <Center h="full"><Text>Notes not found</Text></Center>  
       )}
     </Box>
   );

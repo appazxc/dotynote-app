@@ -8,7 +8,7 @@ type Props = {
   isMobile?: boolean,
 };
 
-export const HomeSearchInput = React.memo(({ isMobile }: Props) => {
+export const SearchInput = React.memo(({ isMobile }: Props) => {
   const navigate = useNavigate();
   const { search = '' } = useSearch({ strict: false }); 
   const [value, setValue] = React.useState(search);

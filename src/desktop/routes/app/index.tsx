@@ -6,6 +6,7 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { primary } from 'desktop/routes/primary';
+import { search } from 'desktop/routes/search';
 import { tabs } from 'desktop/routes/tabs';
 
 import { auth } from '../guards';
@@ -44,4 +45,4 @@ const appIndexRoute = createRoute({
   component: lazyRouteComponent(() => import('desktop/modules/space')),
 });
 
-export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primary]);
+export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primary, search]);

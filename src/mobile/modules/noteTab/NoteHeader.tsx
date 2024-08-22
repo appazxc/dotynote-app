@@ -16,7 +16,7 @@ import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
 
-import { TabHeader } from 'mobile/modules/space/components/TabHeader';
+import { LayoutHeader } from 'mobile/components/Layout';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
@@ -112,7 +112,7 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
   }, [dispatch]);
 
   return (
-    <TabHeader
+    <LayoutHeader
       left={renderedBackButton}
       right={renderedRightSide}
       pl={isPrimary ? '4' : undefined}
@@ -126,6 +126,6 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
       >
         {title}
       </Text>
-    </TabHeader>
+    </LayoutHeader>
   );
 };

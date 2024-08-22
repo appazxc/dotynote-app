@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
 
-type Props = {};
-
-export const NoteCreate = React.memo((props: Props) => {
+export const NoteCreate = React.memo(() => {
   return (
     <Box>
-      <Text fontWeight="500" mb="4">Create note</Text>
       <NoteContentCards isMobile />
     </Box>
   );

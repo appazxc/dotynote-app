@@ -54,10 +54,10 @@ export const FooterNavigation = React.memo(() => {
       {
         label: 'search',
         onClick: () => {
-          // router.navigate(buildUrl({ routeName: routeNames.search }));
+          navigate({ to: '/app/search' });
         },
         icon: <GoSearch size="25" />,
-        isDisabled: true,
+        isDisabled: false,
       },
       {
         label: 'menu',

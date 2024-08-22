@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
-function Spaces() {
+const Spaces = React.memo(() => {
   const dispatch = useAppDispatch();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [], isLoading } = useSpaces();
@@ -66,6 +66,8 @@ function Spaces() {
       <CreateSpaceModal />
     </Layout>
   );
-}
+});
 
 export { Spaces };
+
+export default Spaces;

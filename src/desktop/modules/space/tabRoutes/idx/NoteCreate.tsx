@@ -9,7 +9,7 @@ export const NoteCreate = () => {
   return (
     <Box>
       <Heading size="lg" mb="6">
-        Create note with:
+        Create note
       </Heading>
       <NoteContentCards />
     </Box>
