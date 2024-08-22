@@ -33,7 +33,7 @@ export const NoteBase = (props: Props) => {
       mutate({ title });
     }, 2000);
   }, [mutate]);
-  
+
   return (
     <Box
       flexGrow="1"
@@ -48,6 +48,7 @@ export const NoteBase = (props: Props) => {
         onChange={debouncedUpdateTitle}
       />
       <NoteEditorBase
+        key={id}
         id={id}
         isMobile={isMobile}
         isWriteMode={isWriteMode}

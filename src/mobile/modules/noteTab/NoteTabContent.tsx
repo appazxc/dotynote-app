@@ -56,7 +56,7 @@ export const NoteTabContent = ({ noteId, showPosts, isWriteMode, isPrimary }: Pr
     
     defaultPostClick(event, post.noteId);
   }, [operation, defaultPostClick, concretePostClick]);
-  
+
   return (
     <Container h="full">
       <Stack
@@ -65,13 +65,13 @@ export const NoteTabContent = ({ noteId, showPosts, isWriteMode, isPrimary }: Pr
         h="full"
       >
         <NoteBase
+          key={noteId}
           id={noteId}
           isMobile
           isWriteMode={isWriteMode}
         />
         {showPosts && (
           <Posts
-            key={noteId}
             noteId={noteId}
             onPostClick={handlePostClick}
             scrollRestoration={!isPrimary}

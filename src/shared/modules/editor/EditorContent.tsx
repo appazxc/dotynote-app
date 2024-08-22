@@ -12,7 +12,7 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
   if (!editor) {
     return null;
   }
-
+// console.log('editor', editor.getText());
   return (
     <Box
       flexGrow="1"

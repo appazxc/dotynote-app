@@ -39,9 +39,9 @@ function SpaceTabContent({ activeTabId, isFake, isLoading }: SpaceTabContentProp
   const router = useTabRouter(activeTabId, createTabRouter);
 
   const renderedProvider = React.useMemo(() => (
-    <RouterProvider key={activeTabId} router={router} />
+    <RouterProvider router={router} />
   ), 
-  [router, activeTabId]);
+  [router]);
 
   return isFake || isLoading
     ? <LayoutLoader />

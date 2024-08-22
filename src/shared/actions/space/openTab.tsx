@@ -17,7 +17,6 @@ import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
 
 type CreateSpaceTabParams = { 
-  fromTabId?: string, 
   route?: string, 
   makeActive?: boolean,
 };

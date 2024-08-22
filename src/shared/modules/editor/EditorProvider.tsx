@@ -36,6 +36,14 @@ export const EditorProvider = ({ id, children }: Props) => {
     },
   });
 
+  React.useEffect(() => {
+    if (!editor || !content) {
+      return;
+    }
+    editor.commands.setContent(content);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   if (!editor) {
     return null;
   }

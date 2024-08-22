@@ -11,7 +11,10 @@ type Props = React.PropsWithChildren<{
 export const NoteProviders = React.memo(({ id, isWriteMode, children }: Props) => {
   return (
     <NoteProvider id={id}>
-      <EditorProvider id={id} isWriteMode={isWriteMode}>
+      <EditorProvider
+        id={id}
+        isWriteMode={isWriteMode}
+      >
         {children}
       </EditorProvider>
     </NoteProvider>
