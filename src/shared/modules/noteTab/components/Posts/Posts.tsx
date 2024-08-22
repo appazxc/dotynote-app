@@ -19,9 +19,10 @@ const ROOT_MARGIN = '400px';
 type Props = {
   noteId: number,
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
+  scrollRestoration?: boolean,
 }
 
-export const Posts = ({ noteId, onPostClick }: Props) => {
+export const Posts = ({ noteId, onPostClick, scrollRestoration = true }: Props) => {
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
     rootMargin: ROOT_MARGIN,
@@ -95,7 +96,7 @@ export const Posts = ({ noteId, onPostClick }: Props) => {
           {showPreviousPageObserver && <Box ref={prevRef} />}
         </Stack>
       </Box>
-      <TabScrollRestoration />
+      {scrollRestoration && <TabScrollRestoration />}
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useLocation } from '@tanstack/react-router';
+import { useLocation, useRouterState } from '@tanstack/react-router';
 import throttle from 'lodash/throttle';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
@@ -12,13 +12,19 @@ export const TabScrollRestoration = React.memo(() => {
   const scroll = useScrollContext();
   const { href } = useLocation();
   const tab = useTabContext();
-  const id = href + tab.id;
+  const { status } = useRouterState();
+  const id = `href:${href}|tabId:${tab.id}`;
 
   React.useEffect(() => {
-    const value = scrollMap.get(id);
-
-    if (scroll?.current && value) {
-      setTimeout(() => scroll?.current?.scrollTo(0, value), 0);
+    const value = scrollMap.get(id) || 0;
+    
+    if (status !== 'idle') {
+      return;
+    }
+    
+    if (scroll?.current) {
+      scroll?.current?.scrollTo(0, value);
+      // setTimeout(() => scroll?.current?.scrollTo(0, value), 0);
     }
 
     const onScroll = throttle(() => {
@@ -30,7 +36,7 @@ export const TabScrollRestoration = React.memo(() => {
     return () => {
       scroll?.current?.removeEventListener('scroll', onScroll);    
     };
-  }, [id, scroll]);
+  }, [id, scroll, status]);
 
   return null;
 });

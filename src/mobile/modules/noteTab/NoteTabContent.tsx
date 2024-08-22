@@ -74,6 +74,7 @@ export const NoteTabContent = ({ noteId, showPosts, isWriteMode, isPrimary }: Pr
             key={noteId}
             noteId={noteId}
             onPostClick={handlePostClick}
+            scrollRestoration={!isPrimary}
           />
         )}
       </Stack>

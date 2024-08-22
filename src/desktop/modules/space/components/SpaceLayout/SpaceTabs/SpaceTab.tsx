@@ -8,6 +8,7 @@ import {
   shouldForwardProp,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useRouter } from '@tanstack/react-router';
 import { isValidMotionProp, motion, Reorder } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 
@@ -15,7 +16,6 @@ import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
-import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
@@ -25,6 +25,8 @@ import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
+
+import { router } from 'desktop/modules/space/tabRoutes/router';
 
 export const ReorderItemBox = chakra(Reorder.Item, {
   /**
@@ -42,7 +44,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const mousePosition = React.useRef({ x: null, y: null });
   const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
-  const router = useBrowserRouter();
 
   invariant(spaceTab, 'Missing space tab');
 

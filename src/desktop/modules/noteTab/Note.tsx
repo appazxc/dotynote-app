@@ -44,7 +44,6 @@ export const Note = React.memo(() => {
 
   return (
     <NoteProviders
-      key={note.id}
       id={note.id}
       isWriteMode={isWriteMode}
     >
@@ -69,6 +68,7 @@ export const Note = React.memo(() => {
         )}
       >
         <NoteTabContent
+          key={note.id}
           noteId={note.id}
           showPosts={!!note.postSettingsId}
           isWriteMode={isWriteMode}
