@@ -8,16 +8,16 @@ import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
-  MainNoteOperation as MainNoteOperationType,
+  PrimaryNoteOperation as PrimaryNoteOperationType,
   stopOperation,
 } from 'shared/store/slices/appSlice';
 
 import { Operation } from './Operation';
 
-type Props = MainNoteOperationType;
+type Props = PrimaryNoteOperationType;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const MainNoteOperation = React.memo((props: Props) => {
+export const PrimaryNoteOperation = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
   const spaceId = useAppSelector(selectActiveSpaceId);

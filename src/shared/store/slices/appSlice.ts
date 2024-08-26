@@ -20,8 +20,8 @@ export type StickOperation = {
   concretePostId?: number,
 }
 
-export type MainNoteOperation = {
-  type: 'mainNote',
+export type PrimaryNoteOperation = {
+  type: 'primaryNote',
 }
 
 export type MoveOperation = {
@@ -46,7 +46,7 @@ type InitialState = {
     isAdvancedEditActive: boolean,
     addTo: AddTo,
   },
-  operation: NoOperation | StickOperation | MoveOperation | MainNoteOperation,
+  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation,
 };
 
 const noOperation = { type: null };

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { MainNoteOperation } from 'shared/modules/noteTab/components/Operations/MainNoteOperation';
 import { MoveOperation } from 'shared/modules/noteTab/components/Operations/MoveOperation';
+import { PrimaryNoteOperation } from 'shared/modules/noteTab/components/Operations/PrimaryNoteOperation';
 import { StickOperation } from 'shared/modules/noteTab/components/Operations/StickOperation';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
@@ -18,8 +18,8 @@ export const Operations = React.memo(() => {
   case 'move':
     activeOperation = <MoveOperation {...operation} />;
     break;
-  case 'mainNote':
-    activeOperation = <MainNoteOperation {...operation} />;
+  case 'primaryNote':
+    activeOperation = <PrimaryNoteOperation {...operation} />;
     break;
   default:
     activeOperation = null;

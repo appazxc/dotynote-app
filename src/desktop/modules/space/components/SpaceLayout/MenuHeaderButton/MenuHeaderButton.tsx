@@ -72,7 +72,9 @@ export const MenuHeaderButton = React.memo(() => {
               router.navigate({ to: '/' });
             }}
             colorScheme="red"
-          >Logout</MenuItem>
+          >
+            Logout
+          </MenuItem>
         </MenuList>
       </Menu>
 
