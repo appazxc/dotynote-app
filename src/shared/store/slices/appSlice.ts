@@ -12,8 +12,14 @@ type NoOperation = {
   type: null,
 };
 
+export const operationTypes = {
+  STICK: 'stick',
+  MOVE: 'move',
+  PRIMARY_NOTE: 'primaryNote',
+} as const;
+
 export type StickOperation = {
-  type: 'stick',
+  type: typeof operationTypes.STICK,
   fromNoteId: number | null,
   noteIds: number[],
   concretePlace: boolean,
@@ -21,11 +27,11 @@ export type StickOperation = {
 }
 
 export type PrimaryNoteOperation = {
-  type: 'primaryNote',
+  type: typeof operationTypes.PRIMARY_NOTE,
 }
 
 export type MoveOperation = {
-  type: 'move',
+  type: typeof operationTypes.MOVE,
   fromNoteId: number,
   postIds: number[],
   concretePlace: boolean,
@@ -123,7 +129,7 @@ export const appSlice = createSlice({
       }>
     ) => {
       state.operation = {
-        type: 'stick',
+        type: operationTypes.STICK,
         fromNoteId: payload.fromNoteId || null,
         noteIds: payload.noteIds,
         concretePlace: false,
@@ -137,7 +143,7 @@ export const appSlice = createSlice({
       }>
     ) => {
       state.operation = {
-        type: 'move',
+        type: operationTypes.MOVE,
         fromNoteId: payload.fromNoteId,
         postIds: payload.postIds,
         concretePlace: false,
@@ -145,7 +151,7 @@ export const appSlice = createSlice({
     },
     startPrimaryNoteOperation: (state) => {
       state.operation = {
-        type: 'mainNote',
+        type: operationTypes.PRIMARY_NOTE,
       };
     },
     toggleConcretePlace: (state) => {

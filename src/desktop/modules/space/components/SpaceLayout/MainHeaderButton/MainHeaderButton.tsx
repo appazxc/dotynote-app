@@ -4,13 +4,13 @@ import { IconButton, useColorModeValue, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
-import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { startPrimaryNoteOperation } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
@@ -27,20 +27,7 @@ export const MainHeaderButton = () => {
 
   invariant(space, 'Missing space');
   
-  const { mutate, isPending } = useUpdateSpace(space.id);
-
-  const handleNoteSelect = React.useCallback((value) => {
-    if (isPending) {
-      return;
-    }
-
-    dispatch(hideModal());
-    mutate({ mainNoteId: value }, { onSuccess: () => {
-      // TODO: toast about success
-    } });
-  }, [mutate, isPending, dispatch]);
-  
-  const openMainSpaceNote = React.useCallback(() => {
+  const handlePrimaryNoteButtonClick = React.useCallback(() => {
     if (!space) {
       return;
     }
@@ -76,7 +63,7 @@ export const MainHeaderButton = () => {
           icon={<GoDotFill size="30" color={space.mainNoteId ? brand : 'gray'} />}
           variant="outline"
           isActive={false}
-          onClick={openMainSpaceNote}
+          onClick={handlePrimaryNoteButtonClick}
         />
         <MenuList>
           <MenuItem
@@ -90,10 +77,10 @@ export const MainHeaderButton = () => {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              dispatch(showModal({ id: modalIds.primaryNote }));
+              dispatch(startPrimaryNoteOperation());
             }}
           >
-            Change main note
+            Change primary note
           </MenuItem>
         </MenuList>
       </Menu>

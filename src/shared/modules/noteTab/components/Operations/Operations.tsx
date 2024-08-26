@@ -5,6 +5,7 @@ import { PrimaryNoteOperation } from 'shared/modules/noteTab/components/Operatio
 import { StickOperation } from 'shared/modules/noteTab/components/Operations/StickOperation';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
+import { operationTypes } from 'shared/store/slices/appSlice';
 
 export const Operations = React.memo(() => {
   const operation = useAppSelector(selectOperation);
@@ -12,13 +13,13 @@ export const Operations = React.memo(() => {
   let activeOperation;
 
   switch(operation.type) {
-  case 'stick':
+  case operationTypes.STICK:
     activeOperation = <StickOperation {...operation} />;
     break;
-  case 'move':
+  case operationTypes.MOVE:
     activeOperation = <MoveOperation {...operation} />;
     break;
-  case 'primaryNote':
+  case operationTypes.PRIMARY_NOTE:
     activeOperation = <PrimaryNoteOperation {...operation} />;
     break;
   default:
