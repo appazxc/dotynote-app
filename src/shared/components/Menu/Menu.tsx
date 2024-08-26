@@ -5,6 +5,7 @@ import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  OffsetOptions,
   Placement,
   autoUpdate,
   flip,
@@ -25,6 +26,7 @@ type Props = React.PropsWithChildren<{
   isContextMenu?: boolean,
   contextMousePosition?: boolean,
   placement?: Placement,
+  offsetOptions?: OffsetOptions,
 }>
 
 export const Menu = React.memo((props: Props) => {
@@ -33,6 +35,7 @@ export const Menu = React.memo((props: Props) => {
     contextMousePosition = true,
     placement,
     children, 
+    offsetOptions = { mainAxis: 5, alignmentAxis: 4 },
   } = props;
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
@@ -48,7 +51,7 @@ export const Menu = React.memo((props: Props) => {
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [
-      offset({ mainAxis: 5, alignmentAxis: 4 }),
+      offset(offsetOptions),
       flip({
         fallbackPlacements: ['left-start'],
       }),

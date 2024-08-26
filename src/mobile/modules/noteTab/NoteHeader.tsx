@@ -115,7 +115,7 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
     <LayoutHeader
       left={renderedBackButton}
       right={renderedRightSide}
-      pl={isPrimary ? '4' : undefined}
+      pl={isPrimary ? '4' : '2'}
     >
       <Text
         noOfLines={2}

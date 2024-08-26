@@ -12,19 +12,21 @@ import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
 export const PrimaryNote = React.memo(() => {
   const space = useAppSelector(selectActiveSpace);
-  const spaceId = useAppSelector(selectActiveSpaceId)!;
   
-  invariant(space?.mainNoteId, 'Missing primary note id');
-  invariant(spaceId, 'Missing spaceId');
-  
+  invariant(space, 'Missing space');
+
   const fakeTab: SpaceTabEntity = React.useMemo(() => ({
     id: 'fake',
-    spaceId,
+    spaceId: space.id,
     routes: [buildTabHref({ to: '/n/$noteId', params: { noteId: String(space?.mainNoteId) } })],
     isPinned: false,
     pos: 1,
-  }), [spaceId, space]);
+  }), [space]);
 
+  if (!space.mainNoteId) {
+    return null;
+  }
+  
   return (
     <TabProvider tab={fakeTab}>
       <NoteTab isPrimary noteId={space?.mainNoteId} />
