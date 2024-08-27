@@ -22,6 +22,7 @@ export const LayoutHeader = (props: Props) => {
     title,
     ...restProps
   } = props;
+  
   const renderedBackButton = React.useMemo(() => {
     if (!showBackButton) {
       return null;
@@ -57,6 +58,7 @@ export const LayoutHeader = (props: Props) => {
       pl={renderedBackButton ? '2' : '4'}
       pr={right ? '2' : '4'}
       minH="44px"
+      gap="2"
       {...restProps}
     >
       <Box flexShrink="0">{renderedBackButton}{left}</Box>

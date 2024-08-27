@@ -23,15 +23,21 @@ export const Menu = React.memo(() => {
       icon: <CgProfile />,
     },
     {
-      label: 'Spaces',
-      to: '/app/spaces' as const,
-      icon: <TbChartDots3 />,
-    },
-    {
       label: 'Settings',
       to: '/app/settings' as const,
       icon: <TbSettings2 />,
     },
+    {
+      label: 'Spaces',
+      to: '/app/spaces' as const,
+      icon: <TbChartDots3 />,
+      divider: true,
+    },
+    // {
+    //   label: 'Unsticked notes',
+    //   to: '/app/spaces' as const,
+    //   icon: <TbChartDots3 />,
+    // },
     {
       label: 'Logout',
       to: '/' as const,
@@ -39,7 +45,7 @@ export const Menu = React.memo(() => {
       onClick: () => {
         dispatch(logout());
       },
-      hasDivider: true,
+      divider: true,
     },
   ];
 
@@ -56,12 +62,12 @@ export const Menu = React.memo(() => {
 
   return (
     <Layout header={<LayoutHeader right={renderedThemeButton} /> }>
-      <Container pt="4" maxW="md">
+      <Container maxW="md">
         <VStack gap="1" align="stretch">
-          {list.map(({ label, icon, hasDivider, ...btnProps }) => {
+          {list.map(({ label, icon, divider, ...btnProps }) => {
             return (
               <React.Fragment key={label}>
-                {hasDivider && <Divider />}
+                {divider && <Divider />}
                 <Button
                   as={MobileLink}
                   w="full"

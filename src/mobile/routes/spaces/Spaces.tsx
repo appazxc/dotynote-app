@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Button, Container, IconButton, Text } from '@chakra-ui/react';
-import { useLocation, useRouter } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
@@ -17,7 +17,7 @@ import { Layout, LayoutHeader } from 'mobile/components/Layout';
 const Spaces = React.memo(() => {
   const dispatch = useAppDispatch();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
-  const { data = [], isLoading } = useSpaces();
+  const { data = [] } = useSpaces();
   const { history } = useRouter();
   const title = data.length ? 'Select or create space' : 'Create space';
 
@@ -25,21 +25,18 @@ const Spaces = React.memo(() => {
     return (
       <LayoutHeader
         pr="4"
-        left={!isLoading && (
-          <Box display="flex" alignItems="center">
-            <IconButton 
-              size="sm"
-              aria-label="Back"
-              icon={<BsArrowLeft />}
-              mr="3"
-              variant="ghost"
-              onClick={() => {
-                history.back();
-              }}
-            />
-            <Text fontSize="md">{title}</Text>
-          </Box>
-        ) }
+        title={title}
+        left={(
+          <IconButton 
+            size="sm"
+            aria-label="Back"
+            icon={<BsArrowLeft />}
+            variant="ghost"
+            onClick={() => {
+              history.back();
+            }}
+          />
+        )}
         right={(
           <Button
             size="sm"
@@ -53,7 +50,7 @@ const Spaces = React.memo(() => {
         )}
       />
     );
-  }, [dispatch, isLoading, history, title]);
+  }, [dispatch, history, title]);
 
   return (
     <Layout header={renderedHeader}>
