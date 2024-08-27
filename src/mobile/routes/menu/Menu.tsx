@@ -1,18 +1,21 @@
 import React from 'react';
 
-import { Button, Container, Divider, VStack } from '@chakra-ui/react';
+import { Button, Container, Divider, IconButton, useColorMode, VStack } from '@chakra-ui/react';
+import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
+import { IoSunny } from 'react-icons/io5';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/auth';
-import { useAppDispatch } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-import { Layout } from 'mobile/components/Layout';
+import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 export const Menu = React.memo(() => {
   const dispatch = useAppDispatch();
-  
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const list = [
     {
       label: 'Profile',
@@ -39,9 +42,21 @@ export const Menu = React.memo(() => {
       hasDivider: true,
     },
   ];
+
+  const renderedThemeButton = React.useMemo(() => {
+    return (
+      <IconButton 
+        size="sm"
+        icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
+        aria-label=""
+        onClick={toggleColorMode}
+      />
+    );
+  }, [colorMode, toggleColorMode]);
+
   return (
-    <Layout>
-      <Container pt="8" maxW="md">
+    <Layout header={<LayoutHeader right={renderedThemeButton} /> }>
+      <Container pt="4" maxW="md">
         <VStack gap="1" align="stretch">
           {list.map(({ label, icon, hasDivider, ...btnProps }) => {
             return (
