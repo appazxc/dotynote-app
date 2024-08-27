@@ -19,7 +19,7 @@ const routeTree = root.addChildren([
   auth.addChildren([app]), 
 ]);
 
-export const createRouterInstance = () => createRouter({ 
+const createNewRouter = () => createRouter({ 
   routeTree,
   context,
   defaultPendingMinMs: 0,
@@ -29,7 +29,11 @@ export const createRouterInstance = () => createRouter({
   defaultPendingComponent: Loader,
 });
 
-const router = createRouterInstance();
+let router = createNewRouter();
+
+export const getNewRouterInstance = () => {
+  return router = createNewRouter();
+};
 
 export type Router = typeof router;
 
