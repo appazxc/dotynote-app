@@ -1,10 +1,11 @@
 import { createRoute } from '@tanstack/react-router';
 
 import { appRoute } from 'mobile/routes/app';
-import { Tabs } from 'mobile/routes/tabs/Tabs';
 
-export const tabs = createRoute({
+import { Menu } from './Menu';
+
+export const menu = createRoute({
   getParentRoute: () => appRoute,
-  path: 'tabs',
-  component: Tabs,
+  path: 'menu',
+  component: Menu,
 });

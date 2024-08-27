@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Container } from '@chakra-ui/react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { NoteInPost } from 'shared/components/NoteInPost';

@@ -76,7 +76,7 @@ const Tab = ({ id, isActive }) => {
 };
 
 export const Tabs = () => {
-  const tabs = useSpaceTabs({ sorted: true });
+  const tabs = useSpaceTabs({ sorted: true }).reverse();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);

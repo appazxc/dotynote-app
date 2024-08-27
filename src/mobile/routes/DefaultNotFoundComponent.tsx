@@ -24,7 +24,7 @@ function DefaultNotFoundComponent() {
             color="teal.500"
             mt="10"
           >
-          Go to home page
+            Go to home page
           </Link>
         </Stack>
 

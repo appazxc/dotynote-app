@@ -96,7 +96,7 @@ export const FooterNavigation = React.memo(() => {
       {
         label: 'account',
         onClick: () => {
-          navigate({ to: '/app/spaces' });
+          navigate({ to: '/app/menu' });
           // router.navigate(buildUrl({ routeName: routeNames.account }));
         },
         icon: <CiMenuBurger size="25" />,

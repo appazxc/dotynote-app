@@ -4,7 +4,9 @@ import { Link, LinkProps } from '@tanstack/react-router';
 
 import { Router } from 'mobile/routes/router';
 
-const MobileLinkComponent = (props: LinkProps<Router>, ref) => {
+type Props = React.HTMLAttributes<'a'> & LinkProps<Router>;
+
+const MobileLinkComponent = (props: Props, ref) => {
   return <Link ref={ref} {...props} />;
 };
 

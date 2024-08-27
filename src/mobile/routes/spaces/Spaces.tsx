@@ -18,9 +18,7 @@ const Spaces = React.memo(() => {
   const dispatch = useAppDispatch();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [], isLoading } = useSpaces();
-  const location = useLocation();
   const { history } = useRouter();
-  const canGoBack = location.state.key !== 'default' && !!data.length && !!activeSpaceId;
   const title = data.length ? 'Select or create space' : 'Create space';
 
   const renderedHeader = React.useMemo(() => {
@@ -34,7 +32,6 @@ const Spaces = React.memo(() => {
               aria-label="Back"
               icon={<BsArrowLeft />}
               mr="3"
-              isDisabled={!canGoBack}
               variant="ghost"
               onClick={() => {
                 history.back();
@@ -56,7 +53,7 @@ const Spaces = React.memo(() => {
         )}
       />
     );
-  }, [dispatch, canGoBack, isLoading, history, title]);
+  }, [dispatch, isLoading, history, title]);
 
   return (
     <Layout header={renderedHeader}>
