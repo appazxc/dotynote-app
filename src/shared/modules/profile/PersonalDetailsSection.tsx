@@ -10,16 +10,29 @@ type Props = {
     close?: React.ReactNode,
   },
   children?: React.ReactNode,
+  onClose?: () => void,
 };
 
-export const PersonalDetailsSection = React.memo((props: Props) => {
-  const { title, description, children } = props;
+export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props, ref) => {
+  const { title, description, children, onClose: handleOnClose } = props;
 
-  const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure();
+  const { isOpen, getButtonProps, onClose, getDisclosureProps } = useDisclosure({ 
+    onClose: () => {
+      handleOnClose?.();
+    }, 
+  });
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
   const borderColor = useToken('colors', 'gray.100');
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      close() {
+        onClose();
+      },
+    };
+  }, [onClose]);
 
   return (
     <Box
@@ -61,4 +74,4 @@ export const PersonalDetailsSection = React.memo((props: Props) => {
       )}
     </Box>
   );
-});
+}));

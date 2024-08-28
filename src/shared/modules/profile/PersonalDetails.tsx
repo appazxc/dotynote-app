@@ -1,19 +1,20 @@
 import React from 'react';
 
-import { Box, BoxProps, Button, Heading, Input, InputGroup } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Heading, Input, useToast } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { useUpdateUser } from 'shared/api/hooks/useUpdateUser';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
   useForm,
 } from 'shared/components/Form';
+import { handleFormApiErrors } from 'shared/components/Form/util';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
@@ -23,14 +24,25 @@ type Props = {} & BoxProps;
 
 const schema = z.object({
   email: z.string().email('Enter a valid email'),
-  nickname: z.string(),
-  username: z.string(),
+  nickname: z.string().min(3),
+  username: z.string().min(3),
 });
 
 type FormValues = z.infer<typeof schema>
 
+type FieldNames = keyof FormValues
+
+type SectionRef = {
+  close: () => void;
+};
+
 export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
   const user = useAppSelector(selectUser);
+  const toast = useToast();
+  React.useRef(null);
+  const sectionRefs = React.useRef<{
+    [key in FieldNames]: SectionRef
+      }>({});
 
   invariant(user, 'Missing user');
 
@@ -42,7 +54,50 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
     },
     resolver: zodResolver(schema), 
   });
+
+  const { mutate, isPending } = useUpdateUser();
   
+  const closeSection = React.useCallback((fieldProp: FieldNames) => {
+    sectionRefs.current[fieldProp].close();
+  }, []);
+
+  const handleSectionClose = React.useCallback((fieldProp: FieldNames) => () => {
+    form.resetField(fieldProp);
+  }, [form]);
+
+  const submitField = React.useCallback((fieldProp: FieldNames) => async () => {
+    const values = form.getValues();
+    const value = values[fieldProp];
+
+    form.clearErrors();
+
+    const isSuccess = await form.trigger(fieldProp);
+
+    if (!isSuccess) {
+      return;
+    }
+
+    mutate({ [fieldProp]: value }, { 
+      onError: (error) => {
+        handleFormApiErrors(form, error);
+      }, 
+      onSuccess: () => {
+        const fieldNameMap = {
+          'nickname': 'Name',
+          'username': 'Username',
+          'email': 'Email',
+        };
+
+        toast({
+          title: `${fieldNameMap[fieldProp]} updated`,
+          status: 'success',
+        });
+
+        closeSection(fieldProp);
+      },
+    });
+  }, [form, mutate, toast, closeSection]);
+
   if (!user) {
     return null;
   }
@@ -58,11 +113,13 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
       </Heading>
       <Form {...form}>
         <PersonalDetailsSection
+          ref={(el: SectionRef) => sectionRefs.current.nickname = el}
           title="Name"
           description={{
             open: 'This will visible in notes.',
             close: user.nickname,
           }}
+          onClose={handleSectionClose('nickname')}
         >
           <FormField
             control={form.control}
@@ -75,14 +132,16 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                     <Input
                       variant="filled"
                       {...field}
-                      // onChange={handleEmailChange}
                     />
                     <FormMessage />
                     <Button
                       colorScheme="brand"
-                      onClick={() => {}}
+                      onClick={submitField('nickname')}
                       mt="4"
-                    >Save</Button>  
+                      isLoading={isPending}
+                    >
+                      Save
+                    </Button>  
                   </FormControl>
                 </FormItem>
               );
@@ -90,11 +149,13 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           />
         </PersonalDetailsSection>
         <PersonalDetailsSection
+          ref={(el: SectionRef) => sectionRefs.current.username = el}
           title="Username"
           description={{
             open: 'Users can find you with this name.',
             close: `@${user.username}`,
           }}
+          onClose={handleSectionClose('username')}
         >
           <FormField
             control={form.control}
@@ -112,9 +173,12 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                     <FormMessage />
                     <Button
                       colorScheme="brand"
-                      onClick={() => {}}
+                      onClick={submitField('username')}
                       mt="4"
-                    >Save</Button>  
+                      isLoading={isPending}
+                    >
+                      Save
+                    </Button>  
                   </FormControl>
                 </FormItem>
               );
