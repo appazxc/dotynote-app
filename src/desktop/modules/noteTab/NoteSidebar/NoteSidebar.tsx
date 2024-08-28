@@ -46,7 +46,7 @@ export const NoteSidebar = React.memo((props: Props) => {
       ...showAddTo ? [{
         id: 'Add',
         label: 'Add',
-        element: (
+        children: (
           <SidebarPlusMenu
             key={id}
             noteId={id}
@@ -56,11 +56,17 @@ export const NoteSidebar = React.memo((props: Props) => {
         ),
       }] : [],
       ...showRwMode ? [{
-        id: 'NodeRw',
-        label: rwMode === rwModes.READ ? 'Note edit' : 'Note read',
         element: (
           <RwButton
+            key="NodeRw"
             rwMode={rwMode}
+            tooltip={{
+              label: 'Note read/edit',
+              openDelay:300,
+              placement:'right',
+              backgroundColor:'black',
+              hasArrow: true,
+            }}
           />
         ),
       }] : [],
@@ -86,8 +92,8 @@ export const NoteSidebar = React.memo((props: Props) => {
   ]);
 
   const renderedItems = React.useMemo(() => {
-    return items.map(({ id, label, element, ...restItem }) => {
-      return (
+    return items.map(({ id, label, element, children, ...restItem }) => {
+      return element || (
         <Tooltip
           key={id}
           label={label}
@@ -96,7 +102,7 @@ export const NoteSidebar = React.memo((props: Props) => {
           backgroundColor="black"
           hasArrow
         >
-          {element || (
+          {children || (
             <IconButton
               size="sm"
               variant="ghost"
