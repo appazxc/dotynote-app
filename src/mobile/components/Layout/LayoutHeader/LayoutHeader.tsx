@@ -10,6 +10,7 @@ type Props = {
   children?: React.ReactNode,
   right?: React.ReactNode,
   showBackButton?: React.ReactNode,
+  onBackButtonClick?: () => void,
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
 export const LayoutHeader = (props: Props) => {
@@ -20,6 +21,7 @@ export const LayoutHeader = (props: Props) => {
     right, 
     showBackButton, 
     title,
+    onBackButtonClick,
     ...restProps
   } = props;
   
@@ -30,15 +32,15 @@ export const LayoutHeader = (props: Props) => {
 
     return (
       <IconButton
-        size="md"
+        size="sm"
         aria-label="Note back"
         icon={<BsArrowLeft size="18" />}
-        onClick={() => history.back()}
+        onClick={onBackButtonClick || (() => history.back())}
         variant="unstyled"
         display="inline-flex"
       />
     );
-  }, [history, showBackButton]);
+  }, [history, showBackButton, onBackButtonClick]);
 
   const renderedTitle = React.useMemo(() => {
     if (!title) {

@@ -1,17 +1,29 @@
 import React from 'react';
 
-import { Button, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 
-import { Logo } from 'shared/components/Logo';
+import { ProfileContent } from 'shared/modules/profile/ProfileContent';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { MobileLink } from 'mobile/components/MobileLink';
 
 export const Profile = React.memo(() => {
+  const navigate = useNavigate();
+
   return (
-    <Layout header={<LayoutHeader left={<MobileLink to="/"><Logo p="2" /></MobileLink>} />}>
-      <Container pt="24" maxW="md">
-        profile
+    <Layout
+      header={(
+        <LayoutHeader
+          showBackButton
+          onBackButtonClick={() => {
+            navigate({ to: '/app/menu' });
+          }}
+          title="Profile"
+        />
+      )}
+    >
+      <Container pt="10" maxW="md">
+        <ProfileContent />
       </Container>
     </Layout>
   );
