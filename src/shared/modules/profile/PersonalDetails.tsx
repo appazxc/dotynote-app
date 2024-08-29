@@ -130,6 +130,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
         as="h2"
         size="lg"
         mb="4"
+        fontWeight="600"
       >
         Personal details
       </Heading>

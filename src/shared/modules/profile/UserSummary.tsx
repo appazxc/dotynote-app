@@ -18,7 +18,7 @@ export const UserSummary = React.memo((props: Props) => {
     <Box>
       <Text
         fontSize="2xl"
-        fontWeight="bold"
+        fontWeight="700"
         display="inline"
       >
         {user.nickname}
@@ -32,7 +32,7 @@ export const UserSummary = React.memo((props: Props) => {
         @{user.username}
       </Text>
       <Box>
-        <Text color="gray">{user.email}</Text>
+        <Text color="gray" fontSize="sm">{user.email}</Text>
       </Box>
     </Box>
   );
