@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box } from '@chakra-ui/react';
 
-import { MainHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MainHeaderButton';
+import { DotHeaderButton } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton';
 import { MenuHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MenuHeaderButton';
 import { SpaceTabs } from 'desktop/modules/space/components/SpaceLayout/SpaceTabs';
 
@@ -23,7 +23,7 @@ export const SpaceHeader = React.memo(() => {
             alignItems="center"
             flexGrow="1"
           >
-            <MainHeaderButton />
+            <DotHeaderButton />
             <Box mx="2" color="gray">|</Box>
             <Box flexGrow="1" overflow="hidden">
               <SpaceTabs />

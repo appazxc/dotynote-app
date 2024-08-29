@@ -5,13 +5,15 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
+import { auth } from 'desktop/routes/guards';
+import { menu } from 'desktop/routes/menu';
 import { primary } from 'desktop/routes/primary';
+import { profile } from 'desktop/routes/profile';
+import { Context } from 'desktop/routes/routerContext';
 import { search } from 'desktop/routes/search';
+import { settings } from 'desktop/routes/settings';
+import { spaces } from 'desktop/routes/spaces';
 import { tabs } from 'desktop/routes/tabs';
-
-import { auth } from '../guards';
-import { Context } from '../routerContext';
-import { spaces } from '../spaces';
 
 export const appRoute = createRoute({
   getParentRoute: () => auth,
@@ -46,4 +48,13 @@ const appIndexRoute = createRoute({
   component: lazyRouteComponent(() => import('desktop/modules/space')),
 });
 
-export const app = appRoute.addChildren([appIndexRoute, spaces, tabs, primary, search]);
+export const app = appRoute.addChildren([
+  appIndexRoute,
+  spaces, 
+  tabs, 
+  primary, 
+  search,
+  menu,
+  profile,
+  settings,
+]);

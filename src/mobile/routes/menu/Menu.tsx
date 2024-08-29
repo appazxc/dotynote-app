@@ -2,13 +2,12 @@ import React from 'react';
 
 import { Button, Container, Divider, IconButton, useColorMode, VStack } from '@chakra-ui/react';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
-import { CgProfile } from 'react-icons/cg';
-import { FaRegUser } from 'react-icons/fa6';
+import { FiUser } from 'react-icons/fi';
 import { IoSunny } from 'react-icons/io5';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/auth';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch } from 'shared/store/hooks';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
@@ -21,7 +20,7 @@ export const Menu = React.memo(() => {
     {
       label: 'Profile',
       to: '/app/profile' as const,
-      icon: <FaRegUser />,
+      icon: <FiUser />,
     },
     {
       label: 'Settings',

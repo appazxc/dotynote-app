@@ -8,18 +8,14 @@ import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
 import { idx } from './idx';
 import { note } from './note';
 import { noteSettings } from './noteSettings';
-import { profile } from './profile';
 import { root } from './root';
 import { context } from './routerContext';
-import { settings } from './settings';
 
 const routeTree = root.addChildren([
   idx, 
   note,
   addMainNote,
-  profile,
   noteSettings,
-  settings,
 ]);
 
 const defaultRouterOptions = {

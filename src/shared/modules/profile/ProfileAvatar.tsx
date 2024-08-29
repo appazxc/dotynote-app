@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Center, useColorModeValue } from '@chakra-ui/react';
-import { FaRegUser } from 'react-icons/fa6';
+import { FiUser } from 'react-icons/fi';
 
 type Props = {};
 
@@ -15,7 +15,7 @@ export const ProfileAvatar = React.memo((props: Props) => {
       h="120px"
       bg={bg}
     >
-      <FaRegUser size="30" />
+      <FiUser size="40" />
     </Center>
   );
 });

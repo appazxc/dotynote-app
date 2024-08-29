@@ -16,7 +16,7 @@ import { invariant } from 'shared/util/invariant';
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
 
-export const MainHeaderButton = () => {
+export const DotHeaderButton = () => {
   const dispatch = useAppDispatch();
   const space = useAppSelector(selectActiveSpace);
   const brandToken = useColorModeValue(

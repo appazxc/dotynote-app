@@ -2,10 +2,9 @@ import React from 'react';
 
 import { Box, Center, IconButton, IconButtonProps, Text, useColorModeValue } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
-import { CiMenuBurger } from 'react-icons/ci';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
+import { RxHamburgerMenu } from 'react-icons/rx';
 
-import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
 import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
@@ -99,7 +98,7 @@ export const FooterNavigation = React.memo(() => {
           navigate({ to: '/app/menu' });
           // router.navigate(buildUrl({ routeName: routeNames.account }));
         },
-        icon: <CiMenuBurger size="25" />,
+        icon: <RxHamburgerMenu size="25" />,
       },
     ];
   }, [

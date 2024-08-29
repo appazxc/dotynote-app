@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, useDisclosure, useToken } from '@chakra-ui/react';
+import { Button, useColorModeValue, useDisclosure, useToken } from '@chakra-ui/react';
 import { Box, Heading, Text } from '@chakra-ui/react';
 
 type Props = {
@@ -25,6 +25,8 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
   const disclosureProps = getDisclosureProps();
 
   const borderColor = useToken('colors', 'gray.100');
+  const borderColorDark = useToken('colors', 'brand.400');
+  const borderTopColor = useColorModeValue(borderColor, borderColorDark);
 
   React.useImperativeHandle(ref, () => {
     return {
@@ -42,7 +44,7 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       py="4"
       sx={{
         '& + &': {
-          borderTop: `1px solid ${borderColor}`,
+          borderTop: `1px solid ${borderTopColor}`,
         },
       }}
     >

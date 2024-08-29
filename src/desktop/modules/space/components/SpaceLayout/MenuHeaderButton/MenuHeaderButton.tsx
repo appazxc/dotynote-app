@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { IconButton, useColorMode } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
@@ -23,7 +24,8 @@ import { router } from 'desktop/routes/router';
 export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const navigate = useNavigate();
+  
   const handleColorModeChange = React.useCallback(() => {
     dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
   }, [dispatch]);
@@ -33,18 +35,12 @@ export const MenuHeaderButton = React.memo(() => {
   }, [dispatch]);
 
   const handleSettingsClick = React.useCallback(() => {
-    dispatch(openTab({
-      route: buildTabHref({ to: '/settings' }),
-      makeActive: true,
-    }));
-  }, [dispatch]);
+    navigate({ to: '/app/settings' });
+  }, [navigate]);
 
   const handleProfileClick = React.useCallback(() => {
-    dispatch(openTab({
-      route: buildTabHref({ to: '/profile' }),
-      makeActive: true,
-    }));
-  }, [dispatch]);
+    navigate({ to: '/app/profile' });
+  }, [navigate]);
 
   return (
     <>
