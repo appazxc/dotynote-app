@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Main } from './components/Main';
-import MainProviders from './components/Providers';
+import { Main } from './Main';
+import { Providers } from './Providers';
 
 export default function Core () {
   return (
-    <MainProviders>
+    <Providers>
       <Main />
-    </MainProviders>
-  )
+    </Providers>
+  );
 }

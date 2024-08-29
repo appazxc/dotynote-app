@@ -1,5 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 
+import { Alert } from 'shared/theme/components/alert';
 import { Button } from 'shared/theme/components/button';
 import { Card } from 'shared/theme/components/card';
 import { Container } from 'shared/theme/components/container';
@@ -18,6 +19,7 @@ const overrides = {
   colors,
   semanticTokens,
   components: {
+    Alert,
     Button,
     Card,
     Modal,
