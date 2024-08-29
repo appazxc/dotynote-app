@@ -24,7 +24,8 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
         position="absolute"
         w="full"
         h="full"
-        onClick={() => {
+        onClick={(event) => {
+          event.preventDefault();
           editor.commands.focus('end');
         }}
       />
