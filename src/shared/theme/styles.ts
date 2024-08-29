@@ -4,6 +4,7 @@ import { colorMode } from 'shared/util/theme/colorMode';
 
 export const getEditorStyles = (props) => {
   return {
+    minHeight: '100%',
     'whiteSpace': 'pre-wrap',
     'wordBreak': 'break-word',
     'p.is-editor-empty:first-of-type::before': {
