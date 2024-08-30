@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@chakra-ui/react';
-// import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 type Props = {
   title: string,
@@ -14,8 +14,8 @@ export const SpaceTabTitle = React.memo(({ title }: Props) => {
       whiteSpace="nowrap"
     >
       <Box
-        // as={motion.div}
-        // layout="position"
+        as={motion.div}
+        layout="position"
       >
         {title}
       </Box>
