@@ -8,12 +8,12 @@ import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useStickNote } from 'shared/api/hooks/useStickNote';
 import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
-import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
+import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { StickOperation as StickOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
-import { PostSettingsEntity } from 'shared/types/entities/PostSettingsEntity';
+import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 import { Operation } from './Operation';
 
@@ -26,17 +26,17 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
   const note = useTabNote();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (postSettings: Partial<PostSettingsEntity>) => {
-      return entityApi.note.createRelation(note.id, 'postSettings', postSettings);
+    mutationFn: (postsSettings: Partial<PostsSettingsEntity>) => {
+      return entityApi.note.createRelation(note.id, 'postsSettings', postsSettings);
     },
   });
 
   const { mutateAsync: stick, isPending: isStickPending } = useStickNote();
   
-  const handleCreatePostSettings = React.useCallback(() => {
+  const handleCreatePostsSettings = React.useCallback(() => {
     mutate({}, {
       onSuccess: () => {
-        dispatch(showModal({ id: modalIds.editPostSettings, extraId }));
+        dispatch(showModal({ id: modalIds.editPostsSettings, extraId }));
       },
     });
   }, [mutate, dispatch]);
@@ -64,7 +64,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
     },
   ];
 
-  if (!note.postSettingsId) {
+  if (!note.postsSettingsId) {
     return (
       <Operation
         title={(
@@ -73,8 +73,8 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
           </Text>
         )}
         confirmText="Create"
-        onConfirm={handleCreatePostSettings}
         isLoading={isPending}
+        onConfirm={handleCreatePostsSettings}
       />
     );
   }
@@ -97,7 +97,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
         onConfirm={concretePlace ? undefined : handleStick}
       />
 
-      <EditPostSettingsModal noteId={note.id} extraId={extraId} />
+      <EditPostsSettingsModal noteId={note.id} extraId={extraId} />
     </>
   );
 });

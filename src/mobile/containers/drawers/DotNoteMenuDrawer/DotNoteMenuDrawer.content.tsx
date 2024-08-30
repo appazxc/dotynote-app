@@ -44,9 +44,9 @@ const DotNoteMenuDrawer = (props: Props) => {
         <DrawerBody>
           <EntryMediaContent
             noteId={noteId}
-            onFinish={onClose}
             createPostModalExtraId={modalsExtraId}
-            editPostSettingsModalExtraId={modalsExtraId}
+            editPostsSettingsModalExtraId={modalsExtraId}
+            onFinish={onClose}
           />
         </DrawerBody>
       </DrawerContent>

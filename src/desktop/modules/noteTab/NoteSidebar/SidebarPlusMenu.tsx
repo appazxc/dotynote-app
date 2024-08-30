@@ -13,7 +13,7 @@ import { BsPlus } from 'react-icons/bs';
 
 import { queryClient } from 'shared/api/queryClient';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
-import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
+import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
 import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
 import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
@@ -47,11 +47,11 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
   return (
     <>
       <Popover
+        isLazy
         isOpen={isOpen}
-        onClose={onClose}
         placement="right-start"
         returnFocusOnClose={false}
-        isLazy
+        onClose={onClose}
       >
         <PopoverTrigger>
           <IconButton
@@ -80,16 +80,16 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
               />
               <EntryMediaContent
                 noteId={noteId}
-                onFinish={onClose}
                 createPostModalExtraId={extraId}
-                editPostSettingsModalExtraId={extraId}
+                editPostsSettingsModalExtraId={extraId}
+                onFinish={onClose}
               />
             </PopoverBody>
           </PopoverContent>
         </LightMode>
       </Popover>
 
-      <EditPostSettingsModal noteId={noteId} extraId={extraId} />
+      <EditPostsSettingsModal noteId={noteId} extraId={extraId} />
       <CreatePostModal
         noteId={noteId}
         extraId={extraId}

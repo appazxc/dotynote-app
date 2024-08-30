@@ -7,7 +7,7 @@ export const modalIds = keymirror({
   editSpace: null,
   createNote: null,
   selectNote: null,
-  editPostSettings: null,
+  editPostsSettings: null,
   createPost: null,
   url: null,
   selectConcretePlace: null,

@@ -43,7 +43,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     },
   ];
 
-  if (!note.postSettingsId) {
+  if (!note.postsSettingsId) {
     return (
       <Operation
         title={(

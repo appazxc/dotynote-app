@@ -56,7 +56,7 @@ export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
           isPrimary={isPrimary}
           noteId={note.id}
           isWriteMode={isWriteMode}
-          showPosts={!!note.postSettingsId}
+          showPosts={!!note.postsSettingsId}
         />
       </Layout>
     </NoteProviders>

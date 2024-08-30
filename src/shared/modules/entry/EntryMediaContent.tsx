@@ -11,12 +11,12 @@ import { invariant } from 'shared/util/invariant';
 type Props = {
   noteId: number,
   createPostModalExtraId: string,
-  editPostSettingsModalExtraId: string,
+  editPostsSettingsModalExtraId: string,
   onFinish: () => void,
 };
 
 export const EntryMediaContent = React.memo((props: Props) => {
-  const { noteId, onFinish, createPostModalExtraId, editPostSettingsModalExtraId } = props;
+  const { noteId, onFinish, createPostModalExtraId, editPostsSettingsModalExtraId } = props;
   const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
   const isNoteContent = addToState === addTo.NOTE;
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
@@ -29,9 +29,9 @@ export const EntryMediaContent = React.memo((props: Props) => {
       : (
         <EntryPostsMedia
           note={note}
-          onFinish={onFinish}
           createPostModalExtraId={createPostModalExtraId}
-          editPostSettingsModalExtraId={editPostSettingsModalExtraId}
+          editPostsSettingsModalExtraId={editPostsSettingsModalExtraId}
+          onFinish={onFinish}
         />
       )
   );

@@ -70,7 +70,7 @@ export const Note = React.memo(() => {
         <NoteTabContent
           key={note.id}
           noteId={note.id}
-          showPosts={!!note.postSettingsId}
+          showPosts={!!note.postsSettingsId}
           isWriteMode={isWriteMode}
         />
       </TabLayout>

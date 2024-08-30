@@ -12,13 +12,13 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 
-import { useDeletePostSettings } from 'shared/api/hooks/useDeletePostSettings';
+import { useDeletePostsSettings } from 'shared/api/hooks/useDeletePostSettings';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { hideModal, hideModals, showModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
-import { noteSelector, postSettingsSelector } from 'shared/selectors/entities';
+import { noteSelector, postsSettingsSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
 import { invariant } from 'shared/util/invariant';
@@ -32,15 +32,15 @@ export type Props = ModalBase<{
 const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
   const dispatch = useAppDispatch();
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
-  const postSettings = useAppSelector(state => postSettingsSelector.getById(state, note?.postSettingsId));
+  const postsSettings = useAppSelector(state => postsSettingsSelector.getById(state, note?.postsSettingsId));
   const isMobile = useAppSelector(selectIsMobile);
 
-  invariant(postSettings, 'Missing postSettings');
+  invariant(postsSettings, 'Missing postsSettings');
 
-  const { mutate: deletePostSettings, isPending } = useDeletePostSettings(noteId);
+  const { mutate: deletePostsSettings, isPending } = useDeletePostsSettings(noteId);
 
   const handleConfirmDelete = React.useCallback(() => {
-    deletePostSettings(null, { 
+    deletePostsSettings(null, { 
       onSuccess: () => {
         dispatch(hideModals());
         const queryOptions = options.notes.load(noteId);
@@ -48,7 +48,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
         queryClient.fetchQuery(queryOptions);
       }, 
     });
-  }, [dispatch, noteId, deletePostSettings]);
+  }, [dispatch, noteId, deletePostsSettings]);
   
   return (
     <>
@@ -63,7 +63,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
           <ModalHeader>Edit posts settings</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {JSON.stringify(postSettings, null, 2)}
+            {JSON.stringify(postsSettings, null, 2)}
           </ModalBody>
 
           <ModalFooter justifyContent="space-between">

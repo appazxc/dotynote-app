@@ -8,7 +8,7 @@ import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
 import { MenuTrigger, Menu, MenuDivider, MenuItem, MenuList } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { EditPostSettingsModal } from 'shared/containers/modals/EditPostSettingsModal';
+import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
 import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector, useAppDispatch } from 'shared/store/hooks';
@@ -40,10 +40,10 @@ export const NoteMenu = React.memo(({ noteId, place, isMobile }: Props) => {
           icon={isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}
         />
         <MenuList>
-          {note.postSettingsId && (
+          {note.postsSettingsId && (
             <MenuItem
               onClick={() => {
-                dispatch(showModal({ id: modalIds.editPostSettings, extraId: place }));
+                dispatch(showModal({ id: modalIds.editPostsSettings, extraId: place }));
               }}
             >
               Edit posts settings
@@ -58,14 +58,14 @@ export const NoteMenu = React.memo(({ noteId, place, isMobile }: Props) => {
           </MenuItem>
           <MenuDivider />
           <MenuItem
-            onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
             colorScheme="red"
+            onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
           >
             Delete
           </MenuItem>
         </MenuList>
       </Menu>
-      <EditPostSettingsModal noteId={noteId} extraId={place} />
+      <EditPostsSettingsModal noteId={noteId} extraId={place} />
       <ConfirmModal
         title="This action can't be undone"
         description="Delete this note?"
