@@ -21,6 +21,7 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
     'no-multi-spaces': 'error',
+    'comma-spacing': ['error', { 'before': false, 'after': true }],
     semi: ['error', 'always'],
     'import/order': [
       'error',
@@ -102,6 +103,12 @@ module.exports = {
       condition: 'parens-new-line',
       logical: 'parens-new-line',
       prop: 'parens-new-line',
+    }],
+    'react/jsx-sort-props': ['error', {
+      callbacksLast: true,
+      shorthandFirst: true,
+      noSortAlphabetically: true,
+      reservedFirst: true,
     }],
     'react/jsx-closing-bracket-location': [1, 'line-aligned'],
     'react/display-name': 'off',
