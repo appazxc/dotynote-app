@@ -172,6 +172,7 @@ export const LoginForm = () => {
               colorScheme="brand"
               width="full"
               isLoading={isSubmitting}
+              isDisabled={isEmailSent && !form.getValues('code')}
             >
               {isEmailSent ? 'Continue with login code' : 'Login / Register'}
             </Button>

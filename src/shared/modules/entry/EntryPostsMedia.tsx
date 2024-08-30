@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Button, Center } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { SlNotebook } from 'react-icons/sl';
 
@@ -22,56 +21,38 @@ type Props = {
 const ICON_SIZE = 24;
 
 export const EntryPostsMedia = React.memo((props: Props) => {
-  const { note, createPostModalExtraId, editPostsSettingsModalExtraId, onFinish } = props;
+  const { note, createPostModalExtraId, onFinish } = props;
   const dispatch = useAppDispatch();
 
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (postsSettings: Partial<PostsSettingsEntity>) => {
       return entityApi.note.createRelation(note.id, 'postsSettings', postsSettings);
     },
-    onSuccess() {
-
-    },
   });
 
-  const handleClick = React.useCallback(() => {
-    mutate({}, {
-      onSuccess: () => {
-        onFinish();
-        dispatch(showModal({ id: modalIds.editPostsSettings, extraId: editPostsSettingsModalExtraId }));
-      },
-    });
-  }, [mutate, dispatch, editPostsSettingsModalExtraId, onFinish]);
+  const withPostsSettingsCreate = React.useCallback((cb) => async () => {
+    if (!note.postsSettingsId) {
+      await mutateAsync({});
+    }
+    await cb();
+  }, [mutateAsync, note.postsSettingsId]);
 
   const renderedCards = React.useMemo(() => {
     const items = [
       {
         title: 'Text',
         icon: <SlNotebook size={ICON_SIZE} />,
-        onClick: () => {
+        onClick: withPostsSettingsCreate(async () => {
           onFinish();
           dispatch(showModal({ id: modalIds.createPost, extraId: createPostModalExtraId }));
-        },
+        }),
       },
     ];
 
     return (
       <EntryMediaCards items={items} />
     );
-  }, [dispatch, createPostModalExtraId, onFinish]);
+  }, [dispatch, createPostModalExtraId, onFinish, withPostsSettingsCreate]);
 
-  return (
-    note.postsSettingsId 
-      ? renderedCards
-      : (
-        <Center minH="180px">
-          <Button
-            isDisabled={isPending}
-            onClick={handleClick}
-          >
-            Create posts
-          </Button>
-        </Center>
-      )
-  );
+  return renderedCards;
 });

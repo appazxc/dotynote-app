@@ -69,8 +69,8 @@ export default class Essense<T extends { id?: string | number }> {
     return await this.api.post<string>(this.path, data);
   }
 
-  async createRelation<R>(id: string | number, relation: string, data: Partial<R>) {
-    return this.api.post<string>(`${this.path}/${id}/${relation}`, data);
+  async createRelation<R>(id: string | number, relation: keyof T, data: Partial<R>) {
+    return this.api.post<string>(`${this.path}/${id}/${String(relation)}`, data);
   }
 
   async deleteRelation(id: string | number, relation: string) {
