@@ -12,12 +12,6 @@ type Props = {
 }
 
 export const Loader = React.memo(({ delay = 300, text }: Props) => {
-  React.useEffect(() => {
-    
-    const query = queryClient.getQueriesData({ type: 'active' });
-    console.log('query', query);
-    // return query;
-  }, []);
   return (
     <Wait delay={delay}>
       <Center
