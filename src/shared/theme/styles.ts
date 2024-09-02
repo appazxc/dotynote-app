@@ -3,6 +3,7 @@ import { mode } from '@chakra-ui/theme-tools';
 import { colorMode } from 'shared/util/theme/colorMode';
 
 export const getEditorStyles = (props) => {
+
   return {
     minHeight: '100%',
     'whiteSpace': 'pre-wrap',

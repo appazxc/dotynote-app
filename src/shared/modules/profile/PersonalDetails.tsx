@@ -59,6 +59,8 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
 
   const { mutate, isPending } = useUpdateUser();
   
+  form.watch('username');
+  
   const debouncedUsername = useDebounce(form.getValues('username'), 500);
 
   const { 
@@ -103,9 +105,10 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           'email': 'Email',
         };
 
+        form.resetField(fieldProp, { defaultValue: value });
+
         toast({
-          title: `${fieldNameMap[fieldProp]} updated`,
-          status: 'success',
+          description: `${fieldNameMap[fieldProp]} updated`,
         });
 
         closeSection(fieldProp);
@@ -152,17 +155,14 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                 <FormItem>
                   <FormControl>
                     <FormLabel>Name</FormLabel>
-                    <Input
-                      variant="filled"
-                      {...field}
-                    />
+                    <Input {...field} />
                     <FormMessage />
                     <Button
                       colorScheme="brand"
-                      onClick={submitField('nickname')}
                       mt="4"
                       isLoading={isPending}
                       isDisabled={!dirtyFields.nickname}
+                      onClick={submitField('nickname')}
                     >
                       Save
                     </Button>  
@@ -177,7 +177,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           title="Username"
           description={{
             open: 'Users can find you with this name.',
-            close: `@${user.username}`,
+            close: `@${user.username || ''}`,
           }}
           onClose={handleSectionClose('username')}
         >
@@ -189,11 +189,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                 <FormItem>
                   <FormControl>
                     <FormLabel>Username</FormLabel>
-                    <Input
-                      variant="filled"
-                      {...field}
-                      // onChange={handleEmailChange}
-                    />
+                    <Input {...field} />
                     <FormMessage />
                     {showUsernameAvailableMessage && (
                       <Text
@@ -206,10 +202,10 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                     )}
                     <Button
                       colorScheme="brand"
-                      onClick={submitField('username')}
                       mt="4"
                       isLoading={isPending}
                       isDisabled={!dirtyFields.username}
+                      onClick={submitField('username')}
                     >
                       Save
                     </Button>  

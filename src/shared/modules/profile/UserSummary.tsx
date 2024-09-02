@@ -23,14 +23,16 @@ export const UserSummary = React.memo((props: Props) => {
       >
         {user.nickname}
       </Text>
-      <Text
-        display="inline"
-        color="gray"
-        fontSize="2xl"
-        fontWeight="500"
-      >
-        @{user.username}
-      </Text>
+      {user.username && (
+        <Text
+          display="inline"
+          color="gray"
+          fontSize="2xl"
+          fontWeight="500"
+        >
+          @{user.username}
+        </Text>
+      )}
       <Box>
         <Text color="gray" fontSize="sm">{user.email}</Text>
       </Box>

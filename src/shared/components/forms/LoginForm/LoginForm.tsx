@@ -122,27 +122,11 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormControl>
                       <FormLabel>Email</FormLabel>
-                      <InputGroup>
-                        <Input
-                          variant="filled"
-                          placeholder="Your email address"
-                          {...field}
-                          onChange={handleEmailChange}
-                        />
-                        {
-                          dirtyFields.email && (
-                            <InputRightElement>
-                              <IconButton
-                                size="xs"
-                                aria-label="close"
-                                icon={<MdClose />}
-                                borderRadius="50%"
-                                onClick={handleEmailReset}
-                              />
-                            </InputRightElement>
-                          )
-                        }
-                      </InputGroup>
+                      <Input
+                        placeholder="Your email address"
+                        {...field}
+                        onChange={handleEmailChange}
+                      />
                       {isEmailSent && (
                         <FormDescription>We sent verification code to your email</FormDescription>
                       )}
@@ -160,7 +144,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormControl>
                       <FormLabel>Code</FormLabel>
-                      <Input variant="filled" {...field} />
+                      <Input {...field} />
                       <FormMessage />
                     </FormControl>
                   </FormItem>
@@ -171,10 +155,11 @@ export const LoginForm = () => {
               type="submit"
               colorScheme="brand"
               width="full"
+              size="md"
               isLoading={isSubmitting}
               isDisabled={isEmailSent && !form.getValues('code')}
             >
-              {isEmailSent ? 'Continue with login code' : 'Login / Register'}
+              Continue
             </Button>
           </VStack>
         </form>

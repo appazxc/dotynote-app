@@ -1,7 +1,7 @@
 import { BaseEntity } from './BaseEntity';
 
 export type UserEntity = BaseEntity<{
-  username: string | null,
+  username: string,
   nickname: string | null,
   email?: string,
 }>

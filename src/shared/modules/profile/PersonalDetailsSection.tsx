@@ -47,6 +47,7 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
           borderTop: `1px solid ${borderTopColor}`,
         },
       }}
+      minH="72px"
     >
       <Box flexGrow="1">
         <Heading size="sm">{isOpen ? `Edit ${title.toLocaleLowerCase()}` : title}</Heading>

@@ -3,17 +3,24 @@
 import { defineStyle, defineStyleConfig, theme as defaultTheme, StyleFunctionProps } from '@chakra-ui/react';
 import { omit } from 'lodash';
 
-const brand = defineStyle({
-  background: 'orange.500',
-  color: 'white',
-  fontFamily: 'serif',
-  fontWeight: 'normal',
+const getIconButtonProps = (props: StyleFunctionProps) => {
+  const isIconButton = 'aria-label' in props;
 
-  // let's also provide dark mode alternatives
-  _dark: {
-    background: 'orange.300',
-    color: 'orange.800',
-  },
+  if (!isIconButton) {
+    return {};
+  }
+
+  return {
+    borderRadius: defaultTheme.components.Button.baseStyle?.borderRadius,
+  };
+};
+
+const primary = defineStyle((props: StyleFunctionProps) => {
+  const btnProps = defaultTheme.components.Button.variants?.solid(props);
+
+  return ({
+    ...btnProps,
+  });
 });
 
 const ghost = defineStyle((props: StyleFunctionProps) => {
@@ -21,6 +28,7 @@ const ghost = defineStyle((props: StyleFunctionProps) => {
 
   return ({
     ...omitedProps,
+    ...getIconButtonProps(props),
     '@media(hover: none)': {
       _hover: {
         bg: 'unset',
@@ -29,9 +37,25 @@ const ghost = defineStyle((props: StyleFunctionProps) => {
   });
 });
 
+const outline = defineStyle((props: StyleFunctionProps) => {
+  return getIconButtonProps(props);
+});
+
 export const Button = defineStyleConfig({
+  sizes: {
+    md: {
+      h: '44px',
+    },
+  },
+  baseStyle: {
+    borderRadius: '2xl',
+  },
+  defaultProps: {
+    variant: 'primary',
+  },
   variants: { 
-    brand,
+    primary,
     ghost,
+    outline,
   },
 });

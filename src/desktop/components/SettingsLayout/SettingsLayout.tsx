@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
 import { FiUser } from 'react-icons/fi';
 import { TbSettings2 } from 'react-icons/tb';
@@ -39,7 +39,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
   return (
     <Layout header={renderedHeader}>
       <Grid
-        templateColumns="1fr auto minmax(auto, 1fr)"
+        templateColumns={{ sm: '150px 1fr', lg: '150px 1fr 150px' }}
         gap={6}
         px="6"
       >
@@ -80,11 +80,10 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
             );
           })}
         </GridItem>
-        <GridItem
-          py="10" 
-          minW="2xl"
-        >
-          {children}
+        <GridItem py="10">
+          <Box maxW="2xl" margin="auto">
+            {children}
+          </Box>
         </GridItem>
       </Grid>
     </Layout>
