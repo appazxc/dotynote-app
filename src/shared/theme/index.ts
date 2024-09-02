@@ -6,7 +6,6 @@ import { Card } from 'shared/theme/components/card';
 import { Container } from 'shared/theme/components/container';
 import { Drawer } from 'shared/theme/components/drawer';
 import { FormLabel } from 'shared/theme/components/form';
-import { IconButton } from 'shared/theme/components/iconButton';
 import { Input } from 'shared/theme/components/input';
 import { Menu } from 'shared/theme/components/menu';
 import { Modal } from 'shared/theme/components/modal';
@@ -24,7 +23,6 @@ const overrides = {
   components: {
     Alert,
     Button,
-    // IconButton,
     Card,
     Modal,
     Popover,

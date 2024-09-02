@@ -27,7 +27,6 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
       value={value}
       placeholder="Search"
       size={isMobile ? 'sm' : 'md'}
-      borderRadius="md"
       onChange={handleChange}
     />
   );
