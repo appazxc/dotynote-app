@@ -29,12 +29,12 @@ export const appRoute = createRoute({
     const context = ctx.context as unknown as Context;
     const { store } = context;
     const { dispatch, getState } = store;
-   
+
     await dispatch(loadSpaces());
 
     const activeSpace = selectActiveSpace(getState());
 
-    if (!activeSpace) {
+    if (!activeSpace && ctx.location.pathname !== '/app/spaces') {
       console.log('redirect to spaces', getState());
       throw redirect({
         to: '/app/spaces',

@@ -16,11 +16,10 @@ import { startStickOperation } from 'shared/store/slices/appSlice';
 
 type Props = {
   noteId: number,
-  place: 'noteMobileHeader' | 'noteDesktopFooter',
   isMobile?: boolean,
 };
 
-export const NoteMenu = React.memo(({ noteId, place, isMobile }: Props) => {
+export const NoteMenu = React.memo(({ noteId, isMobile }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const dispatch = useAppDispatch();
   const { mutateAsync } = useDeleteNote(noteId);
@@ -43,7 +42,7 @@ export const NoteMenu = React.memo(({ noteId, place, isMobile }: Props) => {
           {note.postsSettingsId && (
             <MenuItem
               onClick={() => {
-                dispatch(showModal({ id: modalIds.editPostsSettings, extraId: place }));
+                dispatch(showModal({ id: modalIds.editPostsSettings }));
               }}
             >
               Edit posts settings
@@ -65,7 +64,7 @@ export const NoteMenu = React.memo(({ noteId, place, isMobile }: Props) => {
           </MenuItem>
         </MenuList>
       </Menu>
-      <EditPostsSettingsModal noteId={noteId} extraId={place} />
+      <EditPostsSettingsModal noteId={noteId} />
       <ConfirmModal
         title="This action can't be undone"
         description="Delete this note?"

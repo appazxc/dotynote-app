@@ -18,6 +18,22 @@ import { tabs } from 'desktop/routes/tabs';
 export const appRoute = createRoute({
   getParentRoute: () => auth,
   path: 'app',
+  beforeLoad: async (ctx) => {
+    const context = ctx.context as unknown as Context;
+    const { store } = context;
+    const { dispatch, getState } = store;
+
+    await dispatch(loadSpaces());
+
+    const activeSpace = selectActiveSpace(getState());
+
+    if (!activeSpace && ctx.location.pathname !== '/app/spaces') {
+      console.log('redirect to spaces', getState());
+      throw redirect({
+        to: '/app/spaces',
+      });
+    }
+  },
 });
 
 const appIndexRoute = createRoute({
@@ -28,18 +44,10 @@ const appIndexRoute = createRoute({
     const { store } = context;
     const { dispatch, getState } = store;
 
-    await dispatch(loadSpaces());
     const activeSpace = selectActiveSpace(getState());
   
     const { waitedRoute } = getState().app;
   
-    if (!activeSpace) {
-      console.log('redirect to spaces', getState());
-      throw redirect({
-        to: '/app/spaces',
-      });
-    }
-
     if (waitedRoute && activeSpace) {
       await dispatch(openTab({ route: waitedRoute, makeActive: true }));
       dispatch(cleanWaitedRoute());

@@ -8,8 +8,10 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 
 import { NoteInPost } from 'shared/components/NoteInPost';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
+import { hideModal } from 'shared/modules/modal/modalSlice';
 import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
+import { useAppDispatch } from 'shared/store/hooks';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
@@ -19,14 +21,17 @@ import { NoteCreate } from './NoteCreate';
 export const Home = React.memo(() => {
   const navigate = useNavigate();
   const { search = '' } = useSearch({ strict: false }); 
+  const dispatch = useAppDispatch();
 
   const handleCreateNote = React.useCallback((id: string) => {
     navigate({
       to: '/n/$noteId',
       params: { noteId: id }, 
       replace: true,
+    }).finally(() => {
+      dispatch(hideModal());
     });
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const renderNote = (id: number) => {
     return (

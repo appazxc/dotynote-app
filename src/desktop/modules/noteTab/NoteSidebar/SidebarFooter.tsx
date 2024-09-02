@@ -18,11 +18,11 @@ export const SidebarFooter = ({ id }) => {
 
     return (
       <Tooltip
+        hasArrow
         label={error}
         openDelay={300}
         placement="right"
         backgroundColor="orange"
-        hasArrow
       >
         <IconButton
           aria-label="Info"
@@ -47,7 +47,7 @@ export const SidebarFooter = ({ id }) => {
       return errorTooltip;
     }
 
-    return <NoteMenu noteId={id} place="noteDesktopFooter" />;
+    return <NoteMenu noteId={id} />;
   }, [id, isMutating, errorTooltip]);
 
   return (

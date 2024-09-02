@@ -41,6 +41,10 @@ const outline = defineStyle((props: StyleFunctionProps) => {
   return getIconButtonProps(props);
 });
 
+const solid = defineStyle((props: StyleFunctionProps) => {
+  return getIconButtonProps(props);
+});
+
 export const Button = defineStyleConfig({
   sizes: {
     md: {
@@ -57,5 +61,6 @@ export const Button = defineStyleConfig({
     primary,
     ghost,
     outline,
+    solid,
   },
 });

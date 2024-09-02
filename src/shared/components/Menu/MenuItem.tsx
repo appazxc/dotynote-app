@@ -14,17 +14,18 @@ export const MenuItem = ({ onClick, isDisabled, children, ...buttonProps }: Prop
 
   return (
     <Button
-      onClick={() => {
-        onClick?.();
-        menu.close();
-      }}
       variant="ghost"
       textAlign="left"
       minW="120"
       size="sm"
+      borderRadius="md"
       justifyContent="start"
       isDisabled={isDisabled}
       fontWeight="medium"
+      onClick={() => {
+        onClick?.();
+        menu.close();
+      }}
       {...buttonProps}
     >
       {children}

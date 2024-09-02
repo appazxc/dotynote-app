@@ -66,7 +66,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
       if (onCreate) {
         onCreate(id);
       }
-    } finally {
+    } catch {
       dispatch(hideModal());
     }
   }, [dispatch, mutateAsync, editor, onCreate]);

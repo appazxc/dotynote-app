@@ -45,11 +45,11 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
         size="sm"
         aria-label="Note back"
         icon={<BsArrowLeft size="18" />}
-        onClick={() => history.back()}
         isDisabled={tab.routes.length <= 1}
         variant="unstyled"
         colorScheme="brand"
         display="inline-flex"
+        onClick={() => history.back()}
       />
     );
   }, [tab.routes.length, history, isPrimary]);
@@ -63,7 +63,6 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
       <NoteMenu
         isMobile
         noteId={noteId}
-        place="noteMobileHeader"
       />
     ); 
   }, [isMutating, noteId]);
