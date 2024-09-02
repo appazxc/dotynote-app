@@ -22,6 +22,16 @@ const primary = definePartsStyle(props => {
         borderColor: 'initial',
         boxShadow: 'inset 0 0 0 calc(2px + 0px) hsl(0 0% 6.67% / 1)',
       },  
+      _dark: {
+        backgroundColor: 'brand.400',
+        _focusVisible: {
+          backgroundColor: '#2e2e2e',
+          boxShadow: 'inset 0 0 0 calc(2px + 0px) white',
+        }, 
+        _placeholder: {
+          color: '#989898',
+        },
+      },
     },
   });
 });
