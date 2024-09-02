@@ -6,11 +6,14 @@ import { setToken } from 'shared/store/slices/authSlice';
 
 import api from '..';
 
+type AuthData = { code: string } | { token: string };
+type Data = { email: string } & AuthData;
+
 export const useLoginEmail = () => {
   const dispatch = useAppDispatch();
   
   return useMutation({
-    mutationFn: (data: { email: string, code: string }) => {
+    mutationFn: (data: Data) => {
       return api.post<{ token: string }>('/auth/login-email', data);
     },
     onSuccess: async ({ token }) => {

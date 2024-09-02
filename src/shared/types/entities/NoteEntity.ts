@@ -1,8 +1,8 @@
 import { JSONContent } from '@tiptap/core';
 
+import { BaseEntity } from 'shared/types/entities/BaseEntity';
+import { PostEntity } from 'shared/types/entities/PostEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
-
-import { BaseEntity } from './BaseEntity';
 
 export type NoteEntity = BaseEntity<{
   title?: string,
@@ -10,5 +10,6 @@ export type NoteEntity = BaseEntity<{
   authorId: string,
   access: 'private' | 'public',
   postsSettingsId?: string,
-  postsSettings?: PostsSettingsEntity
+  postsSettings?: PostsSettingsEntity,
+  posts?: PostEntity,
 }, number>

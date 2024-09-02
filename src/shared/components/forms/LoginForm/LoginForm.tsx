@@ -3,16 +3,12 @@ import React from 'react';
 import {
   Box,
   Button,
-  IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
-import { MdClose } from 'react-icons/md';
 import * as z from 'zod';
 
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
@@ -55,10 +51,9 @@ export const LoginForm = () => {
 
   const {
     handleSubmit,
-    formState: { dirtyFields, isSubmitting },
+    formState: { isSubmitting },
     setValue,
     setError,
-    reset,
   } = form;
 
   const handleEmailChange = React.useCallback((e) => {
@@ -69,11 +64,6 @@ export const LoginForm = () => {
     setValue('code', '', { shouldDirty: false });
     setValue('email', e.target.value, { shouldDirty: true });
   }, [isEmailSent, setValue]);
-
-  const handleEmailReset = React.useCallback(() => {
-    reset(defaultValues);
-    setIsEmailSent(false);
-  }, [reset]);
 
   const onSubmit = React.useCallback(async ({ email, code }) => {
     if (code && email) {

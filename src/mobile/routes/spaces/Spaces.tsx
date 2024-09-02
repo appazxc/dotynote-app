@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Container, IconButton, Text } from '@chakra-ui/react';
+import { Button, Container, IconButton } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 

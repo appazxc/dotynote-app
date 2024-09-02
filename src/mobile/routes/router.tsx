@@ -4,19 +4,19 @@ import {
 
 import { Loader } from 'shared/components/Loader';
 
+import { app } from 'mobile/routes/app';
+import { DefaultErrorComponent } from 'mobile/routes/DefaultErrorComponent';
+import { DefaultNotFoundComponent } from 'mobile/routes/DefaultNotFoundComponent';
 import { auth, guest } from 'mobile/routes/guards';
-
-import { app } from './app';
-import { DefaultErrorComponent } from './DefaultErrorComponent';
-import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
-import { idx } from './idx';
-import { login } from './login';
-import { root } from './root';
-import { context } from './routerContext';
+import { idx } from 'mobile/routes/idx';
+import { login } from 'mobile/routes/login';
+import { loginEmail } from 'mobile/routes/loginEmail';
+import { root } from 'mobile/routes/root';
+import { context } from 'mobile/routes/routerContext';
 
 const routeTree = root.addChildren([
   auth.addChildren([app]), 
-  guest.addChildren([idx, login]),
+  guest.addChildren([idx, login, loginEmail]),
 ]);
 
 const createNewRouter = () => createRouter({ 

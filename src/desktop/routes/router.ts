@@ -4,18 +4,18 @@ import {
 
 import { Loader } from 'shared/components/Loader';
 
+import { app } from 'desktop/routes/app';
+import { DefaultErrorComponent } from 'desktop/routes/DefaultErrorComponent';
+import { DefaultNotFoundComponent } from 'desktop/routes/DefaultNotFoundComponent';
 import { auth, guest } from 'desktop/routes/guards';
-
-import { app } from './app';
-import { DefaultErrorComponent } from './DefaultErrorComponent';
-import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
-import { idx } from './idx';
-import { login } from './login';
-import { root } from './root';
-import { context } from './routerContext';
+import { idx } from 'desktop/routes/idx';
+import { login } from 'desktop/routes/login';
+import { loginEmail } from 'desktop/routes/loginEmail';
+import { root } from 'desktop/routes/root';
+import { context } from 'desktop/routes/routerContext';
 
 const routeTree = root.addChildren([
-  guest.addChildren([idx, login]),
+  guest.addChildren([idx, login, loginEmail]),
   auth.addChildren([app]), 
 ]);
 
