@@ -41,27 +41,24 @@ export const NoteMenu = React.memo(({ noteId, isMobile }: Props) => {
         <MenuList>
           {note.postsSettingsId && (
             <MenuItem
+              label="Edit posts settings"
               onClick={() => {
                 dispatch(showModal({ id: modalIds.editPostsSettings }));
               }}
-            >
-              Edit posts settings
-            </MenuItem>
+            />
           )}
           <MenuItem
+            label="Stick"
             onClick={() => dispatch(startStickOperation({
               noteIds: [note.id],
             }))}
-          >
-            Stick
-          </MenuItem>
+          />
           <MenuDivider />
           <MenuItem
             colorScheme="red"
+            label="Delete"
             onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
-          >
-            Delete
-          </MenuItem>
+          />
         </MenuList>
       </Menu>
       <EditPostsSettingsModal noteId={noteId} />

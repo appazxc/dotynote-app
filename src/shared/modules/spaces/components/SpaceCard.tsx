@@ -88,22 +88,20 @@ export const SpaceCard = React.memo(({ id, isActive }: Props) => {
         </MenuTrigger>
         <MenuList>
           <MenuItem
+            label="Edit"
             onClick={() => dispatch(showModal({
               id: modalIds.editSpace,
               extraId,
             }))}
-          >
-            Edit
-          </MenuItem>
+          />
           <MenuDivider />
           <MenuItem
+            colorScheme="red"
+            label="Delete"
             onClick={() => {
               deleteSpace();
             }}
-            colorScheme="red"
-          >
-            Delete
-          </MenuItem>
+          />
         </MenuList>
       </Menu>
       <EditSpaceModal id={space.id} extraId={extraId} />

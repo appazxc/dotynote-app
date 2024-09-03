@@ -3,3 +3,4 @@ export { MenuList } from './MenuList';
 export { MenuTrigger } from './MenuTrigger';
 export { MenuItem } from './MenuItem';
 export { MenuDivider } from './MenuDivider';
+export { MenuSub } from './MenuSub';

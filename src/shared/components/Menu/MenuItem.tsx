@@ -1,34 +1,28 @@
 import React from 'react';
 
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { ButtonProps } from '@chakra-ui/react';
+
+import { MenuItemBase } from 'shared/components/Menu/MenuItemBase';
 
 import { MenuContext } from './MenuContext';
 
-type Props = React.PropsWithChildren<{
+type Props = {
+  label: string,
   onClick?: () => void,
-  isDisabled?: boolean,
-} & ButtonProps>
+} & Omit<ButtonProps, 'children'>
 
-export const MenuItem = ({ onClick, isDisabled, children, ...buttonProps }: Props) => {
+export const MenuItem = ({ onClick, label, ...buttonProps }: Props) => {
   const menu = React.useContext(MenuContext);
 
   return (
-    <Button
-      variant="ghost"
-      textAlign="left"
-      minW="120"
-      size="sm"
-      borderRadius="md"
-      justifyContent="start"
-      isDisabled={isDisabled}
-      fontWeight="medium"
+    <MenuItemBase
       onClick={() => {
         onClick?.();
         menu.close();
       }}
       {...buttonProps}
     >
-      {children}
-    </Button>
+      {label}
+    </MenuItemBase>
   );
 };

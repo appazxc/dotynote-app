@@ -55,31 +55,26 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
         </MenuTrigger>
         <MenuList>
           <MenuItem
+            label="Stick"
             onClick={() => dispatch(startStickOperation({
               fromNoteId: post.parentId,
               noteIds: [note.id],
             }))}
-          >
-            Stick
-          </MenuItem>
-          <MenuItem onClick={() => unstick()}>
-            Unstick
-          </MenuItem>
+          />
+          <MenuItem label="Unstick" onClick={() => unstick()} />
           <MenuItem
+            label="Move"
             onClick={() => dispatch(startMoveOperation({
               fromNoteId: post.parentId,
               postIds: [post.id],
             }))}
-          >
-            Move
-          </MenuItem>
+          />
           <MenuDivider />
           <MenuItem 
             colorScheme="red"
+            label="Delete"
             onClick={() => { dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })); }}
-          >
-            Delete
-          </MenuItem>
+          />
         </MenuList>
       </Menu>
       <ConfirmModal

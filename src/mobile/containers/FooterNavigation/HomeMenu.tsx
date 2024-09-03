@@ -38,16 +38,17 @@ export const HomeMenu = React.memo((props: Props) => {
       />
       <MenuList>
         <MenuItem
+          label="Change primary note"
           onClick={() => {
             dispatch(startPrimaryNoteOperation());
           }}
-        >
-          Change primary note
-        </MenuItem>
+        />
         {activeSpace.mainNoteId && (
           <>
             <MenuDivider />
             <MenuItem
+              colorScheme="red"
+              label="Remove primary note"
               onClick={() => {
                 if (isPrimaryNoteLocation) {
                   navigate({ to: '/app' });
@@ -61,10 +62,7 @@ export const HomeMenu = React.memo((props: Props) => {
                     });
                   } });
               }}
-              colorScheme="red"
-            >
-              Remove primary note
-            </MenuItem>
+            />
           </>
         )}
       </MenuList>

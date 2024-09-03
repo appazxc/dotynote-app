@@ -78,8 +78,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   return (
     <Menu isContextMenu>
       <MenuTrigger
-        as={ReorderItemBox}
         layout
+        as={ReorderItemBox}
         value={spaceTab}
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
@@ -96,8 +96,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         borderWidth="1px"
         borderStyle="solid"
         display="flex"
-        onMouseDown={handleMouseDown}
-        onClick={handleTabChange}
         sx={{
           containerType: 'size',
           ...isActive ? {
@@ -111,6 +109,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
             },
           } : {},
         }}
+        onMouseDown={handleMouseDown}
+        onClick={handleTabChange}
       >
         <ChakraBox
           position="relative"
@@ -121,8 +121,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         >
           {isPinned ? (
             <Circle
-              as={motion.div}
               layout
+              as={motion.div}
               size="18px"
               bg="purple.100"
             />
@@ -192,35 +192,31 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
       </MenuTrigger>
       <MenuList>
         <MenuItem
+          label={isPinned ? 'Unpin' : 'Pin'}
           onClick={() => {
             mutate({ isPinned: !isPinned });
           }}
-        >
-          {isPinned ? 'Unpin' : 'Pin'}
-        </MenuItem>
+        />
         <MenuDivider />
         <MenuItem
+          label="Close"
           onClick={() => {
             dispatch(closeTab(id));
           }}
-        >
-            Close
-        </MenuItem>
+        />
         <MenuItem
+          label="Close other tabs"
           onClick={() => {
             dispatch(closeOtherTabs(id));
           }}
-        >
-            Close other tabs
-        </MenuItem>
+        />
         <MenuItem
+          isDisabled={isLast}
+          label="Close to the Right"
           onClick={() => {
             dispatch(closeRightTabs(id));
           }}
-          isDisabled={isLast}
-        >
-            Close to the Right
-        </MenuItem>
+        />
       </MenuList>
     </Menu>
   );

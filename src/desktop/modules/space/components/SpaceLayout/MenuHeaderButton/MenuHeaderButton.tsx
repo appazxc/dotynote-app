@@ -54,23 +54,36 @@ export const MenuHeaderButton = React.memo(() => {
           colorScheme="brand"
         />
         <MenuList>
-          <MenuItem leftIcon={<FiUser />} onClick={handleProfileClick}>Profile</MenuItem>
-          <MenuItem leftIcon={<VscColorMode />} onClick={handleColorModeChange}>
-            Change mode to {colorMode === 'light' ? 'Dark' : 'Light'}
-          </MenuItem>
-          <MenuItem leftIcon={<VscColorMode />} onClick={handleDrawerOpen}>Open Drawer confirm</MenuItem>
-          <MenuItem leftIcon={<TbSettings2 />} onClick={handleSettingsClick}>Settings</MenuItem>
+          <MenuItem
+            leftIcon={<FiUser />}
+            label="Profile"
+            onClick={handleProfileClick}
+          />
+          <MenuItem
+            leftIcon={<VscColorMode />}
+            label={`Change mode to ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+            onClick={handleColorModeChange}
+          />
+          <MenuItem
+            leftIcon={<VscColorMode />}
+            label="Open Drawer confirm"
+            onClick={handleDrawerOpen}
+          />
+          <MenuItem
+            leftIcon={<TbSettings2 />}
+            label="Settings"
+            onClick={handleSettingsClick}
+          />
           <MenuDivider />
           <MenuItem
             leftIcon={<TbLogout2 />}
+            colorScheme="red"
+            label="Logout"
             onClick={() => {
               dispatch(logout());
               router.navigate({ to: '/' });
             }}
-            colorScheme="red"
-          >
-            Logout
-          </MenuItem>
+          />
         </MenuList>
       </Menu>
 

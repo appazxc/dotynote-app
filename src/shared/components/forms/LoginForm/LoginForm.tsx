@@ -60,7 +60,7 @@ export const LoginForm = () => {
     if (isEmailSent) {
       setIsEmailSent(false);
     }
-    
+
     setValue('code', '', { shouldDirty: false });
     setValue('email', e.target.value, { shouldDirty: true });
   }, [isEmailSent, setValue]);

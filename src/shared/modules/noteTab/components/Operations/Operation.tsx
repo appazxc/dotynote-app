@@ -60,7 +60,7 @@ export const Operation = React.memo((props: Props) => {
         alignItems="center"
       >
         <Box>
-          {typeof title === 'string' ? <Text fontWeight="bold" fontSize="sm">{title}</Text>: title}
+          {typeof title === 'string' ? <Text fontWeight="bold" fontSize="sm">{title}</Text> : title}
           <Text fontSize="sm" color={descriptionColor}>{description}</Text>
         </Box>
         <Box
@@ -81,11 +81,10 @@ export const Operation = React.memo((props: Props) => {
                 {options.map((option) => (
                   <MenuItem
                     key={option.label}
-                    onClick={option.onClick}
                     rightIcon={option.selected ? <MdOutlineDone /> : undefined}
-                  >
-                    {option.label}
-                  </MenuItem>
+                    label={option.label}
+                    onClick={option.onClick}
+                  />
                 ))}
               </MenuList>
             </Menu>
@@ -96,8 +95,8 @@ export const Operation = React.memo((props: Props) => {
               colorScheme="brand"
               size="sm"
               aria-label=""
-              onClick={onConfirm}
               isLoading={isLoading}
+              onClick={onConfirm}
             >
               {confirmText || 'Confirm'}
             </Button>
@@ -107,7 +106,6 @@ export const Operation = React.memo((props: Props) => {
       </Box>
       <IconButton
         icon={<MdClose />}
-        onClick={handleClose}
         aria-label=""
         size="xs"
         colorScheme="brand"
@@ -116,6 +114,7 @@ export const Operation = React.memo((props: Props) => {
         top="0"
         borderRadius="full"
         transform="translate(50%, -50%)"
+        onClick={handleClose}
       />
     </Box>
   );
