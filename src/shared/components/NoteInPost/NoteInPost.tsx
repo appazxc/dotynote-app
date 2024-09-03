@@ -35,10 +35,10 @@ export const NoteInPost = (props: Props) => {
       cursor="pointer"
       {...restProps}
     >
-      <Text fontWeight="500">#{note.id} {note.title}</Text>
+      <Text fontWeight="500">{note.title}</Text>
       <EditorView
-        maxLines={4}
         removeEmptyDivsFromEnd
+        maxLines={4}
         content={note.content}
       />
     </Box>
