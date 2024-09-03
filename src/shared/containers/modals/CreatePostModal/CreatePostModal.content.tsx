@@ -64,8 +64,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
 
   return (
     <Modal
-      isCentered={!isMobile}
       isOpen
+      isCentered={!isMobile}
       size={isMobile ? 'full' : '2xl'}
       scrollBehavior="inside"
       returnFocusOnClose={false}
@@ -83,6 +83,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
                 display: 'none',
               },
             }}
+            display="flex"
+            flexDirection="column"
           >
             <FormControl isInvalid={!!errors.title}>
               <AutoResizeTextarea
