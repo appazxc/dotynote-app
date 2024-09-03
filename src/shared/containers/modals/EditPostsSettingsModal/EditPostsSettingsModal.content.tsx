@@ -69,7 +69,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
           <ModalFooter justifyContent="space-between">
             <Button
               colorScheme="red"
-              variant="solid"
+              variant="ghost"
               onClick={() => dispatch(showModal({ id: modalIds.confirm, extraId: 'EditPostSettingsModal' }))}
             >
               Delete posts
