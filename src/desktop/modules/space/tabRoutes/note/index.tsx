@@ -12,7 +12,7 @@ export const noteRoutePath = '/n/$noteId';
 export const note = createRoute({
   getParentRoute: () => root,
   path: noteRoutePath,
-  component: lazyRouteComponent(() => import('desktop/modules/noteTab/Note')),
+  component: lazyRouteComponent(() => import('desktop/modules/noteTab/NoteTab')),
   loader: async ({ params }) => {
     try {
       await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));

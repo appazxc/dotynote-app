@@ -12,14 +12,15 @@ import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettin
 import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector, useAppDispatch } from 'shared/store/hooks';
-import { startStickOperation } from 'shared/store/slices/appSlice';
+import { startStickOperation, toggleSearch } from 'shared/store/slices/appSlice';
 
 type Props = {
   noteId: number,
   isMobile?: boolean,
+  showSearch?: boolean,
 };
 
-export const NoteMenu = React.memo(({ noteId, isMobile }: Props) => {
+export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const dispatch = useAppDispatch();
   const { mutateAsync } = useDeleteNote(noteId);
@@ -53,6 +54,12 @@ export const NoteMenu = React.memo(({ noteId, isMobile }: Props) => {
               noteIds: [note.id],
             }))}
           />
+          {isMobile && showSearch && (
+            <MenuItem
+              label="Search"
+              onClick={() => dispatch(toggleSearch())}
+            />
+          )}
           <MenuDivider />
           <MenuItem
             colorScheme="red"

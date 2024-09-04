@@ -20,10 +20,12 @@ type Props = {
   noteId: number,
   isWriteMode: boolean,
   showPosts: boolean,
+  hideNote: boolean,
+  search: string,
 }
 
 export const NoteTabContent = React.memo((props: Props) => {
-  const { noteId, isWriteMode, showPosts } = props;
+  const { noteId, isWriteMode, showPosts, hideNote, search } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const operation = useAppSelector(selectOperation);
@@ -61,14 +63,17 @@ export const NoteTabContent = React.memo((props: Props) => {
         flexDirection="column"
         gap="10"
       >
-        <NoteBase
-          id={noteId}
-          isWriteMode={isWriteMode}
-        />
+        {!hideNote && (
+          <NoteBase
+            id={noteId}
+            isWriteMode={isWriteMode}
+          />
+        )}
         {showPosts && (
           <Posts
             key={noteId}
             noteId={noteId}
+            search={search}
             onPostClick={onPostClick}
           />
         )}

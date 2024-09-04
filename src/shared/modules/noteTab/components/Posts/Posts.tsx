@@ -20,9 +20,11 @@ type Props = {
   noteId: number,
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
   scrollRestoration?: boolean,
+  search: string,
 }
 
-export const Posts = ({ noteId, onPostClick, scrollRestoration = true }: Props) => {
+export const Posts = (props: Props) => {
+  const { noteId, onPostClick, search, scrollRestoration = true } = props;
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
     rootMargin: ROOT_MARGIN,
@@ -34,8 +36,14 @@ export const Posts = ({ noteId, onPostClick, scrollRestoration = true }: Props) 
   });
 
   const filters = React.useMemo(() => {
-    return {};
-  }, []);
+    const result: Record<string, string> = {};
+
+    if (search) {
+      result.query = search;
+    }
+    
+    return result;
+  }, [search]);
 
   const { 
     data, 

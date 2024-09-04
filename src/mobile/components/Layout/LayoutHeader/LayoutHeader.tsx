@@ -35,9 +35,9 @@ export const LayoutHeader = (props: Props) => {
         size="sm"
         aria-label="Note back"
         icon={<BsArrowLeft size="18" />}
-        onClick={onBackButtonClick || (() => history.back())}
         variant="unstyled"
         display="inline-flex"
+        onClick={onBackButtonClick || (() => history.back())}
       />
     );
   }, [history, showBackButton, onBackButtonClick]);
@@ -47,7 +47,17 @@ export const LayoutHeader = (props: Props) => {
       return null;
     }
 
-    return <Text fontWeight="500">{title}</Text>;
+    return (
+      <Text
+        fontWeight="500"
+        noOfLines={2}
+        overflow="hidden" 
+        textOverflow="ellipsis"
+        lineHeight="1.2"
+      >
+        {title}
+      </Text>
+    );
   }, [title]);
 
   return (

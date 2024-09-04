@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Center, Text } from '@chakra-ui/react';
+import { Box, Center, Text } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
+import { useDebounce } from '@uidotdev/usehooks';
 import { AnimatePresence } from 'framer-motion';
 
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
@@ -20,10 +21,12 @@ import { NoteHeader } from './NoteHeader';
 import { NoteSidebar } from './NoteSidebar';
 import { NoteTabContent } from './NoteTabContent';
 
-export const Note = React.memo(() => {
+export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const userId = useAppSelector(selectUserId);
+  const [search, setSearch] = React.useState('');
+  const { isSearchActive } = useAppSelector(state => state.app.note);
 
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
@@ -31,6 +34,16 @@ export const Note = React.memo(() => {
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const isWriteMode = rwMode === rwModes.WRITE;
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  React.useEffect(() => {
+    setSearch('');
+  }, [note.id]);
+
+  const debouncedSearch = useDebounce(search, 500);
 
   if (note._isDeleted) {
     return (
@@ -54,11 +67,25 @@ export const Note = React.memo(() => {
             id={note.id}
             rwMode={rwMode}
             showRwMode={showRwMode}
+            showSearch={!!note.postsSettingsId}
           />
         )}
         header={(
           <AnimatePresence>
-            <NoteHeader isWriteMode={isWriteMode} />
+            <Box
+              position="absolute"
+              top="0"
+              left="0"
+              w="full"
+              bg="body"
+              zIndex="1"
+            >
+              <NoteHeader
+                isWriteMode={isWriteMode}
+                search={search}
+                onSearchChange={handleSearchChange}
+              />
+            </Box>    
           </AnimatePresence>  
         )}
         footer={(
@@ -67,15 +94,19 @@ export const Note = React.memo(() => {
           </AnimatePresence>  
         )}
       >
-        <NoteTabContent
-          key={note.id}
-          noteId={note.id}
-          showPosts={!!note.postsSettingsId}
-          isWriteMode={isWriteMode}
-        />
+        <Box pt={isSearchActive ? '80px' : '50px'}>
+          <NoteTabContent
+            key={note.id}
+            noteId={note.id}
+            search={debouncedSearch}
+            hideNote={isSearchActive}
+            showPosts={!!note.postsSettingsId}
+            isWriteMode={isWriteMode}
+          />
+        </Box>
       </TabLayout>
     </NoteProviders>
   );
 });
 
-export default Note;
+export default NoteTab;

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Center, Text } from '@chakra-ui/react';
+import { useDebounce } from '@uidotdev/usehooks';
 
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';
@@ -22,10 +23,21 @@ type Props = {
 
 export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
-  
+  const [search, setSearch] = React.useState('');
+  const { isSearchActive } = useAppSelector(state => state.app.note);
+
   invariant(note, 'Missing note');
   
+  React.useEffect(() => {
+    setSearch('');
+  }, [note.id]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
+  const debouncedSearch = useDebounce(search, 500);
   const isWriteMode = rwMode === rwModes.WRITE;
 
   if (note._isDeleted) {
@@ -42,21 +54,28 @@ export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
   
   return (
     <NoteProviders
-      // key={note.id}
       id={note.id}
       isWriteMode={isWriteMode}
     >
       <Layout 
-        header={<NoteHeader isPrimary={isPrimary} noteId={note.id} />} 
-        footer={(
-          <NoteFooter isWriteMode={isWriteMode} />
-        )}
+        header={(
+          <NoteHeader
+            isPrimary={isPrimary}
+            noteId={note.id}
+            search={search}
+            showSearch={!!note.postsSettingsId}
+            onSearchChange={handleSearchChange}
+          />
+        )} 
+        footer={<NoteFooter isWriteMode={isWriteMode} />}
       >
         <NoteTabContent
           isPrimary={isPrimary}
           noteId={note.id}
           isWriteMode={isWriteMode}
           showPosts={!!note.postsSettingsId}
+          search={debouncedSearch}
+          hideNote={isSearchActive}
         />
       </Layout>
     </NoteProviders>

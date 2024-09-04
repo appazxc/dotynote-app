@@ -4,6 +4,7 @@ import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
+import { IoSearchSharp } from 'react-icons/io5';
 
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
@@ -11,7 +12,7 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
+import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
@@ -22,17 +23,29 @@ type Props = {
   id: number,
   rwMode: RwMode,
   showRwMode: boolean,
+  showSearch: boolean,
 }
 
 export const NoteSidebar = React.memo((props: Props) => {
-  const { id, rwMode, showRwMode } = props;
+  const { id, rwMode, showRwMode, showSearch } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
-  const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
+  const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
+  const lastIsSearchActive = React.useRef(isSearchActive);
   const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId: id }));
   const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId: id }));
   const showAddTo = canAddToNote || canAddToPosts;
+
+  React.useEffect(() => {
+    lastIsSearchActive.current = isSearchActive;
+  }, [isSearchActive]);
+
+  React.useEffect(() => () => {
+    if (lastIsSearchActive.current) {
+      dispatch(toggleSearch());
+    }
+  }, [dispatch, id]);
 
   const items = React.useMemo(() => {
     return [
@@ -76,11 +89,19 @@ export const NoteSidebar = React.memo((props: Props) => {
         onClick: () => dispatch(toggleAdvancedEdit()),
         variant: isAdvancedEditActive ? 'solid' : 'ghost',
       }] : [],
+      ...showSearch ? [{
+        id: 'Search',
+        label: 'Search',
+        icon: <IoSearchSharp size="18" />,
+        onClick: () => dispatch(toggleSearch()),
+        variant: isSearchActive ? 'solid' : 'ghost',
+      }] : [],
     ];
   }, [
     rwMode,
     id,
     showAddTo,
+    showSearch,
     canAddToNote,
     canAddToPosts,
     history,
@@ -88,6 +109,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     isAdvancedEditActive,
     showRwMode,
     tab.routes.length,
+    isSearchActive,
   ]);
 
   const renderedItems = React.useMemo(() => {
@@ -106,6 +128,7 @@ export const NoteSidebar = React.memo((props: Props) => {
               size="sm"
               variant="ghost"
               position="relative"
+              colorScheme="gray"
               aria-label={label}
               {...restItem}
             />

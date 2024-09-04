@@ -59,6 +59,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
             size="sm"
             tabIndex={0}
             variant="ghost"
+            colorScheme="gray"
             position="relative"
             aria-label="Note add"
             icon={<BsPlus size="22px" />}

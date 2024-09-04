@@ -51,6 +51,7 @@ type InitialState = {
     rwMode: RwMode,
     isAdvancedEditActive: boolean,
     addTo: AddTo,
+    isSearchActive: boolean,
   },
   operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation,
 };
@@ -69,6 +70,7 @@ const initialState: InitialState = {
     rwMode: rwModes.WRITE,
     isAdvancedEditActive: false,
     addTo: addTo.NOTE,
+    isSearchActive: false,
   },
   operation: noOperation,
 };
@@ -109,6 +111,9 @@ export const appSlice = createSlice({
     },
     toggleAdvancedEdit: (state) => {
       state.note.isAdvancedEditActive = !state.note.isAdvancedEditActive;
+    },
+    toggleSearch: (state) => {
+      state.note.isSearchActive = !state.note.isSearchActive;
     },
     stopOperation: (state) => {
       state.operation = noOperation;
@@ -177,6 +182,7 @@ export const {
   stopOperation,
   startStickOperation,
   startMoveOperation,
+  toggleSearch,
   startPrimaryNoteOperation,
   toggleConcretePlace,
   updateOperationConcretePost,

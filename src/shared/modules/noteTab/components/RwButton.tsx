@@ -15,7 +15,6 @@ type Props = {
 
 const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {
   const dispatch = useAppDispatch();
-  const editor = useEditorContext();
   
   let button = (
     <IconButton
@@ -23,12 +22,12 @@ const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {
       size="sm"
       position="relative"
       icon={<FaPencil />}
+      colorScheme="gray"
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
       aria-label="Note read/edit"
       {...rest}
       onClick={() => {
         dispatch(toggleRwMode());
-        editor.commands.focus('end');
       }}
     />
   );

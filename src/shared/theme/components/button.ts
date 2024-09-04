@@ -10,9 +10,16 @@ const getIconButtonProps = (props: StyleFunctionProps) => {
     return {};
   }
 
-  return {
+  const result: any = {
     borderRadius: defaultTheme.components.Button.baseStyle?.borderRadius,
+    height: defaultTheme.components.Button.sizes?.[props.size || 'md'].h,
   };
+
+  if (props.variant === 'unstyled') {
+    result.display = 'inline-flex';
+  }
+
+  return result;
 };
 
 const primary = defineStyle((props: StyleFunctionProps) => {
@@ -20,6 +27,7 @@ const primary = defineStyle((props: StyleFunctionProps) => {
 
   return ({
     ...btnProps,
+    ...getIconButtonProps(props),
   });
 });
 
@@ -45,6 +53,10 @@ const solid = defineStyle((props: StyleFunctionProps) => {
   return getIconButtonProps(props);
 });
 
+const unstyled = defineStyle((props: StyleFunctionProps) => {
+  return getIconButtonProps(props);
+});
+
 export const Button = defineStyleConfig({
   sizes: {
     md: {
@@ -63,5 +75,6 @@ export const Button = defineStyleConfig({
     ghost,
     outline,
     solid,
+    unstyled,
   },
 });

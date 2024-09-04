@@ -22,9 +22,12 @@ type Props = {
   showPosts: boolean,
   isWriteMode: boolean,
   isPrimary?: boolean,
+  hideNote: boolean,
+  search: string,
 }
 
-export const NoteTabContent = ({ noteId, showPosts, isWriteMode, isPrimary }: Props) => {
+export const NoteTabContent = (props: Props) => {
+  const { noteId, showPosts, isWriteMode, isPrimary, search, hideNote } = props;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
@@ -64,17 +67,20 @@ export const NoteTabContent = ({ noteId, showPosts, isWriteMode, isPrimary }: Pr
         pt="3"
         h="full"
       >
-        <NoteBase
-          key={noteId}
-          id={noteId}
-          isMobile
-          isWriteMode={isWriteMode}
-        />
+        {!hideNote && (
+          <NoteBase
+            key={noteId}
+            isMobile
+            id={noteId}
+            isWriteMode={isWriteMode}
+          />
+        )}
         {showPosts && (
           <Posts
             noteId={noteId}
-            onPostClick={handlePostClick}
+            search={search}
             scrollRestoration={!isPrimary}
+            onPostClick={handlePostClick}
           />
         )}
       </Stack>

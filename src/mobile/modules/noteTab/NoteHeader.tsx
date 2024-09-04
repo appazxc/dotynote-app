@@ -6,6 +6,7 @@ import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
 import { useTabTitle } from 'shared/hooks/useTabTitle';
+import { NoteHeaderSearch } from 'shared/modules/noteTab/components/NoteHeaderSearch';
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { rwModes } from 'shared/modules/noteTab/constants';
@@ -14,7 +15,7 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { toggleAdvancedEdit } from 'shared/store/slices/appSlice';
+import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 
 import { LayoutHeader } from 'mobile/components/Layout';
 import { router } from 'mobile/modules/space/tabRoutes/router';
@@ -22,9 +23,13 @@ import { router } from 'mobile/modules/space/tabRoutes/router';
 type Props = {
   noteId: number,
   isPrimary?: boolean,
+  showSearch?: boolean,
+  search: string,
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-export const NoteHeader = ({ noteId, isPrimary }: Props) => {
+export const NoteHeader = (props: Props) => {
+  const { noteId, isPrimary, showSearch, search, onSearchChange } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
@@ -32,8 +37,9 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
   const isMutating = useIsNoteMutating(noteId);
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
-  const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
+  const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
+  const lastIsSearchActive = React.useRef(isSearchActive);
 
   const renderedBackButton = React.useMemo(() => {
     if (isPrimary) {
@@ -63,9 +69,10 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
       <NoteMenu
         isMobile
         noteId={noteId}
+        showSearch={showSearch}
       />
     ); 
-  }, [isMutating, noteId]);
+  }, [isMutating, showSearch, noteId]);
 
   const renderedRwButton = React.useMemo(() => {
     if (!showRwMode) {
@@ -100,9 +107,13 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
     return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedMenu}</HStack>;
   }, [renderedMenu, renderedRwButton, renderedAdvancedEditButton]);
 
-  React.useEffect(() => () => {
+  React.useEffect(() => {
     lastIsAdvancedEditActive.current = isAdvancedEditActive;
   }, [isAdvancedEditActive]);
+
+  React.useEffect(() => {
+    lastIsSearchActive.current = isSearchActive;
+  }, [isSearchActive]);
 
   React.useEffect(() => () => {
     if (lastIsAdvancedEditActive.current) {
@@ -110,21 +121,27 @@ export const NoteHeader = ({ noteId, isPrimary }: Props) => {
     }
   }, [dispatch]);
 
+  React.useEffect(() => () => {
+    if (lastIsSearchActive.current) {
+      dispatch(toggleSearch());
+    }
+  }, [dispatch, noteId]);
+
   return (
-    <LayoutHeader
-      left={renderedBackButton}
-      right={renderedRightSide}
-      pl={isPrimary ? '4' : '2'}
-    >
-      <Text
-        noOfLines={2}
-        overflow="hidden" 
-        textOverflow="ellipsis"
-        lineHeight="1.2"
-        fontWeight="500"
-      >
-        {title}
-      </Text>
-    </LayoutHeader>
+    <>
+      <LayoutHeader
+        left={renderedBackButton}
+        right={renderedRightSide}
+        pl={isPrimary ? '4' : '2'}
+        title={title}
+      />
+      {isSearchActive && (
+        <NoteHeaderSearch
+          showCancelButton
+          value={search}
+          onChange={onSearchChange}
+        />
+      )}
+    </>
   );
 };
