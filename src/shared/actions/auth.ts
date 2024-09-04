@@ -6,7 +6,7 @@ import { actions } from 'shared/constants/actions';
 import { selectToken } from 'shared/selectors/auth/selectToken';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { persistor } from 'shared/store';
-import { setToken, setUser } from 'shared/store/slices/authSlice';
+import { setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 
 export const getUser = (): ThunkAction => async (dispatch, getState) => {
@@ -22,11 +22,10 @@ export const getUser = (): ThunkAction => async (dispatch, getState) => {
   }
 
   try {
-    const userId = await queryClient.fetchQuery({ ...options.users.me(), staleTime: 0 });
+    const userId = await queryClient.fetchQuery({ ...options.users.me() });
     dispatch(setUser(userId));
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
-      dispatch(setToken(null));
       dispatch(logout());
       throw Error('Can not authorize user');
     }
