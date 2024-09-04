@@ -31,11 +31,13 @@ export const EntryPostsMedia = React.memo((props: Props) => {
   });
 
   const withPostsSettingsCreate = React.useCallback((cb) => async () => {
+    onFinish();
+
     if (!note.postsSettingsId) {
       await mutateAsync({});
     }
     await cb();
-  }, [mutateAsync, note.postsSettingsId]);
+  }, [mutateAsync, onFinish, note.postsSettingsId]);
 
   const renderedCards = React.useMemo(() => {
     const items = [
@@ -43,7 +45,6 @@ export const EntryPostsMedia = React.memo((props: Props) => {
         title: 'Text',
         icon: <SlNotebook size={ICON_SIZE} />,
         onClick: withPostsSettingsCreate(async () => {
-          onFinish();
           dispatch(showModal({ id: modalIds.createPost, extraId: createPostModalExtraId }));
         }),
       },
@@ -52,7 +53,7 @@ export const EntryPostsMedia = React.memo((props: Props) => {
     return (
       <EntryMediaCards items={items} />
     );
-  }, [dispatch, createPostModalExtraId, onFinish, withPostsSettingsCreate]);
+  }, [dispatch, createPostModalExtraId, withPostsSettingsCreate]);
 
   return renderedCards;
 });

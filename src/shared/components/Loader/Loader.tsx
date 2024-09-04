@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Spinner, Center, Box } from '@chakra-ui/react';
-import { QueryCache, QueryObserver } from '@tanstack/react-query';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 
 import { queryClient } from 'shared/api/queryClient';
 import { Wait } from 'shared/components/Wait';

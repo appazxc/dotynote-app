@@ -38,7 +38,6 @@ export const NoteSidebar = React.memo((props: Props) => {
     return [
       {
         id: 'Note back',
-        label: 'Note back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
         isDisabled: tab.routes.length <= 1,
@@ -92,15 +91,15 @@ export const NoteSidebar = React.memo((props: Props) => {
   ]);
 
   const renderedItems = React.useMemo(() => {
-    return items.map(({ id, label, element, children, ...restItem }) => {
+    return items.map(({ id, label = '', element, children, ...restItem }) => {
       return element || (
         <Tooltip
           key={id}
+          hasArrow
           label={label}
           openDelay={300}
           placement="right"
           backgroundColor="black"
-          hasArrow
         >
           {children || (
             <IconButton

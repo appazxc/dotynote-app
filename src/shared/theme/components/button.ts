@@ -56,6 +56,7 @@ export const Button = defineStyleConfig({
   },
   defaultProps: {
     variant: 'primary',
+    colorScheme: 'brand',
   },
   variants: { 
     primary,
