@@ -42,12 +42,11 @@ const Tab = ({ id, isActive }) => {
 
   return (
     <Card
-      as={motion.div}
       layout
+      as={motion.div}
       px="3"
       py="1"
       pr="1"
-      onClick={handleTabChange}
       cursor="pointer"
       display="flex"
       flexDirection="row"
@@ -56,6 +55,7 @@ const Tab = ({ id, isActive }) => {
       gap="2"
       variant="filled"
       bg={bg}
+      onClick={handleTabChange}
     >
       <Box overflow="hidden">
         <SpaceTabTitle title={tabTitle} />
