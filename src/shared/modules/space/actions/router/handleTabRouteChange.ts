@@ -1,16 +1,16 @@
 import { HistoryLocation } from '@tanstack/react-router';
 
 import { updateTab } from 'shared/actions/space/updateTab';
-import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
+import { spaceTabSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/types/store';
 
-export const handleTabRouteChange = (action: string, location: HistoryLocation): ThunkAction =>
+export const handleTabRouteChange = (tabId: string, action: string, location: HistoryLocation): ThunkAction =>
   (dispatch, getState) => {
-    const activeTab = selectActiveTab(getState());
+    const tab = spaceTabSelector.getById(getState(), tabId);
 
-    if (!activeTab) return;
+    if (!tab) return;
     
-    const { routes } = activeTab;
+    const { routes } = tab;
 
     let newRoutes = [...routes];
     if (action === 'back' && newRoutes.length > 1) {
@@ -23,5 +23,5 @@ export const handleTabRouteChange = (action: string, location: HistoryLocation):
       throw new Error(`Invalid history action: ${action}`);
     }
 
-    dispatch(updateTab({ id: activeTab.id, data: { routes: newRoutes } }));
+    dispatch(updateTab({ id: tab.id, data: { routes: newRoutes } }));
   };

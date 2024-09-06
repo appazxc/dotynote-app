@@ -1,4 +1,5 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 
 import { NoteEntity } from './NoteEntity';
 import { PostEntity } from './PostEntity';
@@ -14,6 +15,7 @@ export type EntityTypes = {
   [entityNames.note]: NoteEntity,
   [entityNames.post]: PostEntity,
   [entityNames.postsSettings]: PostsSettingsEntity,
+  [entityNames.noteSettings]: NoteSettingsEntity,
 }
 
 export type Entity = EntityTypes[EntityName]

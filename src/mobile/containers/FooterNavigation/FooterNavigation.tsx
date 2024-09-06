@@ -16,9 +16,11 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
+import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
 import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
 import { HomeMenu } from 'mobile/containers/FooterNavigation/HomeMenu';
 import { useDotMenuNoteId } from 'mobile/hooks/useDotMenuNoteId';
+import { selectPrimaryNoteTab } from 'mobile/selectors/app/selectPrimaryNoteTab';
 
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,8 @@ export const FooterNavigation = React.memo(() => {
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const noteId = useDotMenuNoteId();
   const isPrimaryNote = useIsPrimareNote();
-  
+  const primaryNoteTab = useAppSelector(selectPrimaryNoteTab);
+
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }
@@ -49,8 +52,12 @@ export const FooterNavigation = React.memo(() => {
             dispatch(showModal({ id: modalIds.primaryNote }));
             return;
           }
-          
-          navigate({ to: '/app/primary' });
+
+          if (isPrimaryNote) {
+            dispatch(createPrimaryNoteTab());
+          } else {
+            navigate({ to: '/app/primary' });
+          }
         },
         icon: <GoHome size="25" />,
         getMenu: activeSpace ? ({ key, ...triggerProps }: { key: string } & IconButtonProps) => {
@@ -111,6 +118,7 @@ export const FooterNavigation = React.memo(() => {
     activeSpace,
     noteId,
     isDotMenuActive,
+    isPrimaryNote,
   ]);
 
   return (

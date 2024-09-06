@@ -40,9 +40,10 @@ export const NoteHeader = (props: Props) => {
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
   const lastIsSearchActive = React.useRef(isSearchActive);
+  const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
 
   const renderedBackButton = React.useMemo(() => {
-    if (isPrimary) {
+    if (firstPageOfPrimaryNote) {
       return null;
     }
 
@@ -58,7 +59,7 @@ export const NoteHeader = (props: Props) => {
         onClick={() => history.back()}
       />
     );
-  }, [tab.routes.length, history, isPrimary]);
+  }, [tab.routes.length, history, firstPageOfPrimaryNote]);
 
   const renderedMenu = React.useMemo(() => {
     return isMutating ? (
@@ -132,7 +133,7 @@ export const NoteHeader = (props: Props) => {
       <LayoutHeader
         left={renderedBackButton}
         right={renderedRightSide}
-        pl={isPrimary ? '4' : '2'}
+        pl={firstPageOfPrimaryNote ? '4' : '2'}
         title={title}
       />
       {isSearchActive && (

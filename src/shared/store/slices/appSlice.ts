@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Device } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/noteTab/constants';
+import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
 type TempNote = {
   title: string,
@@ -47,6 +48,9 @@ type InitialState = {
   waitedRoute: string | null,
   device: Device | null,
   tempNote: TempNote | null,
+  activeSpacePrimaryNoteTabIds: {
+    [x: string]: string
+  },
   note: {
     rwMode: RwMode,
     isAdvancedEditActive: boolean,
@@ -66,6 +70,7 @@ const initialState: InitialState = {
   waitedRoute: null,
   device: null,
   tempNote: null,
+  activeSpacePrimaryNoteTabIds: {},
   note: {
     rwMode: rwModes.WRITE,
     isAdvancedEditActive: false,
@@ -164,6 +169,18 @@ export const appSlice = createSlice({
         state.operation.concretePlace = !state.operation.concretePlace;
       } 
     },
+    addPrimaryNoteTab: (
+      state, 
+      { payload }: PayloadAction<{ spaceId: string, primaryNoteId: number, tabId: string }>
+    ) => {
+      const { 
+        spaceId,
+        primaryNoteId,
+        tabId,
+      } = payload;
+
+      state.activeSpacePrimaryNoteTabIds[`${spaceId}|${primaryNoteId}`] = tabId;
+    },
   },
 });
 
@@ -186,6 +203,7 @@ export const {
   startPrimaryNoteOperation,
   toggleConcretePlace,
   updateOperationConcretePost,
+  addPrimaryNoteTab,
 } = appSlice.actions;
 
 export default appSlice.reducer;

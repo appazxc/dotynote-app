@@ -1,36 +1,36 @@
 import React from 'react';
 
-import { TabProvider } from 'shared/modules/space/components/TabProvider';
+import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
-import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
-import { useAppSelector } from 'shared/store/hooks';
-import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { NoteTab } from 'mobile/modules/noteTab';
-import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
+import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
+import Space from 'mobile/modules/space';
+import { selectPrimaryNoteTabId } from 'mobile/selectors/app/selectPrimaryNoteTabId';
 
 export const PrimaryNote = React.memo(() => {
+  const dispatch = useAppDispatch();
   const space = useAppSelector(selectActiveSpace);
-  
+  const tabId = useAppSelector(selectPrimaryNoteTabId);
+  const tab = useAppSelector(state => spaceTabSelector.getById(state, tabId));
+
   invariant(space, 'Missing space');
 
-  const fakeTab: SpaceTabEntity = React.useMemo(() => ({
-    id: 'fake',
-    spaceId: space.id,
-    routes: [buildTabHref({ to: '/n/$noteId', params: { noteId: String(space?.mainNoteId) } })],
-    isPinned: false,
-    pos: 1,
-  }), [space]);
+  React.useEffect(() => {
+    if (tabId) {
+      return;
+    }
 
-  if (!space.mainNoteId) {
+    dispatch(createPrimaryNoteTab());
+  }, [tabId, dispatch]);
+
+  if (!tab) {
     return null;
   }
   
   return (
-    <TabProvider tab={fakeTab}>
-      <NoteTab isPrimary noteId={space?.mainNoteId} />
-    </TabProvider>
+    <Space tab={tab} />
   );
 });
 

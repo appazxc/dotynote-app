@@ -37,4 +37,5 @@ export const auth = createRoute({
       to: '/',
     });
   },
+  shouldReload: false,
 });

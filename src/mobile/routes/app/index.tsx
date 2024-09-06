@@ -74,7 +74,7 @@ const appIndexRoute = createRoute({
       dispatch(cleanWaitedRoute());
     }
   },
-  component: lazyRouteComponent(() => import('mobile/modules/space')),
+  component: lazyRouteComponent(() => import('./App')),
   pendingComponent: LayoutLoader,
 });
 

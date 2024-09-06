@@ -65,7 +65,7 @@ export const useTabRouter = (spaceTabId: string, createTabRouter: CreateTabRoute
   React.useEffect(() => {
     function handleChange() {
       if (lastAction) {
-        dispatch(handleTabRouteChange(lastAction, router.history.location));
+        dispatch(handleTabRouteChange(spaceTabId, lastAction, router.history.location));
         lastAction = null;
       }
     }
@@ -73,7 +73,7 @@ export const useTabRouter = (spaceTabId: string, createTabRouter: CreateTabRoute
     const unsubscribe = router.history.subscribe(handleChange);
 
     return unsubscribe;
-  }, [router, dispatch]);
+  }, [router, dispatch, spaceTabId]);
 
   return router;
 };

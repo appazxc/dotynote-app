@@ -3,6 +3,7 @@ import React from 'react';
 import { Center, Text } from '@chakra-ui/react';
 import { useDebounce } from '@uidotdev/usehooks';
 
+import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';
 import { noteSelector } from 'shared/selectors/entities';
@@ -18,13 +19,13 @@ import { NoteTabContent } from './NoteTabContent';
 
 type Props = {
   noteId: number,
-  isPrimary?: boolean,
 }
 
-export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
+export const NoteTab = React.memo(({ noteId }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
+  const isPrimary = useIsPrimareNote();
 
   invariant(note, 'Missing note');
   
@@ -32,9 +33,9 @@ export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
     setSearch('');
   }, [note.id]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-  };
+  }, []);
 
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const debouncedSearch = useDebounce(search, 500);
@@ -71,7 +72,6 @@ export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
       >
         <NoteTabContent
           note={note}
-          isPrimary={isPrimary}
           isWriteMode={isWriteMode}
           showPosts={!!note.postsSettingsId}
           search={debouncedSearch}

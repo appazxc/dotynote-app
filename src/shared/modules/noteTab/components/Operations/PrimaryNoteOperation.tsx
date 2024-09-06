@@ -25,20 +25,18 @@ export const PrimaryNoteOperation = React.memo((props: Props) => {
   
   invariant(spaceId, 'Missing spaceId');
 
-  const { mutate, isPending } = useUpdateSpace(spaceId);
+  const { mutateAsync, isPending } = useUpdateSpace(spaceId);
 
   const handleConfirm = React.useCallback(() => {
-    mutate({
+    mutateAsync({
       mainNoteId: note.id,
-    }, {
-      onSuccess: () => {
-        toast({
-          description: 'Primary note changed.',
-        });
-        dispatch(stopOperation());
-      },
+    }).then(() => {
+      toast({
+        description: 'Primary note changed.',
+      });
+      dispatch(stopOperation());
     });
-  }, [mutate, note.id, toast, dispatch]);
+  }, [mutateAsync, note.id, toast, dispatch]);
 
   return (
     <>
