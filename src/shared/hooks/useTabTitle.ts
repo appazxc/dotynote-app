@@ -27,11 +27,15 @@ export const useTabTitle = (path: string, router) => {
       return `Error: ${error.response?.status}`;
     }
 
+    if (tabTitle) {
+      return tabTitle;
+    }
+
     if (note) {
       return note.title || generateText(note.content || {}, extensions) || 'Untitled';
     }
 
-    return tabTitle;
+    return 'Untitled';
   }, [isNoteTab, error, isLoading, note, tabTitle]);
 
   return title;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center, HStack, IconButton, Spinner, Text } from '@chakra-ui/react';
+import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';

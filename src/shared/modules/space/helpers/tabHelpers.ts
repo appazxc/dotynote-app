@@ -20,14 +20,11 @@ const tabTitleMap = {
   '/': 'New tab',
   '/addMainNote': 'Add main note',
   '/n/$noteId': '',
-  '/profile': 'Profile',
-  '/settings': 'Settings',
-  '/settings/$id': '',
-  '/settings/note': '',
+  '/n/$noteId/settings': 'Note settings',
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {
-  return tabTitleMap[routeId] || defaultValue;
+  return routeId in tabTitleMap ? tabTitleMap[routeId] : defaultValue;
 };
 
 export const getTabMatch = (path: string, router) => {

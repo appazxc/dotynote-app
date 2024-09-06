@@ -76,7 +76,7 @@ const Tab = ({ id, isActive }) => {
 };
 
 export const Tabs = () => {
-  const tabs = useSpaceTabs({ sorted: true }).reverse();
+  const tabs = useSpaceTabs({ sorted: true });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);
@@ -132,7 +132,7 @@ export const Tabs = () => {
           p="4"
           gap="2"
         >
-          {tabs.map((tab) => (
+          {tabs.slice().reverse().map((tab) => (
             <Tab
               key={tab.id}
               id={tab.id}

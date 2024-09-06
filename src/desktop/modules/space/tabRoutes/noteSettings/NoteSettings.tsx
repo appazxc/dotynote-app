@@ -12,7 +12,7 @@ export const NoteSettings = React.memo(() => {
 
   return (
     <TabLayout defaultSidebar>
-      <Container>
+      <Container maxW="container.sm" pt="4">
         <NoteSettingsTabContent noteId={Number(noteId)} />
       </Container>
     </TabLayout>

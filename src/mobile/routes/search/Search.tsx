@@ -22,6 +22,7 @@ export const Search = React.memo(() => {
   const renderNote = (id: number) => {
     return (
       <NoteInPost
+        key={id}
         noteId={id}
         onClick={() => {
           dispatch(openTab({ 

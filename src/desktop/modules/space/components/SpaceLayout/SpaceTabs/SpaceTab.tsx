@@ -8,7 +8,6 @@ import {
   shouldForwardProp,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useRouter } from '@tanstack/react-router';
 import { isValidMotionProp, motion, Reorder } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 
