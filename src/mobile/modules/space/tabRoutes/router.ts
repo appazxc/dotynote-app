@@ -2,25 +2,18 @@ import { createRouter } from '@tanstack/react-router';
 
 import { Loader } from 'shared/components/Loader';
 
-// import { addMainNote } from './addMainNote';
-
-import { DefaultErrorComponent } from './DefaultErrorComponent';
-import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
-import { idx } from './idx';
-import { note } from './note';
-// import { noteSettings } from './noteSettings';
-// import { profile } from './profile';
-import { root } from './root';
-import { context } from './routerContext';
-// import { settings } from './settings';
+import { DefaultErrorComponent } from 'mobile/modules/space/tabRoutes/DefaultErrorComponent';
+import { DefaultNotFoundComponent } from 'mobile/modules/space/tabRoutes/DefaultNotFoundComponent';
+import { idx } from 'mobile/modules/space/tabRoutes/idx';
+import { note } from 'mobile/modules/space/tabRoutes/note';
+import { noteSettings } from 'mobile/modules/space/tabRoutes/noteSettings';
+import { root } from 'mobile/modules/space/tabRoutes/root';
+import { context } from 'mobile/modules/space/tabRoutes/routerContext';
 
 const routeTree = root.addChildren([
   idx, 
   note,
-  // addMainNote,
-  // profile,
-  // noteSettings,
-  // settings,
+  noteSettings,
 ]);
 
 const defaultRouterOptions = {
