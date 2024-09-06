@@ -18,7 +18,6 @@ import {
   FormControl,
   FormDescription,
   FormField,
-  FormItem,
   FormLabel,
   FormMessage,
 } from 'shared/components/Form';
@@ -109,20 +108,18 @@ export const LoginForm = () => {
               name="email"
               render={({ field }) => {
                 return (
-                  <FormItem>
-                    <FormControl>
-                      <FormLabel>Email</FormLabel>
-                      <Input
-                        placeholder="Your email address"
-                        {...field}
-                        onChange={handleEmailChange}
-                      />
-                      {isEmailSent && (
-                        <FormDescription>We sent verification code to your email</FormDescription>
-                      )}
-                      <FormMessage />
-                    </FormControl>
-                  </FormItem>
+                  <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      placeholder="Your email address"
+                      {...field}
+                      onChange={handleEmailChange}
+                    />
+                    {isEmailSent && (
+                      <FormDescription>We sent verification code to your email</FormDescription>
+                    )}
+                    <FormMessage />
+                  </FormControl>
                 );
               }}
             />
@@ -131,13 +128,11 @@ export const LoginForm = () => {
                 control={form.control}
                 name="code"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <FormLabel>Code</FormLabel>
-                      <Input {...field} />
-                      <FormMessage />
-                    </FormControl>
-                  </FormItem>
+                  <FormControl>
+                    <FormLabel>Code</FormLabel>
+                    <Input {...field} />
+                    <FormMessage />
+                  </FormControl>
                 )}
               />
             )}

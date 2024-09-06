@@ -1,6 +1,14 @@
 import ActionEssense from 'shared/api/entityApi/ActionEssence';
 import { entityNames } from 'shared/constants/entityNames';
-import { noteSelector, postSelector, spaceSelector, spaceTabSelector, userSelector } from 'shared/selectors/entities';
+import { 
+  noteSelector,
+  noteSettingsSelector,
+  postSelector,
+  spaceSelector,
+  spaceTabSelector,
+  userSelector, 
+} from 'shared/selectors/entities';
+import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
 

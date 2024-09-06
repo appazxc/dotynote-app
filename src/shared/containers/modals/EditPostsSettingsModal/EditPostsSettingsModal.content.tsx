@@ -55,7 +55,7 @@ const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
       <Modal
         isCentered
         isOpen={isOpen}
-        size={isMobile ? 'full' : '2xl'}
+        size={isMobile ? 'full' : 'xl'}
         onClose={() => dispatch(hideModal())}
       >
         <ModalOverlay />

@@ -5,8 +5,8 @@ import {
   Button,
   Input,
   InputGroup,
-  VStack,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
@@ -19,7 +19,6 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
   FormLabel,
   FormMessage,
   useForm,
@@ -114,16 +113,14 @@ export const ProfileForm = React.memo(() => {
               name="nickname"
               render={({ field }) => {
                 return (
-                  <FormItem>
-                    <FormControl>
-                      <FormLabel>Name</FormLabel>
-                      <Input
-                        variant="filled"
-                        {...field}
-                      />
-                      <FormMessage />
-                    </FormControl>
-                  </FormItem>
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      variant="filled"
+                      {...field}
+                    />
+                    <FormMessage />
+                  </FormControl>
                 );
               }}
             />
@@ -132,28 +129,26 @@ export const ProfileForm = React.memo(() => {
               name="username"
               render={({ field }) => {
                 return (
-                  <FormItem>
-                    <FormControl>
-                      <FormLabel>Username</FormLabel>
-                      <InputGroup>
-                        <Input
-                          variant="filled"
-                          {...field}
-                        />
-                      </InputGroup>
+                  <FormControl>
+                    <FormLabel>Username</FormLabel>
+                    <InputGroup>
+                      <Input
+                        variant="filled"
+                        {...field}
+                      />
+                    </InputGroup>
                       
-                      <FormMessage />
-                      {showUsernameAvailableMessage && (
-                        <Text
-                          mt="1"
-                          fontSize="small"
-                          color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
-                        >
-                          {usernameAvailableText}
-                        </Text>
-                      )}  
-                    </FormControl>
-                  </FormItem>
+                    <FormMessage />
+                    {showUsernameAvailableMessage && (
+                      <Text
+                        mt="1"
+                        fontSize="small"
+                        color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
+                      >
+                        {usernameAvailableText}
+                      </Text>
+                    )}  
+                  </FormControl>
                 );
               }}
             />

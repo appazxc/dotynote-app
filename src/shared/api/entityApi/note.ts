@@ -1,8 +1,10 @@
 import union from 'lodash/union';
 
+import { entityNames } from 'shared/constants/entityNames';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
-import { spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
+import { noteSettingsSelector, spaceSelector, spaceTabSelector } from 'shared/selectors/entities';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 
 import Essense from './Essence';
 
@@ -40,5 +42,16 @@ export class NoteEssence extends Essense<NoteEntity> {
     }
 
     return this.loadList({ filters: { ids: noteIds, pageSize: 100 } });
+  }
+
+  async updateSettings(noteId: number, noteSettingsId: string, data: Partial<NoteSettingsEntity>) {
+    return this.updateRelation({
+      parentId: noteId,
+      relationId: noteSettingsId,
+      data,
+      relation: 'settings',
+      relationType: entityNames.noteSettings,
+      relationSelector: noteSettingsSelector,
+    });
   }
 }

@@ -9,12 +9,12 @@ export const AutoResizeTextarea = React.forwardRef<
 >((props, ref) => {
   return (
     <Textarea
+      ref={ref}
       minH="unset"
       overflow="hidden"
       w="100%"
       resize="none"
       bg="transparent"
-      ref={ref}
       minRows={1}
       as={ResizeTextarea}
       {...props}

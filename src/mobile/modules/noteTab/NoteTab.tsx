@@ -70,12 +70,12 @@ export const NoteTab = React.memo(({ noteId, isPrimary }: Props) => {
         footer={<NoteFooter isWriteMode={isWriteMode} />}
       >
         <NoteTabContent
+          note={note}
           isPrimary={isPrimary}
-          noteId={note.id}
           isWriteMode={isWriteMode}
           showPosts={!!note.postsSettingsId}
           search={debouncedSearch}
-          hideNote={isSearchActive}
+          isSearchActive={isSearchActive}
         />
       </Layout>
     </NoteProviders>

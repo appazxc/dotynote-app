@@ -73,6 +73,38 @@ export default class Essense<T extends { id?: string | number }> {
     return this.api.post<string>(`${this.path}/${id}/${String(relation)}`, data);
   }
 
+  async updateRelation<R extends { id: string | number }>({
+    parentId,
+    relationId,
+    data,
+    relation,
+    relationType,
+    relationSelector,
+  } : {
+      parentId: string | number, 
+      relationId: string | number, 
+      data: Partial<R>,
+      relation: keyof T,
+      relationType: EntityName,
+      relationSelector: any,
+    }) {
+    const entity: R = relationSelector.getById(this.store.getState(), relationId);
+    
+    if (!entity || !data) {
+      return;
+    }
+    
+    try {
+      this.store.dispatch(updateEntity({ id: relationId, type: relationType, data }));
+
+      return this.api.patch<R['id']>(`${this.path}/${parentId}/${String(relation)}`, data);
+    } catch (error) {
+      this.store.dispatch(updateEntity({ id: relationId, type: relationType, data: entity }));
+
+      throw error;
+    }
+  }
+
   async deleteRelation(id: string | number, relation: string) {
     return this.api.delete<void>(`${this.path}/${id}/${relation}`);
   }

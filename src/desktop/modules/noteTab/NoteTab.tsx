@@ -97,10 +97,9 @@ export const NoteTab = React.memo(() => {
         <Box pt={isSearchActive ? '80px' : '50px'}>
           <NoteTabContent
             key={note.id}
-            noteId={note.id}
+            note={note}
             search={debouncedSearch}
-            hideNote={isSearchActive}
-            showPosts={!!note.postsSettingsId}
+            isSearchActive={isSearchActive}
             isWriteMode={isWriteMode}
           />
         </Box>

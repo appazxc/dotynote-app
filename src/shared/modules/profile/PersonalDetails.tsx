@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, BoxProps, Text, Button, Heading, Input, useToast } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Heading, Input, Text, useToast } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
 import isBoolean from 'lodash/isBoolean';
@@ -12,7 +12,6 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
   FormLabel,
   FormMessage,
   useForm,
@@ -152,22 +151,20 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
             name="nickname"
             render={({ field }) => {
               return (
-                <FormItem>
-                  <FormControl>
-                    <FormLabel>Name</FormLabel>
-                    <Input {...field} />
-                    <FormMessage />
-                    <Button
-                      colorScheme="brand"
-                      mt="4"
-                      isLoading={isPending}
-                      isDisabled={!dirtyFields.nickname}
-                      onClick={submitField('nickname')}
-                    >
+                <FormControl>
+                  <FormLabel>Name</FormLabel>
+                  <Input {...field} />
+                  <FormMessage />
+                  <Button
+                    colorScheme="brand"
+                    mt="4"
+                    isLoading={isPending}
+                    isDisabled={!dirtyFields.nickname}
+                    onClick={submitField('nickname')}
+                  >
                       Save
-                    </Button>  
-                  </FormControl>
-                </FormItem>
+                  </Button>  
+                </FormControl>
               );
             }}
           />
@@ -186,31 +183,29 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
             name="username"
             render={({ field }) => {
               return (
-                <FormItem>
-                  <FormControl>
-                    <FormLabel>Username</FormLabel>
-                    <Input {...field} />
-                    <FormMessage />
-                    {showUsernameAvailableMessage && (
-                      <Text
-                        mt="1"
-                        fontSize="small"
-                        color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
-                      >
-                        {usernameAvailableText}
-                      </Text>
-                    )}
-                    <Button
-                      colorScheme="brand"
-                      mt="4"
-                      isLoading={isPending}
-                      isDisabled={!dirtyFields.username}
-                      onClick={submitField('username')}
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input {...field} />
+                  <FormMessage />
+                  {showUsernameAvailableMessage && (
+                    <Text
+                      mt="1"
+                      fontSize="small"
+                      color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
                     >
+                      {usernameAvailableText}
+                    </Text>
+                  )}
+                  <Button
+                    colorScheme="brand"
+                    mt="4"
+                    isLoading={isPending}
+                    isDisabled={!dirtyFields.username}
+                    onClick={submitField('username')}
+                  >
                       Save
-                    </Button>  
-                  </FormControl>
-                </FormItem>
+                  </Button>  
+                </FormControl>
               );
             }}
           />

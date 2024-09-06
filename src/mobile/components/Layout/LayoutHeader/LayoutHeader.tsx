@@ -73,7 +73,7 @@ export const LayoutHeader = (props: Props) => {
       gap="2"
       {...restProps}
     >
-      <Box flexShrink="0">{renderedBackButton}{left}</Box>
+      {(renderedBackButton || left) && <Box flexShrink="0">{renderedBackButton}{left}</Box>}
       <Box flexGrow="1">{renderedTitle || children}</Box>
       <Box flexShrink="0">{right}</Box>
     </Box>

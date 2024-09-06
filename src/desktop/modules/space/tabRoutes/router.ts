@@ -2,16 +2,18 @@ import { createRouter } from '@tanstack/react-router';
 
 import { Loader } from 'shared/components/Loader';
 
-import { DefaultErrorComponent } from './DefaultErrorComponent';
-import { DefaultNotFoundComponent } from './DefaultNotFoundComponent';
-import { idx } from './idx';
-import { note } from './note';
-import { root } from './root';
-import { context } from './routerContext';
+import { DefaultErrorComponent } from 'desktop/modules/space/tabRoutes/DefaultErrorComponent';
+import { DefaultNotFoundComponent } from 'desktop/modules/space/tabRoutes/DefaultNotFoundComponent';
+import { idx } from 'desktop/modules/space/tabRoutes/idx';
+import { note } from 'desktop/modules/space/tabRoutes/note';
+import { noteSettings } from 'desktop/modules/space/tabRoutes/noteSettings';
+import { root } from 'desktop/modules/space/tabRoutes/root';
+import { context } from 'desktop/modules/space/tabRoutes/routerContext';
 
 const routeTree = root.addChildren([
   idx, 
   note,
+  noteSettings,
 ]);
 
 const defaultRouterOptions = {

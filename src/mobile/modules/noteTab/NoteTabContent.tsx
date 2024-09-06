@@ -10,28 +10,33 @@ import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcret
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
 import { Posts } from 'shared/modules/noteTab/components/Posts';
+import { noteSettingsSelector, postsSettingsSelector } from 'shared/selectors/entities';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
 type Props = {
-  noteId: number,
+  note: NoteEntity,
   showPosts: boolean,
   isWriteMode: boolean,
   isPrimary?: boolean,
-  hideNote: boolean,
+  isSearchActive: boolean,
   search: string,
 }
 
 export const NoteTabContent = (props: Props) => {
-  const { noteId, showPosts, isWriteMode, isPrimary, search, hideNote } = props;
+  const { note, isWriteMode, isPrimary, search, isSearchActive } = props;
+  const { id: noteId, settingsId, postsSettingsId } = note;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
   const { navigate: browserNavigate } = useBrowserRouter();
+  const settings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
+  const postsSettings = useAppSelector(state => postsSettingsSelector.getById(state, postsSettingsId));
 
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey || isPrimary) {
@@ -60,6 +65,9 @@ export const NoteTabContent = (props: Props) => {
     defaultPostClick(event, post.noteId);
   }, [operation, defaultPostClick, concretePostClick]);
 
+  const showPosts = !!postsSettings;
+  const showNote = (!isSearchActive && settings?.display !== false) || !showPosts;
+  
   return (
     <Container h="full">
       <Stack
@@ -67,7 +75,7 @@ export const NoteTabContent = (props: Props) => {
         pt="3"
         h="full"
       >
-        {!hideNote && (
+        {showNote && (
           <NoteBase
             key={noteId}
             isMobile

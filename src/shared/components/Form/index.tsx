@@ -6,6 +6,9 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormHelperTextProps,
+  FormLabelProps,
+  BoxProps,
+  FormControlProps,
 } from '@chakra-ui/react';
 import { useForm as useFormBase } from 'react-hook-form';
 import {
@@ -25,7 +28,8 @@ type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
-  name: TName
+  name: TName,
+  id: string
 }
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
@@ -38,8 +42,10 @@ const FormField = <
 >({
     ...props
   }: ControllerProps<TFieldValues, TName>) => {
+  const id = React.useId();
+
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={{ name: props.name, id }}>
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
@@ -47,7 +53,6 @@ const FormField = <
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
-  const itemContext = React.useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
@@ -56,11 +61,11 @@ const useFormField = () => {
     throw new Error('useFormField should be used within <FormField>');
   }
 
-  const { id } = itemContext;
+  const { id, name } = fieldContext;
 
   return {
     id,
-    name: fieldContext.name,
+    name,
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
@@ -68,52 +73,27 @@ const useFormField = () => {
   };
 };
 
-type FormItemContextValue = {
-  id: string
-}
+const FormControl: React.FC<React.PropsWithChildren<FormControlProps>> = 
+  React.forwardRef<React.ElementRef<typeof FormLabelBase>, FormControlProps>(({ ...props }, ref) => {
+    const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-);
-
-const FormItem: React.FC<React.PropsWithChildren> = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
->(({ className, ...props }, ref) => {
-  const id = React.useId();
-
-  return (
-    <FormItemContext.Provider value={{ id }}>
-      {props.children}
-    </FormItemContext.Provider>
-  );
-});
-FormItem.displayName = 'FormItem';
-
-const FormControl: React.FC<React.PropsWithChildren> = React.forwardRef<
-  React.ElementRef<typeof FormControlBase>,
-  React.ComponentPropsWithoutRef<typeof FormControlBase>
->(({ ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
-
-  return (
-    <FormControlBase
-      ref={ref}
-      id={formItemId}
-      aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
-      }
-      isInvalid={!!error}
-      {...props}
-    />
-  );
-});
+    return (
+      <FormControlBase
+        ref={ref}
+        id={formItemId}
+        aria-describedby={
+          !error
+            ? `${formDescriptionId}`
+            : `${formDescriptionId} ${formMessageId}`
+        }
+        isInvalid={!!error}
+        {...props}
+      />
+    );
+  });
 FormControl.displayName = 'FormControl';
 
-const FormLabel: React.FC<React.PropsWithChildren> = React.forwardRef<
+const FormLabel: React.FC<React.PropsWithChildren<FormLabelProps>> = React.forwardRef<
   React.ElementRef<typeof FormLabelBase>,
   React.ComponentPropsWithoutRef<typeof FormLabelBase>
 >(({ className, ...props }, ref) => {
@@ -129,7 +109,7 @@ const FormLabel: React.FC<React.PropsWithChildren> = React.forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
-const FormDescription: React.FC<React.PropsWithChildren> = React.forwardRef<
+const FormDescription: React.FC<React.PropsWithChildren<BoxProps>> = React.forwardRef<
   React.ElementRef<typeof FormHelperText>,
   FormHelperTextProps & { visibleOnError?: boolean }
 >(({ className, visibleOnError, ...props }, ref) => {
@@ -232,7 +212,6 @@ const useForm = <FormState extends FieldValues>(props: UseFormProps<FormState>) 
 export {
   useFormField,
   Form,
-  FormItem,
   FormLabel,
   FormControl,
   FormField,

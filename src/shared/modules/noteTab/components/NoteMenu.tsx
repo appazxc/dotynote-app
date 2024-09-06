@@ -1,11 +1,14 @@
 import React from 'react';
 
 import { IconButton } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
+import { entityApi } from 'shared/api/entityApi';
 import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
-import { MenuTrigger, Menu, MenuDivider, MenuItem, MenuList } from 'shared/components/Menu';
+import { MenuTrigger, Menu, MenuDivider, MenuItem, MenuList, MenuSub } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
@@ -23,8 +26,14 @@ type Props = {
 export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => {
   const note = useAppSelector(state => noteSelector.getById(state, noteId));
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { mutateAsync } = useDeleteNote(noteId);
-  
+  const { mutateAsync: createNoteSettings } = useMutation({
+    mutationFn: () => {
+      return entityApi.note.createRelation(noteId, 'settings', {});
+    },
+  });
+
   if (!note) {
     return null;
   }
@@ -40,14 +49,27 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
           icon={isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}
         />
         <MenuList>
-          {note.postsSettingsId && (
-            <MenuItem
-              label="Edit posts settings"
-              onClick={() => {
-                dispatch(showModal({ id: modalIds.editPostsSettings }));
-              }}
-            />
-          )}
+          <MenuSub label="Settings">
+            <MenuList>
+              <MenuItem
+                label="Note"
+                onClick={async () => {
+                  if (!note.settingsId) {
+                    await createNoteSettings();
+                  }
+                  navigate({ to: '/n/$noteId/settings' });
+                }}
+              />
+              {note.postsSettingsId && (
+                <MenuItem
+                  label="Posts"
+                  onClick={() => {
+                    dispatch(showModal({ id: modalIds.editPostsSettings }));
+                  }}
+                />
+              )}
+            </MenuList>
+          </MenuSub>
           <MenuItem
             label="Stick"
             onClick={() => dispatch(startStickOperation({

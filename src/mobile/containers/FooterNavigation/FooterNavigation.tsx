@@ -10,6 +10,7 @@ import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
+import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -26,13 +27,14 @@ export const FooterNavigation = React.memo(() => {
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const noteId = useDotMenuNoteId();
+  const isPrimaryNote = useIsPrimareNote();
   
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }
   );
 
-  const isDotMenuActive = pathname === '/app' || pathname === '/app/primary';
+  const isDotMenuActive = pathname === '/app' || isPrimaryNote;
 
   const buttons = React.useMemo(() => {
     return [
