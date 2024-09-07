@@ -2,12 +2,12 @@ import React from 'react';
 
 import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
-import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
 import { router } from 'mobile/modules/space/tabRoutes/router';
+import { selectPrimaryNoteTab } from 'mobile/selectors/app/selectPrimaryNoteTab';
 
 /**
  * 
@@ -17,7 +17,7 @@ import { router } from 'mobile/modules/space/tabRoutes/router';
 export const useDotMenuNoteId = () => {
   const activeTab = useAppSelector(selectActiveTab);
   const { pathname } = useBrowserLocation();
-  const activeSpace = useAppSelector(selectActiveSpace);
+  const primaryNoteTab = useAppSelector(selectPrimaryNoteTab);
   
   const isAppPage = pathname === '/app';
   const isPrimaryPage = pathname === '/app/primary';
@@ -28,11 +28,11 @@ export const useDotMenuNoteId = () => {
       return null;
     }
 
-    if (isPrimaryPage) {
-      return activeSpace?.mainNoteId || null;
+    let routes = activeTab.routes;
+    if (isPrimaryPage && primaryNoteTab) {
+      routes = primaryNoteTab?.routes;
     }
 
-    const { routes } = activeTab;
     const match = getTabMatch(routes[routes.length - 1], router);
 
     if (!match || match.routeId !== noteRoutePath) {
@@ -40,5 +40,5 @@ export const useDotMenuNoteId = () => {
     }
 
     return Number(match.params.noteId);
-  }, [activeTab, isRightPage, isPrimaryPage, activeSpace]);
+  }, [activeTab, isRightPage, isPrimaryPage, primaryNoteTab]);
 };

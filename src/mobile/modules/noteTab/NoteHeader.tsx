@@ -12,24 +12,25 @@ import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { rwModes } from 'shared/modules/noteTab/constants';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+import { noteSettingsSelector } from 'shared/selectors/entities';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { LayoutHeader } from 'mobile/components/Layout';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
-  noteId: number,
+  note: NoteEntity,
   isPrimary?: boolean,
-  showSearch?: boolean,
   search: string,
-  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onSearchChange: (value: string) => void,
 }
 
 export const NoteHeader = (props: Props) => {
-  const { noteId, isPrimary, showSearch, search, onSearchChange } = props;
+  const { note: { id: noteId, postsSettingsId, settingsId }, isPrimary, search, onSearchChange } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
@@ -39,8 +40,11 @@ export const NoteHeader = (props: Props) => {
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
+  const noteSettings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
   const lastIsSearchActive = React.useRef(isSearchActive);
   const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
+  const showSearch = !!postsSettingsId;
+  const isNoteContentHidden = noteSettings?.display === false;
 
   const renderedBackButton = React.useMemo(() => {
     if (firstPageOfPrimaryNote) {
@@ -76,7 +80,7 @@ export const NoteHeader = (props: Props) => {
   }, [isMutating, showSearch, noteId]);
 
   const renderedRwButton = React.useMemo(() => {
-    if (!showRwMode) {
+    if (!showRwMode || isNoteContentHidden) {
       return null;
     }
 
@@ -85,10 +89,10 @@ export const NoteHeader = (props: Props) => {
         rwMode={rwMode}
       />
     ); 
-  }, [showRwMode, rwMode]);
+  }, [showRwMode, rwMode, isNoteContentHidden]);
 
   const renderedAdvancedEditButton = React.useMemo(() => {
-    if (!showRwMode || rwMode !== rwModes.WRITE) {
+    if (!showRwMode || rwMode !== rwModes.WRITE || isNoteContentHidden) {
       return null;
     }
 
@@ -102,7 +106,7 @@ export const NoteHeader = (props: Props) => {
         onClick={() => dispatch(toggleAdvancedEdit())}
       />
     );
-  }, [dispatch, showRwMode, rwMode, isAdvancedEditActive]);
+  }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentHidden]);
 
   const renderedRightSide = React.useMemo(() => {
     return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedMenu}</HStack>;
@@ -129,20 +133,19 @@ export const NoteHeader = (props: Props) => {
   }, [dispatch, noteId]);
 
   return (
-    <>
+    isSearchActive ? (
+      <NoteHeaderSearch
+        showCancelButton
+        value={search}
+        onChange={onSearchChange}
+      />
+    ) : (
       <LayoutHeader
         left={renderedBackButton}
         right={renderedRightSide}
         pl={firstPageOfPrimaryNote ? '4' : '2'}
         title={title}
       />
-      {isSearchActive && (
-        <NoteHeaderSearch
-          showCancelButton
-          value={search}
-          onChange={onSearchChange}
-        />
-      )}
-    </>
+    )
   );
 };

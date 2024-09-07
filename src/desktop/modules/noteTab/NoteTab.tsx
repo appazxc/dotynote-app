@@ -83,7 +83,7 @@ export const NoteTab = React.memo(() => {
               <NoteHeader
                 isWriteMode={isWriteMode}
                 search={search}
-                onSearchChange={handleSearchChange}
+                onSearchChange={setSearch}
               />
             </Box>    
           </AnimatePresence>  

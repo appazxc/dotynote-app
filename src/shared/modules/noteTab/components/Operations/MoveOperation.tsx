@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Text } from '@chakra-ui/react';
-
+import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMoveNote } from 'shared/api/hooks/useMoveNote';
 import { queryClient } from 'shared/api/queryClient';
@@ -17,53 +16,50 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   const dispatch = useAppDispatch();
   const note = useTabNote();
 
-  const { mutateAsync: move, isPending: isStickPending } = useMoveNote();
+  const { mutateAsync: move, isPending } = useMoveNote();
+  const { mutateAsync: createPostsSettings, isPending: isCreatePostsSettingsPending } = useCreatePostsSettings(note.id);
   
-  const handleMove = React.useCallback(() => {
+  const handleMove = React.useCallback(async () => {
+    if (!note.postsSettingsId) {
+      await createPostsSettings({});
+    }
+
     move({
       postIds,
       parentId: note.id,
-    }, {
-      onSuccess: () => {
-        dispatch(stopOperation());
-        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
+    }).then(() => {
+      dispatch(stopOperation());
+      queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
 
-        if (note.id !== fromNoteId) {
-          queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
-        }
-      },
+      if (note.id !== fromNoteId) {
+        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
+      }
     });
-  }, [dispatch, move, fromNoteId, postIds, note.id]);
+  }, [
+    dispatch,
+    move,
+    fromNoteId,
+    postIds,
+    note.id,
+    note.postsSettingsId,
+    createPostsSettings,
+  ]);
 
-  const options = [
+  const options = note.postsSettingsId ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),
       selected: concretePlace,
     },
-  ];
-
-  if (!note.postsSettingsId) {
-    return (
-      <Operation
-        title={(
-          <Text fontWeight="medium" fontSize="sm">
-            To <Text fontWeight="bold" as="span">move</Text> here you need create posts first
-          </Text>
-        )}
-      />
-    );
-  }
+  ] : undefined;
 
   return (
-    <>
-      <Operation
-        title={concretePlace ? 'Move near' : 'Move'}
-        description={concretePlace ? 'Click on post and select where you want to move' : undefined}
-        options={options}
-        isLoading={isStickPending}
-        onConfirm={concretePlace ? undefined : handleMove}
-      />
-    </>
+    <Operation
+      title={concretePlace ? 'Move near' : 'Move'}
+      description={concretePlace ? 'Click on post and select where you want to move' : undefined}
+      options={options}
+      isLoading={isPending || isCreatePostsSettingsPending}
+      onConfirm={concretePlace ? undefined : handleMove}
+    />
   );
 });

@@ -3,33 +3,43 @@ import React from 'react';
 import { Container, HStack, IconButton, Input } from '@chakra-ui/react';
 import { MdOutlineCancel } from 'react-icons/md';
 
-import { useAppDispatch } from 'shared/store/hooks';
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleSearch } from 'shared/store/slices/appSlice';
 
 type Props = {
   value: string,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange: (value: string) => void,
   showCancelButton?: boolean,
 };
 
 export const NoteHeaderSearch = React.memo(({ value, showCancelButton, onChange }: Props) => {
   const dispatch = useAppDispatch();
+  const isMobile = useAppSelector(selectIsMobile);
   
+  const handleSearch = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  }, [onChange]);
+
   return (
     <Container py="2">
       <HStack gap="2">
         <Input
           placeholder="Search"
           value={value}
-          size="md"
-          onChange={onChange}
+          size={isMobile ? 'sm' : 'md'}
+          onChange={handleSearch}
         />
         {showCancelButton && (
           <IconButton
-            aria-label="fds"
+            aria-label=""
             variant="unstyled"
+            size="sm"
             icon={<MdOutlineCancel size="24" />}
-            onClick={() => dispatch(toggleSearch())}
+            onClick={() => {
+              onChange('');
+              dispatch(toggleSearch());
+            }}
           />
         )}
       </HStack>

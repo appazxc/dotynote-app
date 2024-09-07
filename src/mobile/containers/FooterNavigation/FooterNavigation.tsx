@@ -20,7 +20,6 @@ import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
 import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
 import { HomeMenu } from 'mobile/containers/FooterNavigation/HomeMenu';
 import { useDotMenuNoteId } from 'mobile/hooks/useDotMenuNoteId';
-import { selectPrimaryNoteTab } from 'mobile/selectors/app/selectPrimaryNoteTab';
 
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -30,7 +29,6 @@ export const FooterNavigation = React.memo(() => {
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const noteId = useDotMenuNoteId();
   const isPrimaryNote = useIsPrimareNote();
-  const primaryNoteTab = useAppSelector(selectPrimaryNoteTab);
 
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),

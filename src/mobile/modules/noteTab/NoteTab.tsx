@@ -33,10 +33,6 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
     setSearch('');
   }, [note.id]);
 
-  const handleSearchChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  }, []);
-
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const debouncedSearch = useDebounce(search, 500);
   const isWriteMode = rwMode === rwModes.WRITE;
@@ -62,10 +58,9 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
         header={(
           <NoteHeader
             isPrimary={isPrimary}
-            noteId={note.id}
+            note={note}
             search={search}
-            showSearch={!!note.postsSettingsId}
-            onSearchChange={handleSearchChange}
+            onSearchChange={setSearch}
           />
         )} 
         footer={<NoteFooter isWriteMode={isWriteMode} />}
