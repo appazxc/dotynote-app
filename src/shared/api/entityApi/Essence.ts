@@ -83,12 +83,12 @@ export default class Essense<T extends { id?: string | number }> {
   } : {
       parentId: string | number, 
       relationId: string | number, 
-      data: Partial<R>,
+      data: Partial<T[keyof T]>,
       relation: keyof T,
       relationType: EntityName,
       relationSelector: any,
     }) {
-    const entity: R = relationSelector.getById(this.store.getState(), relationId);
+    const entity: T[keyof T] = relationSelector.getById(this.store.getState(), relationId);
     
     if (!entity || !data) {
       return;
