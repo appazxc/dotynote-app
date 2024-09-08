@@ -22,7 +22,7 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
       display="flex"
       {...boxProps}
     >
-      <EditorBox editor={editor} />
+      <EditorBox editor={editor} spellCheck="false" />
     </Box>
   );
 });
