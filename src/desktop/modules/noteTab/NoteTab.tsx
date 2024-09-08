@@ -64,7 +64,7 @@ export const NoteTab = React.memo(() => {
         scrollRestoration={false}
         leftSide={(
           <NoteSidebar
-            id={note.id}
+            note={note}
             rwMode={rwMode}
             showRwMode={showRwMode}
             showSearch={!!note.postsSettingsId}

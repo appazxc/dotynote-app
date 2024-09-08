@@ -6,8 +6,8 @@ import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
 import { useTabTitle } from 'shared/hooks/useTabTitle';
-import { NoteHeaderSearch } from 'shared/modules/noteTab/components/NoteHeaderSearch';
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
+import { PostsSearch } from 'shared/modules/noteTab/components/PostsSearch';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { rwModes } from 'shared/modules/noteTab/constants';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
@@ -103,6 +103,7 @@ export const NoteHeader = (props: Props) => {
         icon={<FaA />}
         aria-label="Advanced Edit"
         variant={isAdvancedEditActive ? 'solid' : 'ghost'}
+        colorScheme="gray"
         onClick={() => dispatch(toggleAdvancedEdit())}
       />
     );
@@ -134,7 +135,7 @@ export const NoteHeader = (props: Props) => {
 
   return (
     isSearchActive ? (
-      <NoteHeaderSearch
+      <PostsSearch
         showCancelButton
         value={search}
         onChange={onSearchChange}

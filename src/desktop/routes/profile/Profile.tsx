@@ -1,5 +1,3 @@
-
-
 import { ProfileContent } from 'shared/modules/profile/ProfileContent';
 
 import { SettingsLayout } from 'desktop/components/SettingsLayout';

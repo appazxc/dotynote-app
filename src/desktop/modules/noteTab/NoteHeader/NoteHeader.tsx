@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useEditorContext } from 'shared/modules/editor';
-import { NoteHeaderSearch } from 'shared/modules/noteTab/components/NoteHeaderSearch';
+import { PostsSearch } from 'shared/modules/noteTab/components/PostsSearch';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { NoteEditorHeader } from './NoteEditorHeader';
@@ -18,7 +18,7 @@ export const NoteHeader = React.memo(({ isWriteMode, search, onSearchChange }: P
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
 
   if (isSearchActive) {
-    return <NoteHeaderSearch value={search} onChange={onSearchChange} />;
+    return <PostsSearch value={search} onChange={onSearchChange} />;
   }
 
   if (isAdvancedEditActive && isWriteMode) {

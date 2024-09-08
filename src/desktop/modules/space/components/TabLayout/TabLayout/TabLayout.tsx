@@ -24,6 +24,8 @@ export const TabLayout = (props: Props) => {
       w="full"
       h="full"
       display="flex"
+      position="relative"
+      zIndex="0"
     >
       {leftSide || defaultSidebar && (
         <Box h="full" flexShrink="0">

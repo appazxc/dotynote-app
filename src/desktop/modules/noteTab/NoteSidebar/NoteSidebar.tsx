@@ -9,10 +9,12 @@ import { IoSearchSharp } from 'react-icons/io5';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+import { noteSettingsSelector } from 'shared/selectors/entities';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
 
@@ -20,22 +22,25 @@ import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
 
 type Props = {
-  id: number,
+  note: NoteEntity,
   rwMode: RwMode,
   showRwMode: boolean,
   showSearch: boolean,
 }
 
 export const NoteSidebar = React.memo((props: Props) => {
-  const { id, rwMode, showRwMode, showSearch } = props;
+  const { note: { id: noteId, settingsId }, rwMode, showRwMode, showSearch } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId: id }));
-  const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId: id }));
+  const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
+  const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
+  const noteSettings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
+
   const showAddTo = canAddToNote || canAddToPosts;
+  const isNoteContentHidden = noteSettings?.display === false;
 
   React.useEffect(() => {
     lastIsSearchActive.current = isSearchActive;
@@ -45,7 +50,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     if (lastIsSearchActive.current) {
       dispatch(toggleSearch());
     }
-  }, [dispatch, id]);
+  }, [dispatch, noteId]);
 
   const items = React.useMemo(() => {
     return [
@@ -60,14 +65,14 @@ export const NoteSidebar = React.memo((props: Props) => {
         label: 'Add',
         children: (
           <SidebarPlusMenu
-            key={id}
-            noteId={id}
+            key={noteId}
+            noteId={noteId}
             canAddToNote={canAddToNote}
             canAddToPosts={canAddToPosts}
           />
         ),
       }] : [],
-      ...showRwMode ? [{
+      ...showRwMode && !isNoteContentHidden ? [{
         element: (
           <RwButton
             key="NodeRw"
@@ -82,7 +87,7 @@ export const NoteSidebar = React.memo((props: Props) => {
           />
         ),
       }] : [],
-      ...showRwMode && rwMode === rwModes.WRITE ? [{
+      ...showRwMode && rwMode === rwModes.WRITE && !isNoteContentHidden ? [{
         id: 'Advanced edit',
         label: 'Advanced edit',
         icon: <FaA />,
@@ -99,7 +104,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     ];
   }, [
     rwMode,
-    id,
+    noteId,
     showAddTo,
     showSearch,
     canAddToNote,
@@ -110,6 +115,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     showRwMode,
     tab.routes.length,
     isSearchActive,
+    isNoteContentHidden,
   ]);
 
   const renderedItems = React.useMemo(() => {
@@ -139,7 +145,7 @@ export const NoteSidebar = React.memo((props: Props) => {
   }, [items]);
 
   return (
-    <TabSidebar footer={<SidebarFooter id={id} />}>
+    <TabSidebar footer={<SidebarFooter noteId={noteId} />}>
       <Box
         gap="1.5"
         display="flex"

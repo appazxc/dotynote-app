@@ -13,10 +13,10 @@ type Props = {
   showCancelButton?: boolean,
 };
 
-export const NoteHeaderSearch = React.memo(({ value, showCancelButton, onChange }: Props) => {
+export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useAppSelector(selectIsMobile);
-  
+
   const handleSearch = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   }, [onChange]);
@@ -25,6 +25,7 @@ export const NoteHeaderSearch = React.memo(({ value, showCancelButton, onChange 
     <Container py="2">
       <HStack gap="2">
         <Input
+          autoFocus
           placeholder="Search"
           value={value}
           size={isMobile ? 'sm' : 'md'}

@@ -7,9 +7,13 @@ import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
 import { useNoteMutationError } from 'shared/modules/noteTab/hooks/useNoteMutationError';
 
-export const SidebarFooter = ({ id }) => {
-  const isMutating = useIsNoteMutating(id);
-  const error = useNoteMutationError(id);
+type Props = {
+  noteId: number,
+}
+
+export const SidebarFooter = ({ noteId }: Props) => {
+  const isMutating = useIsNoteMutating(noteId);
+  const error = useNoteMutationError(noteId);
   
   const errorTooltip = React.useMemo(() => {
     if (!error) {
@@ -47,8 +51,8 @@ export const SidebarFooter = ({ id }) => {
       return errorTooltip;
     }
 
-    return <NoteMenu noteId={id} />;
-  }, [id, isMutating, errorTooltip]);
+    return <NoteMenu noteId={noteId} />;
+  }, [noteId, isMutating, errorTooltip]);
 
   return (
     <Box

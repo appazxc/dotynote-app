@@ -8,7 +8,6 @@ import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 import { VscColorMode } from 'react-icons/vsc';
 
 import { logout } from 'shared/actions/auth';
-import { openTab } from 'shared/actions/space/openTab';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
@@ -18,7 +17,6 @@ import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
 
 export const MenuHeaderButton = React.memo(() => {
