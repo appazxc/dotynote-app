@@ -10,6 +10,11 @@ export const useEditor = (props: Partial<EditorOptions> = {}) => {
     },
     content: undefined,
     ...props,
+    onCreate: ({ editor }) => {
+      editor.view.dom.setAttribute('spellcheck', 'false');
+      editor.view.dom.setAttribute('autocomplete', 'off');
+      editor.view.dom.setAttribute('autocapitalize', 'off');
+    },
     // onUpdate(props) {
     //   console.log('props.editor.getHTML()', props.editor.getHTML());
 
