@@ -33,6 +33,7 @@ export const NoteInPost = (props: Props) => {
       borderRadius="lg"
       borderColor="gray.200"
       cursor="pointer"
+      userSelect="none"
       {...restProps}
     >
       <Text fontWeight="500">{note.title}</Text>

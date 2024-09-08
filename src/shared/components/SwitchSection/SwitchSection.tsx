@@ -29,9 +29,8 @@ export const SwitchSection = React.memo((props: Props) => {
       display="flex"
       alignItems="center"
       flexDirection="row"
-      py="4"
+      p="4"
       justifyContent="space-between"
-      boxShadow="none"
       gap="2"
     >
       <Box>

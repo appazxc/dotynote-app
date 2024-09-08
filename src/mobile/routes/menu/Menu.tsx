@@ -55,6 +55,7 @@ export const Menu = React.memo(() => {
         size="sm"
         icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
         aria-label=""
+        colorScheme="gray"
         onClick={toggleColorMode}
       />
     );
