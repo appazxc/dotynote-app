@@ -1,8 +1,6 @@
-import { useMediaQuery, useQuery } from "@chakra-ui/react";
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
+import { useAppSelector } from 'shared/store/hooks';
 
 export const useIsMobile = () => {
-  const query = useQuery({ below: 'sm' });
-  const [isMobile] = useMediaQuery(query);
-
-  return isMobile;
+  return useAppSelector(selectIsMobile);
 };

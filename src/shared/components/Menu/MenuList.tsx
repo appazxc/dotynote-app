@@ -2,24 +2,56 @@ import React from 'react';
 
 import { Box, BoxProps, LightMode } from '@chakra-ui/react';
 
-export const MenuList = React.forwardRef<HTMLDivElement, BoxProps>(({ children, ...props }, ref) => {
-  return (
-    <LightMode>
-      <Box
-        ref={ref}
-        boxShadow="md"
-        borderRadius="md"
-        bg="white"
-        display="flex"
-        flexDirection="column"
-        p="1"
-        {...props}
-        onContextMenu={(e) => {
-          e.preventDefault();
-        }}
-      >
-        {children}
-      </Box>
-    </LightMode>
-  );
+type Context = {
+  activeItemId: string | null,
+  setActive: (itemId: string) => void,
+  goBack: () => void,
+}
+
+export const MenuListContext = React.createContext<Context>({
+  activeItemId: null, 
+  setActive: () => {}, 
+  goBack: () => {}, 
 });
+
+export const MenuList = React.memo(React.forwardRef<HTMLDivElement, BoxProps>(({ children, ...props }, ref) => {
+  const [activeList, setActiveList] = React.useState<string[]>([]);
+  const [activeItemId, setActive] = React.useState<Context['activeItemId']>(null);
+
+  const listProps = activeItemId ? {} : {
+    ref,
+    boxShadow:'md',
+    borderRadius:'md',
+    bg:'white',
+    display:'flex',
+    flexDirection:'column',
+    p:'1',
+    ...props,
+    onContextMenu: (e) => {
+      e.preventDefault();
+    },
+  };
+
+  return (
+    <MenuListContext.Provider
+      value={{
+        activeItemId,
+        setActive: (itemId: string) => {
+          setActive(itemId);
+          setActiveList(x => [...x, itemId]);
+        },
+        goBack: () => {
+          const nextActiveItemId = activeList[activeList.length - 2] || null;
+          setActiveList(x => x.slice(0, -1));
+          setActive(nextActiveItemId);
+        },
+      }}
+    >
+      <LightMode>
+        <Box {...listProps}>
+          {children}
+        </Box>
+      </LightMode>
+    </MenuListContext.Provider>
+  );
+}));

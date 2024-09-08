@@ -50,25 +50,23 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
         />
         <MenuList>
           <MenuSub label="Settings">
-            <MenuList>
+            <MenuItem
+              label="Note"
+              onClick={async () => {
+                if (!note.settingsId) {
+                  await createNoteSettings();
+                }
+                navigate({ to: '/n/$noteId/settings' });
+              }}
+            />
+            {note.postsSettingsId && (
               <MenuItem
-                label="Note"
-                onClick={async () => {
-                  if (!note.settingsId) {
-                    await createNoteSettings();
-                  }
-                  navigate({ to: '/n/$noteId/settings' });
+                label="Posts"
+                onClick={() => {
+                  dispatch(showModal({ id: modalIds.editPostsSettings }));
                 }}
               />
-              {note.postsSettingsId && (
-                <MenuItem
-                  label="Posts"
-                  onClick={() => {
-                    dispatch(showModal({ id: modalIds.editPostsSettings }));
-                  }}
-                />
-              )}
-            </MenuList>
+            )}
           </MenuSub>
           <MenuItem
             label="Stick"

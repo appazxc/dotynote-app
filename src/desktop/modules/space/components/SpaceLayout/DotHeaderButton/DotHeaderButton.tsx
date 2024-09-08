@@ -92,37 +92,33 @@ export const DotHeaderButton = () => {
               });
             }}
           >
-            <MenuList>
-              {spaceIds.map((id) => {
-                return <SpaceMenuItem key={id} spaceId={id} />;
-              })}
-            </MenuList>
+            {spaceIds.map((id) => {
+              return <SpaceMenuItem key={id} spaceId={id} />;
+            })}
           </MenuSub>
           <MenuSub label="Primary note">
-            <MenuList>
-              {space.mainNoteId && (
-                <MenuItem
-                  label="Change"
-                  onClick={() => {
-                    dispatch(startPrimaryNoteOperation());
-                  }}
-                />
-              )}
-              {!space.mainNoteId && (
-                <MenuItem
-                  label="Set"
-                  onClick={() => {
-                    dispatch(showModal({ id: modalIds.primaryNote }));
-                  }}
-                />
-              )}
-              <MenuDivider />
+            {space.mainNoteId && (
               <MenuItem
-                label="Remove"
-                colorScheme="red"
-                onClick={handleRemovePrimaryNote}
+                label="Change"
+                onClick={() => {
+                  dispatch(startPrimaryNoteOperation());
+                }}
               />
-            </MenuList>
+            )}
+            {!space.mainNoteId && (
+              <MenuItem
+                label="Set"
+                onClick={() => {
+                  dispatch(showModal({ id: modalIds.primaryNote }));
+                }}
+              />
+            )}
+            <MenuDivider />
+            <MenuItem
+              label="Remove"
+              colorScheme="red"
+              onClick={handleRemovePrimaryNote}
+            />
           </MenuSub>
         </MenuList>
       </Menu>
