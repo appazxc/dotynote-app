@@ -49,8 +49,7 @@ export const EntryMediaSelect = React.memo((props: Props) => {
           <Button
             size="xs"
             variant={isNoteMedia ? 'solid' : 'ghost'}
-            // bg={isNoteMedia ? undefined : 'gray.100'}
-            // colorScheme="brand"
+            colorScheme="gray"
             onClick={() => dispatch(updateAddTo(addTo.NOTE))}
           >
             Note
@@ -61,8 +60,7 @@ export const EntryMediaSelect = React.memo((props: Props) => {
           <Button
             size="xs"
             variant={isNoteMedia ? 'ghost' : 'solid'}
-            // bg={isNoteMedia ? 'gray.100' : undefined}
-            // colorScheme="brand"
+            colorScheme="gray"
             onClick={() => dispatch(updateAddTo(addTo.POSTS))}
           >
             Posts

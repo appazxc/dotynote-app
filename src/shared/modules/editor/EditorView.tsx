@@ -5,7 +5,7 @@ import { JSONContent, generateHTML } from '@tiptap/core';
 
 import { getEditorStyles } from 'shared/theme/styles';
 
-import { keepNParagraphs, removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
+import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
 
 type Props = {
@@ -22,20 +22,23 @@ export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: 
       return '';
     }
 
-    const html = generateHTML(json, extensions);
-    
-    let result = maxLines ? keepNParagraphs(html, maxLines) : html;
+    let result = generateHTML(json, extensions);
     
     if (removeEmptyDivsFromEnd) {
       result = removeEmptyDivsFromEndHelper(result);
     }
     
     return result;
-  }, [json, maxLines, removeEmptyDivsFromEnd]);
+  }, [json, removeEmptyDivsFromEnd]);
 
   const sx = React.useMemo(() => getEditorStyles({ colorMode }), [colorMode]);
 
   return (
-    <Box sx={sx} dangerouslySetInnerHTML={{ __html: content }} />
+    <Box
+      sx={sx}
+      dangerouslySetInnerHTML={{ __html: content }}
+      textOverflow={maxLines ? 'ellipsis' : undefined}
+      noOfLines={maxLines}
+    />
   );
 };
