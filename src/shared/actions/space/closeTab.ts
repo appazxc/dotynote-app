@@ -1,3 +1,5 @@
+import findIndex from 'lodash/findIndex';
+
 import { entityApi } from 'shared/api/entityApi';
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -9,7 +11,7 @@ import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
 
 const getNextActiveTab = (tabs: SpaceTabEntity[], closedTab: SpaceTabEntity): SpaceTabEntity | null => {
-  const index = tabs.indexOf(closedTab);
+  const index = findIndex(tabs, (tab) => tab.id === closedTab.id);
 
   if (index === -1) {
     // log error
@@ -32,7 +34,7 @@ const getNextActiveTabByType = (tabs: SpaceTabEntity[], closedTab: SpaceTabEntit
   const pinned = tabs.filter(({ isPinned }) => isPinned);
   const unpinned = tabs.filter(({ isPinned }) => !isPinned);
   
-  const index = tabs.indexOf(closedTab);
+  const index = findIndex(tabs, (tab) => tab.id === closedTab.id);
   
   if (index === -1) {
     // log error
@@ -70,11 +72,10 @@ export const closeTab = (tabId: string): ThunkAction => async (dispatch, getStat
     return;
   }
 
-  const tabs = activeSpace.tabs;
-  const sortedTabs = selectSortedTabs(getState());
+  const tabs = selectSortedTabs(getState());
 
   if (activeTabId && activeTabId === tabId && tabs.length) {
-    const nextTab = getNextActiveTabByType(sortedTabs, spaceTab);
+    const nextTab = getNextActiveTabByType(tabs, spaceTab);
     dispatch(updateActiveTabId(nextTab?.id || null));
   }
 
