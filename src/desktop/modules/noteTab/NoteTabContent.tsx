@@ -9,7 +9,6 @@ import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcret
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
 import { Posts } from 'shared/modules/noteTab/components/Posts';
-import { noteSettingsSelector, postsSettingsSelector } from 'shared/selectors/entities';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
@@ -27,12 +26,10 @@ type Props = {
 
 export const NoteTabContent = React.memo((props: Props) => {
   const { note, isWriteMode, isSearchActive, search } = props;
-  const { id: noteId, settingsId, postsSettingsId } = note;
+  const { id: noteId, settings, postsSettings } = note;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const operation = useAppSelector(selectOperation);
-  const settings = useAppSelector(state => noteSettingsSelector.getEntityById(state, settingsId));
-  const postsSettings = useAppSelector(state => postsSettingsSelector.getEntityById(state, postsSettingsId));
 
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey) {

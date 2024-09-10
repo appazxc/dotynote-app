@@ -20,7 +20,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
   const { mutateAsync: stick, isPending: isStickPending } = useStickNote();
   
   const handleStick = React.useCallback(async () => {
-    if (!note.postsSettingsId) {
+    if (!note.postsSettings) {
       await createPostsSettings({});
     }
 
@@ -32,11 +32,11 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
       dispatch(stopOperation());
       queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
     });
-  }, [dispatch, stick, createPostsSettings, fromNoteId, noteIds, note.id, note.postsSettingsId]);
+  }, [dispatch, stick, createPostsSettings, fromNoteId, noteIds, note.id, note.postsSettings]);
 
   const isSameNote = note.id == fromNoteId;
   
-  const options = note.postsSettingsId ? [
+  const options = note.postsSettings ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),

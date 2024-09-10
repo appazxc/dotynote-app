@@ -9,7 +9,6 @@ import { IoSearchSharp } from 'react-icons/io5';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
-import { noteSettingsSelector } from 'shared/selectors/entities';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
 import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -29,7 +28,7 @@ type Props = {
 }
 
 export const NoteSidebar = React.memo((props: Props) => {
-  const { note: { id: noteId, settingsId }, rwMode, showRwMode, showSearch } = props;
+  const { note: { id: noteId, settings: noteSettings }, rwMode, showRwMode, showSearch } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
@@ -37,7 +36,6 @@ export const NoteSidebar = React.memo((props: Props) => {
   const lastIsSearchActive = React.useRef(isSearchActive);
   const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
   const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
-  const noteSettings = useAppSelector(state => noteSettingsSelector.getEntityById(state, settingsId));
 
   const showAddTo = canAddToNote || canAddToPosts;
   const isNoteContentHidden = noteSettings?.display === false;

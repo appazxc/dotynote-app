@@ -6,15 +6,14 @@ import { useNavigate } from '@tanstack/react-router';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
-import { entityApi } from 'shared/api/entityApi';
+import { api } from 'shared/api';
 import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
-import { MenuTrigger, Menu, MenuDivider, MenuItem, MenuList, MenuSub } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
-import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
+import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
-import { useAppSelector, useAppDispatch } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startStickOperation, toggleSearch } from 'shared/store/slices/appSlice';
 
 type Props = {
@@ -30,7 +29,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const { mutateAsync } = useDeleteNote(noteId);
   const { mutateAsync: createNoteSettings } = useMutation({
     mutationFn: () => {
-      return entityApi.note.createRelation(noteId, 'settings', {});
+      return api.post<string>(`/notes/${noteId}/settings`, {});
     },
   });
 
@@ -53,13 +52,13 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Note"
               onClick={async () => {
-                if (!note.settingsId) {
+                if (!note.settings) {
                   await createNoteSettings();
                 }
                 navigate({ to: '/n/$noteId/settings' });
               }}
             />
-            {note.postsSettingsId && (
+            {note.postsSettings && (
               <MenuItem
                 label="Posts"
                 onClick={() => {
@@ -88,7 +87,6 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
           />
         </MenuList>
       </Menu>
-      <EditPostsSettingsModal noteId={noteId} />
       <ConfirmModal
         title="This action can't be undone"
         description="Delete this note?"

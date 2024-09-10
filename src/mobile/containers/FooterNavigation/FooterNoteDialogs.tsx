@@ -2,7 +2,6 @@ import React from 'react';
 
 import { queryClient } from 'shared/api/queryClient';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
-import { EditPostsSettingsModal } from 'shared/containers/modals/EditPostsSettingsModal';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
@@ -36,7 +35,6 @@ export const FooterNoteDialogs = React.memo(({ noteId }: Props) => {
         canAddToPosts={canAddToPosts}
         modalsExtraId={extraId}
       />
-      <EditPostsSettingsModal noteId={noteId} extraId={extraId} />
       <CreatePostModal
         noteId={noteId}
         extraId={extraId}

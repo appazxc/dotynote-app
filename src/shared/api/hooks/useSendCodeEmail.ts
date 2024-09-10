@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import api from '..';
+import { api } from '..';
 
 export const useSendCodeEmail = () => {
   return useMutation({

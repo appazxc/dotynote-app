@@ -4,7 +4,7 @@ import { getUser } from 'shared/actions/auth';
 import { useAppDispatch } from 'shared/store/hooks';
 import { setToken } from 'shared/store/slices/authSlice';
 
-import api from '..';
+import { api } from '..';
 
 type AuthData = { code: string } | { token: string };
 type Data = { email: string } & AuthData;

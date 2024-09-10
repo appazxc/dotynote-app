@@ -20,7 +20,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   const { mutateAsync: createPostsSettings, isPending: isCreatePostsSettingsPending } = useCreatePostsSettings(note.id);
   
   const handleMove = React.useCallback(async () => {
-    if (!note.postsSettingsId) {
+    if (!note.postsSettings) {
       await createPostsSettings({});
     }
 
@@ -41,11 +41,11 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     fromNoteId,
     postIds,
     note.id,
-    note.postsSettingsId,
+    note.postsSettings,
     createPostsSettings,
   ]);
 
-  const options = note.postsSettingsId ? [
+  const options = note.postsSettings ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),

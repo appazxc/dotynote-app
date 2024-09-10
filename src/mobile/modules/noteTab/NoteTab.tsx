@@ -68,7 +68,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
         <NoteTabContent
           note={note}
           isWriteMode={isWriteMode}
-          showPosts={!!note.postsSettingsId}
+          showPosts={!!note.postsSettings}
           search={debouncedSearch}
           isSearchActive={isSearchActive}
         />

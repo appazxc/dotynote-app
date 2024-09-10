@@ -6,4 +6,4 @@ function createApi() {
   return api;
 }
 
-export default createApi();
+export const api = createApi();

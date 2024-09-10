@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { SlNotebook } from 'react-icons/sl';
 
 import { entityApi } from 'shared/api/entityApi';
+import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { modalIds } from 'shared/constants/modalIds';
 import { EntryMediaCards } from 'shared/modules/entry/EntryMediaCards';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -24,20 +25,16 @@ export const EntryPostsMedia = React.memo((props: Props) => {
   const { note, createPostModalExtraId, onFinish } = props;
   const dispatch = useAppDispatch();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: (postsSettings: Partial<PostsSettingsEntity>) => {
-      return entityApi.note.createRelation(note.id, 'postsSettings', postsSettings);
-    },
-  });
+  const { mutateAsync } = useCreatePostsSettings(note.id);
 
   const withPostsSettingsCreate = React.useCallback((cb) => async () => {
     onFinish();
 
-    if (!note.postsSettingsId) {
+    if (!note.postsSettings) {
       await mutateAsync({});
     }
     await cb();
-  }, [mutateAsync, onFinish, note.postsSettingsId]);
+  }, [mutateAsync, onFinish, note.postsSettings]);
 
   const renderedCards = React.useMemo(() => {
     const items = [

@@ -63,7 +63,7 @@ export const NoteTab = React.memo(() => {
             note={note}
             rwMode={rwMode}
             showRwMode={showRwMode}
-            showSearch={!!note.postsSettingsId}
+            showSearch={!!note.postsSettings}
           />
         )}
         header={(

@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 
 import { useUpdateNoteSettings } from 'shared/api/hooks/useUpdateNoteSettings';
 import { SwitchSection } from 'shared/components/SwitchSection';
-import { noteSelector, noteSettingsSelector } from 'shared/selectors/entities';
+import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
@@ -14,11 +14,10 @@ type Props = {
 
 export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
-  const noteSettings = useAppSelector(state => noteSettingsSelector.getEntityById(state, note?.settingsId));
 
-  invariant(noteSettings, 'Missing noteSettings');
+  invariant(note?.settings, 'Missing noteSettings');
 
-  const { mutate } = useUpdateNoteSettings(noteId, noteSettings.id);
+  const { mutate } = useUpdateNoteSettings(noteId, note.settings.id);
 
   const handleDisplayChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -32,7 +31,7 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
       <SwitchSection
         label="Display"
         description="Show or hide content of the note. Will be visible only posts"
-        isChecked={noteSettings.display}
+        isChecked={note.settings.display}
         onChange={handleDisplayChange}
       />
     </Box>
