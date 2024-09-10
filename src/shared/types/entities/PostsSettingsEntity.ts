@@ -1,8 +1,10 @@
 import { BaseEntity } from './BaseEntity';
 
-export type PostsSettingsEntity = BaseEntity<{
+export type ApiPostsSettingsEntity = BaseEntity<{
   display: boolean,
-  comments: boolean,
-  stickType: 'simple' | 'multi' | 'auto' | 'gpt',
-  stickFrom: string[],
+  // comments: boolean,
+  // stickType: 'simple' | 'multi' | 'auto' | 'gpt',
+  // stickFrom: string[],
 }>
+
+export type PostsSettingsEntity = ApiPostsSettingsEntity

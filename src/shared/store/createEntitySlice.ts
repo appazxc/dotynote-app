@@ -2,18 +2,18 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
-import { EntityTypes } from 'shared/types/entities/entityTypes';
+import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
   [name in EntityName]: {
-    [key: string]: EntityTypes[name] | void
+    [key: string]: ApiEntityTypes[name] | void
   }
 }
 
 type UpdateEntityPayload<T extends EntityName> = { 
   type: T, 
   id: string | number, 
-  data: Partial<EntityTypes[T]>
+  data: Partial<ApiEntityTypes[T]>
 }
 
 const initialState = Object.keys(entityNames).reduce((acc, name) => {
@@ -29,7 +29,7 @@ const createEntitySlice = (entityName) => {
       builder
         .addCase(addEntity, (state, action) => {
           // action is inferred correctly here if using TS
-        })
+        });
     },
     reducers: {
       addEntity: (state, { payload }: PayloadAction<{ entityName: EntityName, data: any }>) => {
@@ -103,7 +103,7 @@ const createEntitySlice = (entityName) => {
       },
     },
   });
-}
+};
 export const entitiesSlice = createSlice({
   name: 'entities',
   initialState,

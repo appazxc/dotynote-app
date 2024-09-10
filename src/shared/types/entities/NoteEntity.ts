@@ -1,10 +1,9 @@
 import { JSONContent } from '@tiptap/core';
 
 import { BaseEntity } from 'shared/types/entities/BaseEntity';
+import { MergeEntity } from 'shared/types/entities/MergeEntity';
 import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
-
-type MergeEntity<T, K> = Omit<T, keyof K> & K;
 
 export type ApiNoteEntity = BaseEntity<{
   title?: string,

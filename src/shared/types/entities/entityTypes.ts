@@ -1,13 +1,26 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
-import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
-import { UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
+import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
+import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
+import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
-import { NoteEntity } from './NoteEntity';
-import { PostEntity } from './PostEntity';
-import { PostsSettingsEntity } from './PostsSettingsEntity';
-import { SpaceEntity } from './SpaceEntity';
-import { SpaceTabEntity } from './SpaceTabEntity';
-import { UserEntity } from './UserEntity';
+import { ApiPostEntity, PostEntity } from './PostEntity';
+import { ApiPostsSettingsEntity, PostsSettingsEntity } from './PostsSettingsEntity';
+import { ApiSpaceEntity, SpaceEntity } from './SpaceEntity';
+import { ApiSpaceTabEntity, SpaceTabEntity } from './SpaceTabEntity';
+import { ApiUserEntity, UserEntity } from './UserEntity';
+
+export type ApiEntityTypes = {
+  [entityNames.user]: ApiUserEntity,
+  [entityNames.space]: ApiSpaceEntity,
+  [entityNames.spaceTab]: ApiSpaceTabEntity,
+  [entityNames.note]: ApiNoteEntity,
+  [entityNames.post]: ApiPostEntity,
+  [entityNames.postsSettings]: ApiPostsSettingsEntity,
+  [entityNames.noteSettings]: ApiNoteSettingsEntity,
+  [entityNames.userSettings]: ApiUserSettingsEntity,
+}
+
+export type ApiEntity = ApiEntityTypes[EntityName]
 
 export type EntityTypes = {
   [entityNames.user]: UserEntity,
@@ -19,5 +32,3 @@ export type EntityTypes = {
   [entityNames.noteSettings]: NoteSettingsEntity,
   [entityNames.userSettings]: UserSettingsEntity,
 }
-
-export type Entity = EntityTypes[EntityName]

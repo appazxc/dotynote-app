@@ -22,8 +22,9 @@ type Props = {
 }
 
 export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
-  const post = useAppSelector(state => postSelector.getEntityById(state, postId));
-  const note = useAppSelector(state => noteSelector.getEntityById(state, post?.noteId));
+  console.log('post', postId);
+  const post = useAppSelector(state => postSelector.getById(state, postId));
+  const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
   const dispatch = useAppDispatch();
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');

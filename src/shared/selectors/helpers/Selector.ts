@@ -6,8 +6,9 @@ import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { spaceSchema } from 'shared/schemas/space.schema';
 import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
 import { userSchema } from 'shared/schemas/user.schema';
+import { userSettingsSchema } from 'shared/schemas/userSettings.schema';
 import { makeGetById } from 'shared/selectors/helpers/makeGetBy';
-import { Entity } from 'shared/types/entities/entityTypes';
+import { ApiEntityTypes, EntityTypes } from 'shared/types/entities/entityTypes';
 import { AppState } from 'shared/types/store';
 
 import { makeGetEntityById } from './makeGetById';
@@ -21,15 +22,16 @@ const schemaMap = {
   [entityNames.space]: spaceSchema,
   [entityNames.spaceTab]: spaceTabSchema,
   [entityNames.user]: userSchema,
+  [entityNames.userSettings]: userSettingsSchema,
 };
 
-export default class Selector<T extends Entity> {
-  getEntitiesById: (state: AppState, ids?: string[]) => T[];
-  getEntityById: (state: AppState, id?: string | number | null) => T | null;
-  getById: (state: AppState, id?: string | number | null) => T | null;
-  makeGetEntityById: () => (state: AppState, id?: string | number | null) => T | null;
+export default class Selector<T extends EntityName> {
+  getEntitiesById: (state: AppState, ids?: string[]) => EntityTypes[T][];
+  getEntityById: (state: AppState, id?: string | number | null) => EntityTypes[T] | null;
+  getById: (state: AppState, id?: string | number | null) => ApiEntityTypes[T] | null;
+  makeGetEntityById: () => (state: AppState, id?: string | number | null) => EntityTypes[T] | null;
 
-  constructor(entityName: EntityName) {
+  constructor(entityName: T) {
     this.getById = makeGetById(entityName);
     this.getEntityById = makeGetEntityById(schemaMap[entityName]);
     this.getEntitiesById = makeGetEntitiesById(schemaMap[entityName]);
