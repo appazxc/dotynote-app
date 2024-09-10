@@ -14,7 +14,7 @@ import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
@@ -47,19 +47,19 @@ export const NoteTabContent = (props: Props) => {
     }
   }, [navigate, browserNavigate, isPrimary, dispatch]);
   
-  const concretePostClick = React.useCallback((post: PostEntity) => {
+  const concretePostClick = React.useCallback((post: ApiPostEntity) => {
     dispatch(updateOperationConcretePost(post.id));
     dispatch(showModal({ id: modalIds.selectConcretePlace }));
   }, [dispatch]);
 
-  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
+  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => {
     event.preventDefault();
     if ('concretePlace' in operation && operation.concretePlace) {
       concretePostClick(post);
       return;
     }
     
-    defaultPostClick(event, post.noteId);
+    defaultPostClick(event, post.note);
   }, [operation, defaultPostClick, concretePostClick]);
 
   const showPosts = !!postsSettings;

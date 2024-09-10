@@ -8,7 +8,7 @@ import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/use
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
 import { Post } from '../Post';
 
@@ -18,7 +18,7 @@ const ROOT_MARGIN = '400px';
 
 type Props = {
   noteId: number,
-  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
+  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
   scrollRestoration?: boolean,
   search: string,
 }

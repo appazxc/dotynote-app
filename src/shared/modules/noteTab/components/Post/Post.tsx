@@ -8,23 +8,25 @@ import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/compo
 import { NoteInPost } from 'shared/components/NoteInPost';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { showModal, hideModal } from 'shared/modules/modal/modalSlice';
+import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startStickOperation } from 'shared/store/slices/appSlice';
-import { PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
   postId: string,
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
   onDelete: () => void,
 }
 
 export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
   console.log('post', postId);
-  const post = useAppSelector(state => postSelector.getById(state, postId));
-  const note = useAppSelector(state => noteSelector.getById(state, post?.noteId));
+  const getByIdPost = React.useMemo(() => postSelector.makeGetById(), []);
+  const getByIdNote = React.useMemo(() => noteSelector.makeGetById(), []);
+  const post = useAppSelector(state => getByIdPost(state, postId));
+  const note = useAppSelector(state => getByIdNote(state, post?.note));
   const dispatch = useAppDispatch();
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
@@ -58,7 +60,7 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           <MenuItem
             label="Stick"
             onClick={() => dispatch(startStickOperation({
-              fromNoteId: post.parentId,
+              fromNoteId: post.parent,
               noteIds: [note.id],
             }))}
           />
@@ -66,7 +68,7 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           <MenuItem
             label="Move"
             onClick={() => dispatch(startMoveOperation({
-              fromNoteId: post.parentId,
+              fromNoteId: post.parent,
               postIds: [post.id],
             }))}
           />

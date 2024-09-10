@@ -30,11 +30,13 @@ export default class Selector<T extends EntityName> {
   getEntityById: (state: AppState, id?: string | number | null) => EntityTypes[T] | null;
   getById: (state: AppState, id?: string | number | null) => ApiEntityTypes[T] | null;
   makeGetEntityById: () => (state: AppState, id?: string | number | null) => EntityTypes[T] | null;
+  makeGetById: () => (state: AppState, id?: string | number | null) => ApiEntityTypes[T] | null;
 
   constructor(entityName: T) {
     this.getById = makeGetById(entityName);
     this.getEntityById = makeGetEntityById(schemaMap[entityName]);
     this.getEntitiesById = makeGetEntitiesById(schemaMap[entityName]);
     this.makeGetEntityById = () => makeGetEntityById(schemaMap[entityName]);
+    this.makeGetById = () => makeGetById(entityName);
   }
 }
