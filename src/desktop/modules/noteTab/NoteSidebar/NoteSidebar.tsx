@@ -37,7 +37,7 @@ export const NoteSidebar = React.memo((props: Props) => {
   const lastIsSearchActive = React.useRef(isSearchActive);
   const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
   const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
-  const noteSettings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
+  const noteSettings = useAppSelector(state => noteSettingsSelector.getEntityById(state, settingsId));
 
   const showAddTo = canAddToNote || canAddToPosts;
   const isNoteContentHidden = noteSettings?.display === false;

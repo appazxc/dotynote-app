@@ -62,7 +62,7 @@ const getNextActiveTabByType = (tabs: SpaceTabEntity[], closedTab: SpaceTabEntit
 };
 
 export const closeTab = (tabId: string): ThunkAction => async (dispatch, getState) => {
-  const spaceTab = spaceTabSelector.getById(getState(), tabId);
+  const spaceTab = spaceTabSelector.getEntityById(getState(), tabId);
   const activeTabId = selectActiveTabId(getState());
   const activeSpace = selectActiveSpace(getState());
       

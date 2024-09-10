@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => {
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { mutateAsync } = useDeleteNote(noteId);

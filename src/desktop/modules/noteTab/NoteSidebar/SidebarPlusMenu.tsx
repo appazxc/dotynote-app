@@ -31,7 +31,7 @@ type Props = {
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const noteTabId = useNoteTabId();
   
   const handlePostCreate = React.useCallback(() => {

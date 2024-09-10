@@ -40,7 +40,7 @@ export const NoteHeader = (props: Props) => {
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
-  const noteSettings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
+  const noteSettings = useAppSelector(state => noteSettingsSelector.getEntityById(state, settingsId));
   const lastIsSearchActive = React.useRef(isSearchActive);
   const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
   const showSearch = !!postsSettingsId;

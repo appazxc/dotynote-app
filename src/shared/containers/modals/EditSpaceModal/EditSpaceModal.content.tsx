@@ -19,7 +19,7 @@ export type Props = {
 const EditSpaceModal = ({ id }: Props) => {
   const dispatch = useAppDispatch();
   const { mutateAsync } = useUpdateSpace(id);
-  const space = useAppSelector(state => spaceSelector.getById(state, id));
+  const space = useAppSelector(state => spaceSelector.getEntityById(state, id));
   
   invariant(space, 'Missing spaceId');
 
@@ -45,10 +45,10 @@ const EditSpaceModal = ({ id }: Props) => {
     >
       <ModalOverlay />
       <SpaceModalForm
-        onSubmit={onSubmit}
         title="Edit space"
         submitText="Save"
         defaultValues={defaultValues}
+        onSubmit={onSubmit}
       />
     </Modal>
   );

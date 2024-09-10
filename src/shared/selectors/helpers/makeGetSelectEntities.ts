@@ -3,7 +3,7 @@ import { denormalize, Schema } from 'normalizr';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 
-export const makeGetSelectEntities = (schema: Schema) => {
+export const makeGetEntitiesById = (schema: Schema) => {
   return createSelector(
     [
       state => state.entities,

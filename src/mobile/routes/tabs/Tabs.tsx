@@ -26,7 +26,7 @@ import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
-  const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, id));
+  const spaceTab = useAppSelector(state => spaceTabSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const bg = useColorModeValue(isActive ? 'gray.300' : 'gray.100', isActive ? 'whiteAlpha.300' : 'whiteAlpha.100');

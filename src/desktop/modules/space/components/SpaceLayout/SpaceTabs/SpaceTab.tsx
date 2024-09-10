@@ -42,7 +42,7 @@ type Props = {
 export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const dispatch = useAppDispatch();
   const mousePosition = React.useRef({ x: null, y: null });
-  const getById = React.useMemo(() => spaceTabSelector.makeGetById(), []);
+  const getById = React.useMemo(() => spaceTabSelector.makeGetEntityById(), []);
   const spaceTab = useAppSelector(state => getById(state, id));
 
   invariant(spaceTab, 'Missing space tab');

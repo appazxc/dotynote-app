@@ -27,7 +27,7 @@ const transformToEntities = (keys, entitiesList) => {
   }, {});
 };
 
-export const makeGetById = (schema) => {
+export const makeGetEntityById = (schema) => {
   const keys = getEntitiesKeys(schema);
 
   return createSelector([

@@ -12,7 +12,7 @@ export const reorderTabs = (newOrderTabIds: string[], isPinned: boolean) => asyn
   }
     
   const sortedTabs = selectSortedTabs(getState()).filter((tab) => tab.isPinned === isPinned);
-  const newOrderTabs = spaceTabSelector.getByIds(getState(), newOrderTabIds);
+  const newOrderTabs = spaceTabSelector.getEntitiesById(getState(), newOrderTabIds);
 
   let first: SpaceTabEntity | null = null;
   let updated: SpaceTabEntity | null = null;

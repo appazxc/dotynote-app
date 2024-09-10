@@ -23,7 +23,7 @@ import { NoteTabContent } from './NoteTabContent';
 
 export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
-  const note = useAppSelector(state => noteSelector.getById(state, Number(noteId)));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, Number(noteId)));
   const userId = useAppSelector(selectUserId);
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);

@@ -6,7 +6,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 export const NoteItem = ({ id, onClick }) => {
-  const note = useAppSelector(state => noteSelector.getById(state, id));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, id));
 
   invariant(note, 'Missing note');
   

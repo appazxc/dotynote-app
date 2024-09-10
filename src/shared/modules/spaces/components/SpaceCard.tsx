@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const SpaceCard = React.memo(({ id, isActive }: Props) => {
-  const space = useAppSelector(state => spaceSelector.getById(state, id));
+  const space = useAppSelector(state => spaceSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   

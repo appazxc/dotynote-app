@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const SpaceMenuItem = React.memo(({ spaceId }: Props) => {
-  const space = useAppSelector(state => spaceSelector.getById(state, spaceId));
+  const space = useAppSelector(state => spaceSelector.getEntityById(state, spaceId));
   const dispatch = useAppDispatch();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const isActive = activeSpaceId === spaceId;

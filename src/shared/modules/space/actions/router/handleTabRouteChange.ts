@@ -6,7 +6,7 @@ import { ThunkAction } from 'shared/types/store';
 
 export const handleTabRouteChange = (tabId: string, action: string, location: HistoryLocation): ThunkAction =>
   (dispatch, getState) => {
-    const tab = spaceTabSelector.getById(getState(), tabId);
+    const tab = spaceTabSelector.getEntityById(getState(), tabId);
 
     if (!tab) return;
     

@@ -20,7 +20,7 @@ type Props = {
 
 export const NoteBase = (props: Props) => {
   const { id, isWriteMode, isMobile } = props;
-  const note = useAppSelector(state => noteSelector.getById(state, id));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, id));
 
   invariant(note, 'Missing note');
 

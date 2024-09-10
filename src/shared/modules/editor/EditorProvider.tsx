@@ -17,7 +17,7 @@ type Props = React.PropsWithChildren<{
 
 export const EditorProvider = ({ id, children }: Props) => {
   const { mutate } = useUpdateNote(id);
-  const note = useAppSelector(state => noteSelector.getById(state, id));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, id));
 
   invariant(note, 'Missing note');
 

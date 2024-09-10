@@ -13,7 +13,7 @@ export const PrimaryNote = React.memo(() => {
   const dispatch = useAppDispatch();
   const space = useAppSelector(selectActiveSpace);
   const tabId = useAppSelector(selectPrimaryNoteTabId);
-  const tab = useAppSelector(state => spaceTabSelector.getById(state, tabId));
+  const tab = useAppSelector(state => spaceTabSelector.getEntityById(state, tabId));
 
   invariant(space, 'Missing space');
 

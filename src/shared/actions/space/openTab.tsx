@@ -65,7 +65,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
           const spaceTabId = await entityApi.spaceTab.create(spaceTabEntity);
 
-          const mayByChangedSpaceTab = spaceTabSelector.getById(getState(), fakeId);
+          const mayByChangedSpaceTab = spaceTabSelector.getEntityById(getState(), fakeId);
 
           if (!mayByChangedSpaceTab) {
             entityApi.spaceTab.delete(spaceTabId);

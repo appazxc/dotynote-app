@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { AppState } from 'shared/types/store';
 
-export const makeGetBy = (entityName) => {
+export const makeGetById = (entityName) => {
   return createSelector([
     (state: AppState) => {
       return state.entities[entityName];

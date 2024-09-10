@@ -19,7 +19,7 @@ export const EntryMediaContent = React.memo((props: Props) => {
   const { noteId, onFinish, createPostModalExtraId, editPostsSettingsModalExtraId } = props;
   const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
   const isNoteContent = addToState === addTo.NOTE;
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 
   invariant(note, 'Missing note');
 

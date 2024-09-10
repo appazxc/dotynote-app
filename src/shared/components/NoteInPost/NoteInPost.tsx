@@ -12,7 +12,7 @@ type Props = {
 export const NoteInPost = (props: Props) => {
   const { noteId, ...restProps } = props;
 
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   
   invariant(note, 'Missing note');
 

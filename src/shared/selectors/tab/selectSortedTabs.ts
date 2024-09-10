@@ -9,7 +9,7 @@ import { AppState } from 'shared/types/store';
 
 export const selectSortedTabs = createSelector(
   [
-    state => spaceSelector.getBy(state, state.app.activeSpaceId)?.tabs || EMPTY_ARRAY, 
+    state => spaceSelector.getById(state, state.app.activeSpaceId)?.tabs || EMPTY_ARRAY, 
     (state: AppState) => state.entities.spaceTab,
   ],
   (tabIds, spaceTab): SpaceTabEntity[] => {

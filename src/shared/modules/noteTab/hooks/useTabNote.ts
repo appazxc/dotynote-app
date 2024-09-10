@@ -5,7 +5,7 @@ import { invariant } from 'shared/util/invariant';
 
 export const useTabNote = () => {
   const noteId = useNoteContext();
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 
   invariant(note, 'Missing note in useTabNote');
   

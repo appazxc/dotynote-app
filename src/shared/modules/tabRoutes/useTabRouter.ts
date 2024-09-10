@@ -39,7 +39,7 @@ type CreateTabRouter = (history: RouterHistory) => AnyRouter;
 
 export const useTabRouter = (spaceTabId: string, createTabRouter: CreateTabRouter): AnyRouter => {
   const dispatch = useAppDispatch();
-  const spaceTab = useAppSelector(state => spaceTabSelector.getById(state, spaceTabId));
+  const spaceTab = useAppSelector(state => spaceTabSelector.getEntityById(state, spaceTabId));
 
   invariant(spaceTab, 'Missing spaceTab');
 

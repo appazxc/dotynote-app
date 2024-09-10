@@ -6,7 +6,7 @@ import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { noteSelector } from '../entities';
 
 export const selectCanAddToNote = createSelector([
-  (state, { noteId }) => noteSelector.getById(state, noteId),
+  (state, { noteId }) => noteSelector.getEntityById(state, noteId),
   selectUserId,
 ], 
 (note, userId) => {

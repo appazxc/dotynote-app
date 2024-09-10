@@ -12,7 +12,7 @@ export class NoteEssence extends Essense<NoteEntity> {
   async loadTabNotes(spaceId: string | undefined, router, noteRoutePath) {
 
     const state = this.store.getState();
-    const space = spaceSelector.getById(state, spaceId);
+    const space = spaceSelector.getEntityById(state, spaceId);
 
     if (!space) {
       return [];
@@ -20,7 +20,7 @@ export class NoteEssence extends Essense<NoteEntity> {
 
     const noteIds = union(space.tabs
       .map(({ id }) => {
-        const spaceTab = spaceTabSelector.getById(state, id);
+        const spaceTab = spaceTabSelector.getEntityById(state, id);
 
         if (!spaceTab || !spaceTab.routes.length) {
           return false;

@@ -31,8 +31,8 @@ export type Props = ModalBase<{
 
 const EditPostSettingsModal = ({ noteId, isOpen = true }: Props) => {
   const dispatch = useAppDispatch();
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
-  const postsSettings = useAppSelector(state => postsSettingsSelector.getById(state, note?.postsSettingsId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const postsSettings = useAppSelector(state => postsSettingsSelector.getEntityById(state, note?.postsSettingsId));
   const isMobile = useAppSelector(selectIsMobile);
 
   invariant(postsSettings, 'Missing postsSettings');

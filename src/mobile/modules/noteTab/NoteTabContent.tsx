@@ -35,8 +35,8 @@ export const NoteTabContent = (props: Props) => {
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
   const { navigate: browserNavigate } = useBrowserRouter();
-  const settings = useAppSelector(state => noteSettingsSelector.getById(state, settingsId));
-  const postsSettings = useAppSelector(state => postsSettingsSelector.getById(state, postsSettingsId));
+  const settings = useAppSelector(state => noteSettingsSelector.getEntityById(state, settingsId));
+  const postsSettings = useAppSelector(state => postsSettingsSelector.getEntityById(state, postsSettingsId));
 
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey || isPrimary) {

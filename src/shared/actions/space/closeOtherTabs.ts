@@ -8,7 +8,7 @@ import { ThunkAction } from 'shared/types/store';
 export const closeOtherTabs =
   (tabId: string): ThunkAction =>
     async (dispatch, getState) => {
-      const spaceTab = spaceTabSelector.getById(getState(), tabId);
+      const spaceTab = spaceTabSelector.getEntityById(getState(), tabId);
       const activeTabId = selectActiveTabId(getState());
       const activeSpace = selectActiveSpace(getState());
 

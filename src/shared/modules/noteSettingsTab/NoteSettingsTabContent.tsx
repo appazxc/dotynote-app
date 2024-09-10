@@ -13,8 +13,8 @@ type Props = {
 };
 
 export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
-  const noteSettings = useAppSelector(state => noteSettingsSelector.getById(state, note?.settingsId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const noteSettings = useAppSelector(state => noteSettingsSelector.getEntityById(state, note?.settingsId));
 
   invariant(noteSettings, 'Missing noteSettings');
 

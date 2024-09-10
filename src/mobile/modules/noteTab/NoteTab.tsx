@@ -22,7 +22,7 @@ type Props = {
 }
 
 export const NoteTab = React.memo(({ noteId }: Props) => {
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
   const isPrimary = useIsPrimareNote();
