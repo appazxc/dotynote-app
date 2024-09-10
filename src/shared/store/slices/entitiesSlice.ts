@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
@@ -48,7 +48,7 @@ export const entitiesSlice = createSlice({
       }
     },
     addEntities: (state, { payload }: PayloadAction<Entities>) => {
-      Object.keys(payload).forEach(entityName => {
+      Object.keys(payload).forEach((entityName) => {
         Object.keys(payload[entityName]).forEach(entityId => {
           if (!state[entityName]) {
             state[entityName] = {};
@@ -62,29 +62,18 @@ export const entitiesSlice = createSlice({
             return;
           }
 
-          if (!isEqual(oldEntity, newEntity)) {
-            // TODO console.log('update', Object.keys(oldEntity), newEntity);
-            state[entityName][entityId] = {
-              ...oldEntity,
-              ...newEntity,
-            };
-          }
+          updateEntityLogic(state, {
+            type: 'entities/updateEntity',
+            payload: { id: entityId, type: entityName as EntityName, data: newEntity },
+          });
         });
       });
     },
     updateEntity: <T extends EntityName>(
       state, 
-      { payload }: PayloadAction<UpdateEntityPayload<T>>
+      action: PayloadAction<UpdateEntityPayload<T>>
     ) => {
-      const { id, type, data } = payload;
-
-      if (state[type][id]) {
-        for (const [key, value] of Object.entries(data)) {
-          if (state[type][id][key] !== value) {
-            state[type][id][key] = value;
-          }
-        }
-      }
+      updateEntityLogic(state, action);
     },
     deleteEntity: (
       state, 
@@ -96,6 +85,21 @@ export const entitiesSlice = createSlice({
     },
   },
 });
+
+type UpdateEntityLogic<T extends EntityName = EntityName> = 
+  CaseReducer<Entities, PayloadAction<UpdateEntityPayload<T>>>;
+
+const updateEntityLogic: UpdateEntityLogic = (state, { payload }) => {
+  const { id, type, data } = payload;
+
+  if (state[type][id]) {
+    for (const [key, value] of Object.entries(data)) {
+      if (!isEqual(state[type][id][key], value)) {
+        state[type][id][key] = value;
+      }
+    }
+  }
+};
 
 export const { addEntities, updateEntity, addEntity, deleteEntity } = entitiesSlice.actions;
 

@@ -22,7 +22,6 @@ type Props = {
 }
 
 export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
-  console.log('post', postId);
   const getByIdPost = React.useMemo(() => postSelector.makeGetById(), []);
   const getByIdNote = React.useMemo(() => noteSelector.makeGetById(), []);
   const post = useAppSelector(state => getByIdPost(state, postId));
