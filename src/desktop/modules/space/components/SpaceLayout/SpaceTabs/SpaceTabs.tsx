@@ -23,9 +23,9 @@ export const SpaceTabs = React.memo(() => {
     dispatch(reorderTabs(data, false));
   }, [dispatch]);
   
-  const pinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => isPinned), [tabs]);
-  const unpinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => !isPinned), [tabs]);
-  console.log('tabs', tabs);
+  const pinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => isPinned).map(({ id }) => id), [tabs]);
+  const unpinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => !isPinned).map(({ id }) => id), [tabs]);
+
   return (
     <LayoutGroup>
       <Box 
@@ -44,10 +44,10 @@ export const SpaceTabs = React.memo(() => {
           values={pinnedTabs}
           onReorder={handleReorderPinnedTabs}
         >
-          {pinnedTabs?.map((tab, index) => (
+          {pinnedTabs?.map((id, index) => (
             <SpaceTab
-              key={tab.id}
-              id={tab.id}
+              key={id}
+              id={id}
               isLast={pinnedTabs.length === index + 1 && unpinnedTabs?.length === 0}
             />
           ))}
@@ -63,10 +63,10 @@ export const SpaceTabs = React.memo(() => {
           values={unpinnedTabs}
           onReorder={handleReorderUnpinnedTabs}
         >
-          {unpinnedTabs?.map((tab, index) => (
+          {unpinnedTabs?.map((id, index) => (
             <SpaceTab
-              key={tab.id}
-              id={tab.id}
+              key={id}
+              id={id}
               isLast={unpinnedTabs.length === index + 1}
             />
           ))}

@@ -80,7 +80,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
       <MenuTrigger
         layout
         as={ReorderItemBox}
-        value={spaceTab}
+        value={id}
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
         minW={isActive || isPinned ? '7' : '3'}
