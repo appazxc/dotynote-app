@@ -17,8 +17,8 @@ export const closeRightTabs =
         return;
       }
 
-      const tabIds = activeSpace.tabs;
-      const sortedTabs = selectSortedTabs(getState(), { ids: tabIds }).map(({ id }) => id);
+      const tabs = activeSpace.tabs;
+      const sortedTabs = selectSortedTabs(getState()).map(({ id }) => id);
 
       const targetTabIndex = sortedTabs.indexOf(tabId);
       const closingTabIds = sortedTabs.slice(targetTabIndex + 1);
@@ -28,7 +28,7 @@ export const closeRightTabs =
       }
       
       entityApi.space.updateEntity(activeSpace.id, {
-        tabs: tabIds.filter((id) => !closingTabIds.includes(id)),
+        tabs: tabs.filter(({ id }) => !closingTabIds.includes(id)),
       });
 
       closingTabIds.forEach((closingTabId) => {

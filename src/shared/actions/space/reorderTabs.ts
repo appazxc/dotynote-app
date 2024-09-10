@@ -10,8 +10,8 @@ export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => asy
     return;
   }
     
-  const tabIds = activeSpace.tabs;
-  const sortedTabs = selectSortedTabs(getState(), { ids: tabIds, isPinned });
+  const sortedTabs = selectSortedTabs(getState()).filter((tab) => tab.isPinned === isPinned);
+console.log('here', newTabs, sortedTabs);
   
   let first: SpaceTabEntity | null = null;
   let updated: SpaceTabEntity | null = null;
@@ -45,6 +45,5 @@ export const reorderTabs = (newTabs: SpaceTabEntity[], isPinned: boolean) => asy
   }
 
   const newPos = next ? Math.floor((next.pos + first.pos) / 2) : first.pos + 1000;
-
   await entityApi.spaceTab.update(updated.id, { pos: newPos });
 };

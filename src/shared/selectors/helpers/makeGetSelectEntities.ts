@@ -1,14 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { denormalize, Schema } from 'normalizr';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 
-export const makeGetSelectEntities = (entityName) => {
+export const makeGetSelectEntities = (schema: Schema) => {
   return createSelector(
     [
-      state => state.entities[entityName],
+      state => state.entities,
       (_, ids) => ids || EMPTY_ARRAY,
     ],
     (entities, ids) => {
-      return ids.map(id => entities[id]);
+      return denormalize(ids, [schema], entities);
     });
 };

@@ -18,8 +18,7 @@ export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEnti
 
     if ('isPinned' in data) {
       const { isPinned } = data;
-      const tabIds = activeSpace.tabs;
-      const sortedTabs = selectSortedTabs(getState(), { ids: tabIds });
+      const sortedTabs = selectSortedTabs(getState());
       const findFunc = isPinned ? findLast : find;
       const targetTab = findFunc(sortedTabs, (tab) => tab.isPinned === isPinned);
 

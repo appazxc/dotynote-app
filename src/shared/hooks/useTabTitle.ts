@@ -13,8 +13,9 @@ export const useTabTitle = (path: string, router) => {
   const { isNoteTab, noteId, title: tabTitle } = React.useMemo(() => {
     return getTabInfo(path, router);
   }, [path, router]);
+  const getByIdNote = React.useMemo(() => noteSelector.makeGetById(), []);
 
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => getByIdNote(state, noteId));
 
   const { isLoading, error } = useNote(noteId, { enabled: !!noteId && !note });
 

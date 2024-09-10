@@ -1,7 +1,7 @@
 export const getTabInfo = (path: string, router) => {
   const match = getTabMatch(path, router);
   const isNoteTab = match.routeId === '/n/$noteId';
-  const noteId = match.params.noteId;
+  const noteId = isNoteTab ? Number(match.params.noteId) : null;
   const title = getTabTitleByRouteId(match.routeId, 'New Tab');
 
   return {

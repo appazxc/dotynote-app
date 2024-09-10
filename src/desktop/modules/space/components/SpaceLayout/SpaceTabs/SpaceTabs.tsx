@@ -4,15 +4,15 @@ import { Box } from '@chakra-ui/react';
 import { LayoutGroup, Reorder } from 'framer-motion';
 
 import { reorderTabs } from 'shared/actions/space/reorderTabs';
-import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
-import { useAppDispatch } from 'shared/store/hooks';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 import { PlusButton } from 'desktop/modules/space/components/SpaceLayout/SpaceTabs/PlusButton';
 
 import { SpaceTab } from './SpaceTab';
 
 export const SpaceTabs = React.memo(() => {
-  const tabs = useSpaceTabs({ sorted: true });
+  const tabs = useAppSelector(selectSortedTabs);
   const dispatch = useAppDispatch();
   
   const handleReorderPinnedTabs = React.useCallback((data) => {
@@ -25,7 +25,7 @@ export const SpaceTabs = React.memo(() => {
   
   const pinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => isPinned), [tabs]);
   const unpinnedTabs = React.useMemo(() => tabs?.filter(({ isPinned }) => !isPinned), [tabs]);
-
+  console.log('tabs', tabs);
   return (
     <LayoutGroup>
       <Box 
@@ -34,9 +34,9 @@ export const SpaceTabs = React.memo(() => {
         gap="1"
       >
         <Box
+          layout
           as={Reorder.Group}
           display="flex"
-          layout
           flexDirection="row"
           flexShrink="0"
           gap="1"
@@ -53,9 +53,9 @@ export const SpaceTabs = React.memo(() => {
           ))}
         </Box>
         <Box
+          layout
           as={Reorder.Group}
           display="flex"
-          layout
           flexDirection="row"
           gap="1"
           flexGrow="1"

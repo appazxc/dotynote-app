@@ -37,10 +37,10 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
           invariant(activeSpace, 'Missing active space');
 
-          const spaceTabIds = activeSpace.tabs;
-          const tabEntities = spaceTabSelector.getByIds(getState(), spaceTabIds);
+          const tabs = activeSpace.tabs;
+          const tabIds = tabs.map(({ id }) => id);
           const routes = [route || '/'];
-          const maxPos = arrayMaxBy(tabEntities, (item: SpaceTabEntity) => item.pos);
+          const maxPos = arrayMaxBy(tabs, (item: SpaceTabEntity) => item.pos);
           const pos = maxPos + 1000;
 
           const spaceTabEntity = { spaceId: activeSpace.id, pos, routes };
@@ -53,7 +53,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
             data: fakeSpaceTab,
           }));
           
-          const newSpaceTabs = [...activeSpace.tabs, fakeId];
+          const newSpaceTabs = [...tabIds, fakeId];
 
           entityApi.space.updateEntity(activeSpace.id, {
             tabs: newSpaceTabs,

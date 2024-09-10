@@ -6,6 +6,5 @@ export type UserEntity = BaseEntity<{
   username: string,
   nickname: string | null,
   email?: string,
-  settingsId: string,
   settings?: UserSettingsEntity,
 }>

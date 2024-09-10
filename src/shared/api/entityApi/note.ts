@@ -19,7 +19,7 @@ export class NoteEssence extends Essense<NoteEntity> {
     }
 
     const noteIds = union(space.tabs
-      .map((id) => {
+      .map(({ id }) => {
         const spaceTab = spaceTabSelector.getById(state, id);
 
         if (!spaceTab || !spaceTab.routes.length) {

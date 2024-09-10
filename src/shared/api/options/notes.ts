@@ -12,7 +12,7 @@ export const tabNotes = (spaceId: string | undefined, router, noteRoutePath) => 
   });
 };
 
-export const load = (id?: number) => {
+export const load = (id?: number | null) => {
   return queryOptions({
     queryKey: ['note', id],
     queryFn: async () => {

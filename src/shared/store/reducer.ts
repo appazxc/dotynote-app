@@ -23,6 +23,10 @@ const appPersistConfig = {
   whitelist: ['activeSpaceId', 'activeTabId', 'note'],
 };
 
+const entities = combineReducers({
+
+})
+
 const reducer = combineReducers({
   entities: entitiesReducer,
   loaders: loadersReducer,

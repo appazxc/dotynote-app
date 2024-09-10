@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Text, Button, Card, Center, IconButton, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Card, Center, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
@@ -9,7 +9,6 @@ import { MdClose } from 'react-icons/md';
 
 import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
-import { useSpaceTabs } from 'shared/api/hooks/useSpaceTabs';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
@@ -17,6 +16,7 @@ import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
+import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
@@ -76,7 +76,7 @@ const Tab = ({ id, isActive }) => {
 };
 
 export const Tabs = () => {
-  const tabs = useSpaceTabs({ sorted: true });
+  const tabs = useAppSelector(selectSortedTabs);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);

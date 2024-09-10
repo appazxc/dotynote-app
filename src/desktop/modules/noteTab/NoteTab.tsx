@@ -23,7 +23,7 @@ import { NoteTabContent } from './NoteTabContent';
 
 export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getById(state, Number(noteId)));
   const userId = useAppSelector(selectUserId);
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
@@ -31,13 +31,9 @@ export const NoteTab = React.memo(() => {
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
 
-  const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
-  const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
+  const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId: note.id }));
+  const rwMode = useAppSelector(state => selectRwMode(state, { noteId: note.id }));
   const isWriteMode = rwMode === rwModes.WRITE;
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
 
   React.useEffect(() => {
     setSearch('');

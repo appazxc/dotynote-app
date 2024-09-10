@@ -70,16 +70,16 @@ export const closeTab = (tabId: string): ThunkAction => async (dispatch, getStat
     return;
   }
 
-  const tabIds = activeSpace.tabs;
-  const sortedTabs = selectSortedTabs(getState(), { ids: tabIds });
+  const tabs = activeSpace.tabs;
+  const sortedTabs = selectSortedTabs(getState());
 
-  if (activeTabId && activeTabId === tabId && tabIds) {
+  if (activeTabId && activeTabId === tabId && tabs.length) {
     const nextTab = getNextActiveTabByType(sortedTabs, spaceTab);
     dispatch(updateActiveTabId(nextTab?.id || null));
   }
-      
+
   entityApi.space.updateEntity(activeSpace.id, {
-    tabs: tabIds.filter(spaceTabId => spaceTabId !== tabId),
+    tabs: tabs.filter(({ id }) => id !== tabId).map(({ id }) => id),
   });
 
   const routesMap = getRoutesMap();

@@ -1,23 +1,20 @@
 import { createSelector } from '@reduxjs/toolkit';
-import isBoolean from 'lodash/isBoolean';
+import { denormalize } from 'normalizr';
 
+import { EMPTY_ARRAY } from 'shared/constants/common';
+import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
+import { spaceSelector } from 'shared/selectors/entities';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
-
-import { selectSortedTabIds } from './selectSortedTabIds';
+import { AppState } from 'shared/types/store';
 
 export const selectSortedTabs = createSelector(
   [
-    selectSortedTabIds, 
-    (state) => state.entities.spaceTab,
-    (_, { isPinned }) => isPinned,
+    state => spaceSelector.getBy(state, state.app.activeSpaceId)?.tabs || EMPTY_ARRAY, 
+    (state: AppState) => state.entities.spaceTab,
   ],
-  (tabIds, spaceTabEntities, isPinned): SpaceTabEntity[] => {
-    let result = tabIds.map((id) => spaceTabEntities[id]);
-
-    if (isBoolean(isPinned)) {
-      result = result.filter(({ isPinned: isPinnedValue }) => isPinnedValue === isPinned);
-    }
-
-    return result;
+  (tabIds, spaceTab): SpaceTabEntity[] => {
+    const tabs = denormalize(tabIds, [spaceTabSchema], { spaceTab });
+    
+    return tabs.slice().sort((a, b) => a.pos - b.pos);
   }
 );

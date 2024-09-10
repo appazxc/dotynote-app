@@ -25,8 +25,8 @@ export const SpaceLayout = ({ children }: Props) => {
         <SpaceHeader />
         {(isLoading || isAppInProgress) && (
           <Progress
-            size="xs"
             isIndeterminate
+            size="xs"
             position="absolute"
             w="full"
             left="0"

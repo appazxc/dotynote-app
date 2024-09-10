@@ -16,7 +16,7 @@ export const closeOtherTabs =
         return;
       }
 
-      const tabIds = activeSpace.tabs;
+      const tabs = activeSpace.tabs;
 
       if (tabId !== activeTabId) {
         dispatch(updateActiveTabId(tabId));
@@ -26,7 +26,7 @@ export const closeOtherTabs =
         tabs: [tabId],
       });
 
-      tabIds.filter(id => id !== tabId).forEach((closingTabId) => {
-        entityApi.spaceTab.delete(closingTabId);
+      tabs.filter(({ id }) => id !== tabId).forEach(({ id }) => {
+        entityApi.spaceTab.delete(id);
       });
     };
