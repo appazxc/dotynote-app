@@ -4,9 +4,9 @@ import { Container, Stack } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
 import { Posts } from 'shared/modules/noteTab/components/Posts';
@@ -31,15 +31,15 @@ export const NoteTabContent = (props: Props) => {
   const { note, isWriteMode, isPrimary, search, isSearchActive } = props;
   const { id: noteId, settings, postsSettings } = note;
   const navigate = useNavigate();
+  const browserNavigate = useBrowserNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
-  const { navigate: browserNavigate } = useBrowserRouter();
 
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey || isPrimary) {
       dispatch(openTab({ 
         route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),
-        makeActive: true,
+        active: true,
       }));
       browserNavigate({ to: '/app' });
     } else {

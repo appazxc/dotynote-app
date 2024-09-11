@@ -13,7 +13,7 @@ import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 

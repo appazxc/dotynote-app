@@ -30,8 +30,8 @@ const ConfirmModal = (props: Props) => {
     <Modal
       isCentered
       isOpen={isOpen}
-      onClose={() => dispatch(hideModal())}
       size="xs"
+      onClose={() => dispatch(hideModal())}
     >
       <ModalOverlay />
       <ModalContent>
@@ -64,8 +64,8 @@ const ConfirmModal = (props: Props) => {
             borderRadius="0"
             borderBottomRightRadius="md"
             colorScheme="brand"
-            onClick={onConfirm}
             isLoading={isLoading}
+            onClick={onConfirm}
           >
             {confirmText || 'Confirm'}
           </Button>

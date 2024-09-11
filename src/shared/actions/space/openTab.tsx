@@ -18,12 +18,12 @@ import { invariant } from 'shared/util/invariant';
 
 type CreateSpaceTabParams = { 
   route?: string, 
-  makeActive?: boolean,
+  active?: boolean,
 };
 
 export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction => 
   async (dispatch, getState) => {
-    const { route, makeActive } = params;
+    const { route, active } = params;
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createTab);
     
     if (isLoading) {
@@ -59,7 +59,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
             tabs: newSpaceTabs,
           });
 
-          if (makeActive) {
+          if (active) {
             dispatch(updateActiveTabId(fakeId));
           }
 

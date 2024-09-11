@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Box, useTheme } from '@chakra-ui/react';
 
-import { BrowserLocationProvider } from 'shared/components/BrowserLocationProvider';
-import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
+import { BrowserProviders } from 'shared/components/BrowserProviders';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
@@ -17,36 +16,34 @@ export const AppLayout = React.memo(({ children }: Props) => {
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
 
   return (
-    <BrowserRouterProvider>
-      <BrowserLocationProvider>
+    <BrowserProviders>
+      <Box
+        w="full"
+        h="full"
+        minW="80"
+        mx="auto"
+        maxW={theme.breakpoints.sm}
+      >
         <Box
           w="full"
           h="full"
-          minW="80"
-          mx="auto"
-          maxW={theme.breakpoints.sm}
+          display="flex"
+          flexDirection="column"
         >
           <Box
+            flexGrow="1"
             w="full"
-            h="full"
-            display="flex"
-            flexDirection="column"
+            overflow="hidden"
           >
-            <Box
-              flexGrow="1"
-              w="full"
-              overflow="hidden"
-            >
-              {children}
-            </Box>
-            {!isAdvancedEditActive && (
-              <Box w="full" flexShrink="0">
-                <FooterNavigation />
-              </Box>
-            )}
+            {children}
           </Box>
+          {!isAdvancedEditActive && (
+            <Box w="full" flexShrink="0">
+              <FooterNavigation />
+            </Box>
+          )}
         </Box>
-      </BrowserLocationProvider>
-    </BrowserRouterProvider>
+      </Box>
+    </BrowserProviders>
   );
 });

@@ -5,11 +5,11 @@ import { useLongPress } from '@uidotdev/usehooks';
 import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
-import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
+import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -24,7 +24,7 @@ import { useDotMenuNoteId } from 'mobile/hooks/useDotMenuNoteId';
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
   const activeSpace = useAppSelector(selectActiveSpace);
-  const { navigate } = useBrowserRouter();
+  const navigate = useBrowserNavigate();
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const noteId = useDotMenuNoteId();

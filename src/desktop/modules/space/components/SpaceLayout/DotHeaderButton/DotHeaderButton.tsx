@@ -57,7 +57,7 @@ export const DotHeaderButton = () => {
             to: '/n/$noteId',
             params: { noteId: String(space.mainNoteId) },
           }),
-          makeActive: true,
+          active: true,
         })
       );
     } else {

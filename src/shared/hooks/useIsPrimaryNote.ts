@@ -1,4 +1,4 @@
-import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
+import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 
 export const useIsPrimareNote = () => {
   const { pathname } = useBrowserLocation();

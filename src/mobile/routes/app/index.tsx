@@ -70,7 +70,7 @@ const appIndexRoute = createRoute({
     }
 
     if (waitedRoute && activeSpace) {
-      await dispatch(openTab({ route: waitedRoute, makeActive: true }));
+      await dispatch(openTab({ route: waitedRoute, active: true }));
       dispatch(cleanWaitedRoute());
     }
   },

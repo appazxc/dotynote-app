@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  Button,
   Box,
+  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,8 +13,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { useBrowserRouter } from 'shared/components/BrowserRouterProvider';
 import { apos } from 'shared/constants/htmlCodes';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -28,7 +28,7 @@ export type Props = {}
 const PrimaryNoteModal = React.memo(() => {
   const dispatch = useAppDispatch();
   const isMobile = useAppSelector(selectIsMobile);
-  const { navigate } = useBrowserRouter();
+  const navigate = useBrowserNavigate();
   
   const handleConfirm = React.useCallback(() => {
     dispatch(startPrimaryNoteOperation());
@@ -41,8 +41,8 @@ const PrimaryNoteModal = React.memo(() => {
 
   return (
     <Modal
-      isCentered={!isMobile}
       isOpen
+      isCentered={!isMobile}
       size={isMobile ? 'full' : 'xl'}
       scrollBehavior="inside"
       onClose={() => dispatch(hideModal())}

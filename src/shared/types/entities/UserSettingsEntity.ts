@@ -4,9 +4,11 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { BaseEntity } from './BaseEntity';
 
 export type ApiUserSettingsEntity = BaseEntity<{
-  autoStickNote?: number,
+  hubId?: number | null,
+  hub?: number | null,
 }>
 
 export type UserSettingsEntity = MergeEntity<ApiUserSettingsEntity, {
-  autoStickNote?: NoteEntity,
+  hubId?: number | null,
+  hub?: NoteEntity | null,
 }>

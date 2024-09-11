@@ -16,6 +16,7 @@ export const operationTypes = {
   STICK: 'stick',
   MOVE: 'move',
   PRIMARY_NOTE: 'primaryNote',
+  HUB: 'hub',
 } as const;
 
 export type StickOperation = {
@@ -28,6 +29,10 @@ export type StickOperation = {
 
 export type PrimaryNoteOperation = {
   type: typeof operationTypes.PRIMARY_NOTE,
+}
+
+export type HubOperation = {
+  type: typeof operationTypes.HUB,
 }
 
 export type MoveOperation = {
@@ -47,7 +52,7 @@ type InitialState = {
   waitedRoute: string | null,
   device: Device | null,
   tempNote: TempNote | null,
-  activeSpacePrimaryNoteTabIds: {
+  primaryNoteTabIds: {
     [x: string]: string
   },
   note: {
@@ -56,7 +61,7 @@ type InitialState = {
     addTo: AddTo,
     isSearchActive: boolean,
   },
-  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation,
+  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation | HubOperation,
 };
 
 const noOperation = { type: null };
@@ -69,7 +74,7 @@ const initialState: InitialState = {
   waitedRoute: null,
   device: null,
   tempNote: null,
-  activeSpacePrimaryNoteTabIds: {},
+  primaryNoteTabIds: {},
   note: {
     rwMode: rwModes.WRITE,
     isAdvancedEditActive: false,
@@ -163,6 +168,11 @@ export const appSlice = createSlice({
         type: operationTypes.PRIMARY_NOTE,
       };
     },
+    startHubOperation: (state) => {
+      state.operation = {
+        type: operationTypes.HUB,
+      };
+    },
     toggleConcretePlace: (state) => {
       if ('concretePlace' in state.operation) {
         state.operation.concretePlace = !state.operation.concretePlace;
@@ -178,7 +188,7 @@ export const appSlice = createSlice({
         tabId,
       } = payload;
 
-      state.activeSpacePrimaryNoteTabIds[`${spaceId}|${primaryNoteId}`] = tabId;
+      state.primaryNoteTabIds[`${spaceId}|${primaryNoteId}`] = tabId;
     },
   },
 });
@@ -203,6 +213,7 @@ export const {
   toggleConcretePlace,
   updateOperationConcretePost,
   addPrimaryNoteTab,
+  startHubOperation,
 } = appSlice.actions;
 
 export default appSlice.reducer;

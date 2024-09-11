@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useBrowserLocation } from 'shared/components/BrowserLocationProvider';
+import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';

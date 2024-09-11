@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Progress } from '@chakra-ui/react';
 
-import { BrowserRouterProvider } from 'shared/components/BrowserRouterProvider';
+import { BrowserProviders } from 'shared/components/BrowserProviders';
 import { useAppInProgress } from 'shared/modules/loaders/loadersSlice';
 import { useAppSelector } from 'shared/store/hooks';
 
@@ -15,7 +15,7 @@ export const SpaceLayout = ({ children }: Props) => {
   const isAppInProgress = useAppInProgress();
 
   return (
-    <BrowserRouterProvider>
+    <BrowserProviders>
       <Box
         w="full"
         h="full"
@@ -43,6 +43,6 @@ export const SpaceLayout = ({ children }: Props) => {
           {children}
         </Box>
       </Box>
-    </BrowserRouterProvider>
+    </BrowserProviders>
   );
 };

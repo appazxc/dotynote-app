@@ -6,18 +6,28 @@ import { AppState } from 'shared/types/store';
 const getEntitiesKeys = (schema) => {
   const keys: string[] = [];
 
-  keys.push(schema._key);
+  keys.push(schema.key);
 
-  Object.values(schema.schema).forEach((s: any) => {
-    if (Array.isArray(s)) {
-      keys.push((s[0] as any)._key);
-      return;
-    } else {
-      keys.push(s._key);
+  const iter = (schema) => {
+    if (schema.key) {
+      keys.push(schema.key);
     }
-  });
 
-  return keys;
+    if (schema.schema) {
+      Object.values(schema.schema).forEach(s => {
+        if (Array.isArray(s)) {
+          s.forEach(iter);
+          return;
+        }
+
+        iter(s);
+      });
+    }
+  };
+
+  iter(schema);
+
+  return [...new Set(keys)];
 };
 
 const transformToEntities = (keys, entitiesList) => {

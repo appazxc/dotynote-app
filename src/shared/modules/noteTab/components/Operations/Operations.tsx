@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HubOperation } from 'shared/modules/noteTab/components/Operations/HubOperation';
 import { MoveOperation } from 'shared/modules/noteTab/components/Operations/MoveOperation';
 import { PrimaryNoteOperation } from 'shared/modules/noteTab/components/Operations/PrimaryNoteOperation';
 import { StickOperation } from 'shared/modules/noteTab/components/Operations/StickOperation';
@@ -21,6 +22,9 @@ export const Operations = React.memo(() => {
     break;
   case operationTypes.PRIMARY_NOTE:
     activeOperation = <PrimaryNoteOperation {...operation} />;
+    break;
+  case operationTypes.HUB:
+    activeOperation = <HubOperation {...operation} />;
     break;
   default:
     activeOperation = null;

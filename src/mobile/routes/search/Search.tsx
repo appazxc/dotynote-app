@@ -27,7 +27,7 @@ export const Search = React.memo(() => {
         onClick={() => {
           dispatch(openTab({ 
             route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(id) } }),
-            makeActive: true,
+            active: true,
           }));
           navigate({ to: '/app' });
         }}

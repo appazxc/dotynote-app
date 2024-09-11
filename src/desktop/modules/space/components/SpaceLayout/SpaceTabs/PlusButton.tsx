@@ -12,7 +12,7 @@ export const PlusButton = React.memo(() => {
   const hoverBg = useColorModeValue('gray.200', 'brand.400');
   const [layoutAnimation, setFlag] = useBoolean();
   const handlePlusClick = React.useCallback(() => {
-    dispatch(openTab({ makeActive: true }));
+    dispatch(openTab({ active: true }));
   }, [dispatch]);
 
   const container = {
@@ -45,8 +45,6 @@ export const PlusButton = React.memo(() => {
       //   bounce: 0,
       //   duration: 0.2,
       // }}
-      onLayoutAnimationStart={setFlag.on}
-      onLayoutAnimationComplete={setFlag.off}
       whileTap={{ 
         scale: 0.9,
       }}
@@ -58,6 +56,8 @@ export const PlusButton = React.memo(() => {
       _hover={{
         backgroundColor: hoverBg,
       }}
+      onLayoutAnimationStart={setFlag.on}
+      onLayoutAnimationComplete={setFlag.off}
       onClick={handlePlusClick}
     >
       <BsPlus size="22px" />

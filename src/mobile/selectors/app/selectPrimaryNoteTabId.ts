@@ -8,5 +8,5 @@ export const selectPrimaryNoteTabId = (state: AppState) => {
     return null;
   }
 
-  return state.app.activeSpacePrimaryNoteTabIds[`${activeSpace.id}|${activeSpace.mainNoteId}`];
+  return state.app.primaryNoteTabIds[`${activeSpace.id}|${activeSpace.mainNoteId}`];
 };

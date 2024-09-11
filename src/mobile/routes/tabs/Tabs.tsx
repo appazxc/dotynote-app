@@ -101,7 +101,7 @@ export const Tabs = () => {
               variant="ghost"
               leftIcon={<BsPlus size="22px" />}
               onClick={() => {
-                dispatch(openTab({ makeActive: true }));
+                dispatch(openTab({ active: true }));
                 navigate({ to: '/app' });
               }}
             >

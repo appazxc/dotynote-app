@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
+import { api } from 'shared/api';
 import { toast } from 'shared/util/toast';
-
-import { entityApi } from '../entityApi';
 
 type Params = {
   postIds: number[],
@@ -14,7 +13,7 @@ type Params = {
 export const useMoveNote = () => {
   return useMutation({
     mutationFn: (params: Params) => {
-      return entityApi.movePost.create(params);
+      return api.post('/posts/move', params);
     },
     onError: () => {
       toast({ title: 'Error', status: 'error' });
