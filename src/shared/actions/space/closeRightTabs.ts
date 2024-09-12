@@ -28,7 +28,7 @@ export const closeRightTabs =
       }
       
       entityApi.space.updateEntity(activeSpace.id, {
-        tabs: tabs.filter(({ id }) => !closingTabIds.includes(id)),
+        tabs: tabs.filter(({ id }) => !closingTabIds.includes(id)).map(({ id }) => id),
       });
 
       closingTabIds.forEach((closingTabId) => {
