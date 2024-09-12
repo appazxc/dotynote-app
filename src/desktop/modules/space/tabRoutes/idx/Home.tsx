@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 
+import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
 import { NoteInPost } from 'shared/components/NoteInPost';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -29,6 +30,7 @@ export const Home = React.memo(() => {
       params: { noteId: id }, 
       replace: true,
     }).finally(() => {
+      dispatch(invalidateHubPosts());
       dispatch(hideModal());
     });
   }, [navigate, dispatch]);
