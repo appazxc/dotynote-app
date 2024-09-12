@@ -1,3 +1,5 @@
+import { MergeEntity } from 'shared/types/entities/MergeEntity';
+
 import { BaseEntity } from './BaseEntity';
 
 export type ApiPostsSettingsEntity = BaseEntity<{
@@ -7,4 +9,4 @@ export type ApiPostsSettingsEntity = BaseEntity<{
   // stickFrom: string[],
 }>
 
-export type PostsSettingsEntity = ApiPostsSettingsEntity
+export type PostsSettingsEntity = MergeEntity<ApiPostsSettingsEntity, {}>

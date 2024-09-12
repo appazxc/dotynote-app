@@ -3,6 +3,8 @@ import React from 'react';
 import { useToast } from '@chakra-ui/react';
 
 import { useUpdateUserSettings } from 'shared/api/hooks/useUpdateUserSettings';
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { selectUser } from 'shared/selectors/auth/selectUser';
@@ -34,6 +36,7 @@ export const HubOperation = React.memo((props: Props) => {
         description: 'Hub has been configured',
       });
       dispatch(stopOperation());
+      queryClient.invalidateQueries(options.notes.load(Number(note.id)));
     });
   }, [
     navigate,

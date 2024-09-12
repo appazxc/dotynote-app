@@ -27,5 +27,10 @@ export const note = createRoute({
   notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
-  shouldReload: false,
+  shouldReload: ({ params }) => {
+    const noteId = Number(params.noteId);
+    const queryState = queryClient.getQueryState(options.notes.load(Number(noteId)).queryKey);
+
+    return queryState?.isInvalidated || false;
+  },
 });
