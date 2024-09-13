@@ -38,7 +38,7 @@ export const NoteSidebar = React.memo((props: Props) => {
   const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
 
   const showAddTo = canAddToNote || canAddToPosts;
-  const isNoteContentHidden = noteSettings?.display === false;
+  const isNoteContentVisible = !noteSettings?.hide;
 
   React.useEffect(() => {
     lastIsSearchActive.current = isSearchActive;
@@ -70,7 +70,7 @@ export const NoteSidebar = React.memo((props: Props) => {
           />
         ),
       }] : [],
-      ...showRwMode && !isNoteContentHidden ? [{
+      ...showRwMode && isNoteContentVisible ? [{
         element: (
           <RwButton
             key="NodeRw"
@@ -85,7 +85,7 @@ export const NoteSidebar = React.memo((props: Props) => {
           />
         ),
       }] : [],
-      ...showRwMode && rwMode === rwModes.WRITE && !isNoteContentHidden ? [{
+      ...showRwMode && rwMode === rwModes.WRITE && isNoteContentVisible ? [{
         id: 'Advanced edit',
         label: 'Advanced edit',
         icon: <FaA />,
@@ -113,7 +113,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     showRwMode,
     tab.routes.length,
     isSearchActive,
-    isNoteContentHidden,
+    isNoteContentVisible,
   ]);
 
   const renderedItems = React.useMemo(() => {

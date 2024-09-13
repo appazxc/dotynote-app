@@ -42,7 +42,7 @@ export const NoteHeader = (props: Props) => {
   const lastIsSearchActive = React.useRef(isSearchActive);
   const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
   const showSearch = !!postsSettings;
-  const isNoteContentHidden = settings?.display === false;
+  const isNoteContentVisible = !settings?.hide;
 
   const renderedBackButton = React.useMemo(() => {
     if (firstPageOfPrimaryNote) {
@@ -78,7 +78,7 @@ export const NoteHeader = (props: Props) => {
   }, [isMutating, showSearch, noteId]);
 
   const renderedRwButton = React.useMemo(() => {
-    if (!showRwMode || isNoteContentHidden) {
+    if (!showRwMode || !isNoteContentVisible) {
       return null;
     }
 
@@ -87,10 +87,10 @@ export const NoteHeader = (props: Props) => {
         rwMode={rwMode}
       />
     ); 
-  }, [showRwMode, rwMode, isNoteContentHidden]);
+  }, [showRwMode, rwMode, isNoteContentVisible]);
 
   const renderedAdvancedEditButton = React.useMemo(() => {
-    if (!showRwMode || rwMode !== rwModes.WRITE || isNoteContentHidden) {
+    if (!showRwMode || rwMode !== rwModes.WRITE || !isNoteContentVisible) {
       return null;
     }
 
@@ -105,7 +105,7 @@ export const NoteHeader = (props: Props) => {
         onClick={() => dispatch(toggleAdvancedEdit())}
       />
     );
-  }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentHidden]);
+  }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentVisible]);
 
   const renderedRightSide = React.useMemo(() => {
     return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedMenu}</HStack>;

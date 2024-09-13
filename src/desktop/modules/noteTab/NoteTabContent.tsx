@@ -57,7 +57,7 @@ export const NoteTabContent = React.memo((props: Props) => {
   }, [operation, defaultPostClick, concretePostClick]);
 
   const showPosts = !!postsSettings;
-  const showNote = (!isSearchActive && settings?.display !== false) || !showPosts;
+  const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
 
   return (
     <Container h="full">

@@ -22,16 +22,16 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
   const handleDisplayChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 
     mutate({
-      display: event.target.checked,
+      hide: event.target.checked,
     });
   }, [mutate]);
   
   return (
     <Box>
       <SwitchSection
-        label="Display"
+        label={`Content is ${note.settings.hide ? 'hidden' : 'visible'}`}
         description="Show or hide content of the note. Will be visible only posts"
-        isChecked={note.settings.display}
+        isChecked={note.settings.hide}
         onChange={handleDisplayChange}
       />
     </Box>
