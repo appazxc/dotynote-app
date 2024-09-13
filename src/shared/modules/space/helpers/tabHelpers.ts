@@ -18,12 +18,13 @@ export const getTabInfo = (path: string, router) => {
 
 const tabTitleMap = {
   '/': 'New tab',
-  '/addMainNote': 'Add main note',
+  '/note-not-found': 'Not found',
   '/n/$noteId': '',
   '/n/$noteId/settings': 'Note settings',
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {
+  console.log('routeId', routeId);
   return routeId in tabTitleMap ? tabTitleMap[routeId] : defaultValue;
 };
 

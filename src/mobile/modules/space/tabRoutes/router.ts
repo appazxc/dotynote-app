@@ -6,6 +6,7 @@ import { DefaultErrorComponent } from 'mobile/modules/space/tabRoutes/DefaultErr
 import { DefaultNotFoundComponent } from 'mobile/modules/space/tabRoutes/DefaultNotFoundComponent';
 import { idx } from 'mobile/modules/space/tabRoutes/idx';
 import { note } from 'mobile/modules/space/tabRoutes/note';
+import { noteNotFound } from 'mobile/modules/space/tabRoutes/noteNotFound';
 import { noteSettings } from 'mobile/modules/space/tabRoutes/noteSettings';
 import { root } from 'mobile/modules/space/tabRoutes/root';
 import { context } from 'mobile/modules/space/tabRoutes/routerContext';
@@ -14,6 +15,7 @@ const routeTree = root.addChildren([
   idx, 
   note,
   noteSettings,
+  noteNotFound,
 ]);
 
 const defaultRouterOptions = {

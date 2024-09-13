@@ -1,9 +1,8 @@
-import { createRoute, lazyRouteComponent, notFound } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 import { AxiosError } from 'axios';
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
-import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
 import { root } from '../root';
 
@@ -17,14 +16,16 @@ export const note = createRoute({
     try {
       await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));
     } catch (err: unknown) {
-      if (!(err instanceof AxiosError)) {
-        throw err;
+      if (err instanceof AxiosError && err.response?.status === 404) {
+        // if 404 loader will always call refetch
+        throw redirect({
+          to: '/note-not-found',
+        });
       }
-
-      throw notFound();
+      
+      throw err;
     }
   },
-  notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
   shouldReload: ({ params }) => {
