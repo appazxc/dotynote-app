@@ -1,13 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { pick } from 'lodash';
 import identity from 'lodash/identity';
 import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
 import pickBy from 'lodash/pickBy';
+import { nanoid } from 'nanoid';
 
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectToken } from 'shared/selectors/auth/selectToken';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
+import { finishRequest, startRequest } from 'shared/store/slices/requestSlice';
 
 export type ApiError = AxiosError<
   { errors: string[] } | { error: string } | any
@@ -32,6 +35,36 @@ export type Api = {
   delete<T>(path: string, params?: Params, options?: Options): Promise<T>;
   request<T>(requestConfig: AxiosRequestConfig, options?: Options): Promise<T>;
 };
+
+const axiosInstance = axios.create();
+
+axiosInstance.interceptors.request.use((config) => {
+  const { dispatch } = getStore();
+  const requestId = nanoid(); 
+  config.headers['X-Request-Id'] = requestId;
+  dispatch(startRequest({ id: requestId, request: pick(config, ['data', 'url']) }));
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+// Перехватчик для ответов
+axiosInstance.interceptors.response.use((response) => {
+  const { dispatch } = getStore();
+  const requestId = response.config.headers['X-Request-Id'];
+  
+  dispatch(finishRequest({ id: requestId }));
+
+  return response;
+}, (error) => {
+  const { dispatch } = getStore();
+  const requestId = error.config?.headers['X-Request-Id'];
+  
+  dispatch(finishRequest({ id: requestId }));
+
+  return Promise.reject(error);
+});
 
 export default () => {
   const provideJwt = () => {
@@ -58,7 +91,7 @@ export default () => {
         return value;
       });
 
-      return axios
+      return axiosInstance
         .get(getBaseApi() + path, {
           params: pickBy(updatedParams, identity),
           headers: createHeaders(),
@@ -66,28 +99,28 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async post(path, body) {
-      return axios
+      return axiosInstance
         .post(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     async patch(path, body) {
-      return axios
+      return axiosInstance
         .patch(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     async put(path, body) {
-      return axios
+      return axiosInstance
         .put(getBaseApi() + path, body, {
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));
     },
     async delete(path, params) {
-      return axios
+      return axiosInstance
         .delete(getBaseApi() + path, {
           params,
           headers: createHeaders(),
@@ -95,7 +128,7 @@ export default () => {
         .then(response => handleResponse(response));
     },
     async request(requestConfig) {
-      return axios
+      return axiosInstance
         .request(
           Object.assign(requestConfig, {
             url: getBaseApi() + requestConfig.url,

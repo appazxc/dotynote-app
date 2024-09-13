@@ -24,7 +24,6 @@ const tabTitleMap = {
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {
-  console.log('routeId', routeId);
   return routeId in tabTitleMap ? tabTitleMap[routeId] : defaultValue;
 };
 
