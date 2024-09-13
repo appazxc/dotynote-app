@@ -14,6 +14,19 @@ type Props = {
 export const SidebarFooter = ({ noteId }: Props) => {
   const isMutating = useIsNoteMutating(noteId);
   const error = useNoteMutationError(noteId);
+  const [showSpinner, setShowSpinner] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isMutating) {
+      const timer = setTimeout(() => {
+        setShowSpinner(true);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+
+    setShowSpinner(false);
+  }, [isMutating]);
   
   const errorTooltip = React.useMemo(() => {
     if (!error) {
@@ -39,7 +52,7 @@ export const SidebarFooter = ({ noteId }: Props) => {
   }, [error]);
   
   const content = React.useMemo(() => {
-    if (isMutating) {
+    if (showSpinner) {
       return (
         <Center h="32px" w="32px">
           <Spinner size="sm" />
@@ -52,7 +65,7 @@ export const SidebarFooter = ({ noteId }: Props) => {
     }
 
     return <NoteMenu noteId={noteId} />;
-  }, [noteId, isMutating, errorTooltip]);
+  }, [noteId, showSpinner, errorTooltip]);
 
   return (
     <Box
