@@ -62,7 +62,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
               <MenuItem
                 label="Posts"
                 onClick={() => {
-                  dispatch(showModal({ id: modalIds.editPostsSettings }));
+                  navigate({ to: '/n/$noteId/posts-settings' });
                 }}
               />
             )}

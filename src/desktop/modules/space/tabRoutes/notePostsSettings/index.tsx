@@ -3,13 +3,14 @@ import { AxiosError } from 'axios';
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
 import { root } from '../root';
 
-export const noteSettings = createRoute({
+export const notePostsSettings = createRoute({
   getParentRoute: () => root,
-  path: '/n/$noteId/settings',
-  component: lazyRouteComponent(() => import('./NoteSettings')),
+  path: '/n/$noteId/posts-settings',
+  component: lazyRouteComponent(() => import('./NotePostsSettings')),
   loader: async ({ params }) => {
     try {
       await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));
@@ -24,6 +25,7 @@ export const noteSettings = createRoute({
       throw err;
     }
   },
+  notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
   shouldReload: false,

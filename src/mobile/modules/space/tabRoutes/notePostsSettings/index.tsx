@@ -6,10 +6,10 @@ import { queryClient } from 'shared/api/queryClient';
 
 import { root } from '../root';
 
-export const noteSettings = createRoute({
+export const notePostsSettings = createRoute({
   getParentRoute: () => root,
-  path: '/n/$noteId/settings',
-  component: lazyRouteComponent(() => import('./NoteSettings')),
+  path: '/n/$noteId/posts-settings',
+  component: lazyRouteComponent(() => import('./NotePostsSettings')),
   loader: async ({ params }) => {
     try {
       await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));

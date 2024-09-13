@@ -7,6 +7,7 @@ import { DefaultNotFoundComponent } from 'desktop/modules/space/tabRoutes/Defaul
 import { idx } from 'desktop/modules/space/tabRoutes/idx';
 import { note } from 'desktop/modules/space/tabRoutes/note';
 import { noteNotFound } from 'desktop/modules/space/tabRoutes/noteNotFound';
+import { notePostsSettings } from 'desktop/modules/space/tabRoutes/notePostsSettings';
 import { noteSettings } from 'desktop/modules/space/tabRoutes/noteSettings';
 import { root } from 'desktop/modules/space/tabRoutes/root';
 import { context } from 'desktop/modules/space/tabRoutes/routerContext';
@@ -15,6 +16,7 @@ const routeTree = root.addChildren([
   idx, 
   note,
   noteSettings,
+  notePostsSettings,
   noteNotFound,
 ]);
 
