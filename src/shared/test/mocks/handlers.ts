@@ -1,6 +1,6 @@
 import { DefaultBodyType, rest } from 'msw';
 
-import { entityNames } from 'shared/constants/entityNames';
+import { entityTypes } from 'shared/constants/entityTypes';
 
 import { createResponse } from './helpers/createResponse';
 import { getHandlerUrl } from './helpers/getHandlerUrl';
@@ -13,6 +13,6 @@ export const handlers = [
     const cursor = req.url.searchParams.get('cursor') || '';
     const direction = req.url.searchParams.get('direction') || '';
 
-    return res(ctx.json(createResponse(entityNames.post, getNotePosts(id, cursor, direction))));
-  })
+    return res(ctx.json(createResponse(entityTypes.post, getNotePosts(id, cursor, direction))));
+  }),
 ];

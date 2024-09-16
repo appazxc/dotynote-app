@@ -1,14 +1,13 @@
 import ActionEssense from 'shared/api/entityApi/ActionEssence';
-import { entityNames } from 'shared/constants/entityNames';
-import { 
+import SharedEssense from 'shared/api/entityApi/SharedEssence';
+import { entityTypes } from 'shared/constants/entityTypes';
+import {
   noteSelector,
-  noteSettingsSelector,
   postSelector,
   spaceSelector,
   spaceTabSelector,
-  userSelector, 
+  userSelector,
 } from 'shared/selectors/entities';
-import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
 
@@ -17,13 +16,14 @@ import { NoteEssence } from './note';
 import { SpaceTabEssence } from './spaceTab';
 import { UserEssence } from './user';
 
-const user = new UserEssence(entityNames.user, userSelector);
-const note = new NoteEssence(entityNames.note, noteSelector);
-const space = new Essense<SpaceEntity>(entityNames.space, spaceSelector);
-const post = new Essense<PostEntity>(entityNames.post, postSelector);
-const spaceTab = new SpaceTabEssence(entityNames.spaceTab, spaceTabSelector);
+const user = new UserEssence(entityTypes.user, userSelector);
+const note = new NoteEssence(entityTypes.note, noteSelector);
+const space = new Essense<SpaceEntity>(entityTypes.space, spaceSelector);
+const post = new Essense<PostEntity>(entityTypes.post, postSelector);
+const spaceTab = new SpaceTabEssence(entityTypes.spaceTab, spaceTabSelector);
 const stickNote = new ActionEssense('/notes/stick');
 const movePost = new ActionEssense('/posts/move');
+const shared = new SharedEssense();
 
 export const entityApi = {
   user,
@@ -33,4 +33,5 @@ export const entityApi = {
   post,
   stickNote,
   movePost,
+  shared,
 };

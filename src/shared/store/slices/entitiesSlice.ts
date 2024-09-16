@@ -1,7 +1,7 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
-import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { EntityName, entityTypes } from 'shared/constants/entityTypes';
 import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
@@ -16,7 +16,7 @@ type UpdateEntityPayload<T extends EntityName> = {
   data: Partial<ApiEntityTypes[T]>
 }
 
-const initialState = Object.keys(entityNames).reduce((acc, name) => {
+const initialState = Object.keys(entityTypes).reduce((acc, name) => {
   acc[name] = {};
   return acc;
 }, {}) as Entities;

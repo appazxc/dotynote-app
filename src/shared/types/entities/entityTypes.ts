@@ -1,34 +1,36 @@
-import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { EntityName, entityTypes } from 'shared/constants/entityTypes';
 import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
+import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
+import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostsSettingsEntity, PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
+import { ApiSpaceEntity, SpaceEntity } from 'shared/types/entities/SpaceEntity';
+import { ApiSpaceTabEntity, SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { ApiUserEntity, UserEntity } from 'shared/types/entities/UserEntity';
 import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
-import { ApiPostEntity, PostEntity } from './PostEntity';
-import { ApiPostsSettingsEntity, PostsSettingsEntity } from './PostsSettingsEntity';
-import { ApiSpaceEntity, SpaceEntity } from './SpaceEntity';
-import { ApiSpaceTabEntity, SpaceTabEntity } from './SpaceTabEntity';
-import { ApiUserEntity, UserEntity } from './UserEntity';
-
 export type ApiEntityTypes = {
-  [entityNames.user]: ApiUserEntity,
-  [entityNames.space]: ApiSpaceEntity,
-  [entityNames.spaceTab]: ApiSpaceTabEntity,
-  [entityNames.note]: ApiNoteEntity,
-  [entityNames.post]: ApiPostEntity,
-  [entityNames.postsSettings]: ApiPostsSettingsEntity,
-  [entityNames.noteSettings]: ApiNoteSettingsEntity,
-  [entityNames.userSettings]: ApiUserSettingsEntity,
+  [entityTypes.user]: ApiUserEntity,
+  [entityTypes.space]: ApiSpaceEntity,
+  [entityTypes.spaceTab]: ApiSpaceTabEntity,
+  [entityTypes.note]: ApiNoteEntity,
+  [entityTypes.post]: ApiPostEntity,
+  [entityTypes.postsSettings]: ApiPostsSettingsEntity,
+  [entityTypes.noteSettings]: ApiNoteSettingsEntity,
+  [entityTypes.userSettings]: ApiUserSettingsEntity,
+  [entityTypes.orderBy]: ApiOrderByEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
 
 export type EntityTypes = {
-  [entityNames.user]: UserEntity,
-  [entityNames.space]: SpaceEntity,
-  [entityNames.spaceTab]: SpaceTabEntity,
-  [entityNames.note]: NoteEntity,
-  [entityNames.post]: PostEntity,
-  [entityNames.postsSettings]: PostsSettingsEntity,
-  [entityNames.noteSettings]: NoteSettingsEntity,
-  [entityNames.userSettings]: UserSettingsEntity,
+  [entityTypes.user]: UserEntity,
+  [entityTypes.space]: SpaceEntity,
+  [entityTypes.spaceTab]: SpaceTabEntity,
+  [entityTypes.note]: NoteEntity,
+  [entityTypes.post]: PostEntity,
+  [entityTypes.postsSettings]: PostsSettingsEntity,
+  [entityTypes.noteSettings]: NoteSettingsEntity,
+  [entityTypes.userSettings]: UserSettingsEntity,
+  [entityTypes.orderBy]: OrderByEntity,
 }

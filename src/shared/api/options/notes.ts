@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { entityApi } from '../entityApi';
+import { api } from 'shared/api';
 
 // need for show tab titles
 export const tabNotes = (spaceId: string | undefined, router, noteRoutePath) => {
@@ -34,6 +35,15 @@ export const loadList = (filters: LoadListFilters = {}) => {
     queryKey: ['notes', filters],
     queryFn: async () => {
       return entityApi.note.loadList<number>({ filters });
+    },
+  });
+};
+
+export const loadOrderByList = () => {
+  return queryOptions({
+    queryKey: ['orderBy'],
+    queryFn: async () => {
+      return api.get<number[]>('/notes/posts-settings/order-by');
     },
   });
 };

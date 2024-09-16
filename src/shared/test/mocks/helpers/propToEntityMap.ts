@@ -1,7 +1,7 @@
-import { entityNames } from "shared/constants/entityNames";
+import { entityTypes } from 'shared/constants/entityTypes';
 
 const entityNameAlias = {
-  'mainNote': entityNames.note,
+  'mainNote': entityTypes.note,
 };
 
 export const propToEntityMap = (prop: string): string => {

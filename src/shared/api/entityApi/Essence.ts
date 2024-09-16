@@ -1,5 +1,5 @@
 import { api } from 'shared/api';
-import { EntityName } from 'shared/constants/entityNames';
+import { EntityName } from 'shared/constants/entityTypes';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
@@ -70,33 +70,19 @@ export default class Essense<T extends { id?: string | number }> {
     return await this.api.post<string>(this.path, data);
   }
 
-  async updateRelation<R extends { id: string | number }>({
-    parentId,
-    relationId,
-    data,
-    relation,
-    relationType,
-    relationSelector,
-  } : {
-      parentId: string | number, 
-      relationId: string | number, 
-      data: Partial<T[keyof T]>,
-      relation: keyof T,
-      relationType: EntityName,
-      relationSelector: any,
-    }) {
-    const entity: T[keyof T] = relationSelector.getById(this.store.getState(), relationId);
+  async updateRelation<R extends { id: string | number }>(relationPath, id, data: Partial<T[keyof T]>, selector: any) {
+    const entity: T[keyof T] = selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
       return;
     }
     
     try {
-      this.store.dispatch(updateEntity({ id: relationId, type: relationType, data }));
+      this.store.dispatch(updateEntity({ id, type: selector.type, data }));
 
-      return this.api.patch<R['id']>(`${this.path}/${parentId}/${String(relation)}`, data);
+      return this.api.patch<R['id']>(`${this.path}${relationPath}`, data);
     } catch (error) {
-      this.store.dispatch(updateEntity({ id: relationId, type: relationType, data: entity }));
+      this.store.dispatch(updateEntity({ id, type: selector.type, data: entity }));
 
       throw error;
     }

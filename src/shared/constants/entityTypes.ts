@@ -1,6 +1,6 @@
 import keymirror from 'keymirror';
 
-export const entityNames = keymirror({
+export const entityTypes = keymirror({
   user: null,
   space: null,
   spaceTab: null,
@@ -9,6 +9,7 @@ export const entityNames = keymirror({
   postsSettings: null,
   noteSettings: null,
   userSettings: null,
+  orderBy: null,
 });
 
-export type EntityName = keyof typeof entityNames;
+export type EntityName = keyof typeof entityTypes;
