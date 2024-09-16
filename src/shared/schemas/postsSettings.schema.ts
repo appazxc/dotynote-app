@@ -1,3 +1,7 @@
 import { schema } from 'normalizr';
 
-export const postsSettingsSchema = new schema.Entity('postsSettings');
+import { orderBySchema } from 'shared/schemas/orderBy.schema';
+
+export const postsSettingsSchema = new schema.Entity('postsSettings', {
+  orderBy: orderBySchema,
+});
