@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, Text, Box, Select, Heading } from '@chakra-ui/react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
+import { getOptionTitleFromOrderType } from 'shared/modules/notePostsSettingsTab/helpers/getOptionTitleFromOrderType';
 import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
@@ -45,7 +46,7 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
             value={postsSettings.orderById}
             onChange={handleOrderByChange}
           >
-            {orderBy.map(({ id, type }) => <option key={id} value={id}>{type}</option>)}
+            {orderBy.map(({ id, type }) => <option key={id} value={id}>{getOptionTitleFromOrderType(type)}</option>)}
           </Select>
         </Box>
       </Box>

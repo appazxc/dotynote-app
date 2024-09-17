@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { pick } from 'lodash';
-import identity from 'lodash/identity';
 import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
+import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import { nanoid } from 'nanoid';
 
@@ -93,7 +92,7 @@ export default () => {
 
       return axiosInstance
         .get(getBaseApi() + path, {
-          params: pickBy(updatedParams, identity),
+          params: pickBy(updatedParams, (param) => param !== undefined),
           headers: createHeaders(),
         })
         .then(response => handleResponse(response));

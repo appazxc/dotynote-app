@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
+import { SORT_ORDER_BY_TYPES } from 'shared/constants/sortOrderByTypes';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
@@ -21,10 +22,19 @@ type Props = {
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
   scrollRestoration?: boolean,
   search: string,
+  sort?: 'desc' | 'asc',
+  orderBy?: number,
 }
 
 export const Posts = (props: Props) => {
-  const { noteId, onPostClick, search, scrollRestoration = true } = props;
+  const {
+    noteId,
+    onPostClick,
+    search,
+    scrollRestoration = true,
+    sort = 'desc',
+    orderBy = SORT_ORDER_BY_TYPES.POSITION, 
+  } = props;
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
     rootMargin: ROOT_MARGIN,
@@ -36,14 +46,22 @@ export const Posts = (props: Props) => {
   });
 
   const filters = React.useMemo(() => {
-    const result: Record<string, string> = {};
+    const result: Record<string, string | number> = {};
 
     if (search) {
       result.query = search;
     }
+
+    if (sort) {
+      result.sort = sort;
+    }
+
+    if (typeof orderBy !== 'undefined') {
+      result.orderBy = orderBy;
+    }
     
     return result;
-  }, [search]);
+  }, [search, sort, orderBy]);
 
   const { 
     data, 

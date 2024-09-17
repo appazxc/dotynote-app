@@ -78,6 +78,8 @@ export const NoteTabContent = React.memo((props: Props) => {
             key={noteId}
             noteId={noteId}
             search={search}
+            sort={postsSettings.sort}
+            orderBy={postsSettings.orderById}
             onPostClick={onPostClick}
           />
         )}
