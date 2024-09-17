@@ -4,13 +4,13 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { entityApi } from '../entityApi';
 
-export const updateNoteMutationKey = (id: number) => ['updateNote', id];
+export const updateNoteMutationKey = () => ['updateNote'];
 
-export const useUpdateNote = (id: number) => {
+export const useUpdateNote = () => {
   return useMutation({
-    mutationKey: updateNoteMutationKey(id),
-    mutationFn: (note: Partial<NoteEntity>) => {
-      return entityApi.note.update(id, note);
+    mutationKey: updateNoteMutationKey(),
+    mutationFn: ({ id, data }: { id: number, data: Partial<NoteEntity> }) => {
+      return entityApi.note.update(id, data);
     },
   });
 };

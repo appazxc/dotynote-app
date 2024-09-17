@@ -24,13 +24,13 @@ export const NoteBase = (props: Props) => {
 
   invariant(note, 'Missing note');
 
-  const { mutate } = useUpdateNote(id);
+  const { mutate } = useUpdateNote();
 
   const { title, content } = note;
 
   const debouncedUpdateTitle = React.useMemo(() => {
     return debounce((title) => {
-      mutate({ title });
+      mutate({ id, data: { title } });
     }, 2000);
   }, [mutate]);
 

@@ -17,16 +17,17 @@ type Props = React.PropsWithChildren<{
 }>
 
 export const EditorProvider = ({ id, children }: Props) => {
-  const { mutateAsync } = useUpdateNote(id);
+  const { mutateAsync } = useUpdateNote();
   const note = useAppSelector(state => noteSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
+  
   invariant(note, 'Missing note');
 
   const { content } = note;
 
   const debouncedUpdateContent = React.useMemo(() => {
     return debounce((content) => {
-      mutateAsync({ content }).then(() => {
+      mutateAsync({ id, data: { content } }).then(() => {
         dispatch(afterNoteUpdated(id));
       });
     }, 2000);
