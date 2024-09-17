@@ -1,11 +1,10 @@
 import { AxiosError } from 'axios';
 
+import { logout } from 'shared/actions/logout';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
-import { actions } from 'shared/constants/actions';
 import { selectToken } from 'shared/selectors/auth/selectToken';
 import { selectUser } from 'shared/selectors/auth/selectUser';
-import { persistor } from 'shared/store';
 import { setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 
@@ -32,12 +31,4 @@ export const getUser = (): ThunkAction => async (dispatch, getState) => {
 
     throw Error('Unexpected error occurred');
   }
-};
-
-export const logout = (): ThunkAction => (dispatch) => {
-  persistor.purge();
-  
-  dispatch({
-    type: actions.RESET_APP,
-  });
 };

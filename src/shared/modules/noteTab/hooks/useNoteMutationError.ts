@@ -28,7 +28,7 @@ const select = (mutation: Mutation<unknown, Error, unknown, unknown>) => {
 
 export const useNoteMutationError = (id: number) => {
   const updateErrors = useMutationState<string>({
-    filters: { mutationKey: updateNoteMutationKey(id) },
+    filters: { mutationKey: updateNoteMutationKey() },
     select,
   });
 

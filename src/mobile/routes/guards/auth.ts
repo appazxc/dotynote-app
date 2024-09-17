@@ -1,6 +1,6 @@
 import { createRoute, redirect } from '@tanstack/react-router';
 
-import { getUser } from 'shared/actions/auth';
+import { getUser } from 'shared/actions/getUser';
 import { BACK_URL } from 'shared/constants/queryKeys';
 import { selectIsAuthenticated } from 'shared/selectors/auth/selectIsAuthenticated';
 import { selectToken } from 'shared/selectors/auth/selectToken';

@@ -1,6 +1,6 @@
-import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
-import { loadSpaces } from 'shared/actions/space/loadSpaces';
+import { loadSpaces } from 'shared/actions/route/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
@@ -21,18 +21,9 @@ export const appRoute = createRoute({
   beforeLoad: async (ctx) => {
     const context = ctx.context as unknown as Context;
     const { store } = context;
-    const { dispatch, getState } = store;
+    const { dispatch } = store;
 
-    await dispatch(loadSpaces());
-
-    const activeSpace = selectActiveSpace(getState());
-
-    if (!activeSpace && ctx.location.pathname !== '/app/spaces') {
-      console.log('redirect to spaces', getState());
-      throw redirect({
-        to: '/app/spaces',
-      });
-    }
+    await dispatch(loadSpaces(ctx.location.pathname));
   },
 });
 

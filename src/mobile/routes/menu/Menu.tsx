@@ -6,7 +6,7 @@ import { FiUser } from 'react-icons/fi';
 import { IoSunny } from 'react-icons/io5';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
-import { logout } from 'shared/actions/auth';
+import { logout } from 'shared/actions/logout';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';

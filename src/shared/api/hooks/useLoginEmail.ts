@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { getUser } from 'shared/actions/auth';
+import { getUser } from 'shared/actions/getUser';
 import { useAppDispatch } from 'shared/store/hooks';
 import { setToken } from 'shared/store/slices/authSlice';
 

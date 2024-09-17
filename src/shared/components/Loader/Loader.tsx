@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Box, Button, Center, Spinner } from '@chakra-ui/react';
 
-import { logout } from 'shared/actions/auth';
-import { queryClient } from 'shared/api/queryClient';
+import { logout } from 'shared/actions/logout';
 import { Wait } from 'shared/components/Wait';
 import { min } from 'shared/constants/time';
 import { selectRequests } from 'shared/selectors/selectRequests';
@@ -14,7 +13,7 @@ type Props = {
   text?: string
 }
 
-export const Loader = React.memo(({ delay = 300, text }: Props) => {
+export const Loader = React.memo(({ delay, text }: Props) => {
   const [canReload, setCanReload] = React.useState(false);
   const dispatch = useAppDispatch();
   const requests = useAppSelector(selectRequests);

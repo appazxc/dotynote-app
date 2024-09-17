@@ -7,7 +7,7 @@ import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 import { VscColorMode } from 'react-icons/vsc';
 
-import { logout } from 'shared/actions/auth';
+import { logout } from 'shared/actions/logout';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
