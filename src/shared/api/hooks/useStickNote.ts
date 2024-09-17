@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
+import { stickNote } from 'shared/actions/stickNote';
+import { api } from 'shared/api';
+import { useAppDispatch } from 'shared/store/hooks';
 import { toast } from 'shared/util/toast';
-
-import { entityApi } from '../entityApi';
 
 type Params = {
   fromNoteId: number | null,
@@ -13,9 +14,11 @@ type Params = {
 }
 
 export const useStickNote = () => {
+  const dispatch = useAppDispatch();
+  
   return useMutation({
     mutationFn: (params: Params) => {
-      return entityApi.stickNote.create(params);
+      return dispatch(stickNote(params));
     },
     onError: () => {
       toast({ title: 'Error', status: 'error' });
