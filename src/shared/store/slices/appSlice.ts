@@ -17,6 +17,7 @@ export const operationTypes = {
   MOVE: 'move',
   PRIMARY_NOTE: 'primaryNote',
   HUB: 'hub',
+  SELECT: 'select',
 } as const;
 
 export type StickOperation = {
@@ -33,6 +34,11 @@ export type PrimaryNoteOperation = {
 
 export type HubOperation = {
   type: typeof operationTypes.HUB,
+}
+
+export type SelectOperation = {
+  type: typeof operationTypes.SELECT,
+  postIds: number[],
 }
 
 export type MoveOperation = {
@@ -61,7 +67,7 @@ type InitialState = {
     addTo: AddTo,
     isSearchActive: boolean,
   },
-  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation | HubOperation,
+  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation | HubOperation | SelectOperation,
 };
 
 const noOperation = { type: null };
@@ -171,6 +177,12 @@ export const appSlice = createSlice({
     startHubOperation: (state) => {
       state.operation = {
         type: operationTypes.HUB,
+      };
+    },
+    startSelectOperation: (state) => {
+      state.operation = {
+        type: operationTypes.SELECT,
+        postIds: [],
       };
     },
     toggleConcretePlace: (state) => {
