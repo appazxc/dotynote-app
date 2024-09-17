@@ -6,7 +6,7 @@ import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
   [name in EntityName]: {
-    [key: string]: ApiEntityTypes[name] | void
+    [key: string]: ApiEntityTypes[name]
   }
 }
 

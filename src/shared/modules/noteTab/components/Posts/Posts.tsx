@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
-import { SORT_ORDER_BY_TYPES } from 'shared/constants/sortOrderByTypes';
+import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
@@ -33,7 +33,7 @@ export const Posts = (props: Props) => {
     search,
     scrollRestoration = true,
     sort = 'desc',
-    orderBy = SORT_ORDER_BY_TYPES.POSITION, 
+    orderBy = SORT_ORDER_IDS.POSITION, 
   } = props;
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({

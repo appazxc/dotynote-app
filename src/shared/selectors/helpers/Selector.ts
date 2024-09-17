@@ -29,7 +29,7 @@ const schemaMap = {
 
 export default class Selector<T extends EntityName> {
   type: T;
-  getEntitiesById: (state: AppState, ids?: string[]) => EntityTypes[T][];
+  getEntitiesById: (state: AppState, ids?: (string | number)[]) => EntityTypes[T][];
   getEntityById: (state: AppState, id?: string | number | null) => EntityTypes[T] | null;
   getById: (state: AppState, id?: string | number | null) => ApiEntityTypes[T] | null;
   getByIds: (state: AppState, ids?: (string | number)[]) => ApiEntityTypes[T][];
