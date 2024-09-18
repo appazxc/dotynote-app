@@ -94,6 +94,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
           >
             <FormControl isInvalid={!!errors.title}>
               <AutoResizeTextarea
+                autoFocus
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"

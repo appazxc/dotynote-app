@@ -9,6 +9,12 @@ export type ApiPostEntity = BaseEntity<{
   parent: number,
   note: number,
   author: string,
+  permissions: {
+    delete: boolean,
+    stick: boolean,
+    unstick: boolean,
+    move: boolean,
+  }
 }, number>
 
 export type PostEntity = MergeEntity<ApiPostEntity, {

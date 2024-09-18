@@ -12,6 +12,14 @@ export type ApiNoteEntity = BaseEntity<{
   access: 'private' | 'public',
   postsSettings: string,
   settings?: string,
+  permissions: {
+    read: boolean,
+    update: boolean,
+    delete: boolean,
+    stick: boolean,
+    stickHere: boolean,
+    moveHere: boolean,
+  }
 }, number>
 
 export type NoteEntity = MergeEntity<ApiNoteEntity, { 
