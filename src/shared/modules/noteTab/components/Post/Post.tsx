@@ -56,27 +56,37 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
           />
         </MenuTrigger>
         <MenuList>
-          <MenuItem
-            label="Stick"
-            onClick={() => dispatch(startStickOperation({
-              fromNoteId: post.parent,
-              noteIds: [note.id],
-            }))}
-          />
-          <MenuItem label="Unstick" onClick={() => unstick()} />
-          <MenuItem
-            label="Move"
-            onClick={() => dispatch(startMoveOperation({
-              fromNoteId: post.parent,
-              postIds: [post.id],
-            }))}
-          />
-          <MenuDivider />
-          <MenuItem 
-            colorScheme="red"
-            label="Delete"
-            onClick={() => { dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })); }}
-          />
+          {post.permissions.stick && (
+            <MenuItem
+              label="Stick"
+              onClick={() => dispatch(startStickOperation({
+                fromNoteId: post.parent,
+                noteIds: [note.id],
+              }))}
+            />
+          )}
+          {post.permissions.unstick && (
+            <MenuItem label="Unstick" onClick={() => unstick()} />
+          )}
+          {post.permissions.move && (
+            <MenuItem
+              label="Move"
+              onClick={() => dispatch(startMoveOperation({
+                fromNoteId: post.parent,
+                postIds: [post.id],
+              }))}
+            />
+          )}
+          {post.permissions.delete && (
+            <>
+              <MenuDivider />
+              <MenuItem 
+                colorScheme="red"
+                label="Delete"
+                onClick={() => { dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })); }}
+              />
+            </>
+          )}
         </MenuList>
       </Menu>
       <ConfirmModal

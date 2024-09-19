@@ -45,6 +45,14 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, concretePlace }
     },
   ] : undefined;
 
+  if (!note.permissions.stickHere) {
+    return (
+      <Operation
+        title="You cannot stick here"
+      />
+    );
+  }
+
   if (isSameNote) {
     return (
       <Operation

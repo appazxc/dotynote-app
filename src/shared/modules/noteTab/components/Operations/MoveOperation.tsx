@@ -54,6 +54,14 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     },
   ] : undefined;
 
+  if (!note.permissions.moveHere) {
+    return (
+      <Operation
+        title="You cannot move here"
+      />
+    );
+  }
+  
   return (
     <Operation
       title={concretePlace ? 'Move near' : 'Move'}
