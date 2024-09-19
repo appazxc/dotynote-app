@@ -29,7 +29,10 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
       autoCapitalize="sentences"
       value={value}
       placeholder="Search"
-      size={isMobile ? 'sm' : 'md'}
+      size="md"
+      _focusVisible={isMobile ? {
+        boxShadow: 'none',
+      } : undefined}
       onChange={handleChange}
     />
   );
