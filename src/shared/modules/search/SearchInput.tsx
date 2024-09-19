@@ -26,7 +26,6 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
   return (
     <Input
       autoFocus
-      autoCapitalize="sentences"
       value={value}
       placeholder="Search"
       size="md"
