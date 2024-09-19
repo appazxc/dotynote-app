@@ -16,7 +16,7 @@ export const guest = createRoute({
 
     if (token) {
       throw redirect({
-        to: '/primary',
+        to: '/app/primary',
       });
     }
   },

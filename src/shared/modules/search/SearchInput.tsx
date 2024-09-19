@@ -14,6 +14,7 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
   const [value, setValue] = React.useState(search);
 
   const debouncedNavigate = React.useMemo(() => debounce((value) => {
+    // @ts-ignore looks like bug
     navigate({ search: (prev) => ({ ...prev, search: value }), replace: true });
   }, 500), [navigate]);
 
