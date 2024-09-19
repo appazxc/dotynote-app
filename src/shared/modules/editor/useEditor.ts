@@ -13,7 +13,7 @@ export const useEditor = (props: Partial<EditorOptions> = {}) => {
     onCreate: ({ editor }) => {
       editor.view.dom.setAttribute('spellcheck', 'false');
       editor.view.dom.setAttribute('autocomplete', 'off');
-      editor.view.dom.setAttribute('autocapitalize', 'off');
+      editor.view.dom.setAttribute('autocapitalize', 'sentences');
     },
     // onUpdate(props) {
     //   console.log('props.editor.getHTML()', props.editor.getHTML());
