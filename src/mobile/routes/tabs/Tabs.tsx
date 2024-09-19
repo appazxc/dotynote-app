@@ -94,6 +94,7 @@ export const Tabs = () => {
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader 
+        title="Tabs"
         right={(
           <Box pr="2">
             <Button

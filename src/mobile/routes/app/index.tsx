@@ -31,6 +31,7 @@ export const appRoute = createRoute({
     const { dispatch } = store;
 
     await dispatch(loadSpaces(ctx.location.pathname));
+
   },
   component: React.memo(() => {
     return (
@@ -44,7 +45,7 @@ export const appRoute = createRoute({
 const appIndexRoute = createRoute({
   getParentRoute: () => appRoute,
   path: '/',
-  loader: async (ctx) => {
+  beforeLoad: async (ctx) => {
     const context = ctx.context as unknown as Context;
     const { store } = context;
     const { dispatch, getState } = store;
@@ -53,13 +54,12 @@ const appIndexRoute = createRoute({
     const activeTab = selectActiveTab(getState());
 
     const { waitedRoute } = getState().app;
-    
+
     if (!activeTab || !activeTab.routes.length) {
-      throw redirect({
+      return redirect({
         to: '/app/tabs',
       });
     }
-
     if (waitedRoute && activeSpace) {
       await dispatch(openTab({ route: waitedRoute, active: true }));
       dispatch(cleanWaitedRoute());

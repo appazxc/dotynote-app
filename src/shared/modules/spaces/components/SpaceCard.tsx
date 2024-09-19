@@ -2,17 +2,18 @@ import React from 'react';
 
 import { Box, Text, useColorModeValue } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate, invariant } from '@tanstack/react-router';
+import { invariant, useNavigate } from '@tanstack/react-router';
 
 import { entityApi } from 'shared/api/entityApi';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
-import { MenuTrigger, Menu, MenuDivider, MenuItem, MenuList } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { EditSpaceModal } from 'shared/containers/modals/EditSpaceModal';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { spaceSelector } from 'shared/selectors/entities';
-import { useAppSelector, useAppDispatch } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
 
 type Props = { 
@@ -23,7 +24,7 @@ type Props = {
 export const SpaceCard = React.memo(({ id, isActive }: Props) => {
   const space = useAppSelector(state => spaceSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const navigate = useBrowserNavigate();
   
   invariant(space, 'Missing space');
 

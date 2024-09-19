@@ -3297,10 +3297,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-4.38.0.tgz#a8ffd5b4187ed0b522329a1a950fbc3d467e5167"
   integrity sha512-KmcrnjTQzONBqxNWSVKyPNi5tLq0URvIiWThE9HIK5qePGtB0VqoHfOsn4nuGJD268xDNDpFQjQiko9mMa5iLQ==
 
-"@tanstack/history@1.51.7":
-  version "1.51.7"
-  resolved "https://registry.yarnpkg.com/@tanstack/history/-/history-1.51.7.tgz#e041c06de341c005eb3cdf9826eec6ff46320852"
-  integrity sha512-y25aH3NDbdUp5Gk6Fnb77LsHTT2JrzVgI44ZiyEOf8i2j14Ma3oJ80fCw7rT/iV4xa4IN2Yex9flAsZQdh1i4A==
+"@tanstack/history@1.57.6":
+  version "1.57.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/history/-/history-1.57.6.tgz#665d6bb2451ffb07db3596fe74e2f7be03c941b6"
+  integrity sha512-ppAJbnUaHdHmccVmplcd1ivX4GMPHxhStSquuuz0TSAEPEpz0iOVBur4iKfvIuMKm24c40nhvaEwZbKGVfbrGg==
 
 "@tanstack/query-core@5.50.1":
   version "5.50.1"
@@ -3326,12 +3326,12 @@
   dependencies:
     "@tanstack/query-core" "5.50.1"
 
-"@tanstack/react-router@^1.53.0":
-  version "1.53.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-router/-/react-router-1.53.0.tgz#e1ddd5a0bb7cafc35351fbcae90db4b2449e9c40"
-  integrity sha512-ZU2UhGQwels8NkC1MgSMm+8V5BpbNJzmZYDhf1s+OOMNr0/90WWPBVRbCFrrN0CzwZRIEWkMrIXCL88TO/viHg==
+"@tanstack/react-router@^1.58.3":
+  version "1.58.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-router/-/react-router-1.58.3.tgz#dc237703a7e3caa3d0e7c780f24f3f43a6710aca"
+  integrity sha512-cHpuzrNvRJ/FFDX+dWEw+w+NHp1eYn8j6WJlFs4nIyo6IJBJeL5DQgS5wdto+pOkqMEGAjzqTbJRU+zTcsVaSQ==
   dependencies:
-    "@tanstack/history" "1.51.7"
+    "@tanstack/history" "1.57.6"
     "@tanstack/react-store" "^0.5.5"
     tiny-invariant "^1.3.3"
     tiny-warning "^1.0.3"
@@ -3344,10 +3344,10 @@
     "@tanstack/store" "0.5.5"
     use-sync-external-store "^1.2.2"
 
-"@tanstack/router-devtools@^1.53.0":
-  version "1.53.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools/-/router-devtools-1.53.0.tgz#9e110df09163537edf59f03fd9e1f25d711c1f40"
-  integrity sha512-+HNozHnIgev/Q6BaeJVir58tkDBdWwgedMCl2FUpoPNZkZPxA30tLd63F9QmjiJYYgE3T1F0v54bspRyHlu21Q==
+"@tanstack/router-devtools@^1.58.3":
+  version "1.58.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools/-/router-devtools-1.58.3.tgz#c0bf9cb293924573e5bdb4c9c2626f17e3f6c34f"
+  integrity sha512-S3uLervhvPQL/7M0HTacTlZzg8joaHhCXnFTcLNOkWQtcST+YzJtJz4xQ2XyfaEjm87VrdoTMZuB3bnTgWbAfQ==
   dependencies:
     clsx "^2.1.1"
     goober "^2.1.14"

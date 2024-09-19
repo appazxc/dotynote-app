@@ -68,7 +68,7 @@ export const LayoutHeader = (props: Props) => {
       alignItems="center"
       background="body"
       pl={renderedBackButton ? '2' : '4'}
-      pr={right ? '2' : '4'}
+      pr="2"
       minH="44px"
       gap="2"
       {...restProps}

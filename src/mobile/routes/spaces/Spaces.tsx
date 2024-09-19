@@ -30,8 +30,8 @@ const Spaces = React.memo(() => {
           <IconButton 
             size="sm"
             aria-label="Back"
-            icon={<BsArrowLeft />}
-            variant="ghost"
+            icon={<BsArrowLeft size="18" />}
+            variant="unstyled"
             onClick={() => {
               history.back();
             }}
