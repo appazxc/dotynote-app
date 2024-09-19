@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-export const getApiError = (err: unknown) => {
+export const parseApiError = (err: unknown) => {
   const error = {
     statusCode: 400,
     code: '',

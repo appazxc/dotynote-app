@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { Box, Center, IconButton, Spinner, Tooltip } from '@chakra-ui/react';
-import { GoInfo } from 'react-icons/go';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
-import { useNoteMutationError } from 'shared/modules/noteTab/hooks/useNoteMutationError';
 
 type Props = {
   noteId: number,
@@ -13,7 +11,6 @@ type Props = {
 
 export const SidebarFooter = ({ noteId }: Props) => {
   const isMutating = useIsNoteMutating(noteId);
-  const error = useNoteMutationError(noteId);
   const [showSpinner, setShowSpinner] = React.useState(false);
 
   React.useEffect(() => {
@@ -28,29 +25,6 @@ export const SidebarFooter = ({ noteId }: Props) => {
     setShowSpinner(false);
   }, [isMutating]);
   
-  const errorTooltip = React.useMemo(() => {
-    if (!error) {
-      return null;
-    }
-
-    return (
-      <Tooltip
-        hasArrow
-        label={error}
-        openDelay={300}
-        placement="right"
-        backgroundColor="orange"
-      >
-        <IconButton
-          aria-label="Info"
-          variant="flat"
-          color="orange"
-          icon={<GoInfo size="18" />}
-        />
-      </Tooltip>
-    );
-  }, [error]);
-  
   const content = React.useMemo(() => {
     if (showSpinner) {
       return (
@@ -60,12 +34,8 @@ export const SidebarFooter = ({ noteId }: Props) => {
       );
     }
 
-    if (errorTooltip) {
-      return errorTooltip;
-    }
-
     return <NoteMenu noteId={noteId} />;
-  }, [noteId, showSpinner, errorTooltip]);
+  }, [noteId, showSpinner]);
 
   return (
     <Box

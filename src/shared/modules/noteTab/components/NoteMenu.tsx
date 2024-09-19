@@ -81,12 +81,16 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
               onClick={() => dispatch(toggleSearch())}
             />
           )}
-          <MenuDivider />
-          <MenuItem
-            colorScheme="red"
-            label="Delete"
-            onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
-          />
+          {note.permissions.delete && (
+            <>
+              <MenuDivider />
+              <MenuItem
+                colorScheme="red"
+                label="Delete"
+                onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
+              />
+            </>
+          )}
         </MenuList>
       </Menu>
       <ConfirmModal

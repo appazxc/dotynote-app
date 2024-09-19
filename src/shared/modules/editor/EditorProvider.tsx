@@ -29,7 +29,7 @@ export const EditorProvider = ({ id, children }: Props) => {
     return debounce((content) => {
       mutateAsync({ id, data: { content } }).then(() => {
         dispatch(afterNoteUpdated(id));
-      });
+      }).catch(() => {});
     }, 2000);
   }, [mutateAsync, dispatch, id]);
 

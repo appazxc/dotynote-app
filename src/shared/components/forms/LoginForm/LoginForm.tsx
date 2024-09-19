@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from 'shared/components/Form';
 import { BACK_URL } from 'shared/constants/queryKeys';
-import { getApiError } from 'shared/helpers/api/getApiError';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 
 const schema = z.object({
   email: z.string().email('Enter a valid email'),
@@ -73,7 +73,7 @@ export const LoginForm = () => {
         navigate({ to });
       } catch (e) {
         setError('code', {
-          message: getApiError(e).message,
+          message: parseApiError(e).message,
         });
       }
       return;
@@ -85,7 +85,7 @@ export const LoginForm = () => {
         setIsEmailSent(true);
       } catch (e) {
         setError('email', {
-          message: getApiError(e).message || 'Error sending code',
+          message: parseApiError(e).message || 'Error sending code',
         });
       }
     }

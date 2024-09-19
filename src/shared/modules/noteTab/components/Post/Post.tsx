@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startStickOperation } from 'shared/store/slices/appSlice';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 
 type Props = {
   postId: string,
@@ -44,6 +45,7 @@ export const Post = React.memo(({ postId, onClick, onDelete }: Props) => {
   }
         
   const deleteNoteExtraId = `deleteNote${note.id}`;
+  
   return (
     <>
       <Menu isContextMenu>

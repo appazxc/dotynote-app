@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton, UseTo
 
 export const toastOptions: UseToastOptions = {
   status: 'info',
-  duration: 3000,
+  duration: 4000,
   render: ({ title, description, onClose, status, isClosable = true, icon = false }) => {
     return (
       <Alert
