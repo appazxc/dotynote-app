@@ -61,7 +61,7 @@ export const Post = React.memo((props: Props) => {
   if (post._isDeleted) {
     return null;
   }
-        
+
   const deleteNoteExtraId = `deleteNote${note.id}`;
   
   return (

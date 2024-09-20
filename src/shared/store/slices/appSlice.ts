@@ -180,10 +180,13 @@ export const appSlice = createSlice({
         type: operationTypes.HUB,
       };
     },
-    startSelectOperation: (state, { payload }: PayloadAction<{
-      noteId: number,
-      postId: number,
-    }>) => {
+    startSelectOperation: (
+      state,
+      { payload }: PayloadAction<{
+        noteId: number,
+        postId: number,
+      }>
+    ) => {
       state.operation = {
         type: operationTypes.SELECT,
         postIds: [payload.postId],
@@ -194,6 +197,22 @@ export const appSlice = createSlice({
       if ('concretePlace' in state.operation) {
         state.operation.concretePlace = !state.operation.concretePlace;
       } 
+    },
+    togglePostSelect: (state, { payload }: PayloadAction<number>) => {
+      if (state.operation.type !== operationTypes.SELECT) {
+        return;
+      } 
+      
+      if (state.operation.postIds.includes(payload)) {
+        const newPostsIds = state.operation.postIds.filter(id => id !== payload);
+        state.operation.postIds = newPostsIds;
+
+        if (newPostsIds.length === 0) {
+          state.operation = noOperation;
+        }
+      } else {
+        state.operation.postIds.push(payload);
+      }
     },
     addPrimaryNoteTab: (
       state, 
@@ -229,6 +248,7 @@ export const {
   startPrimaryNoteOperation,
   startSelectOperation,
   toggleConcretePlace,
+  togglePostSelect,
   updateOperationConcretePost,
   addPrimaryNoteTab,
   startHubOperation,

@@ -48,21 +48,22 @@ export const Post = (props: Props) => {
       {...boxProps}
     >
       {renderedSelectingContent}
-      <Box
-        p="4"
-        borderWidth="2px"
-        borderRadius="lg"
-        borderColor="gray.200"
-        cursor="pointer"
-        userSelect="none"
-        flexGrow="1"
-      >
-        <Text fontWeight="500">{note.title}</Text>
-        <EditorView
-          removeEmptyDivsFromEnd
-          maxLines={4}
-          content={note.content}
-        />
+      <Box flexGrow="1">
+        <Box
+          p="4"
+          borderWidth="2px"
+          borderRadius="lg"
+          borderColor="gray.200"
+          cursor="pointer"
+          userSelect="none"
+        >
+          <Text fontWeight="500">{note.title}</Text>
+          <EditorView
+            removeEmptyDivsFromEnd
+            maxLines={4}
+            content={note.content}
+          />
+        </Box>
       </Box>
     </Box>
   );
