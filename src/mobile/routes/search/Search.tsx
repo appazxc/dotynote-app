@@ -4,7 +4,7 @@ import { Container } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { NoteInPost } from 'shared/components/NoteInPost';
+import { Post } from 'shared/components/Post';
 import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -21,7 +21,7 @@ export const Search = React.memo(() => {
 
   const renderNote = (id: number) => {
     return (
-      <NoteInPost
+      <Post
         key={id}
         noteId={id}
         onClick={() => {

@@ -3,6 +3,7 @@ import React from 'react';
 import { HubOperation } from 'shared/modules/noteTab/components/Operations/HubOperation';
 import { MoveOperation } from 'shared/modules/noteTab/components/Operations/MoveOperation';
 import { PrimaryNoteOperation } from 'shared/modules/noteTab/components/Operations/PrimaryNoteOperation';
+import { SelectOperation } from 'shared/modules/noteTab/components/Operations/SelectOperation';
 import { StickOperation } from 'shared/modules/noteTab/components/Operations/StickOperation';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
@@ -25,6 +26,9 @@ export const Operations = React.memo(() => {
     break;
   case operationTypes.HUB:
     activeOperation = <HubOperation {...operation} />;
+    break;
+  case operationTypes.SELECT:
+    activeOperation = <SelectOperation {...operation} />;
     break;
   default:
     activeOperation = null;

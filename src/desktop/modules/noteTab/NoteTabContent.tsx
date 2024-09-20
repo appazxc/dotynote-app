@@ -4,14 +4,15 @@ import { Box, Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
+import { EMPTY_ARRAY } from 'shared/constants/common';
 import { modalIds } from 'shared/constants/modalIds';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
-import { Posts } from 'shared/modules/noteTab/components/Posts';
+import { PostList } from 'shared/modules/noteTab/components/PostList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { updateOperationConcretePost } from 'shared/store/slices/appSlice';
+import { operationTypes, updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
@@ -30,7 +31,11 @@ export const NoteTabContent = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const operation = useAppSelector(selectOperation);
-
+  const showPosts = !!postsSettings;
+  const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
+  const isSelecting = operation.type === operationTypes.SELECT && operation.noteId === noteId;
+  const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
+  
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey) {
       dispatch(openTab({ 
@@ -56,9 +61,6 @@ export const NoteTabContent = React.memo((props: Props) => {
     defaultPostClick(event, post.note);
   }, [operation, defaultPostClick, concretePostClick]);
 
-  const showPosts = !!postsSettings;
-  const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
-
   return (
     <Container h="full">
       <Box
@@ -74,10 +76,12 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
         {showPosts && (
-          <Posts
+          <PostList
             key={noteId}
             noteId={noteId}
             search={search}
+            isSelecting={isSelecting}
+            selectedPosts={selectedPosts}
             sort={postsSettings.sort}
             orderBy={postsSettings.orderById}
             onPostClick={onPostClick}

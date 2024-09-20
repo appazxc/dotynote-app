@@ -1,0 +1,45 @@
+import React from 'react';
+
+import { Box, IconButton, useColorModeValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import { MdClose } from 'react-icons/md';
+
+type Props = React.PropsWithChildren<{
+  onClose: () => void,
+}>;
+
+export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
+  const borderColor = useColorModeValue('gray.700', 'white');
+
+  return (
+    <Box
+      as={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      p="2"
+      borderRadius="md"
+      border="2px solid"
+      borderColor={borderColor}
+      alignItems="stretch"
+      flexDirection="column"
+      display="flex"
+      my="2"
+      position="relative"
+    >
+      {children}
+      <IconButton
+        icon={<MdClose />}
+        aria-label=""
+        size="xs"
+        colorScheme="brand"
+        position="absolute"
+        right="0"
+        top="0"
+        borderRadius="full"
+        transform="translate(50%, -50%)"
+        onClick={onClose}
+      />
+    </Box>
+  );
+});

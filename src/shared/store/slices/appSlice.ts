@@ -38,6 +38,7 @@ export type HubOperation = {
 
 export type SelectOperation = {
   type: typeof operationTypes.SELECT,
+  noteId: number,
   postIds: number[],
 }
 
@@ -179,10 +180,14 @@ export const appSlice = createSlice({
         type: operationTypes.HUB,
       };
     },
-    startSelectOperation: (state) => {
+    startSelectOperation: (state, { payload }: PayloadAction<{
+      noteId: number,
+      postId: number,
+    }>) => {
       state.operation = {
         type: operationTypes.SELECT,
-        postIds: [],
+        postIds: [payload.postId],
+        noteId: payload.noteId,
       };
     },
     toggleConcretePlace: (state) => {
@@ -222,6 +227,7 @@ export const {
   startMoveOperation,
   toggleSearch,
   startPrimaryNoteOperation,
+  startSelectOperation,
   toggleConcretePlace,
   updateOperationConcretePost,
   addPrimaryNoteTab,

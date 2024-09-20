@@ -7,31 +7,37 @@ import { useInView } from 'react-intersection-observer';
 import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
+import { EMPTY_ARRAY } from 'shared/constants/common';
 import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
+import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
 import { Post } from '../Post';
 
-import { PostsSkeleton } from './Posts.skeleton';
+import { PostsSkeleton } from './PostsList.skeleton';
 
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId: number,
+  noteId?: number,
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
   scrollRestoration?: boolean,
   search: string,
   sort?: 'desc' | 'asc',
   orderBy?: number,
+  isSelecting?: boolean,
+  selectedPosts?: number[],
 }
 
-export const Posts = (props: Props) => {
+export const PostList = React.memo((props: Props) => {
   const {
     noteId,
     onPostClick,
     search,
+    isSelecting = false,
     scrollRestoration = true,
+    selectedPosts = EMPTY_ARRAY,
     sort = 'desc',
     orderBy = SORT_ORDER_IDS.POSITION, 
   } = props;
@@ -93,8 +99,8 @@ export const Posts = (props: Props) => {
   }, [fetchNextPage, inViewNext, hasNextPage]);
 
   const handleOnPostDelete = React.useMemo(() => debounce(() => {
-    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId).slice(0, 2) });
-  }, 100), [noteId]);
+    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId, filters) });
+  }, 100), [noteId, filters]);
   
   const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
 
@@ -112,6 +118,8 @@ export const Posts = (props: Props) => {
             flatData.map((postId) => (
               <Post
                 key={postId}
+                isSelecting={isSelecting}
+                isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
                 postId={postId} 
                 onClick={onPostClick}
                 onDelete={handleOnPostDelete}
@@ -125,4 +133,4 @@ export const Posts = (props: Props) => {
       {scrollRestoration && <TabScrollRestoration />}
     </>
   );
-};
+});

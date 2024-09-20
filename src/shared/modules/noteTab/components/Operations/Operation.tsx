@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Box, Text, Button, IconButton, useColorModeValue } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Box, Button, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { MdClose, MdOutlineDone } from 'react-icons/md';
+import { MdOutlineDone } from 'react-icons/md';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useAppDispatch } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';
 
@@ -30,7 +30,6 @@ export const Operation = React.memo((props: Props) => {
     onConfirm,
   } = props;
   const dispatch = useAppDispatch();
-  const borderColor = useColorModeValue('gray.700', 'white');
   const descriptionColor = useColorModeValue('gray.500', 'gray.400');
 
   const handleClose = () => {
@@ -39,21 +38,7 @@ export const Operation = React.memo((props: Props) => {
   };
 
   return (
-    <Box
-      as={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      p="2"
-      borderRadius="md"
-      border="2px solid"
-      borderColor={borderColor}
-      alignItems="stretch"
-      flexDirection="column"
-      display="flex"
-      my="2"
-      position="relative"
-    >
+    <OperationWrapper onClose={handleClose}>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -63,10 +48,7 @@ export const Operation = React.memo((props: Props) => {
           {typeof title === 'string' ? <Text fontWeight="bold" fontSize="sm">{title}</Text> : title}
           <Text fontSize="sm" color={descriptionColor}>{description}</Text>
         </Box>
-        <Box
-          display="flex"
-          gap="2"
-        >
+        <Box display="flex" gap="2">
           {options && (
             <Menu placement="top-end">
               <MenuTrigger
@@ -101,21 +83,8 @@ export const Operation = React.memo((props: Props) => {
               {confirmText || 'Confirm'}
             </Button>
           )}
-          
         </Box>
       </Box>
-      <IconButton
-        icon={<MdClose />}
-        aria-label=""
-        size="xs"
-        colorScheme="brand"
-        position="absolute"
-        right="0"
-        top="0"
-        borderRadius="full"
-        transform="translate(50%, -50%)"
-        onClick={handleClose}
-      />
-    </Box>
+    </OperationWrapper>
   );
 });
