@@ -14,7 +14,7 @@ type Props = {
   removeEmptyDivsFromEnd?: boolean
 }
 
-export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
+export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
   const { colorMode } = useColorMode();
 
   const content = React.useMemo(() => {
@@ -41,4 +41,4 @@ export const EditorView = ({ content: json, maxLines, removeEmptyDivsFromEnd }: 
       noOfLines={maxLines}
     />
   );
-};
+});

@@ -167,7 +167,11 @@ export const Menu = React.memo((props: Props) => {
         <FloatingPortal>
           {isOpen && (
             <FloatingOverlay lockScroll>
-              <FloatingFocusManager context={context} initialFocus={refs.floating}>
+              <FloatingFocusManager
+                context={context}
+                initialFocus={refs.floating}
+                returnFocus={false}
+              >
                 <Box
                   ref={refs.setFloating}
                   style={floatingStyles}

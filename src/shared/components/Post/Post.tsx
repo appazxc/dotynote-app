@@ -15,7 +15,6 @@ type Props = {
 
 export const Post = (props: Props) => {
   const { noteId, isSelecting, isSelected, ...boxProps } = props;
-
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   
   invariant(note, 'Missing note');
@@ -48,7 +47,7 @@ export const Post = (props: Props) => {
       {...boxProps}
     >
       {renderedSelectingContent}
-      <Box flexGrow="1">
+      <Box key="text" flexGrow="1">
         <Box
           p="4"
           borderWidth="2px"
