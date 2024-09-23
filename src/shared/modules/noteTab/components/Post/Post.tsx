@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
-import { useUnstickPost } from 'shared/api/hooks/useUnstickPost';
+import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostComponent } from 'shared/components/Post';
 import { modalIds } from 'shared/constants/modalIds';
@@ -32,7 +32,7 @@ export const Post = React.memo((props: Props) => {
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
 
-  const { mutate: unstick } = useUnstickPost(postId);
+  const { mutate: unstick } = useUnstickPosts(postId);
   const { mutate: deleteNote } = useDeleteNote(note.id);
 
   React.useEffect(() => {
