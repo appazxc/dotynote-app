@@ -1,13 +1,13 @@
+import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 
 import { stickNote } from 'shared/actions/stickNote';
-import { api } from 'shared/api';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
-import { toast } from 'shared/util/toast';
 
 type Params = {
-  fromNoteId: number | null,
-  noteIds: number[],
+  noteId?: number | null,
+  postIds: number[],
   parentId: number,
   concretePostId?: number,
   place?: 'top' | 'bottom',
@@ -15,13 +15,16 @@ type Params = {
 
 export const useStickNote = () => {
   const dispatch = useAppDispatch();
+  const toast = useToast();
   
   return useMutation({
     mutationFn: (params: Params) => {
       return dispatch(stickNote(params));
     },
-    onError: () => {
-      toast({ title: 'Error', status: 'error' });
+    onError: (error) => {
+      const apiError = parseApiError(error);
+
+      toast({ description: apiError.message, status: 'error' });
     },
   });
 };

@@ -18,7 +18,9 @@ export type ApiNoteEntity = BaseEntity<{
     delete: boolean,
     stick: boolean,
     stickHere: boolean,
+    stickConcreteHere: boolean,
     moveHere: boolean,
+    moveConcreteHere: boolean,
   }
 }, number>
 

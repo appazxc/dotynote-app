@@ -84,7 +84,7 @@ export const Post = React.memo((props: Props) => {
                 label="Stick"
                 onClick={() => dispatch(startStickOperation({
                   fromNoteId: post.parent,
-                  noteIds: [note.id],
+                  postIds: [post.id],
                 }))}
               />
             )}

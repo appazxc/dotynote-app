@@ -27,7 +27,7 @@ export const SelectOperation = React.memo((props: Props) => {
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
   const posts = useAppSelector(state => postSelector.getByIds(state, postIds));
-  console.log('posts', posts);
+
   const handleClose = () => {
     dispatch(stopOperation());
   };
@@ -51,7 +51,7 @@ export const SelectOperation = React.memo((props: Props) => {
       icon: <PiSticker />,
       onClick: () => dispatch(startStickOperation({
         fromNoteId: note.id,
-        noteIds: posts.map((post) => post.note),
+        postIds: posts.map((post) => post.id),
       })),
     }] : [],
     ...canUnstick ? [{

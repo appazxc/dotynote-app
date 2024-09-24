@@ -71,7 +71,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Stick"
               onClick={() => dispatch(startStickOperation({
-                noteIds: [note.id],
+                noteId: note.id,
               }))}
             />
           )}

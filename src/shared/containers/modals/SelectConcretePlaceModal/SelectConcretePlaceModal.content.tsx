@@ -49,8 +49,7 @@ const SelectConcretePlaceModal = (props: Props) => {
     if (operation.type === 'stick') {
       await stick({
         parentId: noteId,
-        noteIds: operation.noteIds,
-        fromNoteId: operation.fromNoteId,
+        postIds: operation.postIds,
         concretePostId: operation.concretePostId,
         place,
       });
@@ -68,8 +67,8 @@ const SelectConcretePlaceModal = (props: Props) => {
     <Modal
       isCentered
       isOpen={isOpen}
-      onClose={() => dispatch(hideModal())}
       size="xs"
+      onClose={() => dispatch(hideModal())}
     >
       <ModalOverlay />
       <ModalContent overflow="hidden">

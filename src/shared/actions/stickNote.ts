@@ -4,8 +4,8 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  fromNoteId: number | null,
-  noteIds: number[],
+  noteId?: number | null,
+  postIds: number[],
   parentId: number,
   concretePostId?: number,
   place?: 'top' | 'bottom',
