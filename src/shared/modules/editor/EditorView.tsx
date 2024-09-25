@@ -32,6 +32,10 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
   }, [json, removeEmptyDivsFromEnd]);
 
   const sx = React.useMemo(() => getEditorStyles({ colorMode }), [colorMode]);
+  
+  if (!content) {
+    return null;
+  }
 
   return (
     <Box

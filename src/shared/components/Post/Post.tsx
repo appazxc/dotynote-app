@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, BoxProps, Card, CardBody, Radio, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Card, CardBody, Radio, Stack, Text } from '@chakra-ui/react';
 
 import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
@@ -41,6 +41,8 @@ export const Post = (props: Props) => {
     );
   }
 
+  console.log('note.content', note.content);
+
   return (
     <Box
       display="flex"
@@ -48,21 +50,22 @@ export const Post = (props: Props) => {
     >
       {renderedSelectingContent}
       <Box key="text" flexGrow="1">
-        <Box
+        <Stack
           p="4"
           borderWidth="2px"
           borderRadius="lg"
           borderColor="gray.200"
           cursor="pointer"
           userSelect="none"
+          gap="2"
         >
-          {note.title && <Text fontWeight="500" mb="2">{note.title}</Text>}
+          {note.title && <Text fontWeight="500">{note.title}</Text>}
           <EditorView
             removeEmptyDivsFromEnd
             maxLines={4}
             content={note.content}
           />
-        </Box>
+        </Stack>
       </Box>
     </Box>
   );
