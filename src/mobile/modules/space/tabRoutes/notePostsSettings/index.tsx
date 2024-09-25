@@ -13,6 +13,7 @@ export const notePostsSettings = createRoute({
   loader: async ({ params }) => {
     try {
       await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));
+      await queryClient.fetchQuery(options.notes.loadOrderByList());
     } catch (err: unknown) {
       if (err instanceof AxiosError && err.response?.status === 404) {
         // if 404 loader will always call refetch

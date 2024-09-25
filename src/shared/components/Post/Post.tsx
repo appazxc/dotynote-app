@@ -56,7 +56,7 @@ export const Post = (props: Props) => {
           cursor="pointer"
           userSelect="none"
         >
-          <Text fontWeight="500">{note.title}</Text>
+          {note.title && <Text fontWeight="500" mb="2">{note.title}</Text>}
           <EditorView
             removeEmptyDivsFromEnd
             maxLines={4}

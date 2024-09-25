@@ -50,7 +50,7 @@ export const LayoutHeader = (props: Props) => {
     return (
       <Text
         fontWeight="500"
-        noOfLines={2}
+        noOfLines={1}
         overflow="hidden" 
         textOverflow="ellipsis"
         lineHeight="1.2"
@@ -68,14 +68,14 @@ export const LayoutHeader = (props: Props) => {
       alignItems="center"
       background="body"
       pl={renderedBackButton ? '2' : '4'}
-      pr="2"
+      pr={right ? '2' : '4'}
       minH="44px"
       gap="2"
       {...restProps}
     >
       {(renderedBackButton || left) && <Box flexShrink="0">{renderedBackButton}{left}</Box>}
       <Box flexGrow="1">{renderedTitle || children}</Box>
-      <Box flexShrink="0">{right}</Box>
+      {right && <Box flexShrink="0">{right}</Box>}
     </Box>
   );
 };
