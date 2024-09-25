@@ -9,8 +9,8 @@ import {
 import { FaLongArrowAltDown, FaLongArrowAltUp } from 'react-icons/fa';
 
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
-import { useMoveNote } from 'shared/api/hooks/useMoveNote';
-import { useStickNote } from 'shared/api/hooks/useStickNote';
+import { useMovePosts } from 'shared/api/hooks/useMovePosts';
+import { useStickNotes } from 'shared/api/hooks/useStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectOperation } from 'shared/selectors/operations';
@@ -28,8 +28,8 @@ const SelectConcretePlaceModal = (props: Props) => {
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
 
-  const { mutateAsync: move, isPending: isPendingMove } = useMoveNote();
-  const { mutateAsync: stick, isPending: isPendingStick } = useStickNote();
+  const { mutateAsync: move, isPending: isPendingMove } = useMovePosts();
+  const { mutateAsync: stick, isPending: isPendingStick } = useStickNotes();
 
   invariant(operation.type, 'Operation type is empty in SelectConcretePlaceModal');
 
@@ -37,6 +37,7 @@ const SelectConcretePlaceModal = (props: Props) => {
     if (operation.type === 'move') {
       await move({
         parentId: noteId,
+        fromNoteId: operation.fromNoteId,
         postIds: operation.postIds,
         concretePostId: operation.concretePostId,
         place,

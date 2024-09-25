@@ -21,6 +21,7 @@ export type ApiNoteEntity = BaseEntity<{
     stickConcreteHere: boolean,
     moveHere: boolean,
     moveConcreteHere: boolean,
+    createPost: boolean,
   }
 }, number>
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
-import { useStickNote } from 'shared/api/hooks/useStickNote';
+import { useStickNotes } from 'shared/api/hooks/useStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -17,7 +17,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteId, postIds, concret
   const note = useTabNote();
   
   const { mutateAsync: createPostsSettings, isPending } = useCreatePostsSettings(note.id);
-  const { mutateAsync: stick, isPending: isStickPending } = useStickNote();
+  const { mutateAsync: stick, isPending: isStickPending } = useStickNotes();
   
   const handleStick = React.useCallback(async () => {
     if (!note.postsSettings) {
