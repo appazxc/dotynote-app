@@ -5,15 +5,15 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 
 import { entityApi } from '../entityApi';
 
-export const deleteNoteMutationKey = (id: number) => ['deleteNote', id];
+export const deleteNoteMutationKey = () => ['deleteNote'];
 
-export const useDeleteNote = (id: number) => {
+export const useDeleteNotes = (id: number | number[]) => {
   const toast = useToast();
 
   return useMutation({
-    mutationKey: ['deleteNote', id],
+    mutationKey: deleteNoteMutationKey(),
     mutationFn: () => {
-      return entityApi.note.delete(id, { deleteFlag: true });
+      return entityApi.note.deleteMany(Array.isArray(id) ? id : [id], { deleteFlag: true });
     },
     onError: (error) => {
       toast({

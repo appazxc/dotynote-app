@@ -34,7 +34,7 @@ export const NoteHeader = (props: Props) => {
   const dispatch = useAppDispatch();
   const tab = useTabContext();
   const title = useTabTitle(tab.routes[tab.routes.length - 1], router);
-  const isMutating = useIsNoteMutating(noteId);
+  const isMutating = useIsNoteMutating();
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);

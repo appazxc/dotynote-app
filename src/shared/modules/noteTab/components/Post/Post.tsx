@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
+import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostComponent } from 'shared/components/Post';
@@ -33,7 +33,7 @@ export const Post = React.memo((props: Props) => {
   invariant(note, 'Missing note');
 
   const { mutate: unstick } = useUnstickPosts(postId);
-  const { mutate: deleteNote } = useDeleteNote(note.id);
+  const { mutate: deleteNote } = useDeleteNotes(note.id);
 
   React.useEffect(() => {
     if ((post._isDeleted || note._isDeleted) && onDelete) {
