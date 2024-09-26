@@ -2,7 +2,7 @@ import { Mutation, useMutationState } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import last from 'lodash/last';
 
-import { deleteNoteMutationKey } from 'shared/api/hooks/useDeleteNote';
+import { deleteNoteMutationKey } from 'shared/api/hooks/useDeleteNotes';
 import { updateNoteMutationKey } from 'shared/api/hooks/useUpdateNote';
 import { getTextFromZodError } from 'shared/util/api/getTextFromZodError';
 
@@ -26,7 +26,7 @@ const select = (mutation: Mutation<unknown, Error, unknown, unknown>) => {
   return null;
 };
 
-export const useNoteMutationError = (id: number) => {
+export const useNoteMutationError = () => {
   const updateErrors = useMutationState<string>({
     filters: { mutationKey: updateNoteMutationKey() },
     select,
@@ -35,7 +35,7 @@ export const useNoteMutationError = (id: number) => {
   const updateError = last(updateErrors);
 
   const deleteErrors = useMutationState<string>({
-    filters: { mutationKey: deleteNoteMutationKey(id) },
+    filters: { mutationKey: deleteNoteMutationKey() },
     select,
   });
 
