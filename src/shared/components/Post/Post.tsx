@@ -41,8 +41,6 @@ export const Post = (props: Props) => {
     );
   }
 
-  console.log('note.content', note.content);
-
   return (
     <Box
       display="flex"
