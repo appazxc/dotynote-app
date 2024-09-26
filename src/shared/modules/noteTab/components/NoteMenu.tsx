@@ -7,7 +7,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
 import { api } from 'shared/api';
-import { useDeleteNote } from 'shared/api/hooks/useDeleteNote';
+import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -26,7 +26,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { mutateAsync } = useDeleteNote(noteId);
+  const { mutateAsync } = useDeleteNotes(noteId);
   const { mutateAsync: createNoteSettings } = useMutation({
     mutationFn: () => {
       return api.post<string>(`/notes/${noteId}/settings`, {});
@@ -71,7 +71,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Stick"
               onClick={() => dispatch(startStickOperation({
-                noteIds: [note.id],
+                noteId: note.id,
               }))}
             />
           )}

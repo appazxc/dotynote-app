@@ -32,7 +32,7 @@ export const NoteBase = (props: Props) => {
     return debounce((title) => {
       mutate({ id, data: { title } });
     }, 2000);
-  }, [mutate]);
+  }, [mutate, id]);
 
   return (
     <Box

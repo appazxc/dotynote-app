@@ -21,6 +21,8 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
     onChange(event.target.value);
   }, [onChange]);
 
+  React.useEffect(() => () => onChange(''), [onChange]);
+
   return (
     <Container py="2">
       <HStack gap="2">

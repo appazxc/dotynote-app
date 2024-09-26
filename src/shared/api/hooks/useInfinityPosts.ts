@@ -12,7 +12,7 @@ import { entityApi } from '../entityApi';
 type Filters = Omit<LoadListFilters, 'parentId'>;
 
 export type PageParam = { 
-  cursor?: string | null,
+  cursor?: number | null,
   direction?: LoadMoreDirection | null, 
 }
 
@@ -22,9 +22,10 @@ const initialPageParam: PageParam =
   direction: null,
 };
 
-export const getInfinityPostsQueryKey = (noteId: number, filters: Filters = {}) => ['posts', noteId, filters];
+export const getInfinityPostsQueryKey = (noteId: number | string = '', filters: Filters = {}) => 
+  ['posts', noteId, filters];
 
-export const useInfinityPosts = (noteId: number, filters: Filters = {}) => {
+export const useInfinityPosts = (noteId?: number, filters: Filters = {}) => {
   const queryKey = React.useMemo(
     () => getInfinityPostsQueryKey(noteId, filters), 
     [noteId, filters]
@@ -47,16 +48,16 @@ export const useInfinityPosts = (noteId: number, filters: Filters = {}) => {
         apiFilters[getCursorName(direction)] = cursor;
       }
 
-      return entityApi.post.loadList({ filters: apiFilters });
+      return entityApi.post.loadList<number>({ filters: apiFilters });
     },
-    getPreviousPageParam: (lastPage, allPages, pageParam, allPageParams) => {
+    getPreviousPageParam: (lastPage, _allPages, _pageParam, _allPageParams) => {
       const result = lastPage.length === DEFAULT_PAGE_SIZE 
         ? { cursor: lastPage[lastPage.length - 1], direction: loadMoreDirection.PREVIOUS } 
         : null;
 
       return result;
     },
-    getNextPageParam: (firstPage, allPages, pageParam, allPageParams) => {
+    getNextPageParam: (firstPage, _allPages, pageParam, allPageParams) => {
       const loadedOnlyPreviousPage = allPageParams.length === 1 
       && allPageParams[0].direction === loadMoreDirection.PREVIOUS;
         

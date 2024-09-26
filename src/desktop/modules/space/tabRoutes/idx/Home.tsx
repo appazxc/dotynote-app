@@ -7,7 +7,7 @@ import {
 import { useNavigate, useSearch } from '@tanstack/react-router';
 
 import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
-import { NoteInPost } from 'shared/components/NoteInPost';
+import { Post } from 'shared/components/Post';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { SearchInput } from 'shared/modules/search/SearchInput';
@@ -42,7 +42,7 @@ export const Home = React.memo(() => {
         to="/n/$noteId"
         params={{ noteId: String(id) }}
       >
-        <NoteInPost noteId={id} />
+        <Post noteId={id} />
       </DesktopTabLink>
     );
   };

@@ -5,19 +5,18 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 
 import { entityApi } from '../entityApi';
 
-export const deleteNoteMutationKey = (id: number) => ['deleteNote', id];
-
-export const useDeleteNote = (id: number) => {
+export const useUnstickPosts = (id: number | number[]) => {
   const toast = useToast();
 
   return useMutation({
-    mutationKey: ['deleteNote', id],
     mutationFn: () => {
-      return entityApi.note.delete(id, { deleteFlag: true });
+      return entityApi.post.deleteMany(Array.isArray(id) ? id : [id], { deleteFlag: true });
     },
     onError: (error) => {
+      const apiError = parseApiError(error);
+
       toast({
-        description: parseApiError(error).message,
+        description: apiError.message,
         status: 'error',
       });
     },

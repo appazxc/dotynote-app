@@ -23,6 +23,13 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
     debouncedNavigate(event.target.value);
   }, [debouncedNavigate]);
   
+  React.useEffect(() => {
+    return () => {
+      // @ts-ignore looks like bug
+      navigate({ search: (prev) => ({ ...prev, search: undefined }), replace: true });
+    };
+  }, [navigate]);
+
   return (
     <Input
       autoFocus

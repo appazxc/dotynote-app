@@ -23,7 +23,8 @@ export const operationTypes = {
 export type StickOperation = {
   type: typeof operationTypes.STICK,
   fromNoteId: number | null,
-  noteIds: number[],
+  noteId: number | null,
+  postIds: number[],
   concretePlace: boolean,
   concretePostId?: number,
 }
@@ -38,6 +39,7 @@ export type HubOperation = {
 
 export type SelectOperation = {
   type: typeof operationTypes.SELECT,
+  noteId: number,
   postIds: number[],
 }
 
@@ -145,13 +147,15 @@ export const appSlice = createSlice({
       state, 
       { payload }: PayloadAction<{
         fromNoteId?: number,
-        noteIds: number[],
+        noteId?: number,
+        postIds?: number[],
       }>
     ) => {
       state.operation = {
         type: operationTypes.STICK,
         fromNoteId: payload.fromNoteId || null,
-        noteIds: payload.noteIds,
+        noteId: payload.noteId || null,
+        postIds: payload.postIds || [],
         concretePlace: false,
       };
     },
@@ -179,16 +183,39 @@ export const appSlice = createSlice({
         type: operationTypes.HUB,
       };
     },
-    startSelectOperation: (state) => {
+    startSelectOperation: (
+      state,
+      { payload }: PayloadAction<{
+        noteId: number,
+        postId: number,
+      }>
+    ) => {
       state.operation = {
         type: operationTypes.SELECT,
-        postIds: [],
+        postIds: [payload.postId],
+        noteId: payload.noteId,
       };
     },
     toggleConcretePlace: (state) => {
       if ('concretePlace' in state.operation) {
         state.operation.concretePlace = !state.operation.concretePlace;
       } 
+    },
+    togglePostSelect: (state, { payload }: PayloadAction<number>) => {
+      if (state.operation.type !== operationTypes.SELECT) {
+        return;
+      } 
+      
+      if (state.operation.postIds.includes(payload)) {
+        const newPostsIds = state.operation.postIds.filter(id => id !== payload);
+        state.operation.postIds = newPostsIds;
+
+        if (newPostsIds.length === 0) {
+          state.operation = noOperation;
+        }
+      } else {
+        state.operation.postIds.push(payload);
+      }
     },
     addPrimaryNoteTab: (
       state, 
@@ -222,7 +249,9 @@ export const {
   startMoveOperation,
   toggleSearch,
   startPrimaryNoteOperation,
+  startSelectOperation,
   toggleConcretePlace,
+  togglePostSelect,
   updateOperationConcretePost,
   addPrimaryNoteTab,
   startHubOperation,

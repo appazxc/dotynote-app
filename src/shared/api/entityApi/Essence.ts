@@ -110,6 +110,18 @@ export default class Essense<T extends { id?: string | number }> {
     }
   }
 
+  async deleteMany(ids: (string | number)[], { deleteFlag }: DeleteOptions = {}) {
+    await this.api.delete<void>(`${this.path}`, { ids: ids.join(',') });
+
+    ids.forEach((id) => {
+      if (deleteFlag) {
+        this.store.dispatch(updateEntity({ id, type: this.entityName, data: { _isDeleted: true } }));
+      } else {
+        this.store.dispatch(deleteEntity({ id, type: this.entityName }));
+      }
+    });
+  }
+
   updateEntity(id: string | number, data: any) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }

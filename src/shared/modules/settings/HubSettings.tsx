@@ -5,7 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUpdateUserSettings } from 'shared/api/hooks/useUpdateUserSettings';
-import { NoteInPost } from 'shared/components/NoteInPost';
+import { Post } from 'shared/components/Post';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
@@ -72,7 +72,7 @@ export const HubSettings = React.memo(({ hub }: Props) => {
                   Remove
                 </Button>
               </Box>
-              <NoteInPost noteId={hub?.id} onClick={handleNoteClick} />
+              <Post noteId={hub?.id} onClick={handleNoteClick} />
             </Box>
           ) : (
             <Button

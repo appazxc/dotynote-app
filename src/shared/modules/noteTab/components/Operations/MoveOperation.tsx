@@ -2,9 +2,8 @@ import React from 'react';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
-import { useMoveNote } from 'shared/api/hooks/useMoveNote';
+import { useMovePosts } from 'shared/api/hooks/useMovePosts';
 import { queryClient } from 'shared/api/queryClient';
-import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
@@ -17,7 +16,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   const dispatch = useAppDispatch();
   const note = useTabNote();
 
-  const { mutateAsync: move, isPending } = useMoveNote();
+  const { mutateAsync: move, isPending } = useMovePosts();
   const { mutateAsync: createPostsSettings, isPending: isCreatePostsSettingsPending } = useCreatePostsSettings(note.id);
   
   const handleMove = React.useCallback(async () => {
@@ -27,6 +26,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
 
     move({
       postIds,
+      fromNoteId,
       parentId: note.id,
     }).then(() => {
       dispatch(stopOperation());
@@ -46,7 +46,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     createPostsSettings,
   ]);
 
-  const options = note.postsSettings?.orderById === SORT_ORDER_IDS.POSITION ? [
+  const options = note.permissions.moveConcreteHere ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),
