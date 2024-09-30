@@ -8,7 +8,7 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { operationTypes, updateOperationConcretePost } from 'shared/store/slices/appSlice';
+import { operationTypes, togglePostSelect, updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiPostEntity } from 'shared/types/entities/PostEntity';
 
@@ -41,9 +41,14 @@ export const NotePosts = React.memo((props: Props) => {
       concretePostClick(post);
       return;
     }
+
+    if (isSelecting) {
+      dispatch(togglePostSelect(post.id));
+      return;
+    }
     
     defaultPostClick(event, post.note);
-  }, [operation, defaultPostClick, concretePostClick]);
+  }, [dispatch, operation, isSelecting, defaultPostClick, concretePostClick]);
 
   const showPosts = !!postsSettings;
   

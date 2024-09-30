@@ -6,6 +6,6 @@ import { Layout } from 'mobile/components/Layout';
 
 export const LayoutLoader = React.memo(() => {
   return (
-    <Layout><Loader /></Layout>
+    <Layout><Loader delay={100} /></Layout>
   );
 });
