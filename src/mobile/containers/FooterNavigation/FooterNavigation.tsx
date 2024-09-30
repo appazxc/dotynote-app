@@ -1,17 +1,16 @@
 import React from 'react';
 
 import { Box, Center, IconButton, IconButtonProps, Text, useColorModeValue } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 import { useLongPress } from '@uidotdev/usehooks';
-import { GoDotFill, GoHome, GoPlus, GoSearch } from 'react-icons/go';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
+import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 
-import { drawerIds } from 'shared/constants/drawerIds';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
-import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -58,11 +57,16 @@ export const FooterNavigation = React.memo(() => {
           }
         },
         icon: <GoHome size="25" />,
-        getMenu: activeSpace ? ({ key, ...triggerProps }: { key: string } & IconButtonProps) => {
+        getMenu: activeSpace ? (
+          { key, isActive, ...triggerProps }: { key: string, isActive: boolean } & IconButtonProps
+        ) => {
           return (
-            <HomeMenu key={key} {...triggerProps} />
+            <IconWrapper key={key} isActive={isActive}>
+              <HomeMenu {...triggerProps} />
+            </IconWrapper>
           );
         } : undefined,
+        isActive: pathname === '/app/primary',
       },
       {
         label: 'search',
@@ -70,15 +74,15 @@ export const FooterNavigation = React.memo(() => {
           navigate({ to: '/app/search' });
         },
         icon: <GoSearch size="25" />,
-        isDisabled: false,
+        isActive: pathname === '/app/search',
       },
       {
-        label: 'menu',
+        label: 'app',
         onClick: () => {
-          dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
+          navigate({ to: '/app' });
         },
-        icon: <GoDotFill size="35" />,
-        isDisabled: !noteId || !isDotMenuActive,
+        icon: <RxReader size="25" />,
+        isActive: pathname === '/app',
       },
       {
         label: 'tabs',
@@ -98,14 +102,15 @@ export const FooterNavigation = React.memo(() => {
         onContextMenu: (event) => {
           event.preventDefault();
         },
+        isActive: pathname === '/app/tabs',
       },
       {
-        label: 'account',
+        label: 'menu',
         onClick: () => {
           navigate({ to: '/app/menu' });
-          // router.navigate(buildUrl({ routeName: routeNames.account }));
         },
         icon: <RxHamburgerMenu size="25" />,
+        isActive: pathname === '/app/menu',
       },
     ];
   }, [
@@ -114,9 +119,8 @@ export const FooterNavigation = React.memo(() => {
     borderColor,
     navigate,
     activeSpace,
-    noteId,
-    isDotMenuActive,
     isPrimaryNote,
+    pathname,
   ]);
 
   return (
@@ -129,9 +133,8 @@ export const FooterNavigation = React.memo(() => {
         h="44px"
         px="4"
       >
-        {buttons.map(({ label, icon, onClick, isDisabled, getMenu, ...rest }) => {
+        {buttons.map(({ label, icon, onClick, getMenu, isActive, ...rest }) => {
           const props = {
-            key: label,
             size: 'md',
             'aria-label': label,
             icon: icon,
@@ -139,13 +142,12 @@ export const FooterNavigation = React.memo(() => {
             variant: 'unstyled',
             display: 'inline-flex',
             colorScheme: 'brand',
-            isDisabled: isDisabled,
             ...rest,
           };
 
           return getMenu 
-            ? getMenu(props) 
-            : <IconButton {...props} key={props.key} />;
+            ? getMenu({ ...props, key: label, isActive }) 
+            : <IconWrapper key={label} isActive={isActive}><IconButton {...props} /></IconWrapper>;
         })}
       </Box>
       <PrimaryNoteModal />
@@ -155,3 +157,19 @@ export const FooterNavigation = React.memo(() => {
     </>
   );
 });
+
+const IconWrapper = styled.div<{ isActive?: boolean }>`
+  position: relative;
+  
+  &::before {
+    content: ${({ isActive }) => (isActive ? '""' : 'none')};
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: black;
+  }
+`;
