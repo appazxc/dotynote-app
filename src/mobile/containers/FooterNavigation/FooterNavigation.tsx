@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Box, Center, IconButton, IconButtonProps, Text, useColorModeValue } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { useLongPress } from '@uidotdev/usehooks';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
@@ -61,9 +60,7 @@ export const FooterNavigation = React.memo(() => {
           { key, isActive, ...triggerProps }: { key: string, isActive: boolean } & IconButtonProps
         ) => {
           return (
-            <IconWrapper key={key} isActive={isActive}>
-              <HomeMenu {...triggerProps} />
-            </IconWrapper>
+            <HomeMenu key={key} {...triggerProps} />
           );
         } : undefined,
         isActive: pathname === '/app/primary',
@@ -94,9 +91,12 @@ export const FooterNavigation = React.memo(() => {
           h="6"
           rounded="6"
           border="2px"
-          borderColor={borderColor}
+          borderColor={pathname === '/app/tabs' ? 'purple.500' : borderColor}
+          fontSize="sm"
         >
-          {activeSpace?.tabs.length ? <Text fontSize="sm">{activeSpace.tabs.length}</Text> : <GoPlus />}
+          {activeSpace?.tabs.length ? (
+            activeSpace.tabs.length
+          ) : <GoPlus />}
         </Center>,
         ...tabsButtonProps,
         onContextMenu: (event) => {
@@ -142,12 +142,13 @@ export const FooterNavigation = React.memo(() => {
             variant: 'unstyled',
             display: 'inline-flex',
             colorScheme: 'brand',
+            color: isActive ? 'purple.500' : undefined,
             ...rest,
           };
 
           return getMenu 
             ? getMenu({ ...props, key: label, isActive }) 
-            : <IconWrapper key={label} isActive={isActive}><IconButton {...props} /></IconWrapper>;
+            : <IconButton key={label} {...props} />;
         })}
       </Box>
       <PrimaryNoteModal />
@@ -157,19 +158,3 @@ export const FooterNavigation = React.memo(() => {
     </>
   );
 });
-
-const IconWrapper = styled.div<{ isActive?: boolean }>`
-  position: relative;
-  
-  &::before {
-    content: ${({ isActive }) => (isActive ? '""' : 'none')};
-    position: absolute;
-    bottom: 1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: black;
-  }
-`;
