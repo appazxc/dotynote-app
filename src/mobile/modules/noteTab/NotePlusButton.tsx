@@ -18,10 +18,10 @@ export const NotePlusButton = ({ noteId }: Props) => {
       <Button
         borderRadius="full"
         position="absolute"
-        right="10px"
+        right="16px"
         bottom="10px"
-        w="44px"
-        h="44px"
+        w="50px"
+        h="50px"
         onClick={() => {
           dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
         }}
