@@ -9,18 +9,21 @@ import {
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
 import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
-import { useAppDispatch } from 'shared/store/hooks';
+import { noteSelector } from 'shared/selectors/entities';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   noteId: number,
-  canAddToNote: boolean,
-  canAddToPosts: boolean,
-  modalsExtraId: string,
 }
 
-const DotNoteMenuDrawer = (props: Props) => {
-  const { noteId, modalsExtraId, canAddToNote, canAddToPosts } = props;
+const NoteMenuDrawer = (props: Props) => {
+  const { noteId } = props;
   const dispatch = useAppDispatch();
+  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+
+  if (!note) {
+    return null;
+  }
   
   const onClose = () => {
     dispatch(hideDrawer());
@@ -37,15 +40,13 @@ const DotNoteMenuDrawer = (props: Props) => {
         <DrawerHeader>
           <EntryMediaSelect
             noteId={noteId}
-            canAddToNote={canAddToNote}
-            canAddToPosts={canAddToPosts}
+            canAddToNote={note.permissions.update}
+            canAddToPosts={note.permissions.createPost}
           />
         </DrawerHeader>
         <DrawerBody>
           <EntryMediaContent
             noteId={noteId}
-            createPostModalExtraId={modalsExtraId}
-            editPostsSettingsModalExtraId={modalsExtraId}
             onFinish={onClose}
           />
         </DrawerBody>
@@ -54,4 +55,4 @@ const DotNoteMenuDrawer = (props: Props) => {
   );
 };
 
-export default DotNoteMenuDrawer;
+export default NoteMenuDrawer;

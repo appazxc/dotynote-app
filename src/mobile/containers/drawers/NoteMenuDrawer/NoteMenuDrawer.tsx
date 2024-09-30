@@ -3,7 +3,7 @@ import asDrawer, { GetDrawerParams } from 'shared/modules/drawer/asDrawer';
 import { DrawerLoader } from 'shared/modules/drawer/DrawerLoader';
 import { DrawerProps } from 'shared/types/drawer';
 
-import { Props } from './DotNoteMenuDrawer.content';
+import { Props } from './NoteMenuDrawer.content';
 
 const getDrawerParams: GetDrawerParams<DrawerProps<Props>> = () => ({
   id: drawerIds.dotNoteMenu,
@@ -12,4 +12,4 @@ const getDrawerParams: GetDrawerParams<DrawerProps<Props>> = () => ({
 export default asDrawer<DrawerProps<Props>>({ 
   getDrawerParams, 
   drawerLoader: <DrawerLoader />, 
-})(() => import('./DotNoteMenuDrawer.content'));
+})(() => import('./NoteMenuDrawer.content'));

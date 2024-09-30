@@ -4,21 +4,14 @@ import { queryClient } from 'shared/api/queryClient';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
-import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
-import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
-import { useAppSelector } from 'shared/store/hooks';
 
-import { DotNoteMenuDrawer } from 'mobile/containers/drawers/DotNoteMenuDrawer';
+import { NoteMenuDrawer } from 'mobile/containers/drawers/NoteMenuDrawer';
 
 type Props = {
   noteId: number,
 };
 
-const extraId = 'footerNoteDialogs';
-
 export const FooterNoteDialogs = React.memo(({ noteId }: Props) => {
-  const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
-  const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
   const noteTabId = useNoteTabId();
   
   const handlePostCreate = React.useCallback(() => {
@@ -29,15 +22,9 @@ export const FooterNoteDialogs = React.memo(({ noteId }: Props) => {
   
   return (
     <>
-      <DotNoteMenuDrawer
-        noteId={noteId}
-        canAddToNote={canAddToNote}
-        canAddToPosts={canAddToPosts}
-        modalsExtraId={extraId}
-      />
+      <NoteMenuDrawer noteId={noteId} />
       <CreatePostModal
         noteId={noteId}
-        extraId={extraId}
         onCreate={handlePostCreate}
       />
     </>

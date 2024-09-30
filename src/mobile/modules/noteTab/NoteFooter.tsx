@@ -8,29 +8,35 @@ import { selectIsOperationActive } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { NoteEditorControls } from 'mobile/modules/noteTab/NoteEditorControls';
+import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 
 type Props = {
+  noteId: number,
   isWriteMode: boolean,
 }
 
-export const NoteFooter = React.memo(({ isWriteMode }: Props) => {
+export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
   const editor = useEditorContext();
   const isOperationActive = useAppSelector(selectIsOperationActive);
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
 
   const showEditorControls = isAdvancedEditActive && isWriteMode;
 
-  return (
-    <>
-      {isOperationActive && (
-        <Container>
-          <Operations />
-        </Container>
-      )}
+  const showPlusButton = !isOperationActive && !showEditorControls;
 
-      {showEditorControls && (
-        <NoteEditorControls editor={editor} />
-      )}
-    </>
+  return (
+    showPlusButton ? <NotePlusButton noteId={noteId} /> : (
+      <>
+        {isOperationActive && (
+          <Container>
+            <Operations />
+          </Container>
+        )}
+
+        {showEditorControls && (
+          <NoteEditorControls editor={editor} />
+        )}
+      </>
+    )
   );
 });

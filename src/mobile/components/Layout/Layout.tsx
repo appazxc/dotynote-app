@@ -51,7 +51,11 @@ export const Layout = ({ children, header, footer }: Props) => {
           )}
         </ScrollProvider>
         {footer && (
-          <Box w="full" flexShrink="0">
+          <Box
+            w="full"
+            flexShrink="0"
+            position="relative"
+          >
             {footer}
           </Box>
         )}
