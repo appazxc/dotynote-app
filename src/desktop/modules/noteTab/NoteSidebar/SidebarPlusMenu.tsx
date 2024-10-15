@@ -20,8 +20,6 @@ import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
-const extraId = 'sidebarPlusMenu';
-
 type Props = { 
   canAddToNote: boolean,
   canAddToPosts: boolean,
@@ -80,8 +78,6 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
               />
               <EntryMediaContent
                 noteId={noteId}
-                createPostModalExtraId={extraId}
-                editPostsSettingsModalExtraId={extraId}
                 onFinish={onClose}
               />
             </PopoverBody>
@@ -91,7 +87,6 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
 
       <CreatePostModal
         noteId={noteId}
-        extraId={extraId}
         onCreate={handlePostCreate}
       />
     </>
