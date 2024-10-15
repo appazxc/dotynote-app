@@ -5,16 +5,13 @@ import { useNavigate } from '@tanstack/react-router';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
-import { VscColorMode } from 'react-icons/vsc';
 
 import { logout } from 'shared/actions/logout';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
-import { drawerIds } from 'shared/constants/drawerIds';
-import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
-import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
+import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { router } from 'desktop/routes/router';
@@ -23,14 +20,6 @@ export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
-  
-  const handleColorModeChange = React.useCallback(() => {
-    dispatch(showModal({ id: modalIds.confirm, extraId: 'confirmColorChange' }));
-  }, [dispatch]);
-  
-  const handleDrawerOpen = React.useCallback(() => {
-    dispatch(showDrawer({ id: drawerIds.confirm }));
-  }, [dispatch]);
 
   const handleSettingsClick = React.useCallback(() => {
     navigate({ to: '/app/settings' });
@@ -56,16 +45,6 @@ export const MenuHeaderButton = React.memo(() => {
             leftIcon={<FiUser />}
             label="Profile"
             onClick={handleProfileClick}
-          />
-          <MenuItem
-            leftIcon={<VscColorMode />}
-            label={`Change mode to ${colorMode === 'light' ? 'Dark' : 'Light'}`}
-            onClick={handleColorModeChange}
-          />
-          <MenuItem
-            leftIcon={<VscColorMode />}
-            label="Open Drawer confirm"
-            onClick={handleDrawerOpen}
           />
           <MenuItem
             leftIcon={<TbSettings2 />}

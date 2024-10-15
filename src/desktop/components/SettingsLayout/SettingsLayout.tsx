@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, IconButton, useColorMode } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
+import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
+import { IoSunny } from 'react-icons/io5';
 import { TbSettings2 } from 'react-icons/tb';
 
 import { Logo } from 'shared/components/Logo';
@@ -13,6 +15,8 @@ import { Layout, LayoutHeader } from 'desktop/components/Layout';
 type Props = React.PropsWithChildren<{}>;
 
 export const SettingsLayout = React.memo(({ children }: Props) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const links = [
     {
       label: 'Profile',
@@ -29,12 +33,23 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader
-        p="4"
+        py="2"
+        pr="4"
         pl="6"
         left={<DesktopLink to="/app"><Logo /></DesktopLink>}
+        right={(
+          <IconButton 
+            size="sm"
+            icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
+            aria-label=""
+            colorScheme="gray"
+            variant="ghost"
+            onClick={toggleColorMode}
+          />
+        )}
       />
     );
-  }, []);
+  }, [colorMode, toggleColorMode]);
 
   return (
     <Layout header={renderedHeader}>
