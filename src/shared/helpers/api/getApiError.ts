@@ -9,7 +9,7 @@ export const parseApiError = (err: unknown) => {
 
   if (err instanceof AxiosError) {
     error.code = err.code || error.code;
-    error.message = err.response?.data?.message;
+    error.message = err.response?.data?.message || error.message;
     error.statusCode = err.response?.status || error.statusCode;
   }
 
