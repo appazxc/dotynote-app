@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
 type Props = {
   title: string,
-}
+} & BoxProps
 
-export const SpaceTabTitle = React.memo(({ title }: Props) => {
+export const SpaceTabTitle = React.memo(({ title, ...props }: Props) => {
   return (
     <Box
       fontSize="sm"
@@ -16,6 +16,7 @@ export const SpaceTabTitle = React.memo(({ title }: Props) => {
       <Box
         as={motion.div}
         layout="position"
+        {...props}
       >
         {title}
       </Box>

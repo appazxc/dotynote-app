@@ -88,9 +88,7 @@ export const Post = React.memo((props: Props) => {
                 }))}
               />
             )}
-            {post.permissions.unstick && (
-              <MenuItem label="Unstick" onClick={() => unstick()} />
-            )}
+            
             {post.permissions.move && (
               <MenuItem
                 label="Move"
@@ -100,11 +98,14 @@ export const Post = React.memo((props: Props) => {
                 }))}
               />
             )}
-            {post.permissions.delete && (
+            {(post.permissions.delete || post.permissions.unstick) && (
               <>
                 <MenuDivider />
+                {post.permissions.unstick && (
+                  <MenuItem label="Remove" onClick={() => unstick()} />
+                )}
                 <MenuItem 
-                  colorScheme="red"
+                  // colorScheme="red"
                   label="Delete"
                   onClick={() => { dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })); }}
                 />

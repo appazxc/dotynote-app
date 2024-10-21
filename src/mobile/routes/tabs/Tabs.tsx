@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Card, Center, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Center, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
@@ -29,7 +29,9 @@ const Tab = ({ id, isActive }) => {
   const spaceTab = useAppSelector(state => spaceTabSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const bg = useColorModeValue(isActive ? 'gray.300' : 'gray.100', isActive ? 'whiteAlpha.300' : 'whiteAlpha.100');
+  const borderColor = useColorModeValue(
+    isActive ? 'gray.600' : 'gray.300', 
+    isActive ? 'whiteAlpha.900' : 'whiteAlpha.100');
 
   invariant(spaceTab, 'Tab is missing');
 
@@ -41,37 +43,43 @@ const Tab = ({ id, isActive }) => {
   }, [dispatch, spaceTab, navigate]);
 
   return (
-    <Card
+    <Box
       layout
       as={motion.div}
-      px="3"
-      py="1"
-      pr="1"
-      cursor="pointer"
+      p="4"
+      position="relative"
+      border="2px solid"
+      borderColor={borderColor}
+      borderRadius="md"
       display="flex"
-      flexDirection="row"
+      alignItems="flex-end"
       justifyContent="space-between"
-      alignItems="center"
-      gap="2"
-      variant="filled"
-      bg={bg}
+      w="full"
+      cursor="pointer"
+      gap="4"
       onClick={handleTabChange}
     >
       <Box overflow="hidden">
-        <SpaceTabTitle title={tabTitle} />
+        <SpaceTabTitle
+          title={tabTitle}
+          fontSize="lg"
+          fontWeight="500"
+          textOverflow="ellipsis"
+          noOfLines={1}
+          display="block"
+        />
       </Box>
       <IconButton
         icon={<MdClose /> }
         aria-label="close"
-        size="sm"
-        variant="unstyled"
-        display="inline-flex"
+        size="xs"
+        colorScheme="gray"
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();
           dispatch(closeTab(id));
         }}
       />
-    </Card>
+    </Box>
   );
 };
 
