@@ -53,7 +53,7 @@ export const Menu = React.memo((props: Props) => {
     middleware: [
       offset(offsetOptions),
       flip({
-        fallbackPlacements: ['left-start', 'right-start'],
+        fallbackPlacements: ['right-start', 'left-start'],
       }),
       shift({ padding: 10 }),
     ],

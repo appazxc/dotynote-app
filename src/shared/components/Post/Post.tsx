@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, BoxProps, Card, CardBody, Radio, Stack, Text } from '@chakra-ui/react';
+import { BsFillPinAngleFill } from 'react-icons/bs';
 
 import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
@@ -11,10 +12,11 @@ type Props = {
   noteId: number,
   isSelecting?: boolean,
   isSelected?: boolean,
+  isPinned?: boolean,
 } & BoxProps;
 
 export const Post = (props: Props) => {
-  const { noteId, isSelecting, isSelected, ...boxProps } = props;
+  const { noteId, isSelecting, isSelected, isPinned, ...boxProps } = props;
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   
   invariant(note, 'Missing note');
@@ -48,6 +50,16 @@ export const Post = (props: Props) => {
     >
       {renderedSelectingContent}
       <Box key="text" flexGrow="1">
+        {isPinned && (
+          <Box
+            p="2"
+            color="blue.500"
+            display="flex"
+            justifyContent="flex-end"
+          >
+            <BsFillPinAngleFill size="16" />
+          </Box>
+        )}
         <Stack
           p="4"
           borderWidth="2px"

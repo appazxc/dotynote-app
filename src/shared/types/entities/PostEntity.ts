@@ -5,6 +5,7 @@ import { UserEntity } from 'shared/types/entities/UserEntity';
 import { BaseEntity } from './BaseEntity';
 
 export type ApiPostEntity = BaseEntity<{
+  pinnedAt: string | null,
   pos: number,
   parent: number,
   note: number,
@@ -12,8 +13,10 @@ export type ApiPostEntity = BaseEntity<{
   permissions: {
     delete: boolean,
     stick: boolean,
-    unstick: boolean,
+    remove: boolean,
     move: boolean,
+    pin: boolean,
+    unpin: boolean,
   }
 }, number>
 

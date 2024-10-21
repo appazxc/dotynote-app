@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Text, useColorModeValue } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { invariant, useNavigate } from '@tanstack/react-router';
+import { invariant } from '@tanstack/react-router';
 
 import { entityApi } from 'shared/api/entityApi';
 import { options } from 'shared/api/options';

@@ -5,7 +5,7 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 
 import { entityApi } from '../entityApi';
 
-export const useUnstickPosts = (id: number | number[]) => {
+export const useRemovePosts = (id: number | number[]) => {
   const toast = useToast();
 
   return useMutation({

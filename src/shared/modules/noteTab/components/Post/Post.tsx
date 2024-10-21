@@ -1,7 +1,10 @@
 import React from 'react';
 
+
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
-import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
+import { usePinPost } from 'shared/api/hooks/usePinPost';
+import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
+import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostComponent } from 'shared/components/Post';
 import { modalIds } from 'shared/constants/modalIds';
@@ -32,8 +35,10 @@ export const Post = React.memo((props: Props) => {
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
 
-  const { mutate: unstick } = useUnstickPosts(postId);
+  const { mutate: remove } = useRemovePosts(postId);
   const { mutate: deleteNote } = useDeleteNotes(note.id);
+  const { mutate: pin } = usePinPost();
+  const { mutate: unpin } = useUnpinPost();
 
   React.useEffect(() => {
     if ((post._isDeleted || note._isDeleted) && onDelete) {
@@ -50,6 +55,7 @@ export const Post = React.memo((props: Props) => {
       <PostComponent
         isSelecting={isSelecting}
         isSelected={isSelected}
+        isPinned={!!post.pinnedAt}
         noteId={note.id}
         onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           onClick?.(event)(post);
@@ -72,6 +78,18 @@ export const Post = React.memo((props: Props) => {
             {renderedPost}
           </MenuTrigger>
           <MenuList>
+            {post.permissions.pin && !post.pinnedAt && (
+              <MenuItem
+                label="Pin"
+                onClick={() => pin(postId)}
+              />
+            )}
+            {post.permissions.unpin && !!post.pinnedAt && (
+              <MenuItem
+                label="Unpin"
+                onClick={() => unpin(postId)}
+              />
+            )}
             <MenuItem
               label="Select"
               onClick={() => dispatch(startSelectOperation({
@@ -98,11 +116,11 @@ export const Post = React.memo((props: Props) => {
                 }))}
               />
             )}
-            {(post.permissions.delete || post.permissions.unstick) && (
+            {(post.permissions.delete || post.permissions.remove) && (
               <>
                 <MenuDivider />
-                {post.permissions.unstick && (
-                  <MenuItem label="Remove" onClick={() => unstick()} />
+                {post.permissions.remove && (
+                  <MenuItem label="Remove" onClick={() => remove()} />
                 )}
                 <MenuItem 
                   // colorScheme="red"
