@@ -11,6 +11,7 @@ import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
@@ -58,14 +59,14 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
                 if (!note.settings) {
                   await createNoteSettings();
                 }
-                navigate({ to: '/n/$noteId/settings' });
+                navigate({ to: `${noteRoutePath}/settings` });
               }}
             />
             {note.postsSettings && (
               <MenuItem
                 label="Posts"
                 onClick={() => {
-                  navigate({ to: '/n/$noteId/posts-settings' });
+                  navigate({ to: `${noteRoutePath}/posts-settings` });
                 }}
               />
             )}
@@ -87,7 +88,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
           {isMobile && !!pinnedPostsCount && (
             <MenuItem
               label="Pinned posts"
-              onClick={() => navigate({ to: '/n/$noteId/pinned', params: { noteId } })}
+              onClick={() => navigate({ to: `${noteRoutePath}/pinned`, params: { noteId } })}
             />
           )}
           {note.permissions.delete && (

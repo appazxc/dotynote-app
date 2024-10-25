@@ -5,6 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { openTab } from 'shared/actions/space/openTab';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
@@ -34,7 +35,7 @@ export const NotePosts = React.memo((props: Props) => {
         route: buildNoteTabRoute(noteId),
       }));
     } else {
-      navigate({ to: '/n/$noteId', params: { noteId } });
+      navigate({ to: noteRoutePath, params: { noteId } });
     }
   }, [navigate, dispatch]);
   

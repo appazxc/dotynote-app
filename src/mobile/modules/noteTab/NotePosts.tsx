@@ -4,6 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
 import { selectOperation } from 'shared/selectors/operations';
@@ -27,7 +28,7 @@ export const NotePosts = React.memo((props: Props) => {
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   
   const defaultPostClick = React.useCallback((_event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
-    navigate({ to: '/n/$noteId', params: { noteId } });
+    navigate({ to: noteRoutePath, params: { noteId } });
   }, [navigate]);
   
   const concretePostClick = React.useCallback((post: ApiPostEntity) => {

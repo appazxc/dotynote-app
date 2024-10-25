@@ -8,6 +8,7 @@ import { FaA } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -106,7 +107,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         id: 'Pinned posts',
         label: 'Pinned posts',
         icon: <BsFillPinAngleFill />,
-        onClick: () => navigate({ to: '/n/$noteId/pinned', params: { noteId } }),
+        onClick: () => navigate({ to: `${noteRoutePath}/pinned`, params: { noteId } }),
       }] : [],
     ];
   }, [

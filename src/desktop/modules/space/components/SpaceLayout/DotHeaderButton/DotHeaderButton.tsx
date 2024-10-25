@@ -8,6 +8,7 @@ import { useSpaces } from 'shared/api/hooks/useSpaces';
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuItem, MenuList, MenuTrigger, MenuSub, MenuDivider } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';

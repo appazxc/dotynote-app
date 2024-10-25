@@ -1,6 +1,8 @@
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
+
 export const getTabInfo = (path: string, router) => {
   const match = getTabMatch(path, router);
-  const isNoteTab = match.routeId === '/n/$noteId';
+  const isNoteTab = match.routeId === noteRoutePath;
   const noteId = isNoteTab ? Number(match.params.noteId) : null;
   const title = getTabTitleByRouteId(match.routeId, 'New Tab');
 
@@ -19,10 +21,10 @@ export const getTabInfo = (path: string, router) => {
 const tabTitleMap = {
   '/': 'New tab',
   '/note-not-found': 'Not found',
-  '/n/$noteId': '',
-  '/n/$noteId/pinned': 'Pinned posts',
-  '/n/$noteId/settings': 'Note settings',
-  '/n/$noteId/posts-settings': 'Posts settings',
+  [noteRoutePath]: '',
+  [`${noteRoutePath}/pinned`]: 'Pinned posts',
+  [`${noteRoutePath}/settings`]: 'Note settings',
+  [`${noteRoutePath}/posts-settings`]: 'Posts settings',
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {

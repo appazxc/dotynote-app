@@ -8,6 +8,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 
 import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
 import { Post } from 'shared/components/Post';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { SearchInput } from 'shared/modules/search/SearchInput';
@@ -26,7 +27,7 @@ export const Home = React.memo(() => {
 
   const handleCreateNote = React.useCallback((id: string) => {
     navigate({
-      to: '/n/$noteId',
+      to: noteRoutePath,
       params: { noteId: id }, 
       replace: true,
     }).finally(() => {

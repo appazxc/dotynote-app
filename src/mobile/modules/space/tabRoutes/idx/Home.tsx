@@ -3,6 +3,7 @@ import React from 'react';
 import { Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
@@ -16,7 +17,7 @@ export const Home = () => {
 
   const handleCreateNote = React.useCallback((id: string) => {
     navigate({
-      to: '/n/$noteId',
+      to: noteRoutePath,
       params: { noteId: id }, 
       replace: true,
     }).finally(() => {
