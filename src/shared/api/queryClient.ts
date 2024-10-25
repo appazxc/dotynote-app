@@ -18,7 +18,7 @@ export const queryClient = new QueryClient({
           return false;
         }
 
-        if (failureCount <= 3 && errorCode === 500 || errorCode === 408) {
+        if (failureCount <= 3 && errorCode === 500 || errorCode === 408 || errorCode === 524) {
           console.log('retry');
           return true;
         }

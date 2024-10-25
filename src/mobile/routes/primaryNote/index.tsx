@@ -1,11 +1,9 @@
-import { createRoute, lazyRouteComponent, notFound, redirect } from '@tanstack/react-router';
-import { AxiosError } from 'axios';
+import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
+import { noteTabLoader } from 'shared/modules/noteTab/noteTabLoader';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
@@ -31,15 +29,7 @@ export const primaryNote = createRoute({
       });
     }
 
-    try {
-      await queryClient.fetchQuery(options.notes.load(Number(activeSpace?.mainNoteId)));
-    } catch (err: unknown) {
-      if (!(err instanceof AxiosError)) {
-        throw err;
-      }
-
-      throw notFound();
-    }
+    await noteTabLoader(activeSpace?.mainNoteId);
   },
   pendingComponent: LayoutLoader,
   notFoundComponent: NoteNotFound,

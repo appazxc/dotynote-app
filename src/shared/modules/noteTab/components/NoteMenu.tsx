@@ -8,6 +8,7 @@ import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
 import { api } from 'shared/api';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
+import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -27,6 +28,8 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { mutateAsync } = useDeleteNotes(noteId);
+  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
+
   const { mutateAsync: createNoteSettings } = useMutation({
     mutationFn: () => {
       return api.post<string>(`/notes/${noteId}/settings`, {});
@@ -79,6 +82,12 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Search"
               onClick={() => dispatch(toggleSearch())}
+            />
+          )}
+          {isMobile && !!pinnedPostsCount && (
+            <MenuItem
+              label="Pinned posts"
+              onClick={() => navigate({ to: '/n/$noteId/pinned', params: { noteId } })}
             />
           )}
           {note.permissions.delete && (

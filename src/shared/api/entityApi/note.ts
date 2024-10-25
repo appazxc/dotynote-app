@@ -1,5 +1,6 @@
 import union from 'lodash/union';
 
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import {
   spaceSelector,
@@ -10,7 +11,7 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import Essense from './Essence';
 
 export class NoteEssence extends Essense<NoteEntity> {
-  async loadTabNotes(spaceId: string | undefined, router, noteRoutePath) {
+  async loadTabNotes(spaceId: string | undefined, router) {
 
     const state = this.store.getState();
     const space = spaceSelector.getEntityById(state, spaceId);

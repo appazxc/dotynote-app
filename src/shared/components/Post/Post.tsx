@@ -46,6 +46,7 @@ export const Post = (props: Props) => {
   return (
     <Box
       display="flex"
+      position="relative"
       {...boxProps}
     >
       {renderedSelectingContent}
@@ -56,6 +57,9 @@ export const Post = (props: Props) => {
             color="blue.500"
             display="flex"
             justifyContent="flex-end"
+            position="absolute"
+            top="0px"
+            right="0px"
           >
             <BsFillPinAngleFill size="16" />
           </Box>

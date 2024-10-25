@@ -1,10 +1,11 @@
 import React from 'react';
 
-
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
 import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
 import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
+import { getPinnedPostsCountQueryKey } from 'shared/api/options/posts';
+import { queryClient } from 'shared/api/queryClient';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Post as PostComponent } from 'shared/components/Post';
 import { modalIds } from 'shared/constants/modalIds';
@@ -81,13 +82,21 @@ export const Post = React.memo((props: Props) => {
             {post.permissions.pin && !post.pinnedAt && (
               <MenuItem
                 label="Pin"
-                onClick={() => pin(postId)}
+                onClick={() => pin(postId, {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(post.parent) });
+                  },
+                })}
               />
             )}
             {post.permissions.unpin && !!post.pinnedAt && (
               <MenuItem
                 label="Unpin"
-                onClick={() => unpin(postId)}
+                onClick={() => unpin(postId, {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(post.parent) });
+                  },
+                })}
               />
             )}
             <MenuItem

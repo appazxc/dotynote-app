@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { Box, IconButton, Tooltip } from '@chakra-ui/react';
-import { useRouter } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
+import { BsFillPinAngleFill } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
+import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -32,11 +34,12 @@ export const NoteSidebar = React.memo((props: Props) => {
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
+  const navigate = useNavigate();
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsSearchActive = React.useRef(isSearchActive);
   const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
   const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
-
+  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
   const showAddTo = canAddToNote || canAddToPosts;
   const isNoteContentVisible = !noteSettings?.hide;
 
@@ -99,8 +102,16 @@ export const NoteSidebar = React.memo((props: Props) => {
         onClick: () => dispatch(toggleSearch()),
         variant: isSearchActive ? 'solid' : 'ghost',
       }] : [],
+      ...pinnedPostsCount ? [{
+        id: 'Pinned posts',
+        label: 'Pinned posts',
+        icon: <BsFillPinAngleFill />,
+        onClick: () => navigate({ to: '/n/$noteId/pinned', params: { noteId } }),
+      }] : [],
     ];
   }, [
+    pinnedPostsCount,
+    navigate,
     rwMode,
     noteId,
     showAddTo,

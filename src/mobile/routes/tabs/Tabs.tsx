@@ -22,7 +22,6 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
@@ -95,7 +94,7 @@ export const Tabs = () => {
   const {
     isLoading: tabNotesIsLoading,
   } = useQuery({
-    ...options.notes.tabNotes(activeSpaceId, router, noteRoutePath),
+    ...options.notes.tabNotes(activeSpaceId, router),
     throwOnError: true,
   });
 

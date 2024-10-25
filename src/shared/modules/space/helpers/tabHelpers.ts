@@ -20,6 +20,7 @@ const tabTitleMap = {
   '/': 'New tab',
   '/note-not-found': 'Not found',
   '/n/$noteId': '',
+  '/n/$noteId/pinned': 'Pinned posts',
   '/n/$noteId/settings': 'Note settings',
   '/n/$noteId/posts-settings': 'Posts settings',
 };

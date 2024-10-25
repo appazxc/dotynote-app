@@ -1,34 +1,30 @@
-import { createRoute, lazyRouteComponent, notFound } from '@tanstack/react-router';
-import { AxiosError } from 'axios';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
+import { noteTabLoader } from 'shared/modules/noteTab/noteTabLoader';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 
 import { root } from '../root';
-
-export const noteRoutePath = '/n/$noteId';
 
 export const note = createRoute({
   getParentRoute: () => root,
   path: noteRoutePath,
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
-    try {
-      await queryClient.fetchQuery(options.notes.load(Number(params.noteId)));
-    } catch (err: unknown) {
-      if (!(err instanceof AxiosError)) {
-        throw err;
-      }
-
-      throw notFound();
-    }
+    await noteTabLoader(Number(params.noteId));
   },
   pendingComponent: LayoutLoader,
   notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
-  shouldReload: false,
+  shouldReload: ({ params }) => {
+    const noteId = Number(params.noteId);
+    const queryState = queryClient.getQueryState(options.notes.load(Number(noteId)).queryKey);
+
+    return queryState?.isInvalidated || false;
+  },
 });

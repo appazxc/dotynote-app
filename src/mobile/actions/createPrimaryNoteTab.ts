@@ -4,10 +4,8 @@ import { addPrimaryNoteTab } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
-import { invariant } from 'shared/util/invariant';
 
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
-import { selectPrimaryNoteTabId } from 'mobile/selectors/app/selectPrimaryNoteTabId';
 
 export const createPrimaryNoteTab = (): ThunkAction => (dispatch, getState) => {
   const activeSpace = selectActiveSpace(getState());

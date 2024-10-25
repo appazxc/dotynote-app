@@ -16,7 +16,7 @@ export type ApiError = AxiosError<
 >;
 
 export type Params = {
-  [key: string]: string;
+  [key: string]: any;
 };
 
 type Options = {

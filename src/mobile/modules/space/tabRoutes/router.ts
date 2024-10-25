@@ -9,15 +9,17 @@ import { note } from 'mobile/modules/space/tabRoutes/note';
 import { noteNotFound } from 'mobile/modules/space/tabRoutes/noteNotFound';
 import { notePostsSettings } from 'mobile/modules/space/tabRoutes/notePostsSettings';
 import { noteSettings } from 'mobile/modules/space/tabRoutes/noteSettings';
+import { pinnedPosts } from 'mobile/modules/space/tabRoutes/pinnedPosts';
 import { root } from 'mobile/modules/space/tabRoutes/root';
 import { context } from 'mobile/modules/space/tabRoutes/routerContext';
 
 const routeTree = root.addChildren([
-  idx, 
+  idx,
   note,
   noteSettings,
   notePostsSettings,
   noteNotFound,
+  pinnedPosts,
 ]);
 
 const defaultRouterOptions = {

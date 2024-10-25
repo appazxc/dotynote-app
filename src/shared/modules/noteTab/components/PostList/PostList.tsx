@@ -1,13 +1,15 @@
 import React from 'react';
 
 import { Box, Stack } from '@chakra-ui/react';
+import { isBoolean } from 'lodash';
 import debounce from 'lodash/debounce';
 import { useInView } from 'react-intersection-observer';
 
-import { getInfinityPostsQueryKey, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
+import { getInfinityPostsQueryKey, InfinityPostsOptions, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
-import { EMPTY_ARRAY } from 'shared/constants/common';
+import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
+import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
 import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
 import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
@@ -20,14 +22,17 @@ import { PostsSkeleton } from './PostsList.skeleton';
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId?: number,
+  noteId: number,
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
   scrollRestoration?: boolean,
-  search: string,
-  sort?: 'desc' | 'asc',
+  search?: string,
+  sort?: Sort,
   orderBy?: number,
   isSelecting?: boolean,
+  pageSize?: number,
+  isPinned?: boolean,
   selectedPosts?: number[],
+  options?: InfinityPostsOptions
 }
 
 export const PostList = React.memo((props: Props) => {
@@ -35,11 +40,14 @@ export const PostList = React.memo((props: Props) => {
     noteId,
     onPostClick,
     search,
+    isPinned,
     isSelecting = false,
     scrollRestoration = true,
     selectedPosts = EMPTY_ARRAY,
-    sort = 'desc',
-    orderBy = SORT_ORDER_IDS.POSITION, 
+    sort = SORT.DESC,
+    pageSize = DEFAULT_PAGE_SIZE,
+    orderBy = SORT_ORDER_IDS.POSITION,
+    options = EMPTY_OBJECT,
   } = props;
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
@@ -58,6 +66,14 @@ export const PostList = React.memo((props: Props) => {
       result.query = search;
     }
 
+    if (isBoolean(isPinned)) {
+      result.isPinned = String(isPinned);
+    }
+
+    if (pageSize) {
+      result.pageSize = pageSize;
+    }
+
     if (sort) {
       result.sort = sort;
     }
@@ -67,7 +83,7 @@ export const PostList = React.memo((props: Props) => {
     }
     
     return result;
-  }, [search, sort, orderBy]);
+  }, [search, sort, orderBy, pageSize, isPinned]);
 
   const { 
     data, 
@@ -79,10 +95,7 @@ export const PostList = React.memo((props: Props) => {
     fetchNextPage,
     hasNextPage,
     hasPreviousPage,
-    // ...rest
-  } = useInfinityPosts(noteId, filters);
-  // console.log('data', data);
-  // console.log('rest', rest);
+  } = useInfinityPosts(noteId, filters, options);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 

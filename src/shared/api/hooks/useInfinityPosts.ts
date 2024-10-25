@@ -1,31 +1,39 @@
 import React from 'react';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
 
-import { LoadListFilters } from 'shared/api/options/posts';
-import { DEFAULT_PAGE_SIZE, LoadMoreDirection, loadMoreDirection } from 'shared/constants/requests';
+import { EMPTY_OBJECT } from 'shared/constants/common';
+import { DEFAULT_PAGE_SIZE, Directions, DIRECTIONS } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useSaveNoteTabQueryKey';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';
 
-type Filters = Omit<LoadListFilters, 'parentId'>;
+type Filters = Record<string, string | number>;
 
 export type PageParam = { 
   cursor?: number | null,
-  direction?: LoadMoreDirection | null, 
+  direction?: Directions | null, 
 }
 
-const initialPageParam: PageParam = 
-{
+const initialPageParam: PageParam = {
   cursor: null,
   direction: null,
 };
 
+export type InfinityPostsOptions = Omit<
+  UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,
+  'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
+>;
+
 export const getInfinityPostsQueryKey = (noteId: number | string = '', filters: Filters = {}) => 
   ['posts', noteId, filters];
 
-export const useInfinityPosts = (noteId?: number, filters: Filters = {}) => {
+export const useInfinityPosts = (
+  noteId: number,
+  filters: Filters = EMPTY_OBJECT, 
+  options: InfinityPostsOptions = EMPTY_OBJECT
+) => {
   const queryKey = React.useMemo(
     () => getInfinityPostsQueryKey(noteId, filters), 
     [noteId, filters]
@@ -40,7 +48,6 @@ export const useInfinityPosts = (noteId?: number, filters: Filters = {}) => {
 
       const apiFilters = {
         parentId: noteId,
-        pageSize: DEFAULT_PAGE_SIZE,
         ...filters,
       };
 
@@ -52,23 +59,22 @@ export const useInfinityPosts = (noteId?: number, filters: Filters = {}) => {
     },
     getPreviousPageParam: (lastPage, _allPages, _pageParam, _allPageParams) => {
       const result = lastPage.length === DEFAULT_PAGE_SIZE 
-        ? { cursor: lastPage[lastPage.length - 1], direction: loadMoreDirection.PREVIOUS } 
+        ? { cursor: lastPage[lastPage.length - 1], direction: DIRECTIONS.PREVIOUS } 
         : null;
 
       return result;
     },
     getNextPageParam: (firstPage, _allPages, pageParam, allPageParams) => {
       const loadedOnlyPreviousPage = allPageParams.length === 1 
-      && allPageParams[0].direction === loadMoreDirection.PREVIOUS;
+      && allPageParams[0].direction === DIRECTIONS.PREVIOUS;
         
       const result = (firstPage.length === DEFAULT_PAGE_SIZE && pageParam.direction) || loadedOnlyPreviousPage
-        ? { cursor: firstPage[0], direction: loadMoreDirection.NEXT } 
+        ? { cursor: firstPage[0], direction: DIRECTIONS.NEXT } 
         : null;
-
-      // console.log('getNextPageParam result', result, firstPage, allPages,firstPageParam, allPageParams);
       
       return result;
     },
     initialPageParam,
+    ...options,
   });
 };

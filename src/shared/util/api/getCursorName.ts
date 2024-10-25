@@ -1,11 +1,11 @@
-import { LoadMoreDirection, loadMoreDirection } from 'shared/constants/requests';
+import { Directions, DIRECTIONS } from 'shared/constants/requests';
 
 const cursorNameMap = {
-  [loadMoreDirection.NEXT]: 'after',
-  [loadMoreDirection.PREVIOUS]: 'before',
-  [loadMoreDirection.AROUND]: 'around',
+  [DIRECTIONS.NEXT]: 'after',
+  [DIRECTIONS.PREVIOUS]: 'before',
+  [DIRECTIONS.AROUND]: 'around',
 };
 
-export const getCursorName = (direction: LoadMoreDirection) => {
+export const getCursorName = (direction: Directions) => {
   return cursorNameMap[direction];
 };

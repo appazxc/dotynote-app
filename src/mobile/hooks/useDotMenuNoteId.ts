@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { getTabMatch } from 'shared/modules/space/helpers/tabHelpers';
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { noteRoutePath } from 'mobile/modules/space/tabRoutes/note';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 import { selectPrimaryNoteTab } from 'mobile/selectors/app/selectPrimaryNoteTab';
 

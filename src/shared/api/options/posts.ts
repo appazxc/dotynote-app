@@ -1,16 +1,14 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { entityApi } from '../entityApi';
+import { api } from 'shared/api';
 
-export type LoadListFilters = {
-  parentId: string,
-}
+export const getPinnedPostsCountQueryKey = (parentId: number) => ['postsCount', parentId];
 
-export const loadList = (filters: LoadListFilters) => {
+export const loadPinnedPostsCount = (parentId: number) => {
   return queryOptions({
-    queryKey: ['posts', filters],
+    queryKey: getPinnedPostsCountQueryKey(parentId),
     queryFn: async () => {
-      return entityApi.post.loadList({ filters });
+      return api.get<number>('/posts/pinned-count', { parentId });
     },
   });
 };
