@@ -63,7 +63,9 @@ export const Menu = React.memo((props: Props) => {
   });
 
   const role = useRole(context, { role: 'menu' });
-  const dismiss = useDismiss(context);
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: 'mousedown',
+  });
   const listNavigation = useListNavigation(context, {
     listRef: listItemsRef,
     onNavigate: setActiveIndex,
