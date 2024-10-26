@@ -27,7 +27,6 @@ function DefaultNotFoundComponent() {
             Go to home page
           </Link>
         </Stack>
-
       </Center>
     </Layout>
   );

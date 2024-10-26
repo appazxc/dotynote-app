@@ -29,11 +29,7 @@ export const primaryNote = createRoute({
       });
     }
 
-    await noteTabLoader(activeSpace?.mainNoteId);
+    await noteTabLoader(activeSpace?.mainNoteId, { shouldRedirect: false });
   },
   pendingComponent: LayoutLoader,
-  notFoundComponent: NoteNotFound,
-  pendingMinMs: 0,
-  pendingMs: 300,
-  shouldReload: false,
 });
