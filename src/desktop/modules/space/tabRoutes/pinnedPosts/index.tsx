@@ -1,7 +1,7 @@
 import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
-import { noteTabLoader } from 'shared/modules/noteTab/noteTabLoader';
+import { loadNoteData } from 'shared/util/loadNoteData';
 
 import { root } from '../root';
 
@@ -10,6 +10,8 @@ export const pinnedPosts = createRoute({
   path: `${noteRoutePath}/pinned`,
   component: lazyRouteComponent(() => import('./PinnedPosts')),
   loader: async ({ params }) => {
-    await noteTabLoader(Number(params.noteId));
+    await loadNoteData({
+      noteId: Number(params.noteId),
+    });
   },
 });

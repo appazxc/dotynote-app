@@ -4,7 +4,7 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
-import { noteTabLoader } from 'shared/modules/noteTab/noteTabLoader';
+import { loadNoteData } from 'shared/util/loadNoteData';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 
@@ -15,7 +15,12 @@ export const note = createRoute({
   path: noteRoutePath,
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
-    await noteTabLoader(Number(params.noteId));
+    await loadNoteData({
+      noteId: Number(params.noteId),
+      extraLoaders: [
+        queryClient.fetchQuery(options.posts.loadPinnedPostsCount(Number(params.noteId))),
+      ],
+    });
   },
   pendingComponent: LayoutLoader,
   notFoundComponent: NoteNotFound,

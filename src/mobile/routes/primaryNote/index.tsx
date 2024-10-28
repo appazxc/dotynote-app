@@ -1,10 +1,11 @@
 import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { showModal } from 'shared/modules/modal/modalSlice';
-import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
-import { noteTabLoader } from 'shared/modules/noteTab/noteTabLoader';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
+import { loadNoteData } from 'shared/util/loadNoteData';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { Context } from 'mobile/routes/routerContext';
@@ -29,7 +30,15 @@ export const primaryNote = createRoute({
       });
     }
 
-    await noteTabLoader(activeSpace?.mainNoteId, { shouldRedirect: false });
+    await loadNoteData({
+      noteId: activeSpace?.mainNoteId,
+      extraLoaders: [
+        queryClient.fetchQuery(options.posts.loadPinnedPostsCount(activeSpace?.mainNoteId)),
+      ],
+      flags: {
+        shouldRedirect: false,
+      },
+    });
   },
   pendingComponent: LayoutLoader,
 });

@@ -5,14 +5,24 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 
 type Params = {
-  shouldRedirect?: boolean
+  noteId: number,
+  extraLoaders?: Promise<unknown>[],
+  flags?: {
+    // if false, it won't redirect to note not found page. Default is true.
+    shouldRedirect?: boolean
+  }
 }
 
-export const noteTabLoader = async (noteId: number, { shouldRedirect = true }: Params = {}) => {
+export const loadNoteData = async ({
+  noteId,
+  extraLoaders = [],
+  flags = {},
+}: Params) => {
+  const { shouldRedirect = true } = flags;
   try {
     await Promise.all([
       queryClient.fetchQuery(options.notes.load(noteId)),
-      queryClient.fetchQuery(options.posts.loadPinnedPostsCount(noteId)),
+      ...extraLoaders,
     ]); 
   } catch (err: unknown) {
     if (err instanceof AxiosError && err.response?.status === 404) {
