@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { openTab } from 'shared/actions/space/openTab';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
 import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
@@ -10,6 +11,9 @@ import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/compo
 import { Post as PostComponent } from 'shared/components/Post';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
+import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -32,6 +36,8 @@ export const Post = React.memo((props: Props) => {
   const post = useAppSelector(state => getByIdPost(state, postId));
   const note = useAppSelector(state => getByIdNote(state, post?.note));
   const dispatch = useAppDispatch();
+  const navigate = useBrowserNavigate();
+  const isMobile = useIsMobile();
 
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
@@ -79,6 +85,19 @@ export const Post = React.memo((props: Props) => {
             {renderedPost}
           </MenuTrigger>
           <MenuList>
+            <MenuItem
+              label="Open in new tab"
+              onClick={() => {
+                dispatch(openTab({ 
+                  route: buildNoteTabRoute(note.id),
+                  active: true,
+                }));
+
+                if (isMobile) {
+                  navigate({ to: '/app' });
+                }
+              }}
+            />
             {post.permissions.pin && !post.pinnedAt && (
               <MenuItem
                 label="Pin"
