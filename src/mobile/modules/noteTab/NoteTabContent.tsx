@@ -28,7 +28,6 @@ export const NoteTabContent = (props: Props) => {
       >
         {showNote && (
           <NoteBase
-            // key={noteId} // need this?
             isMobile
             id={noteId}
             isWriteMode={isWriteMode}
@@ -36,7 +35,6 @@ export const NoteTabContent = (props: Props) => {
         )}
 
         <NotePosts 
-          // key={noteId} // need this?
           note={note}
           search={search}
         />

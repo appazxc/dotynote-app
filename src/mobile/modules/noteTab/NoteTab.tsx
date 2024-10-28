@@ -66,6 +66,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
         footer={<NoteFooter noteId={noteId} isWriteMode={isWriteMode} />}
       >
         <NoteTabContent
+          key={note.id}
           note={note}
           isWriteMode={isWriteMode}
           search={debouncedSearch}
