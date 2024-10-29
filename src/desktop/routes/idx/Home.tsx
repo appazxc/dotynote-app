@@ -10,7 +10,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
-export const Home = React.memo(() => {
+const Home = React.memo(() => {
   const hasToken = !!useAppSelector(selectToken);
   const theme = useTheme();
   console.log('theme', theme);
@@ -40,3 +40,5 @@ export const Home = React.memo(() => {
     </Layout>
   );
 });
+
+export default Home;

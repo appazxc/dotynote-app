@@ -66,4 +66,4 @@ function Spaces() {
   );
 }
 
-export { Spaces };
+export default Spaces;

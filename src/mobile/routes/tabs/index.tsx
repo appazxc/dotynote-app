@@ -1,10 +1,9 @@
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { appRoute } from 'mobile/routes/app';
-import { Tabs } from 'mobile/routes/tabs/Tabs';
 
 export const tabs = createRoute({
   getParentRoute: () => appRoute,
   path: 'tabs',
-  component: Tabs,
+  component: lazyRouteComponent(() => import('./Tabs')),
 });

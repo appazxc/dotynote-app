@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 
-import { DefaultTabSidebar } from '../DefaultTabSidebar';
+import { DefaultTabSidebar } from './DefaultTabSidebar';
 
 type Props = {
   children: React.ReactNode,

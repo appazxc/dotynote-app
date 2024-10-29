@@ -11,7 +11,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
-export const Home = () => {
+const Home = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -36,3 +36,5 @@ export const Home = () => {
     </Layout>
   );
 };
+
+export default Home;

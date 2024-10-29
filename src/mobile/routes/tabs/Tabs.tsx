@@ -82,7 +82,7 @@ const Tab = ({ id, isActive }) => {
   );
 };
 
-export const Tabs = () => {
+const Tabs = () => {
   const tabs = useAppSelector(selectSortedTabs);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -158,3 +158,5 @@ export const Tabs = () => {
     </Layout>
   );
 };
+
+export default Tabs;

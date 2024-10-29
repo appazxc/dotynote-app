@@ -15,4 +15,4 @@ function LoginEmail() {
   );
 }
 
-export { LoginEmail };
+export default LoginEmail;

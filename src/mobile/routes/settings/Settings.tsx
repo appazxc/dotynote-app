@@ -6,7 +6,7 @@ import { SettingsContent } from 'shared/modules/settings/SettingsContent';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
-export const Settings = React.memo(() => {
+const Settings = React.memo(() => {
   return (
     <Layout header={<LayoutHeader showBackButton title="Settings" />}>
       <Container pt="4" maxW="md">
@@ -15,3 +15,5 @@ export const Settings = React.memo(() => {
     </Layout>
   );
 });
+
+export default Settings;

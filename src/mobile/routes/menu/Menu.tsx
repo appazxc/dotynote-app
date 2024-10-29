@@ -12,7 +12,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
-export const Menu = React.memo(() => {
+const Menu = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -89,3 +89,5 @@ export const Menu = React.memo(() => {
     </Layout>
   );
 });
+
+export default Menu;

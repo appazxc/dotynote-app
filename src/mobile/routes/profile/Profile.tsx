@@ -7,7 +7,7 @@ import { ProfileContent } from 'shared/modules/profile/ProfileContent';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
-export const Profile = React.memo(() => {
+const Profile = React.memo(() => {
   const navigate = useNavigate();
 
   return (
@@ -15,10 +15,10 @@ export const Profile = React.memo(() => {
       header={(
         <LayoutHeader
           showBackButton
+          title="Profile"
           onBackButtonClick={() => {
             navigate({ to: '/app/menu' });
           }}
-          title="Profile"
         />
       )}
     >
@@ -28,3 +28,5 @@ export const Profile = React.memo(() => {
     </Layout>
   );
 });
+
+export default Profile;

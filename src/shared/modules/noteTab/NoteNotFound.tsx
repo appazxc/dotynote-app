@@ -40,3 +40,5 @@ export const NoteNotFound = () => {
     </Center>
   );
 };
+
+export default NoteNotFound;

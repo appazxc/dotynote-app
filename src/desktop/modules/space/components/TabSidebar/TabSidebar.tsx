@@ -9,7 +9,7 @@ type Props = {
   inline?: boolean,
 }
 
-export const TabSidebar = ({ children, header, footer, inline }: Props) => {
+export const TabSidebar = React.memo(({ children, header, footer, inline }: Props) => {
   return (
     <Box
       h={inline ? undefined : 'full'}
@@ -28,4 +28,4 @@ export const TabSidebar = ({ children, header, footer, inline }: Props) => {
       </Box>
     </Box>
   );
-};
+});

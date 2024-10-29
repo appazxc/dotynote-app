@@ -17,7 +17,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
-import { mergeAttributes } from '@tiptap/react';
+// import { mergeAttributes } from '@tiptap/react';
 // import css from 'highlight.js/lib/languages/css';
 // import js from 'highlight.js/lib/languages/javascript';
 // import ts from 'highlight.js/lib/languages/typescript';

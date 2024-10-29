@@ -12,10 +12,8 @@ const proxyUrl = 'http://localhost:4000/';
 
 // https://vitejs.dev/config/
 export default defineConfig((params) => {
-
   const isProduction = params.mode === 'production';
   const buildSentry = !!process.env.SENTRY_AUTH_TOKEN;
-  console.log('buildSentry', buildSentry);
 
   return {
     build: {

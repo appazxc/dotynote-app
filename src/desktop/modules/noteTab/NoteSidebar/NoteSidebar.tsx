@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
+import { TabSidebar } from 'desktop/modules/space/components/TabSidebar';
 
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';

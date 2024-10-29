@@ -1,14 +1,12 @@
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 import { z } from 'zod';
 
 import { guest } from '../guards';
 
-import { LoginEmail } from './LoginEmail';
-
 export const loginEmail = createRoute({
   getParentRoute: () => guest,
   path: 'loginemail',
-  component: LoginEmail,
+  component: lazyRouteComponent(() => import('./LoginEmail')),
   validateSearch: z.object({
     email: z.string(),
     token: z.string(),

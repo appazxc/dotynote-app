@@ -6,7 +6,7 @@ import { BsArrowLeft } from 'react-icons/bs';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
-import { TabSidebar } from 'desktop/modules/space/components/TabLayout';
+import { TabSidebar } from 'desktop/modules/space/components/TabSidebar';
 
 type Props = {
   inline?: boolean,

@@ -15,12 +15,12 @@ import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
+import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 
 import { NoteCreate } from './NoteCreate';
 
-export const Home = React.memo(() => {
+const Home = React.memo(() => {
   const navigate = useNavigate();
   const { search = '' } = useSearch({ strict: false }); 
   const dispatch = useAppDispatch();
@@ -76,3 +76,5 @@ export const Home = React.memo(() => {
     </TabLayout>
   );
 });
+
+export default Home;
