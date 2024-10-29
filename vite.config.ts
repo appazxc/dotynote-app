@@ -2,6 +2,7 @@ import path from 'path';
 
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
+import preserveDirectives from 'rollup-preserve-directives';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import vitePluginRequire from 'vite-plugin-require';
@@ -15,12 +16,13 @@ export default defineConfig((params) => {
   const isProduction = params.mode === 'production';
   const buildSentry = !!process.env.SENTRY_AUTH_TOKEN;
   console.log('buildSentry', buildSentry);
-  
+
   return {
     build: {
       sourcemap: true, // Source map generation must be turned on
     },
     plugins: [
+      preserveDirectives(),
       react(),
       VitePWA(),
       // @ts-ignore
