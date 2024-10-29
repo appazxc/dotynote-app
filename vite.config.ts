@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -12,8 +13,13 @@ const proxyUrl = 'http://localhost:4000/';
 export default defineConfig((params) => {
 
   const isProduction = params.mode === 'production';
-
+  const buildSentry = !!process.env.SENTRY_AUTH_TOKEN;
+  console.log('buildSentry', buildSentry);
+  
   return {
+    build: {
+      sourcemap: true, // Source map generation must be turned on
+    },
     plugins: [
       react(),
       VitePWA(),
@@ -24,6 +30,11 @@ export default defineConfig((params) => {
           export default {};
         `,
       }) : null,
+      buildSentry ? [sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: 'dotify',
+        project: 'frontend',
+      })] : null,
     ],
     resolve: {
       alias: {

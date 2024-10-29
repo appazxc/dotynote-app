@@ -56,6 +56,7 @@ export const NoteTab = React.memo(() => {
       id={note.id}
       isWriteMode={isWriteMode}
     >
+      <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>
       <TabLayout
         scrollRestoration={false}
         leftSide={(

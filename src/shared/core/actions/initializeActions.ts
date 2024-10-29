@@ -1,3 +1,5 @@
+import { setupSentry } from 'shared/analytics/setupSentry';
+
 export const initialize = async () => {
   if (import.meta.env.MOCK === 'true') {
     const worker = require('shared/test/mocks/browser');
@@ -13,4 +15,6 @@ export const initialize = async () => {
       },
     });
   }
+
+  setupSentry();
 };

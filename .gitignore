@@ -27,3 +27,6 @@ yarn-error.log*
 
 #config
 /src/shared/config/local.config.ts
+
+# Sentry Config File
+.env.sentry-build-plugin
