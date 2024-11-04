@@ -1,15 +1,12 @@
 import { schema } from 'normalizr';
 
-import { postInternalSchema } from 'shared/schemas/postInternal.schema';
-
 import { noteSchema } from './note.schema';
 import { userSchema } from './user.schema';
 
-export const postSchema = new schema.Entity(
-  'post', 
+export const postInternalSchema = new schema.Entity(
+  'postInternal', 
   {
     parent: noteSchema,
     note: noteSchema,
     author: userSchema,
-    internal: postInternalSchema,
   });

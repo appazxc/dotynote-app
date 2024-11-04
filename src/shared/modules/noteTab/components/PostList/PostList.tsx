@@ -13,7 +13,7 @@ import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
 import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
 import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { ApiPostEntity } from 'shared/types/entities/PostEntity';
+import { PostEntity } from 'shared/types/entities/PostEntity';
 
 import { Post } from '../Post';
 
@@ -23,7 +23,7 @@ const ROOT_MARGIN = '400px';
 
 type Props = {
   noteId: number,
-  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => void,
+  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
   scrollRestoration?: boolean,
   search?: string,
   sort?: Sort,

@@ -4,7 +4,7 @@ import { OrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { BaseEntity } from './BaseEntity';
 
 export type ApiPostsSettingsEntity = BaseEntity<{
-  display: boolean,
+  internal: boolean,
   orderById: number,
   sort: 'asc' | 'desc',
   noteId: number,

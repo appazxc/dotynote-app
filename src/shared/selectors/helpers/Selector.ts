@@ -3,6 +3,7 @@ import { noteSchema } from 'shared/schemas/note.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { orderBySchema } from 'shared/schemas/orderBy.schema';
 import { postSchema } from 'shared/schemas/post.schema';
+import { postInternalSchema } from 'shared/schemas/postInternal.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { spaceSchema } from 'shared/schemas/space.schema';
 import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
@@ -25,6 +26,7 @@ const schemaMap = {
   [entityTypes.user]: userSchema,
   [entityTypes.userSettings]: userSettingsSchema,
   [entityTypes.orderBy]: orderBySchema,
+  [entityTypes.postInternal]: postInternalSchema,
 };
 
 export default class Selector<T extends EntityName> {

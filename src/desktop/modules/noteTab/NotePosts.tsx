@@ -13,7 +13,7 @@ import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, togglePostSelect, updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { ApiPostEntity } from 'shared/types/entities/PostEntity';
+import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
   note: NoteEntity,
@@ -39,12 +39,12 @@ export const NotePosts = React.memo((props: Props) => {
     }
   }, [navigate, dispatch]);
   
-  const concretePostClick = React.useCallback((post: ApiPostEntity) => {
+  const concretePostClick = React.useCallback((post: PostEntity) => {
     dispatch(updateOperationConcretePost(post.id));
     dispatch(showModal({ id: modalIds.selectConcretePlace }));
   }, [dispatch]);
 
-  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: ApiPostEntity) => {
+  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
     if ('concretePlace' in operation && operation.concretePlace) {
       concretePostClick(post);
@@ -56,7 +56,7 @@ export const NotePosts = React.memo((props: Props) => {
       return;
     }
     
-    defaultPostClick(event, post.note);
+    defaultPostClick(event, post.note.id);
   }, [dispatch, operation, defaultPostClick, concretePostClick, isSelecting]);
 
   const showPosts = !!postsSettings;

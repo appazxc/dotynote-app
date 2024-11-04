@@ -3,6 +3,7 @@ import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
+import { ApiPostInternalEntity, PostInternalEntity } from 'shared/types/entities/PostInternalEntity';
 import { ApiPostsSettingsEntity, PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 import { ApiSpaceEntity, SpaceEntity } from 'shared/types/entities/SpaceEntity';
 import { ApiSpaceTabEntity, SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
@@ -19,6 +20,7 @@ export type ApiEntityTypes = {
   [entityTypes.noteSettings]: ApiNoteSettingsEntity,
   [entityTypes.userSettings]: ApiUserSettingsEntity,
   [entityTypes.orderBy]: ApiOrderByEntity,
+  [entityTypes.postInternal]: ApiPostInternalEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -33,4 +35,5 @@ export type EntityTypes = {
   [entityTypes.noteSettings]: NoteSettingsEntity,
   [entityTypes.userSettings]: UserSettingsEntity,
   [entityTypes.orderBy]: OrderByEntity,
+  [entityTypes.postInternal]: PostInternalEntity,
 }

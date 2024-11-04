@@ -8,13 +8,13 @@ import {
 } from 'shared/selectors/entities';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { SpaceEntity } from 'shared/types/entities/SpaceEntity';
+import { UserEntity } from 'shared/types/entities/UserEntity';
 
 import Essense from './Essence';
 import { NoteEssence } from './note';
 import { SpaceTabEssence } from './spaceTab';
-import { UserEssence } from './user';
 
-const user = new UserEssence(entityTypes.user, userSelector);
+const user = new Essense<UserEntity>(entityTypes.user, userSelector);
 const note = new NoteEssence(entityTypes.note, noteSelector);
 const space = new Essense<SpaceEntity>(entityTypes.space, spaceSelector);
 const post = new Essense<PostEntity>(entityTypes.post, postSelector);

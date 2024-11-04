@@ -1,5 +1,6 @@
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { PostInternalEntity } from 'shared/types/entities/PostInternalEntity';
 import { UserEntity } from 'shared/types/entities/UserEntity';
 
 import { BaseEntity } from './BaseEntity';
@@ -10,6 +11,7 @@ export type ApiPostEntity = BaseEntity<{
   parent: number,
   note: number,
   author: string,
+  internal: string,
   permissions: {
     delete: boolean,
     stick: boolean,
@@ -17,6 +19,7 @@ export type ApiPostEntity = BaseEntity<{
     move: boolean,
     pin: boolean,
     unpin: boolean,
+    updateInternal: boolean,
   }
 }, number>
 
@@ -24,4 +27,5 @@ export type PostEntity = MergeEntity<ApiPostEntity, {
   note: NoteEntity,
   parent: NoteEntity,
   author: UserEntity,
+  internal: PostInternalEntity,
 }>;

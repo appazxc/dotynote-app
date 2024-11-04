@@ -10,6 +10,7 @@ export const entityTypes = keymirror({
   noteSettings: null,
   userSettings: null,
   orderBy: null,
+  postInternal: null,
 });
 
 export type EntityName = keyof typeof entityTypes;
