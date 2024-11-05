@@ -10,9 +10,11 @@ import { MenuContext } from './MenuContext';
 type Props = {
   label: string,
   onClick?: () => void,
+  closeOnClick?: boolean,
 } & Omit<ButtonProps, 'children'>
 
-export const MenuItem = ({ onClick, label, ...buttonProps }: Props) => {
+export const MenuItem = (props: Props) => {
+  const { onClick, label, closeOnClick = true, ...buttonProps } = props;
   const menu = React.useContext(MenuContext);
   const { activeItemId } = React.useContext(MenuListContext);
   const id = React.useId();
@@ -25,7 +27,9 @@ export const MenuItem = ({ onClick, label, ...buttonProps }: Props) => {
     <MenuItemBase
       onClick={() => {
         onClick?.();
-        menu.close();
+        if (closeOnClick) {
+          menu.close();
+        }
       }}
       {...buttonProps}
     >

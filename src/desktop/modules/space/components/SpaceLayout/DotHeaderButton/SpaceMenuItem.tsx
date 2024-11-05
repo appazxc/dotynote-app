@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { MenuItem } from 'shared/components/Menu';

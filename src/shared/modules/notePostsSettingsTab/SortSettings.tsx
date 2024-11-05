@@ -44,6 +44,7 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
           <Select
             size="sm"
             value={postsSettings.orderById}
+            w="200px"
             onChange={handleOrderByChange}
           >
             {orderBy.map(({ id, type }) => <option key={id} value={id}>{getOptionTitleFromOrderType(type)}</option>)}
@@ -61,6 +62,7 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
           <Select
             size="sm"
             value={postsSettings.sort}
+            w="200px"
             onChange={handleSortChange}
           >
             <option value="asc">Ascending</option>

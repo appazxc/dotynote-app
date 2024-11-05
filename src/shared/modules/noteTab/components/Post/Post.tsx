@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Box, Text, Switch } from '@chakra-ui/react';
+import { Switch, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
+import { MdOutlineDone } from 'react-icons/md';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { api } from 'shared/api';
@@ -33,6 +34,8 @@ type Props = {
   onDelete: () => void,
 }
 
+const internalMaxCounts = [0, 3, 5, 10, 25, 50, 100];
+
 export const Post = React.memo((props: Props) => {
   const { postId, onClick, onDelete, isSelecting, isSelected } = props;
   const getByIdPost = React.useMemo(() => postSelector.makeGetEntityById(), []);
@@ -58,6 +61,11 @@ export const Post = React.memo((props: Props) => {
   const { mutate: deleteInternalPosts, isPending: isDeletingInternal } = useMutation({
     mutationFn: (postId: number) => {
       return api.delete<string>(`/posts/${postId}/internal`);
+    },
+  });
+  const { mutate: updateInternal } = useMutation({
+    mutationFn: (max: number) => {
+      return api.patch<string>(`/posts/${postId}/internal`, { max });
     },
   });
 
@@ -101,7 +109,7 @@ export const Post = React.memo((props: Props) => {
   }
 
   const deleteNoteExtraId = `deleteNote${note.id}`;
-  
+
   return (
     isSelecting ? renderedPost : (
       <>
@@ -168,23 +176,40 @@ export const Post = React.memo((props: Props) => {
                 }))}
               />
             )}
-            {post.permissions.updateInternal && note?.postsSettings?.internal && (
+            {post.permissions.updateInternal && post.parent.postsSettings?.internal && (
               <MenuSub label="Internal posts">
-                <Box
-                  p="1"
-                  bg="blue.200"
-                  display="flex"
-                  justifyContent="space-between"
-                  minW="140px"
-                  alignItems="center"
-                >
-                  <Text fontSize="medium">{isInternalCreated ? 'On' : 'Off'}</Text>
-                  <Switch
-                    isChecked={!!post.internal}
-                    isDisabled={isCreatingInternal || isDeletingInternal}
-                    onChange={handleCreateOrDeleteInternal}
-                  />
-                </Box>
+                <MenuItem
+                  closeOnClick={false}
+                  label={isInternalCreated ? 'Shown' : 'Hidden'}
+                  rightIcon={(
+                    <Switch
+                      size="sm"
+                      isChecked={!!post.internal}
+                      isDisabled={isCreatingInternal || isDeletingInternal}
+                    />
+                  )}
+                  onClick={handleCreateOrDeleteInternal}
+                />
+                {isInternalCreated && (
+                  <MenuSub
+                    label={(
+                      <Text whiteSpace="nowrap" display="inline">Max (
+                        <Text color="gray.500" display="inline">{post.internal.max}</Text>)
+                      </Text>
+                    )}
+                  >
+                    {internalMaxCounts.map((count) => {
+                      return (
+                        <MenuItem 
+                          key={count}
+                          label={`${count}`}
+                          rightIcon={count === post.internal.max ? <MdOutlineDone /> : undefined}
+                          onClick={() => { updateInternal(count); }}
+                        />
+                      );
+                    })}
+                  </MenuSub>
+                )}
               </MenuSub>
             )}
 
@@ -195,7 +220,6 @@ export const Post = React.memo((props: Props) => {
                   <MenuItem label="Remove" onClick={() => remove()} />
                 )}
                 <MenuItem 
-                  // colorScheme="red"
                   label="Delete"
                   onClick={() => { dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })); }}
                 />

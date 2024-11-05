@@ -21,7 +21,7 @@ import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { MenuContext } from './MenuContext';
 
 type Props = React.PropsWithChildren<{
-  label: string,
+  label: React.ReactNode,
   onClick?: () => void,
   placement?: Placement,
 } & ButtonProps>
@@ -101,6 +101,7 @@ export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }:
       style={floatingStyles}
       {...getFloatingProps()}
       outline="transparent"
+      zIndex="1"
     >
       <MenuList>
         {children}
