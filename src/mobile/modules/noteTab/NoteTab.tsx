@@ -48,7 +48,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
       </Layout>
     );
   }
-  
+
   return (
     <NoteProviders
       id={note.id}

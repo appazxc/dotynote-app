@@ -5,7 +5,6 @@ import { useRouter } from '@tanstack/react-router';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
-import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { PostsSearch } from 'shared/modules/noteTab/components/PostsSearch';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
@@ -19,7 +18,6 @@ import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { LayoutHeader } from 'mobile/components/Layout';
-import { router } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
   note: NoteEntity,
@@ -29,11 +27,10 @@ type Props = {
 }
 
 export const NoteHeader = (props: Props) => {
-  const { note: { id: noteId, postsSettings, settings }, isPrimary, search, onSearchChange } = props;
+  const { note: { id: noteId, title = '', postsSettings, settings }, isPrimary, search, onSearchChange } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
-  const title = useTabTitle(tab.routes[tab.routes.length - 1], router);
   const isMutating = useIsNoteMutating();
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
