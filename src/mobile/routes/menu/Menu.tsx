@@ -1,20 +1,17 @@
 import React from 'react';
 
-import { Box, Button, Container, Divider, IconButton, useColorMode, VStack } from '@chakra-ui/react';
-import { BsFillMoonStarsFill } from 'react-icons/bs';
+import { Box, Button, Divider, VStack } from '@chakra-ui/react';
 import { FiUser } from 'react-icons/fi';
-import { IoSunny } from 'react-icons/io5';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 const Menu = React.memo(() => {
   const dispatch = useAppDispatch();
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const list = [
     {
@@ -49,21 +46,8 @@ const Menu = React.memo(() => {
     },
   ];
 
-  const renderedThemeButton = React.useMemo(() => {
-    return (
-      <IconButton 
-        size="sm"
-        icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
-        aria-label=""
-        colorScheme="gray"
-        variant="ghost"
-        onClick={toggleColorMode}
-      />
-    );
-  }, [colorMode, toggleColorMode]);
-
   return (
-    <Layout header={<LayoutHeader right={renderedThemeButton} /> }>
+    <Layout>
       <VStack alignItems="stretch" gap="0">
         {list.map(({ label, icon, divider, ...btnProps }, index) => {
           return (
