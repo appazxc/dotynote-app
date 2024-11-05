@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Switch, Text } from '@chakra-ui/react';
+import { Box, Switch, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { MdOutlineDone } from 'react-icons/md';
 
@@ -20,6 +20,7 @@ import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
+import { InternalPosts } from 'shared/modules/noteTab/components/Post/InternalPosts';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
@@ -30,6 +31,7 @@ type Props = {
   postId: number,
   isSelecting?: boolean,
   isSelected?: boolean,
+  isContextDisabled?: boolean,
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
   onDelete: () => void,
 }
@@ -37,7 +39,7 @@ type Props = {
 const internalMaxCounts = [0, 3, 5, 10, 25, 50, 100];
 
 export const Post = React.memo((props: Props) => {
-  const { postId, onClick, onDelete, isSelecting, isSelected } = props;
+  const { postId, onClick, onDelete, isSelecting, isSelected, isContextDisabled } = props;
   const getByIdPost = React.useMemo(() => postSelector.makeGetEntityById(), []);
   const getByIdNote = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getByIdPost(state, postId));
@@ -111,8 +113,8 @@ export const Post = React.memo((props: Props) => {
   const deleteNoteExtraId = `deleteNote${note.id}`;
 
   return (
-    isSelecting ? renderedPost : (
-      <>
+    isSelecting || isContextDisabled ? renderedPost : (
+      <Box>
         <Menu isContextMenu>
           <MenuTrigger>
             {renderedPost}
@@ -193,8 +195,19 @@ export const Post = React.memo((props: Props) => {
                 {isInternalCreated && (
                   <MenuSub
                     label={(
-                      <Text whiteSpace="nowrap" display="inline">Max (
-                        <Text color="gray.500" display="inline">{post.internal.max}</Text>)
+                      <Text
+                        whiteSpace="nowrap"
+                        display="inline"
+                        as="span"
+                      >
+                        Max (
+                        <Text
+                          color="gray.500"
+                          display="inline"
+                          as="span"
+                        >
+                          {post.internal.max}
+                        </Text>)
                       </Text>
                     )}
                   >
@@ -227,6 +240,9 @@ export const Post = React.memo((props: Props) => {
             )}
           </MenuList>
         </Menu>
+        {post.parent.postsSettings?.internal && !!post.internal?.max && (
+          <InternalPosts post={post} />
+        )}
         <ConfirmModal
           title="This action can't be undone"
           description="Delete selected note?"
@@ -237,7 +253,7 @@ export const Post = React.memo((props: Props) => {
             deleteNote();
           }}
         />
-      </>
+      </Box>
     )
   );
 });

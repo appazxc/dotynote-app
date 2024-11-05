@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Stack } from '@chakra-ui/react';
+import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
 import debounce from 'lodash/debounce';
 import { useInView } from 'react-intersection-observer';
@@ -32,8 +32,9 @@ type Props = {
   pageSize?: number,
   isPinned?: boolean,
   selectedPosts?: number[],
-  options?: InfinityPostsOptions
-}
+  options?: InfinityPostsOptions,
+  isContextDisabled?: boolean
+} & BoxProps
 
 export const PostList = React.memo((props: Props) => {
   const {
@@ -41,6 +42,7 @@ export const PostList = React.memo((props: Props) => {
     onPostClick,
     search,
     isPinned,
+    isContextDisabled,
     isSelecting = false,
     scrollRestoration = true,
     selectedPosts = EMPTY_ARRAY,
@@ -48,6 +50,7 @@ export const PostList = React.memo((props: Props) => {
     pageSize = DEFAULT_PAGE_SIZE,
     orderBy = SORT_ORDER_IDS.POSITION,
     options = EMPTY_OBJECT,
+    ...boxProps
   } = props;
   const scrollRef = useScrollContext();
   const [ nextRef, inViewNext ] = useInView({
@@ -122,7 +125,11 @@ export const PostList = React.memo((props: Props) => {
 
   return (
     <>
-      <Box pb="20" flexGrow={data ? '1' : '0'}>
+      <Box
+        pb="20"
+        flexGrow={data ? '1' : '0'}
+        {...boxProps}
+      >
         {isFetchingFirstTime && <PostsSkeleton />}
         <Stack gap="2">
           {showNextPageObserver && <Box ref={nextRef} />}
@@ -131,6 +138,7 @@ export const PostList = React.memo((props: Props) => {
             flatData.map((postId) => (
               <Post
                 key={postId}
+                isContextDisabled={isContextDisabled}
                 isSelecting={isSelecting}
                 isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
                 postId={postId} 

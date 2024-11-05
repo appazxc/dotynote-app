@@ -1,9 +1,8 @@
 import { schema } from 'normalizr';
 
+import { noteSchema } from 'shared/schemas/note.schema';
 import { postInternalSchema } from 'shared/schemas/postInternal.schema';
-
-import { noteSchema } from './note.schema';
-import { userSchema } from './user.schema';
+import { userSchema } from 'shared/schemas/user.schema';
 
 export const postSchema = new schema.Entity(
   'post', 

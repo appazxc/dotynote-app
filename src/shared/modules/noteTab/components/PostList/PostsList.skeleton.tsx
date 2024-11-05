@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Stack, Skeleton, SkeletonText, useColorModeValue } from '@chakra-ui/react';
+import { Box, Stack, Skeleton, SkeletonText, useColorModeValue, Center, Spinner } from '@chakra-ui/react';
 
 const PostSkeleton = () => {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.300');
@@ -33,13 +33,8 @@ const PostSkeleton = () => {
 
 export const PostsSkeleton = () => {
   return (
-    <Stack gap="2">
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
-    </Stack>
+    <Center h="100px">
+      <Spinner />
+    </Center>
   );
 };
