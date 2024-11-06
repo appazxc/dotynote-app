@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Switch, Text } from '@chakra-ui/react';
+import { Box, Switch, Text, useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { MdOutlineDone } from 'react-icons/md';
 
@@ -47,6 +47,7 @@ export const Post = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
+  const toast = useToast();
 
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
@@ -68,6 +69,12 @@ export const Post = React.memo((props: Props) => {
   const { mutate: updateInternal } = useMutation({
     mutationFn: (max: number) => {
       return api.patch<string>(`/posts/${postId}/internal`, { max });
+    },
+    onError: () => {
+      toast({
+        description: 'Failed to update internal posts',
+        status: 'error',
+      });
     },
   });
 
