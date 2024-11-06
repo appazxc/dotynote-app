@@ -36,7 +36,7 @@ type Props = {
   onDelete: () => void,
 }
 
-const internalMaxCounts = [0, 3, 5, 10, 25, 50, 100];
+const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
 export const Post = React.memo((props: Props) => {
   const { postId, onClick, onDelete, isSelecting, isSelected, isContextDisabled } = props;
@@ -162,7 +162,7 @@ export const Post = React.memo((props: Props) => {
             />
             {post.permissions.stick && (
               <MenuItem
-                label="Stick"
+                label="Stick to"
                 onClick={() => dispatch(startStickOperation({
                   fromNoteId: post.parent.id,
                   postIds: [post.id],
@@ -171,7 +171,7 @@ export const Post = React.memo((props: Props) => {
             )}
             {post.permissions.move && (
               <MenuItem
-                label="Move"
+                label="Move to"
                 onClick={() => dispatch(startMoveOperation({
                   fromNoteId: post.parent.id,
                   postIds: [post.id],

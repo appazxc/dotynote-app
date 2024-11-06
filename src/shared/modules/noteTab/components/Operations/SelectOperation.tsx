@@ -55,12 +55,22 @@ export const SelectOperation = React.memo((props: Props) => {
 
   const list = [
     ...canStick ? [{
-      label: 'Stick',
+      label: 'Stick to',
       icon: <PiSticker />,
       onClick: () => dispatch(startStickOperation({
         fromNoteId: note.id,
         postIds: posts.map((post) => post.id),
       })),
+    }] : [],
+    ...canMove ? [{
+      label: 'Move to',
+      icon: <TbArrowMoveLeft />,
+      onClick: () => {
+        dispatch(startMoveOperation({
+          fromNoteId: note.id,
+          postIds,
+        }));
+      },
     }] : [],
     ...canRemove ? [{
       label: 'Remove',
@@ -69,16 +79,6 @@ export const SelectOperation = React.memo((props: Props) => {
         dispatch(stopOperation());
 
         unstick();
-      },
-    }] : [],
-    ...canMove ? [{
-      label: 'Move',
-      icon: <TbArrowMoveLeft />,
-      onClick: () => {
-        dispatch(startMoveOperation({
-          fromNoteId: note.id,
-          postIds,
-        }));
       },
     }] : [],
     ...canDelete ? [{
