@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Center, IconButton, IconButtonProps, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Center, IconButton, IconButtonProps, useColorModeValue } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
@@ -15,9 +15,7 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
-import { FooterNoteDialogs } from 'mobile/containers/FooterNavigation/FooterNoteDialogs';
 import { HomeMenu } from 'mobile/containers/FooterNavigation/HomeMenu';
-import { useDotMenuNoteId } from 'mobile/hooks/useDotMenuNoteId';
 
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -25,15 +23,12 @@ export const FooterNavigation = React.memo(() => {
   const navigate = useBrowserNavigate();
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
-  const noteId = useDotMenuNoteId();
   const isPrimaryNote = useIsPrimareNote();
 
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }
   );
-
-  const isDotMenuActive = pathname === '/app' || isPrimaryNote;
 
   const buttons = React.useMemo(() => {
     return [
@@ -152,9 +147,6 @@ export const FooterNavigation = React.memo(() => {
         })}
       </Box>
       <PrimaryNoteModal />
-      {noteId && isDotMenuActive && (
-        <FooterNoteDialogs noteId={noteId} />
-      )}
     </>
   );
 });

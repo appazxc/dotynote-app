@@ -7,6 +7,7 @@ import { Operations } from 'shared/modules/noteTab/components/Operations';
 import { selectIsOperationActive } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
 
+import { NoteDialogs } from 'mobile/modules/noteTab/NoteDialogs';
 import { NoteEditorControls } from 'mobile/modules/noteTab/NoteEditorControls';
 import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 
@@ -25,18 +26,22 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
   const showPlusButton = !isOperationActive && !showEditorControls;
 
   return (
-    showPlusButton ? <NotePlusButton noteId={noteId} /> : (
-      <>
-        {isOperationActive && (
-          <Container>
-            <Operations />
-          </Container>
-        )}
+    <>
+    
+      {showPlusButton ? <NotePlusButton noteId={noteId} /> : (
+        <>
+          {isOperationActive && (
+            <Container>
+              <Operations />
+            </Container>
+          )}
 
-        {showEditorControls && (
-          <NoteEditorControls editor={editor} />
-        )}
-      </>
-    )
+          {showEditorControls && (
+            <NoteEditorControls editor={editor} />
+          )}
+        </>
+      )}
+      <NoteDialogs noteId={noteId} />
+    </>
   );
 });

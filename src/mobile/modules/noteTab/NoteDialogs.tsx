@@ -11,7 +11,7 @@ type Props = {
   noteId: number,
 };
 
-export const FooterNoteDialogs = React.memo(({ noteId }: Props) => {
+export const NoteDialogs = React.memo(({ noteId }: Props) => {
   const noteTabId = useNoteTabId();
   
   const handlePostCreate = React.useCallback(() => {
