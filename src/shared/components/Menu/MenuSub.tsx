@@ -20,13 +20,13 @@ import { useIsMobile } from 'shared/hooks/useIsMobile';
 
 import { MenuContext } from './MenuContext';
 
-type Props = React.PropsWithChildren<{
+export type MenuSubProps = React.PropsWithChildren<{
   label: React.ReactNode,
   onClick?: () => void,
   placement?: Placement,
 } & ButtonProps>
 
-export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }: Props) => {
+export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }: MenuSubProps) => {
   const menu = React.useContext(MenuContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const isMobile = useIsMobile();

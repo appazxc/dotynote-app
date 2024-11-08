@@ -33,7 +33,7 @@ type Props = {
   isPinned?: boolean,
   selectedPosts?: number[],
   options?: InfinityPostsOptions,
-  isContextDisabled?: boolean
+  internalLevel?: number,
 } & BoxProps
 
 export const PostList = React.memo((props: Props) => {
@@ -42,7 +42,7 @@ export const PostList = React.memo((props: Props) => {
     onPostClick,
     search,
     isPinned,
-    isContextDisabled,
+    internalLevel = 0,
     isSelecting = false,
     scrollRestoration = true,
     selectedPosts = EMPTY_ARRAY,
@@ -138,7 +138,7 @@ export const PostList = React.memo((props: Props) => {
             flatData.map((postId) => (
               <Post
                 key={postId}
-                isContextDisabled={isContextDisabled}
+                internalLevel={internalLevel}
                 isSelecting={isSelecting}
                 isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
                 postId={postId} 

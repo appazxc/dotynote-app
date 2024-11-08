@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { openTab } from 'shared/actions/space/openTab';
@@ -11,10 +10,11 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
-  post: PostEntity
+  post: PostEntity,
+  internalLevel: number,
 };
 
-export const InternalPosts = React.memo(({ post }: Props) => {
+export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
   const { note, internal } = post;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const InternalPosts = React.memo(({ post }: Props) => {
       noteId={note.id}
       sort={note.postsSettings?.sort}
       orderBy={note.postsSettings?.orderById}
-      isContextDisabled={true}
+      internalLevel={internalLevel + 1}
       pageSize={internal.max}
       onPostClick={handlePostClick}
     />

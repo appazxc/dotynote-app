@@ -7,13 +7,13 @@ import { MenuListContext } from 'shared/components/Menu/MenuList';
 
 import { MenuContext } from './MenuContext';
 
-type Props = {
-  label: string,
+export type MenuItemProps = {
+  label: React.ReactNode,
   onClick?: () => void,
   closeOnClick?: boolean,
 } & Omit<ButtonProps, 'children'>
 
-export const MenuItem = (props: Props) => {
+export const MenuItem = (props: MenuItemProps) => {
   const { onClick, label, closeOnClick = true, ...buttonProps } = props;
   const menu = React.useContext(MenuContext);
   const { activeItemId } = React.useContext(MenuListContext);
