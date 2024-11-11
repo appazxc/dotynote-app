@@ -1,13 +1,18 @@
-import { Textarea, TextareaProps } from '@chakra-ui/react';
+import { chakra, TextareaProps, useRecipe } from '@chakra-ui/react';
 import React from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
 
+const StyledAutoResize = chakra(ResizeTextarea);
+
 export const AutoResizeTextarea = React.forwardRef<
   HTMLTextAreaElement,
-  TextareaProps
+  Omit<TextareaProps, 'style'>
 >((props, ref) => {
+  const recipe = useRecipe({ key: 'textarea' });
+  const styles = recipe({ size: 'sm' });
+  
   return (
-    <Textarea
+    <StyledAutoResize
       ref={ref}
       minH="unset"
       overflow="hidden"
@@ -15,8 +20,15 @@ export const AutoResizeTextarea = React.forwardRef<
       resize="none"
       bg="transparent"
       minRows={1}
-      as={ResizeTextarea}
+
+      // placeholder="This textarea will autoresize as you type"
+      // minH="initial"
+      // resize="none"
+      // overflow="hidden"
+      // lineHeight="inherit"
+
       {...props}
+      css={styles}
     />
   );
 });
