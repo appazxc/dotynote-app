@@ -1,15 +1,13 @@
-import * as React from 'react';
-
 import { 
-  FormControl as FormControlBase,
   FormLabel as FormLabelBase,
   FormErrorMessage,
   FormHelperText,
   FormHelperTextProps,
   FormLabelProps,
   BoxProps,
-  FormControlProps,
+  FieldRootProps,
 } from '@chakra-ui/react';
+import * as React from 'react';
 import { useForm as useFormBase } from 'react-hook-form';
 import {
   Controller,
@@ -21,6 +19,8 @@ import {
   UseFormProps,
   UseFormReturn,
 } from 'react-hook-form';
+
+import { Field, FieldProps } from 'shared/components/ui/field';
 
 const Form = FormProvider;
 
@@ -73,12 +73,13 @@ const useFormField = () => {
   };
 };
 
-const FormControl: React.FC<React.PropsWithChildren<FormControlProps>> = 
-  React.forwardRef<React.ElementRef<typeof FormLabelBase>, FormControlProps>(({ ...props }, ref) => {
+const FormControl: React.FC<React.PropsWithChildren<FieldProps>> = 
+  React.forwardRef<React.ElementRef<typeof Field>, FieldProps>(({ ...props }, ref) => {
     const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+    const errorText = error ? String(error?.message) : props.errorText;
 
     return (
-      <FormControlBase
+      <Field
         ref={ref}
         id={formItemId}
         aria-describedby={
@@ -86,7 +87,8 @@ const FormControl: React.FC<React.PropsWithChildren<FormControlProps>> =
             ? `${formDescriptionId}`
             : `${formDescriptionId} ${formMessageId}`
         }
-        isInvalid={!!error}
+        invalid={!!error}
+        errorText={errorText}
         {...props}
       />
     );

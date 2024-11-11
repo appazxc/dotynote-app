@@ -1,5 +1,4 @@
 import {
-  Button,
   Input,
   ModalBody,
   ModalCloseButton,
@@ -15,8 +14,8 @@ import {
   Form,
   FormControl,
   FormField,
-  FormMessage,
 } from 'shared/components/Form';
+import { Button } from 'shared/components/ui/button';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -67,7 +66,6 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
                     placeholder="Space name"
                     {...field}
                   />
-                  <FormMessage />
                 </FormControl>
               )}
             />
@@ -77,14 +75,14 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
             <Button
               colorScheme="brand"
               variant="ghost"
-              onClick={() => dispatch(hideModal())}
               mr={3}
+              onClick={() => dispatch(hideModal())}
             >
               Cancel
             </Button>
             <Button
               colorScheme="brand"
-              isLoading={isSubmitting}
+              loading={isSubmitting}
               type="submit"
             >
               {submitText}

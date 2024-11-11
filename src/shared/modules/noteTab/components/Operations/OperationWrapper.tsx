@@ -14,10 +14,7 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
 
   return (
     <Box
-      as={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      asChild
       p="2"
       borderRadius="md"
       border="2px solid"
@@ -28,18 +25,26 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
       my="2"
       position="relative"
     >
-      {children}
-      <IconButton
-        aria-label=""
-        size="xs"
-        colorScheme="brand"
-        position="absolute"
-        right="0"
-        top="0"
-        borderRadius="full"
-        transform="translate(50%, -50%)"
-        onClick={onClose}
-      ><MdClose /></IconButton>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {children}
+        <IconButton
+          aria-label=""
+          size="xs"
+          colorScheme="brand"
+          position="absolute"
+          right="0"
+          top="0"
+          borderRadius="full"
+          transform="translate(50%, -50%)"
+          onClick={onClose}
+        >
+          <MdClose />
+        </IconButton>
+      </motion.div>
     </Box>
   );
 });

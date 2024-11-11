@@ -1,9 +1,4 @@
-import React from 'react';
-
 import {
-  Button,
-  FormControl,
-  FormErrorMessage,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,11 +10,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditorEvents } from '@tiptap/react';
 import debounce from 'lodash/debounce';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
+import { Button } from 'shared/components/ui/button';
+import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -92,19 +90,15 @@ const CreateNoteModal = ({ onCreate }: Props) => {
               },
             }}
           >
-            <FormControl isInvalid={!!errors.title}>
+            <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
                 autoFocus
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
-                variant="plain"
                 {...register('title')}
               />
-              <FormErrorMessage>
-                {!!errors.title && errors.title.message}
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
 
             <EditorContent editor={editor} />
           </ModalBody>
@@ -112,7 +106,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
           <ModalFooter>
             <Button
               colorScheme="brand"
-              isLoading={isSubmitting}
+              loading={isSubmitting}
               type="submit"
             >
               Create

@@ -1,9 +1,4 @@
-import React from 'react';
-
 import {
-  Button,
-  FormControl,
-  FormErrorMessage,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,11 +8,14 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
+import { Button } from 'shared/components/ui/button';
+import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -86,19 +84,15 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
             display="flex"
             flexDirection="column"
           >
-            <FormControl isInvalid={!!errors.title}>
+            <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
                 autoFocus
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
-                variant="plain"
                 {...register('title')}
               />
-              <FormErrorMessage>
-                {!!errors.title && errors.title.message}
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
 
             <EditorContent editor={editor} />
           </ModalBody>
@@ -106,7 +100,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
           <ModalFooter>
             <Button
               colorScheme="brand"
-              isLoading={isSubmitting}
+              loading={isSubmitting}
               type="submit"
             >
               Create
