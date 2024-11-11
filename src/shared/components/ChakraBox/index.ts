@@ -1,1 +1,0 @@
-export { ChakraBox } from './ChakraBox';

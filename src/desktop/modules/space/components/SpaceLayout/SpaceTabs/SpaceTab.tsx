@@ -1,11 +1,9 @@
 import {
   Box,
-  chakra,
   Circle,
   IconButton,
-  shouldForwardProp,
 } from '@chakra-ui/react';
-import { isValidMotionProp, motion, Reorder } from 'framer-motion';
+import { motion, Reorder } from 'framer-motion';
 import React from 'react';
 import { MdClose } from 'react-icons/md';
 
@@ -13,7 +11,6 @@ import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
-import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
@@ -25,13 +22,6 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { router } from 'desktop/modules/space/tabRoutes/router';
-
-export const ReorderItemBox = chakra(Reorder.Item, {}, {
-  /**
-   * Allow motion props and non-Chakra props to be forwarded.
-   */
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
 
 type Props = {
   id: string,
@@ -77,41 +67,48 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   return (
     <Menu isContextMenu>
       <MenuTrigger
-        layout
-        as={ReorderItemBox}
-        value={id}
-        alignItems="stretch"
-        maxWidth={isPinned ? '9' : '32'}
-        minW={isActive || isPinned ? '7' : '3'}
-        h="30"
-        flexGrow="1"
-        justifyContent="space-between"
-        position="relative"
-        px="1.5"
-        cursor="pointer"
-        borderRadius="6"
-        bg={bg}
-        borderColor={borderColor}
-        borderWidth="1px"
-        borderStyle="solid"
-        display="flex"
-        sx={{
-          containerType: 'size',
-          ...isActive ? {
-            '@container (max-width: 30px)': {
-              '& > .chakra-button__icon': { 
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                marginInlineStart: 0, 
-              },
-            },
-          } : {},
-        }}
+        as={(
+          <Box 
+            asChild
+            alignItems="stretch"
+            maxWidth={isPinned ? '9' : '32'}
+            minW={isActive || isPinned ? '7' : '3'}
+            h="30"
+            flexGrow="1"
+            justifyContent="space-between"
+            position="relative"
+            px="1.5"
+            cursor="pointer"
+            borderRadius="6"
+            bg={bg}
+            borderColor={borderColor}
+            borderWidth="1px"
+            borderStyle="solid"
+            display="flex"
+            css={{
+              containerType: 'size',
+              ...isActive ? {
+                '@container (max-width: 30px)': {
+                  '& > .chakra-button__icon': { 
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginInlineStart: 0, 
+                  },
+                },
+              } : {},
+            }}
+          >
+            <Reorder.Item 
+              layout
+              value={id}
+            /> 
+          </Box>
+        )}
         onMouseDown={handleMouseDown}
         onClick={handleTabChange}
       >
-        <ChakraBox
+        <Box
           position="relative"
           display="flex"
           justifyContent={isPinned ? 'center' : 'space-between'}
@@ -120,11 +117,12 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         >
           {isPinned ? (
             <Circle
-              layout
-              as={motion.div}
+              asChild
               size="18px"
               bg="purple.100"
-            />
+            >
+              <motion.div layout />
+            </Circle>
           ) : (
             <>
               <Box
@@ -132,7 +130,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                 display="flex"
                 flexGrow="1"
                 h="full"
-                sx={isActive ? {
+                css={isActive ? {
                   '@container (max-width: 25px)': {
                     '&': { display: 'none' },
                   },
@@ -155,7 +153,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                 flexShrink="0"
                 position="relative"
                 ml="1"
-                sx={isActive ? {
+                css={isActive ? {
                   '@container (max-width: 30px)': {
                     '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
                   },
@@ -172,7 +170,6 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                   aria-label="close"
                   variant="ghost"
                   colorScheme="gray"
-                  icon={<MdClose size="13px" />}
                   borderRadius="50%"
                   onContextMenu={(event) => {
                     event.stopPropagation();
@@ -183,11 +180,11 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                     event.stopPropagation();
                     dispatch(closeTab(id));
                   }}
-                />
+                ><MdClose size="13px" /></IconButton>
               </Box>
             </>
           )}
-        </ChakraBox>
+        </Box>
       </MenuTrigger>
       <MenuList>
         <MenuItem
@@ -210,7 +207,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
           }}
         />
         <MenuItem
-          isDisabled={isLast}
+          disabled={isLast}
           label="Close to the Right"
           onClick={() => {
             dispatch(closeRightTabs(id));
