@@ -1,4 +1,3 @@
-import { useQuery } from '@chakra-ui/react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -17,11 +16,10 @@ const deviceBoolMap = {
 };
 
 export const Device = React.memo(({ children }: Props) => {
-  const query = useQuery({ below: 'sm' });
   const dispatch = useDispatch();
   const device = useAppSelector(state => state.app.device);
   // standard media initialized with wrong values
-  const [isMobileMatch] = useMedia(query);
+  const [isMobileMatch] = useMedia('(max-width: 30em)');
   
   React.useEffect(() => {
     if (typeof isMobileMatch !== 'boolean') {
