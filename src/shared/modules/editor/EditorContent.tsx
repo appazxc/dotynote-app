@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { Box, BoxProps } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { Editor } from '@tiptap/react';
 import { EditorContent as TiptapEditorContent } from '@tiptap/react';
+import React from 'react';
 
 type Props = {
   editor?: Editor
@@ -22,13 +20,11 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
       display="flex"
       {...boxProps}
     >
-      <EditorBox
-        editor={editor}
-      />
+      <Box asChild flex="1 1 0%">
+        <TiptapEditorContent
+          editor={editor}
+        />
+      </Box>
     </Box>
   );
 });
-
-const EditorBox = styled(TiptapEditorContent)`
-  flex: 1 1 0%;
-`;

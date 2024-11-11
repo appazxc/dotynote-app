@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { useQuery } from '@chakra-ui/react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { devices } from 'shared/constants/devices';

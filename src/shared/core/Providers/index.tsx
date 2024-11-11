@@ -1,14 +1,11 @@
-import * as React from 'react';
-
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import * as React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { queryClient } from 'shared/api/queryClient';
-import config from 'shared/config';
+import { Provider as ThemeProvider } from 'shared/components/ui/provider';
 import { Device } from 'shared/core/Providers/Device';
-import { ThemeProvider } from 'shared/core/Providers/ThemeProvider';
 import { persistor, store } from 'shared/store';
 
 type Props = React.PropsWithChildren<{}>
@@ -21,7 +18,6 @@ export const Providers = React.memo(({ children }: Props) => {
           <ThemeProvider>
             <Device>{children}</Device>
           </ThemeProvider>
-          {config.devtools.query && <ReactQueryDevtools initialIsOpen />}
         </QueryClientProvider>
       </PersistGate>
     </Provider>

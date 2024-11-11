@@ -43,7 +43,6 @@ module.exports = {
           {
             'pattern': 'react',
             'group': 'external',
-            'position': 'before',
           },
           {
             'pattern': 'shared/**',

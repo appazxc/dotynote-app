@@ -1,5 +1,3 @@
-import { mode } from '@chakra-ui/theme-tools';
-
 import { colorMode } from 'shared/util/theme/colorMode';
 
 export const getEditorStyles = (props) => {
@@ -111,7 +109,7 @@ export const getEditorStyles = (props) => {
       borderLeft: '2px solid rgba(13, 13, 13, 0.1)',
     },
     'span[data-spoiler]': {
-      bg: mode('gray.900', 'gray.100')(props),
+      bg: colorMode('gray.900', 'gray.100')(props),
       _hover: {
         bg: 'transparent',
       },

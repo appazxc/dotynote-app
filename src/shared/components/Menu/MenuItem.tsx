@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { ButtonProps } from '@chakra-ui/react';
+import React from 'react';
 
 import { MenuItemBase } from 'shared/components/Menu/MenuItemBase';
 import { MenuListContext } from 'shared/components/Menu/MenuList';
