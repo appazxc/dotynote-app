@@ -1,16 +1,16 @@
 import React from 'react';
-
-import { useBoolean, useColorModeValue } from '@chakra-ui/react';
 import { BsPlus } from 'react-icons/bs';
+import { useBoolean } from 'usehooks-ts';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { ChakraBox } from 'shared/components/ChakraBox';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export const PlusButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const hoverBg = useColorModeValue('gray.200', 'brand.400');
-  const [layoutAnimation, setFlag] = useBoolean();
+  const { value, setTrue, setFalse } = useBoolean();
   const handlePlusClick = React.useCallback(() => {
     dispatch(openTab({ active: true }));
   }, [dispatch]);
@@ -35,7 +35,7 @@ export const PlusButton = React.memo(() => {
       display="flex"
       variants={container}
       initial="hidden"
-      animate={layoutAnimation ? 'hidden' : 'show'}
+      animate={value ? 'hidden' : 'show'}
       alignItems="center"
       justifyContent="center"
       // @ts-ignore
@@ -56,8 +56,8 @@ export const PlusButton = React.memo(() => {
       _hover={{
         backgroundColor: hoverBg,
       }}
-      onLayoutAnimationStart={setFlag.on}
-      onLayoutAnimationComplete={setFlag.off}
+      onLayoutAnimationStart={setTrue}
+      onLayoutAnimationComplete={setFalse}
       onClick={handlePlusClick}
     >
       <BsPlus size="22px" />

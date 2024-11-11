@@ -1,10 +1,10 @@
+import { Box, Button, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, Button, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useAppDispatch } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';

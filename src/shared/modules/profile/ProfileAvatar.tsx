@@ -1,7 +1,8 @@
+import { Center } from '@chakra-ui/react';
 import React from 'react';
-
-import { Center, useColorModeValue } from '@chakra-ui/react';
 import { FiUser } from 'react-icons/fi';
+
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = {};
 

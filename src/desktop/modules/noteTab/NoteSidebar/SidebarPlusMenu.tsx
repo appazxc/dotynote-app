@@ -57,7 +57,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
             onClick={onToggle}
           ><BsPlus size="22px" /></IconButton>
         </PopoverTrigger>
-        <PopoverContent width="md">
+        <PopoverContent width="md" className="light">
           <PopoverBody
             gap="4"
             display="flex"

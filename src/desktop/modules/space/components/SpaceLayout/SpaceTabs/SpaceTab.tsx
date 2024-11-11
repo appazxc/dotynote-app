@@ -1,14 +1,12 @@
-import React from 'react';
-
 import {
   Box,
   chakra,
   Circle,
   IconButton,
   shouldForwardProp,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { isValidMotionProp, motion, Reorder } from 'framer-motion';
+import React from 'react';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
@@ -17,6 +15,7 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
 import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -27,7 +26,7 @@ import { invariant } from 'shared/util/invariant';
 
 import { router } from 'desktop/modules/space/tabRoutes/router';
 
-export const ReorderItemBox = chakra(Reorder.Item, {
+export const ReorderItemBox = chakra(Reorder.Item, {}, {
   /**
    * Allow motion props and non-Chakra props to be forwarded.
    */

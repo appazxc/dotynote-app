@@ -1,9 +1,8 @@
-import React from 'react';
-
-import { Box, Button, Center, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Center, IconButton, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
+import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 
@@ -11,6 +10,7 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';

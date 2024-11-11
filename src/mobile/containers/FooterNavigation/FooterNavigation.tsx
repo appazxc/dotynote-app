@@ -1,10 +1,10 @@
-import React from 'react';
-
-import { Box, Center, IconButton, IconButtonProps, useColorModeValue } from '@chakra-ui/react';
+import { Box, Center, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
+import React from 'react';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';

@@ -1,14 +1,13 @@
+import { IconButton, useToast, useToken } from '@chakra-ui/react';
 import React from 'react';
-
-import { IconButton, useColorModeValue, useToast, useToken } from '@chakra-ui/react';
 import { GoDotFill } from 'react-icons/go';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useSpaces } from 'shared/api/hooks/useSpaces';
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuItem, MenuList, MenuTrigger, MenuSub, MenuDivider } from 'shared/components/Menu';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { modalIds } from 'shared/constants/modalIds';
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';

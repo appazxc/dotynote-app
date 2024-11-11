@@ -6,9 +6,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useColorModeValue,
 } from '@chakra-ui/react';
 
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';

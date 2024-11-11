@@ -1,7 +1,8 @@
+import { Button, useDisclosure, useToken } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import { Button, useColorModeValue, useDisclosure, useToken } from '@chakra-ui/react';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = {
   title: string,

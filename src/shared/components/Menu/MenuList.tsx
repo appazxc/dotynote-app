@@ -46,7 +46,7 @@ export const MenuList = React.memo(React.forwardRef<HTMLDivElement, BoxProps>(({
         },
       }}
     >
-      <Box {...listProps}>
+      <Box {...listProps} className="light">
         {children}
       </Box>
     </MenuListContext.Provider>

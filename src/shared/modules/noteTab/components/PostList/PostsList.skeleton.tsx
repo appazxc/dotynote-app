@@ -1,6 +1,7 @@
+import { Box, Stack, Skeleton, SkeletonText, Center, Spinner } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, Stack, Skeleton, SkeletonText, useColorModeValue, Center, Spinner } from '@chakra-ui/react';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 const PostSkeleton = () => {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.300');

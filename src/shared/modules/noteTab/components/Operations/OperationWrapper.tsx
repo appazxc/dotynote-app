@@ -1,8 +1,9 @@
-import React from 'react';
-
-import { Box, IconButton, useColorModeValue } from '@chakra-ui/react';
+import { Box, IconButton } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import React from 'react';
 import { MdClose } from 'react-icons/md';
+
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = React.PropsWithChildren<{
   onClose: () => void,
@@ -29,7 +30,6 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
     >
       {children}
       <IconButton
-        icon={<MdClose />}
         aria-label=""
         size="xs"
         colorScheme="brand"
@@ -39,7 +39,7 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
         borderRadius="full"
         transform="translate(50%, -50%)"
         onClick={onClose}
-      />
+      ><MdClose /></IconButton>
     </Box>
   );
 });
