@@ -26,8 +26,8 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
   const orderBy = useAppSelector(state => orderBySelector.getByIds(state, orderByIds));
   const { mutate } = useUpdatePostsSettings(noteId, postsSettings.id);
 
-  const handleInternalChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    mutate({ internal: event.target.checked });
+  const handleInternalChange = React.useCallback(({ checked }) => {
+    mutate({ internal: checked });
   }, [mutate]);
 
   return (
@@ -35,7 +35,7 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
       <SwitchSection
         label={`Internal posts are ${note.postsSettings?.internal ? 'visible' : 'hidden'}`}
         description="Show or hide internal posts content and settings"
-        isChecked={!!note.postsSettings?.internal}
+        checked={!!note.postsSettings?.internal}
         onChange={handleInternalChange}
       />
       <SortSettings orderBy={orderBy} postsSettings={postsSettings} />
