@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Box, IconButton, Tooltip } from '@chakra-ui/react';
+import { Box, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useNavigate, useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
@@ -80,11 +80,11 @@ export const NoteSidebar = React.memo((props: Props) => {
             key="NodeRw"
             rwMode={rwMode}
             tooltip={{
-              label: 'Note read/edit',
+              content: 'Note read/edit',
               openDelay:300,
-              placement:'right',
-              backgroundColor:'black',
-              hasArrow: true,
+              positioning: { placement:'right' },
+              contentProps: { backgroundColor:'black' },
+              showArrow: true,
             }}
           />
         ),
@@ -133,11 +133,11 @@ export const NoteSidebar = React.memo((props: Props) => {
       return element || (
         <Tooltip
           key={id}
-          hasArrow
-          label={label}
+          showArrow
+          content={label}
           openDelay={300}
-          placement="right"
-          backgroundColor="black"
+          positioning={{ placement: 'right' }}
+          contentProps={{ backgroundColor: 'black' }}
         >
           {children || (
             <IconButton
@@ -146,7 +146,7 @@ export const NoteSidebar = React.memo((props: Props) => {
               position="relative"
               colorScheme="gray"
               aria-label={label}
-              {...restItem}
+              {...restItem as IconButtonProps}
             />
           )}
         </Tooltip>

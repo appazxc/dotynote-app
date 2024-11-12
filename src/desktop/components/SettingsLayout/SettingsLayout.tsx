@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Box, Button, Grid, GridItem, IconButton, useColorMode } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
+import React from 'react';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 import { IoSunny } from 'react-icons/io5';
 import { TbSettings2 } from 'react-icons/tb';
 
 import { Logo } from 'shared/components/Logo';
+import { useColorMode } from 'shared/components/ui/color-mode';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
@@ -40,12 +40,11 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
         right={(
           <IconButton 
             size="sm"
-            icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
             aria-label=""
             colorScheme="gray"
             variant="ghost"
             onClick={toggleColorMode}
-          />
+          >{colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}</IconButton>
         )}
       />
     );
@@ -74,20 +73,17 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
                 {(match) => {
                   return (
                     <Button
-                      as={DesktopLink}
-                      to={to}
+                      asChild
                       display="inline-flex"
-                      variant="link"
                       colorScheme="brand"
                       opacity={match ? '1' : '0.6'}
-                      leftIcon={icon}
                       justifyContent="start"
                       _hover={{
                         textDecoration: 'none',
                         opacity: '1',
                       }}
                     >
-                      {label}
+                      <DesktopLink to={to}>{icon} {label}</DesktopLink>
                     </Button>
                   );
                 }}

@@ -130,11 +130,11 @@ export const FooterNavigation = React.memo(() => {
       >
         {buttons.map(({ label, icon, onClick, getMenu, isActive, ...rest }) => {
           const props = {
-            size: 'md',
+            size: 'md' as const,
             'aria-label': label,
-            icon: icon,
+            children: icon,
             onClick: onClick,
-            variant: 'unstyled',
+            variant: 'plain' as const,
             display: 'inline-flex',
             colorScheme: 'brand',
             color: isActive ? 'purple.500' : undefined,

@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { IconButton, useColorMode } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { useColorMode } from 'shared/components/ui/color-mode';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
@@ -36,26 +36,24 @@ export const MenuHeaderButton = React.memo(() => {
           as={IconButton}
           size="sm"
           aria-label="User menu"
-          icon={<BsThreeDotsVertical />}
           variant="outline"
           colorScheme="brand"
-        />
+        >
+          <BsThreeDotsVertical />
+        </MenuTrigger>
         <MenuList>
           <MenuItem
-            leftIcon={<FiUser />}
-            label="Profile"
+            label={<><FiUser /> Profile</>}
             onClick={handleProfileClick}
           />
           <MenuItem
-            leftIcon={<TbSettings2 />}
-            label="Settings"
+            label={<><TbSettings2 /> Settings</>}
             onClick={handleSettingsClick}
           />
           <MenuDivider />
           <MenuItem
-            leftIcon={<TbLogout2 />}
+            label={<><TbLogout2 /> Logout</>}
             colorScheme="red"
-            label="Logout"
             onClick={() => {
               dispatch(logout());
               router.navigate({ to: '/' });

@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Box } from '@chakra-ui/react';
 import { LayoutGroup, Reorder } from 'framer-motion';
+import React from 'react';
 
 import { reorderTabs } from 'shared/actions/space/reorderTabs';
 import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
@@ -34,43 +33,50 @@ export const SpaceTabs = React.memo(() => {
         gap="1"
       >
         <Box
-          layout
-          as={Reorder.Group}
+          asChild
           display="flex"
           flexDirection="row"
           flexShrink="0"
           gap="1"
-          axis="x"
-          values={pinnedTabs}
-          onReorder={handleReorderPinnedTabs}
         >
-          {pinnedTabs?.map((id, index) => (
-            <SpaceTab
-              key={id}
-              id={id}
-              isLast={pinnedTabs.length === index + 1 && unpinnedTabs?.length === 0}
-            />
-          ))}
+          <Reorder.Group
+            layout
+            axis="x"
+            values={pinnedTabs}
+            onReorder={handleReorderPinnedTabs}
+          >
+            {pinnedTabs?.map((id, index) => (
+              <SpaceTab
+                key={id}
+                id={id}
+                isLast={pinnedTabs.length === index + 1 && unpinnedTabs?.length === 0}
+              />
+            ))}
+          </Reorder.Group>
         </Box>
         <Box
-          layout
-          as={Reorder.Group}
+          asChild
           display="flex"
           flexDirection="row"
           gap="1"
           flexGrow="1"
-          axis="x"
-          values={unpinnedTabs}
-          onReorder={handleReorderUnpinnedTabs}
         >
-          {unpinnedTabs?.map((id, index) => (
-            <SpaceTab
-              key={id}
-              id={id}
-              isLast={unpinnedTabs.length === index + 1}
-            />
-          ))}
-          <PlusButton />
+          <Reorder.Group
+            layout
+            axis="x"
+            values={unpinnedTabs}
+            onReorder={handleReorderUnpinnedTabs}
+          >
+            {unpinnedTabs?.map((id, index) => (
+              <SpaceTab
+                key={id}
+                id={id}
+                isLast={unpinnedTabs.length === index + 1}
+              />
+            ))}
+            <PlusButton />
+          </Reorder.Group>
+          
         </Box>
       </Box>
     </LayoutGroup>

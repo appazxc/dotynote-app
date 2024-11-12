@@ -1,8 +1,8 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, Progress } from '@chakra-ui/react';
-
 import { BrowserProviders } from 'shared/components/BrowserProviders';
+import { ProgressBar, ProgressRoot } from 'shared/components/ui/progress';
 import { useAppInProgress } from 'shared/modules/loaders/loadersSlice';
 import { useAppSelector } from 'shared/store/hooks';
 
@@ -24,8 +24,8 @@ export const SpaceLayout = ({ children }: Props) => {
       >
         <SpaceHeader />
         {(isLoading || isAppInProgress) && (
-          <Progress
-            isIndeterminate
+          <ProgressRoot
+            value={null}
             size="xs"
             position="absolute"
             w="full"
@@ -33,7 +33,9 @@ export const SpaceLayout = ({ children }: Props) => {
             top="0"
             colorScheme="purple"
             transitionDuration="2s"
-          />
+          >
+            <ProgressBar />
+          </ProgressRoot>
         )}
         <Box
           w="full"

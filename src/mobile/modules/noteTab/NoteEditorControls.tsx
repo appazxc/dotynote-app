@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Box, Divider, IconButton, Tooltip } from '@chakra-ui/react';
+import { Box, IconButton, Separator } from '@chakra-ui/react';
 import { Editor } from '@tiptap/react';
 import { motion } from 'framer-motion';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
@@ -8,6 +6,7 @@ import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
 import { PiLinkBold, PiListBullets, PiListNumbers } from 'react-icons/pi';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { modalIds } from 'shared/constants/modalIds';
 import { UrlModal } from 'shared/containers/modals/UrlModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -126,10 +125,6 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
         }}
       >
         <Box
-          as={motion.div}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
           h={headerHeight}
           justifyContent="start"
           alignItems="center"
@@ -139,39 +134,45 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
           maxW="max-content"
         
         >
-          {items.map((itemProps) => {
-            if ('isDivider' in itemProps) {
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {items.map((itemProps) => {
+              if ('isDivider' in itemProps) {
+                return (
+                  <Separator
+                    key={itemProps.label}
+                    orientation="vertical"
+                    h="20px"
+                    mx="1"
+                  />
+                );
+              }
+
+              const { label, isActive, ...buttonProps } = itemProps;
+
               return (
-                <Divider
-                  key={itemProps.label}
-                  orientation="vertical"
-                  h="20px"
-                  mx="1"
-                />
+                <Tooltip
+                  key={label}
+                  content={label}
+                  openDelay={1000}
+                  positioning={{ placement: 'top' }}
+                >
+                  <IconButton
+                    aria-label={label}
+                    size="lg"
+                    h="8"
+                    minW="8"
+                    colorScheme={isActive ? 'brand' : 'gray'}
+                    variant={isActive ? 'outline' : 'ghost'}
+                    {...buttonProps}
+                  />
+                </Tooltip>
               );
-            }
-
-            const { label, isActive, ...buttonProps } = itemProps;
-
-            return (
-              <Tooltip
-                key={label}
-                label={label}
-                openDelay={1000}
-                placement="top"
-              >
-                <IconButton
-                  aria-label={label}
-                  size="lg"
-                  h="8"
-                  minW="8"
-                  colorScheme={isActive ? 'brand' : 'gray'}
-                  variant={isActive ? 'outline' : 'ghost'}
-                  {...buttonProps}
-                />
-              </Tooltip>
-            );
-          })}
+            })}
+          </motion.div>
         </Box>
 
         <UrlModal extraId={extraId} editor={editor} />

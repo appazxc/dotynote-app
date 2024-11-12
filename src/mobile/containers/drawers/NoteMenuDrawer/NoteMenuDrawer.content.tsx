@@ -1,9 +1,9 @@
 import {
-  Drawer,
+  DrawerRoot,
   DrawerBody,
   DrawerContent,
   DrawerHeader,
-  DrawerOverlay,
+  DrawerBackdrop,
 } from '@chakra-ui/react';
 
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
@@ -30,12 +30,12 @@ const NoteMenuDrawer = (props: Props) => {
   };
 
   return (
-    <Drawer
-      isOpen
+    <DrawerRoot
+      open
       placement="bottom"
-      onClose={onClose}
+      onOpenChange={onClose}
     >
-      <DrawerOverlay />
+      <DrawerBackdrop />
       <DrawerContent borderTopLeftRadius="lg" borderTopRightRadius="lg">
         <DrawerHeader>
           <EntryMediaSelect
@@ -51,7 +51,7 @@ const NoteMenuDrawer = (props: Props) => {
           />
         </DrawerBody>
       </DrawerContent>
-    </Drawer>
+    </DrawerRoot>
   );
 };
 

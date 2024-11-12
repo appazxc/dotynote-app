@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
@@ -50,13 +49,12 @@ export const NoteHeader = (props: Props) => {
       <IconButton
         size="sm"
         aria-label="Note back"
-        icon={<BsArrowLeft size="18" />}
-        isDisabled={tab.routes.length <= 1}
-        variant="unstyled"
+        disabled={tab.routes.length <= 1}
+        variant="plain"
         colorScheme="brand"
         display="inline-flex"
         onClick={() => history.back()}
-      />
+      ><BsArrowLeft size="18" /></IconButton>
     );
   }, [tab.routes.length, history, firstPageOfPrimaryNote]);
 
@@ -95,12 +93,11 @@ export const NoteHeader = (props: Props) => {
       <IconButton
         size="sm"
         position="relative"
-        icon={<FaA />}
         aria-label="Advanced Edit"
         variant={isAdvancedEditActive ? 'solid' : 'ghost'}
         colorScheme="gray"
         onClick={() => dispatch(toggleAdvancedEdit())}
-      />
+      ><FaA /></IconButton>
     );
   }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentVisible]);
 

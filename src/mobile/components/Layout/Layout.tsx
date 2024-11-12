@@ -1,6 +1,5 @@
+import { Box, useChakraContext } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, useTheme } from '@chakra-ui/react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
@@ -11,13 +10,13 @@ type Props = {
 }
 
 export const Layout = ({ children, header, footer }: Props) => {
-  const theme = useTheme();
-
+  const theme = useChakraContext();
+  console.log('Layout theme', theme);
   return (
     <Box
       w="full"
       h="full"
-      maxW={theme.breakpoints.sm}
+      maxW={theme.breakpoints.getCondition('sm')}
       minW="80"
       mx="auto"
     >
