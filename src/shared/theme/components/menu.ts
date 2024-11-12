@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { menuAnatomy } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 

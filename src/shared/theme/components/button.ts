@@ -1,4 +1,5 @@
 // https://github.com/chakra-ui/chakra-ui/blob/HEAD/packages/components/theme/src/components/button.ts
+// @ts-nocheck
 
 import { defineStyle, defineStyleConfig, theme as defaultTheme, StyleFunctionProps } from '@chakra-ui/react';
 import { omit } from 'lodash';

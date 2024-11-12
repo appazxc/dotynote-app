@@ -1,11 +1,11 @@
-import React from 'react';
-
-import { Box, Button, Card, Text } from '@chakra-ui/react';
+import { Box, Card, Link, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useUpdateUserSettings } from 'shared/api/hooks/useUpdateUserSettings';
 import { Post } from 'shared/components/Post';
+import { Button } from 'shared/components/ui/button';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
@@ -49,7 +49,7 @@ export const HubSettings = React.memo(({ hub }: Props) => {
 
   return (
     <>
-      <Card p="4">
+      <Card.Root p="4">
         <Box>
           <Text fontWeight="600">Hub note</Text>
           <Text color="gray.400" fontSize="sm">
@@ -62,22 +62,21 @@ export const HubSettings = React.memo(({ hub }: Props) => {
                 justifyContent="end"
                 mb="2"
               >
-                <Button
-                  variant="link"
-                  size="sm"
+                <Link
+                  variant="underline"
                   onClick={() => {
                     dispatch(showModal({ id: modalIds.confirm }));
                   }}
                 >
                   Remove
-                </Button>
+                </Link>
               </Box>
               <Post noteId={hub?.id} onClick={handleNoteClick} />
             </Box>
           ) : (
             <Button
               mt="4"
-              isLoading={isPending}
+              loading={isPending}
               onClick={handleSet}
             >
               Set
@@ -85,7 +84,7 @@ export const HubSettings = React.memo(({ hub }: Props) => {
           )}
           
         </Box>
-      </Card>
+      </Card.Root>
       <ConfirmModal
         title="Remove hub note"
         description="All unsticked notes will stick once a new hub is created"

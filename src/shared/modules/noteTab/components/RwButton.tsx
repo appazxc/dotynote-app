@@ -1,9 +1,8 @@
+import { IconButton } from '@chakra-ui/react';
 import React from 'react';
-
-import { IconButton, Tooltip, TooltipProps } from '@chakra-ui/react';
 import { FaPencil } from 'react-icons/fa6';
 
-import { useEditorContext } from 'shared/modules/editor';
+import { Tooltip, TooltipProps } from 'shared/components/ui/tooltip';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useAppDispatch } from 'shared/store/hooks';
 import { toggleRwMode } from 'shared/store/slices/appSlice';
@@ -21,7 +20,6 @@ const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {
       ref={ref}
       size="sm"
       position="relative"
-      icon={<FaPencil />}
       colorScheme="gray"
       variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
       aria-label="Note read/edit"
@@ -29,7 +27,7 @@ const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {
       onClick={() => {
         dispatch(toggleRwMode());
       }}
-    />
+    ><FaPencil /></IconButton>
   );
 
   if (tooltip) {

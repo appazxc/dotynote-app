@@ -1,6 +1,5 @@
+import { Card, Text, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
-
-import { Card, Text, Box, Select, Heading } from '@chakra-ui/react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
 import { getOptionTitleFromOrderType } from 'shared/modules/notePostsSettingsTab/helpers/getOptionTitleFromOrderType';
@@ -28,7 +27,7 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
   }, [mutateAsync]);
 
   return (
-    <Card
+    <Card.Root
       p="4"
       gap="3"
     >
@@ -70,6 +69,6 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
           </Select>
         </Box>
       </Box>
-    </Card>
+    </Card.Root>
   );
 });

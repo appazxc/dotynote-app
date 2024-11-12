@@ -1,9 +1,10 @@
-import { Box, Button, IconButton, Text } from '@chakra-ui/react';
+import { Box, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Button } from 'shared/components/ui/button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -54,17 +55,19 @@ export const Operation = React.memo((props: Props) => {
               <MenuTrigger
                 as={IconButton}
                 size="sm"
-                icon={<BsThreeDotsVertical size="18" />}
                 aria-label=""
-                variant="unstyled"
+                variant="plain"
                 display="inline-flex"
-              />
+              ><BsThreeDotsVertical size="18" /></MenuTrigger>
               <MenuList>
                 {options.map((option) => (
                   <MenuItem
                     key={option.label}
-                    rightIcon={option.selected ? <MdOutlineDone /> : undefined}
-                    label={option.label}
+                    label={(
+                      <Box display="flex" justifyContent="space-between">
+                        {option.label} {option.selected ? <MdOutlineDone /> : undefined}
+                      </Box>
+                    )}
                     onClick={option.onClick}
                   />
                 ))}
@@ -77,7 +80,7 @@ export const Operation = React.memo((props: Props) => {
               colorScheme="brand"
               size="sm"
               aria-label=""
-              isLoading={isLoading}
+              loading={isLoading}
               onClick={onConfirm}
             >
               {confirmText || 'Confirm'}

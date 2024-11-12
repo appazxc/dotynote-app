@@ -1,4 +1,4 @@
-import { Box, BoxProps, Heading, Input, Text, useToast } from '@chakra-ui/react';
+import { Box, BoxProps, Heading, Input, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
 import isBoolean from 'lodash/isBoolean';
@@ -15,6 +15,7 @@ import {
 } from 'shared/components/Form';
 import { handleFormApiErrors } from 'shared/components/Form/util';
 import { Button } from 'shared/components/ui/button';
+import { toaster } from 'shared/components/ui/toaster';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
@@ -38,7 +39,6 @@ type SectionRef = {
 
 export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
   const user = useAppSelector(selectUser);
-  const toast = useToast();
 
   const sectionRefs = React.useRef<{[key in FieldNames]?: SectionRef}>({});
 
@@ -104,14 +104,14 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
 
         form.resetField(fieldProp, { defaultValue: value });
 
-        toast({
+        toaster.create({
           description: `${fieldNameMap[fieldProp]} updated`,
         });
 
         closeSection(fieldProp);
       },
     });
-  }, [form, mutate, toast, closeSection]);
+  }, [form, mutate, closeSection]);
 
   if (!user) {
     return null;

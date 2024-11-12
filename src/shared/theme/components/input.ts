@@ -1,10 +1,12 @@
+// @ts-nocheck
+
 import { inputAnatomy } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers, defineStyle } from '@chakra-ui/react';
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(inputAnatomy.keys);
 
-const primary = definePartsStyle(props => {
+const primary = definePartsStyle(_ => {
   return ({
     field: {
       backgroundColor: '#f5f5f5',

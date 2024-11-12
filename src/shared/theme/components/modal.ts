@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { modalAnatomy as parts } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
 

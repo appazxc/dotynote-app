@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { IconButton } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
@@ -49,8 +48,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
           size="sm"
           variant="ghost"
           aria-label="Note menu"
-          icon={isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}
-        />
+        >{isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}</MenuTrigger>
         <MenuList>
           <MenuSub label="Settings">
             <MenuItem
