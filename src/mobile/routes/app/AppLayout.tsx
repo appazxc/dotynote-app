@@ -1,4 +1,4 @@
-import { Box, useChakraContext } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { BrowserProviders } from 'shared/components/BrowserProviders';
@@ -12,8 +12,6 @@ type Props = {
 
 export const AppLayout = React.memo(({ children }: Props) => {
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
-  const theme = useChakraContext();
-  console.log('theme in AppLayout', theme);
   
   return (
     <BrowserProviders>

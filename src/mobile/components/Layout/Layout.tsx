@@ -1,4 +1,4 @@
-import { Box, useChakraContext } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
@@ -10,8 +10,6 @@ type Props = {
 }
 
 export const Layout = ({ children, header, footer }: Props) => {
-  const theme = useChakraContext();
-  console.log('Layout theme', theme);
   return (
     <Box
       w="full"
