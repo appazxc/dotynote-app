@@ -1,4 +1,4 @@
-import { Box, Button, Container, useChakraContext } from '@chakra-ui/react';
+import { Box, Button, Container } from '@chakra-ui/react';
 import React from 'react';
 
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
@@ -11,8 +11,7 @@ import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 const Home = React.memo(() => {
   const hasToken = !!useAppSelector(selectToken);
-  const theme = useChakraContext();
-  console.log('theme', theme);
+
   const [showLoginForm] = React.useState(!hasToken);
   
   const renderedAppButton = React.useMemo(() => {

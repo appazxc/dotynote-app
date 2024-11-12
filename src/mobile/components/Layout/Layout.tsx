@@ -16,7 +16,7 @@ export const Layout = ({ children, header, footer }: Props) => {
     <Box
       w="full"
       h="full"
-      maxW={theme.breakpoints.getCondition('sm')}
+      maxW="sm"
       minW="80"
       mx="auto"
     >

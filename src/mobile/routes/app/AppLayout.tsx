@@ -22,7 +22,7 @@ export const AppLayout = React.memo(({ children }: Props) => {
         h="full"
         minW="80"
         mx="auto"
-        maxW={theme.breakpoints.getCondition('md')}
+        maxW="md"
       >
         <Box
           w="full"

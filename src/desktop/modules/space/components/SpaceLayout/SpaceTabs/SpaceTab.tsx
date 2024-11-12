@@ -66,126 +66,124 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   
   return (
     <Menu isContextMenu>
-      <MenuTrigger
-        as={(
-          <Box 
-            asChild
-            alignItems="stretch"
-            maxWidth={isPinned ? '9' : '32'}
-            minW={isActive || isPinned ? '7' : '3'}
-            h="30"
-            flexGrow="1"
-            justifyContent="space-between"
-            position="relative"
-            px="1.5"
-            cursor="pointer"
-            borderRadius="6"
-            bg={bg}
-            borderColor={borderColor}
-            borderWidth="1px"
-            borderStyle="solid"
-            display="flex"
-            css={{
-              containerType: 'size',
-              ...isActive ? {
-                '@container (max-width: 30px)': {
-                  '& > .chakra-button__icon': { 
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginInlineStart: 0, 
-                  },
-                },
-              } : {},
-            }}
-          >
-            <Reorder.Item 
-              layout
-              value={id}
-            /> 
-          </Box>
-        )}
+      <Box 
+        asChild
+        alignItems="stretch"
+        maxWidth={isPinned ? '9' : '32'}
+        minW={isActive || isPinned ? '7' : '3'}
+        h="30"
+        flexGrow="1"
+        justifyContent="space-between"
+        position="relative"
+        px="1.5"
+        cursor="pointer"
+        borderRadius="6"
+        bg={bg}
+        borderColor={borderColor}
+        borderWidth="1px"
+        borderStyle="solid"
+        display="flex"
+        css={{
+          containerType: 'size',
+          ...isActive ? {
+            '@container (max-width: 30px)': {
+              '& > .chakra-button__icon': { 
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                marginInlineStart: 0, 
+              },
+            },
+          } : {},
+        }} 
         onMouseDown={handleMouseDown}
         onClick={handleTabChange}
       >
-        <Box
-          position="relative"
-          display="flex"
-          justifyContent={isPinned ? 'center' : 'space-between'}
-          alignItems="center"
-          w="full"
+        <MenuTrigger
+          layout
+          value={id}
+          // @ts-ignore
+          as={Reorder.Item}
         >
-          {isPinned ? (
-            <Circle
-              asChild
-              size="18px"
-              bg="purple.100"
-            >
-              <motion.div layout />
-            </Circle>
-          ) : (
-            <>
-              <Box
-                position="relative"
-                display="flex"
-                flexGrow="1"
-                h="full"
-                css={isActive ? {
-                  '@container (max-width: 25px)': {
-                    '&': { display: 'none' },
-                  },
-                } : {}}
+          <Box
+            position="relative"
+            display="flex"
+            justifyContent={isPinned ? 'center' : 'space-between'}
+            alignItems="center"
+            w="full"
+          >
+            {isPinned ? (
+              <Circle
+                asChild
+                size="18px"
+                bg="purple.100"
               >
+                <motion.div layout />
+              </Circle>
+            ) : (
+              <>
                 <Box
-                  position="absolute"
+                  position="relative"
+                  display="flex"
+                  flexGrow="1"
                   h="full"
-                  w="full"
+                  css={isActive ? {
+                    '@container (max-width: 25px)': {
+                      '&': { display: 'none' },
+                    },
+                  } : {}}
+                >
+                  <Box
+                    position="absolute"
+                    h="full"
+                    w="full"
+                    display="flex"
+                    alignItems="center"
+                    overflow="hidden"
+                  >
+                    <SpaceTabTitle title={title} />
+                  </Box>
+                </Box>
+                <Box
                   display="flex"
                   alignItems="center"
-                  overflow="hidden"
+                  flexShrink="0"
+                  position="relative"
+                  ml="1"
+                  css={isActive ? {
+                    '@container (max-width: 30px)': {
+                      '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
+                    },
+                  } : {
+                    '@container (max-width: 30px)': {
+                      '&': { display: 'none' },
+                    },
+                  }}
                 >
-                  <SpaceTabTitle title={title} />
+                  <IconButton
+                    h="5"
+                    w="5"
+                    minW="5"
+                    aria-label="close"
+                    variant="ghost"
+                    colorScheme="gray"
+                    borderRadius="50%"
+                    onContextMenu={(event) => {
+                      event.stopPropagation();
+                      event.preventDefault();
+                    }}
+                    onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      dispatch(closeTab(id));
+                    }}
+                  ><MdClose size="13px" /></IconButton>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                alignItems="center"
-                flexShrink="0"
-                position="relative"
-                ml="1"
-                css={isActive ? {
-                  '@container (max-width: 30px)': {
-                    '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
-                  },
-                } : {
-                  '@container (max-width: 30px)': {
-                    '&': { display: 'none' },
-                  },
-                }}
-              >
-                <IconButton
-                  h="5"
-                  w="5"
-                  minW="5"
-                  aria-label="close"
-                  variant="ghost"
-                  colorScheme="gray"
-                  borderRadius="50%"
-                  onContextMenu={(event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                  }}
-                  onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    dispatch(closeTab(id));
-                  }}
-                ><MdClose size="13px" /></IconButton>
-              </Box>
-            </>
-          )}
-        </Box>
-      </MenuTrigger>
+              </>
+            )}
+          </Box>
+        </MenuTrigger>
+      </Box>
       <MenuList>
         <MenuItem
           label={isPinned ? 'Unpin' : 'Pin'}

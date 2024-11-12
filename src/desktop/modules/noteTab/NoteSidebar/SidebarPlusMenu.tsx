@@ -44,7 +44,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
         positioning={{ placement: 'right-start' }}
         // returnFocusOnClose={false}
       >
-        <PopoverTrigger>
+        <PopoverTrigger asChild>
           <IconButton
             ref={ref}
             size="sm"
