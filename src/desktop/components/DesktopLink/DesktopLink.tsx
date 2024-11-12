@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Link, LinkProps } from '@tanstack/react-router';
+import React from 'react';
 
 import { Router } from 'desktop/routes/router';
 

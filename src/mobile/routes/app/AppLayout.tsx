@@ -1,6 +1,5 @@
+import { Box, useChakraContext } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, useTheme } from '@chakra-ui/react';
 
 import { BrowserProviders } from 'shared/components/BrowserProviders';
 import { useAppSelector } from 'shared/store/hooks';
@@ -12,9 +11,10 @@ type Props = {
 };
 
 export const AppLayout = React.memo(({ children }: Props) => {
-  const theme = useTheme();
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
-
+  const theme = useChakraContext();
+  console.log('theme in AppLayout', theme);
+  
   return (
     <BrowserProviders>
       <Box
@@ -22,7 +22,7 @@ export const AppLayout = React.memo(({ children }: Props) => {
         h="full"
         minW="80"
         mx="auto"
-        maxW={theme.breakpoints.sm}
+        maxW={theme.breakpoints.getCondition('md')}
       >
         <Box
           w="full"

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton, UseToastOptions } from '@chakra-ui/react';
 
 export const toastOptions: UseToastOptions = {

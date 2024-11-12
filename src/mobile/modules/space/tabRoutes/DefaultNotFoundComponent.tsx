@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Center, Text, Link, Stack } from '@chakra-ui/react';
+import { Center, Link, Stack, Text } from '@chakra-ui/react';
 import { useLocation } from '@tanstack/react-router';
 
 import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
@@ -21,12 +19,11 @@ function DefaultNotFoundComponent() {
         <Text fontSize="2xl">Tab content not found</Text>
 
         <Link
-          as={MobileTabLink}
-          to="/"
+          asChild
           color="teal.500"
           mt="10"
         >
-          Go to home page
+          <MobileTabLink to="/">Go to home page</MobileTabLink>
         </Link>
       </Stack>
 

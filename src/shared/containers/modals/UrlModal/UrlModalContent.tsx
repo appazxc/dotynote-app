@@ -1,18 +1,19 @@
-import React from 'react';
-
 import {
   Button,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
 } from '@chakra-ui/react';
 import { Editor } from '@tiptap/core';
+import React from 'react';
 
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
@@ -43,17 +44,17 @@ const UrlModal = (props: Props) => {
   };
 
   return (
-    <Modal
-      isCentered
-      isOpen={isOpen}
-      onClose={() => dispatch(hideModal())}
+    <DialogRoot
+      placement="center"
+      open={isOpen}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>URL</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody><Input value={url} onChange={(e) => setUrl(e.target.value)} /></ModalBody>
-        <ModalFooter>
+      <DialogBackdrop />
+      <DialogContent>
+        <DialogHeader>URL</DialogHeader>
+        <DialogCloseTrigger />
+        <DialogBody><Input value={url} onChange={(e) => setUrl(e.target.value)} /></DialogBody>
+        <DialogFooter>
           <Button
             colorScheme="brand"
             variant="ghost"
@@ -68,9 +69,9 @@ const UrlModal = (props: Props) => {
           >
             Ok
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

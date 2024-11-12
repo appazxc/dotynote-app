@@ -1,14 +1,13 @@
-import {
-  Drawer,
-  DrawerOverlay,
+import { Button } from 'shared/components/ui/button';
+import { 
+  DrawerRoot,
+  DrawerBackdrop,
   DrawerContent,
   DrawerHeader,
   DrawerFooter,
   DrawerBody,
-  DrawerCloseButton,
-  Button,
-} from '@chakra-ui/react';
-
+  DrawerCloseTrigger,
+} from 'shared/components/ui/drawer';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -23,13 +22,13 @@ const ConfirmDrawer = (props: Props) => {
   const dispatch = useAppDispatch();
   
   return (
-    <Drawer
-      isOpen
-      onClose={() => dispatch(hideDrawer())}
+    <DrawerRoot
+      defaultOpen
+      onOpenChange={() => dispatch(hideDrawer())}
     >
-      <DrawerOverlay />
+      <DrawerBackdrop />
       <DrawerContent>
-        <DrawerCloseButton />
+        <DrawerCloseTrigger />
         <DrawerHeader>{title}</DrawerHeader>
         <DrawerBody>
           {description}
@@ -37,17 +36,16 @@ const ConfirmDrawer = (props: Props) => {
 
         <DrawerFooter>
           <Button
-            colorScheme="brand"
             variant="ghost"
             mr={3}
             onClick={() => dispatch(hideDrawer())}
           >
-              Close
+            Close
           </Button>
-          <Button colorScheme="brand" onClick={onConfirm}>Confirm</Button>
+          <Button onClick={onConfirm}>Confirm</Button>
         </DrawerFooter>
       </DrawerContent>
-    </Drawer>
+    </DrawerRoot>
   );
 };
 

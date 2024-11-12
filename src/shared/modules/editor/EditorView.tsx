@@ -1,8 +1,8 @@
+import { Box } from '@chakra-ui/react';
+import { JSONContent, generateHTML } from '@tiptap/core';
 import React from 'react';
 
-import { Box, useColorMode } from '@chakra-ui/react';
-import { JSONContent, generateHTML } from '@tiptap/core';
-
+import { useColorMode } from 'shared/components/ui/color-mode';
 import { getEditorStyles } from 'shared/theme/styles';
 
 import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
@@ -39,10 +39,10 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
 
   return (
     <Box
-      sx={sx}
+      css={sx}
       dangerouslySetInnerHTML={{ __html: content }}
       textOverflow={maxLines ? 'ellipsis' : undefined}
-      noOfLines={maxLines}
+      lineClamp={maxLines}
     />
   );
 });

@@ -43,8 +43,7 @@ const Tab = ({ id, isActive }) => {
 
   return (
     <Box
-      layout
-      as={motion.div}
+      asChild
       p="4"
       position="relative"
       border="2px solid"
@@ -58,26 +57,27 @@ const Tab = ({ id, isActive }) => {
       gap="4"
       onClick={handleTabChange}
     >
-      <Box overflow="hidden">
-        <SpaceTabTitle
-          title={tabTitle}
-          fontSize="lg"
-          fontWeight="500"
-          textOverflow="ellipsis"
-          noOfLines={1}
-          display="block"
-        />
-      </Box>
-      <IconButton
-        icon={<MdClose /> }
-        aria-label="close"
-        size="xs"
-        colorScheme="gray"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          dispatch(closeTab(id));
-        }}
-      />
+      <motion.div layout>
+        <Box overflow="hidden">
+          <SpaceTabTitle
+            title={tabTitle}
+            fontSize="lg"
+            fontWeight="500"
+            textOverflow="ellipsis"
+            lineClamp={1}
+            display="block"
+          />
+        </Box>
+        <IconButton
+          aria-label="close"
+          size="xs"
+          colorScheme="gray"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            dispatch(closeTab(id));
+          }}
+        ><MdClose /> </IconButton>
+      </motion.div>
     </Box>
   );
 };
@@ -107,13 +107,12 @@ const Tabs = () => {
             <Button
               size="sm"
               variant="ghost"
-              leftIcon={<BsPlus size="22px" />}
               onClick={() => {
                 dispatch(openTab({ active: true }));
                 navigate({ to: '/app' });
               }}
             >
-            New tab
+              <BsPlus size="22px" /> New tab
             </Button>
           </Box>
         )}

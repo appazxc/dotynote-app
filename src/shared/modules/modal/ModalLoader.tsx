@@ -1,6 +1,12 @@
-import { Box, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { Loader } from 'shared/components/Loader';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogContent,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { Wait } from 'shared/components/Wait';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -15,20 +21,20 @@ export const ModalLoader = ({ delay }: Props) => {
   
   return (
     <Wait delay={delay ?? 300}>
-      <Modal
-        isCentered
-        isOpen
-        onClose={() => dispatch(hideModal())}
+      <DialogRoot
+        defaultOpen
+        placement="center"
+        onOpenChange={() => dispatch(hideModal())}
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalBody>
+        <DialogBackdrop />
+        <DialogContent>
+          <DialogBody>
             <Box p="4">
               <Loader delay={0} />
             </Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </Wait>
   );
 };

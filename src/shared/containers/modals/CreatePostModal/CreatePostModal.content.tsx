@@ -1,12 +1,4 @@
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from '@chakra-ui/react';
+import { DialogCloseTrigger } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,6 +7,14 @@ import * as z from 'zod';
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { Button } from 'shared/components/ui/button';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -61,20 +61,19 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
   }, [dispatch, mutateAsync, editor, onCreate]);
 
   return (
-    <Modal
-      isOpen
-      isCentered={!isMobile}
-      size={isMobile ? 'full' : '2xl'}
+    <DialogRoot
+      defaultOpen
+      placement={!isMobile ? 'center' : undefined}
+      size={isMobile ? 'full' : 'xl'}
       scrollBehavior="inside"
-      returnFocusOnClose={false}
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
+      <DialogBackdrop />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent>
-          <ModalHeader>Create post</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody
+        <DialogContent>
+          <DialogHeader>Create post</DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody
             pt="0"
             css={{
               '&::-webkit-scrollbar': {
@@ -95,9 +94,9 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
             </Field>
 
             <EditorContent editor={editor} />
-          </ModalBody>
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
               colorScheme="brand"
               loading={isSubmitting}
@@ -105,10 +104,10 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
             >
               Create
             </Button>
-          </ModalFooter>
-        </ModalContent>
+          </DialogFooter>
+        </DialogContent>
       </form>
-    </Modal>
+    </DialogRoot>
   );
 };
 

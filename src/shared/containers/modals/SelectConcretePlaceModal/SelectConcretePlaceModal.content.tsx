@@ -1,17 +1,17 @@
-import {
-  Button,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from '@chakra-ui/react';
 import { FaLongArrowAltDown, FaLongArrowAltUp } from 'react-icons/fa';
 
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMovePosts } from 'shared/api/hooks/useMovePosts';
 import { useStickNotes } from 'shared/api/hooks/useStickNotes';
 import { queryClient } from 'shared/api/queryClient';
+import { Button } from 'shared/components/ui/button';
+import { 
+  DialogBackdrop,
+  DialogRoot, 
+  DialogContent,
+  DialogFooter,
+  DialogHeader, 
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -65,24 +65,24 @@ const SelectConcretePlaceModal = (props: Props) => {
   const isLoading = isPendingMove || isPendingStick;
 
   return (
-    <Modal
-      isCentered
-      isOpen={isOpen}
+    <DialogRoot
+      placement="center"
+      open={isOpen}
       size="xs"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent overflow="hidden">
-        <ModalHeader
+      <DialogBackdrop />
+      <DialogContent overflow="hidden">
+        <DialogHeader
           pb="1"
           px="4"
           textAlign="center"
           fontSize="md"
         >
           Select where you want to {operation.type}
-        </ModalHeader>
-        {/* <ModalBody px="4" textAlign="center">{description}</ModalBody> */}
-        <ModalFooter
+        </DialogHeader>
+        {/* <DialogBody px="4" textAlign="center">{description}</DialogBody> */}
+        <DialogFooter
           p="0"
           mt="4"
           flexWrap="wrap"
@@ -92,22 +92,20 @@ const SelectConcretePlaceModal = (props: Props) => {
             borderRadius="0"
             variant="outline"
             colorScheme="brand"
-            leftIcon={<FaLongArrowAltUp />}
-            isLoading={isLoading}
+            loading={isLoading}
             onClick={handleClick('top')}
           >
-            Top
+            <FaLongArrowAltUp /> Top
           </Button>
           <Button
             width="50%"
             borderRadius="0"
             variant="outline"
             colorScheme="brand"
-            leftIcon={<FaLongArrowAltDown />}
-            isLoading={isLoading}
+            loading={isLoading}
             onClick={handleClick('bottom')}
           >
-            Bottom
+            <FaLongArrowAltDown /> Bottom
           </Button>
           <Button
             width="100%"
@@ -117,9 +115,9 @@ const SelectConcretePlaceModal = (props: Props) => {
           >
             Cancel
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

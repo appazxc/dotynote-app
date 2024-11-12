@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Button, Container, IconButton } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
@@ -30,12 +29,11 @@ const Spaces = React.memo(() => {
           <IconButton 
             size="sm"
             aria-label="Back"
-            icon={<BsArrowLeft size="18" />}
-            variant="unstyled"
+            variant="plain"
             onClick={() => {
               history.back();
             }}
-          />
+          ><BsArrowLeft size="18" /></IconButton>
         )}
         right={(
           <Button

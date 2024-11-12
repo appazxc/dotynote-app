@@ -1,18 +1,19 @@
-import React from 'react';
-
 import {
   Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import React from 'react';
 
+import { Button } from 'shared/components/ui/button';
+import { 
+  DialogBackdrop,
+  DialogRoot, 
+  DialogContent,
+  DialogFooter,
+  DialogHeader, 
+  DialogCloseTrigger,
+  DialogBody,
+} from 'shared/components/ui/dialog';
 import { apos } from 'shared/constants/htmlCodes';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -40,18 +41,18 @@ const PrimaryNoteModal = React.memo(() => {
   }, [dispatch, navigate, isMobile]);
 
   return (
-    <Modal
-      isOpen
-      isCentered={!isMobile}
+    <DialogRoot
+      defaultOpen
+      placement={!isMobile ? 'center' : undefined}
       size={isMobile ? 'full' : 'xl'}
       scrollBehavior="inside"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Assign primary note</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
+      <DialogBackdrop />
+      <DialogContent>
+        <DialogHeader>Assign primary note</DialogHeader>
+        <DialogCloseTrigger />
+        <DialogBody>
           <Text mb="4">
             You don{apos}t have a primary note assigned. To do this, find the note and select it as the primary one.
           </Text>
@@ -62,12 +63,12 @@ const PrimaryNoteModal = React.memo(() => {
           >
             <img src={isMobile ? exampleMobile : exampleDesktop} alt="" />
           </Box>
-        </ModalBody>
-        <ModalFooter>
+        </DialogBody>
+        <DialogFooter>
           <Button colorScheme="brand" onClick={handleConfirm}>Assign</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 });
 

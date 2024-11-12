@@ -1,11 +1,4 @@
-import {
-  Input,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -16,6 +9,13 @@ import {
   FormField,
 } from 'shared/components/Form';
 import { Button } from 'shared/components/ui/button';
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -52,10 +52,10 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent>
-          <ModalHeader pb="1">{title}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+        <DialogContent>
+          <DialogHeader pb="1">{title}</DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody>
             <FormField 
               control={form.control}
               name="name"
@@ -69,9 +69,9 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
                 </FormControl>
               )}
             />
-          </ModalBody>
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
               colorScheme="brand"
               variant="ghost"
@@ -87,10 +87,9 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
             >
               {submitText}
             </Button>
-          </ModalFooter>
-        </ModalContent>
+          </DialogFooter>
+        </DialogContent>
       </form>
     </Form>
-
   );
 };

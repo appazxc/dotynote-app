@@ -1,12 +1,3 @@
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditorEvents } from '@tiptap/react';
 import debounce from 'lodash/debounce';
@@ -17,6 +8,15 @@ import * as z from 'zod';
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { Button } from 'shared/components/ui/button';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -70,19 +70,19 @@ const CreateNoteModal = ({ onCreate }: Props) => {
   }, [dispatch, mutateAsync, editor, onCreate]);
 
   return (
-    <Modal
-      isCentered
-      isOpen
-      size={isMobile ? 'full' : '2xl'}
+    <DialogRoot
+      defaultOpen
+      placement="center"
+      size={isMobile ? 'full' : 'xl'}
       scrollBehavior="inside"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
+      <DialogBackdrop />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent maxH="90vh">
-          <ModalHeader pb="1">Create note</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody
+        <DialogContent maxH="90vh">
+          <DialogHeader pb="1">Create note</DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody
             pt="0"
             css={{
               '&::-webkit-scrollbar': {
@@ -101,9 +101,9 @@ const CreateNoteModal = ({ onCreate }: Props) => {
             </Field>
 
             <EditorContent editor={editor} />
-          </ModalBody>
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
               colorScheme="brand"
               loading={isSubmitting}
@@ -111,10 +111,10 @@ const CreateNoteModal = ({ onCreate }: Props) => {
             >
               Create
             </Button>
-          </ModalFooter>
-        </ModalContent>
+          </DialogFooter>
+        </DialogContent>
       </form>
-    </Modal>
+    </DialogRoot>
   );
 };
 

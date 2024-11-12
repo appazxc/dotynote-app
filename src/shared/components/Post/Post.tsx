@@ -1,8 +1,8 @@
+import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, BoxProps, Card, CardBody, Radio, Stack, Text } from '@chakra-ui/react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
+import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
@@ -28,18 +28,18 @@ export const Post = (props: Props) => {
 
     return (
       <Box p="2">
-        <Radio size="lg" isChecked={isSelected} />
+        <Checkbox size="lg" checked={isSelected} />
       </Box>
     );
   }, [isSelecting, isSelected]);
 
   if (note._isDeleted) {
     return (
-      <Card>
-        <CardBody>
+      <Card.Root>
+        <Card.Body>
           Note is deleted.
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     );
   }
 

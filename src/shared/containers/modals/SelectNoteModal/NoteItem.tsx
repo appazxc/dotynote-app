@@ -13,7 +13,7 @@ export const NoteItem = ({ id, onClick }) => {
   const { title, content } = note;
 
   return (
-    <Card
+    <Card.Root
       px="4"
       py="2"
       _hover={{
@@ -38,6 +38,6 @@ export const NoteItem = ({ id, onClick }) => {
         content={content}
         maxLines={4}
       />
-    </Card>
+    </Card.Root>
   );
 };

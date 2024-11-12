@@ -1,17 +1,18 @@
-import React from 'react';
-
 import {
   Box,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
 } from '@chakra-ui/react';
+import React from 'react';
 import { useDebounceValue } from 'usehooks-ts';
 
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -38,18 +39,18 @@ const SelectNoteModal = (props: Props) => {
   }, []);
 
   return (
-    <Modal
-      isCentered
-      isOpen
+    <DialogRoot
+      defaultOpen
+      placement="center"
       size="xl"
       scrollBehavior="inside"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent h="80vh">
-        <ModalHeader pb="1">{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody
+      <DialogBackdrop />
+      <DialogContent h="80vh">
+        <DialogHeader pb="1">{title}</DialogHeader>
+        <DialogCloseTrigger />
+        <DialogBody
           pt="0"
           pb="4"
           px="0"
@@ -78,9 +79,9 @@ const SelectNoteModal = (props: Props) => {
           <Box px="6" flexGrow="1">
             <SearchResults query={debouncedQuery} onClick={onSelect} />
           </Box>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

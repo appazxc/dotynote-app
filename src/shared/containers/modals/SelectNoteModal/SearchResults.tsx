@@ -1,6 +1,5 @@
+import { Box, Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-
-import { Center, Spinner, Text, Box, VStack } from '@chakra-ui/react';
 
 import { useNotes } from 'shared/api/hooks/useNotes';
 
@@ -34,7 +33,7 @@ export function SearchResults({ query = '', onClick }: Props) {
   return (
     <Box h="full">
       {data && data.length > 0 ? (
-        <VStack spacing="4" align="stretch">
+        <VStack gap="4" align="stretch">
           {data.map((id) => (
             <NoteItem
               key={id}
