@@ -1,6 +1,5 @@
+import { VStack } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, HStack, VStack } from '@chakra-ui/react';
 
 import { useOrderBy } from 'shared/api/hooks/useOrderBy';
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
@@ -32,7 +31,7 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
   }, [mutate]);
 
   return (
-    <VStack spacing={4} alignItems="stretch">
+    <VStack gap={4} alignItems="stretch">
       <SwitchSection
         label={`Internal posts are ${note.postsSettings?.internal ? 'visible' : 'hidden'}`}
         description="Show or hide internal posts content and settings"

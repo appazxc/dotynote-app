@@ -1,12 +1,13 @@
+import { Box, Card, FormControl, FormHelperText, FormLabel } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, Card, FormControl, FormHelperText, FormLabel, Switch } from '@chakra-ui/react';
+import { Switch } from 'shared/components/ui/switch';
 
 type Props = {
   label: string,
   description: string,
   isChecked: boolean,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange: (details: { checked: boolean }) => void,
   asFormControl?: any,
   asFormLabel?: any,
   asFormDescription?: any,
@@ -24,7 +25,7 @@ export const SwitchSection = React.memo((props: Props) => {
   } = props;
 
   return (
-    <Card
+    <Card.Root
       as={AsFormControl}
       display="flex"
       alignItems="center"
@@ -40,9 +41,9 @@ export const SwitchSection = React.memo((props: Props) => {
         </AsFormDescription>  
       </Box>
       <Switch
-        isChecked={isChecked}
-        onChange={onChange}
+        checked={isChecked}
+        onCheckedChange={onChange}
       />
-    </Card>
+    </Card.Root>
   );
 });
