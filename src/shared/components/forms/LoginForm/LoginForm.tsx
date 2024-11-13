@@ -75,7 +75,7 @@ export const LoginForm = () => {
       return;
     }
 
-    if (email) {
+    if (!isEmailSent && email) {
       try {
         await sendCodeEmail(email);
         setIsEmailSent(true);
@@ -85,7 +85,7 @@ export const LoginForm = () => {
         });
       }
     }
-  }, [loginEmail, sendCodeEmail, navigate, backUrl, setError]);
+  }, [loginEmail, isEmailSent, sendCodeEmail, navigate, backUrl, setError]);
 
   return (
     <Box
@@ -134,7 +134,7 @@ export const LoginForm = () => {
               width="full"
               size="md"
               loading={isSubmitting}
-              disabled={isEmailSent && !form.getValues('code')}
+              // disabled={isEmailSent && !form.getValues('code')}
             >
               Continue
             </Button>

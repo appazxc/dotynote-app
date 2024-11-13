@@ -32,6 +32,7 @@ export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
       fontSize={isMobile ? '2xl' : '4xl'}
       // variant="plain" TODO
       lineHeight="1.2"
+      fontWeight="bold"
       value={value}
       onChange={handleChange}
       onKeyDown={handleKeyDown}

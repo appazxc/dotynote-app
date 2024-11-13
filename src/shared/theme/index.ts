@@ -1,4 +1,6 @@
-import { createSystem, defaultConfig } from '@chakra-ui/react';
+import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
+
+import { getEditorStyles } from 'shared/theme/styles';
 
 // import { Alert } from 'shared/theme/components/alert';
 // import { Button } from 'shared/theme/components/button';
@@ -39,6 +41,28 @@ import { createSystem, defaultConfig } from '@chakra-ui/react';
 //   },
 // };
 
-const appTheme = createSystem(defaultConfig);
+const customConfig = defineConfig({
+  globalCss: {
+    'html, body, #root': {
+      width: '100%',
+      height: '100%',
+    },
+    'body > iframe': {
+      display: 'none',
+    },
+    body: {
+      background: 'body',
+    },
+    '.clear': {
+      clear: 'both',
+    },
+    '.ProseMirror': getEditorStyles(), // .ProseMirror
+    '*': {
+      'WebkitTapHighlightColor': 'transparent',
+    },
+  },
+});
+
+const appTheme = createSystem(defaultConfig, customConfig);
 
 export default appTheme;

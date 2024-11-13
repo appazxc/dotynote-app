@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Container } from '@chakra-ui/react';
+import React from 'react';
 
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
@@ -22,7 +21,7 @@ export const NoteTabContent = React.memo((props: Props) => {
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
 
   return (
-    <Container h="full">
+    <Container h="full" maxW="3xl">
       <Box
         h="full"
         display="flex"
