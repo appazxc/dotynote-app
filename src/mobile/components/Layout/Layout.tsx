@@ -14,7 +14,7 @@ export const Layout = ({ children, header, footer }: Props) => {
     <Box
       w="full"
       h="full"
-      maxW="sm"
+      maxW="lg"
       minW="80"
       mx="auto"
     >

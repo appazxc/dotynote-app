@@ -12,7 +12,7 @@ type Props = {
 
 export const AppLayout = React.memo(({ children }: Props) => {
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
-  
+
   return (
     <BrowserProviders>
       <Box
@@ -20,7 +20,7 @@ export const AppLayout = React.memo(({ children }: Props) => {
         h="full"
         minW="80"
         mx="auto"
-        maxW="md"
+        maxW="lg"
       >
         <Box
           w="full"

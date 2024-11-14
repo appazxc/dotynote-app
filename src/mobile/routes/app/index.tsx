@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { createRoute, lazyRouteComponent, Outlet, redirect } from '@tanstack/react-router';
+import React from 'react';
 
 import { loadSpaces } from 'shared/actions/route/loadSpaces';
 import { openTab } from 'shared/actions/space/openTab';
