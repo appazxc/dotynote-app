@@ -12,11 +12,12 @@
     "msw:init": "npx msw init public --no-save",
     "test": "test",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "theme": "chakra-cli tokens ./src/@chakra-ui/theme.ts",
-    "theme:watch": "chakra-cli tokens ./src/@chakra-ui/theme.ts --watch",
-    "preview": "vite preview"
+    "gen:theme-typings": "chakra typegen ./src/shared/theme/index.ts",
+    "preview": "vite preview",
+    "postinstall": "yarn gen:theme-typings"
   },
   "dependencies": {
+    "@chakra-ui/cli": "^3.1.1",
     "@chakra-ui/react": "^3.1.1",
     "@emotion/react": "^11.13.3",
     "@floating-ui/react": "^0.26.10",
