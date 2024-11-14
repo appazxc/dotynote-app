@@ -18,10 +18,10 @@ const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {
   let button = (
     <IconButton
       ref={ref}
-      size="sm"
+      size="xs"
       position="relative"
       colorScheme="gray"
-      variant={rwMode === rwModes.READ ? 'ghost' : 'solid'}
+      variant={rwMode === rwModes.READ ? 'ghost' : 'subtle'}
       aria-label="Note read/edit"
       {...rest}
       onClick={() => {

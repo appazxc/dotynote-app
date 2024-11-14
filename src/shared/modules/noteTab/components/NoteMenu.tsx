@@ -45,9 +45,9 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
       <Menu placement={isMobile ? 'bottom-end' : 'right-start'}>
         <MenuTrigger
           as={IconButton}
-          size="sm"
-          variant="ghost"
+          size={isMobile ? 'xs' : 'sm'}
           aria-label="Note menu"
+          variant="ghost"
         >{isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}</MenuTrigger>
         <MenuList>
           <MenuSub label="Settings">

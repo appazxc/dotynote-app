@@ -10,14 +10,16 @@ const MenuItemBaseComponent = ({ children, ...buttonProps }: Props, ref) => {
       ref={ref}
       variant="ghost"
       textAlign="left"
-      minW="140"
-      size="sm"
+      minW="160"
+      size="xs"
       borderRadius="md"
-      justifyContent="space-between"
+      justifyContent="start"
       // pr={buttonProps.rightIcon ? '2' : '6'}
       fontWeight="medium"
       flexGrow="1"
+      gap="2"
       {...buttonProps}
+      fontSize="sm"
     >
       {children}
     </Button>

@@ -51,10 +51,9 @@ export const NoteHeader = (props: Props) => {
         aria-label="Note back"
         disabled={tab.routes.length <= 1}
         variant="plain"
-        colorScheme="brand"
         display="inline-flex"
         onClick={() => history.back()}
-      ><BsArrowLeft size="18" /></IconButton>
+      ><BsArrowLeft /></IconButton>
     );
   }, [tab.routes.length, history, firstPageOfPrimaryNote]);
 
@@ -91,11 +90,10 @@ export const NoteHeader = (props: Props) => {
 
     return (
       <IconButton
-        size="sm"
+        size="xs"
         position="relative"
         aria-label="Advanced Edit"
-        variant={isAdvancedEditActive ? 'solid' : 'ghost'}
-        colorScheme="gray"
+        variant={isAdvancedEditActive ? 'subtle' : 'ghost'}
         onClick={() => dispatch(toggleAdvancedEdit())}
       ><FaA /></IconButton>
     );
