@@ -69,37 +69,37 @@ export const getEditorStyles = () => {
         fontSize: '0.8em',
       },
   
-      '.hljs-comment, .hljs-quote': {
+      '& .hljs-comment, .hljs-quote': {
         color: '#616161',
       },
   
       // eslint-disable-next-line max-len
-      '.hljs-variable, .hljs-template-variable,  .hljs-attribute, .hljs-tag, .hljs-name, .hljs-regexp, .hljs-link, .hljs-name, .hljs-selector-id, .hljs-selector-class':
+      '& .hljs-variable, .hljs-template-variable,  .hljs-attribute, .hljs-tag, .hljs-name, .hljs-regexp, .hljs-link, .hljs-name, .hljs-selector-id, .hljs-selector-class':
         {
           color: '#F98181',
         },
   
-      '.hljs-number,  .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal,  .hljs-type, .hljs-params': {
+      '& .hljs-number,  .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal,  .hljs-type, .hljs-params': {
         color: '#FBBC88',
       },
   
-      '.hljs-string, .hljs-symbol, .hljs-bullet': {
+      '& .hljs-string, .hljs-symbol, .hljs-bullet': {
         color: '#B9F18D',
       },
   
-      '.hljs-title, .hljs-section': {
+      '& .hljs-title, .hljs-section': {
         color: '#FAF594',
       },
   
-      '.hljs-keyword, .hljs-selector-tag': {
+      '& .hljs-keyword, .hljs-selector-tag': {
         color: '#70CFF8',
       },
   
-      '.hljs-emphasis': {
+      '& .hljs-emphasis': {
         fontStyle: 'italic',
       },
   
-      '.hljs-strong': {
+      '& .hljs-strong': {
         fontWeight: 700,
       },
     },
