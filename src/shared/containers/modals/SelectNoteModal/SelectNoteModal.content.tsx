@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -48,7 +49,7 @@ const SelectNoteModal = (props: Props) => {
     >
       <DialogBackdrop />
       <DialogContent h="80vh">
-        <DialogHeader pb="1">{title}</DialogHeader>
+        <DialogHeader pb="1"><DialogTitle>{title}</DialogTitle></DialogHeader>
         <DialogCloseTrigger />
         <DialogBody
           pt="0"

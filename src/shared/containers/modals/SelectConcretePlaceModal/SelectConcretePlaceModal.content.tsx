@@ -10,7 +10,8 @@ import {
   DialogRoot, 
   DialogContent,
   DialogFooter,
-  DialogHeader, 
+  DialogHeader,
+  DialogTitle, 
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectOperation } from 'shared/selectors/operations';
@@ -79,7 +80,7 @@ const SelectConcretePlaceModal = (props: Props) => {
           textAlign="center"
           fontSize="md"
         >
-          Select where you want to {operation.type}
+          <DialogTitle>Select where you want to {operation.type}</DialogTitle>
         </DialogHeader>
         {/* <DialogBody px="4" textAlign="center">{description}</DialogBody> */}
         <DialogFooter

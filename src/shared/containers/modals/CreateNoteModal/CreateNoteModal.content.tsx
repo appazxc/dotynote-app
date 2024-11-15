@@ -16,6 +16,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
@@ -58,6 +59,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
   const editor = useEditor({ onUpdate: handleEditorUpdate });
 
   const onSubmit = React.useCallback(async (values) => {
+    console.log('values', values);
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
 
@@ -73,14 +75,14 @@ const CreateNoteModal = ({ onCreate }: Props) => {
     <DialogRoot
       defaultOpen
       placement="center"
-      size={isMobile ? 'full' : 'xl'}
+      size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent maxH="90vh">
-          <DialogHeader pb="1">Create note</DialogHeader>
+      <DialogContent maxH="90vh">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader pb="1"><DialogTitle>Create note</DialogTitle></DialogHeader>
           <DialogCloseTrigger />
           <DialogBody
             pt="0"
@@ -105,15 +107,14 @@ const CreateNoteModal = ({ onCreate }: Props) => {
 
           <DialogFooter>
             <Button
-              colorScheme="brand"
               loading={isSubmitting}
               type="submit"
             >
               Create
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </DialogRoot>
   );
 };

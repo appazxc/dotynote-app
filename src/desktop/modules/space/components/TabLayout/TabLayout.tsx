@@ -78,7 +78,7 @@ export const TabLayout = (props: Props) => {
           w="full"
           left="0"
           bottom="0"
-          background="body"
+          background="bg"
         >
           {footer}
         </Box>

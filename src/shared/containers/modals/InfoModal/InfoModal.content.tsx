@@ -6,6 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -28,7 +29,7 @@ const InfoModal = (props: Props) => {
     >
       <DialogBackdrop />
       <DialogContent>
-        <DialogHeader pb="1">{title}</DialogHeader>
+        <DialogHeader pb="1"><DialogTitle>{title}</DialogTitle></DialogHeader>
         <DialogBody>
           {description}
         </DialogBody>

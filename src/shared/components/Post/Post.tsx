@@ -28,7 +28,7 @@ export const Post = (props: Props) => {
 
     return (
       <Box p="2">
-        <Checkbox size="lg" checked={isSelected} />
+        <Checkbox size="md" checked={isSelected} />
       </Box>
     );
   }, [isSelecting, isSelected]);

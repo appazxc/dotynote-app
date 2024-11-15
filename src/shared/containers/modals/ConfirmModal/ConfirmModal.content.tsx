@@ -7,6 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -40,7 +41,7 @@ const ConfirmModal = (props: Props) => {
           textAlign="center"
           fontSize="md"
         >
-          {title}
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <DialogBody px="4" textAlign="center">{description}</DialogBody>
         <DialogFooter

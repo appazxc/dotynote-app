@@ -1,10 +1,9 @@
-import React from 'react';
-
 import {
   Box,
   Container,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import React from 'react';
 
 import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
 import { Post } from 'shared/components/Post';
@@ -52,7 +51,7 @@ const Home = React.memo(() => {
 
   return (
     <TabLayout>
-      <Container h="full">
+      <Container h="full" maxW="3xl">
         <Box
           flexDirection="column"
           display="flex"
@@ -62,10 +61,11 @@ const Home = React.memo(() => {
         >
           <Box
             position="sticky"
-            bg="body"
+            bg="bg"
             top="0"
             pt="5"
             pb="4"
+            zIndex="docked"
           >
             <SearchInput />
           </Box>

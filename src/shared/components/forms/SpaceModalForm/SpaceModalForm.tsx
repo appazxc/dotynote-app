@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -51,9 +52,9 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <DialogHeader pb="1">{title}</DialogHeader>
+      <DialogContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader pb="1"><DialogTitle>{title}</DialogTitle></DialogHeader>
           <DialogCloseTrigger />
           <DialogBody>
             <FormField 
@@ -88,8 +89,8 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
               {submitText}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Form>
   );
 };

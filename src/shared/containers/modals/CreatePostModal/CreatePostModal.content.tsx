@@ -14,6 +14,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
@@ -69,9 +70,9 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <DialogHeader>Create post</DialogHeader>
+      <DialogContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader><DialogTitle>Create post</DialogTitle></DialogHeader>
           <DialogCloseTrigger />
           <DialogBody
             pt="0"
@@ -105,8 +106,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
               Create
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </DialogRoot>
   );
 };

@@ -77,7 +77,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         position="relative"
         px="1.5"
         cursor="pointer"
-        borderRadius="6"
+        borderRadius="sm"
         bg={bg}
         borderColor={borderColor}
         borderWidth="1px"
@@ -167,6 +167,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
                     aria-label="close"
                     variant="ghost"
                     colorScheme="gray"
+                    iconSize="auto"
                     borderRadius="50%"
                     onContextMenu={(event) => {
                       event.stopPropagation();

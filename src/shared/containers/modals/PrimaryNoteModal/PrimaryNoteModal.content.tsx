@@ -1,5 +1,6 @@
 import {
   Box,
+  DialogTitle,
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -50,7 +51,7 @@ const PrimaryNoteModal = React.memo(() => {
     >
       <DialogBackdrop />
       <DialogContent>
-        <DialogHeader>Assign primary note</DialogHeader>
+        <DialogHeader><DialogTitle>Assign primary note</DialogTitle></DialogHeader>
         <DialogCloseTrigger />
         <DialogBody>
           <Text mb="4">

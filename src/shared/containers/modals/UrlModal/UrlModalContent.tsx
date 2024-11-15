@@ -1,5 +1,6 @@
 import {
   Button,
+  DialogTitle,
   Input,
 } from '@chakra-ui/react';
 import { Editor } from '@tiptap/core';
@@ -51,7 +52,7 @@ const UrlModal = (props: Props) => {
     >
       <DialogBackdrop />
       <DialogContent>
-        <DialogHeader>URL</DialogHeader>
+        <DialogHeader><DialogTitle>URL</DialogTitle></DialogHeader>
         <DialogCloseTrigger />
         <DialogBody><Input value={url} onChange={(e) => setUrl(e.target.value)} /></DialogBody>
         <DialogFooter>
