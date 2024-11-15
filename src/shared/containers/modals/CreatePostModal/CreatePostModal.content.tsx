@@ -1,4 +1,3 @@
-import { DialogCloseTrigger } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,6 +9,7 @@ import { Button } from 'shared/components/ui/button';
 import {
   DialogBackdrop,
   DialogBody,
+  DialogCloseTrigger,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -65,15 +65,15 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
     <DialogRoot
       defaultOpen
       placement={!isMobile ? 'center' : undefined}
-      size={isMobile ? 'full' : 'xl'}
+      size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
       <DialogContent>
+        <DialogCloseTrigger />
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader><DialogTitle>Create post</DialogTitle></DialogHeader>
-          <DialogCloseTrigger />
           <DialogBody
             pt="0"
             css={{

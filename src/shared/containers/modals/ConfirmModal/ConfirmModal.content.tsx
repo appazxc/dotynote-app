@@ -1,3 +1,5 @@
+import { Text } from '@chakra-ui/react';
+
 import { Button } from 'shared/components/ui/button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import {
@@ -43,17 +45,18 @@ const ConfirmModal = (props: Props) => {
         >
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <DialogBody px="4" textAlign="center">{description}</DialogBody>
+        <DialogBody px="4" textAlign="center"><Text fontSize="md">{description}</Text></DialogBody>
         <DialogFooter
           p="0"
           borderTop="1px solid"
           borderColor={borderColor}
           mt="4"
+          gap="0"
         >
           <Button
             variant="ghost"
             width="50%"
-            borderRadius="0"
+            borderRadius="0px"
             borderBottomLeftRadius="md"
             onClick={() => dispatch(hideModal())}
           >

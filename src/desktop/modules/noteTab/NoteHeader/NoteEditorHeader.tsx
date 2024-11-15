@@ -25,7 +25,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Undo',
       icon: <LuUndo />,
       onClick: () => editor.chain().focus().undo().run(),
-      isDisabled: !editor.can().chain().focus().undo().run(),
+      disabled: !editor.can().chain().focus().undo().run(),
     },
     {
       label: 'Redo',
@@ -55,7 +55,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Strike',
       icon: <LuStrikethrough />,
       onClick: () => editor.chain().focus().toggleStrike().run(),
-      isDisabled: !editor.can().chain().focus().toggleStrike().run(),
+      disabled: !editor.can().chain().focus().toggleStrike().run(),
       isActive: editor.isActive('strike'),
     },
     {
@@ -72,21 +72,21 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Blockquote',
       icon: <RiDoubleQuotesL />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
-      isDisabled: !editor.can().chain().focus().toggleBlockquote().run(),
+      disabled: !editor.can().chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
     },
     {
       label: 'Code block',
       icon: <LuSquareCode />,
       onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-      isDisabled: !editor.can().chain().focus().toggleCodeBlock().run(),
+      disabled: !editor.can().chain().focus().toggleCodeBlock().run(),
       isActive: editor.isActive('codeBlock'),
     },
     {
       label: 'Code',
       icon: <FiCode />,
       onClick: () => editor.chain().focus().toggleCode().run(),
-      isDisabled: !editor.can().chain().focus().toggleCode().run(),
+      disabled: !editor.can().chain().focus().toggleCode().run(),
       isActive: editor.isActive('code'),
     },
     {
@@ -97,21 +97,21 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Bullet list',
       icon: <PiListBullets />,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
-      isDisabled: !editor.can().chain().focus().toggleBulletList().run(),
+      disabled: !editor.can().chain().focus().toggleBulletList().run(),
       isActive: editor.isActive('bulletList'),
     },
     {
       label: 'Ordered list',
       icon: <PiListNumbers />,
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
-      isDisabled: !editor.can().chain().focus().toggleOrderedList().run(),
+      disabled: !editor.can().chain().focus().toggleOrderedList().run(),
       isActive: editor.isActive('orderedList'),
     },
     // {
     //   label: 'Italic',
     //   icon: <FiItalic />,
     //   onClick: () => editor.chain().focus().toggleItalic().run(),
-    //   isDisabled: !editor.can().chain().focus().toggleItalic().run(),
+    //   disabled: !editor.can().chain().focus().toggleItalic().run(),
     //   isActive: editor.isActive('italic'),
     // },
   ];
@@ -144,7 +144,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
               );
             }
 
-            const { label, isActive, ...buttonProps } = itemProps;
+            const { label, isActive, icon, ...buttonProps } = itemProps;
 
             return (
               <Tooltip
@@ -160,7 +160,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
                   colorScheme={isActive ? 'brand' : 'gray'}
                   variant={isActive ? 'outline' : 'ghost'}
                   {...buttonProps}
-                />
+                >{icon}</IconButton>
               </Tooltip>
             );
           })}

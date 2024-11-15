@@ -61,7 +61,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         label: 'Back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
-        isDisabled: tab.routes.length <= 1,
+        disabled: tab.routes.length <= 1,
       },
       ...showAddTo ? [{
         id: 'Add',
