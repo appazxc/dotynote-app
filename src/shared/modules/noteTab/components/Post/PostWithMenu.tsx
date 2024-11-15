@@ -150,16 +150,17 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
         menu: [
           {
             key: isInternalCreated ? 'Shown' : 'Hidden',
-            label: isInternalCreated ? 'Shown' : 'Hidden',
-            closeOnClick: false,
-            rightIcon: (
+            label: <>
+              {isInternalCreated ? 'Shown' : 'Hidden'}
               <Switch
                 size="sm"
                 checked={!!post.internal}
                 disabled={isCreatingInternal || isDeletingInternal}
               />
-            ),
+            </>,
+            closeOnClick: false,
             onClick: handleCreateOrDeleteInternal,
+            justifyContent: 'space-between',
           },
           ...isInternalCreated ? [{
             key: 'Max',

@@ -87,12 +87,12 @@ const SelectConcretePlaceModal = (props: Props) => {
           p="0"
           mt="4"
           flexWrap="wrap"
+          justifyContent="center"
         >
           <Button
             width="50%"
-            borderRadius="0"
-            variant="outline"
-            colorScheme="brand"
+            variant="subtle"
+            borderRadius="md"
             loading={isLoading}
             onClick={handleClick('top')}
           >
@@ -100,9 +100,8 @@ const SelectConcretePlaceModal = (props: Props) => {
           </Button>
           <Button
             width="50%"
-            borderRadius="0"
-            variant="outline"
-            colorScheme="brand"
+            variant="subtle"
+            borderRadius="md"
             loading={isLoading}
             onClick={handleClick('bottom')}
           >

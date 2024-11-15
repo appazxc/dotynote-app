@@ -1,4 +1,5 @@
 import {
+  Box,
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -22,7 +23,7 @@ type Props = {
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
-  const { open, onToggle, onClose } = useDisclosure();
+  const { open, onClose, onOpen } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const noteTabId = useNoteTabId();
   
@@ -41,27 +42,38 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
       <PopoverRoot
         lazyMount
         open={open}
-        positioning={{ placement: 'right-start' }}
-        // returnFocusOnClose={false}
+        positioning={{ 
+          placement: 'right-start',
+        }}
+        onOpenChange={(event) => {
+          if (!event.open) {
+            onClose();
+          }
+        }}
       >
         <PopoverTrigger asChild>
-          <IconButton
-            ref={ref}
-            size="xs"
-            tabIndex={0}
-            variant="ghost"
-            iconSize="auto"
-            position="relative"
-            aria-label="Note add"
-            {...rest}
-            onClick={onToggle}
-          ><BsPlus size="22px" /></IconButton>
+          <Box>
+            <IconButton
+              ref={ref}
+              size="xs"
+              tabIndex={0}
+              variant="ghost"
+              iconSize="auto"
+              position="relative"
+              aria-label="Note add"
+              {...rest}
+              onClick={onOpen}
+            >
+              <BsPlus size="22px" />
+            </IconButton>
+          </Box>
         </PopoverTrigger>
-        <PopoverContent width="md" className="light">
+        <PopoverContent width="md">
           <PopoverBody
             gap="4"
             display="flex"
             flexDirection="column"
+            py="3"
           >
             <EntryMediaSelect
               noteId={noteId}

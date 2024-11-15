@@ -26,7 +26,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
           <ChakraDialog.Content
             ref={ref}
             {...rest}
-            asChild={false}
           >
             {children}
           </ChakraDialog.Content>

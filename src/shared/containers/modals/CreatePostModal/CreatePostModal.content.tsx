@@ -70,8 +70,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
-      <DialogContent>
-        <DialogCloseTrigger />
+      <DialogContent asChild>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader><DialogTitle>Create post</DialogTitle></DialogHeader>
           <DialogBody
@@ -81,8 +80,6 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
                 display: 'none',
               },
             }}
-            display="flex"
-            flexDirection="column"
           >
             <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
@@ -94,7 +91,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
               />
             </Field>
 
-            <EditorContent editor={editor} />
+            <EditorContent editor={editor} minH="40" />
           </DialogBody>
 
           <DialogFooter>
@@ -106,6 +103,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
               Create
             </Button>
           </DialogFooter>
+          <DialogCloseTrigger />
+
         </form>
       </DialogContent>
     </DialogRoot>

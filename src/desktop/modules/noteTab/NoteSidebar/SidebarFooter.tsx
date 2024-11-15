@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Center, Spinner } from '@chakra-ui/react';
+import React from 'react';
 
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';

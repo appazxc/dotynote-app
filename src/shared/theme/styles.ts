@@ -44,10 +44,10 @@ export const getEditorStyles = () => {
       margin: '0 1rem 0 .4rem',
     },
     '& ul': {
-      listStyle: 'auto',
+      listStyle: 'disc',
     },
     '& ol': {
-      listStyle: 'disc',
+      listStyle: 'decimal',
     },
     '& a': {
       color: 'editorLink',

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';

@@ -1,7 +1,6 @@
 import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 
-import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
@@ -35,12 +34,10 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
         <NotePosts
-          // key={noteId} // need this?
           note={note}
           search={search}
         />
       </Box>
-      <SelectConcretePlaceModal noteId={noteId} />
     </Container>
   );
 });

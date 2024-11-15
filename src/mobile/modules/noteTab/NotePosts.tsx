@@ -1,10 +1,10 @@
-import React from 'react';
-
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
 import { selectOperation } from 'shared/selectors/operations';
@@ -58,14 +58,17 @@ export const NotePosts = React.memo((props: Props) => {
   }
 
   return (
-    <PostList
-      noteId={noteId}
-      search={search}
-      isSelecting={isSelecting}
-      selectedPosts={selectedPosts}
-      sort={postsSettings.sort}
-      orderBy={postsSettings.orderById}
-      onPostClick={handlePostClick}
-    />
+    <>
+      <PostList
+        noteId={noteId}
+        search={search}
+        isSelecting={isSelecting}
+        selectedPosts={selectedPosts}
+        sort={postsSettings.sort}
+        orderBy={postsSettings.orderById}
+        onPostClick={handlePostClick}
+      />
+      <SelectConcretePlaceModal noteId={noteId} />
+    </>
   );
 });

@@ -1,7 +1,7 @@
+import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, Button, Text } from '@chakra-ui/react';
-
+import { Button } from 'shared/components/ui/button';
 import { addTo } from 'shared/modules/noteTab/constants';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -47,9 +47,8 @@ export const EntryMediaSelect = React.memo((props: Props) => {
       >
         {canAddToNote && (
           <Button
-            size="xs"
-            variant={isNoteMedia ? 'solid' : 'ghost'}
-            colorScheme="gray"
+            size="2xs"
+            variant={isNoteMedia ? 'subtle' : 'ghost'}
             onClick={() => dispatch(updateAddTo(addTo.NOTE))}
           >
             Note
@@ -58,9 +57,8 @@ export const EntryMediaSelect = React.memo((props: Props) => {
         {canAddToNote && canAddToPosts && '/'}
         {canAddToPosts && (
           <Button
-            size="xs"
-            variant={isNoteMedia ? 'ghost' : 'solid'}
-            colorScheme="gray"
+            size="2xs"
+            variant={isNoteMedia ? 'ghost' : 'subtle'}
             onClick={() => dispatch(updateAddTo(addTo.POSTS))}
           >
             Posts
