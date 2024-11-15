@@ -47,10 +47,10 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
         <PopoverTrigger asChild>
           <IconButton
             ref={ref}
-            size="sm"
+            size="xs"
             tabIndex={0}
             variant="ghost"
-            colorScheme="gray"
+            iconSize="auto"
             position="relative"
             aria-label="Note add"
             {...rest}

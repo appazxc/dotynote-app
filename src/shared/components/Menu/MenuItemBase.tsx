@@ -10,7 +10,7 @@ const MenuItemBaseComponent = ({ children, ...buttonProps }: Props, ref) => {
       ref={ref}
       variant="ghost"
       textAlign="left"
-      minW="160"
+      minW="140px"
       size="xs"
       borderRadius="md"
       justifyContent="start"
@@ -18,8 +18,8 @@ const MenuItemBaseComponent = ({ children, ...buttonProps }: Props, ref) => {
       fontWeight="medium"
       flexGrow="1"
       gap="2"
-      {...buttonProps}
       fontSize="sm"
+      {...buttonProps}
     >
       {children}
     </Button>

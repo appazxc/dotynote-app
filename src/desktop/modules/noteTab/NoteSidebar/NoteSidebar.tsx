@@ -58,6 +58,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     return [
       {
         id: 'Note back',
+        label: 'Back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
         isDisabled: tab.routes.length <= 1,
@@ -94,14 +95,14 @@ export const NoteSidebar = React.memo((props: Props) => {
         label: 'Advanced edit',
         icon: <FaA />,
         onClick: () => dispatch(toggleAdvancedEdit()),
-        variant: isAdvancedEditActive ? 'solid' : 'ghost',
+        variant: isAdvancedEditActive ? 'subtle' : 'ghost',
       }] : [],
       ...showSearch ? [{
         id: 'Search',
         label: 'Search',
         icon: <IoSearchSharp size="18" />,
         onClick: () => dispatch(toggleSearch()),
-        variant: isSearchActive ? 'solid' : 'ghost',
+        variant: isSearchActive ? 'subtle' : 'ghost',
       }] : [],
       ...pinnedPostsCount ? [{
         id: 'Pinned posts',
@@ -129,25 +130,26 @@ export const NoteSidebar = React.memo((props: Props) => {
   ]);
 
   const renderedItems = React.useMemo(() => {
-    return items.map(({ id, label = '', element, children, ...restItem }) => {
+    return items.map(({ id, label = '', element, icon, children, ...restItem }) => {
       return element || (
         <Tooltip
           key={id}
           showArrow
           content={label}
-          openDelay={300}
+          openDelay={1000}
+          closeDelay={100}
           positioning={{ placement: 'right' }}
           contentProps={{ backgroundColor: 'black' }}
         >
           {children || (
             <IconButton
-              size="sm"
+              size="xs"
               variant="ghost"
+              iconSize="auto"
               position="relative"
-              colorScheme="gray"
               aria-label={label}
               {...restItem as IconButtonProps}
-            />
+            >{icon}</IconButton>
           )}
         </Tooltip>
       );

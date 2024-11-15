@@ -1,6 +1,7 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
-import { buttonRecipe } from 'shared/theme/recipes/button';
 
+import { buttonRecipe } from 'shared/theme/recipes/button';
+import { iconButtonRecipe } from 'shared/theme/recipes/iconButton';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { getEditorStyles } from 'shared/theme/styles';
 
@@ -45,7 +46,6 @@ import { getEditorStyles } from 'shared/theme/styles';
 
 const customConfig = defineConfig({
   theme: {
-    
     recipes: {
       textarea: textareaRecipe,
       button: buttonRecipe,
@@ -60,7 +60,7 @@ const customConfig = defineConfig({
       display: 'none',
     },
     body: {
-      background: 'body',
+      background: 'bg',
     },
     '.clear': {
       clear: 'both',

@@ -23,7 +23,7 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
   React.useEffect(() => () => onChange(''), [onChange]);
 
   return (
-    <Container py="2">
+    <Container py="2" maxW="3xl">
       <HStack gap="2">
         <Input
           autoFocus

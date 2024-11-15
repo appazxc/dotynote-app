@@ -24,7 +24,11 @@ export const SpaceMenuItem = React.memo(({ spaceId }: Props) => {
   return (
     <MenuItem
       label={(
-        <Box display="flex" justifyContent="space-between">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          w="full"
+        >
           {space.name}{isActive ? <MdOutlineDone /> : undefined}
         </Box>
       )}

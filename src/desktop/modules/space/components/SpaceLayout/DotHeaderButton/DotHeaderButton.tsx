@@ -75,7 +75,8 @@ export const DotHeaderButton = () => {
         <MenuTrigger
           as={IconButton}
           position="relative"
-          size="sm"
+          size="xs"
+          iconSize="auto"
           aria-label="Side note menu"
           colorScheme={space.mainNoteId ? undefined : 'gray'}
           variant="outline"

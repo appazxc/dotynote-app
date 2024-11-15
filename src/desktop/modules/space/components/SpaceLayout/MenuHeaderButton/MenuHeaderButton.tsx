@@ -34,7 +34,7 @@ export const MenuHeaderButton = React.memo(() => {
       <Menu placement="bottom-end">
         <MenuTrigger
           as={IconButton}
-          size="sm"
+          size="xs"
           aria-label="User menu"
           variant="outline"
           colorScheme="brand"
