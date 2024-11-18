@@ -1,5 +1,6 @@
-import { Button, Text } from '@chakra-ui/react';
+import { LuPlus } from 'react-icons/lu';
 
+import { Button } from 'shared/components/ui/button';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { showDrawer } from 'shared/modules/drawer/drawerSlice';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -20,13 +21,13 @@ export const NotePlusButton = ({ noteId }: Props) => {
         position="absolute"
         right="16px"
         bottom="10px"
-        w="50px"
-        h="50px"
+        w="55px"
+        h="55px"
         onClick={() => {
           dispatch(showDrawer({ id: drawerIds.dotNoteMenu }));
         }}
       >
-        <Text display="flex">+</Text>
+        <LuPlus />
       </Button>
       <NoteMenuDrawer noteId={noteId} />
     </>
