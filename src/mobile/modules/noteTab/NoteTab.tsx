@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Center, Text } from '@chakra-ui/react';
 import { useDebounce } from '@uidotdev/usehooks';
+import React from 'react';
 
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';

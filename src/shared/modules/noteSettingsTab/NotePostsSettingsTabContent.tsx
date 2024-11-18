@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useOrderBy } from 'shared/api/hooks/useOrderBy';
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
-import { SwitchSection } from 'shared/components/SwitchSection';
+import { CheckboxCard } from 'shared/components/ui/checkbox-card';
 import { SortSettings } from 'shared/modules/noteSettingsTab/SortSettings';
 import { noteSelector, orderBySelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
@@ -30,14 +30,23 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
     mutate({ internal: checked });
   }, [mutate]);
 
+  const handlePinnedChange = React.useCallback(({ checked }) => {
+    mutate({ pinnedOnTop: checked });
+  }, [mutate]);
+
   return (
     <VStack gap={4} alignItems="stretch">
       <SortSettings orderBy={orderBy} postsSettings={postsSettings} />
-      <SwitchSection
-        label={`Internal posts are ${note.postsSettings?.internal ? 'visible' : 'hidden'}`}
+      <CheckboxCard
+        label="Show internal posts"
         description="Show or hide internal posts content and settings"
         checked={!!note.postsSettings?.internal}
-        onChange={handleInternalChange}
+        onCheckedChange={handleInternalChange}
+      />
+      <CheckboxCard
+        label="Show pinned posts always on top"
+        checked={!!note.postsSettings?.pinnedOnTop}
+        onCheckedChange={handlePinnedChange}
       />
     </VStack>
   );

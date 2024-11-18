@@ -66,6 +66,7 @@ export const NotePosts = React.memo((props: Props) => {
         selectedPosts={selectedPosts}
         sort={postsSettings.sort}
         orderBy={postsSettings.orderById}
+        pinnedOnTop={postsSettings.pinnedOnTop}
         onPostClick={handlePostClick}
       />
       <SelectConcretePlaceModal noteId={noteId} />

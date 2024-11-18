@@ -17,14 +17,14 @@ const sortOptions = [{ label: 'Ascending', value: 'asc' }, { label: 'Descending'
 export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
   const { mutateAsync } = useUpdatePostsSettings(postsSettings.noteId, postsSettings.id);
   
-  const handleOrderByChange = React.useCallback((values) => {
-    mutateAsync({
+  const handleOrderByChange = React.useCallback(async (values) => {
+    await mutateAsync({
       orderById: Number(values[0]),
     });
   }, [mutateAsync]);
 
-  const handleSortChange = React.useCallback((values) => {
-    mutateAsync({
+  const handleSortChange = React.useCallback(async (values) => {
+    await mutateAsync({
       sort: values[0] as PostsSettingsEntity['sort'],
     });
   }, [mutateAsync]);

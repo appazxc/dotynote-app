@@ -30,6 +30,7 @@ type Props = {
   isSelecting?: boolean,
   pageSize?: number,
   isPinned?: boolean,
+  pinnedOnTop?: boolean,
   selectedPosts?: number[],
   options?: InfinityPostsOptions,
   internalLevel?: number,
@@ -49,6 +50,7 @@ export const PostList = React.memo((props: Props) => {
     pageSize = DEFAULT_PAGE_SIZE,
     orderBy = SORT_ORDER_IDS.POSITION,
     options = EMPTY_OBJECT,
+    pinnedOnTop,
     ...boxProps
   } = props;
   const scrollRef = useScrollContext();
@@ -80,12 +82,16 @@ export const PostList = React.memo((props: Props) => {
       result.sort = sort;
     }
 
+    if (isBoolean(pinnedOnTop)) {
+      result.pinnedOnTop = String(pinnedOnTop);
+    }
+
     if (typeof orderBy !== 'undefined') {
       result.orderBy = orderBy;
     }
     
     return result;
-  }, [search, sort, orderBy, pageSize, isPinned]);
+  }, [search, sort, orderBy, pageSize, isPinned, pinnedOnTop]);
 
   const { 
     data, 
