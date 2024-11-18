@@ -1,4 +1,4 @@
-import { Box, Button, Center, IconButton, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
@@ -10,6 +10,7 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
+import { CloseButton } from 'shared/components/ui/close-button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
@@ -50,7 +51,7 @@ const Tab = ({ id, isActive }) => {
       borderColor={borderColor}
       borderRadius="md"
       display="flex"
-      alignItems="flex-end"
+      alignItems="center"
       justifyContent="space-between"
       w="full"
       cursor="pointer"
@@ -64,19 +65,18 @@ const Tab = ({ id, isActive }) => {
             fontSize="lg"
             fontWeight="500"
             textOverflow="ellipsis"
-            lineClamp={1}
-            display="block"
+            lineClamp={2}
+            display="-webkit-box"
           />
         </Box>
-        <IconButton
+        <CloseButton
           aria-label="close"
           size="xs"
-          colorScheme="gray"
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             event.stopPropagation();
             dispatch(closeTab(id));
           }}
-        ><MdClose /> </IconButton>
+        ><MdClose /> </CloseButton>
       </motion.div>
     </Box>
   );

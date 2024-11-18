@@ -39,6 +39,7 @@ export const NoteHeader = (props: Props) => {
   const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
   const showSearch = !!postsSettings;
   const isNoteContentVisible = !settings?.hide;
+  const showTitle = !isNoteContentVisible && title;
 
   const renderedBackButton = React.useMemo(() => {
     if (firstPageOfPrimaryNote) {
@@ -135,7 +136,7 @@ export const NoteHeader = (props: Props) => {
         left={renderedBackButton}
         right={renderedRightSide}
         pl={firstPageOfPrimaryNote ? '4' : '2'}
-        title={title}
+        title={showTitle ? title : undefined}
       />
     )
   );
