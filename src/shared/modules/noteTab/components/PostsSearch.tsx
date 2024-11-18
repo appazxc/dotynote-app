@@ -1,7 +1,7 @@
-import { Container, HStack, IconButton, Input } from '@chakra-ui/react';
+import { Container, HStack, Input } from '@chakra-ui/react';
 import React from 'react';
-import { MdOutlineCancel } from 'react-icons/md';
 
+import { CloseButton } from 'shared/components/ui/close-button';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleSearch } from 'shared/store/slices/appSlice';
@@ -33,15 +33,13 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
           onChange={handleSearch}
         />
         {showCancelButton && (
-          <IconButton
-            aria-label=""
-            variant="plain"
-            size="sm"
+          <CloseButton
+            size="xs"
             onClick={() => {
               onChange('');
               dispatch(toggleSearch());
             }}
-          ><MdOutlineCancel size="24" /></IconButton>
+          />
         )}
       </HStack>
     </Container>
