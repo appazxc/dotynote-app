@@ -124,7 +124,7 @@ export const PostList = React.memo((props: Props) => {
 
   const isFullyLoaded = !(hasNextPage && hasPreviousPage);
 
-  if (isFullyLoaded && !flatData.length) {
+  if (!isFetchingFirstTime && isFullyLoaded && !flatData.length) {
     return null;
   }
 

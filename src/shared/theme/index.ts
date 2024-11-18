@@ -1,7 +1,6 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 import { buttonRecipe } from 'shared/theme/recipes/button';
-import { iconButtonRecipe } from 'shared/theme/recipes/iconButton';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { getEditorStyles } from 'shared/theme/styles';
 
