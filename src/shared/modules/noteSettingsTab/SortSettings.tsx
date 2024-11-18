@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
 import { Select } from 'shared/components/Select';
-import { getOptionTitleFromOrderType } from 'shared/modules/notePostsSettingsTab/helpers/getOptionTitleFromOrderType';
+import { getOptionTitleFromOrderType } from 'shared/modules/noteSettingsTab/helpers/getOptionTitleFromOrderType';
 import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
@@ -47,7 +47,7 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
             size="sm"
             value={[postsSettings.orderById]}
             w="200px"
-            options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: id }))}
+            options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: String(id) }))}
             onChange={handleOrderByChange}
           />
         </Box>

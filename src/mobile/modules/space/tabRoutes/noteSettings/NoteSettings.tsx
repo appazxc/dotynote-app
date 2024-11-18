@@ -1,9 +1,9 @@
+import { Container, Tabs } from '@chakra-ui/react';
+import { useParams, useRouter } from '@tanstack/react-router';
 import React from 'react';
 
-import { Container } from '@chakra-ui/react';
-import { useParams, useRouter } from '@tanstack/react-router';
-
 import { useTabTitle } from 'shared/hooks/useTabTitle';
+import { NotePostsSettingsTabContent } from 'shared/modules/noteSettingsTab/NotePostsSettingsTabContent';
 import { NoteSettingsTabContent } from 'shared/modules/noteSettingsTab/NoteSettingsTabContent';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
@@ -17,8 +17,23 @@ export const NoteSettings = React.memo(() => {
 
   return (
     <Layout header={<LayoutHeader showBackButton title={title} />}>
-      <Container>
-        <NoteSettingsTabContent noteId={Number(noteId)} />
+      <Container maxW="3xl" pt="1">
+        <Tabs.Root
+          lazyMount
+          unmountOnExit
+          defaultValue="note"
+        >
+          <Tabs.List>
+            <Tabs.Trigger value="note">Note</Tabs.Trigger>
+            <Tabs.Trigger value="posts">Posts</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="note">
+            <NoteSettingsTabContent noteId={Number(noteId)} />
+          </Tabs.Content>
+          <Tabs.Content value="posts">
+            <NotePostsSettingsTabContent noteId={Number(noteId)} />
+          </Tabs.Content>
+        </Tabs.Root>
       </Container>
     </Layout>
   );

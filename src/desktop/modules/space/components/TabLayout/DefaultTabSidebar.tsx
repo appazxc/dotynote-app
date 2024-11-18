@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Box, IconButton } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -22,7 +21,7 @@ export const DefaultTabSidebar = React.memo(({ inline }: Props) => {
         label: 'Back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
-        isDisabled: tab.routes.length <= 1,
+        disabled: tab.routes.length <= 1,
       },
     ];
   }, [history, tab.routes.length]);
@@ -35,15 +34,15 @@ export const DefaultTabSidebar = React.memo(({ inline }: Props) => {
         flexDirection={inline ? 'row' : 'column'}
         p="2"
       >
-        {items.map(({ label, ...rest }) => 
+        {items.map(({ label, icon, ...rest }) => 
           (
             <IconButton
               key={label}
-              size="sm"
+              size="xs"
               variant="ghost"
               aria-label={label}
               {...rest}
-            />
+            >{icon}</IconButton>
           ))}
       </Box>
     </TabSidebar>

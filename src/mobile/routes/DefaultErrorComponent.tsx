@@ -23,6 +23,7 @@ function DefaultErrorComponent({ error }) {
             asChild
             color="teal.500"
             mt="10"
+            justifyContent="center"
           >
             <MobileLink to="/">Go to home page</MobileLink>
           </Link>

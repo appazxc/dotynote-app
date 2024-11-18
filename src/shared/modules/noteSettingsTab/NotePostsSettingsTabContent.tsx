@@ -4,7 +4,7 @@ import React from 'react';
 import { useOrderBy } from 'shared/api/hooks/useOrderBy';
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
 import { SwitchSection } from 'shared/components/SwitchSection';
-import { SortSettings } from 'shared/modules/notePostsSettingsTab/SortSettings';
+import { SortSettings } from 'shared/modules/noteSettingsTab/SortSettings';
 import { noteSelector, orderBySelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
@@ -32,13 +32,13 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
 
   return (
     <VStack gap={4} alignItems="stretch">
+      <SortSettings orderBy={orderBy} postsSettings={postsSettings} />
       <SwitchSection
         label={`Internal posts are ${note.postsSettings?.internal ? 'visible' : 'hidden'}`}
         description="Show or hide internal posts content and settings"
         checked={!!note.postsSettings?.internal}
         onChange={handleInternalChange}
       />
-      <SortSettings orderBy={orderBy} postsSettings={postsSettings} />
     </VStack>
   );
 });

@@ -23,8 +23,7 @@ const tabTitleMap = {
   '/note-not-found': 'Not found',
   [noteRoutePath]: '',
   [`${noteRoutePath}/pinned`]: 'Pinned posts',
-  [`${noteRoutePath}/settings`]: 'Note settings',
-  [`${noteRoutePath}/posts-settings`]: 'Posts settings',
+  [`${noteRoutePath}/settings`]: 'Settings',
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {

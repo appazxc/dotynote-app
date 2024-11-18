@@ -21,6 +21,7 @@ function DefaultErrorComponent({ error }) {
             asChild
             color="teal.500"
             mt="10"
+            justifyContent="center"
           >
             <DesktopLink to="/">Go to home page</DesktopLink>
           </Link>

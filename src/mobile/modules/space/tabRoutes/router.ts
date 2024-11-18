@@ -7,7 +7,6 @@ import { DefaultNotFoundComponent } from 'mobile/modules/space/tabRoutes/Default
 import { idx } from 'mobile/modules/space/tabRoutes/idx';
 import { note } from 'mobile/modules/space/tabRoutes/note';
 import { noteNotFound } from 'mobile/modules/space/tabRoutes/noteNotFound';
-import { notePostsSettings } from 'mobile/modules/space/tabRoutes/notePostsSettings';
 import { noteSettings } from 'mobile/modules/space/tabRoutes/noteSettings';
 import { pinnedPosts } from 'mobile/modules/space/tabRoutes/pinnedPosts';
 import { root } from 'mobile/modules/space/tabRoutes/root';
@@ -17,7 +16,6 @@ const routeTree = root.addChildren([
   idx,
   note,
   noteSettings,
-  notePostsSettings,
   noteNotFound,
   pinnedPosts,
 ]);

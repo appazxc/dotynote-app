@@ -8,7 +8,7 @@ import { PiDotsSixVerticalBold } from 'react-icons/pi';
 import { api } from 'shared/api';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
-import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -50,25 +50,6 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
           variant="ghost"
         >{isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}</MenuTrigger>
         <MenuList>
-          <MenuSub label="Settings">
-            <MenuItem
-              label="Note"
-              onClick={async () => {
-                if (!note.settings) {
-                  await createNoteSettings();
-                }
-                navigate({ to: `${noteRoutePath}/settings` });
-              }}
-            />
-            {note.postsSettings && (
-              <MenuItem
-                label="Posts"
-                onClick={() => {
-                  navigate({ to: `${noteRoutePath}/posts-settings` });
-                }}
-              />
-            )}
-          </MenuSub>
           {note.permissions.stick && (
             <MenuItem
               label="Stick to"
@@ -87,6 +68,17 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Pinned posts"
               onClick={() => navigate({ to: `${noteRoutePath}/pinned`, params: { noteId } })}
+            />
+          )}
+          {note.permissions.update && (
+            <MenuItem
+              label="Settings"
+              onClick={async () => {
+                if (!note.settings) {
+                  await createNoteSettings();
+                }
+                navigate({ to: `${noteRoutePath}/settings` });
+              }}
             />
           )}
           {note.permissions.delete && (

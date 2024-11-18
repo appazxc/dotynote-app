@@ -19,7 +19,6 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
   const { mutate } = useUpdateNoteSettings(noteId, note.settings.id);
 
   const handleDisplayChange = React.useCallback(({ checked }) => {
-
     mutate({
       hide: !checked,
     });

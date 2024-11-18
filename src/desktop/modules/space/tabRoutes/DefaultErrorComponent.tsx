@@ -18,6 +18,7 @@ function DefaultErrorComponent({ error }) {
           asChild
           color="teal.500"
           mt="10"
+          justifyContent="center"
         >
           <DesktopTabLink to="/">Go to home page</DesktopTabLink>
         </Link>

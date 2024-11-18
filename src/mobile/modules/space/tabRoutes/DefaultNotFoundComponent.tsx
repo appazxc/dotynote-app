@@ -22,6 +22,7 @@ function DefaultNotFoundComponent() {
           asChild
           color="teal.500"
           mt="10"
+          justifyContent="center"
         >
           <MobileTabLink to="/">Go to home page</MobileTabLink>
         </Link>
