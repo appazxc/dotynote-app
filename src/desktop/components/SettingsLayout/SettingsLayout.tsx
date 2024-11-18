@@ -60,7 +60,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
         <GridItem
           display="flex"
           flexDirection="column"
-          gap="4"
+          gap="2"
           pt="10"
           alignItems="stretch"
         >
@@ -75,8 +75,8 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
                     <Button
                       asChild
                       display="inline-flex"
-                      colorScheme="brand"
                       opacity={match ? '1' : '0.6'}
+                      variant="subtle"
                       justifyContent="start"
                       _hover={{
                         textDecoration: 'none',

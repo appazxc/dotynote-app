@@ -64,6 +64,7 @@ export const HubSettings = React.memo(({ hub }: Props) => {
               >
                 <Link
                   variant="underline"
+                  fontSize="sm"
                   onClick={() => {
                     dispatch(showModal({ id: modalIds.confirm }));
                   }}
