@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { Box, Center, Text } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
 import { useDebounce } from '@uidotdev/usehooks';
 import { AnimatePresence } from 'framer-motion';
+import React from 'react';
 
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';

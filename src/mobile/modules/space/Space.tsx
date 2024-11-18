@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { RouterProvider } from '@tanstack/react-router';
+import React from 'react';
 
 import { TabProvider } from 'shared/modules/space/components/TabProvider';
 import { useTabRouter } from 'shared/modules/tabRoutes/useTabRouter';

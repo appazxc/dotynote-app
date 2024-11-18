@@ -1,12 +1,10 @@
-import { useLocation, useParams } from '@tanstack/react-router';
+import { useLocation } from '@tanstack/react-router';
 
-import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
-import { useAppSelector } from 'shared/store/hooks';
+import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
-export const useNoteTabId = () => {
-  const tab = useAppSelector(selectActiveTab);
+export const useNoteTabId = (noteId: number) => {
+  const tab = useTabContext();
   const { href } = useLocation();
-  const { noteId = '' } = useParams({ strict: false });
   
   return `${href}${tab?.id}${noteId}`;
 };

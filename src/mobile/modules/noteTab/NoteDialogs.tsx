@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const NoteDialogs = React.memo(({ noteId }: Props) => {
-  const noteTabId = useNoteTabId();
+  const noteTabId = useNoteTabId(noteId);
   
   const handlePostCreate = React.useCallback(() => {
     const { queryKey } = noteTabStore.get(noteTabId) || {};

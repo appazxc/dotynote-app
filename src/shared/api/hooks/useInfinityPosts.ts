@@ -38,7 +38,7 @@ export const useInfinityPosts = (
     [noteId, filters]
   );
 
-  useSaveNoteTabQueryKey(queryKey);
+  useSaveNoteTabQueryKey(noteId, queryKey);
 
   return useInfiniteQuery({
     queryKey,

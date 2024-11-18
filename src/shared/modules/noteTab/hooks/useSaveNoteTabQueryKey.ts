@@ -4,8 +4,8 @@ import { noteTabStore } from '../lib/noteTabStore';
 
 import { useNoteTabId } from './useNoteTabId';
 
-export const useSaveNoteTabQueryKey = (queryKey) => {
-  const id = useNoteTabId();
+export const useSaveNoteTabQueryKey = (noteId, queryKey) => {
+  const id = useNoteTabId(noteId);
 
   React.useEffect(() => {
     const value = {
