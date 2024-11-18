@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Box, IconButton, Tooltip } from '@chakra-ui/react';
+import { Box, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useNavigate, useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
@@ -58,9 +58,10 @@ export const NoteSidebar = React.memo((props: Props) => {
     return [
       {
         id: 'Note back',
+        label: 'Back',
         icon: <BsArrowLeft />,
         onClick: () => history.back(),
-        isDisabled: tab.routes.length <= 1,
+        disabled: tab.routes.length <= 1,
       },
       ...showAddTo ? [{
         id: 'Add',
@@ -80,11 +81,11 @@ export const NoteSidebar = React.memo((props: Props) => {
             key="NodeRw"
             rwMode={rwMode}
             tooltip={{
-              label: 'Note read/edit',
+              content: 'Note read/edit',
               openDelay:300,
-              placement:'right',
-              backgroundColor:'black',
-              hasArrow: true,
+              positioning: { placement:'right' },
+              contentProps: { backgroundColor:'black' },
+              showArrow: true,
             }}
           />
         ),
@@ -94,14 +95,14 @@ export const NoteSidebar = React.memo((props: Props) => {
         label: 'Advanced edit',
         icon: <FaA />,
         onClick: () => dispatch(toggleAdvancedEdit()),
-        variant: isAdvancedEditActive ? 'solid' : 'ghost',
+        variant: isAdvancedEditActive ? 'subtle' : 'ghost',
       }] : [],
       ...showSearch ? [{
         id: 'Search',
         label: 'Search',
         icon: <IoSearchSharp size="18" />,
         onClick: () => dispatch(toggleSearch()),
-        variant: isSearchActive ? 'solid' : 'ghost',
+        variant: isSearchActive ? 'subtle' : 'ghost',
       }] : [],
       ...pinnedPostsCount ? [{
         id: 'Pinned posts',
@@ -129,25 +130,26 @@ export const NoteSidebar = React.memo((props: Props) => {
   ]);
 
   const renderedItems = React.useMemo(() => {
-    return items.map(({ id, label = '', element, children, ...restItem }) => {
+    return items.map(({ id, label = '', element, icon, children, ...restItem }) => {
       return element || (
         <Tooltip
           key={id}
-          hasArrow
-          label={label}
-          openDelay={300}
-          placement="right"
-          backgroundColor="black"
+          showArrow
+          content={label}
+          openDelay={1000}
+          closeDelay={100}
+          positioning={{ placement: 'right' }}
+          contentProps={{ backgroundColor: 'black' }}
         >
           {children || (
             <IconButton
-              size="sm"
+              size="xs"
               variant="ghost"
+              iconSize="auto"
               position="relative"
-              colorScheme="gray"
               aria-label={label}
-              {...restItem}
-            />
+              {...restItem as IconButtonProps}
+            >{icon}</IconButton>
           )}
         </Tooltip>
       );

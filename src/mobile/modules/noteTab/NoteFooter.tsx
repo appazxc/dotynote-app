@@ -31,7 +31,7 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
       {showPlusButton ? <NotePlusButton noteId={noteId} /> : (
         <>
           {isOperationActive && (
-            <Container>
+            <Container maxW="3xl">
               <Operations />
             </Container>
           )}

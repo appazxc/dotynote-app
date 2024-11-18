@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { invariant } from '@tanstack/react-router';
+import React from 'react';
 
 import { entityApi } from 'shared/api/entityApi';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { modalIds } from 'shared/constants/modalIds';
 import { EditSpaceModal } from 'shared/containers/modals/EditSpaceModal';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';

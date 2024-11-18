@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Container, HStack, IconButton, Input } from '@chakra-ui/react';
+import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -24,7 +23,7 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
   React.useEffect(() => () => onChange(''), [onChange]);
 
   return (
-    <Container py="2">
+    <Container py="2" maxW="3xl">
       <HStack gap="2">
         <Input
           autoFocus
@@ -36,14 +35,13 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
         {showCancelButton && (
           <IconButton
             aria-label=""
-            variant="unstyled"
+            variant="plain"
             size="sm"
-            icon={<MdOutlineCancel size="24" />}
             onClick={() => {
               onChange('');
               dispatch(toggleSearch());
             }}
-          />
+          ><MdOutlineCancel size="24" /></IconButton>
         )}
       </HStack>
     </Container>

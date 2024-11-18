@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Text, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps } from 'shared/components/ui/button';
 
 type Props = ButtonProps;
 
@@ -10,16 +10,18 @@ const MenuItemBaseComponent = ({ children, ...buttonProps }: Props, ref) => {
       ref={ref}
       variant="ghost"
       textAlign="left"
-      minW="140"
-      size="sm"
+      minW="140px"
+      size="xs"
       borderRadius="md"
-      justifyContent="space-between"
-      pr={buttonProps.rightIcon ? '2' : '6'}
+      justifyContent="start"
+      // pr={buttonProps.rightIcon ? '2' : '6'}
+      fontWeight="medium"
+      flexGrow="1"
+      gap="2"
+      fontSize="sm"
       {...buttonProps}
     >
-      <Text fontWeight="medium" flexGrow="1">
-        {children}
-      </Text>
+      {children}
     </Button>
   );
 };

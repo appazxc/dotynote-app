@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box } from '@chakra-ui/react';
+import React from 'react';
 
 import { useUpdateNoteSettings } from 'shared/api/hooks/useUpdateNoteSettings';
 import { SwitchSection } from 'shared/components/SwitchSection';
@@ -19,10 +18,10 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
 
   const { mutate } = useUpdateNoteSettings(noteId, note.settings.id);
 
-  const handleDisplayChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDisplayChange = React.useCallback(({ checked }) => {
 
     mutate({
-      hide: !event.target.checked,
+      hide: !checked,
     });
   }, [mutate]);
   
@@ -31,7 +30,7 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
       <SwitchSection
         label={`Content is ${note.settings.hide ? 'hidden' : 'visible'}`}
         description="Show or hide content of the note. Will be visible only posts"
-        isChecked={!note.settings.hide}
+        checked={!note.settings.hide}
         onChange={handleDisplayChange}
       />
     </Box>

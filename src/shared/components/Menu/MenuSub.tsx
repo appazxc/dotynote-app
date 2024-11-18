@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, ButtonProps } from '@chakra-ui/react';
 import {
   flip,
@@ -11,6 +9,7 @@ import {
   useHover,
   useInteractions,
 } from '@floating-ui/react';
+import React from 'react';
 import { FaChevronRight } from 'react-icons/fa';
 
 import { MenuBack } from 'shared/components/Menu/MenuBack';
@@ -60,7 +59,6 @@ export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }:
   }, [goBack]);
 
   const itemProps = isMobile ? {
-    rightIcon: <FaChevronRight size="10" />,
     onClick: () => {
       setActive(id);
       setIsOpen(true);
@@ -72,7 +70,6 @@ export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }:
     ...buttonProps,
   } : {
     ref: refs.setReference,
-    rightIcon: <FaChevronRight size="10" />,
     onClick: () => {
       if (onClick) {
         onClick?.();
@@ -112,8 +109,20 @@ export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }:
   return (
     <>
       {!hideItem && (
-        <MenuItemBase {...itemProps}>
-          {label}
+        <MenuItemBase
+          iconSize="auto"
+          _icon={{ '&:last-child': {
+            marginLeft: 'auto',
+          } }}
+          {...itemProps}
+          gap="2"
+          justifyContent="space-between"
+        >
+          <Box
+            alignItems="center"
+            display="flex"
+            gap="2"
+          >{label}</Box><FaChevronRight size="10" />
         </MenuItemBase>
       )}
       {isOpen && content}

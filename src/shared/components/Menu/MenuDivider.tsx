@@ -1,6 +1,5 @@
+import { Separator } from '@chakra-ui/react';
 import React from 'react';
-
-import { Divider } from '@chakra-ui/react';
 
 import { MenuListContext } from 'shared/components/Menu/MenuList';
 
@@ -13,6 +12,6 @@ export const MenuDivider = () => {
   }
 
   return (
-    <Divider my="0.5" />
+    <Separator my="0.5" />
   );
 };

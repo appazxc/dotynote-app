@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { defineStyle, defineStyleConfig } from "@chakra-ui/react";
 
 const plain = defineStyle({

@@ -1,7 +1,6 @@
-import React from 'react';
-
-import { Box, useColorMode } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { JSONContent, generateHTML } from '@tiptap/core';
+import React from 'react';
 
 import { getEditorStyles } from 'shared/theme/styles';
 
@@ -15,8 +14,6 @@ type Props = {
 }
 
 export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
-  const { colorMode } = useColorMode();
-
   const content = React.useMemo(() => {
     if (!json) {
       return '';
@@ -31,7 +28,7 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
     return result;
   }, [json, removeEmptyDivsFromEnd]);
 
-  const sx = React.useMemo(() => getEditorStyles({ colorMode }), [colorMode]);
+  const sx = React.useMemo(() => getEditorStyles(), []);
   
   if (!content) {
     return null;
@@ -39,10 +36,10 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
 
   return (
     <Box
-      sx={sx}
+      css={sx}
       dangerouslySetInnerHTML={{ __html: content }}
       textOverflow={maxLines ? 'ellipsis' : undefined}
-      noOfLines={maxLines}
+      lineClamp={maxLines}
     />
   );
 });

@@ -5,8 +5,6 @@ import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 
-import { NoteMenuDrawer } from 'mobile/containers/drawers/NoteMenuDrawer';
-
 type Props = {
   noteId: number,
 };
@@ -22,7 +20,6 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
   
   return (
     <>
-      <NoteMenuDrawer noteId={noteId} />
       <CreatePostModal
         noteId={noteId}
         onCreate={handlePostCreate}

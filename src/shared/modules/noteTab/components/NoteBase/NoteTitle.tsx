@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Heading } from '@chakra-ui/react';
+import React from 'react';
 
 import { EditableTitle } from './EditableTitle';
 
@@ -15,7 +14,7 @@ export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => 
   const content = React.useMemo(() => {
     if (!isWriteMode) {
       return title ? (
-        <Heading>
+        <Heading size="4xl">
           {title}
         </Heading>
       ) : null;

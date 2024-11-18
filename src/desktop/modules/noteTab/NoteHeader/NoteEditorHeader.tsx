@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Box, Divider, IconButton, Tooltip } from '@chakra-ui/react';
+import { Box, Separator, IconButton } from '@chakra-ui/react';
 import { Editor } from '@tiptap/react';
 import { motion } from 'framer-motion';
+import React from 'react';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
 import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
 import { PiLinkBold, PiListBullets, PiListNumbers } from 'react-icons/pi';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { modalIds } from 'shared/constants/modalIds';
 import { UrlModal } from 'shared/containers/modals/UrlModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -25,7 +25,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Undo',
       icon: <LuUndo />,
       onClick: () => editor.chain().focus().undo().run(),
-      isDisabled: !editor.can().chain().focus().undo().run(),
+      disabled: !editor.can().chain().focus().undo().run(),
     },
     {
       label: 'Redo',
@@ -55,7 +55,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Strike',
       icon: <LuStrikethrough />,
       onClick: () => editor.chain().focus().toggleStrike().run(),
-      isDisabled: !editor.can().chain().focus().toggleStrike().run(),
+      disabled: !editor.can().chain().focus().toggleStrike().run(),
       isActive: editor.isActive('strike'),
     },
     {
@@ -72,21 +72,21 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Blockquote',
       icon: <RiDoubleQuotesL />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
-      isDisabled: !editor.can().chain().focus().toggleBlockquote().run(),
+      disabled: !editor.can().chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
     },
     {
       label: 'Code block',
       icon: <LuSquareCode />,
       onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-      isDisabled: !editor.can().chain().focus().toggleCodeBlock().run(),
+      disabled: !editor.can().chain().focus().toggleCodeBlock().run(),
       isActive: editor.isActive('codeBlock'),
     },
     {
       label: 'Code',
       icon: <FiCode />,
       onClick: () => editor.chain().focus().toggleCode().run(),
-      isDisabled: !editor.can().chain().focus().toggleCode().run(),
+      disabled: !editor.can().chain().focus().toggleCode().run(),
       isActive: editor.isActive('code'),
     },
     {
@@ -97,21 +97,21 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
       label: 'Bullet list',
       icon: <PiListBullets />,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
-      isDisabled: !editor.can().chain().focus().toggleBulletList().run(),
+      disabled: !editor.can().chain().focus().toggleBulletList().run(),
       isActive: editor.isActive('bulletList'),
     },
     {
       label: 'Ordered list',
       icon: <PiListNumbers />,
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
-      isDisabled: !editor.can().chain().focus().toggleOrderedList().run(),
+      disabled: !editor.can().chain().focus().toggleOrderedList().run(),
       isActive: editor.isActive('orderedList'),
     },
     // {
     //   label: 'Italic',
     //   icon: <FiItalic />,
     //   onClick: () => editor.chain().focus().toggleItalic().run(),
-    //   isDisabled: !editor.can().chain().focus().toggleItalic().run(),
+    //   disabled: !editor.can().chain().focus().toggleItalic().run(),
     //   isActive: editor.isActive('italic'),
     // },
   ];
@@ -119,10 +119,7 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
   return (
     <>
       <Box
-        as={motion.div}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        asChild
         h={headerHeight}
         // bg="red"
         justifyContent="center"
@@ -130,38 +127,44 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
         gap="1"
         display="flex"
       >
-        {items.map((itemProps) => {
-          if ('isDivider' in itemProps) {
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {items.map((itemProps) => {
+            if ('isDivider' in itemProps) {
+              return (
+                <Separator
+                  key={itemProps.label}
+                  orientation="vertical"
+                  h="20px"
+                  mx="1"
+                />
+              );
+            }
+
+            const { label, isActive, icon, ...buttonProps } = itemProps;
+
             return (
-              <Divider
-                key={itemProps.label}
-                orientation="vertical"
-                h="20px"
-                mx="1"
-              />
+              <Tooltip
+                key={label}
+                content={label}
+                openDelay={1000}
+              >
+                <IconButton
+                  aria-label={label}
+                  size="sm"
+                  h="7"
+                  minW="7"
+                  colorScheme={isActive ? 'brand' : 'gray'}
+                  variant={isActive ? 'outline' : 'ghost'}
+                  {...buttonProps}
+                >{icon}</IconButton>
+              </Tooltip>
             );
-          }
-
-          const { label, isActive, ...buttonProps } = itemProps;
-
-          return (
-            <Tooltip
-              key={label}
-              label={label}
-              openDelay={1000}
-            >
-              <IconButton
-                aria-label={label}
-                size="sm"
-                h="7"
-                minW="7"
-                colorScheme={isActive ? 'brand' : 'gray'}
-                variant={isActive ? 'outline' : 'ghost'}
-                {...buttonProps}
-              />
-            </Tooltip>
-          );
-        })}
+          })}
+        </motion.div>
       </Box>
 
       <UrlModal extraId={extraId} editor={editor} />

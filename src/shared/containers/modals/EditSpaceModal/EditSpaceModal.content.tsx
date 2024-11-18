@@ -1,12 +1,11 @@
-import {
-  Modal,
-  ModalOverlay,
-} from '@chakra-ui/react';
-
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { SpaceModalForm } from 'shared/components/forms/SpaceModalForm';
+import {
+  DialogBackdrop,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { spaceSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -37,20 +36,20 @@ const EditSpaceModal = ({ id }: Props) => {
   }
 
   return (
-    <Modal
-      isCentered
-      isOpen
+    <DialogRoot
+      defaultOpen
+      placement="center"
       size="md"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
+      <DialogBackdrop />
       <SpaceModalForm
         title="Edit space"
         submitText="Save"
         defaultValues={defaultValues}
         onSubmit={onSubmit}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 

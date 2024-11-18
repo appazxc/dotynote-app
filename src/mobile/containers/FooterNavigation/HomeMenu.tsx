@@ -1,10 +1,10 @@
-import React from 'react';
-
-import { IconButton, IconButtonProps, useToast } from '@chakra-ui/react';
+import { IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { useUpdateSpace } from 'shared/api/hooks/useUpdateSpace';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { toaster } from 'shared/components/ui/toaster';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startPrimaryNoteOperation } from 'shared/store/slices/appSlice';
@@ -18,7 +18,6 @@ export const HomeMenu = React.memo((props: Props) => {
   const activeSpace = useAppSelector(selectActiveSpace);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const toast = useToast();
   const dispatch = useAppDispatch();
   
   invariant(activeSpace, 'Missing active space');
@@ -55,10 +54,9 @@ export const HomeMenu = React.memo((props: Props) => {
                 }
                 mutate({ mainNoteId: null }, { 
                   onSuccess: () => {
-                    toast({
+                    toaster.create({
                       title: 'Primary note removed.',
-                      status: 'success',
-                      isClosable: true,
+                      type: 'success',
                     });
                   } });
               }}

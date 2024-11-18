@@ -1,9 +1,8 @@
-import React from 'react';
-
-import { Box, BoxProps, Button, Heading, Input, Text, useToast } from '@chakra-ui/react';
+import { Box, BoxProps, Heading, Input, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
 import isBoolean from 'lodash/isBoolean';
+import React from 'react';
 import { z } from 'zod';
 
 import { useUpdateUser } from 'shared/api/hooks/useUpdateUser';
@@ -12,11 +11,12 @@ import {
   Form,
   FormControl,
   FormField,
-  FormLabel,
-  FormMessage,
   useForm,
 } from 'shared/components/Form';
 import { handleFormApiErrors } from 'shared/components/Form/util';
+import { Button } from 'shared/components/ui/button';
+import { InputGroup } from 'shared/components/ui/input-group';
+import { toaster } from 'shared/components/ui/toaster';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
@@ -40,7 +40,6 @@ type SectionRef = {
 
 export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
   const user = useAppSelector(selectUser);
-  const toast = useToast();
 
   const sectionRefs = React.useRef<{[key in FieldNames]?: SectionRef}>({});
 
@@ -106,14 +105,14 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
 
         form.resetField(fieldProp, { defaultValue: value });
 
-        toast({
+        toaster.create({
           description: `${fieldNameMap[fieldProp]} updated`,
         });
 
         closeSection(fieldProp);
       },
     });
-  }, [form, mutate, toast, closeSection]);
+  }, [form, mutate, closeSection]);
 
   if (!user) {
     return null;
@@ -130,7 +129,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
     <Box {...boxProps}>
       <Heading
         as="h2"
-        size="lg"
+        size="3xl"
         mb="4"
         fontWeight="600"
       >
@@ -151,20 +150,20 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
             name="nickname"
             render={({ field }) => {
               return (
-                <FormControl>
-                  <FormLabel>Name</FormLabel>
-                  <Input {...field} />
-                  <FormMessage />
+                <Box>
+                  <FormControl label="Name">
+                    <Input {...field} variant="subtle" />
+                  </FormControl>
                   <Button
-                    colorScheme="brand"
                     mt="4"
-                    isLoading={isPending}
-                    isDisabled={!dirtyFields.nickname}
+                    loading={isPending}
+                    disabled={!dirtyFields.nickname}
                     onClick={submitField('nickname')}
                   >
-                      Save
+                    Save
                   </Button>  
-                </FormControl>
+                </Box>
+                
               );
             }}
           />
@@ -183,29 +182,33 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
             name="username"
             render={({ field }) => {
               return (
-                <FormControl>
-                  <FormLabel>Username</FormLabel>
-                  <Input {...field} />
-                  <FormMessage />
-                  {showUsernameAvailableMessage && (
-                    <Text
-                      mt="1"
-                      fontSize="small"
-                      color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
-                    >
-                      {usernameAvailableText}
-                    </Text>
-                  )}
+                <Box>
+                  <FormControl
+                    label="Username"
+                    helperText={showUsernameAvailableMessage && (
+                      <Text
+                        mt="1"
+                        fontSize="small"
+                        color={isUsernameAvailableFetching ? 'blue.500' : usernameIsAvailable ? 'green' : 'tomato'}
+                      >
+                        {usernameAvailableText}
+                      </Text>
+                    )}
+                  >
+                    <InputGroup w="full" startElement={<Text fontSize="lg">@</Text>}>
+                      <Input {...field} variant="subtle" />
+                    </InputGroup>
+                  </FormControl>
                   <Button
-                    colorScheme="brand"
                     mt="4"
-                    isLoading={isPending}
-                    isDisabled={!dirtyFields.username}
+                    loading={isPending}
+                    disabled={!dirtyFields.username}
                     onClick={submitField('username')}
                   >
-                      Save
+                    Save
                   </Button>  
-                </FormControl>
+                </Box>
+                
               );
             }}
           />

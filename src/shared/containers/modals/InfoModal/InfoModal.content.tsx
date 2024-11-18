@@ -1,13 +1,13 @@
+import { Button } from 'shared/components/ui/button';
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Button,
-} from '@chakra-ui/react';
-
+  DialogBackdrop,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -21,20 +21,20 @@ const InfoModal = (props: Props) => {
   const dispatch = useAppDispatch();
   
   return (
-    <Modal
-      isCentered
-      isOpen
+    <DialogRoot
+      defaultOpen
+      placement="center"
       size="xs"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader pb="1">{title}</ModalHeader>
-        <ModalBody>
+      <DialogBackdrop />
+      <DialogContent>
+        <DialogHeader pb="1"><DialogTitle>{title}</DialogTitle></DialogHeader>
+        <DialogBody>
           {description}
-        </ModalBody>
+        </DialogBody>
 
-        <ModalFooter
+        <DialogFooter
           p="0"
           borderTop="1px solid"
           borderColor="gray.100"
@@ -48,9 +48,9 @@ const InfoModal = (props: Props) => {
           >
             Ok
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

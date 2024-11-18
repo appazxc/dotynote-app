@@ -1,8 +1,8 @@
+import { Card, Text, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 
-import { Card, Text, Box, Select, Heading } from '@chakra-ui/react';
-
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
+import { Select } from 'shared/components/Select';
 import { getOptionTitleFromOrderType } from 'shared/modules/notePostsSettingsTab/helpers/getOptionTitleFromOrderType';
 import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
@@ -12,23 +12,25 @@ type Props = {
   orderBy: ApiOrderByEntity[],
 };
 
+const sortOptions = [{ label: 'Ascending', value: 'asc' }, { label: 'Descending', value: 'desc' }];
+
 export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
   const { mutateAsync } = useUpdatePostsSettings(postsSettings.noteId, postsSettings.id);
   
-  const handleOrderByChange = React.useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleOrderByChange = React.useCallback((values) => {
     mutateAsync({
-      orderById: Number(event.target.value),
+      orderById: Number(values[0]),
     });
   }, [mutateAsync]);
 
-  const handleSortChange = React.useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = React.useCallback((values) => {
     mutateAsync({
-      sort: event.target.value as PostsSettingsEntity['sort'],
+      sort: values[0] as PostsSettingsEntity['sort'],
     });
   }, [mutateAsync]);
 
   return (
-    <Card
+    <Card.Root
       p="4"
       gap="3"
     >
@@ -43,12 +45,11 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
         <Box>
           <Select
             size="sm"
-            value={postsSettings.orderById}
+            value={[postsSettings.orderById]}
             w="200px"
+            options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: id }))}
             onChange={handleOrderByChange}
-          >
-            {orderBy.map(({ id, type }) => <option key={id} value={id}>{getOptionTitleFromOrderType(type)}</option>)}
-          </Select>
+          />
         </Box>
       </Box>
       <Box 
@@ -61,15 +62,13 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
         <Box>
           <Select
             size="sm"
-            value={postsSettings.sort}
+            value={[postsSettings.sort]}
             w="200px"
+            options={sortOptions}
             onChange={handleSortChange}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </Select>
+          />
         </Box>
       </Box>
-    </Card>
+    </Card.Root>
   );
 });

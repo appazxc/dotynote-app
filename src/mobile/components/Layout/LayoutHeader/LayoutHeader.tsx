@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Box, BoxProps, IconButton, Text } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 type Props = {
@@ -34,11 +33,10 @@ export const LayoutHeader = (props: Props) => {
       <IconButton
         size="sm"
         aria-label="Note back"
-        icon={<BsArrowLeft size="18" />}
-        variant="unstyled"
+        variant="plain"
         display="inline-flex"
         onClick={onBackButtonClick || (() => history.back())}
-      />
+      ><BsArrowLeft size="18" /></IconButton>
     );
   }, [history, showBackButton, onBackButtonClick]);
 
@@ -50,7 +48,7 @@ export const LayoutHeader = (props: Props) => {
     return (
       <Text
         fontWeight="500"
-        noOfLines={1}
+        lineClamp={1}
         overflow="hidden" 
         textOverflow="ellipsis"
         lineHeight="1.2"

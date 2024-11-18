@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 
 import { movePosts } from 'shared/actions/movePosts';
+import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -14,7 +14,6 @@ type Params = {
 }
 
 export const useMovePosts = () => {
-  const toast = useToast();
   const dispatch = useAppDispatch();
   
   return useMutation({
@@ -24,7 +23,7 @@ export const useMovePosts = () => {
     onError: (error) => {
       const apiError = parseApiError(error);
 
-      toast({ description: apiError.message, status: 'error' });
+      toaster.create({ description: apiError.message, type: 'error' });
     },
   });
 };

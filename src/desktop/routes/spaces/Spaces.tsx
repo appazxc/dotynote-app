@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Box, Button, Container, IconButton, Text } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
@@ -31,20 +30,18 @@ function Spaces() {
             <IconButton 
               aria-label="Back"
               size="sm"
-              icon={<BsArrowLeft />}
               mr="3"
               variant="ghost"
               onClick={() => {
                 history.back();
               }}
-            />
+            ><BsArrowLeft /></IconButton>
             <Text fontSize="lg">{title}</Text>
           </Box>
         ) }
         right={(
           <Button
             size="sm"
-            colorScheme="brand"
             onClick={() => {
               dispatch(showModal({ id: modalIds.createSpace }));
             }}
@@ -58,7 +55,7 @@ function Spaces() {
 
   return (
     <Layout header={renderedHeader}>
-      <Container py="10">
+      <Container py="10" maxW="3xl">
         <SpacesCards activeSpaceId={activeSpaceId} spaceIds={data} />
       </Container>
       <CreateSpaceModal />

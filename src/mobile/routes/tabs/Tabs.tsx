@@ -1,9 +1,8 @@
-import React from 'react';
-
-import { Box, Button, Center, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Center, IconButton, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { LayoutGroup, motion } from 'framer-motion';
+import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 
@@ -11,6 +10,7 @@ import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -43,8 +43,7 @@ const Tab = ({ id, isActive }) => {
 
   return (
     <Box
-      layout
-      as={motion.div}
+      asChild
       p="4"
       position="relative"
       border="2px solid"
@@ -58,26 +57,27 @@ const Tab = ({ id, isActive }) => {
       gap="4"
       onClick={handleTabChange}
     >
-      <Box overflow="hidden">
-        <SpaceTabTitle
-          title={tabTitle}
-          fontSize="lg"
-          fontWeight="500"
-          textOverflow="ellipsis"
-          noOfLines={1}
-          display="block"
-        />
-      </Box>
-      <IconButton
-        icon={<MdClose /> }
-        aria-label="close"
-        size="xs"
-        colorScheme="gray"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          dispatch(closeTab(id));
-        }}
-      />
+      <motion.div layout>
+        <Box overflow="hidden">
+          <SpaceTabTitle
+            title={tabTitle}
+            fontSize="lg"
+            fontWeight="500"
+            textOverflow="ellipsis"
+            lineClamp={1}
+            display="block"
+          />
+        </Box>
+        <IconButton
+          aria-label="close"
+          size="xs"
+          colorScheme="gray"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            dispatch(closeTab(id));
+          }}
+        ><MdClose /> </IconButton>
+      </motion.div>
     </Box>
   );
 };
@@ -107,13 +107,12 @@ const Tabs = () => {
             <Button
               size="sm"
               variant="ghost"
-              leftIcon={<BsPlus size="22px" />}
               onClick={() => {
                 dispatch(openTab({ active: true }));
                 navigate({ to: '/app' });
               }}
             >
-            New tab
+              <BsPlus size="22px" /> New tab
             </Button>
           </Box>
         )}

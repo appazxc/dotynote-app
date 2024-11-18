@@ -1,16 +1,13 @@
-import React from 'react';
-
 import {
   Box,
-  Button,
   Input,
-  InputGroup,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
 import isBoolean from 'lodash/isBoolean';
+import React from 'react';
 import * as z from 'zod';
 
 import { useUpdateUser } from 'shared/api/hooks/useUpdateUser';
@@ -19,10 +16,9 @@ import {
   Form,
   FormControl,
   FormField,
-  FormLabel,
-  FormMessage,
   useForm,
 } from 'shared/components/Form';
+import { Button } from 'shared/components/ui/button';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { UserEntity } from 'shared/types/entities/UserEntity';
@@ -96,16 +92,13 @@ export const ProfileForm = React.memo(() => {
       <Form {...form}>
         <form onSubmit={handleDirtySubmit(onSubmit)}>
           <VStack
-            spacing={4}
+            gap={4}
             align="flex-start"
           >
-            <FormControl>
-              <FormLabel>Email</FormLabel>
+            <FormControl label="Email">
               <Input
-                isDisabled
-                variant="filled"
+                disabled
                 value={user.email}
-                
               />
             </FormControl>
             <FormField
@@ -113,13 +106,8 @@ export const ProfileForm = React.memo(() => {
               name="nickname"
               render={({ field }) => {
                 return (
-                  <FormControl>
-                    <FormLabel>Name</FormLabel>
-                    <Input
-                      variant="filled"
-                      {...field}
-                    />
-                    <FormMessage />
+                  <FormControl label="Name">
+                    <Input {...field} />
                   </FormControl>
                 );
               }}
@@ -129,17 +117,9 @@ export const ProfileForm = React.memo(() => {
               name="username"
               render={({ field }) => {
                 return (
-                  <FormControl>
-                    <FormLabel>Username</FormLabel>
-                    <InputGroup>
-                      <Input
-                        variant="filled"
-                        {...field}
-                      />
-                    </InputGroup>
-                      
-                    <FormMessage />
-                    {showUsernameAvailableMessage && (
+                  <FormControl 
+                    label="Username" 
+                    helperText={showUsernameAvailableMessage && (
                       <Text
                         mt="1"
                         fontSize="small"
@@ -147,7 +127,9 @@ export const ProfileForm = React.memo(() => {
                       >
                         {usernameAvailableText}
                       </Text>
-                    )}  
+                    )}
+                  >
+                    <Input {...field} />
                   </FormControl>
                 );
               }}
@@ -158,7 +140,7 @@ export const ProfileForm = React.memo(() => {
                 colorScheme="brand"
                 width="full"
                 mt="4"
-                isLoading={isSubmitting}
+                loading={isSubmitting}
               >
                 Save
               </Button>

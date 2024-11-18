@@ -15,7 +15,7 @@ export const handleFormApiErrors = <T extends FieldValues>(form: UseFormReturn<T
 
   const errors = pick(formErrors, Object.keys(form.formState.dirtyFields));
 
-  Object.entries(errors).forEach(([key, value]) => {
+  Object.entries(errors).forEach(([key, value]: any[]) => {
     form.setError(key as Path<T>, {
       type: 'manual',
       message: value.message,

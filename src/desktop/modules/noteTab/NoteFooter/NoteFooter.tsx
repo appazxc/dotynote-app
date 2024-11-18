@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
+import React from 'react';
 
 import { Operations } from 'shared/modules/noteTab/components/Operations';
 import { selectIsOperationActive } from 'shared/selectors/operations';
@@ -14,7 +13,7 @@ export const NoteFooter = React.memo(() => {
   }
   
   return (
-    <Container>
+    <Container maxW="3xl">
       <Operations />
     </Container>
   );

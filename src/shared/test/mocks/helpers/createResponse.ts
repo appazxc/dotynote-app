@@ -14,7 +14,7 @@ const getEntities = (acc, entityName, stub) => {
     if (isEntity(stubs)) {
       const newEntity: Keyable = {};
 
-      Object.entries(stubs).forEach(([key, value]) => {
+      Object.entries(stubs).forEach(([key, value]: any[]) => {
         if (isEntity(value)) {
           const name = propToEntityMap(key);
           newEntity[key + IdSymbol] = iter(acc, name, value);

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Center, Text, Link, Stack } from '@chakra-ui/react';
+import { Center, Link, Stack, Text } from '@chakra-ui/react';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
@@ -17,12 +15,11 @@ function DefaultErrorComponent({ error }) {
         <Text fontSize="2xl">Try to reload the page</Text>
 
         <Link
-          as={DesktopTabLink}
-          to="/"
+          asChild
           color="teal.500"
           mt="10"
         >
-          Go to home page
+          <DesktopTabLink to="/">Go to home page</DesktopTabLink>
         </Link>
       </Stack>
     </Center>

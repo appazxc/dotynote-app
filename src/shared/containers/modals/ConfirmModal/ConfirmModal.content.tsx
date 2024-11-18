@@ -1,14 +1,16 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
+import { Button } from 'shared/components/ui/button';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
@@ -27,33 +29,34 @@ const ConfirmModal = (props: Props) => {
   const borderColor = useColorModeValue('gray.100', 'brand.400');
 
   return (
-    <Modal
-      isCentered
-      isOpen={isOpen}
+    <DialogRoot
+      placement="center"
+      open={isOpen}
       size="xs"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader
+      <DialogBackdrop />
+      <DialogContent>
+        <DialogHeader
           pb="1"
           px="4"
           textAlign="center"
           fontSize="md"
         >
-          {title}
-        </ModalHeader>
-        <ModalBody px="4" textAlign="center">{description}</ModalBody>
-        <ModalFooter
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <DialogBody px="4" textAlign="center"><Text fontSize="md">{description}</Text></DialogBody>
+        <DialogFooter
           p="0"
           borderTop="1px solid"
           borderColor={borderColor}
           mt="4"
+          gap="0"
         >
           <Button
             variant="ghost"
             width="50%"
-            borderRadius="0"
+            borderRadius="0px"
             borderBottomLeftRadius="md"
             onClick={() => dispatch(hideModal())}
           >
@@ -63,15 +66,14 @@ const ConfirmModal = (props: Props) => {
             width="50%"
             borderRadius="0"
             borderBottomRightRadius="md"
-            colorScheme="brand"
-            isLoading={isLoading}
+            loading={isLoading}
             onClick={onConfirm}
           >
             {confirmText || 'Confirm'}
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

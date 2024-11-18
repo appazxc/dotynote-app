@@ -1,14 +1,26 @@
+import { chakra, RecipeVariantProps, TextareaProps, useRecipe } from '@chakra-ui/react';
 import React from 'react';
-
-import { Textarea, TextareaProps } from '@chakra-ui/react';
 import ResizeTextarea from 'react-textarea-autosize';
 
+import { textareaRecipe } from 'shared/theme/recipes/textarea';
+
+const StyledAutoResize = chakra(ResizeTextarea);
+
+type TextareaVariantProps = RecipeVariantProps<typeof textareaRecipe>
+
+interface TextareaRecipeProps
+  extends React.PropsWithChildren<TextareaVariantProps> {}
+  
 export const AutoResizeTextarea = React.forwardRef<
   HTMLTextAreaElement,
-  TextareaProps
+  Omit<TextareaProps, 'style'> & TextareaRecipeProps
 >((props, ref) => {
+  const recipe = useRecipe<'textarea'>({ key: 'textarea' });
+  const [recipeProps, restProps] = recipe.splitVariantProps(props);
+  const styles = recipe({ ...recipeProps, variant: 'plain' });
+
   return (
-    <Textarea
+    <StyledAutoResize
       ref={ref}
       minH="unset"
       overflow="hidden"
@@ -16,8 +28,8 @@ export const AutoResizeTextarea = React.forwardRef<
       resize="none"
       bg="transparent"
       minRows={1}
-      as={ResizeTextarea}
-      {...props}
+      css={styles}
+      {...restProps}
     />
   );
 });

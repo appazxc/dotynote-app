@@ -1,66 +1,68 @@
-import { mode } from '@chakra-ui/theme-tools';
-
-import { colorMode } from 'shared/util/theme/colorMode';
-
-export const getEditorStyles = (props) => {
+export const getEditorStyles = () => {
   return {
     minHeight: '100%',
-    'whiteSpace': 'pre-wrap',
-    'wordBreak': 'break-word',
-    'p.is-editor-empty:first-of-type::before': {
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+    '& p.is-editor-empty:first-of-type::before': {
       content: 'attr(data-placeholder)',
-      color: colorMode('gray.500', 'whiteAlpha.400')(props),
+      color: 'gray.500',
       float: 'left',
       pointerEvents: 'none',
       height: 0,
     },
-    p: {
-      'lineHeight': '1.3',
+    '& p': {
+      lineHeight: '1.3',
     },
     '&:focus': {
       outline: 'none',
     },
-    h1: {
+    '& h1': {
       fontSize: '1.25rem',
     },
-    h2: {
+    '& h2': {
       fontSize: '1.15rem',
     },
-    h3: {
+    '& h3': {
       fontSize: '1rem',
     },
-    'h1, h2, h3, h4,  h5, h6 ': {
+    '& h1, h2, h3, h4, h5, h6 ': {
       lineHeight: '1.1',
       fontWeight: '700',
     },
-    'p:empty::before': {
+    '& p:empty::before': {
       content: '"\\A"',
     },
     // p: {
     //   marginBlockStart: '1em',
     //   marginBlockEnd: '1em',
     // },
-    'ul li p, ol li p': {
+    '& ul li p, ol li p': {
       marginBottom: '.25em',
     },
-    'ul, ol': {
+    '& ul, ol': {
       padding: '0 1rem',
       margin: '0 1rem 0 .4rem',
     },
-    a: {
+    '& ul': {
+      listStyle: 'disc',
+    },
+    '& ol': {
+      listStyle: 'decimal',
+    },
+    '& a': {
       color: 'editorLink',
       '&:hover': {
         textDecoration: 'underline',
       },
     },
-    code: {
+    '& code': {
       bg: '#6161611a',
       color: '#616161',
     },
-    pre: {
+    '& pre': {
       fontFamily: "JetBrainsMono, 'Courier New', Courier, monospace",
-      background: colorMode('gray.900', 'gray.900')(props),
-      color: colorMode('white', 'white')(props),
+      background: 'gray.900',
+      color: 'white',
       padding: '0.75rem 1rem',
       rounded: 'lg',
       whiteSpace: 'pre-wrap',
@@ -72,59 +74,59 @@ export const getEditorStyles = (props) => {
         fontSize: '0.8em',
       },
   
-      '.hljs-comment, .hljs-quote': {
+      '& .hljs-comment, .hljs-quote': {
         color: '#616161',
       },
   
       // eslint-disable-next-line max-len
-      '.hljs-variable, .hljs-template-variable,  .hljs-attribute, .hljs-tag, .hljs-name, .hljs-regexp, .hljs-link, .hljs-name, .hljs-selector-id, .hljs-selector-class':
+      '& .hljs-variable, .hljs-template-variable,  .hljs-attribute, .hljs-tag, .hljs-name, .hljs-regexp, .hljs-link, .hljs-name, .hljs-selector-id, .hljs-selector-class':
         {
           color: '#F98181',
         },
   
-      '.hljs-number,  .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal,  .hljs-type, .hljs-params': {
+      '& .hljs-number,  .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal,  .hljs-type, .hljs-params': {
         color: '#FBBC88',
       },
   
-      '.hljs-string, .hljs-symbol, .hljs-bullet': {
+      '& .hljs-string, .hljs-symbol, .hljs-bullet': {
         color: '#B9F18D',
       },
   
-      '.hljs-title, .hljs-section': {
+      '& .hljs-title, .hljs-section': {
         color: '#FAF594',
       },
   
-      '.hljs-keyword, .hljs-selector-tag': {
+      '& .hljs-keyword, .hljs-selector-tag': {
         color: '#70CFF8',
       },
   
-      '.hljs-emphasis': {
+      '& .hljs-emphasis': {
         fontStyle: 'italic',
       },
   
-      '.hljs-strong': {
+      '& .hljs-strong': {
         fontWeight: 700,
       },
     },
-    blockquote: {
+    '& blockquote': {
       pl: 4,
       borderLeft: '2px solid rgba(13, 13, 13, 0.1)',
     },
-    'span[data-spoiler]': {
-      bg: mode('gray.900', 'gray.100')(props),
+    '& span[data-spoiler]': {
+      bg: 'gray.900',
       _hover: {
         bg: 'transparent',
       },
       // @apply dark:bg-gray-100 bg-gray-900 dark:hover:bg-transparent hover:bg-transparent;
     },
-    img: {
+    '& img': {
       maxW: 'full',
       h: 'auto',
     },
-    mark: {
+    '& mark': {
       bg: '#FAF594',
     },
-    hr: {
+    '& hr': {
       border: 'none',
       borderTop: '2px solid rgba(#0D0D0D, 0.1)',
       margin: '2rem 0',
@@ -133,7 +135,7 @@ export const getEditorStyles = (props) => {
 }; 
 
 export const styles = {
-  global: (props) => ({
+  global: () => ({
     'html, body, #root': {
       width: '100%',
       height: '100%',
@@ -149,7 +151,7 @@ export const styles = {
       '.clear': {
         clear: 'both',
       },
-      '.ProseMirror': getEditorStyles(props), // .ProseMirror
+      '.ProseMirror': getEditorStyles(), // .ProseMirror
     },
     '*': {
       'WebkitTapHighlightColor': 'transparent',

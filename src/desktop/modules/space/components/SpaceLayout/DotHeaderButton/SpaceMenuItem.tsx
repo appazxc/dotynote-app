@@ -1,5 +1,5 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
-
 import { MdOutlineDone } from 'react-icons/md';
 
 import { MenuItem } from 'shared/components/Menu';
@@ -23,8 +23,15 @@ export const SpaceMenuItem = React.memo(({ spaceId }: Props) => {
 
   return (
     <MenuItem
-      label={space.name}
-      rightIcon={isActive ? <MdOutlineDone /> : undefined}
+      label={(
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          w="full"
+        >
+          {space.name}{isActive ? <MdOutlineDone /> : undefined}
+        </Box>
+      )}
       onClick={() => {
         if (!isActive) {
           dispatch(updateActiveSpaceId(spaceId));

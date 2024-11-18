@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Link, LinkProps, Router } from '@tanstack/react-router';
+import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useAppDispatch } from 'shared/store/hooks';

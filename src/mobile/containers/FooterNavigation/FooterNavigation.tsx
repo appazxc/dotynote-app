@@ -1,10 +1,10 @@
-import React from 'react';
-
-import { Box, Center, IconButton, IconButtonProps, useColorModeValue } from '@chakra-ui/react';
+import { Box, Center, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
+import React from 'react';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
@@ -58,6 +58,7 @@ export const FooterNavigation = React.memo(() => {
             <HomeMenu key={key} {...triggerProps} />
           );
         } : undefined,
+        _icon: { h: 'auto', w: 'auto' },
         isActive: pathname === '/app/primary',
       },
       {
@@ -84,8 +85,8 @@ export const FooterNavigation = React.memo(() => {
         icon: <Center
           w="6"
           h="6"
-          rounded="6"
-          border="2px"
+          rounded="sm"
+          borderWidth="2px"
           borderColor={pathname === '/app/tabs' ? 'purple.500' : borderColor}
           fontSize="sm"
         >
@@ -130,11 +131,11 @@ export const FooterNavigation = React.memo(() => {
       >
         {buttons.map(({ label, icon, onClick, getMenu, isActive, ...rest }) => {
           const props = {
-            size: 'md',
+            size: 'md' as const,
             'aria-label': label,
-            icon: icon,
+            children: icon,
             onClick: onClick,
-            variant: 'unstyled',
+            variant: 'plain' as const,
             display: 'inline-flex',
             colorScheme: 'brand',
             color: isActive ? 'purple.500' : undefined,
@@ -143,7 +144,13 @@ export const FooterNavigation = React.memo(() => {
 
           return getMenu 
             ? getMenu({ ...props, key: label, isActive }) 
-            : <IconButton key={label} {...props} />;
+            : (
+              <IconButton
+                key={label}
+                {...props}
+                _icon={{ w: 'auto', h: 'auto' }}
+              />
+            );
         })}
       </Box>
       <PrimaryNoteModal />

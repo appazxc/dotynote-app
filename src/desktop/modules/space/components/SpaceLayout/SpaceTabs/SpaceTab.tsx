@@ -1,22 +1,18 @@
-import React from 'react';
-
 import {
   Box,
-  chakra,
   Circle,
   IconButton,
-  shouldForwardProp,
-  useColorModeValue,
 } from '@chakra-ui/react';
-import { isValidMotionProp, motion, Reorder } from 'framer-motion';
+import { motion, Reorder } from 'framer-motion';
+import React from 'react';
 import { MdClose } from 'react-icons/md';
 
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
-import { ChakraBox } from 'shared/components/ChakraBox';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -26,13 +22,6 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { router } from 'desktop/modules/space/tabRoutes/router';
-
-export const ReorderItemBox = chakra(Reorder.Item, {
-  /**
-   * Allow motion props and non-Chakra props to be forwarded.
-   */
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
 
 type Props = {
   id: string,
@@ -77,10 +66,8 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   
   return (
     <Menu isContextMenu>
-      <MenuTrigger
-        layout
-        as={ReorderItemBox}
-        value={id}
+      <Box 
+        asChild
         alignItems="stretch"
         maxWidth={isPinned ? '9' : '32'}
         minW={isActive || isPinned ? '7' : '3'}
@@ -90,13 +77,13 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
         position="relative"
         px="1.5"
         cursor="pointer"
-        borderRadius="6"
+        borderRadius="sm"
         bg={bg}
         borderColor={borderColor}
         borderWidth="1px"
         borderStyle="solid"
         display="flex"
-        sx={{
+        css={{
           containerType: 'size',
           ...isActive ? {
             '@container (max-width: 30px)': {
@@ -108,88 +95,96 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
               },
             },
           } : {},
-        }}
+        }} 
         onMouseDown={handleMouseDown}
         onClick={handleTabChange}
       >
-        <ChakraBox
-          position="relative"
-          display="flex"
-          justifyContent={isPinned ? 'center' : 'space-between'}
-          alignItems="center"
-          w="full"
+        <MenuTrigger
+          layout
+          value={id}
+          // @ts-ignore
+          as={Reorder.Item}
         >
-          {isPinned ? (
-            <Circle
-              layout
-              as={motion.div}
-              size="18px"
-              bg="purple.100"
-            />
-          ) : (
-            <>
-              <Box
-                position="relative"
-                display="flex"
-                flexGrow="1"
-                h="full"
-                sx={isActive ? {
-                  '@container (max-width: 25px)': {
-                    '&': { display: 'none' },
-                  },
-                } : {}}
+          <Box
+            position="relative"
+            display="flex"
+            justifyContent={isPinned ? 'center' : 'space-between'}
+            alignItems="center"
+            w="full"
+          >
+            {isPinned ? (
+              <Circle
+                asChild
+                size="18px"
+                bg="purple.100"
               >
+                <motion.div layout />
+              </Circle>
+            ) : (
+              <>
                 <Box
-                  position="absolute"
+                  position="relative"
+                  display="flex"
+                  flexGrow="1"
                   h="full"
-                  w="full"
+                  css={isActive ? {
+                    '@container (max-width: 25px)': {
+                      '&': { display: 'none' },
+                    },
+                  } : {}}
+                >
+                  <Box
+                    position="absolute"
+                    h="full"
+                    w="full"
+                    display="flex"
+                    alignItems="center"
+                    overflow="hidden"
+                  >
+                    <SpaceTabTitle title={title} />
+                  </Box>
+                </Box>
+                <Box
                   display="flex"
                   alignItems="center"
-                  overflow="hidden"
+                  flexShrink="0"
+                  position="relative"
+                  ml="1"
+                  css={isActive ? {
+                    '@container (max-width: 30px)': {
+                      '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
+                    },
+                  } : {
+                    '@container (max-width: 30px)': {
+                      '&': { display: 'none' },
+                    },
+                  }}
                 >
-                  <SpaceTabTitle title={title} />
+                  <IconButton
+                    h="5"
+                    w="5"
+                    minW="5"
+                    aria-label="close"
+                    variant="ghost"
+                    colorScheme="gray"
+                    iconSize="auto"
+                    borderRadius="50%"
+                    onContextMenu={(event) => {
+                      event.stopPropagation();
+                      event.preventDefault();
+                    }}
+                    onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      dispatch(closeTab(id));
+                    }}
+                  ><MdClose size="13px" /></IconButton>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                alignItems="center"
-                flexShrink="0"
-                position="relative"
-                ml="1"
-                sx={isActive ? {
-                  '@container (max-width: 30px)': {
-                    '&': { justifyContent: 'center', width: '100%', marginLeft: 0 },
-                  },
-                } : {
-                  '@container (max-width: 30px)': {
-                    '&': { display: 'none' },
-                  },
-                }}
-              >
-                <IconButton
-                  h="5"
-                  w="5"
-                  minW="5"
-                  aria-label="close"
-                  variant="ghost"
-                  colorScheme="gray"
-                  icon={<MdClose size="13px" />}
-                  borderRadius="50%"
-                  onContextMenu={(event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                  }}
-                  onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    dispatch(closeTab(id));
-                  }}
-                />
-              </Box>
-            </>
-          )}
-        </ChakraBox>
-      </MenuTrigger>
+              </>
+            )}
+          </Box>
+        </MenuTrigger>
+      </Box>
       <MenuList>
         <MenuItem
           label={isPinned ? 'Unpin' : 'Pin'}
@@ -211,7 +206,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
           }}
         />
         <MenuItem
-          isDisabled={isLast}
+          disabled={isLast}
           label="Close to the Right"
           onClick={() => {
             dispatch(closeRightTabs(id));

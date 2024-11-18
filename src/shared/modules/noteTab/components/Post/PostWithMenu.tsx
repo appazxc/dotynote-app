@@ -1,7 +1,6 @@
-import React from 'react';
-
-import { Box, Switch, Text, useToast } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
+import React from 'react';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { openTab } from 'shared/actions/space/openTab';
@@ -14,6 +13,8 @@ import { queryClient } from 'shared/api/queryClient';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { MenuItemProps } from 'shared/components/Menu/MenuItem';
 import { MenuSubProps } from 'shared/components/Menu/MenuSub';
+import { Switch } from 'shared/components/ui/switch';
+import { toaster } from 'shared/components/ui/toaster';
 import { modalIds } from 'shared/constants/modalIds';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
@@ -36,7 +37,6 @@ const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
 export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId, children }: Props) => {
   const dispatch = useAppDispatch();
-  const toast = useToast();
   const { id: postId, note: { id: noteId } } = post;
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
@@ -60,9 +60,9 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
       return api.patch<string>(`/posts/${postId}/internal`, { max });
     },
     onError: () => {
-      toast({
+      toaster.create({
         description: 'Failed to update internal posts',
-        status: 'error',
+        type: 'error',
       });
     },
   });
@@ -150,16 +150,17 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
         menu: [
           {
             key: isInternalCreated ? 'Shown' : 'Hidden',
-            label: isInternalCreated ? 'Shown' : 'Hidden',
-            closeOnClick: false,
-            rightIcon: (
+            label: <>
+              {isInternalCreated ? 'Shown' : 'Hidden'}
               <Switch
                 size="sm"
-                isChecked={!!post.internal}
-                isDisabled={isCreatingInternal || isDeletingInternal}
+                checked={!!post.internal}
+                disabled={isCreatingInternal || isDeletingInternal}
               />
-            ),
+            </>,
+            closeOnClick: false,
             onClick: handleCreateOrDeleteInternal,
+            justifyContent: 'space-between',
           },
           ...isInternalCreated ? [{
             key: 'Max',

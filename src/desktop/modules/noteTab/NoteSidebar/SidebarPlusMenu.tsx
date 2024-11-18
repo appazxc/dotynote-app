@@ -1,17 +1,13 @@
-import React from 'react';
-
 import {
+  Box,
   IconButton,
-  LightMode,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react';
+import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 
 import { queryClient } from 'shared/api/queryClient';
+import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
 import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
@@ -27,7 +23,7 @@ type Props = {
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
-  const { isOpen, onToggle, onClose } = useDisclosure();
+  const { open, onClose, onOpen } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const noteTabId = useNoteTabId();
   
@@ -43,47 +39,54 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
 
   return (
     <>
-      <Popover
-        isLazy
-        isOpen={isOpen}
-        placement="right-start"
-        returnFocusOnClose={false}
-        onClose={onClose}
+      <PopoverRoot
+        lazyMount
+        open={open}
+        positioning={{ 
+          placement: 'right-start',
+        }}
+        onOpenChange={(event) => {
+          if (!event.open) {
+            onClose();
+          }
+        }}
       >
-        <PopoverTrigger>
-          <IconButton
-            ref={ref}
-            size="sm"
-            tabIndex={0}
-            variant="ghost"
-            colorScheme="gray"
-            position="relative"
-            aria-label="Note add"
-            icon={<BsPlus size="22px" />}
-            {...rest}
-            onClick={onToggle}
-          />
-        </PopoverTrigger>
-        <LightMode>
-          <PopoverContent width="md">
-            <PopoverBody
-              gap="4"
-              display="flex"
-              flexDirection="column"
+        <PopoverTrigger asChild>
+          <Box>
+            <IconButton
+              ref={ref}
+              size="xs"
+              tabIndex={0}
+              variant="ghost"
+              iconSize="auto"
+              position="relative"
+              aria-label="Note add"
+              {...rest}
+              onClick={onOpen}
             >
-              <EntryMediaSelect
-                noteId={noteId}
-                canAddToNote={canAddToNote}
-                canAddToPosts={canAddToPosts}
-              />
-              <EntryMediaContent
-                noteId={noteId}
-                onFinish={onClose}
-              />
-            </PopoverBody>
-          </PopoverContent>
-        </LightMode>
-      </Popover>
+              <BsPlus size="22px" />
+            </IconButton>
+          </Box>
+        </PopoverTrigger>
+        <PopoverContent width="md">
+          <PopoverBody
+            gap="4"
+            display="flex"
+            flexDirection="column"
+            py="3"
+          >
+            <EntryMediaSelect
+              noteId={noteId}
+              canAddToNote={canAddToNote}
+              canAddToPosts={canAddToPosts}
+            />
+            <EntryMediaContent
+              noteId={noteId}
+              onFinish={onClose}
+            />
+          </PopoverBody>
+        </PopoverContent>
+      </PopoverRoot>
 
       <CreatePostModal
         noteId={noteId}

@@ -1,7 +1,7 @@
+import { Box, Heading, Link, Text, useDisclosure, useToken } from '@chakra-ui/react';
 import React from 'react';
 
-import { Button, useColorModeValue, useDisclosure, useToken } from '@chakra-ui/react';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = {
   title: string,
@@ -16,13 +16,11 @@ type Props = {
 export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props, ref) => {
   const { title, description, children, onClose: handleOnClose } = props;
 
-  const { isOpen, getButtonProps, onClose, getDisclosureProps } = useDisclosure({ 
+  const { open, onClose, onToggle } = useDisclosure({ 
     onClose: () => {
       handleOnClose?.();
     }, 
   });
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
 
   const borderColor = useToken('colors', 'gray.100');
   const borderColorDark = useToken('colors', 'brand.400');
@@ -42,7 +40,7 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       display="flex"
       gap="2"
       py="4"
-      sx={{
+      css={{
         '& + &': {
           borderTop: `1px solid ${borderTopColor}`,
         },
@@ -50,29 +48,28 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       minH="72px"
     >
       <Box flexGrow="1">
-        <Heading size="sm">{isOpen ? `Edit ${title.toLocaleLowerCase()}` : title}</Heading>
+        <Heading size="md">{open ? `Edit ${title.toLocaleLowerCase()}` : title}</Heading>
         <Text
           fontSize="sm"
           color="gray"
         >
-          {isOpen ? description.open : description.close}
+          {open ? description.open : description.close}
         </Text>
-        {children && (
-          <Box {...disclosureProps} pt="4">
+        {children && open && (
+          <Box pt="4">
             {children}
           </Box>
         )}
       </Box>
       {children && (
         <Box>
-          <Button
-            {...buttonProps}
-            variant="link"
-            colorScheme="brand"
-            size="sm"
+          <Link
+            fontWeight="600"
+            fontSize="sm"
+            onClick={onToggle}
           >
-            {isOpen ? 'Cancel' : 'Edit'}
-          </Button>
+            {open ? 'Cancel' : 'Edit'}
+          </Link>
         </Box>
       )}
     </Box>

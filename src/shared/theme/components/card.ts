@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { cardAnatomy } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 

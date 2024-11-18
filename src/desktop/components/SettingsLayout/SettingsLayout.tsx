@@ -1,10 +1,7 @@
-import React from 'react';
-
-import { Box, Button, Grid, GridItem, IconButton, useColorMode } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
-import { BsFillMoonStarsFill } from 'react-icons/bs';
+import React from 'react';
 import { FiUser } from 'react-icons/fi';
-import { IoSunny } from 'react-icons/io5';
 import { TbSettings2 } from 'react-icons/tb';
 
 import { Logo } from 'shared/components/Logo';
@@ -15,8 +12,6 @@ import { Layout, LayoutHeader } from 'desktop/components/Layout';
 type Props = React.PropsWithChildren<{}>;
 
 export const SettingsLayout = React.memo(({ children }: Props) => {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   const links = [
     {
       label: 'Profile',
@@ -37,19 +32,9 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
         pr="4"
         pl="6"
         left={<DesktopLink to="/app"><Logo /></DesktopLink>}
-        right={(
-          <IconButton 
-            size="sm"
-            icon={colorMode === 'light' ? <BsFillMoonStarsFill /> : <IoSunny />}
-            aria-label=""
-            colorScheme="gray"
-            variant="ghost"
-            onClick={toggleColorMode}
-          />
-        )}
       />
     );
-  }, [colorMode, toggleColorMode]);
+  }, []);
 
   return (
     <Layout header={renderedHeader}>
@@ -61,7 +46,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
         <GridItem
           display="flex"
           flexDirection="column"
-          gap="4"
+          gap="2"
           pt="10"
           alignItems="stretch"
         >
@@ -74,20 +59,17 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
                 {(match) => {
                   return (
                     <Button
-                      as={DesktopLink}
-                      to={to}
+                      asChild
                       display="inline-flex"
-                      variant="link"
-                      colorScheme="brand"
                       opacity={match ? '1' : '0.6'}
-                      leftIcon={icon}
+                      variant="subtle"
                       justifyContent="start"
                       _hover={{
                         textDecoration: 'none',
                         opacity: '1',
                       }}
                     >
-                      {label}
+                      <DesktopLink to={to}>{icon} {label}</DesktopLink>
                     </Button>
                   );
                 }}

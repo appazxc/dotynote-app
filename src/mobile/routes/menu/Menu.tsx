@@ -1,10 +1,10 @@
+import { Box, Separator, VStack } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, Button, Divider, VStack } from '@chakra-ui/react';
 import { FiUser } from 'react-icons/fi';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
+import { Button } from 'shared/components/ui/button';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { Layout } from 'mobile/components/Layout';
@@ -52,18 +52,17 @@ const Menu = React.memo(() => {
         {list.map(({ label, icon, divider, ...btnProps }, index) => {
           return (
             <React.Fragment key={label}>
-              {!!index && <Divider />}
+              {!!index && <Separator />}
               <Box px="2">
                 <Button
                   as={MobileLink}
                   w="full"
-                  variant="unstyled"
-                  leftIcon={icon}
+                  variant="plain"
                   display="flex"
                   justifyContent="flex-start"
                   {...btnProps}
                 >
-                  {label}
+                  {icon} {label}
                 </Button>
               </Box>
             </React.Fragment>

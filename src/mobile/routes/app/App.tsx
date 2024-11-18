@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { invariant } from '@tanstack/react-router';
-
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
+import { invariant } from 'shared/util/invariant';
 
 import Space from 'mobile/modules/space';
 

@@ -1,8 +1,10 @@
-import React from 'react';
-
-import { Box, IconButton, useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import React from 'react';
 import { MdClose } from 'react-icons/md';
+
+import { CloseButton } from 'shared/components/ui/close-button';
+import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = React.PropsWithChildren<{
   onClose: () => void,
@@ -13,10 +15,7 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
 
   return (
     <Box
-      as={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      asChild
       p="2"
       borderRadius="md"
       border="2px solid"
@@ -27,19 +26,26 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
       my="2"
       position="relative"
     >
-      {children}
-      <IconButton
-        icon={<MdClose />}
-        aria-label=""
-        size="xs"
-        colorScheme="brand"
-        position="absolute"
-        right="0"
-        top="0"
-        borderRadius="full"
-        transform="translate(50%, -50%)"
-        onClick={onClose}
-      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {children}
+        <CloseButton
+          aria-label=""
+          size="2xs"
+          position="absolute"
+          variant="solid"
+          right="0"
+          top="0"
+          borderRadius="full"
+          transform="translate(50%, -50%)"
+          onClick={onClose}
+        >
+          <MdClose />
+        </CloseButton>
+      </motion.div>
     </Box>
   );
 });

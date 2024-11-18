@@ -1,6 +1,5 @@
+import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, BoxProps, LightMode } from '@chakra-ui/react';
 
 type Context = {
   activeItemId: string | null,
@@ -47,11 +46,9 @@ export const MenuList = React.memo(React.forwardRef<HTMLDivElement, BoxProps>(({
         },
       }}
     >
-      <LightMode>
-        <Box {...listProps}>
-          {children}
-        </Box>
-      </LightMode>
+      <Box {...listProps} className="light">
+        {children}
+      </Box>
     </MenuListContext.Provider>
   );
 }));

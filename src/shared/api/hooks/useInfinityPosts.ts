@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
+import React from 'react';
 
 import { EMPTY_OBJECT } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE, Directions, DIRECTIONS } from 'shared/constants/requests';

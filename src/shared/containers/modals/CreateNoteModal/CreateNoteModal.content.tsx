@@ -1,25 +1,24 @@
-import React from 'react';
-
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditorEvents } from '@tiptap/react';
 import debounce from 'lodash/debounce';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { useCreateNote } from 'shared/api/hooks/useCreateNote';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
+import { Button } from 'shared/components/ui/button';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from 'shared/components/ui/dialog';
+import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -60,6 +59,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
   const editor = useEditor({ onUpdate: handleEditorUpdate });
 
   const onSubmit = React.useCallback(async (values) => {
+    console.log('values', values);
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
 
@@ -72,19 +72,19 @@ const CreateNoteModal = ({ onCreate }: Props) => {
   }, [dispatch, mutateAsync, editor, onCreate]);
 
   return (
-    <Modal
-      isCentered
-      isOpen
-      size={isMobile ? 'full' : '2xl'}
+    <DialogRoot
+      defaultOpen
+      placement="center"
+      size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent maxH="90vh">
-          <ModalHeader pb="1">Create note</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody
+      <DialogBackdrop />
+      <DialogContent maxH="90vh">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader pb="1"><DialogTitle>Create note</DialogTitle></DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody
             pt="0"
             css={{
               '&::-webkit-scrollbar': {
@@ -92,35 +92,30 @@ const CreateNoteModal = ({ onCreate }: Props) => {
               },
             }}
           >
-            <FormControl isInvalid={!!errors.title}>
+            <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
                 autoFocus
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
-                variant="plain"
                 {...register('title')}
               />
-              <FormErrorMessage>
-                {!!errors.title && errors.title.message}
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
 
             <EditorContent editor={editor} />
-          </ModalBody>
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
-              colorScheme="brand"
-              isLoading={isSubmitting}
+              loading={isSubmitting}
               type="submit"
             >
               Create
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </form>
-    </Modal>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

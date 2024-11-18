@@ -1,12 +1,11 @@
-import {
-  Modal,
-  ModalOverlay,
-} from '@chakra-ui/react';
-
 import { useCreateSpace } from 'shared/api/hooks/useCreateSpace';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { SpaceModalForm } from 'shared/components/forms/SpaceModalForm';
+import {
+  DialogBackdrop,
+  DialogRoot,
+} from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -26,19 +25,19 @@ const CreateSpaceModal = () => {
   }
 
   return (
-    <Modal
-      isCentered
-      isOpen
+    <DialogRoot
+      defaultOpen
+      placement="center"
       size="md"
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
+      <DialogBackdrop />
       <SpaceModalForm
-        onSubmit={onSubmit}
         title="Create space"
         submitText="Create"
+        onSubmit={onSubmit}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 

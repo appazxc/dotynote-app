@@ -1,15 +1,4 @@
 import * as React from 'react';
-
-import { 
-  FormControl as FormControlBase,
-  FormLabel as FormLabelBase,
-  FormErrorMessage,
-  FormHelperText,
-  FormHelperTextProps,
-  FormLabelProps,
-  BoxProps,
-  FormControlProps,
-} from '@chakra-ui/react';
 import { useForm as useFormBase } from 'react-hook-form';
 import {
   Controller,
@@ -21,6 +10,8 @@ import {
   UseFormProps,
   UseFormReturn,
 } from 'react-hook-form';
+
+import { Field, FieldProps } from 'shared/components/ui/field';
 
 const Form = FormProvider;
 
@@ -73,12 +64,13 @@ const useFormField = () => {
   };
 };
 
-const FormControl: React.FC<React.PropsWithChildren<FormControlProps>> = 
-  React.forwardRef<React.ElementRef<typeof FormLabelBase>, FormControlProps>(({ ...props }, ref) => {
+const FormControl: React.FC<React.PropsWithChildren<FieldProps>> = 
+  React.forwardRef<React.ElementRef<typeof Field>, FieldProps>(({ ...props }, ref) => {
     const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+    const errorText = error ? String(error?.message) : props.errorText;
 
     return (
-      <FormControlBase
+      <Field
         ref={ref}
         id={formItemId}
         aria-describedby={
@@ -86,69 +78,13 @@ const FormControl: React.FC<React.PropsWithChildren<FormControlProps>> =
             ? `${formDescriptionId}`
             : `${formDescriptionId} ${formMessageId}`
         }
-        isInvalid={!!error}
+        invalid={!!error}
+        errorText={errorText}
         {...props}
       />
     );
   });
 FormControl.displayName = 'FormControl';
-
-const FormLabel: React.FC<React.PropsWithChildren<FormLabelProps>> = React.forwardRef<
-  React.ElementRef<typeof FormLabelBase>,
-  React.ComponentPropsWithoutRef<typeof FormLabelBase>
->(({ className, ...props }, ref) => {
-  const { formItemId } = useFormField();
-
-  return (
-    <FormLabelBase
-      ref={ref}
-      htmlFor={formItemId}
-      {...props}
-    />
-  );
-});
-FormLabel.displayName = 'FormLabel';
-
-const FormDescription: React.FC<React.PropsWithChildren<BoxProps>> = React.forwardRef<
-  React.ElementRef<typeof FormHelperText>,
-  FormHelperTextProps & { visibleOnError?: boolean }
->(({ className, visibleOnError, ...props }, ref) => {
-  const { formDescriptionId, error } = useFormField();
-
-  return (
-    error && !visibleOnError ? null : (
-      <FormHelperText
-        ref={ref}
-        id={formDescriptionId}
-        {...props}
-      />
-    )
-  );
-});
-FormDescription.displayName = 'FormDescription';
-
-const FormMessage: React.FC<React.PropsWithChildren> = React.forwardRef<
-  React.ElementRef<typeof FormErrorMessage>,
-  React.ComponentPropsWithoutRef<typeof FormErrorMessage>
->(({ className, children, ...props }, ref) => {
-  const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
-
-  if (!body) {
-    return null;
-  }
-
-  return (
-    <FormErrorMessage
-      ref={ref}
-      id={formMessageId}
-      {...props}
-    >
-      {body}
-    </FormErrorMessage>
-  );
-});
-FormMessage.displayName = 'FormMessage';
 
 // https://github.com/orgs/react-hook-form/discussions/9472
 const useForm = <FormState extends FieldValues>(props: UseFormProps<FormState>) => {
@@ -212,10 +148,7 @@ const useForm = <FormState extends FieldValues>(props: UseFormProps<FormState>) 
 export {
   useFormField,
   Form,
-  FormLabel,
   FormControl,
   FormField,
-  FormMessage,
-  FormDescription,
   useForm,
 };

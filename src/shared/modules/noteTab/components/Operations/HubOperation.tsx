@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { useToast } from '@chakra-ui/react';
-
 import { useUpdateUserSettings } from 'shared/api/hooks/useUpdateUserSettings';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+import { toaster } from 'shared/components/ui/toaster';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { selectUser } from 'shared/selectors/auth/selectUser';
@@ -21,7 +20,6 @@ export const HubOperation = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
   const user = useAppSelector(selectUser);
-  const toast = useToast();
   const navigate = useBrowserNavigate();
   invariant(user, 'Missing user');
 
@@ -32,7 +30,7 @@ export const HubOperation = React.memo((props: Props) => {
       hubId: note.id,
     }).then(() => {
       navigate({ to: '/app/settings' });
-      toast({
+      toaster.create({
         description: 'Hub has been configured',
       });
       dispatch(stopOperation());
@@ -40,7 +38,6 @@ export const HubOperation = React.memo((props: Props) => {
     });
   }, [
     navigate,
-    toast,
     dispatch,
     note.id,
     mutateAsync,

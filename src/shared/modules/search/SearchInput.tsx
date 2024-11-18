@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { Input } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import debounce from 'lodash/debounce';
+import React from 'react';
 
 type Props = {
   isMobile?: boolean,
@@ -36,6 +35,7 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
       value={value}
       placeholder="Search"
       size="md"
+      variant="subtle"
       _focusVisible={isMobile ? {
         boxShadow: 'none',
       } : undefined}

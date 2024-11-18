@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
 import debounce from 'lodash/debounce';
+import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { getInfinityPostsQueryKey, InfinityPostsOptions, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
@@ -122,6 +121,12 @@ export const PostList = React.memo((props: Props) => {
 
   const showNextPageObserver = !isFetching && hasNextPage;
   const showPreviousPageObserver = !isFetching && hasPreviousPage;
+
+  const isFullyLoaded = !(hasNextPage && hasPreviousPage);
+
+  if (!isFetchingFirstTime && isFullyLoaded && !flatData.length) {
+    return null;
+  }
 
   return (
     <>

@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 
 import { stickNotes } from 'shared/actions/stickNotes';
+import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -15,7 +15,6 @@ type Params = {
 
 export const useStickNotes = () => {
   const dispatch = useAppDispatch();
-  const toast = useToast();
   
   return useMutation({
     mutationFn: (params: Params) => {
@@ -24,7 +23,7 @@ export const useStickNotes = () => {
     onError: (error) => {
       const apiError = parseApiError(error);
 
-      toast({ description: apiError.message, status: 'error' });
+      toaster.create({ description: apiError.message, type: 'error' });
     },
   });
 };

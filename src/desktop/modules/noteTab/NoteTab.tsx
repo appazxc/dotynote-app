@@ -73,7 +73,7 @@ export const NoteTab = React.memo(() => {
               top="0"
               left="0"
               w="full"
-              bg="body"
+              bg="bg"
               zIndex="1"
             >
               <NoteHeader

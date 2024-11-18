@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { alertAnatomy } from '@chakra-ui/anatomy';
 import { AlertProps, createMultiStyleConfigHelpers } from '@chakra-ui/react';
 

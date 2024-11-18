@@ -1,6 +1,5 @@
+import { VStack } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, HStack, VStack } from '@chakra-ui/react';
 
 import { useOrderBy } from 'shared/api/hooks/useOrderBy';
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
@@ -27,16 +26,16 @@ export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {
   const orderBy = useAppSelector(state => orderBySelector.getByIds(state, orderByIds));
   const { mutate } = useUpdatePostsSettings(noteId, postsSettings.id);
 
-  const handleInternalChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    mutate({ internal: event.target.checked });
+  const handleInternalChange = React.useCallback(({ checked }) => {
+    mutate({ internal: checked });
   }, [mutate]);
 
   return (
-    <VStack spacing={4} alignItems="stretch">
+    <VStack gap={4} alignItems="stretch">
       <SwitchSection
         label={`Internal posts are ${note.postsSettings?.internal ? 'visible' : 'hidden'}`}
         description="Show or hide internal posts content and settings"
-        isChecked={!!note.postsSettings?.internal}
+        checked={!!note.postsSettings?.internal}
         onChange={handleInternalChange}
       />
       <SortSettings orderBy={orderBy} postsSettings={postsSettings} />

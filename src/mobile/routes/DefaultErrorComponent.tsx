@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Center, Text, Link, Stack } from '@chakra-ui/react';
+import { Center, Link, Stack, Text } from '@chakra-ui/react';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
@@ -22,12 +20,11 @@ function DefaultErrorComponent({ error }) {
           <Text fontSize="2xl">Try to reload the page</Text>
 
           <Link
-            as={MobileLink}
-            to="/"
+            asChild
             color="teal.500"
             mt="10"
           >
-            Go to home page
+            <MobileLink to="/">Go to home page</MobileLink>
           </Link>
         </Stack>
       </Center>

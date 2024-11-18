@@ -1,23 +1,22 @@
-import React from 'react';
-
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
+import { Button } from 'shared/components/ui/button';
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from 'shared/components/ui/dialog';
+import { Field } from 'shared/components/ui/field';
 import { EditorContent, useEditor } from 'shared/modules/editor';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -63,58 +62,52 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
   }, [dispatch, mutateAsync, editor, onCreate]);
 
   return (
-    <Modal
-      isOpen
-      isCentered={!isMobile}
-      size={isMobile ? 'full' : '2xl'}
+    <DialogRoot
+      defaultOpen
+      placement={!isMobile ? 'center' : undefined}
+      size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
-      returnFocusOnClose={false}
-      onClose={() => dispatch(hideModal())}
+      onOpenChange={() => dispatch(hideModal())}
     >
-      <ModalOverlay />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalContent>
-          <ModalHeader>Create post</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody
+      <DialogBackdrop />
+      <DialogContent asChild>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader><DialogTitle>Create post</DialogTitle></DialogHeader>
+          <DialogBody
             pt="0"
             css={{
               '&::-webkit-scrollbar': {
                 display: 'none',
               },
             }}
-            display="flex"
-            flexDirection="column"
           >
-            <FormControl isInvalid={!!errors.title}>
+            <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
                 autoFocus
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
-                variant="plain"
                 {...register('title')}
               />
-              <FormErrorMessage>
-                {!!errors.title && errors.title.message}
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
 
-            <EditorContent editor={editor} />
-          </ModalBody>
+            <EditorContent editor={editor} minH="40" />
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
               colorScheme="brand"
-              isLoading={isSubmitting}
+              loading={isSubmitting}
               type="submit"
             >
               Create
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </form>
-    </Modal>
+          </DialogFooter>
+          <DialogCloseTrigger />
+
+        </form>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

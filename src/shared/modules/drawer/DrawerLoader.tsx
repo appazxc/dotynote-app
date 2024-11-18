@@ -1,6 +1,12 @@
-import { Box, Drawer, DrawerBody, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { Loader } from 'shared/components/Loader';
+import {
+  DrawerBackdrop,
+  DrawerBody,
+  DrawerContent,
+  DrawerRoot,
+} from 'shared/components/ui/drawer';
 import { Wait } from 'shared/components/Wait';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -15,11 +21,11 @@ export const DrawerLoader = ({ delay }: Props) => {
   
   return (
     <Wait delay={delay ?? 300}>
-      <Drawer
-        isOpen
-        onClose={() => dispatch(hideDrawer())}
+      <DrawerRoot
+        open
+        onOpenChange={() => dispatch(hideDrawer())}
       >
-        <DrawerOverlay />
+        <DrawerBackdrop />
         <DrawerContent>
           <DrawerBody>
             <Box p="4">
@@ -27,7 +33,7 @@ export const DrawerLoader = ({ delay }: Props) => {
             </Box>
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </DrawerRoot>
     </Wait>
   );
 };

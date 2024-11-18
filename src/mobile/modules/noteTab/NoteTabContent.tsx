@@ -39,7 +39,6 @@ export const NoteTabContent = (props: Props) => {
           search={search}
         />
       </Stack>
-      <SelectConcretePlaceModal noteId={noteId} />
     </Container>
   );
 };

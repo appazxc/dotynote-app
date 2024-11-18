@@ -1,13 +1,11 @@
-import React from 'react';
-
 import {
   Box,
-  Button,
   Input,
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -16,11 +14,9 @@ import { useSendCodeEmail } from 'shared/api/hooks/useSendCodeEmail';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
-  FormLabel,
-  FormMessage,
 } from 'shared/components/Form';
+import { Button } from 'shared/components/ui/button';
 import { BACK_URL } from 'shared/constants/queryKeys';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 
@@ -79,7 +75,7 @@ export const LoginForm = () => {
       return;
     }
 
-    if (email) {
+    if (!isEmailSent && email) {
       try {
         await sendCodeEmail(email);
         setIsEmailSent(true);
@@ -89,7 +85,7 @@ export const LoginForm = () => {
         });
       }
     }
-  }, [loginEmail, sendCodeEmail, navigate, backUrl, setError]);
+  }, [loginEmail, isEmailSent, sendCodeEmail, navigate, backUrl, setError]);
 
   return (
     <Box
@@ -100,7 +96,7 @@ export const LoginForm = () => {
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack
-            spacing={4}
+            gap={4}
             align="flex-start"
           >
             <FormField
@@ -108,17 +104,15 @@ export const LoginForm = () => {
               name="email"
               render={({ field }) => {
                 return (
-                  <FormControl>
-                    <FormLabel>Email</FormLabel>
+                  <FormControl 
+                    label="Email" 
+                    helperText={isEmailSent ? 'We sent verification code to your email' : undefined}
+                  >
                     <Input
                       placeholder="Your email address"
                       {...field}
                       onChange={handleEmailChange}
                     />
-                    {isEmailSent && (
-                      <FormDescription>We sent verification code to your email</FormDescription>
-                    )}
-                    <FormMessage />
                   </FormControl>
                 );
               }}
@@ -128,10 +122,8 @@ export const LoginForm = () => {
                 control={form.control}
                 name="code"
                 render={({ field }) => (
-                  <FormControl>
-                    <FormLabel>Code</FormLabel>
+                  <FormControl label="Code">
                     <Input {...field} />
-                    <FormMessage />
                   </FormControl>
                 )}
               />
@@ -141,8 +133,8 @@ export const LoginForm = () => {
               colorScheme="brand"
               width="full"
               size="md"
-              isLoading={isSubmitting}
-              isDisabled={isEmailSent && !form.getValues('code')}
+              loading={isSubmitting}
+              // disabled={isEmailSent && !form.getValues('code')}
             >
               Continue
             </Button>

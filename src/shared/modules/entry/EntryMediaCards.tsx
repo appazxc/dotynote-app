@@ -1,6 +1,5 @@
+import { Box, Card, SimpleGrid, Text } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, Text, Card, CardBody, CardHeader, SimpleGrid } from '@chakra-ui/react';
 
 type Props = {
   items: any[],
@@ -9,20 +8,20 @@ type Props = {
 export const EntryMediaCards = React.memo(({ items }: Props) => {
   return (
     <Box minH="180px">
-      <SimpleGrid spacing={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
+      <SimpleGrid gap={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
         {items.map(({ title, icon, isDisabled, onClick }) => {
           return (
-            <Card
+            <Card.Root
               key={title}
               padding="small"
               cursor={isDisabled ? 'default' : 'pointer'}
               opacity={isDisabled ? '0.6' : '1'}
               onClick={onClick}
             >
-              <CardHeader p="2">
+              <Card.Header p="2">
                 {icon}
-              </CardHeader>
-              <CardBody
+              </Card.Header>
+              <Card.Body
                 pt="2"
                 pb="1"
                 px="2"
@@ -30,8 +29,8 @@ export const EntryMediaCards = React.memo(({ items }: Props) => {
                 alignItems="flex-end"
               >
                 <Text fontWeight="500" fontSize="sm">{title}</Text>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           );
         })}
       </SimpleGrid>

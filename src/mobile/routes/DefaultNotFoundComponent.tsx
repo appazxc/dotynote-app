@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Center, Text, Link, Stack } from '@chakra-ui/react';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
@@ -19,12 +17,13 @@ function DefaultNotFoundComponent() {
           <Text fontSize="2xl">Not Found</Text>
 
           <Link
-            as={DesktopLink}
-            to="/"
+            asChild
             color="teal.500"
             mt="10"
           >
-            Go to home page
+            <DesktopLink to="/">
+              Go to home page
+            </DesktopLink> 
           </Link>
         </Stack>
       </Center>
