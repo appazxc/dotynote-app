@@ -55,7 +55,7 @@ function Spaces() {
 
   return (
     <Layout header={renderedHeader}>
-      <Container py="10">
+      <Container py="10" maxW="3xl">
         <SpacesCards activeSpaceId={activeSpaceId} spaceIds={data} />
       </Container>
       <CreateSpaceModal />

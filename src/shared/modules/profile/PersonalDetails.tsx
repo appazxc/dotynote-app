@@ -15,6 +15,7 @@ import {
 } from 'shared/components/Form';
 import { handleFormApiErrors } from 'shared/components/Form/util';
 import { Button } from 'shared/components/ui/button';
+import { InputGroup } from 'shared/components/ui/input-group';
 import { toaster } from 'shared/components/ui/toaster';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
 import { selectUser } from 'shared/selectors/auth/selectUser';
@@ -128,7 +129,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
     <Box {...boxProps}>
       <Heading
         as="h2"
-        size="lg"
+        size="3xl"
         mb="4"
         fontWeight="600"
       >
@@ -151,16 +152,15 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
               return (
                 <Box>
                   <FormControl label="Name">
-                    <Input {...field} />
+                    <Input {...field} variant="subtle" />
                   </FormControl>
                   <Button
-                    colorScheme="brand"
                     mt="4"
                     loading={isPending}
                     disabled={!dirtyFields.nickname}
                     onClick={submitField('nickname')}
                   >
-                      Save
+                    Save
                   </Button>  
                 </Box>
                 
@@ -195,10 +195,11 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
                       </Text>
                     )}
                   >
-                    <Input {...field} />
+                    <InputGroup w="full" startElement={<Text fontSize="lg">@</Text>}>
+                      <Input {...field} variant="subtle" />
+                    </InputGroup>
                   </FormControl>
                   <Button
-                    colorScheme="brand"
                     mt="4"
                     loading={isPending}
                     disabled={!dirtyFields.username}

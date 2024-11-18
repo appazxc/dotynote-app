@@ -48,15 +48,15 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       minH="72px"
     >
       <Box flexGrow="1">
-        <Heading size="sm">{open ? `Edit ${title.toLocaleLowerCase()}` : title}</Heading>
+        <Heading size="md">{open ? `Edit ${title.toLocaleLowerCase()}` : title}</Heading>
         <Text
           fontSize="sm"
           color="gray"
         >
           {open ? description.open : description.close}
         </Text>
-        {children && (
-          <Box pt="4" onClick={onToggle}>
+        {children && open && (
+          <Box pt="4">
             {children}
           </Box>
         )}
@@ -64,7 +64,8 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       {children && (
         <Box>
           <Link
-            colorScheme="brand"
+            fontWeight="600"
+            fontSize="sm"
             onClick={onToggle}
           >
             {open ? 'Cancel' : 'Edit'}

@@ -54,7 +54,7 @@ export const SpaceModalForm = ({ title, defaultValues = initialValues, onSubmit,
     <Form {...form}>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader pb="1"><DialogTitle>{title}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{title}</DialogTitle></DialogHeader>
           <DialogCloseTrigger />
           <DialogBody>
             <FormField 
