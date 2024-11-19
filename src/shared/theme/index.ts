@@ -1,6 +1,7 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 import { buttonRecipe } from 'shared/theme/recipes/button';
+import { dialogSlotRecipe } from 'shared/theme/recipes/dialog';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { getEditorStyles } from 'shared/theme/styles';
 
@@ -48,6 +49,9 @@ const customConfig = defineConfig({
     recipes: {
       textarea: textareaRecipe,
       button: buttonRecipe,
+    },
+    slotRecipes: {
+      dialog: dialogSlotRecipe,
     },
   },
   globalCss: {
