@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Text } from '@chakra-ui/react';
+import React from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { PiSticker } from 'react-icons/pi';
 import { TbArrowMoveLeft } from 'react-icons/tb';
@@ -106,6 +105,7 @@ export const SelectOperation = React.memo((props: Props) => {
           gap={isMobile ? '2' : '4'}
           px={isMobile ? '1' : '2'}
           alignItems="center"
+          justifyContent={isMobile ? 'space-around' : undefined}
         >
           {!isMobile && <Text fontWeight="600" fontSize="sm">Actions:</Text>}
           {list.map(({ label, icon, onClick }) => {
@@ -113,7 +113,7 @@ export const SelectOperation = React.memo((props: Props) => {
               <Box
                 key={label}
                 display="flex"
-                flexDirection="row"
+                flexDirection={isMobile ? 'column' : 'row'}
                 alignItems="center"
                 gap="2"
                 _hover={{
@@ -124,10 +124,11 @@ export const SelectOperation = React.memo((props: Props) => {
                 borderRadius="md"
                 transition="all 0.3s"
                 cursor="pointer"
+                fontSize="lg"
                 onClick={onClick}
               >
                 {icon}
-                <Text fontWeight="600" fontSize="xs">{label}</Text>
+                <Text fontWeight="600" fontSize="2xs">{label}</Text>
               </Box>
             );
           })}
