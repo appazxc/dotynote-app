@@ -1,8 +1,10 @@
 import { EntityName, entityTypes } from 'shared/constants/entityTypes';
 import { noteSchema } from 'shared/schemas/note.schema';
+import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { orderBySchema } from 'shared/schemas/orderBy.schema';
 import { postSchema } from 'shared/schemas/post.schema';
+import { postDotSchema } from 'shared/schemas/postDot.schema';
 import { postInternalSchema } from 'shared/schemas/postInternal.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { spaceSchema } from 'shared/schemas/space.schema';
@@ -27,6 +29,8 @@ const schemaMap = {
   [entityTypes.userSettings]: userSettingsSchema,
   [entityTypes.orderBy]: orderBySchema,
   [entityTypes.postInternal]: postInternalSchema,
+  [entityTypes.postDot]: postDotSchema,
+  [entityTypes.noteDot]: noteDotSchema,
 };
 
 export default class Selector<T extends EntityName> {
