@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
+import React from 'react';
 
 import { useEditorContext } from 'shared/modules/editor';
 import { Operations } from 'shared/modules/noteTab/components/Operations';
@@ -27,7 +26,6 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
 
   return (
     <>
-    
       {showPlusButton ? <NotePlusButton noteId={noteId} /> : (
         <>
           {isOperationActive && (

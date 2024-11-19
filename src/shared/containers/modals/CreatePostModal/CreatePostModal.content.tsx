@@ -63,7 +63,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
 
   return (
     <DialogRoot
-      defaultOpen
+      open
       placement={!isMobile ? 'center' : undefined}
       size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
@@ -80,6 +80,8 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
                 display: 'none',
               },
             }}
+            display="flex"
+            flexDirection="column"
           >
             <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea

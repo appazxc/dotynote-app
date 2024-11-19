@@ -23,13 +23,13 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
       label: 'Undo',
       icon: <LuUndo />,
       onClick: () => editor.chain().undo().run(),
-      isDisabled: !editor.can().chain().undo().run(),
+      disabled: !editor.can().chain().undo().run(),
     },
     {
       label: 'Redo',
       icon: <LuRedo />,
       onClick: () => editor.chain().redo().run(),
-      isDisabled: !editor.can().chain().redo().run(),
+      disabled: !editor.can().chain().redo().run(),
     },
     {
       label: '1',
@@ -39,21 +39,21 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
       label: 'Bold',
       icon: <FiBold />,
       onClick: () => editor.chain().toggleBold().run(),
-      isDisabled: !editor.can().chain().toggleBold().run(),
+      disabled: !editor.can().chain().toggleBold().run(),
       isActive: editor.isActive('bold'),
     },
     {
       label: 'Italic',
       icon: <FiItalic />,
       onClick: () => editor.chain().toggleItalic().run(),
-      isDisabled: !editor.can().chain().toggleItalic().run(),
+      disabled: !editor.can().chain().toggleItalic().run(),
       isActive: editor.isActive('italic'),
     },
     {
       label: 'Strike',
       icon: <LuStrikethrough />,
       onClick: () => editor.chain().toggleStrike().run(),
-      isDisabled: !editor.can().chain().toggleStrike().run(),
+      disabled: !editor.can().chain().toggleStrike().run(),
       isActive: editor.isActive('strike'),
     },
     {
@@ -70,21 +70,21 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
       label: 'Blockquote',
       icon: <RiDoubleQuotesL />,
       onClick: () => editor.chain().toggleBlockquote().run(),
-      isDisabled: !editor.can().chain().toggleBlockquote().run(),
+      disabled: !editor.can().chain().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
     },
     {
       label: 'Code block',
       icon: <LuSquareCode />,
       onClick: () => editor.chain().toggleCodeBlock().run(),
-      isDisabled: !editor.can().chain().toggleCodeBlock().run(),
+      disabled: !editor.can().chain().toggleCodeBlock().run(),
       isActive: editor.isActive('codeBlock'),
     },
     {
       label: 'Code',
       icon: <FiCode />,
       onClick: () => editor.chain().toggleCode().run(),
-      isDisabled: !editor.can().chain().toggleCode().run(),
+      disabled: !editor.can().chain().toggleCode().run(),
       isActive: editor.isActive('code'),
     },
     {
@@ -95,14 +95,14 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
       label: 'Bullet list',
       icon: <PiListBullets />,
       onClick: () => editor.chain().toggleBulletList().run(),
-      isDisabled: !editor.can().chain().toggleBulletList().run(),
+      disabled: !editor.can().chain().toggleBulletList().run(),
       isActive: editor.isActive('bulletList'),
     },
     {
       label: 'Ordered list',
       icon: <PiListNumbers />,
       onClick: () => editor.chain().toggleOrderedList().run(),
-      isDisabled: !editor.can().chain().toggleOrderedList().run(),
+      disabled: !editor.can().chain().toggleOrderedList().run(),
       isActive: editor.isActive('orderedList'),
     },
     // {
@@ -125,6 +125,7 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
         }}
       >
         <Box
+          asChild
           h={headerHeight}
           justifyContent="start"
           alignItems="center"
@@ -151,7 +152,7 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
                 );
               }
 
-              const { label, isActive, ...buttonProps } = itemProps;
+              const { label, isActive, icon, ...buttonProps } = itemProps;
 
               return (
                 <Tooltip
@@ -165,10 +166,9 @@ export const NoteEditorControls = ({ editor }: { editor: Editor }) => {
                     size="lg"
                     h="8"
                     minW="8"
-                    colorScheme={isActive ? 'brand' : 'gray'}
-                    variant={isActive ? 'outline' : 'ghost'}
+                    variant={isActive ? 'subtle' : 'ghost'}
                     {...buttonProps}
-                  />
+                  >{icon}</IconButton>
                 </Tooltip>
               );
             })}
