@@ -1,10 +1,11 @@
 import { createRoute, redirect } from '@tanstack/react-router';
-import { divide } from 'lodash';
 
 import { getUser } from 'shared/actions/getUser';
 import { BACK_URL } from 'shared/constants/queryKeys';
 import { selectIsAuthenticated } from 'shared/selectors/auth/selectIsAuthenticated';
 import { selectToken } from 'shared/selectors/auth/selectToken';
+
+import { AuthErrorComponent } from 'desktop/routes/app/AuthErrorComponent';
 
 import { root } from '../root';
 import { Context } from '../routerContext';
@@ -33,4 +34,5 @@ export const auth = createRoute({
       await store.dispatch(getUser());
     }
   },
+  errorComponent: AuthErrorComponent,
 });
