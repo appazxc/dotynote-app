@@ -23,12 +23,13 @@ export const getUser = (): ThunkAction => async (dispatch, getState) => {
   try {
     const userId = await queryClient.fetchQuery({ ...options.users.me() });
     dispatch(setUser(userId));
+    throw Error('wtf')
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
       dispatch(logout());
       throw Error('Can not authorize user');
     }
-
+console.log('here', );
     throw Error('Unexpected error occurred');
   }
 };

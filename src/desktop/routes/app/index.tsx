@@ -30,6 +30,11 @@ export const appRoute = createRoute({
 const appIndexRoute = createRoute({
   getParentRoute: () => appRoute,
   path: '/',
+  beforeLoad: () => {
+    console.log('hmm', );
+    throw new Error('wtfff')
+
+   },
   loader: async (ctx) => {
     const context = ctx.context as Context;
     const { store } = context;
