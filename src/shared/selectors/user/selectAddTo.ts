@@ -1,22 +1,23 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { addTo } from 'shared/modules/noteTab/constants';
+import { noteSelector } from 'shared/selectors/entities';
 import { AppState } from 'shared/types/store';
 
-import { selectCanAddToNote } from './selectCanAddToNote';
-import { selectCanAddToPosts } from './selectCanAddToPosts';
-
 export const selectAddTo = createSelector([
-  selectCanAddToNote,
-  selectCanAddToPosts,
+  (state, { noteId }) => noteSelector.getById(state, noteId)?.permissions,
   (state: AppState) => state.app.note.addTo,
 ], 
-(canAddToNote, canAddToPosts, addToState) => {
-  if (!canAddToNote) {
+(permissions, addToState) => {
+  if (!permissions) {
+    return addToState;
+  }
+
+  if (!permissions.update) {
     return addTo.POSTS;
   }
 
-  if (!canAddToPosts) {
+  if (!permissions.createPost) {
     return addTo.NOTE;
   }
 

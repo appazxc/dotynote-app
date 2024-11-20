@@ -1,8 +1,7 @@
 import { Box, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import React from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
-import { BsFillPinAngleFill } from 'react-icons/bs';
+import { BsArrowLeft, BsFillPinAngleFill } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
@@ -12,8 +11,6 @@ import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { RwMode, rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
-import { selectCanAddToNote } from 'shared/selectors/user/selectCanAddToNote';
-import { selectCanAddToPosts } from 'shared/selectors/user/selectCanAddToPosts';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -31,17 +28,15 @@ type Props = {
 }
 
 export const NoteSidebar = React.memo((props: Props) => {
-  const { note: { id: noteId, settings: noteSettings }, rwMode, showRwMode, showSearch } = props;
+  const { note: { id: noteId, settings: noteSettings, permissions }, rwMode, showRwMode, showSearch } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
   const navigate = useNavigate();
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const canAddToNote = useAppSelector(state => selectCanAddToNote(state, { noteId }));
-  const canAddToPosts = useAppSelector(state => selectCanAddToPosts(state, { noteId }));
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
-  const showAddTo = canAddToNote || canAddToPosts;
+  const showAddTo = permissions.update || permissions.createPost;
   const isNoteContentVisible = !noteSettings?.hide;
 
   React.useEffect(() => {
@@ -70,8 +65,8 @@ export const NoteSidebar = React.memo((props: Props) => {
           <SidebarPlusMenu
             key={noteId}
             noteId={noteId}
-            canAddToNote={canAddToNote}
-            canAddToPosts={canAddToPosts}
+            canAddToNote={permissions.update}
+            canAddToPosts={permissions.createPost}
           />
         ),
       }] : [],
@@ -118,8 +113,6 @@ export const NoteSidebar = React.memo((props: Props) => {
     noteId,
     showAddTo,
     showSearch,
-    canAddToNote,
-    canAddToPosts,
     history,
     dispatch,
     isAdvancedEditActive,

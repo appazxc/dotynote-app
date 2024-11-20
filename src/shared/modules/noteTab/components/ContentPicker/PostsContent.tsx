@@ -1,11 +1,11 @@
 import React from 'react';
-
 import { SlNotebook } from 'react-icons/sl';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { modalIds } from 'shared/constants/modalIds';
 import { EntryMediaCards } from 'shared/modules/entry/EntryMediaCards';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
@@ -16,7 +16,7 @@ type Props = {
 
 const ICON_SIZE = 24;
 
-export const EntryPostsMedia = React.memo((props: Props) => {
+export const PostsContent = React.memo((props: Props) => {
   const { note, onFinish } = props;
   const dispatch = useAppDispatch();
 
@@ -43,7 +43,7 @@ export const EntryPostsMedia = React.memo((props: Props) => {
     ];
 
     return (
-      <EntryMediaCards items={items} />
+      <ContentPickerCards items={items} />
     );
   }, [dispatch, withPostsSettingsCreate]);
 

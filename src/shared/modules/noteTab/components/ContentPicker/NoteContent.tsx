@@ -1,18 +1,15 @@
 import React from 'react';
-
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
-import { EntryMediaCards } from 'shared/modules/entry/EntryMediaCards';
-
-type Props = {};
+import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 
 const ICON_SIZE = 24;
 
-export const EntryNoteMedia = React.memo((props: Props) => {
+export const NoteContent = React.memo(() => {
   const items = React.useMemo(() => {
     return [
       {
@@ -66,6 +63,6 @@ export const EntryNoteMedia = React.memo((props: Props) => {
   }, []);
 
   return (
-    <EntryMediaCards items={items} />
+    <ContentPickerCards items={items} />
   );
 });

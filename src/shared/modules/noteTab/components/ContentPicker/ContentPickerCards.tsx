@@ -5,7 +5,7 @@ type Props = {
   items: any[],
 };
 
-export const EntryMediaCards = React.memo(({ items }: Props) => {
+export const ContentPickerCards = React.memo(({ items }: Props) => {
   return (
     <Box minH="180px">
       <SimpleGrid gap={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">

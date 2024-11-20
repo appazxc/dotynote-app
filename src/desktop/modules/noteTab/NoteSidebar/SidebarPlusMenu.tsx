@@ -9,8 +9,7 @@ import { BsPlus } from 'react-icons/bs';
 import { queryClient } from 'shared/api/queryClient';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
-import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
-import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
+import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { noteSelector } from 'shared/selectors/entities';
@@ -75,13 +74,10 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
             flexDirection="column"
             py="3"
           >
-            <EntryMediaSelect
+            <ContentPicker
               noteId={noteId}
               canAddToNote={canAddToNote}
               canAddToPosts={canAddToPosts}
-            />
-            <EntryMediaContent
-              noteId={noteId}
               onFinish={onClose}
             />
           </PopoverBody>
