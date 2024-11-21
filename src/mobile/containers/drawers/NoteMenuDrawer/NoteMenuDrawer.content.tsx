@@ -1,9 +1,8 @@
 import { Portal } from '@chakra-ui/react';
 
-import { DrawerBackdrop, DrawerBody, DrawerContent, DrawerHeader, DrawerRoot } from 'shared/components/ui/drawer';
+import { DrawerBackdrop, DrawerBody, DrawerContent, DrawerRoot } from 'shared/components/ui/drawer';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
-import { EntryMediaContent } from 'shared/modules/entry/EntryMediaContent';
-import { EntryMediaSelect } from 'shared/modules/entry/EntryMediaSelect';
+import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { OpenChangeDetails } from 'shared/types/drawer';
@@ -40,22 +39,16 @@ const NoteMenuDrawer = (props: Props) => {
       <Portal>
         <DrawerBackdrop />
         <DrawerContent roundedTop="md">
-          <DrawerHeader>
-            <EntryMediaSelect
+          <DrawerBody>
+            <ContentPicker
               noteId={noteId}
               canAddToNote={note.permissions.update}
-              canAddToPosts={note.permissions.createPost}
-            />
-          </DrawerHeader>
-          <DrawerBody>
-            <EntryMediaContent
-              noteId={noteId}
+              canAddToPosts={note.permissions.createPost} 
               onFinish={handleClose}
             />
           </DrawerBody>
         </DrawerContent>
       </Portal>
-
     </DrawerRoot>
   );
 };

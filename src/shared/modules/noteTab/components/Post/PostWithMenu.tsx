@@ -1,10 +1,11 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { api } from 'shared/api';
+import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
 import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
 import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
@@ -16,12 +17,13 @@ import { MenuSubProps } from 'shared/components/Menu/MenuSub';
 import { Switch } from 'shared/components/ui/switch';
 import { toaster } from 'shared/components/ui/toaster';
 import { modalIds } from 'shared/constants/modalIds';
+import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { CreatePostDotModal } from 'shared/containers/modals/CreatePostDotModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
-import { showModal } from 'shared/modules/modal/modalSlice';
+import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { selectUser } from 'shared/selectors/auth/selectUser';
-import { userSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -29,7 +31,6 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 type Props = {
   children: React.ReactNode,
   post: PostEntity,
-  deleteNoteExtraId: string,
   internalLevel: number,
 };
 
@@ -37,7 +38,7 @@ type Menu = { key: string, hasDivider?: boolean, menu?: Menu[] } & (MenuItemProp
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
-export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId, children }: Props) => {
+export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props) => {
   const dispatch = useAppDispatch();
   const { id: postId, note: { id: noteId } } = post;
   const navigate = useBrowserNavigate();
@@ -46,6 +47,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
   const user = useAppSelector(selectUser);
   const isHubNote = user?.settings?.hubId === post.parent.id;
 
+  const { mutate: deleteNote } = useDeleteNotes(post.note.id);
   const { mutate: remove } = useRemovePosts(postId);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
@@ -70,7 +72,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
       });
     },
   });
-
+  
   const isInternalCreated = !!post.internal;
 
   const handleCreateOrDeleteInternal = React.useCallback(() => {
@@ -90,6 +92,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
     const showInternal = !isInternal && post.permissions.updateInternal && post.parent.postsSettings?.internal;
     const showRemove = post.permissions.remove && !isHubNote;
     const showDelete = post.permissions.delete;
+    const showDot = post.permissions.upsertDot;
 
     return [
       {
@@ -114,6 +117,13 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
             queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(post.parent.id) });
           },
         }),
+      }] : [],
+      ...showDot ? [{
+        key: 'Add dot',
+        label: 'Add dot',
+        onClick: () => {
+          dispatch(showModal({ id: modalIds.createPostDot, extraId: postId }));
+        },
       }] : [],
       ...showUnpin ? [{
         key: 'Unpin',
@@ -204,13 +214,12 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
       ...showDelete ? [{
         key: 'Delete',
         label: 'Delete',
-        onClick: () => dispatch(showModal({ id: modalIds.confirm, extraId: deleteNoteExtraId })),
+        onClick: () => dispatch(showModal({ id: modalIds.confirm, extraId: post.id })),
         hasDivider: !showRemove,
       }] : [],
     ] as Menu[];
   }, [
     post,
-    deleteNoteExtraId,
     dispatch,
     isCreatingInternal,
     isDeletingInternal,
@@ -241,7 +250,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
   }, []);
 
   return (
-    <Box>
+    <>
       <Menu isContextMenu>
         <MenuTrigger>
           {children}
@@ -250,6 +259,20 @@ export const PostWithMenu = React.memo(({ post, internalLevel, deleteNoteExtraId
           {menuItems.map(renderMenuItem)}
         </MenuList>
       </Menu>
-    </Box>
+      <ConfirmModal
+        title="This action can't be undone"
+        description="Delete selected note?"
+        confirmText="Delete"
+        extraId={post.id}
+        onConfirm={() => {
+          dispatch(hideModal());
+          deleteNote();
+        }}
+      />
+      <CreatePostDotModal 
+        postId={post.id}
+        extraId={post.id}
+      />
+    </>
   );
 });

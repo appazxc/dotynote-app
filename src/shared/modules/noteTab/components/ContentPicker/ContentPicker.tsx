@@ -1,4 +1,4 @@
-import { Box, Tabs } from '@chakra-ui/react';
+import { Tabs } from '@chakra-ui/react';
 import React from 'react';
 
 import { NoteContent } from 'shared/modules/noteTab/components/ContentPicker/NoteContent';
@@ -36,7 +36,11 @@ export const ContentPicker = React.memo(({ noteId, onFinish, canAddToNote, canAd
         {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Posts</Tabs.Trigger>}
       </Tabs.List>
 
-      {canAddToNote && <Tabs.Content value={addTo.NOTE}><NoteContent /></Tabs.Content>}
+      {canAddToNote && (
+        <Tabs.Content value={addTo.NOTE}>
+          <NoteContent onFinish={onFinish} />
+        </Tabs.Content>
+      )}
       {canAddToPosts && (
         <Tabs.Content value={addTo.POSTS}>
           <PostsContent

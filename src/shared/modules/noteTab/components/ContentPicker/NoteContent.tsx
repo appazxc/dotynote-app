@@ -5,62 +5,78 @@ import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
+import { modalIds } from 'shared/constants/modalIds';
+import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
+import { useAppDispatch } from 'shared/store/hooks';
 
+type Props = {
+  onFinish?: () => void,
+}
 const ICON_SIZE = 24;
 
-export const NoteContent = React.memo(() => {
+export const NoteContent = React.memo(({ onFinish }: Props) => {
+  const dispatch = useAppDispatch();
+  
   const items = React.useMemo(() => {
     return [
       {
         icon: <IoImageOutline size={ICON_SIZE} />,
+        title: 'Dot',
+        onClick: () => {
+          onFinish?.();
+          dispatch(showModal({ id: modalIds.createNoteDot }));
+        },
+      },
+      {
+        icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <GoFile size={ICON_SIZE} />,
         title: 'File',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <PiFeather size={ICON_SIZE} />,
         title: 'Excalidraw',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <HiOutlineVideoCamera size={ICON_SIZE} />,
         title: 'Video',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <PiVideo size={ICON_SIZE} />,
         title: 'Stream',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <PiMusicNotes size={ICON_SIZE} />,
         title: 'Music',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <PiFileAudioFill size={ICON_SIZE} />,
         title: 'Audio',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
       {
         icon: <VscRecord size={ICON_SIZE} />,
         title: 'Record',
         to: '/',
-        isDisabled: true,
+        disabled: true,
       },
     ];
-  }, []);
+  }, [dispatch, onFinish]);
 
   return (
     <ContentPickerCards items={items} />

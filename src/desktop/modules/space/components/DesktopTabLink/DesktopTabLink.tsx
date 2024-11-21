@@ -7,7 +7,8 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { Router as RouterType } from 'desktop/modules/space/tabRoutes/router';
 
-type Props = LinkProps<Router<RouterType['routeTree'], 'never'>> & Omit<React.AnchorHTMLAttributes<'a'>, 'children'>;
+type Props = LinkProps<Router<RouterType['routeTree'], 'never', boolean>> 
+  & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>;
 
 const DesktopTabLinkComponent = (props: Props, ref) => {
   const dispatch = useAppDispatch();

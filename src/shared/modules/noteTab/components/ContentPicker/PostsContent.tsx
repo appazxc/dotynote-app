@@ -3,7 +3,6 @@ import { SlNotebook } from 'react-icons/sl';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { modalIds } from 'shared/constants/modalIds';
-import { EntryMediaCards } from 'shared/modules/entry/EntryMediaCards';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';

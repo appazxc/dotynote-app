@@ -1,5 +1,6 @@
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 import { PostInternalEntity } from 'shared/types/entities/PostInternalEntity';
 import { UserEntity } from 'shared/types/entities/UserEntity';
 
@@ -20,7 +21,9 @@ export type ApiPostEntity = BaseEntity<{
     pin: boolean,
     unpin: boolean,
     updateInternal: boolean,
-  }
+    upsertDot: boolean,
+  },
+  dots: string[],
 }, number>
 
 export type PostEntity = MergeEntity<ApiPostEntity, {
@@ -28,4 +31,5 @@ export type PostEntity = MergeEntity<ApiPostEntity, {
   parent: NoteEntity,
   author: UserEntity,
   internal: PostInternalEntity,
+  dots: PostDotEntity[],
 }>;

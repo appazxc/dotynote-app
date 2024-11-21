@@ -1,10 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { Post as PostComponent } from 'shared/components/Post';
-import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { hideModal } from 'shared/modules/modal/modalSlice';
 import { InternalPosts } from 'shared/modules/noteTab/components/Post/InternalPosts';
 import { PostWithMenu } from 'shared/modules/noteTab/components/Post/PostWithMenu';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
@@ -32,9 +29,6 @@ export const Post = React.memo((props: Props) => {
   invariant(post, 'Missing post', { id: postId });
   invariant(note, 'Missing note');
 
-  const { mutate: deleteNote } = useDeleteNotes(note.id);
-
-  const deleteNoteExtraId = `deleteNote${note.id}`;
   const allowInternal = internalLevel === 0;
   const showInternal = allowInternal && post.parent.postsSettings?.internal && !!post.internal?.max;
 
@@ -50,30 +44,18 @@ export const Post = React.memo((props: Props) => {
     }
 
     return (
-      <>
-        <PostComponent
-          isSelecting={isSelecting}
-          isSelected={isSelected}
-          isPinned={!!post.pinnedAt}
-          noteId={note.id}
-          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-            onClick?.(event)(post);
-          }}
-        />
-        <ConfirmModal
-          title="This action can't be undone"
-          description="Delete selected note?"
-          confirmText="Delete"
-          extraId={deleteNoteExtraId}
-          onConfirm={() => {
-            dispatch(hideModal());
-            deleteNote();
-          }}
-        />
-      </>
+      <PostComponent
+        isSelecting={isSelecting}
+        isSelected={isSelected}
+        isPinned={!!post.pinnedAt}
+        noteId={note.id}
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+          onClick?.(event)(post);
+        }}
+      />
       
     );
-  }, [dispatch, isSelecting, isSelected, deleteNoteExtraId, deleteNote, note.id, onClick, post]);
+  }, [isSelecting, isSelected, note.id, onClick, post]);
 
   if (post._isDeleted) {
     return null;
@@ -85,7 +67,6 @@ export const Post = React.memo((props: Props) => {
         <PostWithMenu
           internalLevel={internalLevel}
           post={post}
-          deleteNoteExtraId={deleteNoteExtraId}
         >
           {renderedPost}
         </PostWithMenu>

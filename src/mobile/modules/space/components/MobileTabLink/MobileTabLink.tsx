@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Link, LinkProps, Router } from '@tanstack/react-router';
+import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -8,7 +7,8 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { Router as RouterType } from 'mobile/modules/space/tabRoutes/router';
 
-type Props = LinkProps<Router<RouterType['routeTree'], 'never'>> & Omit<React.AnchorHTMLAttributes<'a'>, 'children'>;
+type Props = LinkProps<Router<RouterType['routeTree'], 'never', boolean>> 
+  & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>;
 
 const MobileTabLinkComponent = (props: Props, ref) => {
   const dispatch = useAppDispatch();

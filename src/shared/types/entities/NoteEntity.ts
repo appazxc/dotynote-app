@@ -2,6 +2,7 @@ import { JSONContent } from '@tiptap/core';
 
 import { BaseEntity } from 'shared/types/entities/BaseEntity';
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
+import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
@@ -22,10 +23,13 @@ export type ApiNoteEntity = BaseEntity<{
     moveHere: boolean,
     moveConcreteHere: boolean,
     createPost: boolean,
-  }
+    upsertDot: boolean,
+  },
+  dots: string[],
 }, number>
 
 export type NoteEntity = MergeEntity<ApiNoteEntity, { 
   settings?: NoteSettingsEntity,
   postsSettings?: PostsSettingsEntity,
+  dots: NoteDotEntity[]
 }>

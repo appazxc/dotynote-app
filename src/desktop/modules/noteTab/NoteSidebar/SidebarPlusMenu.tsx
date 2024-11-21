@@ -8,6 +8,7 @@ import { BsPlus } from 'react-icons/bs';
 
 import { queryClient } from 'shared/api/queryClient';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
+import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
@@ -87,6 +88,9 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
       <CreatePostModal
         noteId={noteId}
         onCreate={handlePostCreate}
+      />
+      <CreateNoteDotModal
+        noteId={noteId}
       />
     </>
   );
