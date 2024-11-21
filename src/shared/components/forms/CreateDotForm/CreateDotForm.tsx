@@ -21,8 +21,8 @@ type Props = {
 const schema = z.object({
   dot: z
     .string()
-    .max(15, {
-      message: 'Title must not be longer than 15 characters.',
+    .max(33, {
+      message: 'Title must not be longer than 33 characters.',
     })
     .min(2, {
       message: 'Dot must not be shorter than 2 characters.',
@@ -30,6 +30,8 @@ const schema = z.object({
 });
 
 type FormValues = z.infer<typeof schema>
+
+export type CreateDotFormValues = FormValues;
 
 const CreateDotFormComponent = ({ onSubmit, ...restProps }: Props, ref) => {
   const {

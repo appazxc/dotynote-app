@@ -2,25 +2,26 @@ import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
+import { Dots } from 'shared/components/Dots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
-import { noteSelector } from 'shared/selectors/entities';
-import { useAppSelector } from 'shared/store/hooks';
-import { invariant } from 'shared/util/invariant';
+import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
   noteId: number,
   isSelecting?: boolean,
   isSelected?: boolean,
   isPinned?: boolean,
+  dots?: PostDotEntity[] | NoteDotEntity[],
+  showDotsAmount?: boolean,
+  note: NoteEntity,
 } & BoxProps;
 
 export const Post = (props: Props) => {
-  const { noteId, isSelecting, isSelected, isPinned, ...boxProps } = props;
-  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const { noteId, note, isSelecting, isSelected, isPinned, dots, showDotsAmount, ...boxProps } = props;
   
-  invariant(note, 'Missing note');
-
   const renderedSelectingContent = React.useMemo(() => {
     if (!isSelecting) {
       return null;
@@ -50,7 +51,10 @@ export const Post = (props: Props) => {
       {...boxProps}
     >
       {renderedSelectingContent}
-      <Box key="text" flexGrow="1">
+      <Box
+        key="text"
+        flexGrow="1"
+      >
         {isPinned && (
           <Box
             p="2"
@@ -72,6 +76,7 @@ export const Post = (props: Props) => {
           cursor="pointer"
           userSelect="none"
           gap="2"
+          // overflow="hidden"
         >
           {note.title && <Text fontWeight="500">{note.title}</Text>}
           <EditorView
@@ -80,6 +85,13 @@ export const Post = (props: Props) => {
             content={note.content}
           />
         </Stack>
+        {dots && (
+          <Dots
+            dots={dots}
+            showAmount={showDotsAmount}
+            mt="1"
+          />
+        )}
       </Box>
     </Box>
   );

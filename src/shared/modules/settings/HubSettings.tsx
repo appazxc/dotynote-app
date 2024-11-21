@@ -72,7 +72,11 @@ export const HubSettings = React.memo(({ hub }: Props) => {
                   Remove
                 </Link>
               </Box>
-              <Post noteId={hub?.id} onClick={handleNoteClick} />
+              <Post
+                noteId={hub?.id}
+                note={hub}
+                onClick={handleNoteClick}
+              />
             </Box>
           ) : (
             <Button

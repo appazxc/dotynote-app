@@ -1,6 +1,5 @@
 import { Container, Stack } from '@chakra-ui/react';
 
-import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 

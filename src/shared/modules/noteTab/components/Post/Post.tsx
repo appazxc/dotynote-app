@@ -4,8 +4,8 @@ import React from 'react';
 import { Post as PostComponent } from 'shared/components/Post';
 import { InternalPosts } from 'shared/modules/noteTab/components/Post/InternalPosts';
 import { PostWithMenu } from 'shared/modules/noteTab/components/Post/PostWithMenu';
-import { noteSelector, postSelector } from 'shared/selectors/entities';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { postSelector } from 'shared/selectors/entities';
+import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
@@ -21,22 +21,18 @@ type Props = {
 export const Post = React.memo((props: Props) => {
   const { postId, onClick, onDelete, isSelecting, isSelected, internalLevel } = props;
   const getByIdPost = React.useMemo(() => postSelector.makeGetEntityById(), []);
-  const getByIdNote = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getByIdPost(state, postId));
-  const note = useAppSelector(state => getByIdNote(state, post?.note.id));
-  const dispatch = useAppDispatch();
 
   invariant(post, 'Missing post', { id: postId });
-  invariant(note, 'Missing note');
 
   const allowInternal = internalLevel === 0;
   const showInternal = allowInternal && post.parent.postsSettings?.internal && !!post.internal?.max;
 
   React.useEffect(() => {
-    if ((post._isDeleted || note._isDeleted) && onDelete) {
+    if ((post._isDeleted || post.note._isDeleted) && onDelete) {
       onDelete();
     }
-  }, [post._isDeleted, note._isDeleted, onDelete]);
+  }, [post._isDeleted, post.note._isDeleted, onDelete]);
 
   const renderedPost = React.useMemo(() => {
     if (post._isDeleted) {
@@ -48,14 +44,17 @@ export const Post = React.memo((props: Props) => {
         isSelecting={isSelecting}
         isSelected={isSelected}
         isPinned={!!post.pinnedAt}
-        noteId={note.id}
+        noteId={post.note.id}
+        dots={post.dots}
+        note={post.note}
+        showDotsAmount={post.parent.access === 'public'}
         onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           onClick?.(event)(post);
         }}
       />
       
     );
-  }, [isSelecting, isSelected, note.id, onClick, post]);
+  }, [isSelecting, isSelected, onClick, post]);
 
   if (post._isDeleted) {
     return null;

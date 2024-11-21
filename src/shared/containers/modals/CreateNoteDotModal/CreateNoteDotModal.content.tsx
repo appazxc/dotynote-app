@@ -1,8 +1,7 @@
 import React from 'react';
-import * as z from 'zod';
 
 import { useCreateNoteDot } from 'shared/api/hooks/useCreateNoteDot';
-import { CreateDotForm } from 'shared/components/forms/CreateDotForm';
+import { CreateDotForm, CreateDotFormValues } from 'shared/components/forms/CreateDotForm';
 import {
   DialogBackdrop,
   DialogContent,
@@ -15,24 +14,11 @@ export type Props = {
   noteId: number,
 }
 
-const schema = z.object({
-  dot: z
-    .string()
-    .max(15, {
-      message: 'Title must not be longer than 15 characters.',
-    })
-    .min(2, {
-      message: 'Dot must not be shorter than 2 characters.',
-    }),
-});
-
-type FormValues = z.infer<typeof schema>
-
 const CreateNoteDotModal = ({ noteId }: Props) => {
   const dispatch = useAppDispatch();
   const { mutateAsync } = useCreateNoteDot(noteId);
 
-  const onSubmit = React.useCallback(async (values: FormValues) => {
+  const onSubmit = React.useCallback(async (values: CreateDotFormValues) => {
     try {
       await mutateAsync({ text: values.dot });
     } finally {

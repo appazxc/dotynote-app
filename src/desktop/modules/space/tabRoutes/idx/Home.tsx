@@ -16,6 +16,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
+import { HomeNote } from 'desktop/modules/space/tabRoutes/idx/HomeNote';
 
 import { NoteCreate } from './NoteCreate';
 
@@ -37,13 +38,7 @@ const Home = React.memo(() => {
 
   const renderNote = (id: number) => {
     return (
-      <DesktopTabLink
-        key={id}
-        to="/n/$noteId"
-        params={{ noteId: String(id) }}
-      >
-        <Post noteId={id} />
-      </DesktopTabLink>
+      <HomeNote key={id} noteId={id} />
     );
   };
 

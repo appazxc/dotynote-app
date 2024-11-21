@@ -1,9 +1,9 @@
-import React from 'react';
-
 import { Box } from '@chakra-ui/react';
 import debounce from 'lodash/debounce';
+import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
+import { Dots } from 'shared/components/Dots';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
@@ -54,6 +54,7 @@ export const NoteBase = (props: Props) => {
         isWriteMode={isWriteMode}
         content={content}
       />
+      <Dots dots={note.dots} showAmount={note.access === 'public'} />
     </Box>
   );
 };
