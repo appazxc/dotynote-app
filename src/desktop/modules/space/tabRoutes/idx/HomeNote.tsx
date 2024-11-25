@@ -25,7 +25,6 @@ export const HomeNote = React.memo(({ noteId }: Props) => {
       <Post
         noteId={noteId}
         note={note}
-        dots={note.dots}
       />
     </DesktopTabLink>
   );

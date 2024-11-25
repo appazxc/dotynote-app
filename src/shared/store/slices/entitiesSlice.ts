@@ -10,11 +10,14 @@ export type Entities = {
   }
 }
 
-type UpdateEntityPayload<T extends EntityName> = { 
+type UpdateEntityPayloadGeneric<T extends EntityName> = { 
   type: T, 
   id: string | number, 
   data: Partial<ApiEntityTypes[T]>
 }
+
+type UpdateEntityPayload<T extends EntityName> = T extends EntityName 
+  ? UpdateEntityPayloadGeneric<T> : UpdateEntityPayloadGeneric<T>
 
 const initialState = Object.keys(entityTypes).reduce((acc, name) => {
   acc[name] = {};

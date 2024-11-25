@@ -25,7 +25,6 @@ export const SearchNote = React.memo(({ noteId }: Props) => {
     <Post
       noteId={noteId}
       note={note}
-      dots={note.dots}
       onClick={() => {
         dispatch(openTab({ 
           route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),

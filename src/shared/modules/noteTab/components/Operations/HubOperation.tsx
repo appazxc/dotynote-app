@@ -21,6 +21,7 @@ export const HubOperation = React.memo((props: Props) => {
   const note = useTabNote();
   const user = useAppSelector(selectUser);
   const navigate = useBrowserNavigate();
+  
   invariant(user, 'Missing user');
 
   const { mutateAsync, isPending } = useUpdateUserSettings();
@@ -31,7 +32,8 @@ export const HubOperation = React.memo((props: Props) => {
     }).then(() => {
       navigate({ to: '/app/settings' });
       toaster.create({
-        description: 'Hub has been configured',
+        title: 'Hub has been configured',
+        type: 'info',
       });
       dispatch(stopOperation());
       queryClient.invalidateQueries(options.notes.load(Number(note.id)));

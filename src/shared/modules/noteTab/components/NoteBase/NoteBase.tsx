@@ -54,7 +54,11 @@ export const NoteBase = (props: Props) => {
         isWriteMode={isWriteMode}
         content={content}
       />
-      <Dots dots={note.dots} showAmount={note.access === 'public'} />
+      <Dots
+        placement="note"
+        dots={note.dots}
+        showAmount={note.access === 'public'}
+      />
     </Box>
   );
 };

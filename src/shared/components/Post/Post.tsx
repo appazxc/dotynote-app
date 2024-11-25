@@ -87,6 +87,7 @@ export const Post = (props: Props) => {
         </Stack>
         {dots && (
           <Dots
+            placement="post"
             dots={dots}
             showAmount={showDotsAmount}
             mt="1"

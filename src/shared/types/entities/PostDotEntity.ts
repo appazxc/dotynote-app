@@ -7,6 +7,7 @@ export type ApiPostDotEntity = BaseEntity<{
   author: string,
   total: number,
   my: number,
+  postId: number,
 }>
 
 export type PostDotEntity = MergeEntity<ApiPostDotEntity, {

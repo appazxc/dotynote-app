@@ -1,56 +1,59 @@
-import { Box, BoxProps, Stack, Text } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
+import { LayoutGroup } from 'framer-motion';
 import React from 'react';
 
-import { Tag } from 'shared/components/ui/tag';
+import { NoteDot } from 'shared/components/Dots/NoteDot';
+import { PostDot } from 'shared/components/Dots/PostDot';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
-type Props = {
+type Props = ({
+  placement: 'note',
+  dots: NoteDotEntity[]
+} | {
+  placement: 'post',
+  dots: PostDotEntity[]
+}) & {
   showAmount?: boolean,
-  dots: NoteDotEntity[] | PostDotEntity[]
 } & BoxProps;
 
-export const Dots = React.memo(({ dots, showAmount, ...boxProps }: Props) => {
+export const Dots = React.memo(({ dots, showAmount, placement, ...boxProps }: Props) => {
+  const items = React.useMemo(() => placement === 'note' // for type checking
+    ? dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotA.total - dotB.total) 
+    : dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotA.total - dotB.total), [placement, dots]);
+  
   if (!dots.length) {
     return null;
   }
   
   return (
-    <Box
-      flexDirection="row"
-      gap="2"
-      display="flex"
-      flexWrap="wrap"
-      onContextMenu={(e) => {
-        e.stopPropagation();
-      }}
-      {...boxProps}
-    >
-      {dots.map((dot) => {
-        const {
-          id,
-          text,
-          total,
-          my,
-        } = dot;
-
-        return (
-          <Tag
-            key={id}
-            size="lg"
-            colorPalette={my !== 0 ? 'blue' : 'gray'}
-            bg="colorPalette.50"
-            rounded="full"
-            variant="subtle"
-            title={text || ''}
-          >
-            <Box display="flex" gap="1">
-              {showAmount && <Text fontSize="xs" color="colorPalette.600">{total}</Text>}
-              <Text>{text}</Text>
-            </Box>
-          </Tag>
-        );
-      })}
-    </Box>
+    <LayoutGroup>
+      <Box
+        flexDirection="row"
+        gap="2"
+        display="flex"
+        flexWrap="wrap"
+        onContextMenu={(e) => {
+          e.stopPropagation();
+        }}
+        {...boxProps}
+      >
+        {items.map((dot) => {
+          return placement === 'note' ? (
+            <NoteDot
+              key={dot.id}
+              {...dot}
+              showAmount={showAmount}
+            />
+          ) : (
+            <PostDot
+              key={dot.id}
+              {...dot}
+              showAmount={showAmount}
+            />
+          );
+        })}
+      </Box>
+    </LayoutGroup>
   );
 });

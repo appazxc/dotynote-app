@@ -142,7 +142,7 @@ export const PostList = React.memo((props: Props) => {
         {...boxProps}
       >
         {isFetchingFirstTime && <PostsSkeleton />}
-        <Stack gap="2">
+        <Stack gap="4">
           {showNextPageObserver && <Box ref={nextRef} />}
           {isFetchingNextPage && <PostsSkeleton />}
           {
