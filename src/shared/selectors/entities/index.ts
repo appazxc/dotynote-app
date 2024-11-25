@@ -10,3 +10,4 @@ export const noteSettingsSelector = new Selector(entityTypes.noteSettings);
 export const postSelector = new Selector(entityTypes.post);
 export const orderBySelector = new Selector(entityTypes.orderBy);
 export const noteDotSelector = new Selector(entityTypes.noteDot);
+export const postDotSelector = new Selector(entityTypes.postDot);

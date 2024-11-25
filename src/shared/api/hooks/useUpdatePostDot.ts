@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { updateNoteDot, UpdateDotParams } from 'shared/actions/dot/updateNoteDot';
+import { UpdateDotParams, updatePostDot } from 'shared/actions/dot/updatePostDot';
 import { toaster } from 'shared/components/ui/toaster';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const useUpdateNoteDot = () => {
+export const useUpdatePostDot = () => {
   const dispatch = useAppDispatch();
   
   return useMutation({
     mutationFn: (data: UpdateDotParams) => {
-      return dispatch(updateNoteDot(data));
+      return dispatch(updatePostDot(data));
     },
     onError: () => {
       toaster.create({

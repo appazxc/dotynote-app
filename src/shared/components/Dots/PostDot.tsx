@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useUpdatePostDot } from 'shared/api/hooks/useUpdatePostDot';
 import { Dot } from 'shared/components/Dots/Dot';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
@@ -8,10 +9,18 @@ type Props = {
 } & PostDotEntity;
 
 export const PostDot = React.memo((props: Props) => {
-  const { text, total, my, showAmount } = props;
-
+  const { id, text, total, my, showAmount } = props;
+  const { mutate, isPending } = useUpdatePostDot();
+ 
   const handleOnClick = () => {
+    if (isPending) {
+      return;
+    }
     
+    mutate({
+      dotId: id,
+      action: 'click',
+    });
   };
 
   return (

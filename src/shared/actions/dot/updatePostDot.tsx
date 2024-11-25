@@ -1,4 +1,4 @@
-import { removeDot } from 'shared/actions/note/removeDot';
+import { removePostDot } from 'shared/actions/post/removePostDot';
 import { api } from 'shared/api';
 import { entityTypes } from 'shared/constants/entityTypes';
 import { noteDotSelector } from 'shared/selectors/entities';
@@ -23,7 +23,7 @@ export type UpdateDotParams = {
   dotId: string
 }
 
-export const updateNoteDot = ({ action, dotId }: UpdateDotParams): ThunkAction =>
+export const updatePostDot = ({ action, dotId }: UpdateDotParams): ThunkAction =>
   async (dispatch, getState) => {
     const dot = noteDotSelector.getById(getState(), dotId);
 
@@ -40,7 +40,7 @@ export const updateNoteDot = ({ action, dotId }: UpdateDotParams): ThunkAction =
       }
 
       dispatch(updateEntity({ 
-        type: entityTypes.noteDot, 
+        type: entityTypes.postDot, 
         id: dotId, 
         data: {
           my: amount,
@@ -49,16 +49,16 @@ export const updateNoteDot = ({ action, dotId }: UpdateDotParams): ThunkAction =
         },
       }));
         
-      const result = await api.patch<string>('/dots/note', { dotId, amount });
+      const result = await api.patch<string>('/dots/post', { dotId, amount });
 
       if (isDeleted) {
-        dispatch(removeDot(dotId));
+        dispatch(removePostDot(dotId));
       }
 
       return result;
     } catch(error) {
       dispatch(updateEntity({ 
-        type: entityTypes.noteDot, 
+        type: entityTypes.postDot, 
         id: dotId, 
         data: {
           my,

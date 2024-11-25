@@ -1,5 +1,5 @@
 import { entityTypes } from 'shared/constants/entityTypes';
-import { noteDotSelector, noteSelector } from 'shared/selectors/entities';
+import { postDotSelector, postSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
@@ -8,25 +8,25 @@ export type UpdateDotParams = {
   dotId: string
 }
 
-export const removeDot = (dotId): ThunkAction => 
+export const removePostDot = (dotId): ThunkAction => 
   async (dispatch, getState) => {
-    const dot = noteDotSelector.getById(getState(), dotId);
-    const note = noteSelector.getById(getState(), dot?.noteId);
+    const dot = postDotSelector.getById(getState(), dotId);
+    const post = postSelector.getById(getState(), dot?.postId);
 
-    if (!note) {
+    if (!post) {
       return;
     }
     
     dispatch(updateEntity({ 
-      type: entityTypes.note, 
+      type: entityTypes.post, 
       id: dotId, 
       data: {
-        dots: note.dots.filter((id) => id !== dotId),
+        dots: post.dots.filter((id) => id !== dotId),
       },
     }));
 
     dispatch(deleteEntity({
-      type: entityTypes.noteDot,
+      type: entityTypes.postDot,
       id: dotId,
     }));
   };
