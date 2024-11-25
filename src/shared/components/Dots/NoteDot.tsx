@@ -27,7 +27,7 @@ export const NoteDot = React.memo((props: Props) => {
     if (isPending) {
       return;
     }
-    console.log('longpress' );
+
     mutate({
       dotId: id,
       action: 'longPress',

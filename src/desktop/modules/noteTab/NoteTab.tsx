@@ -42,11 +42,13 @@ export const NoteTab = React.memo(() => {
 
   if (note._isDeleted) {
     return (
-      <Center h="full">
-        <Text color="gray.500">
-          Note is deleted.
-        </Text>
-      </Center>
+      <TabLayout defaultSidebar>
+        <Center h="full">
+          <Text color="gray.500">
+            Note is deleted.
+          </Text>
+        </Center>
+      </TabLayout>
     );
   }
 
