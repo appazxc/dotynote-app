@@ -19,8 +19,8 @@ type Props = ({
 
 export const Dots = React.memo(({ dots, showAmount, placement, ...boxProps }: Props) => {
   const items = React.useMemo(() => placement === 'note' // for type checking
-    ? dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotA.total - dotB.total) 
-    : dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotA.total - dotB.total), [placement, dots]);
+    ? dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotB.total - dotA.total) 
+    : dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotB.total - dotA.total), [placement, dots]);
   
   if (!dots.length) {
     return null;

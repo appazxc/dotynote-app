@@ -3,12 +3,7 @@ import { noteDotSelector, noteSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
-export type UpdateDotParams = {
-  action: 'click' | 'longPress',
-  dotId: string
-}
-
-export const removeNoteDot = (dotId): ThunkAction => 
+export const removeNoteDot = (dotId: string): ThunkAction => 
   async (dispatch, getState) => {
     const dot = noteDotSelector.getById(getState(), dotId);
     const note = noteSelector.getById(getState(), dot?.noteId);
@@ -19,7 +14,7 @@ export const removeNoteDot = (dotId): ThunkAction =>
     
     dispatch(updateEntity({ 
       type: entityTypes.note, 
-      id: dotId, 
+      id: note.id, 
       data: {
         dots: note.dots.filter((id) => id !== dotId),
       },

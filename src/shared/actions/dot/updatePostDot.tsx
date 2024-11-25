@@ -1,7 +1,7 @@
 import { removePostDot } from 'shared/actions/post/removePostDot';
 import { api } from 'shared/api';
 import { entityTypes } from 'shared/constants/entityTypes';
-import { noteDotSelector } from 'shared/selectors/entities';
+import { postDotSelector } from 'shared/selectors/entities';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
@@ -20,25 +20,26 @@ const getNewTotal = (total, my, amount) => {
 
 export type UpdateDotParams = {
   action: 'click' | 'longPress',
-  dotId: string
+  dotId: string,
 }
 
 export const updatePostDot = ({ action, dotId }: UpdateDotParams): ThunkAction =>
   async (dispatch, getState) => {
-    const dot = noteDotSelector.getById(getState(), dotId);
+    const dot = postDotSelector.getById(getState(), dotId);
 
     invariant(dot, 'Missing dot');
 
-    let amount = 0;
     const { my, total } = dot;
+    let amount = 0;
+
+    if (my === 0) {
+      amount = action === 'click' ? 1 : -1;
+    }
+  
     const newTotal = getNewTotal(total, my, amount);
     const isDeleted = newTotal === 0;
 
     try {
-      if (my === 0) {
-        amount = action === 'click' ? 1 : -1;
-      }
-
       dispatch(updateEntity({ 
         type: entityTypes.postDot, 
         id: dotId, 
@@ -49,7 +50,7 @@ export const updatePostDot = ({ action, dotId }: UpdateDotParams): ThunkAction =
         },
       }));
         
-      const result = await api.patch<string>('/dots/post', { dotId, amount });
+      const result = await api.patch<string>('/dots/post', { dotId, amount, postId: dot.postId });
 
       if (isDeleted) {
         dispatch(removePostDot(dotId));

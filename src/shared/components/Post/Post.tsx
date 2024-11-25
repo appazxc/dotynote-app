@@ -5,7 +5,6 @@ import { BsFillPinAngleFill } from 'react-icons/bs';
 import { Dots } from 'shared/components/Dots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
-import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
@@ -14,7 +13,7 @@ type Props = {
   isSelecting?: boolean,
   isSelected?: boolean,
   isPinned?: boolean,
-  dots?: PostDotEntity[] | NoteDotEntity[],
+  dots?: PostDotEntity[],
   showDotsAmount?: boolean,
   note: NoteEntity,
 } & BoxProps;

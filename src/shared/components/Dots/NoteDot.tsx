@@ -16,10 +16,21 @@ export const NoteDot = React.memo((props: Props) => {
     if (isPending) {
       return;
     }
-    
+
     mutate({
       dotId: id,
       action: 'click',
+    });
+  };
+
+  const handleLongPress = () => {
+    if (isPending) {
+      return;
+    }
+    console.log('longpress' );
+    mutate({
+      dotId: id,
+      action: 'longPress',
     });
   };
   
@@ -30,6 +41,7 @@ export const NoteDot = React.memo((props: Props) => {
       my={my}
       showAmount={showAmount}
       onClick={handleOnClick}
+      onLongPress={handleLongPress}
     />
   );
 });

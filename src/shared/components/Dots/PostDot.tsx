@@ -23,6 +23,17 @@ export const PostDot = React.memo((props: Props) => {
     });
   };
 
+  const handleLongPress = () => {
+    if (isPending) {
+      return;
+    }
+
+    mutate({
+      dotId: id,
+      action: 'longPress',
+    });
+  };
+
   return (
     <Dot
       text={text}
@@ -30,6 +41,7 @@ export const PostDot = React.memo((props: Props) => {
       my={my}
       showAmount={showAmount}
       onClick={handleOnClick}
+      onLongPress={handleLongPress}
     />
   );
 });

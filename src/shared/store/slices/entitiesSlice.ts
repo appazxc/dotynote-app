@@ -12,7 +12,7 @@ export type Entities = {
 
 type UpdateEntityPayloadGeneric<T extends EntityName> = { 
   type: T, 
-  id: string | number, 
+  id: ApiEntityTypes[T]['id'], 
   data: Partial<ApiEntityTypes[T]>
 }
 
@@ -67,7 +67,7 @@ export const entitiesSlice = createSlice({
 
           updateEntityLogic(state, {
             type: 'entities/updateEntity',
-            payload: { id: entityId, type: entityName as EntityName, data: newEntity },
+            payload: { id: entityId as any, type: entityName as EntityName, data: newEntity },
           });
         });
       });

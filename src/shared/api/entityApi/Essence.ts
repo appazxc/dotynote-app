@@ -11,7 +11,7 @@ import { Api } from '../apiFactory';
 type DeleteOptions = {
   deleteFlag?: boolean,
 }
-export default class Essense<T extends { id?: string | number }> {
+export default class Essense<T extends { id: string | number }> {
   api: Api;
   path: string;
   entityName: EntityName;
@@ -96,7 +96,7 @@ export default class Essense<T extends { id?: string | number }> {
     return this.api.post<D>(`${this.path}/${action}`, data);
   }
 
-  async delete(id: string | number, { deleteFlag }: DeleteOptions = {}) {
+  async delete(id: any, { deleteFlag }: DeleteOptions = {}) {
     const entity = this.selector.getById(this.store.getState(), id);
 
     if (!entity._isFake) {
@@ -110,7 +110,7 @@ export default class Essense<T extends { id?: string | number }> {
     }
   }
 
-  async deleteMany(ids: (string | number)[], { deleteFlag }: DeleteOptions = {}) {
+  async deleteMany(ids: (any)[], { deleteFlag }: DeleteOptions = {}) {
     await this.api.delete<void>(`${this.path}`, { ids: ids.join(',') });
 
     ids.forEach((id) => {
@@ -122,7 +122,7 @@ export default class Essense<T extends { id?: string | number }> {
     });
   }
 
-  updateEntity(id: string | number, data: any) {
+  updateEntity(id: any, data: any) {
     this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 
