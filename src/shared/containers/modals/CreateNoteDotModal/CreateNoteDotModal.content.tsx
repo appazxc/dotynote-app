@@ -19,11 +19,8 @@ const CreateNoteDotModal = ({ noteId }: Props) => {
   const { mutateAsync } = useCreateNoteDot(noteId);
 
   const onSubmit = React.useCallback(async (values: CreateDotFormValues) => {
-    try {
-      await mutateAsync({ text: values.dot });
-    } finally {
-      dispatch(hideModal());
-    }
+    dispatch(hideModal());
+    await mutateAsync({ text: values.dot });
   }, [dispatch, mutateAsync]);
 
   return (

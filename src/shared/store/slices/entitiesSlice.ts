@@ -19,6 +19,14 @@ type UpdateEntityPayloadGeneric<T extends EntityName> = {
 type UpdateEntityPayload<T extends EntityName> = T extends EntityName 
   ? UpdateEntityPayloadGeneric<T> : UpdateEntityPayloadGeneric<T>
 
+type AddEntityPayloadGeneric<T extends EntityName> = { 
+  type: T, 
+  data: Partial<ApiEntityTypes[T]> & { id: ApiEntityTypes[T]['id'] }
+}
+
+type AddEntityPayload<T extends EntityName> = T extends EntityName 
+  ? AddEntityPayloadGeneric<T> : AddEntityPayloadGeneric<T>
+
 const initialState = Object.keys(entityTypes).reduce((acc, name) => {
   acc[name] = {};
   return acc;
@@ -28,23 +36,26 @@ export const entitiesSlice = createSlice({
   name: 'entities',
   initialState,
   reducers: {
-    addEntity: (state, { payload }: PayloadAction<{ entityName: EntityName, data: any }>) => {
-      const { entityName, data } = payload;
+    addEntity: <T extends EntityName>(
+      state, 
+      { payload }: PayloadAction<AddEntityPayload<T>>
+    ) => {
+      const { type, data } = payload;
       const { id } = data;
-      if (!state[entityName]) {
-        state[entityName] = {};
+      if (!state[type]) {
+        state[type] = {};
       }
 
-      const oldEntity = state[entityName][id];
+      const oldEntity = state[type][id];
       const newEntity = data;
 
       if (!oldEntity) {
-        state[entityName][id] = newEntity;
+        state[type][id] = newEntity;
         return;
       }
 
       if (!isEqual(oldEntity, newEntity)) {
-        state[entityName][id] = {
+        state[type][id] = {
           ...oldEntity,
           ...newEntity,
         };

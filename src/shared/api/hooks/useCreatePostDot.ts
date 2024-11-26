@@ -1,12 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { api } from 'shared/api';
+import { createPostDot } from 'shared/actions/post/createPostDot';
 import { toaster } from 'shared/components/ui/toaster';
+import { useAppDispatch } from 'shared/store/hooks';
 
 export const useCreatePostDot = (id: number) => {
+  const dispatch = useAppDispatch();
+  
   return useMutation({
     mutationFn: (data: { text: string }) => {
-      return api.post<string>(`/posts/${id}/dots`, data);
+      return dispatch(createPostDot(id, data));
     },
     onError: () => {
       toaster.create({

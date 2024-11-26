@@ -49,7 +49,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           const { id: fakeId } = fakeSpaceTab;
           
           dispatch(addEntity({
-            entityName: entityTypes.spaceTab,
+            type: entityTypes.spaceTab,
             data: fakeSpaceTab,
           }));
           

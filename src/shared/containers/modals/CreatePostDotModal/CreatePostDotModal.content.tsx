@@ -19,11 +19,8 @@ const CreatePostDotModal = ({ postId }: Props) => {
   const { mutateAsync } = useCreatePostDot(postId);
 
   const onSubmit = React.useCallback(async (values: CreateDotFormValues) => {
-    try {
-      await mutateAsync({ text: values.dot });
-    } finally {
-      dispatch(hideModal());
-    }
+    dispatch(hideModal());
+    await mutateAsync({ text: values.dot });
   }, [dispatch, mutateAsync]);
 
   return (

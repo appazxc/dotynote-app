@@ -24,7 +24,7 @@ export const createPrimaryNoteTab = (): ThunkAction => (dispatch, getState) => {
   };
 
   dispatch(addEntity({
-    entityName: entityTypes.spaceTab,
+    type: entityTypes.spaceTab,
     data: tab,
   }));
 

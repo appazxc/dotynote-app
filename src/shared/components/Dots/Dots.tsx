@@ -22,7 +22,7 @@ export const Dots = React.memo(({ dots, showAmount, placement, ...boxProps }: Pr
     ? dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotB.total - dotA.total) 
     : dots.filter((dot) => !dot._isDeleted).sort((dotA, dotB) => dotB.total - dotA.total), [placement, dots]);
   
-  if (!dots.length) {
+  if (!items.length) {
     return null;
   }
   
