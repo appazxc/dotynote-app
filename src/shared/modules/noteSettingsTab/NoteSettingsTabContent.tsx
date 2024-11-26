@@ -28,7 +28,7 @@ export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {
     <Box>
       <SwitchSection
         label="Show content"
-        description="Show or hide content of the note. Will be visible only posts"
+        description="Show or hide the note's content. If the content is hidden, only posts will be visible."
         checked={!note.settings.hide}
         onChange={handleDisplayChange}
       />

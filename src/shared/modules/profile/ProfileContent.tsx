@@ -1,6 +1,5 @@
+import { VStack } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box, VStack } from '@chakra-ui/react';
 
 import { PersonalDetails } from 'shared/modules/profile/PersonalDetails';
 import { ProfileAvatar } from 'shared/modules/profile/ProfileAvatar';

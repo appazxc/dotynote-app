@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Button, Center, Spinner } from '@chakra-ui/react';
+import React from 'react';
 
 import { logout } from 'shared/actions/logout';
 import { Wait } from 'shared/components/Wait';

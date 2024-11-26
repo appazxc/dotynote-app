@@ -12,7 +12,7 @@ export const NoteSettings = React.memo(() => {
 
   return (
     <TabLayout defaultSidebar>
-      <Container maxW="3xl" pt="4">
+      <Container maxW="xl" pt="4">
         <Tabs.Root
           lazyMount
           unmountOnExit

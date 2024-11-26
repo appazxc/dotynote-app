@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useTimeout } from 'usehooks-ts';
 
 type Props = {
@@ -14,5 +13,5 @@ export const Wait = React.memo(({ delay = 0, children }: Props) => {
 
   useTimeout(show, delay);
   
-  return visible ? children: null;
+  return visible ? children : null;
 });
