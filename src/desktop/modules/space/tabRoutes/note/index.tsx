@@ -1,4 +1,5 @@
 import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
+import { z } from 'zod';
 
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
@@ -12,11 +13,16 @@ export const note = createRoute({
   getParentRoute: () => root,
   path: noteRoutePath,
   component: lazyRouteComponent(() => import('desktop/modules/noteTab/NoteTab')),
-  loader: async ({ params }) => {
+  validateSearch: z.object({
+    parent: z.number().int().optional(),
+  }),
+  loaderDeps: ({ search: { parent } }) => ({ parent }),
+  loader: async ({ params, deps: { parent } }) => {
     await loadNoteData({
       noteId: Number(params.noteId),
       extraLoaders: [
         queryClient.fetchQuery(options.posts.loadPinnedPostsCount(Number(params.noteId))),
+        ...parent ? [queryClient.fetchQuery(options.notes.load(parent))] : [],
       ],
     });
   },

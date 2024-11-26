@@ -47,7 +47,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     if (lastIsSearchActive.current) {
       dispatch(toggleSearch());
     }
-  }, [dispatch, noteId]);
+  }, [dispatch, noteId, tab.id]);
 
   const items = React.useMemo(() => {
     return [

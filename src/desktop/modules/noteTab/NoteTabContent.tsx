@@ -8,13 +8,14 @@ import { NotePosts } from 'desktop/modules/noteTab/NotePosts';
 
 type Props = {
   note: NoteEntity,
+  parent?: NoteEntity,
   isWriteMode: boolean,
   isSearchActive: boolean,
   search: string,
 }
 
 export const NoteTabContent = React.memo((props: Props) => {
-  const { note, isWriteMode, isSearchActive, search } = props;
+  const { note, parent, isWriteMode, isSearchActive, search } = props;
   const { id: noteId, settings, postsSettings } = note;
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
@@ -30,6 +31,7 @@ export const NoteTabContent = React.memo((props: Props) => {
         {showNote && (
           <NoteBase
             id={noteId}
+            parent={parent}
             isWriteMode={isWriteMode}
           />
         )}

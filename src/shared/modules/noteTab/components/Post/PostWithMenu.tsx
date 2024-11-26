@@ -100,7 +100,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props
         label: 'Open in new tab',
         onClick: () => {
           dispatch(openTab({ 
-            route: buildNoteTabRoute(noteId),
+            route: buildNoteTabRoute(noteId, { parent: noteId }),
             active: true,
           }));
 

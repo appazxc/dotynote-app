@@ -28,8 +28,8 @@ export const NotePosts = React.memo((props: Props) => {
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   
   const defaultPostClick = React.useCallback((_event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
-    navigate({ to: noteRoutePath, params: { noteId } });
-  }, [navigate]);
+    navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
+  }, [navigate, note.id]);
   
   const concretePostClick = React.useCallback((post: PostEntity) => {
     dispatch(updateOperationConcretePost(post.id));

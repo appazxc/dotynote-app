@@ -1,5 +1,5 @@
 import { Box, Center, Text } from '@chakra-ui/react';
-import { useParams } from '@tanstack/react-router';
+import { useParams, useSearch } from '@tanstack/react-router';
 import { useDebounce } from '@uidotdev/usehooks';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
@@ -22,21 +22,18 @@ import { NoteTabContent } from './NoteTabContent';
 
 export const NoteTab = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
-  const note = useAppSelector(state => noteSelector.getEntityById(state, Number(noteId)));
+  const { parent: parentId } = useSearch({ strict: false });
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const parent = useAppSelector(state => noteSelector.getEntityById(state, parentId));
   const userId = useAppSelector(selectUserId);
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
-
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
 
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId: note.id }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId: note.id }));
   const isWriteMode = rwMode === rwModes.WRITE;
-
-  React.useEffect(() => {
-    setSearch('');
-  }, [note.id]);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -95,6 +92,7 @@ export const NoteTab = React.memo(() => {
           <NoteTabContent
             key={note.id}
             note={note}
+            parent={parent}
             search={debouncedSearch}
             isSearchActive={isSearchActive}
             isWriteMode={isWriteMode}
@@ -104,5 +102,7 @@ export const NoteTab = React.memo(() => {
     </NoteProviders>
   );
 });
+
+NoteTab.displayName = 'NoteTab';
 
 export default NoteTab;

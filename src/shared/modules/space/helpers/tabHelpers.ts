@@ -31,7 +31,8 @@ export const getTabTitleByRouteId = (routeId: string, defaultValue: string = '')
 };
 
 export const getTabMatch = (path: string, router) => {
-  const matches = router.matchRoutes(path, {});
+  const url = new URL(`http://fake.com${path}`);
+  const matches = router.matchRoutes({ pathname: url.pathname });
 
   const match = matches[matches.length - 1];
 

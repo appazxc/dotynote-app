@@ -4,8 +4,10 @@ import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { Dots } from 'shared/components/Dots';
+import { Tag } from 'shared/components/ui/tag';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { invariant } from 'shared/util/invariant';
 
 import { NoteEditorBase } from '../NoteEditorBase';
@@ -16,10 +18,12 @@ type Props = {
   id: number,
   isWriteMode: boolean,
   isMobile?: boolean,
+  parent?: NoteEntity,
+  showParent?: boolean,
 }
 
 export const NoteBase = (props: Props) => {
-  const { id, isWriteMode, isMobile } = props;
+  const { id, isWriteMode, parent, showParent, isMobile } = props;
   const note = useAppSelector(state => noteSelector.getEntityById(state, id));
 
   invariant(note, 'Missing note');
@@ -41,6 +45,16 @@ export const NoteBase = (props: Props) => {
       flexDirection="column"
       pb="5"
     >
+      {parent?.title && showParent && (
+        <Tag
+          size="lg"
+          display="inline-flex"
+          w="fit-content"
+          mb="4"
+        >
+          {parent?.title}
+        </Tag>
+      )}
       <NoteTitle
         isMobile={isMobile}
         title={title}

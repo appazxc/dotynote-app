@@ -32,12 +32,12 @@ export const NotePosts = React.memo((props: Props) => {
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey) {
       dispatch(openTab({ 
-        route: buildNoteTabRoute(noteId),
+        route: buildNoteTabRoute(noteId, { parent: note.id }),
       }));
     } else {
-      navigate({ to: noteRoutePath, params: { noteId } });
+      navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
     }
-  }, [navigate, dispatch]);
+  }, [navigate, dispatch, note.id]);
   
   const concretePostClick = React.useCallback((post: PostEntity) => {
     dispatch(updateOperationConcretePost(post.id));

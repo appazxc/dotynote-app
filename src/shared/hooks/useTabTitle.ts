@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { generateText } from '@tiptap/core';
 import { AxiosError } from 'axios';
+import React from 'react';
 
 import { useNote } from 'shared/api/hooks/useNote';
 import { extensions } from 'shared/modules/editor/extensions';

@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 import { invariant, RouterProvider } from '@tanstack/react-router';
+import React from 'react';
 
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
