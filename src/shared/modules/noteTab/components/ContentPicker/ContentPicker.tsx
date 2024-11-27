@@ -38,7 +38,7 @@ export const ContentPicker = React.memo(({ noteId, onFinish, canAddToNote, canAd
 
       {canAddToNote && (
         <Tabs.Content value={addTo.NOTE}>
-          <NoteContent onFinish={onFinish} />
+          <NoteContent noteId={noteId} onFinish={onFinish} />
         </Tabs.Content>
       )}
       {canAddToPosts && (

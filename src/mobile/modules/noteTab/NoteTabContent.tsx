@@ -28,7 +28,7 @@ export const NoteTabContent = (props: Props) => {
         {showNote && (
           <NoteBase
             isMobile
-            id={noteId}
+            noteId={noteId}
             isWriteMode={isWriteMode}
           />
         )}

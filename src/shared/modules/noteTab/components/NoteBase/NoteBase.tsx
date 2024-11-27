@@ -5,6 +5,7 @@ import React from 'react';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { Dots } from 'shared/components/Dots';
 import { Tag } from 'shared/components/ui/tag';
+import { NoteBaseImages } from 'shared/modules/noteTab/components/NoteBase/NoteBaseImages';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -15,16 +16,16 @@ import { NoteEditorBase } from '../NoteEditorBase';
 import { NoteTitle } from './NoteTitle';
 
 type Props = {
-  id: number,
+  noteId: number,
   isWriteMode: boolean,
   isMobile?: boolean,
-  parent?: NoteEntity,
+  parent?: NoteEntity | null,
   showParent?: boolean,
 }
 
 export const NoteBase = (props: Props) => {
-  const { id, isWriteMode, parent, showParent, isMobile } = props;
-  const note = useAppSelector(state => noteSelector.getEntityById(state, id));
+  const { noteId, isWriteMode, parent, showParent, isMobile } = props;
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 
   invariant(note, 'Missing note');
 
@@ -34,9 +35,9 @@ export const NoteBase = (props: Props) => {
 
   const debouncedUpdateTitle = React.useMemo(() => {
     return debounce((title) => {
-      mutate({ id, data: { title } });
+      mutate({ id: noteId, data: { title } });
     }, 2000);
-  }, [mutate, id]);
+  }, [mutate, noteId]);
 
   return (
     <Box
@@ -62,12 +63,13 @@ export const NoteBase = (props: Props) => {
         onChange={debouncedUpdateTitle}
       />
       <NoteEditorBase
-        key={id}
-        id={id}
+        key={noteId}
+        noteId={noteId}
         isMobile={isMobile}
         isWriteMode={isWriteMode}
         content={content}
       />
+      <NoteBaseImages noteId={noteId} />
       <Dots
         placement="note"
         dots={note.dots}

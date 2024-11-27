@@ -5,19 +5,22 @@ import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
+import { buildNoteFileTag, useFileUpload } from 'shared/components/FileUploadProvider';
 import { modalIds } from 'shared/constants/modalIds';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
+  noteId: number,
   onFinish?: () => void,
 }
 const ICON_SIZE = 24;
 
-export const NoteContent = React.memo(({ onFinish }: Props) => {
+export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
   const dispatch = useAppDispatch();
-  
+  const { openFilePicker } = useFileUpload();
+
   const items = React.useMemo(() => {
     return [
       {
@@ -31,7 +34,10 @@ export const NoteContent = React.memo(({ onFinish }: Props) => {
       {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
-        disabled: true,
+        onClick: () => {
+          openFilePicker('image', buildNoteFileTag('image', noteId));
+          onFinish?.();
+        },
       },
       {
         icon: <GoFile size={ICON_SIZE} />,

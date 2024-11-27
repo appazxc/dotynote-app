@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { queryClient } from 'shared/api/queryClient';
+import { FileUploadProvider } from 'shared/components/FileUploadProvider';
 import { Provider as ThemeProvider } from 'shared/components/ui/provider';
 import { Device } from 'shared/core/Providers/Device';
 import { persistor, store } from 'shared/store';
@@ -16,7 +17,11 @@ export const Providers = React.memo(({ children }: Props) => {
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
-            <Device>{children}</Device>
+            <Device>
+              <FileUploadProvider>
+                {children}
+              </FileUploadProvider>
+            </Device>
           </ThemeProvider>
         </QueryClientProvider>
       </PersistGate>

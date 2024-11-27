@@ -1,13 +1,12 @@
-import React from 'react';
-
 import { Box } from '@chakra-ui/react';
+import React from 'react';
 
 import { EditorView } from 'shared/modules/editor';
 import { NoteEditor } from 'shared/modules/noteTab/components/NoteEditor';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
-  id: number,
+  noteId: number,
   isWriteMode: boolean,
   isMobile?: boolean,
   content: NoteEntity['content']
