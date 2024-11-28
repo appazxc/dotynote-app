@@ -52,10 +52,10 @@ const ImagePreview = ({ file }) => {
       src={previewUrl}
       alt="Preview"
       border="2px solid"
-      borderColor="gray.600"
+      borderColor="gray.300"
       rounded="md"
       h="130px"
-      w="200px"
+      w="130px"
       fit="cover"
       p="1px"
     />
