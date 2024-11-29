@@ -29,7 +29,14 @@ const CreateNoteDotModal = ({ noteId }: Props) => {
       placement="center"
       size="xs"
       scrollBehavior="inside"
-      onOpenChange={() => dispatch(hideModal())}
+      onOpenChange={() => {
+        dispatch(hideModal());
+      }}
+      onEscapeKeyDown={() => console.log('onEscapeKeyDown')}
+      onExitComplete={() => console.log('onExitComplete')}
+      onFocusOutside={() => console.log('onFocusOutside')}
+      onInteractOutside={() => console.log('onInteractOutside')}
+      onPointerDownOutside={() => console.log('onPointerDownOutside')}
     >
       <DialogBackdrop />
       <DialogContent>

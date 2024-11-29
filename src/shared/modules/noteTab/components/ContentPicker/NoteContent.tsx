@@ -5,8 +5,8 @@ import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
-import { buildNoteFileTag, useFileUpload } from 'shared/components/FileUploadProvider';
 import { modalIds } from 'shared/constants/modalIds';
+import { useFileUpload } from 'shared/modules/fileUpload';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -35,7 +35,11 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
         onClick: () => {
-          openFilePicker('image', buildNoteFileTag('image', noteId));
+          openFilePicker({ 
+            zoneId: noteId,
+            zone: 'note',
+            type: 'image',
+          });
           onFinish?.();
         },
       },
@@ -82,7 +86,7 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
         disabled: true,
       },
     ];
-  }, [dispatch, onFinish]);
+  }, [dispatch, openFilePicker, noteId, onFinish]);
 
   return (
     <ContentPickerCards items={items} />

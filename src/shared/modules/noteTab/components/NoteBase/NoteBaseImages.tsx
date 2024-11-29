@@ -2,18 +2,20 @@ import { Box } from '@chakra-ui/react';
 import { Image } from '@chakra-ui/react';
 import React from 'react';
 
-import { buildNoteFileTag, useFileUpload } from 'shared/components/FileUploadProvider';
+import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
+import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
+import { useAppSelector } from 'shared/store/hooks';
 
 type Props = {
   noteId: number,
 };
 
 export const NoteBaseImages = React.memo(({ noteId }: Props) => {
-  const { files, selectFilesByTag } = useFileUpload();
-  
-  const noteFiles = React.useMemo(() => {
-    return selectFilesByTag(buildNoteFileTag('image', noteId), files);
-  }, [noteId, files, selectFilesByTag]);
+  const { files } = useFileUpload();
+  const noteFiles = useAppSelector(state => 
+    selectFilteredFilesByTag(state, { 
+      files, 
+      tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }) }));
 
   console.log('NoteBaseImages', files, noteId, noteFiles);
 
@@ -28,8 +30,8 @@ export const NoteBaseImages = React.memo(({ noteId }: Props) => {
       display="flex"
       flexWrap="wrap"
     >
-      {noteFiles.map(({ file, id }) => {
-        return <ImagePreview key={id} file={file} />;
+      {noteFiles.map(({ file, fileId }) => {
+        return <ImagePreview key={fileId} file={file} />;
       })}
     </Box>
   );

@@ -41,7 +41,13 @@ axiosInstance.interceptors.request.use((config) => {
   const { dispatch } = getStore();
   const requestId = nanoid(); 
   config.headers['X-Request-Id'] = requestId;
-  dispatch(startRequest({ id: requestId, request: pick(config, ['data', 'url']) }));
+
+  const pickItems = ['url'];
+  if (!(config.data instanceof FormData)) {
+    pickItems.push('data');
+  }
+
+  dispatch(startRequest({ id: requestId, request: pick(config, pickItems) }));
 
   return config;
 }, (error) => {

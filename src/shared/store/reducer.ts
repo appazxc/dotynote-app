@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 
 import { actions } from 'shared/constants/actions';
 import drawersReducer from 'shared/modules/drawer/drawerSlice';
+import uploadReducer from 'shared/modules/fileUpload/uploadSlice';
 import loadersReducer from 'shared/modules/loaders/loadersSlice';
 import modalsReducer from 'shared/modules/modal/modalSlice';
 
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   modals: modalsReducer,
   drawers: drawersReducer,
   request: requestReducer,
+  upload: uploadReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   app: persistReducer(appPersistConfig, appReducer),
 });

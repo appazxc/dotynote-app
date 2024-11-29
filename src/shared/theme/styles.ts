@@ -32,6 +32,9 @@ export const getEditorStyles = () => {
     '& p:empty::before': {
       content: '"\\A"',
     },
+    '& em': {
+      fontStyle: 'italic',
+    },
     // p: {
     //   marginBlockStart: '1em',
     //   marginBlockEnd: '1em',
