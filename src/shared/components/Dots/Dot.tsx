@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import React from 'react';
 
 import { Tag } from 'shared/components/ui/tag';

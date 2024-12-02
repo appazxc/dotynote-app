@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import { LayoutGroup } from 'framer-motion';
+import { LayoutGroup } from 'motion/react';
 import React from 'react';
 
 import { NoteDot } from 'shared/components/Dots/NoteDot';

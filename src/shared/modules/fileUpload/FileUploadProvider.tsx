@@ -62,8 +62,15 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         fileId: nanoid(),
       }));
 
-      newData.forEach(({ fileId }) => {
-        dispatch(addFile({ fileId, type, zone, zoneId }));
+      newData.forEach(({ fileId, file }) => {
+        let fileType = type;
+        const maxSize = 10 * 1024 * 1024; // 10mb
+
+        if ( type === 'image' && file.size > maxSize) {
+          fileType = 'file';
+        }
+
+        dispatch(addFile({ fileId, type: fileType, zone, zoneId }));
       });
       
       setFiles((prev) => [...prev, ...newData]);
@@ -83,7 +90,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     if (params.type === 'image') {
       const input = document.createElement('input');
       input.type = 'file'; // Пример для загрузки файлов
-      input.accept = 'image/*';
+      input.accept = 'image/png, image/jpeg, image/gif, image/webp';
       input.multiple = true; 
       input.onchange = (event) => {
         handleFileSelect(event, 'image', config);
@@ -98,7 +105,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       input.accept = '.pdf,.doc,.docx';
       input.multiple = true; 
       input.onchange = (event) => {
-        handleFileSelect(event, 'image', config);
+        handleFileSelect(event, 'file', config);
         input.value = '';
         input.onchange = null;
       };

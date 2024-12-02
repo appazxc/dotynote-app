@@ -1,7 +1,8 @@
 import { api } from 'shared/api';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 import { FilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/selectors';
-import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
+import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
@@ -32,8 +33,24 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
     const formData = new FormData();
     formData.append('file', file.file);
     formData.append('noteId', String(entity.zoneId));
-      
-    const result = await api.post('/upload/images', formData);
+    
+    try {
+      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
-    console.log('result', result);
+      await api.post(
+        '/upload/images', 
+        formData,
+        { 
+          
+          onUploadProgress: (event) => {
+            console.log('progress', event, event.progress);
+            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
+          }, 
+        });
+
+      dispatch(updateFile({ fileId: file.fileId, status: 'complete' }));
+    } catch(error) {
+      console.log('error', error);
+      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
+    }
   };

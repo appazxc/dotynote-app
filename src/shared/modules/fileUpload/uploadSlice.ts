@@ -2,13 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ZoneType, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 
+type StatusType = 'idle' | 'pending' | 'complete' | 'canceled' | 'error';
+
 export type UploadFileEntity = { 
   fileId: string,
   type: UploadFileType,
   zone: ZoneType,
   zoneId: number,
-  status: 'idle' | 'pending' | 'complete' | 'canceled',
+  status: StatusType,
   progress: number,
+  error: string | null,
 }
 
 type AddFilePayload = {
@@ -17,6 +20,8 @@ type AddFilePayload = {
   zone: ZoneType,
   zoneId: number,
 }
+
+type UpdateFilePayload = { fileId: UploadFileEntity['fileId'] } & Partial<UploadFileEntity>
 
 type InitialState = {
   byId: {
@@ -40,11 +45,21 @@ export const uploadSlice = createSlice({
         zoneId,
         status: 'idle',
         progress: 0,
+        error: null,
+      };
+    },
+    updateFile: (
+      state, 
+      { payload: { fileId, ...rest } }: PayloadAction<UpdateFilePayload>
+    ) => {
+      state.byId[fileId] = {
+        ...state.byId[fileId],
+        ...rest,
       };
     },
   },
 });
 
-export const { addFile } = uploadSlice.actions;
+export const { addFile, updateFile } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

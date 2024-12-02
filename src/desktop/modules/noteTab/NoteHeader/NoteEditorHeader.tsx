@@ -1,6 +1,6 @@
 import { Box, Separator, IconButton } from '@chakra-ui/react';
 import { Editor } from '@tiptap/react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import React from 'react';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
 import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';

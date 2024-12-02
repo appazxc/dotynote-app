@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { LayoutGroup, Reorder } from 'framer-motion';
+import { LayoutGroup, Reorder } from 'motion/react';
 import React from 'react';
 
 import { reorderTabs } from 'shared/actions/space/reorderTabs';

@@ -1,7 +1,7 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { LayoutGroup, motion } from 'framer-motion';
+import { LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';

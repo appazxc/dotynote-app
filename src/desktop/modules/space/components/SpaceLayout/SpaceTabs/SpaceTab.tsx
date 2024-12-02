@@ -3,7 +3,7 @@ import {
   Circle,
   IconButton,
 } from '@chakra-ui/react';
-import { motion, Reorder } from 'framer-motion';
+import { motion, Reorder } from 'motion/react';
 import React from 'react';
 import { MdClose } from 'react-icons/md';
 

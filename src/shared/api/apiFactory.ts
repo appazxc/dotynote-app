@@ -28,7 +28,7 @@ export type Api = {
     path: string,
     params?: Params,
   ): Promise<T>;
-  post<T>(path: string, body: any, options?: Options): Promise<T>;
+  post<T>(path: string, body: any, config?: AxiosRequestConfig): Promise<T>;
   patch<T>(path: string, body: any, options?: Options): Promise<T>;
   put<T>(path: string, body: any, options?: Options): Promise<T>;
   delete<T>(path: string, params?: Params, options?: Options): Promise<T>;
@@ -103,11 +103,12 @@ export default () => {
         })
         .then(response => handleResponse(response));
     },
-    async post(path, body) {
+    async post(path, body, config: AxiosRequestConfig) {
       return axiosInstance
         .post(getBaseApi() + path, body, {
           headers: createHeaders(),
-        })
+          ...config,
+        } )
         .then(response => handleResponse(response));
     },
     async patch(path, body) {
