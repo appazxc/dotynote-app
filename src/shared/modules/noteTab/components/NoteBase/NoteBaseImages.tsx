@@ -1,7 +1,9 @@
-import { Box, Center, Float, Icon, Image, Stack } from '@chakra-ui/react';
+import { Box, Center, Float, Icon, Image } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Checkbox } from 'shared/components/ui/checkbox';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
@@ -10,12 +12,16 @@ import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 
-type Props = {
+type NoteBaseImagesProps = {
   noteId: number,
+  hasControls?: boolean,
+  onDelete?: (id: string) => void,
   images: NoteImageEntity[],
 };
 
-export const NoteBaseImages = React.memo(({ noteId, images }: Props) => {
+export const NoteBaseImages = React.memo(({ noteId, hasControls, images, onDelete }: NoteBaseImagesProps) => {
+  const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
+
   return (
     <Box
       my="4"
@@ -23,20 +29,99 @@ export const NoteBaseImages = React.memo(({ noteId, images }: Props) => {
       display="flex"
       flexWrap="wrap"
     >
-      <NoteImages images={images} />
+      <NoteImages
+        images={visibleImages}
+        hasControls={hasControls}
+        onDelete={onDelete}
+      />
       <NoteUploadingImages noteId={noteId} />
     </Box>
   );
 });
 
-const NoteImages = ({ images }) => {
+type WithImageControlsProps = {
+  id: string,
+  hasControls?: boolean,
+  isSelecting?: boolean,
+  isSelected?: boolean,
+  children: React.ReactNode,
+  onDelete?: NoteBaseImagesProps['onDelete']
+}
+
+const WithImageControls = (props: WithImageControlsProps) => {
+  const { id, children, hasControls, isSelecting, isSelected, onDelete } = props;
+
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(id);
+    }
+  };
+
+  if (isSelecting) {
+    return (
+      <Box position="relative" cursor="pointer">
+        {children}
+        <Float offset="15px" placement="top-end">
+          <Checkbox
+            borderRadius="full"
+            colorPalette="blue"
+            radius="full"
+            checked={isSelected}
+          />
+        </Float>
+      </Box>
+    );
+  }
+
+  if (!hasControls) {
+    return children;
+  }
+
+  return (
+    <Menu isContextMenu>
+      <MenuTrigger>
+        {children}
+      </MenuTrigger>
+      <MenuList>
+        <MenuItem
+          label="Select"
+          onClick={() => {}}
+        />
+
+        {onDelete && (
+          <MenuItem
+            label={'Delete'}
+            color="red"
+            onClick={handleDelete}
+          />
+        )}
+      </MenuList>
+    </Menu>
+  );
+};
+
+type NoteImagesProps = {
+  hasControls?: boolean,
+  images: NoteImageEntity[],
+  onDelete?: NoteBaseImagesProps['onDelete']
+}
+
+const NoteImages = ({ images, hasControls, onDelete }: NoteImagesProps) => {
   return (
     images.map(({ id, sizes }) => {
       return (
-        <NoteImage
+        <WithImageControls
           key={id}
-          src={sizes.medium}
-        />
+          id={id}
+          hasControls={hasControls}
+          isSelecting={false}
+          isSelected={false}
+          onDelete={onDelete}
+        >
+          <NoteImage
+            src={sizes.small}
+          />
+        </WithImageControls>
       );
     })
   );
@@ -49,8 +134,6 @@ const NoteUploadingImages = ({ noteId }) => {
     selectFilteredFilesByTag(state, { 
       files, 
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }) }));
-
-  console.log('NoteBaseImages', files, noteId, noteFiles);
 
   if (!noteFiles.length) {
     return null;
@@ -71,7 +154,11 @@ const NoteUploadingImages = ({ noteId }) => {
   );
 };
 
-const NoteImage = ({ src }) => {
+type NoteImageProps = {
+  src: string,
+}
+
+const NoteImage = ({ src }: NoteImageProps) => {
   return (
     <Image
       src={src}
@@ -79,6 +166,7 @@ const NoteImage = ({ src }) => {
       border="1px solid"
       borderColor="gray.300"
       rounded="md"
+      background="gray.300"
       h="130px"
       w="130px"
       fit="cover"

@@ -8,6 +8,7 @@ export const noteSelector = new Selector(entityTypes.note);
 export const postsSettingsSelector = new Selector(entityTypes.postsSettings);
 export const noteSettingsSelector = new Selector(entityTypes.noteSettings);
 export const postSelector = new Selector(entityTypes.post);
+export const noteImageSelector = new Selector(entityTypes.noteImage);
 export const orderBySelector = new Selector(entityTypes.orderBy);
 export const noteDotSelector = new Selector(entityTypes.noteDot);
 export const postDotSelector = new Selector(entityTypes.postDot);

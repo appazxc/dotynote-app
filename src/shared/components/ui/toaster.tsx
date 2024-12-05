@@ -15,6 +15,7 @@ import { useAppSelector } from 'shared/store/hooks';
 export const toaster = createToaster({
   placement: 'bottom-end',
   pauseOnPageIdle: true,
+  max: 3,
 });
 
 export const Toaster = () => {
