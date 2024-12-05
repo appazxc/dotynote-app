@@ -1,4 +1,4 @@
-import { Box, Center, Float, Icon, Image } from '@chakra-ui/react';
+import { Box, Center, Float, Icon, Image, Stack } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
@@ -8,13 +8,43 @@ import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { useAppSelector } from 'shared/store/hooks';
+import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 
 type Props = {
   noteId: number,
+  images: NoteImageEntity[],
 };
 
-export const NoteBaseImages = React.memo(({ noteId }: Props) => {
+export const NoteBaseImages = React.memo(({ noteId, images }: Props) => {
+  return (
+    <Box
+      my="4"
+      gap="1"
+      display="flex"
+      flexWrap="wrap"
+    >
+      <NoteImages images={images} />
+      <NoteUploadingImages noteId={noteId} />
+    </Box>
+  );
+});
+
+const NoteImages = ({ images }) => {
+  return (
+    images.map(({ id, sizes }) => {
+      return (
+        <NoteImage
+          key={id}
+          src={sizes.medium}
+        />
+      );
+    })
+  );
+};
+
+const NoteUploadingImages = ({ noteId }) => {
   const { files } = useFileUpload();
+
   const noteFiles = useAppSelector(state => 
     selectFilteredFilesByTag(state, { 
       files, 
@@ -27,27 +57,35 @@ export const NoteBaseImages = React.memo(({ noteId }: Props) => {
   }
 
   return (
-    <Box
-      my="4"
-      gap="2"
-      display="flex"
-      flexWrap="wrap"
-    >
-      {noteFiles.map(({ file, fileId, status, progress, error }) => {
-        return (
-          <ImagePreview
-            key={fileId}
-            file={file}
-            status={status}
-            progress={progress}
-            error={error}
-          />
-        );
-      })}
-    </Box>
+    noteFiles.map(({ file, fileId, status, progress, error }) => {
+      return (
+        <ImagePreview
+          key={fileId}
+          file={file}
+          status={status}
+          progress={progress}
+          error={error}
+        />
+      );
+    })
   );
-});
+};
 
+const NoteImage = ({ src }) => {
+  return (
+    <Image
+      src={src}
+      alt="Image"
+      border="1px solid"
+      borderColor="gray.300"
+      rounded="md"
+      h="130px"
+      w="130px"
+      fit="cover"
+      p="1px"
+    />
+  );
+};
 const ImagePreview = ({ file, status, progress, error }) => {
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
 
@@ -64,16 +102,8 @@ const ImagePreview = ({ file, status, progress, error }) => {
 
   return previewUrl ? (
     <Box position="relative">
-      <Image
+      <NoteImage
         src={previewUrl}
-        alt="Preview"
-        border="2px solid"
-        borderColor="gray.300"
-        rounded="md"
-        h="130px"
-        w="130px"
-        fit="cover"
-        p="1px"
       />
 
       {status === 'pending' && (
@@ -88,14 +118,11 @@ const ImagePreview = ({ file, status, progress, error }) => {
             size="sm"
             value={value}
             colorPalette="gray"
+            animation={'spin 2s linear infinite'}
           >
             <ProgressCircleRing css={{ '--thickness': '2px' }} />
           </ProgressCircleRoot>
-          {/* <Icon fontSize="40px" color="tomato">
-            <Md3dRotation />
-          </Icon> */}
         </Center>
-        
       )}
       {status === 'error' && (
         <Float

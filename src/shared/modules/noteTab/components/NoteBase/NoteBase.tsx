@@ -69,7 +69,7 @@ export const NoteBase = (props: Props) => {
         isWriteMode={isWriteMode}
         content={content}
       />
-      <NoteBaseImages noteId={noteId} />
+      <NoteBaseImages noteId={noteId} images={note.images} />
       <Dots
         placement="note"
         dots={note.dots}

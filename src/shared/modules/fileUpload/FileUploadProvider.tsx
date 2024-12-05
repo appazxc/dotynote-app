@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { uploadFiles } from 'shared/modules/fileUpload/actions/uploadFiles';
-import { addFile } from 'shared/modules/fileUpload/uploadSlice';
+import { addFile, deleteFile } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = React.PropsWithChildren<{}>;
@@ -49,6 +49,13 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<FilesType>([]);
   const dispatch = useAppDispatch();
 
+  const removeFile = React.useCallback((fileId) => {
+    setFiles(prevFiles => prevFiles.filter(file => file.fileId !== fileId));
+    setTimeout(() => {
+      dispatch(deleteFile(fileId));
+    });
+  }, [dispatch]);
+
   const handleFileSelect = React.useCallback((event: Event, type: UploadFileType, config: ConfigType) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
@@ -75,11 +82,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       
       setFiles((prev) => [...prev, ...newData]);
 
-      dispatch(uploadFiles(newData));
+      dispatch(uploadFiles(newData, removeFile));
     }
 
     target.value = '';
-  }, [dispatch]);
+  }, [dispatch, removeFile]);
 
   const openFilePicker = React.useCallback((params: OpenFilePickerParams) => {
     const config = {

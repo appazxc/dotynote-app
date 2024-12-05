@@ -1,6 +1,7 @@
 import { EntityName, entityTypes } from 'shared/constants/entityTypes';
 import { ApiNoteDotEntity, NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
+import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { ApiPostDotEntity, PostDotEntity } from 'shared/types/entities/PostDotEntity';
@@ -25,6 +26,7 @@ export type ApiEntityTypes = {
   [entityTypes.postInternal]: ApiPostInternalEntity,
   [entityTypes.postDot]: ApiPostDotEntity,
   [entityTypes.noteDot]: ApiNoteDotEntity,
+  [entityTypes.noteImage]: ApiNoteImageEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -42,4 +44,5 @@ export type EntityTypes = {
   [entityTypes.postInternal]: PostInternalEntity,
   [entityTypes.postDot]: PostDotEntity,
   [entityTypes.noteDot]: NoteDotEntity,
+  [entityTypes.noteImage]: NoteImageEntity,
 }

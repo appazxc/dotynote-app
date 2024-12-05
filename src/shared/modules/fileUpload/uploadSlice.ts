@@ -57,9 +57,15 @@ export const uploadSlice = createSlice({
         ...rest,
       };
     },
+    deleteFile: (
+      state, 
+      { payload: fileId }: PayloadAction<string>
+    ) => {
+      delete state.byId[fileId];
+    },
   },
 });
 
-export const { addFile, updateFile } = uploadSlice.actions;
+export const { addFile, updateFile, deleteFile } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

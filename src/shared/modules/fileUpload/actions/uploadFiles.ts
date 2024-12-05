@@ -1,4 +1,6 @@
 import { api } from 'shared/api';
+import { options } from 'shared/api/options';
+import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { FilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/selectors';
@@ -6,10 +8,22 @@ import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSl
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
-export const uploadFiles = (files: FilesType): ThunkAction => async (dispatch, getState) => {
-  
+export const uploadFiles = (
+  files: FilesType, 
+  removeFile: (fileId: string) => void
+): ThunkAction => async (dispatch, getState) => {
   for await (const file of files) {
     await dispatch(uploadFile(file));
+  }
+
+  const entity = selectUploadFileEntity(getState(), files[0].fileId);
+
+  if (entity && entity.zone === 'note') {
+    await queryClient.fetchQuery({ ...options.notes.load(Number(entity.zoneId)), staleTime: 0 });
+  }
+
+  for (const file of files) {
+    removeFile(file.fileId);
   }
 };
 
@@ -41,16 +55,13 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
         '/upload/images', 
         formData,
         { 
-          
           onUploadProgress: (event) => {
-            console.log('progress', event, event.progress);
             dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
           }, 
         });
 
       dispatch(updateFile({ fileId: file.fileId, status: 'complete' }));
     } catch(error) {
-      console.log('error', error);
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };
