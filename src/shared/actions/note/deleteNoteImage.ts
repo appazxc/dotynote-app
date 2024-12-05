@@ -3,7 +3,6 @@ import { entityTypes } from 'shared/constants/entityTypes';
 import { noteSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
-import { invariant } from 'shared/util/invariant';
 
 export type DeleteNoteImageParams = {
   id: string,
@@ -11,14 +10,12 @@ export type DeleteNoteImageParams = {
 }
 
 export const deleteNoteImage = ({ id, noteId }: DeleteNoteImageParams): ThunkAction => async (dispatch, getState) => {
-  const note = noteSelector.getById(getState(), noteId);
-
-  invariant(note, 'Missing note');
-
   dispatch(updateEntity({ id, type: entityTypes.noteImage, data: { _isDeleted: true } }));
-
+  
   try {
-    await api.delete(`/note/${noteId}/images/${id}`);
+    await api.delete(`/notes/${noteId}/images/${id}`);
+    
+    const note = noteSelector.getById(getState(), noteId) || { images: [] };
 
     dispatch(updateEntity({ 
       id: noteId, 
