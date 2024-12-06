@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { motion } from 'motion/react';
 import React from 'react';
 import { MdClose } from 'react-icons/md';
@@ -8,9 +8,9 @@ import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = React.PropsWithChildren<{
   onClose: () => void,
-}>;
+}> & BoxProps;
 
-export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
+export const OperationWrapper = React.memo(({ children, onClose, ...boxProps }: Props) => {
   const borderColor = useColorModeValue('gray.700', 'white');
 
   return (
@@ -25,6 +25,7 @@ export const OperationWrapper = React.memo(({ children, onClose }: Props) => {
       display="flex"
       my="2"
       position="relative"
+      {...boxProps}
     >
       <motion.div
         initial={{ opacity: 0 }}

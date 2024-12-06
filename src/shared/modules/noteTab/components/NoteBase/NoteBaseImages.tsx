@@ -2,6 +2,7 @@ import { Box, Center, Float, Icon, Image } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
@@ -9,17 +10,18 @@ import { Tooltip } from 'shared/components/ui/tooltip';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
-import { useAppSelector } from 'shared/store/hooks';
+import { selectOperation } from 'shared/selectors/operations';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
 import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 
 type NoteBaseImagesProps = {
   noteId: number,
   hasControls?: boolean,
-  onDelete?: (id: string) => void,
   images: NoteImageEntity[],
 };
 
-export const NoteBaseImages = React.memo(({ noteId, hasControls, images, onDelete }: NoteBaseImagesProps) => {
+export const NoteBaseImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
 
   return (
@@ -30,9 +32,9 @@ export const NoteBaseImages = React.memo(({ noteId, hasControls, images, onDelet
       flexWrap="wrap"
     >
       <NoteImages
+        noteId={noteId}
         images={visibleImages}
         hasControls={hasControls}
-        onDelete={onDelete}
       />
       <NoteUploadingImages noteId={noteId} />
     </Box>
@@ -40,26 +42,43 @@ export const NoteBaseImages = React.memo(({ noteId, hasControls, images, onDelet
 });
 
 type WithImageControlsProps = {
-  id: string,
+  imageId: string,
+  noteId: number,
   hasControls?: boolean,
   isSelecting?: boolean,
   isSelected?: boolean,
   children: React.ReactNode,
-  onDelete?: NoteBaseImagesProps['onDelete']
 }
 
 const WithImageControls = (props: WithImageControlsProps) => {
-  const { id, children, hasControls, isSelecting, isSelected, onDelete } = props;
+  const { noteId, imageId, children, hasControls } = props;
+  const operation = useAppSelector(selectOperation);
+  const dispatch = useAppDispatch();
 
-  const handleDelete = () => {
-    if (onDelete) {
-      onDelete(id);
+  const { mutate: deleteNoteImage } = useDeleteNoteImage();
+
+  const isSelecting = operation.type === operationTypes.SELECT_NOTE_IMAGES && operation.noteId === noteId;
+  const isSelected = isSelecting && operation.imageIds.includes(imageId);
+
+  const handleSelectImage = React.useCallback(() => {
+    if (isSelecting) {
+      dispatch(toggleSelectNoteImage(imageId));
+    } else {
+      dispatch(startSelectNoteImagesOperation({ imageId, noteId }));
     }
-  };
+  }, [dispatch, imageId, isSelecting, noteId]);
+
+  const handleDeleteImage = React.useCallback(() => {
+    deleteNoteImage({ id: imageId, noteId });
+  }, [deleteNoteImage, noteId, imageId]);
 
   if (isSelecting) {
     return (
-      <Box position="relative" cursor="pointer">
+      <Box
+        position="relative"
+        cursor="pointer"
+        onClick={handleSelectImage}
+      >
         {children}
         <Float offset="15px" placement="top-end">
           <Checkbox
@@ -85,38 +104,35 @@ const WithImageControls = (props: WithImageControlsProps) => {
       <MenuList>
         <MenuItem
           label="Select"
-          onClick={() => {}}
+          onClick={handleSelectImage}
         />
-
-        {onDelete && (
-          <MenuItem
-            label={'Delete'}
-            color="red"
-            onClick={handleDelete}
-          />
-        )}
+        <MenuItem
+          label={'Delete'}
+          color="red"
+          onClick={handleDeleteImage}
+        />
       </MenuList>
     </Menu>
   );
 };
 
 type NoteImagesProps = {
+  noteId: number,
   hasControls?: boolean,
   images: NoteImageEntity[],
-  onDelete?: NoteBaseImagesProps['onDelete']
 }
 
-const NoteImages = ({ images, hasControls, onDelete }: NoteImagesProps) => {
+const NoteImages = ({ noteId, images, hasControls }: NoteImagesProps) => {
   return (
     images.map(({ id, sizes }) => {
       return (
         <WithImageControls
           key={id}
-          id={id}
+          imageId={id}
+          noteId={noteId}
           hasControls={hasControls}
           isSelecting={false}
           isSelected={false}
-          onDelete={onDelete}
         >
           <NoteImage
             src={sizes.small}

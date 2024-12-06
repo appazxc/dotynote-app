@@ -2,7 +2,6 @@ import { Box } from '@chakra-ui/react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
-import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { Dots } from 'shared/components/Dots';
 import { Tag } from 'shared/components/ui/tag';
@@ -31,13 +30,8 @@ export const NoteBase = (props: Props) => {
   invariant(note, 'Missing note');
 
   const { mutate } = useUpdateNote();
-  const { mutate: deleteNoteImage } = useDeleteNoteImage();
 
   const { title, content } = note;
-
-  const handleDeleteImage = React.useCallback((id: string) => {
-    deleteNoteImage({ id, noteId });
-  }, [deleteNoteImage, noteId]);
 
   const debouncedUpdateTitle = React.useMemo(() => {
     return debounce((title) => {
@@ -79,7 +73,6 @@ export const NoteBase = (props: Props) => {
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
-        onDelete={handleDeleteImage}
       />
       <Dots
         placement="note"

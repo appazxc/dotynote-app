@@ -18,6 +18,7 @@ export const operationTypes = {
   PRIMARY_NOTE: 'primaryNote',
   HUB: 'hub',
   SELECT: 'select',
+  SELECT_NOTE_IMAGES: 'selectNoteImages',
 } as const;
 
 export type StickOperation = {
@@ -31,6 +32,12 @@ export type StickOperation = {
 
 export type PrimaryNoteOperation = {
   type: typeof operationTypes.PRIMARY_NOTE,
+}
+
+export type SelectNoteImagesOperation = {
+  type: typeof operationTypes.SELECT_NOTE_IMAGES,
+  imageIds: string[],
+  noteId: number,
 }
 
 export type HubOperation = {
@@ -51,6 +58,15 @@ export type MoveOperation = {
   concretePostId?: number,
 }
 
+type OperationType =
+  | NoOperation 
+  | StickOperation 
+  | MoveOperation 
+  | PrimaryNoteOperation
+  | HubOperation
+  | SelectOperation
+  | SelectNoteImagesOperation
+
 type InitialState = {
   isSideOpen: boolean,
   isPageLoading: boolean,
@@ -69,7 +85,7 @@ type InitialState = {
     addTo: AddTo,
     isSearchActive: boolean,
   },
-  operation: NoOperation | StickOperation | MoveOperation | PrimaryNoteOperation | HubOperation | SelectOperation,
+  operation: OperationType,
 };
 
 const noOperation = { type: null };
@@ -196,6 +212,37 @@ export const appSlice = createSlice({
         noteId: payload.noteId,
       };
     },
+    startSelectNoteImagesOperation: (
+      state,
+      { payload }: PayloadAction<{
+        noteId: number,
+        imageId: string,
+      }>
+    ) => {
+      state.operation = {
+        type: operationTypes.SELECT_NOTE_IMAGES,
+        imageIds: [payload.imageId],
+        noteId: payload.noteId,
+      };
+    },
+    toggleSelectNoteImage: (
+      state,
+      { payload: imageId }: PayloadAction<string>
+    ) => {
+      if (state.operation.type !== operationTypes.SELECT_NOTE_IMAGES) {
+        return;
+      } 
+
+      if (state.operation.imageIds.includes(imageId)) {
+        state.operation.imageIds = state.operation.imageIds.filter(id => id !== imageId);
+      } else {
+        state.operation.imageIds = [...state.operation.imageIds, imageId];
+      }
+
+      if (state.operation.imageIds.length === 0) {
+        state.operation = noOperation;
+      }
+    },
     toggleConcretePlace: (state) => {
       if ('concretePlace' in state.operation) {
         state.operation.concretePlace = !state.operation.concretePlace;
@@ -255,6 +302,8 @@ export const {
   updateOperationConcretePost,
   addPrimaryNoteTab,
   startHubOperation,
+  startSelectNoteImagesOperation,
+  toggleSelectNoteImage,
 } = appSlice.actions;
 
 export default appSlice.reducer;
