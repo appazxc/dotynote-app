@@ -5,7 +5,7 @@ import React from 'react';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { Dots } from 'shared/components/Dots';
 import { Tag } from 'shared/components/ui/tag';
-import { NoteBaseImages } from 'shared/modules/noteTab/components/NoteBase/NoteBaseImages';
+import { NoteBaseImages } from 'shared/modules/noteTab/components/NoteContent/NoteBaseImages';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -23,7 +23,7 @@ type Props = {
   showParent?: boolean,
 }
 
-export const NoteBase = (props: Props) => {
+export const NoteContent = (props: Props) => {
   const { noteId, isWriteMode, parent, showParent, isMobile } = props;
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 

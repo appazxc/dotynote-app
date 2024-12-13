@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 
-import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
+import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { NotePosts } from 'desktop/modules/noteTab/NotePosts';
@@ -29,7 +29,7 @@ export const NoteTabContent = React.memo((props: Props) => {
         gap="10"
       >
         {showNote && (
-          <NoteBase
+          <NoteContent
             noteId={noteId}
             parent={parent}
             isWriteMode={isWriteMode}

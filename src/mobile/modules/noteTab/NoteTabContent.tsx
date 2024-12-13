@@ -1,6 +1,6 @@
 import { Container, Stack } from '@chakra-ui/react';
 
-import { NoteBase } from 'shared/modules/noteTab/components/NoteBase';
+import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { NotePosts } from 'mobile/modules/noteTab/NotePosts';
@@ -26,7 +26,7 @@ export const NoteTabContent = (props: Props) => {
         h="full"
       >
         {showNote && (
-          <NoteBase
+          <NoteContent
             isMobile
             noteId={noteId}
             isWriteMode={isWriteMode}

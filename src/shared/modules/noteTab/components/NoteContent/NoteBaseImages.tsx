@@ -31,7 +31,7 @@ export const NoteBaseImages = React.memo(({ noteId, hasControls, images }: NoteB
       display="flex"
       flexWrap="wrap"
     >
-      <NoteImages
+      <ImagesBase
         noteId={noteId}
         images={visibleImages}
         hasControls={hasControls}
@@ -45,8 +45,6 @@ type WithImageControlsProps = {
   imageId: string,
   noteId: number,
   hasControls?: boolean,
-  isSelecting?: boolean,
-  isSelected?: boolean,
   children: React.ReactNode,
 }
 
@@ -69,7 +67,7 @@ const WithImageControls = (props: WithImageControlsProps) => {
   }, [dispatch, imageId, isSelecting, noteId]);
 
   const handleDeleteImage = React.useCallback(() => {
-    deleteNoteImage({ id: imageId, noteId });
+    deleteNoteImage({ imageId, noteId });
   }, [deleteNoteImage, noteId, imageId]);
 
   if (isSelecting) {
@@ -122,7 +120,7 @@ type NoteImagesProps = {
   images: NoteImageEntity[],
 }
 
-const NoteImages = ({ noteId, images, hasControls }: NoteImagesProps) => {
+const ImagesBase = ({ noteId, images, hasControls }: NoteImagesProps) => {
   return (
     images.map(({ id, sizes }) => {
       return (
@@ -131,8 +129,6 @@ const NoteImages = ({ noteId, images, hasControls }: NoteImagesProps) => {
           imageId={id}
           noteId={noteId}
           hasControls={hasControls}
-          isSelecting={false}
-          isSelected={false}
         >
           <NoteImage
             src={sizes.small}

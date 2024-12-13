@@ -15,7 +15,7 @@ type Props = {
   isMobile?: boolean,
 };
 
-export const NoteContentCards = React.memo(({ isMobile }: Props) => {
+export const NoteMediaCards = React.memo(({ isMobile }: Props) => {
   const dispatch = useAppDispatch();
 
   const constructionText = isMobile ? 'Constructing' : 'Under construction';

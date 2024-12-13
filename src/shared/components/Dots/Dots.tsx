@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import { LayoutGroup } from 'motion/react';
+import { AnimatePresence, LayoutGroup } from 'motion/react';
 import React from 'react';
 
 import { NoteDot } from 'shared/components/Dots/NoteDot';
@@ -28,32 +28,34 @@ export const Dots = React.memo(({ dots, showAmount, placement, ...boxProps }: Pr
   
   return (
     <LayoutGroup>
-      <Box
-        flexDirection="row"
-        gap="2"
-        display="flex"
-        flexWrap="wrap"
-        onContextMenu={(e) => {
-          e.stopPropagation();
-        }}
-        {...boxProps}
-      >
-        {items.map((dot) => {
-          return placement === 'note' ? (
-            <NoteDot
-              key={dot.id}
-              {...dot}
-              showAmount={showAmount}
-            />
-          ) : (
-            <PostDot
-              key={dot.id}
-              {...dot}
-              showAmount={showAmount}
-            />
-          );
-        })}
-      </Box>
+      <AnimatePresence>
+        <Box
+          flexDirection="row"
+          gap="2"
+          display="flex"
+          flexWrap="wrap"
+          onContextMenu={(e) => {
+            e.stopPropagation();
+          }}
+          {...boxProps}
+        >
+          {items.map((dot) => {
+            return placement === 'note' ? (
+              <NoteDot
+                key={dot.id}
+                {...dot}
+                showAmount={showAmount}
+              />
+            ) : (
+              <PostDot
+                key={dot.id}
+                {...dot}
+                showAmount={showAmount}
+              />
+            );
+          })}
+        </Box>
+      </AnimatePresence>
     </LayoutGroup>
   );
 });

@@ -1,12 +1,11 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
+import { NoteMediaCards } from 'shared/components/NoteMediaCards';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
-import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
 import { useAppDispatch } from 'shared/store/hooks';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
@@ -30,7 +29,7 @@ const Home = () => {
       header={<LayoutHeader title="Create note" />} 
     >
       <Container pt="4">
-        <NoteContentCards isMobile />
+        <NoteMediaCards isMobile />
       </Container>
       <CreateNoteModal onCreate={handleCreateNote} />
     </Layout>

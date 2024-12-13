@@ -3,7 +3,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import { NoteContentCards } from 'shared/modules/noteTab/components/NoteContentCards';
+import { NoteMediaCards } from 'shared/components/NoteMediaCards';
 
 export const NoteCreate = () => {
   return (
@@ -11,7 +11,7 @@ export const NoteCreate = () => {
       <Heading size="lg" mb="6">
         Create note
       </Heading>
-      <NoteContentCards />
+      <NoteMediaCards />
     </Box>
   );
 };

@@ -33,6 +33,7 @@ const Home = React.memo(() => {
     }).finally(() => {
       dispatch(invalidateHubPosts());
       dispatch(hideModal());
+
     });
   }, [navigate, dispatch]);
 
