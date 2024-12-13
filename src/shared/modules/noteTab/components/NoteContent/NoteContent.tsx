@@ -3,9 +3,9 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
-import { Dots } from 'shared/components/Dots';
 import { Tag } from 'shared/components/ui/tag';
-import { NoteBaseImages } from 'shared/modules/noteTab/components/NoteContent/NoteBaseImages';
+import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
+import { NoteContentImages } from 'shared/modules/noteTab/components/NoteContent/NoteContentImages';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -69,13 +69,12 @@ export const NoteContent = (props: Props) => {
         isWriteMode={isWriteMode}
         content={content}
       />
-      <NoteBaseImages
+      <NoteContentImages
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
       />
-      <Dots
-        placement="note"
+      <NoteContentDots
         dots={note.dots}
         showAmount={note.access === 'public'}
       />

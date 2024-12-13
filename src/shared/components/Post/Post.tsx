@@ -2,7 +2,7 @@ import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
-import { Dots } from 'shared/components/Dots';
+import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -85,8 +85,7 @@ export const Post = (props: Props) => {
           />
         </Stack>
         {dots && (
-          <Dots
-            placement="post"
+          <PostDots
             dots={dots}
             showAmount={showDotsAmount}
             mt="1"

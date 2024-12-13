@@ -21,7 +21,7 @@ type NoteBaseImagesProps = {
   images: NoteImageEntity[],
 };
 
-export const NoteBaseImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
+export const NoteContentImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
 
   return (
