@@ -1,12 +1,10 @@
+import debounce from 'lodash/debounce';
 import React from 'react';
 
-import debounce from 'lodash/debounce';
-
-import { afterNoteUpdated } from 'shared/actions/afterNoteUpdated';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { useEditor } from 'shared/modules/editor';
 import { noteSelector } from 'shared/selectors/entities';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { EditorContext } from './EditorContext';
@@ -17,9 +15,8 @@ type Props = React.PropsWithChildren<{
 }>
 
 export const EditorProvider = ({ id, children }: Props) => {
-  const { mutateAsync } = useUpdateNote();
+  const { mutate } = useUpdateNote();
   const note = useAppSelector(state => noteSelector.getEntityById(state, id));
-  const dispatch = useAppDispatch();
   
   invariant(note, 'Missing note');
 
@@ -27,11 +24,9 @@ export const EditorProvider = ({ id, children }: Props) => {
 
   const debouncedUpdateContent = React.useMemo(() => {
     return debounce((content) => {
-      mutateAsync({ id, data: { content } }).then(() => {
-        dispatch(afterNoteUpdated(id));
-      }).catch(() => {});
+      mutate({ id, data: { content } });
     }, 2000);
-  }, [mutateAsync, dispatch, id]);
+  }, [mutate, id]);
 
   const editor = useEditor({
     content,

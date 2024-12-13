@@ -10,11 +10,12 @@ import { queryClient } from 'shared/api/queryClient';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
+import { hideModal } from 'shared/modules/modal/modalSlice';
 import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { noteSelector } from 'shared/selectors/entities';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 type Props = { 
   canAddToNote: boolean,
@@ -23,6 +24,7 @@ type Props = {
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
+  const dispatch = useAppDispatch();
   const { open, onClose, onOpen } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const noteTabId = useNoteTabId(noteId);
@@ -31,7 +33,9 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
     const { queryKey } = noteTabStore.get(noteTabId) || {};
 
     queryClient.invalidateQueries({ queryKey });
-  }, [noteTabId]);
+
+    dispatch(hideModal());
+  }, [noteTabId, dispatch]);
   
   if (!note) {
     return null;

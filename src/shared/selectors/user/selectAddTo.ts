@@ -5,21 +5,21 @@ import { noteSelector } from 'shared/selectors/entities';
 import { AppState } from 'shared/types/store';
 
 export const selectAddTo = createSelector([
-  (state, { noteId }) => noteSelector.getById(state, noteId)?.permissions,
+  (state, { noteId }) => noteSelector.getEntityById(state, noteId),
   (state: AppState) => state.app.note.addTo,
 ], 
-(permissions, addToState) => {
-  if (!permissions) {
-    return addToState;
+(note, addToState) => {
+  if (!note) {
+    return null;
   }
 
-  if (!permissions.update) {
-    return addTo.POSTS;
-  }
-
-  if (!permissions.createPost) {
+  if (note.permissions.update && addToState === addTo.NOTE && !note.settings?.hide) {
     return addTo.NOTE;
   }
 
-  return addToState;
+  if (note.permissions.createPost) {
+    return addTo.POSTS;
+  }
+
+  return null;
 });

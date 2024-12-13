@@ -14,7 +14,7 @@ export type Props = {
 const NoteMenuDrawer = (props: Props) => {
   const { noteId } = props;
   const dispatch = useAppDispatch();
-  const note = useAppSelector(state => noteSelector.getById(state, noteId));
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 
   if (!note) {
     return null;
@@ -42,7 +42,7 @@ const NoteMenuDrawer = (props: Props) => {
           <DrawerBody>
             <ContentPicker
               noteId={noteId}
-              canAddToNote={note.permissions.update}
+              canAddToNote={note.permissions.update && !note.settings?.hide}
               canAddToPosts={note.permissions.createPost} 
               onFinish={handleClose}
             />

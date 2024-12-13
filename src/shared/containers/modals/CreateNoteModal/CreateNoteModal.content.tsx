@@ -1,6 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditorEvents } from '@tiptap/react';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -47,29 +45,26 @@ const CreateNoteModal = ({ onCreate }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
   const { mutateAsync } = useCreateNote();
-  const handleEditorUpdate = React.useMemo(() => {
-    return debounce(({ editor }: EditorEvents['update']) => {
-      const json = editor.getJSON();
 
-      console.log('json', json);
-      
-    }, 1000);
-  }, []);
+  const editor = useEditor();
 
-  const editor = useEditor({ onUpdate: handleEditorUpdate });
+  const handleKeyDown = React.useCallback((event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      editor.commands.focus('end');
+    }
+  }, [editor]);
 
   const onSubmit = React.useCallback(async (values) => {
-    console.log('values', values);
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
 
       if (onCreate) {
         onCreate(id);
       }
-    } catch {
-      dispatch(hideModal());
-    }
-  }, [dispatch, mutateAsync, editor, onCreate]);
+    // eslint-disable-next-line no-empty
+    } catch(_) {}
+  }, [mutateAsync, editor, onCreate]);
 
   return (
     <DialogRoot
@@ -98,11 +93,16 @@ const CreateNoteModal = ({ onCreate }: Props) => {
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
+                onKeyDown={handleKeyDown}
                 {...register('title')}
               />
             </Field>
 
-            <EditorContent editor={editor} />
+            <EditorContent
+              editor={editor}
+              minH="40"
+              fontSize="md"
+            />
           </DialogBody>
 
           <DialogFooter>

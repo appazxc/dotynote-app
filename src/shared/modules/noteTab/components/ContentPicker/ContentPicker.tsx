@@ -1,6 +1,7 @@
-import { Tabs } from '@chakra-ui/react';
+import { Center, Text, Tabs } from '@chakra-ui/react';
 import React from 'react';
 
+import { apos } from 'shared/constants/htmlCodes';
 import { NoteContent } from 'shared/modules/noteTab/components/ContentPicker/NoteContent';
 import { PostsContent } from 'shared/modules/noteTab/components/ContentPicker/PostsContent';
 import { addTo, AddTo } from 'shared/modules/noteTab/constants';
@@ -23,6 +24,14 @@ export const ContentPicker = React.memo(({ noteId, onFinish, canAddToNote, canAd
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
 
   invariant(note, 'Missing note');
+
+  if (!addToState) {
+    return (
+      <Center>
+        <Text>Can{apos}t add any content</Text>
+      </Center>
+    );
+  }
 
   return (
     <Tabs.Root

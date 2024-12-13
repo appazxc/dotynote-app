@@ -17,7 +17,9 @@ export const Dot = React.memo((props: Props) => {
   const [longPressTriggered, setLongPressTriggered] = React.useState(false);
 
   const attrs = useLongPress(
-    () => {
+    (event: Event) => {
+      if (event.type === 'mousedown' && 'button' in event && event.button !== 0) return;
+
       setLongPressTriggered(true);
       onLongPress();
     },
@@ -31,7 +33,7 @@ export const Dot = React.memo((props: Props) => {
 
   const handleOnClick = (event) => {
     event.stopPropagation();
-    
+
     if (longPressTriggered) {
       return;
     }
@@ -51,6 +53,10 @@ export const Dot = React.memo((props: Props) => {
         cursor="pointer"
         onClick={handleOnClick}
         {...attrs}
+        // onContextMenu={(event) => {
+        //   event.stopPropagation();
+        //   event.preventDefault();
+        // }}
       >
         <Box display="flex" gap="1">
           {showAmount && <Text fontSize="xs" color="colorPalette.600">{total}</Text>}

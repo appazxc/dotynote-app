@@ -76,7 +76,7 @@ const Tab = ({ id, isActive }) => {
             event.stopPropagation();
             dispatch(closeTab(id));
           }}
-        ><MdClose /> </CloseButton>
+        ><MdClose /></CloseButton>
       </motion.div>
     </Box>
   );
@@ -107,6 +107,7 @@ const Tabs = () => {
             <Button
               size="sm"
               variant="ghost"
+              iconSize="auto"
               onClick={() => {
                 dispatch(openTab({ active: true }));
                 navigate({ to: '/app' });

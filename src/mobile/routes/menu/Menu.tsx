@@ -1,4 +1,4 @@
-import { Box, Separator, VStack } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
@@ -28,7 +28,6 @@ const Menu = React.memo(() => {
       label: 'Spaces',
       to: '/app/spaces' as const,
       icon: <TbChartDots3 />,
-      divider: true,
     },
     // {
     //   label: 'Unsticked notes',
@@ -42,18 +41,16 @@ const Menu = React.memo(() => {
       onClick: () => {
         dispatch(logout());
       },
-      divider: true,
     },
   ];
 
   return (
     <Layout>
       <VStack alignItems="stretch" gap="0">
-        {list.map(({ label, icon, divider, ...btnProps }, index) => {
+        {list.map(({ label, icon, ...btnProps }) => {
           return (
             <React.Fragment key={label}>
-              {!!index && <Separator />}
-              <Box px="2">
+              <Box>
                 <Button
                   as={MobileLink}
                   w="full"

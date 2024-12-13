@@ -24,6 +24,10 @@ type NoteBaseImagesProps = {
 export const NoteContentImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
 
+  if (!visibleImages.length) {
+    return null;
+  }
+  
   return (
     <Box
       my="4"

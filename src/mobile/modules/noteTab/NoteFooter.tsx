@@ -26,7 +26,9 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
 
   return (
     <>
-      {showPlusButton ? <NotePlusButton noteId={noteId} /> : (
+      {showPlusButton ? (
+        <NotePlusButton noteId={noteId} /> 
+      ) : (
         <>
           {isOperationActive && (
             <Container maxW="3xl">

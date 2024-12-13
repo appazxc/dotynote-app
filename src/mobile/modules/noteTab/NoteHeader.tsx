@@ -96,7 +96,9 @@ export const NoteHeader = (props: Props) => {
         aria-label="Advanced Edit"
         variant={isAdvancedEditActive ? 'subtle' : 'ghost'}
         onClick={() => dispatch(toggleAdvancedEdit())}
-      ><FaA /></IconButton>
+      >
+        <FaA />
+      </IconButton>
     );
   }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentVisible]);
 

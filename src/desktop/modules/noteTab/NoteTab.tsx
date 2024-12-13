@@ -88,7 +88,7 @@ export const NoteTab = React.memo(() => {
           </AnimatePresence>  
         )}
       >
-        <Box pt={isSearchActive ? '80px' : '50px'}>
+        <Box pt={isSearchActive ? '80px' : '50px'} h="full">
           <NoteTabContent
             key={note.id}
             note={note}

@@ -49,6 +49,13 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
 
   const editor = useEditor({});
 
+  const handleKeyDown = React.useCallback((event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      editor.commands.focus('end');
+    }
+  }, [editor]);
+
   const onSubmit = React.useCallback(async (values) => {
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
@@ -82,6 +89,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
             }}
             display="flex"
             flexDirection="column"
+            gap="1"
           >
             <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea
@@ -89,11 +97,16 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
                 placeholder="Title"
                 px="0"
                 fontSize="x-large"
+                onKeyDown={handleKeyDown}
                 {...register('title')}
               />
             </Field>
 
-            <EditorContent editor={editor} minH="40" />
+            <EditorContent
+              editor={editor}
+              minH="40"
+              fontSize="md"
+            />
           </DialogBody>
 
           <DialogFooter>

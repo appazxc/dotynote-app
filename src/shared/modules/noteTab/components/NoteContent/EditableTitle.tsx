@@ -5,11 +5,10 @@ import { useEditorContext } from 'shared/modules/editor';
 
 type Props = {
   title?: string,
-  isMobile?: boolean,
   onChange: (title: string) => void,
 }
 
-export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
+export const EditableTitle = ({ title, onChange }: Props) => {
   const [value, setValue] = React.useState(title);
   const editor = useEditorContext();
 
@@ -29,7 +28,7 @@ export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
     <AutoResizeTextarea
       placeholder="Title"
       p="0"
-      fontSize={isMobile ? '2xl' : '4xl'}
+      fontSize="4xl"
       lineHeight="1.2"
       fontWeight="600"
       borderWidth="0"

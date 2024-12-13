@@ -2,6 +2,7 @@ import { Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
+import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
 import { NoteMediaCards } from 'shared/components/NoteMediaCards';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
@@ -20,6 +21,7 @@ const Home = () => {
       params: { noteId: id }, 
       replace: true,
     }).finally(() => {
+      dispatch(invalidateHubPosts());
       dispatch(hideModal());
     });
   }, [navigate, dispatch]);

@@ -88,7 +88,7 @@ export const Post = (props: Props) => {
           <PostDots
             dots={dots}
             showAmount={showDotsAmount}
-            mt="1"
+            mt="2"
           />
         )}
       </Box>

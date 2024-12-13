@@ -57,7 +57,6 @@ export const NoteContent = (props: Props) => {
         </Tag>
       )}
       <NoteTitle
-        isMobile={isMobile}
         title={title}
         isWriteMode={isWriteMode}
         onChange={debouncedUpdateTitle}
@@ -77,6 +76,7 @@ export const NoteContent = (props: Props) => {
       <NoteContentDots
         dots={note.dots}
         showAmount={note.access === 'public'}
+        mt="4"
       />
     </Box>
   );

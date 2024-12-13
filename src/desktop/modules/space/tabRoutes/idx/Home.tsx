@@ -6,7 +6,6 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
 import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
-import { Post } from 'shared/components/Post';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -14,7 +13,6 @@ import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink/DesktopTabLink';
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 import { HomeNote } from 'desktop/modules/space/tabRoutes/idx/HomeNote';
 
@@ -33,7 +31,6 @@ const Home = React.memo(() => {
     }).finally(() => {
       dispatch(invalidateHubPosts());
       dispatch(hideModal());
-
     });
   }, [navigate, dispatch]);
 
