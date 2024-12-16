@@ -10,7 +10,7 @@ import { invariant } from 'shared/util/invariant';
 
 export const uploadFiles = (
   files: FilesType, 
-  removeFile: (fileId: string) => void
+  removeFiles: (fileIds: string[]) => void
 ): ThunkAction => async (dispatch, getState) => {
   for await (const file of files) {
     await dispatch(uploadFile(file));
@@ -22,9 +22,7 @@ export const uploadFiles = (
     await queryClient.fetchQuery({ ...options.notes.load(Number(entity.zoneId)), staleTime: 0 });
   }
 
-  for (const file of files) {
-    removeFile(file.fileId);
-  }
+  removeFiles(files.map(({ fileId }) => fileId));
 };
 
 export const uploadFile = (file: UploadFile): ThunkAction => async (dispatch, getState) => {
@@ -43,7 +41,7 @@ export const uploadFile = (file: UploadFile): ThunkAction => async (dispatch, ge
 };
 
 export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): ThunkAction => 
-  async (dispatch, getState) => {
+  async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
     formData.append('noteId', String(entity.zoneId));

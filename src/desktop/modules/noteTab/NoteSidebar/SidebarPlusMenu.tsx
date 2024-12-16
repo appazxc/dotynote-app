@@ -10,6 +10,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
+import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
@@ -90,6 +91,10 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
       </PopoverRoot>
 
       <CreatePostModal
+        noteId={noteId}
+        onCreate={handlePostCreate}
+      />
+      <CreatePostWithImagesModal
         noteId={noteId}
         onCreate={handlePostCreate}
       />

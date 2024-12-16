@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { uploadFiles } from 'shared/modules/fileUpload/actions/uploadFiles';
-import { addFile, deleteFile } from 'shared/modules/fileUpload/uploadSlice';
+import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = React.PropsWithChildren<{}>;
@@ -24,11 +24,14 @@ type OpenFilePickerParams = {
   zoneId: number,
   type: UploadFileType,
   zone: ZoneType,
+  uploadImmediately?: boolean,
 }
 
+type OpenFilePicker = (params: OpenFilePickerParams, cb?: () => void) => void
+
 type FileUploadContextType = { 
-  // selectFilesByTag: (tag: TagType, files: FilesType) => FilesType,
-  openFilePicker: (params: OpenFilePickerParams) => void,
+  removeFiles: (fileIds: string[]) => void,
+  openFilePicker: OpenFilePicker,
   files: FilesType,
 };
 
@@ -41,6 +44,7 @@ type BuildFileTagType = {
 type ConfigType = {
   zoneId: number | null,
   zone: ZoneType,
+  uploadImmediately?: boolean,
 }
 
 const FileUploadContext = React.createContext<FileUploadContextType>(null!);
@@ -49,17 +53,17 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<FilesType>([]);
   const dispatch = useAppDispatch();
 
-  const removeFile = React.useCallback((fileId) => {
-    setFiles(prevFiles => prevFiles.filter(file => file.fileId !== fileId));
+  const removeFiles = React.useCallback((fileIds: string[]) => {
+    setFiles(prevFiles => prevFiles.filter(file => !fileIds.includes(file.fileId)));
     setTimeout(() => {
-      dispatch(deleteFile(fileId));
+      dispatch(deleteFiles(fileIds));
     });
   }, [dispatch]);
 
   const handleFileSelect = React.useCallback((event: Event, type: UploadFileType, config: ConfigType) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
-    const { zone, zoneId } = config;
+    const { zone, zoneId, uploadImmediately = true } = config;
     
     if (zoneId && files.length > 0) {
       nanoid();
@@ -73,7 +77,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         let fileType = type;
         const maxSize = 10 * 1024 * 1024; // 10mb
 
-        if ( type === 'image' && file.size > maxSize) {
+        if (type === 'image' && file.size > maxSize) {
           fileType = 'file';
         }
 
@@ -82,16 +86,19 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       
       setFiles((prev) => [...prev, ...newData]);
 
-      dispatch(uploadFiles(newData, removeFile));
+      if (uploadImmediately) {
+        dispatch(uploadFiles(newData, removeFiles));
+      }
     }
 
     target.value = '';
-  }, [dispatch, removeFile]);
+  }, [dispatch, removeFiles]);
 
-  const openFilePicker = React.useCallback((params: OpenFilePickerParams) => {
+  const openFilePicker: OpenFilePicker = React.useCallback((params, cb) => {
     const config = {
       zoneId: params.zoneId,
       zone: params.zone,
+      uploadImmediately: params.uploadImmediately,
     };
 
     if (params.type === 'image') {
@@ -103,6 +110,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'image', config);
         input.value = '';
         input.onchange = null;
+        cb?.();
       };
 
       input.click();
@@ -115,6 +123,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'file', config);
         input.value = '';
         input.onchange = null;
+        cb?.();
       };
 
       input.click();
@@ -122,7 +131,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [handleFileSelect]);
 
   return (
-    <FileUploadContext.Provider value={{ files, openFilePicker }}>
+    <FileUploadContext.Provider value={{ files, openFilePicker, removeFiles }}>
       {children}
     </FileUploadContext.Provider>
   );

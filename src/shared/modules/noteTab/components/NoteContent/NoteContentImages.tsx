@@ -7,6 +7,7 @@ import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
+import { useFileImageUrl } from 'shared/hooks/useFileImageUrl';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag, SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
@@ -192,23 +193,13 @@ const NoteImage = ({ src }: NoteImageProps) => {
   );
 };
 const ImagePreview = ({ file, status, progress, error }) => {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
-
+  const fileUrl = useFileImageUrl(file);
   const value = useSpringValue(progress);
-  
-  React.useEffect(() => {
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewUrl(objectUrl);
 
-      return () => URL.revokeObjectURL(objectUrl);
-    }
-  }, [file]);
-
-  return previewUrl ? (
+  return fileUrl ? (
     <Box position="relative">
       <NoteImage
-        src={previewUrl}
+        src={fileUrl}
       />
 
       {status === 'pending' && (
