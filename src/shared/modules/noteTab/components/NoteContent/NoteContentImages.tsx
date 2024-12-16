@@ -9,7 +9,7 @@ import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/pro
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
-import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
+import { selectFilteredFilesByTag, SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
@@ -24,7 +24,15 @@ type NoteBaseImagesProps = {
 export const NoteContentImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
 
-  if (!visibleImages.length) {
+  const { files } = useFileUpload();
+
+  const noteFiles = useAppSelector(state => 
+    selectFilteredFilesByTag(state, { 
+      files, 
+      tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
+    }));
+
+  if (!visibleImages.length && !noteFiles.length) {
     return null;
   }
   
@@ -40,7 +48,7 @@ export const NoteContentImages = React.memo(({ noteId, hasControls, images }: No
         images={visibleImages}
         hasControls={hasControls}
       />
-      <NoteUploadingImages noteId={noteId} />
+      <NoteUploadingImages files={noteFiles} />
     </Box>
   );
 });
@@ -143,20 +151,13 @@ const ImagesBase = ({ noteId, images, hasControls }: NoteImagesProps) => {
   );
 };
 
-const NoteUploadingImages = ({ noteId }) => {
-  const { files } = useFileUpload();
+type NoteUploadingImagesProps = {
+  files: SelectFilteredFilesByTagReturn
+}
 
-  const noteFiles = useAppSelector(state => 
-    selectFilteredFilesByTag(state, { 
-      files, 
-      tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }) }));
-
-  if (!noteFiles.length) {
-    return null;
-  }
-
+const NoteUploadingImages = ({ files }: NoteUploadingImagesProps) => {
   return (
-    noteFiles.map(({ file, fileId, status, progress, error }) => {
+    files.map(({ file, fileId, status, progress, error }) => {
       return (
         <ImagePreview
           key={fileId}

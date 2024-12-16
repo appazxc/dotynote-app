@@ -9,7 +9,14 @@ type SelectFilteredFilesByTagParams = {
   tag: TagType,
 }
 
-export const selectFilteredFilesByTag = createSelector([
+export type SelectFilteredFilesByTagReturn = (UploadFileEntity & {
+  file: File,
+})[]
+
+type SelectFilteredFilesByTag = (state: AppState, params: SelectFilteredFilesByTagParams) => 
+  SelectFilteredFilesByTagReturn
+
+export const selectFilteredFilesByTag: SelectFilteredFilesByTag = createSelector([
   (state: AppState) => state.upload.byId,
   (_, { files }: SelectFilteredFilesByTagParams) => files,
   (_, { tag }: SelectFilteredFilesByTagParams) => tag,
