@@ -51,6 +51,7 @@ const SelectConcretePlaceModal = (props: Props) => {
     if (operation.type === 'stick') {
       await stick({
         parentId: noteId,
+        noteId: operation.noteId,
         postIds: operation.postIds,
         concretePostId: operation.concretePostId,
         place,

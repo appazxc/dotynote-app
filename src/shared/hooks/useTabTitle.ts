@@ -8,6 +8,15 @@ import { getTabInfo } from 'shared/modules/space/helpers/tabHelpers';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
+const getNoteErrorTitle = (status: number | undefined = 400) => {
+  switch(status) {
+  case 404:
+    return 'Note not found';
+  default:
+    return `Error ${status}`;
+  }
+};
+
 export const useTabTitle = (path: string, router) => {
   const { isNoteTab, noteId, title: tabTitle } = React.useMemo(() => {
     return getTabInfo(path, router);
@@ -24,7 +33,7 @@ export const useTabTitle = (path: string, router) => {
     }
 
     if (error && error instanceof AxiosError) {
-      return `Error: ${error.response?.status}`;
+      return getNoteErrorTitle(error.response?.status);
     }
 
     if (tabTitle) {
