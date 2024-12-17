@@ -1,15 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { buildFileTag, FilesType, TagType } from 'shared/modules/fileUpload/FileUploadProvider';
+import { buildFileTag, TagType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { AppState } from 'shared/types/store';
 
 type SelectFilteredFilesByTagParams = {
-  files: FilesType,
+  files: UploadFile[],
   tag: TagType,
 }
 
-export type SelectFilteredFilesByTagReturn = (UploadFileEntity & {
+export type SelectFilteredFilesByTagReturn = (UploadFile & UploadFileEntity & {
   file: File,
 })[]
 

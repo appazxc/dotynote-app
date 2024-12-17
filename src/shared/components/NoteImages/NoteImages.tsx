@@ -1,4 +1,4 @@
-import { Box, Center, Float, Icon, Image } from '@chakra-ui/react';
+import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
@@ -7,7 +7,6 @@ import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
-import { useFileImageUrl } from 'shared/hooks/useFileImageUrl';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag, SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
@@ -20,9 +19,9 @@ type NoteBaseImagesProps = {
   noteId: number,
   hasControls?: boolean,
   images: NoteImageEntity[],
-};
+} & BoxProps;
 
-export const NoteContentImages = React.memo(({ noteId, hasControls, images }: NoteBaseImagesProps) => {
+export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
 
   const { files } = useFileUpload();
@@ -39,10 +38,10 @@ export const NoteContentImages = React.memo(({ noteId, hasControls, images }: No
   
   return (
     <Box
-      my="4"
       gap="1"
       display="flex"
       flexWrap="wrap"
+      {...boxProps}
     >
       <ImagesBase
         noteId={noteId}
@@ -58,11 +57,11 @@ type WithImageControlsProps = {
   imageId: string,
   noteId: number,
   hasControls?: boolean,
-  children: React.ReactNode,
+  src: string,
 }
 
 const WithImageControls = (props: WithImageControlsProps) => {
-  const { noteId, imageId, children, hasControls } = props;
+  const { noteId, imageId, src, hasControls } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -71,7 +70,9 @@ const WithImageControls = (props: WithImageControlsProps) => {
   const isSelecting = operation.type === operationTypes.SELECT_NOTE_IMAGES && operation.noteId === noteId;
   const isSelected = isSelecting && operation.imageIds.includes(imageId);
 
-  const handleSelectImage = React.useCallback(() => {
+  const handleSelectImage = React.useCallback((event) => {
+    event.stopPropagation();
+
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
     } else {
@@ -89,8 +90,12 @@ const WithImageControls = (props: WithImageControlsProps) => {
         position="relative"
         cursor="pointer"
         onClick={handleSelectImage}
+        onContextMenu={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+        }}
       >
-        {children}
+        <NoteImage src={src} />
         <Float offset="15px" placement="top-end">
           <Checkbox
             borderRadius="full"
@@ -103,28 +108,41 @@ const WithImageControls = (props: WithImageControlsProps) => {
     );
   }
 
-  if (!hasControls) {
-    return children;
+  if (hasControls) {
+    return (
+      <Menu isContextMenu>
+        <MenuTrigger>
+          <NoteImage
+            src={src} 
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          />
+        </MenuTrigger>
+        <MenuList>
+          <MenuItem
+            label="Select"
+            onClick={handleSelectImage}
+          />
+          <MenuItem
+            label={'Delete'}
+            color="red"
+            onClick={handleDeleteImage}
+          />
+        </MenuList>
+      </Menu>
+    );
   }
 
   return (
-    <Menu isContextMenu>
-      <MenuTrigger>
-        {children}
-      </MenuTrigger>
-      <MenuList>
-        <MenuItem
-          label="Select"
-          onClick={handleSelectImage}
-        />
-        <MenuItem
-          label={'Delete'}
-          color="red"
-          onClick={handleDeleteImage}
-        />
-      </MenuList>
-    </Menu>
+    <NoteImage
+      src={src}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    />
   );
+
 };
 
 type NoteImagesProps = {
@@ -142,11 +160,8 @@ const ImagesBase = ({ noteId, images, hasControls }: NoteImagesProps) => {
           imageId={id}
           noteId={noteId}
           hasControls={hasControls}
-        >
-          <NoteImage
-            src={sizes.small}
-          />
-        </WithImageControls>
+          src={sizes.small}
+        />
       );
     })
   );
@@ -158,11 +173,11 @@ type NoteUploadingImagesProps = {
 
 const NoteUploadingImages = ({ files }: NoteUploadingImagesProps) => {
   return (
-    files.map(({ file, fileId, status, progress, error }) => {
+    files.map(({ objectUrl, fileId, status, progress, error }) => {
       return (
         <ImagePreview
           key={fileId}
-          file={file}
+          src={objectUrl}
           status={status}
           progress={progress}
           error={error}
@@ -174,9 +189,10 @@ const NoteUploadingImages = ({ files }: NoteUploadingImagesProps) => {
 
 type NoteImageProps = {
   src: string,
+  onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
 
-const NoteImage = ({ src }: NoteImageProps) => {
+const NoteImage = ({ src, onClick }: NoteImageProps) => {
   return (
     <Image
       src={src}
@@ -189,17 +205,18 @@ const NoteImage = ({ src }: NoteImageProps) => {
       w="130px"
       fit="cover"
       p="1px"
+      onClick={onClick}
     />
   );
 };
-const ImagePreview = ({ file, status, progress, error }) => {
-  const fileUrl = useFileImageUrl(file);
+
+const ImagePreview = ({ src, status, progress, error }) => {
   const value = useSpringValue(progress);
 
-  return fileUrl ? (
+  return src ? (
     <Box position="relative">
       <NoteImage
-        src={fileUrl}
+        src={src}
       />
 
       {status === 'pending' && (

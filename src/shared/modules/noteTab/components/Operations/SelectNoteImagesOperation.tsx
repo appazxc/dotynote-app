@@ -28,10 +28,12 @@ export const SelectNoteImagesOperation = React.memo((props: Props) => {
       return deleteImage({ noteId, imageId });
     }));
   }, [dispatch, noteId, deleteImage, imageIds]);
- 
-  if (note.id !== noteId) {
-    return null;
-  }
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(stopOperation());
+    };
+  }, [dispatch, note.id]);
 
   const handleClose = () => {
     dispatch(stopOperation());

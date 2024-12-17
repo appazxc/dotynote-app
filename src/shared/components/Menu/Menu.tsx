@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box } from '@chakra-ui/react';
 import {
   FloatingFocusManager,
@@ -19,6 +17,7 @@ import {
   useRole,
   useTypeahead,
 } from '@floating-ui/react';
+import React from 'react';
 
 import { MenuContext } from './MenuContext';
 
@@ -103,8 +102,9 @@ export const Menu = React.memo((props: Props) => {
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(interactions);
 
-  function onContextMenu(e: React.MouseEvent<HTMLElement>) {
-    e.preventDefault();
+  function onContextMenu(event: React.MouseEvent<HTMLElement>) {
+    event.preventDefault();
+    event.stopPropagation();
 
     if (contextMousePosition) {
       refs.setPositionReference({
@@ -112,12 +112,12 @@ export const Menu = React.memo((props: Props) => {
           return {
             width: 0,
             height: 0,
-            x: e.clientX,
-            y: e.clientY,
-            top: e.clientY,
-            right: e.clientX,
-            bottom: e.clientY,
-            left: e.clientX,
+            x: event.clientX,
+            y: event.clientY,
+            top: event.clientY,
+            right: event.clientX,
+            bottom: event.clientY,
+            left: event.clientX,
           };
         },
       });
@@ -125,7 +125,7 @@ export const Menu = React.memo((props: Props) => {
 
     setIsOpen(true);
   }
-  
+
   const triggerProps = isContextMenu ? {
     ref: refs.setReference,
     ...getReferenceProps({

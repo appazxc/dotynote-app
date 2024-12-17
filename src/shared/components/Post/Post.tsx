@@ -2,6 +2,7 @@ import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
+import { NoteImages } from 'shared/components/NoteImages';
 import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
@@ -75,13 +76,18 @@ export const Post = (props: Props) => {
           cursor="pointer"
           userSelect="none"
           gap="2"
-          // overflow="hidden"
         >
           {note.title && <Text fontWeight="500">{note.title}</Text>}
           <EditorView
             removeEmptyDivsFromEnd
             maxLines={4}
             content={note.content}
+          />
+          <NoteImages
+            mt="2"
+            noteId={noteId}
+            images={note.images}
+            hasControls={true}
           />
         </Stack>
         {dots && (

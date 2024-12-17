@@ -2,14 +2,14 @@ import { api } from 'shared/api';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
-import { FilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/selectors';
 import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 export const uploadFiles = (
-  files: FilesType, 
+  files: UploadFile[], 
   removeFiles: (fileIds: string[]) => void
 ): ThunkAction => async (dispatch, getState) => {
   for await (const file of files) {

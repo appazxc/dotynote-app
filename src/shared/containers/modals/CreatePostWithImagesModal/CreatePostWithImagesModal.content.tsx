@@ -1,11 +1,10 @@
-import { Box, Grid, Image, SimpleGrid } from '@chakra-ui/react';
+import { Grid, Image } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
-import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { Button } from 'shared/components/ui/button';
 import { CheckboxCard } from 'shared/components/ui/checkbox-card';
 import {
@@ -18,9 +17,6 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'shared/components/ui/dialog';
-import { Field } from 'shared/components/ui/field';
-import { useFileImageUrl } from 'shared/hooks/useFileImageUrl';
-import { EditorContent, useEditor } from 'shared/modules/editor';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -42,9 +38,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-const FileImage = ({ file }: { file: File }) => {
-  const src = useFileImageUrl(file);
-
+const FileImage = ({ src }: { src: string | null }) => {
   return src ? (
     <Image
       src={src}
@@ -71,13 +65,13 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
   const { files, removeFiles } = useFileUpload();
-  const postFiles = useAppSelector(state => 
+  const imgFiles = useAppSelector(state => 
     selectFilteredFilesByTag(state, { 
       files, 
       tag: buildFileTag({ zone: 'post', zoneId: noteId, type: 'image' }),
     }));
   const { mutateAsync } = useCreatePost(noteId);
-  console.log('noteFiles', postFiles);
+
   const onSubmit = React.useCallback(async () => {
     try {
       const id = await mutateAsync({ });
@@ -97,7 +91,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
       size={isMobile ? 'full' : 'sm'}
       scrollBehavior="inside"
       onOpenChange={() => {
-        removeFiles(postFiles.map(({ fileId }) => fileId ));
+        removeFiles(imgFiles.map(({ fileId }) => fileId ));
         dispatch(hideModal());
       }}
     >
@@ -121,29 +115,12 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
               templateColumns="repeat(3, 1fr)"
               gap="10px"
             >
-              {files.map(({ fileId, file }) => {
-                return <FileImage key={fileId} file={file} />;
+              {files.map(({ fileId, objectUrl }) => {
+                return <FileImage key={fileId} src={objectUrl} />;
               })}
             </Grid>
           </DialogBody>
           <DialogFooter>
-            <Grid templateColumns="repeat(2, 1fr)" gap="20px">
-              <CheckboxCard
-                label="Different posts"
-                description="Place images in separate posts"
-                checked={true}
-                size="sm"
-              />
-              <CheckboxCard
-                label="Compress"
-                description="Place images"
-                checked={true}
-                size="sm"
-              />
-            </Grid>
-          </DialogFooter>
-          <DialogFooter>
-            
             <Button
               colorScheme="brand"
               loading={isSubmitting}

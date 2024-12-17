@@ -13,10 +13,9 @@ export type TagType = string; // like an ID or something similar to determine wh
 
 export type UploadFile = { 
   fileId: string, 
-  file: File 
+  file: File,
+  objectUrl: string | null,
 }
-
-export type FilesType = UploadFile[];
 
 export type ZoneType = 'note' | 'post';
 
@@ -32,7 +31,7 @@ type OpenFilePicker = (params: OpenFilePickerParams, cb?: () => void) => void
 type FileUploadContextType = { 
   removeFiles: (fileIds: string[]) => void,
   openFilePicker: OpenFilePicker,
-  files: FilesType,
+  files: UploadFile[],
 };
 
 type BuildFileTagType = {
@@ -50,15 +49,23 @@ type ConfigType = {
 const FileUploadContext = React.createContext<FileUploadContextType>(null!);
 
 export const FileUploadProvider = React.memo(({ children }: Props) => {
-  const [files, setFiles] = React.useState<FilesType>([]);
+  const [files, setFiles] = React.useState<UploadFile[]>([]);
   const dispatch = useAppDispatch();
 
   const removeFiles = React.useCallback((fileIds: string[]) => {
+    files
+      .filter(({ fileId }) => fileIds.includes(fileId))
+      .forEach(({ objectUrl }) => {
+        if (objectUrl) {
+          URL.revokeObjectURL(objectUrl);
+        }
+      });
+      
     setFiles(prevFiles => prevFiles.filter(file => !fileIds.includes(file.fileId)));
     setTimeout(() => {
       dispatch(deleteFiles(fileIds));
     });
-  }, [dispatch]);
+  }, [files, dispatch]);
 
   const handleFileSelect = React.useCallback((event: Event, type: UploadFileType, config: ConfigType) => {
     const target = event.target as HTMLInputElement;
@@ -71,6 +78,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       const newData = files.map(file => ({
         file,
         fileId: nanoid(),
+        objectUrl: type === 'image' ? URL.createObjectURL(file) : null,
       }));
 
       newData.forEach(({ fileId, file }) => {
