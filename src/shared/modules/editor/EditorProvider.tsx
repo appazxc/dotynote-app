@@ -36,10 +36,10 @@ export const EditorProvider = ({ id, children }: Props) => {
   });
 
   React.useEffect(() => {
-    if (!editor || !content) {
+    if (!editor) {
       return;
     }
-    editor.commands.setContent(content);
+    editor.commands.setContent(content || '');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

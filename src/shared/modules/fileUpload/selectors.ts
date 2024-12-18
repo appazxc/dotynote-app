@@ -21,14 +21,20 @@ export const selectFilteredFilesByTag: SelectFilteredFilesByTag = createSelector
   (_, { files }: SelectFilteredFilesByTagParams) => files,
   (_, { tag }: SelectFilteredFilesByTagParams) => tag,
 ], (filesById, files, tag) => {
-  return files.filter((file) => buildFileTag({
-    zone: filesById[file.fileId].zone,
-    zoneId: filesById[file.fileId].zoneId,
-    type: filesById[file.fileId].type,
-  }) === tag).map(file => ({
-    ...filesById[file.fileId],
-    ...file,
-  }));
+  return files
+    .filter((file) => {
+      const tagParams = {
+        zone: filesById[file.fileId].zone,
+        zoneId: filesById[file.fileId].zoneId,
+        type: filesById[file.fileId].type,
+      };
+      
+      return buildFileTag(tagParams) === tag && filesById[file.fileId].status === 'idle';
+    })
+    .map(file => ({
+      ...filesById[file.fileId],
+      ...file,
+    }));
 });
 
 export const selectUploadFileEntity = (state: AppState, id: string): UploadFileEntity | null => 

@@ -37,7 +37,7 @@ export const uploadFile = (file: UploadFile): ThunkAction => async (dispatch, ge
     return;
   }
 
-  invariant(false, 'Not implemented');
+  console.log(`Not implemented file upload. Type: ${entity.type}, zone: ${entity.zone}`);
 };
 
 export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): ThunkAction => 

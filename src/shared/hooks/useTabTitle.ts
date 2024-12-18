@@ -41,7 +41,7 @@ export const useTabTitle = (path: string, router) => {
     }
 
     if (note) {
-      return note.title || generateText(note.content || {}, extensions) || 'Untitled';
+      return note.title || (note.content && generateText(note.content, extensions)) || 'Untitled';
     }
 
     return 'Untitled';

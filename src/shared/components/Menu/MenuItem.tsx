@@ -25,7 +25,10 @@ export const MenuItem = (props: MenuItemProps) => {
   return (
     <MenuItemBase
       onClick={(event) => {
+        event.stopPropagation();
+
         onClick?.(event);
+        
         if (closeOnClick) {
           menu.close();
         }

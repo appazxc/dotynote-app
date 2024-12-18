@@ -4,9 +4,9 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { addMediaToPost } from 'shared/actions/post/addMediaToPost';
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
 import { Button } from 'shared/components/ui/button';
-import { CheckboxCard } from 'shared/components/ui/checkbox-card';
 import {
   DialogBackdrop,
   DialogBody,
@@ -19,13 +19,14 @@ import {
 } from 'shared/components/ui/dialog';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
+import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   noteId: number,
-  onCreate?: (id: string) => void,
+  onCreate?: (id: number) => void,
 }
 
 const schema = z.object({
@@ -48,8 +49,6 @@ const FileImage = ({ src }: { src: string | null }) => {
       rounded="md"
       background="gray.300"
       aspectRatio={1}
-      // h="100px"
-      // w="100px"
       fit="cover"
       p="1px"
     />
@@ -70,19 +69,28 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
       files, 
       tag: buildFileTag({ zone: 'post', zoneId: noteId, type: 'image' }),
     }));
-  const { mutateAsync } = useCreatePost(noteId);
+  const { mutateAsync, isPending } = useCreatePost(noteId);
 
   const onSubmit = React.useCallback(async () => {
     try {
-      const id = await mutateAsync({ });
+      const id = await mutateAsync({});
       
+      imgFiles.forEach(({ fileId }) => {
+        dispatch(updateFile({
+          fileId,
+          zone: 'note',
+          zoneId: id,
+        }));
+      });
+
+      dispatch(addMediaToPost(id, imgFiles, removeFiles));
       if (onCreate) {
         onCreate(id);
       }
     } finally {
       dispatch(hideModal());
     }
-  }, [dispatch, mutateAsync, onCreate]);
+  }, [dispatch, mutateAsync, onCreate, removeFiles, imgFiles]);
 
   return (
     <DialogRoot
@@ -110,12 +118,11 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
             flexDirection="column"
             gap="1"
           >
-           
             <Grid
               templateColumns="repeat(3, 1fr)"
               gap="10px"
             >
-              {files.map(({ fileId, objectUrl }) => {
+              {imgFiles.map(({ fileId, objectUrl }) => {
                 return <FileImage key={fileId} src={objectUrl} />;
               })}
             </Grid>
@@ -123,14 +130,13 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
           <DialogFooter>
             <Button
               colorScheme="brand"
-              loading={isSubmitting}
-              type="submit"
+              loading={isPending}
+              onClick={onSubmit}
             >
               Create
             </Button>
           </DialogFooter>
           <DialogCloseTrigger />
-
         </form>
       </DialogContent>
     </DialogRoot>

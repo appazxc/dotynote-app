@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const EditableTitle = ({ title, onChange }: Props) => {
-  const [value, setValue] = React.useState(title);
+  const [value, setValue] = React.useState(title || '');
   const editor = useEditorContext();
 
   const handleChange = React.useCallback((e) => {

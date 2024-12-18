@@ -26,10 +26,12 @@ type OpenFilePickerParams = {
   uploadImmediately?: boolean,
 }
 
+export type RemoveFilesType = (fileIds: string[]) => void
+
 type OpenFilePicker = (params: OpenFilePickerParams, cb?: () => void) => void
 
 type FileUploadContextType = { 
-  removeFiles: (fileIds: string[]) => void,
+  removeFiles: RemoveFilesType,
   openFilePicker: OpenFilePicker,
   files: UploadFile[],
 };

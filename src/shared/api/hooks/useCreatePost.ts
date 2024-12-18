@@ -6,7 +6,7 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 export const useCreatePost = (id: number) => {
   return useMutation({
     mutationFn: (note: Partial<NoteEntity>) => {
-      return api.post<string>(`/notes/${id}/posts`, note);
+      return api.post<number>(`/notes/${id}/posts`, note);
     },
   });
 };

@@ -1,5 +1,6 @@
 import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
 import React from 'react';
+import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
@@ -218,6 +219,24 @@ const ImagePreview = ({ src, status, progress, error }) => {
       <NoteImage
         src={src}
       />
+
+      {status === 'idle' && (
+        <Center
+          position="absolute"
+          top="0"
+          left="0"
+          bottom="0"
+          right="0"
+          bg="gray.200"
+          opacity="0.3"
+        >
+          <Icon fontSize="30px" color="black">
+            <Box>
+              <GoClock />
+            </Box>
+          </Icon>
+        </Center>
+      )}
 
       {status === 'pending' && (
         <Center
