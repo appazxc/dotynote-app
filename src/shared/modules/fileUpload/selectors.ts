@@ -7,6 +7,7 @@ import { AppState } from 'shared/types/store';
 type SelectFilteredFilesByTagParams = {
   files: UploadFile[],
   tag: TagType,
+  status?: UploadFileEntity['status']
 }
 
 export type SelectFilteredFilesByTagReturn = (UploadFile & UploadFileEntity & {
@@ -20,7 +21,8 @@ export const selectFilteredFilesByTag: SelectFilteredFilesByTag = createSelector
   (state: AppState) => state.upload.byId,
   (_, { files }: SelectFilteredFilesByTagParams) => files,
   (_, { tag }: SelectFilteredFilesByTagParams) => tag,
-], (filesById, files, tag) => {
+  (_, { status }: SelectFilteredFilesByTagParams) => status,
+], (filesById, files, tag, status) => {
   return files
     .filter((file) => {
       const tagParams = {
@@ -29,7 +31,9 @@ export const selectFilteredFilesByTag: SelectFilteredFilesByTag = createSelector
         type: filesById[file.fileId].type,
       };
       
-      return buildFileTag(tagParams) === tag && filesById[file.fileId].status === 'idle';
+      const isRightStatus = status ? filesById[file.fileId].status === status : true;
+
+      return buildFileTag(tagParams) === tag && isRightStatus;
     })
     .map(file => ({
       ...filesById[file.fileId],

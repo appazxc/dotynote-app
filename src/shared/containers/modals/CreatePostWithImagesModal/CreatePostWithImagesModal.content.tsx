@@ -1,4 +1,4 @@
-import { Grid, Image } from '@chakra-ui/react';
+import { Box, Float, Grid, IconButton, Image } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,6 +17,7 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'shared/components/ui/dialog';
+import { DeleteIcon } from 'shared/components/ui/icons';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
@@ -39,21 +40,39 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-const FileImage = ({ src }: { src: string | null }) => {
+type FileImageProps = {
+  id: string,
+  src: string | null, 
+  onRemove: (fileId: string) => void
+}
+
+const FileImage = React.memo(({ id, src, onRemove }: FileImageProps) => {
   return src ? (
-    <Image
-      src={src}
-      alt="Image"
-      border="1px solid"
-      borderColor="gray.300"
-      rounded="md"
-      background="gray.300"
-      aspectRatio={1}
-      fit="cover"
-      p="1px"
-    />
+    <Box position="relative">
+      <Image
+        src={src}
+        alt="Image"
+        border="1px solid"
+        borderColor="gray.300"
+        rounded="md"
+        background="gray.300"
+        aspectRatio={1}
+        fit="cover"
+        p="1px"
+      />
+      <Float placement="bottom-end" offset="15px">
+        <IconButton
+          size="2xs"
+          colorPalette="gray"
+          variant="subtle"
+          onClick={() => onRemove(id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Float>
+    </Box>
   ) : null;
-};
+});
 
 const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const dispatch = useAppDispatch();
@@ -68,8 +87,13 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     selectFilteredFilesByTag(state, { 
       files, 
       tag: buildFileTag({ zone: 'post', zoneId: noteId, type: 'image' }),
+      status: 'idle',
     }));
   const { mutateAsync, isPending } = useCreatePost(noteId);
+
+  const handleFileRemove = React.useCallback((fileId) => {
+    removeFiles([fileId]);
+  }, [removeFiles]);
 
   const onSubmit = React.useCallback(async () => {
     try {
@@ -106,7 +130,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
       <DialogBackdrop />
       <DialogContent asChild>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader><DialogTitle>{files.length} media</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{imgFiles.length} media</DialogTitle></DialogHeader>
           <DialogBody
             pt="0"
             css={{
@@ -123,7 +147,14 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
               gap="10px"
             >
               {imgFiles.map(({ fileId, objectUrl }) => {
-                return <FileImage key={fileId} src={objectUrl} />;
+                return (
+                  <FileImage
+                    key={fileId}
+                    id={fileId}
+                    src={objectUrl}
+                    onRemove={handleFileRemove}
+                  />
+                );
               })}
             </Grid>
           </DialogBody>
