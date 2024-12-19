@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+import { JSONContent } from '@tiptap/core';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
@@ -24,6 +25,15 @@ type Props = {
   showParent?: boolean,
 }
 
+const EMPTY_TEXT_CONTENT = JSON.stringify({
+  type: 'doc',
+  content: [{ type: 'paragraph' }],
+});
+
+const getIsTextContentEmpty = (content: JSONContent) => {
+  return JSON.stringify(content) === EMPTY_TEXT_CONTENT;
+};
+
 export const NoteContent = (props: Props) => {
   const { noteId, isWriteMode, parent, showParent, isMobile } = props;
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
@@ -40,12 +50,23 @@ export const NoteContent = (props: Props) => {
     }, 2000);
   }, [mutate, noteId]);
 
+  const isTextContentEmpty = !!content && getIsTextContentEmpty(content);
+
+  const showContent = 
+    isWriteMode 
+    || !isTextContentEmpty
+    || note.images.length
+    || note.dots.length;
+
+  if (!showContent) {
+    return null;
+  }
+
   return (
     <Box
-      flexGrow="1"
+      flexGrow={isWriteMode ? '1' : undefined}
       display="flex"
       flexDirection="column"
-      pb="5"
     >
       {parent?.title && showParent && (
         <Tag
@@ -67,6 +88,7 @@ export const NoteContent = (props: Props) => {
         noteId={noteId}
         isMobile={isMobile}
         isWriteMode={isWriteMode}
+        isTextContentEmpty={isTextContentEmpty}
         content={content}
       />
       <NoteImages

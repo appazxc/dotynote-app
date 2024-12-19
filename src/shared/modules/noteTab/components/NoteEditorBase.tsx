@@ -9,11 +9,18 @@ type Props = {
   noteId: number,
   isWriteMode: boolean,
   isMobile?: boolean,
+  isTextContentEmpty: boolean,
   content: NoteEntity['content']
 }
 
-export const NoteEditorBase = (props: Props) => {
-  const { isWriteMode, content } = props;
+export const NoteEditorBase = React.memo((props: Props) => {
+  const { isWriteMode, isTextContentEmpty, content } = props;
+
+  const showEditor = isWriteMode || !isTextContentEmpty;
+  
+  if (!showEditor) {
+    return null;
+  }
 
   return (
     <Box
@@ -26,4 +33,4 @@ export const NoteEditorBase = (props: Props) => {
       {isWriteMode ? <NoteEditor /> : <EditorView content={content} />}
     </Box>
   );
-};
+});
