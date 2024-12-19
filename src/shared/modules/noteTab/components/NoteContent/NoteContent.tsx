@@ -7,7 +7,6 @@ import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { NoteImages } from 'shared/components/NoteImages';
 import { Tag } from 'shared/components/ui/tag';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
-import { NoteContentImages } from 'shared/modules/noteTab/components/NoteContent/NoteContentImages';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';

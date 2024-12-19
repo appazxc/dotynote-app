@@ -1,4 +1,4 @@
-import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
+import { Box, BoxProps, Center, Float, Grid, Icon, Image } from '@chakra-ui/react';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
@@ -41,10 +41,9 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
   return (
     <LayoutGroup>
       <AnimatePresence>
-        <Box
+        <Grid
           gap="1"
-          display="flex"
-          flexWrap="wrap"
+          templateColumns="repeat(auto-fill, minmax(120px, 1fr))"
           {...boxProps}
         >
           <ImagesBase
@@ -53,7 +52,7 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
             hasControls={hasControls}
           />
           <NoteUploadingImages files={imgFiles} />
-        </Box>
+        </Grid>
       </AnimatePresence>
     </LayoutGroup>
   );
@@ -188,8 +187,7 @@ const NoteImage = ({ src, onClick }: NoteImageProps) => {
       borderColor="gray.300"
       rounded="md"
       background="gray.300"
-      h="130px"
-      w="130px"
+      aspectRatio={1}
       fit="cover"
       p="1px"
       onClick={onClick}
