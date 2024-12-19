@@ -1,4 +1,5 @@
 import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
@@ -27,30 +28,34 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
 
   const { files } = useFileUpload();
 
-  const noteFiles = useAppSelector(state => 
+  const imgFiles = useAppSelector(state => 
     selectFilteredFilesByTag(state, { 
       files, 
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
     }));
 
-  if (!visibleImages.length && !noteFiles.length) {
+  if (!visibleImages.length && !imgFiles.length) {
     return null;
   }
   
   return (
-    <Box
-      gap="1"
-      display="flex"
-      flexWrap="wrap"
-      {...boxProps}
-    >
-      <ImagesBase
-        noteId={noteId}
-        images={visibleImages}
-        hasControls={hasControls}
-      />
-      <NoteUploadingImages files={noteFiles} />
-    </Box>
+    <LayoutGroup>
+      <AnimatePresence>
+        <Box
+          gap="1"
+          display="flex"
+          flexWrap="wrap"
+          {...boxProps}
+        >
+          <ImagesBase
+            noteId={noteId}
+            images={visibleImages}
+            hasControls={hasControls}
+          />
+          <NoteUploadingImages files={imgFiles} />
+        </Box>
+      </AnimatePresence>
+    </LayoutGroup>
   );
 });
 
@@ -71,12 +76,18 @@ const WithImageControls = (props: WithImageControlsProps) => {
   const isSelecting = operation.type === operationTypes.SELECT_NOTE_IMAGES && operation.noteId === noteId;
   const isSelected = isSelecting && operation.imageIds.includes(imageId);
 
-  const handleSelectImage = React.useCallback((event) => {
+  const handleImageClick = React.useCallback((event) => {
     event.stopPropagation();
 
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
-    } else {
+    }
+  }, [dispatch, imageId, isSelecting]);
+
+  const handleImageSelect = React.useCallback((event) => {
+    event.stopPropagation();
+
+    if (!isSelecting) {
       dispatch(startSelectNoteImagesOperation({ imageId, noteId }));
     }
   }, [dispatch, imageId, isSelecting, noteId]);
@@ -85,65 +96,39 @@ const WithImageControls = (props: WithImageControlsProps) => {
     deleteNoteImage({ imageId, noteId });
   }, [deleteNoteImage, noteId, imageId]);
 
-  if (isSelecting) {
-    return (
-      <Box
-        position="relative"
-        cursor="pointer"
-        onClick={handleSelectImage}
-        onContextMenu={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-        }}
-      >
-        <NoteImage src={src} />
-        <Float offset="15px" placement="top-end">
-          <Checkbox
-            borderRadius="full"
-            colorPalette="blue"
-            radius="full"
-            checked={isSelected}
-          />
-        </Float>
-      </Box>
-    );
-  }
-
-  if (hasControls) {
-    return (
-      <Menu isContextMenu>
-        <MenuTrigger>
-          <NoteImage
-            src={src} 
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-          />
-        </MenuTrigger>
-        <MenuList>
-          <MenuItem
-            label="Select"
-            onClick={handleSelectImage}
-          />
-          <MenuItem
-            label={'Delete'}
-            color="red"
-            onClick={handleDeleteImage}
-          />
-        </MenuList>
-      </Menu>
-    );
-  }
-
   return (
-    <NoteImage
-      src={src}
-      onClick={(event) => {
-        event.stopPropagation();
-      }}
-    />
+    <Menu isContextMenu enabled={hasControls && !isSelecting}>
+      <MenuTrigger>
+        <Box
+          position="relative"
+          cursor="pointer"
+        >
+          <NoteImage src={src} onClick={handleImageClick} />
+          {isSelecting && (
+            <Float offset="15px" placement="top-end">
+              <Checkbox
+                borderRadius="full"
+                colorPalette="blue"
+                radius="full"
+                checked={isSelected}
+              />
+            </Float>
+          )}
+        </Box>
+      </MenuTrigger>
+      <MenuList>
+        <MenuItem
+          label="Select"
+          onClick={handleImageSelect}
+        />
+        <MenuItem
+          label={'Delete'}
+          color="red"
+          onClick={handleDeleteImage}
+        />
+      </MenuList>
+    </Menu>
   );
-
 };
 
 type NoteImagesProps = {
@@ -196,6 +181,7 @@ type NoteImageProps = {
 const NoteImage = ({ src, onClick }: NoteImageProps) => {
   return (
     <Image
+      asChild
       src={src}
       alt="Image"
       border="1px solid"
@@ -207,7 +193,9 @@ const NoteImage = ({ src, onClick }: NoteImageProps) => {
       fit="cover"
       p="1px"
       onClick={onClick}
-    />
+    >
+      <motion.img layout />
+    </Image>
   );
 };
 
@@ -215,62 +203,64 @@ const ImagePreview = ({ src, status, progress, error }) => {
   const value = useSpringValue(progress);
 
   return src ? (
-    <Box position="relative">
-      <NoteImage
-        src={src}
-      />
+    <Box asChild position="relative">
+      <motion.div layout>
+        <NoteImage
+          src={src}
+        />
 
-      {status === 'idle' && (
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          bottom="0"
-          right="0"
-          bg="gray.200"
-          opacity="0.3"
-        >
-          <Icon fontSize="30px" color="black">
-            <Box>
-              <GoClock />
-            </Box>
-          </Icon>
-        </Center>
-      )}
-
-      {status === 'pending' && (
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          bottom="0"
-          right="0"
-        > 
-          <ProgressCircleRoot
-            size="sm"
-            value={value}
-            colorPalette="gray"
-            animation={'spin 2s linear infinite'}
+        {status === 'idle' && (
+          <Center
+            position="absolute"
+            top="0"
+            left="0"
+            bottom="0"
+            right="0"
+            bg="gray.200"
+            opacity="0.3"
           >
-            <ProgressCircleRing css={{ '--thickness': '2px' }} />
-          </ProgressCircleRoot>
-        </Center>
-      )}
-      {status === 'error' && (
-        <Float
-          offset="15px"
-          zIndex="docked"
-          cursor="pointer"
-        >
-          <Tooltip content={error}>
-            <Icon fontSize="20px" color="red">
+            <Icon fontSize="30px" color="black">
               <Box>
-                <IoMdInformationCircle />
+                <GoClock />
               </Box>
             </Icon>
-          </Tooltip>
-        </Float>
-      )}
+          </Center>
+        )}
+
+        {status === 'pending' && (
+          <Center
+            position="absolute"
+            top="0"
+            left="0"
+            bottom="0"
+            right="0"
+          > 
+            <ProgressCircleRoot
+              size="sm"
+              value={value}
+              colorPalette="gray"
+              animation={'spin 2s linear infinite'}
+            >
+              <ProgressCircleRing css={{ '--thickness': '2px' }} />
+            </ProgressCircleRoot>
+          </Center>
+        )}
+        {status === 'error' && (
+          <Float
+            offset="15px"
+            zIndex="docked"
+            cursor="pointer"
+          >
+            <Tooltip content={error}>
+              <Icon fontSize="20px" color="red">
+                <Box>
+                  <IoMdInformationCircle />
+                </Box>
+              </Icon>
+            </Tooltip>
+          </Float>
+        )}
+      </motion.div>
     </Box>
   ) : null;
 };

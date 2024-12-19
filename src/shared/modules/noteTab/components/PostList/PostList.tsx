@@ -1,6 +1,7 @@
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
 import debounce from 'lodash/debounce';
+import { AnimatePresence, LayoutGroup } from 'motion/react';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
@@ -136,32 +137,37 @@ export const PostList = React.memo((props: Props) => {
 
   return (
     <>
-      <Box
-        pb="20"
-        flexGrow={data ? '1' : '0'}
-        {...boxProps}
-      >
-        {isFetchingFirstTime && <PostsSkeleton />}
-        <Stack gap="4">
-          {showNextPageObserver && <Box ref={nextRef} />}
-          {isFetchingNextPage && <PostsSkeleton />}
-          {
-            flatData.map((postId) => (
-              <Post
-                key={postId}
-                internalLevel={internalLevel}
-                isSelecting={isSelecting}
-                isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
-                postId={postId} 
-                onClick={onPostClick}
-                onDelete={handleOnPostDelete}
-              />
-            ))
-          }
-          {isFetchingPreviousPage && <PostsSkeleton />}
-          {showPreviousPageObserver && <Box ref={prevRef} />}
-        </Stack>
-      </Box>
+      <LayoutGroup>
+        <AnimatePresence>
+          <Box
+            pb="20"
+            flexGrow={data ? '1' : '0'}
+            {...boxProps}
+          >
+            {isFetchingFirstTime && <PostsSkeleton />}
+            <Stack gap="4">
+              {showNextPageObserver && <Box ref={nextRef} />}
+              {isFetchingNextPage && <PostsSkeleton />}
+              {
+                flatData.map((postId) => (
+                  <Post
+                    key={postId}
+                    internalLevel={internalLevel}
+                    isSelecting={isSelecting}
+                    isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
+                    postId={postId} 
+                    onClick={onPostClick}
+                    onDelete={handleOnPostDelete}
+                  />
+                ))
+              }
+              {isFetchingPreviousPage && <PostsSkeleton />}
+              {showPreviousPageObserver && <Box ref={prevRef} />}
+            </Stack>
+          </Box>
+        </AnimatePresence>
+      </LayoutGroup>
+
       {scrollRestoration && <TabScrollRestoration />}
     </>
   );

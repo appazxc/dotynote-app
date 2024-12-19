@@ -1,4 +1,5 @@
 import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
+import { motion } from 'motion/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
@@ -36,68 +37,73 @@ export const Post = (props: Props) => {
 
   if (note._isDeleted) {
     return (
-      <Card.Root>
-        <Card.Body>
+      <Card.Root asChild>
+        <motion.div layout>
+          <Card.Body>
           Note is deleted.
-        </Card.Body>
+          </Card.Body>
+        </motion.div>
       </Card.Root>
     );
   }
 
   return (
     <Box
+      asChild
       display="flex"
       position="relative"
       {...boxProps}
     >
-      {renderedSelectingContent}
-      <Box
-        key="text"
-        flexGrow="1"
-      >
-        {isPinned && (
-          <Box
-            p="2"
-            color="blue.500"
-            display="flex"
-            justifyContent="flex-end"
-            position="absolute"
-            top="0px"
-            right="0px"
-          >
-            <BsFillPinAngleFill size="16" />
-          </Box>
-        )}
-        <Stack
-          p="4"
-          borderWidth="2px"
-          borderRadius="lg"
-          borderColor="gray.200"
-          cursor="pointer"
-          userSelect="none"
-          gap="2"
+      <motion.div layout="position">
+        {renderedSelectingContent}
+        <Box
+          key="text"
+          flexGrow="1"
         >
-          {note.title && <Text fontWeight="500">{note.title}</Text>}
-          <EditorView
-            removeEmptyDivsFromEnd
-            maxLines={4}
-            content={note.content}
-          />
-          <NoteImages
-            mt="2"
-            noteId={noteId}
-            images={note.images}
-            hasControls={true}
-          />
-        </Stack>
-        {dots && (
-          <PostDots
-            dots={dots}
-            showAmount={showDotsAmount}
-            mt="2"
-          />
-        )}
-      </Box>
+          {isPinned && (
+            <Box
+              p="2"
+              color="blue.500"
+              display="flex"
+              justifyContent="flex-end"
+              position="absolute"
+              top="0px"
+              right="0px"
+            >
+              <BsFillPinAngleFill size="16" />
+            </Box>
+          )}
+          <Stack
+            p="4"
+            borderWidth="2px"
+            borderRadius="lg"
+            borderColor="gray.200"
+            cursor="pointer"
+            userSelect="none"
+            gap="2"
+          >
+            {note.title && <Text fontWeight="500">{note.title}</Text>}
+            <EditorView
+              removeEmptyDivsFromEnd
+              maxLines={4}
+              content={note.content}
+            />
+            <NoteImages
+              mt="2"
+              noteId={noteId}
+              images={note.images}
+              hasControls={true}
+            />
+          </Stack>
+          {dots && (
+            <PostDots
+              dots={dots}
+              showAmount={showDotsAmount}
+              mt="2"
+            />
+          )}
+        </Box>
+      </motion.div>
     </Box>
   );
 };

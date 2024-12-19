@@ -26,10 +26,12 @@ type Props = React.PropsWithChildren<{
   contextMousePosition?: boolean,
   placement?: Placement,
   offsetOptions?: OffsetOptions,
+  enabled?: boolean
 }>
 
 export const Menu = React.memo((props: Props) => {
   const { 
+    enabled = true,
     isContextMenu,
     contextMousePosition = true,
     placement,
@@ -46,9 +48,17 @@ export const Menu = React.memo((props: Props) => {
     ) as Array<string | null>
   );
 
+  const handleOpenChange = React.useCallback((open) => {
+    if (!enabled) {
+      return;
+    }
+
+    setIsOpen(open);
+  }, [enabled]);
+
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
-    onOpenChange: setIsOpen,
+    onOpenChange: handleOpenChange,
     middleware: [
       offset(offsetOptions),
       flip({
@@ -123,7 +133,7 @@ export const Menu = React.memo((props: Props) => {
       });
     }
 
-    setIsOpen(true);
+    handleOpenChange(true);
   }
 
   const triggerProps = isContextMenu ? {

@@ -92,8 +92,11 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const { mutateAsync, isPending } = useCreatePost(noteId);
 
   const handleFileRemove = React.useCallback((fileId) => {
+    if (imgFiles.length === 1) {
+      dispatch(hideModal());
+    }
     removeFiles([fileId]);
-  }, [removeFiles]);
+  }, [dispatch, removeFiles, imgFiles]);
 
   const onSubmit = React.useCallback(async () => {
     try {
