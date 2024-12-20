@@ -186,6 +186,7 @@ const NoteImage = ({ src, onClick }: NoteImageProps) => {
       border="1px solid"
       borderColor="gray.300"
       rounded="md"
+      w="full"
       background="gray.300"
       aspectRatio={1}
       fit="cover"

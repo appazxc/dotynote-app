@@ -28,10 +28,13 @@ type OpenFilePickerParams = {
 
 export type RemoveFilesType = (fileIds: string[]) => void
 
+export type ReorderFilesType = (fileIds: string[]) => void
+
 type OpenFilePicker = (params: OpenFilePickerParams, cb?: () => void) => void
 
 type FileUploadContextType = { 
   removeFiles: RemoveFilesType,
+  reorderFiles: ReorderFilesType,
   openFilePicker: OpenFilePicker,
   files: UploadFile[],
 };
@@ -53,6 +56,17 @@ const FileUploadContext = React.createContext<FileUploadContextType>(null!);
 export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);
   const dispatch = useAppDispatch();
+
+  const reorderFiles = React.useCallback((fileIds) => {
+
+    setFiles(prevFiles => {
+      const newOrderFiles = [...prevFiles].sort((a, b) => {
+        return fileIds.indexOf(a.fileId) - fileIds.indexOf(b.fileId);
+      });
+
+      return newOrderFiles;
+    });
+  }, []);
 
   const removeFiles = React.useCallback((fileIds: string[]) => {
     files
@@ -141,7 +155,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [handleFileSelect]);
 
   return (
-    <FileUploadContext.Provider value={{ files, openFilePicker, removeFiles }}>
+    <FileUploadContext.Provider value={{ files, openFilePicker, removeFiles, reorderFiles }}>
       {children}
     </FileUploadContext.Provider>
   );
