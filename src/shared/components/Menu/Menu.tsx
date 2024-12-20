@@ -26,14 +26,16 @@ type Props = React.PropsWithChildren<{
   contextMousePosition?: boolean,
   placement?: Placement,
   offsetOptions?: OffsetOptions,
-  enabled?: boolean
+  enabled?: boolean,
+  inPortal?: boolean,
 }>
 
 export const Menu = React.memo((props: Props) => {
   const { 
     enabled = true,
-    isContextMenu,
+    inPortal = true,
     contextMousePosition = true,
+    isContextMenu,
     placement,
     children, 
     offsetOptions = { mainAxis: 5, alignmentAxis: 4 },
@@ -67,7 +69,7 @@ export const Menu = React.memo((props: Props) => {
       shift({ padding: 10 }),
     ],
     placement: placement || 'bottom-start',
-    strategy: 'fixed',
+    strategy: 'absolute' || 'fixed',
     whileElementsMounted: autoUpdate,
   });
 
@@ -161,6 +163,25 @@ export const Menu = React.memo((props: Props) => {
     }),
   };
 
+  const content = isOpen && (
+    <FloatingOverlay lockScroll>
+      <FloatingFocusManager
+        context={context}
+        initialFocus={refs.floating}
+        returnFocus={false}
+      >
+        <Box
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+          outline="transparent"
+        >
+          {menuList}
+        </Box>
+      </FloatingFocusManager>
+    </FloatingOverlay>
+  );
+
   return (
     <>
       {React.isValidElement(menuTrigger) && 
@@ -176,26 +197,11 @@ export const Menu = React.memo((props: Props) => {
           close,
         }}
       >
-        <FloatingPortal>
-          {isOpen && (
-            <FloatingOverlay lockScroll>
-              <FloatingFocusManager
-                context={context}
-                initialFocus={refs.floating}
-                returnFocus={false}
-              >
-                <Box
-                  ref={refs.setFloating}
-                  style={floatingStyles}
-                  {...getFloatingProps()}
-                  outline="transparent"
-                >
-                  {menuList}
-                </Box>
-              </FloatingFocusManager>
-            </FloatingOverlay>
-          )}
-        </FloatingPortal>
+        {inPortal ? (
+          <FloatingPortal>
+            {content}
+          </FloatingPortal>
+        ) : content}
       </MenuContext.Provider>
 
     </>

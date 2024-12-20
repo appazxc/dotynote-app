@@ -18,10 +18,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'motion/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { GoDotFill } from 'react-icons/go';
 import * as z from 'zod';
 
 import { addMediaToPost } from 'shared/actions/post/addMediaToPost';
 import { useCreatePost } from 'shared/api/hooks/useCreatePost';
+import { FormField } from 'shared/components/Form';
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { MenuLabel } from 'shared/components/Menu/MenuLabel';
 import { Button } from 'shared/components/ui/button';
 import {
   DialogBackdrop,
@@ -33,7 +38,8 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'shared/components/ui/dialog';
-import { DeleteIcon } from 'shared/components/ui/icons';
+import { DeleteIcon, DotsIcon } from 'shared/components/ui/icons';
+import Popover from 'shared/containers/modals/CreatePostWithImagesModal/Popover';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
@@ -49,11 +55,7 @@ export type Props = {
 const ANIMATION_DURATION_MS = 750;
 
 const schema = z.object({
-  title: z
-    .string()
-    .max(120, {
-      message: 'Title must not be longer than 120 characters.',
-    }),
+  separatePosts: z.boolean(),
 });
 
 type FormValues = z.infer<typeof schema>
@@ -69,14 +71,11 @@ const ImageItem = ({ src, listeners }: { src: string, listeners?: DraggableSynth
     <Image
       src={src}
       alt="Image"
-      border="1px solid"
-      borderColor="gray.300"
       rounded="md"
       w="full"
       background="gray.300"
       aspectRatio={1}
       fit="cover"
-      p="1px"
       {...listeners}
     />
   );
@@ -168,7 +167,7 @@ const ImagesGrid = ({ imgFiles, imgFileIds, setImgFileIds, handleFileRemove }) =
       <SortableContext items={imgFileIds} strategy={rectSortingStrategy}>
         <Grid
           templateColumns="repeat(3, 1fr)"
-          gap="10px"
+          gap="5px"
         >
           {imgFiles.map(({ fileId, objectUrl }) => (
             <SortableItem
@@ -243,7 +242,12 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+    control,
+  } = useForm<FormValues>({ 
+    defaultValues: {
+      separatePosts: false,
+    },
+    resolver: zodResolver(schema) });
 
   const { mutateAsync, isPending } = useCreatePost(noteId);
 
@@ -269,7 +273,9 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     reorderFiles(fileIds);
   }, [reorderFiles]);
 
-  const onSubmit = React.useCallback(async () => {
+  const onSubmit = React.useCallback(async (values: FormValues) => {
+    const separatePosts = imgFiles.length > 1 && values.separatePosts;
+    
     try {
       const id = await mutateAsync({});
       
@@ -328,11 +334,44 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
               handleFileRemove={handleFileRemove}
             />
           </DialogBody>
-          <DialogFooter>
+          <DialogFooter
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Menu 
+              placement="top-start"
+              inPortal={false}
+            >
+              <MenuTrigger
+                as={IconButton}
+                iconSize="auto"
+                aria-label="Options"
+                variant="ghost"
+              >
+                <DotsIcon />
+              </MenuTrigger>
+              <MenuList>
+                <FormField
+                  control={control}
+                  name="separatePosts"
+                  render={({ field }) => {
+                    console.log('field.value', field.value);
+                    return (
+                      <MenuItem
+                        label={<MenuLabel checked={field.value} label="Divide into separate posts" />}
+                        onClick={() => field.onChange(!field.value)}
+                      />
+                    );
+                  }}
+                />
+                
+              </MenuList>
+            </Menu>
             <Button
+              type="submit"
               colorScheme="brand"
               loading={isPending}
-              onClick={onSubmit}
             >
               Create
             </Button>

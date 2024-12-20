@@ -3,6 +3,7 @@ import React from 'react';
 import { queryClient } from 'shared/api/queryClient';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
+import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
@@ -27,6 +28,10 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
   return (
     <>
       <CreatePostModal
+        noteId={noteId}
+        onCreate={handlePostCreate}
+      />
+      <CreatePostWithImagesModal
         noteId={noteId}
         onCreate={handlePostCreate}
       />
