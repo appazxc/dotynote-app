@@ -1,27 +1,12 @@
-import { Box, Float, Grid, IconButton, Image } from '@chakra-ui/react';
-import {
-  closestCenter,
-  defaultDropAnimation,
-  DndContext,
-  DragEndEvent,
-  DraggableSyntheticListeners,
-  DragOverlay,
-  MeasuringStrategy,
-  PointerSensor,
-  useDndContext,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { restrictToParentElement } from '@dnd-kit/modifiers';
-import { arrayMove, rectSortingStrategy, SortableContext, useSortable } from '@dnd-kit/sortable';
+import { IconButton } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'motion/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { addMediaToPost } from 'shared/actions/post/addMediaToPost';
-import { useCreatePost } from 'shared/api/hooks/useCreatePost';
+import { createPost } from 'shared/actions/post/createPost';
+import { createSeparatePosts } from 'shared/actions/post/createSeparatePosts';
 import { FormField } from 'shared/components/Form';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { MenuLabel } from 'shared/components/Menu/MenuLabel';
@@ -36,20 +21,29 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'shared/components/ui/dialog';
-import { DeleteIcon, DotsIcon } from 'shared/components/ui/icons';
+import { DotsIcon } from 'shared/components/ui/icons';
+import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
+import { ImagesGrid } from 'shared/containers/modals/CreatePostWithImagesModal/ImagesGrid';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
-import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
+import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { invariant } from 'shared/util/invariant';
+
+type OnCreateParams = {
+  single: true,
+  postId: number,
+} | {
+  single: false,
+  postIds: number[]
+}
 
 export type Props = {
   noteId: number,
-  onCreate?: (id: number) => void,
+  onCreate?: (params: OnCreateParams) => void,
 }
-
-const ANIMATION_DURATION_MS = 750;
 
 const schema = z.object({
   separatePosts: z.boolean(),
@@ -57,197 +51,27 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-type FileImageProps = {
-  id: string,
-  src: string | null, 
-  onRemove: (fileId: string) => void
-}
-
-const ImageItem = ({ src, listeners }: { src: string, listeners?: DraggableSyntheticListeners }) => {
-  return (
-    <Image
-      src={src}
-      alt="Image"
-      rounded="md"
-      w="full"
-      background="gray.300"
-      aspectRatio={1}
-      fit="cover"
-      {...listeners}
-    />
-  );
-};
-
-const SortableItem = React.memo(({ id, src, onRemove }: FileImageProps) => {
-  const { 
-    attributes, 
-    listeners, 
-    setNodeRef,
-    isDragging,
-  } = useSortable({ 
-    id,
-  });
-
-  const style = {
-    zIndex: isDragging ? 1 : 0,
-  };
-
-  return src ? (
-    <Box
-      ref={setNodeRef}
-      asChild
-      position="relative"
-      style={style}
-    >
-      <motion.div
-        layout
-        animate={{ opacity: isDragging ? 0.6 : 1 }}
-        transition={{
-          type: 'spring',
-          duration: ANIMATION_DURATION_MS / 1000,
-        }}
-        {...attributes}
-      >
-        <ImageItem 
-          src={src}
-          listeners={listeners}
-        />
-        <Float placement="bottom-end" offset="15px">
-          <IconButton
-            size="2xs"
-            colorPalette="gray"
-            variant="subtle"
-            onClick={() => {
-              onRemove(id);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Float>
-      </motion.div>
-    </Box>
-  ) : null;
-});
-
-const ImagesGrid = ({ imgFiles, imgFileIds, setImgFileIds, handleFileRemove }) => {
-  const sensors = useSensors(useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 10,
-    },
-  }));
-  const [activeId, setActiveId] = React.useState(null);
-
-  function handleDragStart({ active }) {
-    setActiveId(active.id);
-  }
-
-  function handleDragEnd() {
-    setActiveId(null);
-  }
-
-  function handleDragMove({ active, over }: DragEndEvent) {
-    setImgFileIds(
-      arrayMove(imgFileIds, imgFileIds.indexOf(active.id), imgFileIds.indexOf(over?.id))
-    );
-  }
-
-  return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      modifiers={[restrictToParentElement]}
-      measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragMove}
-    >
-      <SortableContext items={imgFileIds} strategy={rectSortingStrategy}>
-        <Grid
-          templateColumns="repeat(3, 1fr)"
-          gap="5px"
-        >
-          {imgFiles.map(({ fileId, objectUrl }) => (
-            <SortableItem
-              key={fileId}
-              id={fileId}
-              src={objectUrl}
-              onRemove={handleFileRemove}
-            />
-          ))}
-        </Grid>
-      </SortableContext>
-      <DragOverlay
-        dropAnimation={{
-          ...defaultDropAnimation,
-          duration: ANIMATION_DURATION_MS / 2,
-        }}
-      >
-        {activeId ? (
-          <DragOverlayItem id={activeId} src={imgFiles.find(({ fileId }) => fileId === activeId).objectUrl} />
-        ) : null}
-      </DragOverlay>
-    </DndContext>
-  );
-};
-
-// https://github.com/clauderic/dnd-kit/issues/605
-function DragOverlayItem(props: { id: string, src: string }) {
-  const { id, src } = props;
-
-  // DragOver seems to cache this component so I can't tell if the item is still actually active
-  // It will remain active until it has settled in place rather than when dragEnd has occured
-  // I need to know when drag end has taken place to trigger the scale down animation
-  // I use a hook which looks at DndContex to get active
-
-  const isReallyActive = useDndIsReallyActiveId(id);
-
-  // I've wrapped the Framer Motion component with a div
-  //
-  // - This is so that DragOverlay can successfully apply the dragSourceOpacity
-  //   I assume Framer is overwriting the dragSourceOpacity style
-  //
-  // - It would be great if there was a prop under Sortable called isSettling
-  //   This would allow Framer to control all animation
-
-  return (
-    <div>
-      <motion.div
-        animate={{
-          scale: isReallyActive ? 1.2 : 1,
-        }}
-        transition={{
-          type: 'spring',
-          duration: ANIMATION_DURATION_MS / 1000,
-        }}
-      >
-        <ImageItem src={src} />
-      </motion.div>
-    </div>
-  );
-}
-
-function useDndIsReallyActiveId(id: string) {
-  const context = useDndContext();
-  const isActive = context.active?.id === id;
-  return isActive;
-}
-
 const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useAppSelector(selectIsMobile);
+  const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+
+  invariant(note, 'Missing note');
+
   const {
     handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     control,
+    getValues,
+    watch,
   } = useForm<FormValues>({ 
     defaultValues: {
       separatePosts: false,
     },
     resolver: zodResolver(schema) });
 
-  const { mutateAsync, isPending } = useCreatePost(noteId);
-
+  watch('separatePosts');
+    
   const { files, removeFiles, reorderFiles } = useFileUpload();
 
   const imgFiles = useAppSelector(state => 
@@ -266,7 +90,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     removeFiles([fileId]);
   }, [dispatch, removeFiles, imgFiles]);
 
-  const handleReorder = React.useCallback((fileIds) => {
+  const handleReorder = React.useCallback((fileIds: string[]) => {
     reorderFiles(fileIds);
   }, [reorderFiles]);
 
@@ -274,24 +98,37 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     const separatePosts = imgFiles.length > 1 && values.separatePosts;
     
     try {
-      const id = await mutateAsync({});
-      
-      imgFiles.forEach(({ fileId }) => {
-        dispatch(updateFile({
-          fileId,
-          zone: 'note',
-          zoneId: id,
+      if (separatePosts) {
+        await dispatch(createSeparatePosts({
+          parentId: noteId,
+          files: imgFiles,
+          onPostsCreated: (postIds: number[]) => {
+            dispatch(hideModal());
+            onCreate?.({ single: false, postIds });
+          },
+          removeFiles,
         }));
-      });
+      } else {
+        await dispatch(createPost({
+          parentId: noteId,
+          files: imgFiles,
+          onPostCreated: (postId: number) => {
+            dispatch(hideModal());
+            onCreate?.({ single: true, postId });
+          },
+          removeFiles,
+        }));
 
-      dispatch(addMediaToPost(id, imgFiles, removeFiles));
-      if (onCreate) {
-        onCreate(id);
       }
-    } finally {
+    } catch(_) {
       dispatch(hideModal());
     }
-  }, [dispatch, mutateAsync, onCreate, removeFiles, imgFiles]);
+  }, [dispatch, noteId, onCreate, removeFiles, imgFiles]);
+
+  const canSeparatePosts = 
+    (!note.postsSettings || note.postsSettings.orderById === ORDER_BY_IDS.POSITION) 
+    && imgFiles.length > 1;
+  const showOptionsMenu = canSeparatePosts;
 
   return (
     <DialogRoot
@@ -324,51 +161,55 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
             flexDirection="column"
             gap="1"
           >
-            <ImagesGrid 
+            <ImagesGrid
               imgFiles={imgFiles}
               imgFileIds={imgFileIds}
               setImgFileIds={handleReorder}
               handleFileRemove={handleFileRemove}
+              inSeparatePosts={getValues().separatePosts}
             />
           </DialogBody>
           <DialogFooter
             display="flex"
-            justifyContent="space-between"
+            justifyContent={showOptionsMenu ? 'space-between' : undefined}
             alignItems="center"
           >
-            <Menu 
-              placement="top-start"
-              inPortal={false}
-            >
-              <MenuTrigger
-                as={IconButton}
-                iconSize="auto"
-                aria-label="Options"
-                variant="ghost"
+            {showOptionsMenu && (
+              <Menu 
+                placement="top-start"
+                inPortal={false}
               >
-                <DotsIcon />
-              </MenuTrigger>
-              <MenuList>
-                <FormField
-                  control={control}
-                  name="separatePosts"
-                  render={({ field }) => {
-                    console.log('field.value', field.value);
-                    return (
-                      <MenuItem
-                        label={<MenuLabel checked={field.value} label="Divide into separate posts" />}
-                        onClick={() => field.onChange(!field.value)}
-                      />
-                    );
-                  }}
-                />
-                
-              </MenuList>
-            </Menu>
+                <MenuTrigger
+                  as={IconButton}
+                  iconSize="auto"
+                  aria-label="Options"
+                  variant="ghost"
+                >
+                  <DotsIcon />
+                </MenuTrigger>
+                <MenuList>
+                  {canSeparatePosts && (
+                    <FormField
+                      control={control}
+                      name="separatePosts"
+                      render={({ field }) => {
+                        return (
+                          <MenuItem
+                            label={<MenuLabel checked={field.value} label="Divide into separate posts" />}
+                            onClick={() => field.onChange(!field.value)}
+                          />
+                        );
+                      }}
+                    />
+                  )}
+                </MenuList>
+              </Menu>
+            )}
+           
             <Button
               type="submit"
               colorScheme="brand"
-              loading={isPending}
+              loading={isSubmitting}
             >
               Create
             </Button>

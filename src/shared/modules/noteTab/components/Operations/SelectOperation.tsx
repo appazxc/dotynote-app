@@ -113,7 +113,7 @@ export const SelectOperation = React.memo((props: Props) => {
               <Box
                 key={label}
                 display="flex"
-                flexDirection={isMobile ? 'column' : 'row'}
+                flexDirection={isMobile ? 'column' : 'column'}
                 alignItems="center"
                 gap="2"
                 _hover={{

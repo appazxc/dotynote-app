@@ -9,8 +9,8 @@ import { getInfinityPostsQueryKey, InfinityPostsOptions, useInfinityPosts } from
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
+import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
-import { SORT_ORDER_IDS } from 'shared/constants/sortOrders';
 import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -49,7 +49,7 @@ export const PostList = React.memo((props: Props) => {
     selectedPosts = EMPTY_ARRAY,
     sort = SORT.DESC,
     pageSize = DEFAULT_PAGE_SIZE,
-    orderBy = SORT_ORDER_IDS.POSITION,
+    orderBy = ORDER_BY_IDS.POSITION,
     options = EMPTY_OBJECT,
     pinnedOnTop,
     ...boxProps
