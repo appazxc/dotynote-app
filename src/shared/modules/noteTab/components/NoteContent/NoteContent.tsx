@@ -49,7 +49,7 @@ export const NoteContent = (props: Props) => {
     }, 2000);
   }, [mutate, noteId]);
 
-  const isTextContentEmpty = !!content && getIsTextContentEmpty(content);
+  const isTextContentEmpty = !content || getIsTextContentEmpty(content);
 
   const showContent = 
     isWriteMode 

@@ -18,8 +18,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'motion/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { GoDotFill } from 'react-icons/go';
 import * as z from 'zod';
 
 import { addMediaToPost } from 'shared/actions/post/addMediaToPost';
@@ -39,7 +37,6 @@ import {
   DialogTitle,
 } from 'shared/components/ui/dialog';
 import { DeleteIcon, DotsIcon } from 'shared/components/ui/icons';
-import Popover from 'shared/containers/modals/CreatePostWithImagesModal/Popover';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import { selectFilteredFilesByTag } from 'shared/modules/fileUpload/selectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';

@@ -69,7 +69,7 @@ export const Menu = React.memo((props: Props) => {
       shift({ padding: 10 }),
     ],
     placement: placement || 'bottom-start',
-    strategy: 'absolute' || 'fixed',
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
   });
 

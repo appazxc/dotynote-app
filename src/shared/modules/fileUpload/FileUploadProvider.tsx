@@ -30,7 +30,7 @@ export type RemoveFilesType = (fileIds: string[]) => void
 
 export type ReorderFilesType = (fileIds: string[]) => void
 
-type OpenFilePicker = (params: OpenFilePickerParams, cb?: () => void) => void
+type OpenFilePicker = (params: OpenFilePickerParams, onSuccess?: () => void) => void
 
 type FileUploadContextType = { 
   removeFiles: RemoveFilesType,
@@ -118,7 +118,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     target.value = '';
   }, [dispatch, removeFiles]);
 
-  const openFilePicker: OpenFilePicker = React.useCallback((params, cb) => {
+  const openFilePicker: OpenFilePicker = React.useCallback((params, onSuccess) => {
     const config = {
       zoneId: params.zoneId,
       zone: params.zone,
@@ -134,7 +134,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'image', config);
         input.value = '';
         input.onchange = null;
-        cb?.();
+        onSuccess?.();
       };
 
       input.click();
@@ -147,7 +147,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'file', config);
         input.value = '';
         input.onchange = null;
-        cb?.();
+        onSuccess?.();
       };
 
       input.click();
