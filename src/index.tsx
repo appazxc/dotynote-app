@@ -1,5 +1,6 @@
 import * as ReactDOM from 'react-dom/client';
 
+import 'react-photo-album/rows.css';
 import { initialize } from 'shared/core/actions/initializeActions';
 
 import Main from './shared/core';

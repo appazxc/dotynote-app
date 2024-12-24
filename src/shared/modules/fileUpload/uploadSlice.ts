@@ -12,16 +12,12 @@ export type UploadFileEntity = {
   status: StatusType,
   progress: number,
   error: string | null,
+  dimensions: { width: number, height: number },
 }
 
-type AddFilePayload = {
-  fileId: string,
-  type: UploadFileType,
-  zone: ZoneType,
-  zoneId: number,
-}
+type AddFilePayload = Pick<UploadFileEntity, 'fileId' | 'type' | 'zone' | 'zoneId' | 'dimensions'>;
 
-type UpdateFilePayload = { fileId: UploadFileEntity['fileId'] } & Partial<UploadFileEntity>
+type UpdateFilePayload = { fileId: UploadFileEntity['fileId'] } & Partial<Omit<UploadFileEntity, 'type' | 'dimensions'>>
 
 type InitialState = {
   byId: {
@@ -37,11 +33,14 @@ export const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    addFile: (state, { payload: { fileId, type, zone, zoneId } }: PayloadAction<AddFilePayload>) => {
+    addFile: (
+      state, 
+      { payload: { fileId, type, zone, zoneId, dimensions } }: PayloadAction<AddFilePayload>) => {
       state.byId[fileId] = {
         fileId,
-        type,
         zone, 
+        type,
+        dimensions,
         zoneId,
         status: 'idle',
         progress: 0,

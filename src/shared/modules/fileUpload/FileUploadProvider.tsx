@@ -4,6 +4,7 @@ import React from 'react';
 import { uploadFiles } from 'shared/modules/fileUpload/actions/uploadFiles';
 import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
+import { getImageDimensions } from 'shared/util/getImageDimensions';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -58,7 +59,6 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const dispatch = useAppDispatch();
 
   const reorderFiles = React.useCallback((fileIds) => {
-
     setFiles(prevFiles => {
       const newOrderFiles = [...prevFiles].sort((a, b) => {
         return fileIds.indexOf(a.fileId) - fileIds.indexOf(b.fileId);
@@ -83,7 +83,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     });
   }, [files, dispatch]);
 
-  const handleFileSelect = React.useCallback((event: Event, type: UploadFileType, config: ConfigType) => {
+  const handleFileSelect = React.useCallback(async (event: Event, type: UploadFileType, config: ConfigType) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     const { zone, zoneId, uploadImmediately = true } = config;
@@ -91,13 +91,19 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     if (zoneId && files.length > 0) {
       nanoid();
 
-      const newData = files.map(file => ({
-        file,
-        fileId: nanoid(),
-        objectUrl: type === 'image' ? URL.createObjectURL(file) : null,
+      const newData = await Promise.all(files.map(async file => {
+        const objectUrl = type === 'image' ? URL.createObjectURL(file) : null;
+        const dimensions = type === 'image' ? await getImageDimensions(file) : { width: 0, height: 0 };
+
+        return ({
+          file,
+          fileId: nanoid(),
+          objectUrl,
+          dimensions,
+        });
       }));
 
-      newData.forEach(({ fileId, file }) => {
+      newData.forEach(({ fileId, file, dimensions }) => {
         let fileType = type;
         const maxSize = 10 * 1024 * 1024; // 10mb
 
@@ -105,7 +111,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
           fileType = 'file';
         }
 
-        dispatch(addFile({ fileId, type: fileType, zone, zoneId }));
+        dispatch(addFile({ fileId, type: fileType, zone, zoneId, dimensions }));
       });
       
       setFiles((prev) => [...prev, ...newData]);

@@ -1,1 +1,2 @@
-export { Dots } from './Dots';
+export { DotsWrapper } from './DotsWrapper';
+export { Dot } from './Dot';

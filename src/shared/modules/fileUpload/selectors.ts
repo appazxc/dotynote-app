@@ -10,9 +10,9 @@ type SelectFilteredFilesByTagParams = {
   status?: UploadFileEntity['status']
 }
 
-export type SelectFilteredFilesByTagReturn = (UploadFile & UploadFileEntity & {
-  file: File,
-})[]
+export type MergedFilteredFile = UploadFile & UploadFileEntity;
+
+export type SelectFilteredFilesByTagReturn = (MergedFilteredFile)[]
 
 type SelectFilteredFilesByTag = (state: AppState, params: SelectFilteredFilesByTagParams) => 
   SelectFilteredFilesByTagReturn

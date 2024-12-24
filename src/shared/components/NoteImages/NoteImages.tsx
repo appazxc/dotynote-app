@@ -3,6 +3,7 @@ import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
+import { Photo, RowsPhotoAlbum } from 'react-photo-album';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
@@ -11,11 +12,14 @@ import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/pro
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
-import { selectFilteredFilesByTag, SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
+import { 
+  MergedFilteredFile,
+  selectFilteredFilesByTag,
+} from 'shared/modules/fileUpload/selectors';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
-import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
+import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 
 type NoteBaseImagesProps = {
   noteId: number,
@@ -34,6 +38,30 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
     }));
 
+  const photos = React.useMemo(() => {
+    return [
+      ...visibleImages.map((image) => {
+        return ({
+          key: image.id,
+          src: image.sizes.medium,
+          alt: image.filename,
+          height: image.height,
+          width: image.width,
+          image,
+        }) as Photo & { image: ApiNoteImageEntity };
+      }), 
+      ...imgFiles.map(imgFile => {
+        return ({
+          key: imgFile.fileId,
+          src: imgFile.objectUrl,
+          alt: 'Uploading image',
+          height: imgFile.dimensions.height,
+          width: imgFile.dimensions.width,
+          uploadImage: imgFile,
+        }) as Photo & { uploadImage: MergedFilteredFile };
+      })];
+  }, [visibleImages, imgFiles]);
+
   if (!visibleImages.length && !imgFiles.length) {
     return null;
   }
@@ -41,18 +69,46 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
   return (
     <LayoutGroup>
       <AnimatePresence>
-        <Grid
-          gap="1"
-          templateColumns="repeat(auto-fill, minmax(120px, 1fr))"
+        <Box
+          overflow="hidden"
+          borderRadius="md"
           {...boxProps}
         >
-          <ImagesBase
-            noteId={noteId}
-            images={visibleImages}
-            hasControls={hasControls}
+          <RowsPhotoAlbum
+            photos={photos}
+            spacing={4}
+            targetRowHeight={250}
+            render={{
+              photo: (_, context) => {
+                if ('image' in context.photo) {
+                  return (
+                    <WithImageControls
+                      key={context.photo.key}
+                      imageId={context.photo.image.id}
+                      noteId={noteId}
+                      hasControls={hasControls}
+                      src={context.photo.src}
+                      height={context.height}
+                      width={context.width}
+                    />
+                  );
+                }
+                 
+                return (
+                  <ImagePreview
+                    key={context.photo.key}
+                    src={context.photo.src}
+                    status={context.photo.uploadImage.status}
+                    progress={context.photo.uploadImage.progress}
+                    error={context.photo.uploadImage.error}
+                    height={context.height}
+                    width={context.width}
+                  />
+                );
+              },
+            }}
           />
-          <NoteUploadingImages files={imgFiles} />
-        </Grid>
+        </Box>
       </AnimatePresence>
     </LayoutGroup>
   );
@@ -63,10 +119,12 @@ type WithImageControlsProps = {
   noteId: number,
   hasControls?: boolean,
   src: string,
+  width: number,
+  height: number,
 }
 
 const WithImageControls = (props: WithImageControlsProps) => {
-  const { noteId, imageId, src, hasControls } = props;
+  const { noteId, imageId, src, height, width, hasControls } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -102,7 +160,12 @@ const WithImageControls = (props: WithImageControlsProps) => {
           position="relative"
           cursor="pointer"
         >
-          <NoteImage src={src} onClick={handleImageClick} />
+          <NoteImage
+            src={src}
+            height={height}
+            width={width}
+            onClick={handleImageClick}
+          />
           {isSelecting && (
             <Float offset="15px" placement="top-end">
               <Checkbox
@@ -130,67 +193,23 @@ const WithImageControls = (props: WithImageControlsProps) => {
   );
 };
 
-type NoteImagesProps = {
-  noteId: number,
-  hasControls?: boolean,
-  images: NoteImageEntity[],
-}
-
-const ImagesBase = ({ noteId, images, hasControls }: NoteImagesProps) => {
-  return (
-    images.map(({ id, sizes }) => {
-      return (
-        <WithImageControls
-          key={id}
-          imageId={id}
-          noteId={noteId}
-          hasControls={hasControls}
-          src={sizes.small}
-        />
-      );
-    })
-  );
-};
-
-type NoteUploadingImagesProps = {
-  files: SelectFilteredFilesByTagReturn
-}
-
-const NoteUploadingImages = ({ files }: NoteUploadingImagesProps) => {
-  return (
-    files.map(({ objectUrl, fileId, status, progress, error }) => {
-      return (
-        <ImagePreview
-          key={fileId}
-          src={objectUrl}
-          status={status}
-          progress={progress}
-          error={error}
-        />
-      );
-    })
-  );
-};
-
 type NoteImageProps = {
   src: string,
+  height: number,
+  width: number,
   onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
 
-const NoteImage = ({ src, onClick }: NoteImageProps) => {
+const NoteImage = ({ height, width, src, onClick }: NoteImageProps) => {
   return (
     <Image
       asChild
       src={src}
       alt="Image"
-      border="1px solid"
-      borderColor="gray.300"
-      rounded="md"
-      w="full"
       background="gray.300"
-      aspectRatio={1}
+      height={height}
+      width={width}
       fit="cover"
-      p="1px"
       onClick={onClick}
     >
       <motion.img layout />
@@ -198,13 +217,15 @@ const NoteImage = ({ src, onClick }: NoteImageProps) => {
   );
 };
 
-const ImagePreview = ({ src, status, progress, error }) => {
+const ImagePreview = ({ height, width, src, status, progress, error }) => {
   const value = useSpringValue(progress);
 
   return src ? (
     <Box asChild position="relative">
       <motion.div layout>
         <NoteImage
+          height={height}
+          width={width}
           src={src}
         />
 
