@@ -163,24 +163,40 @@ export const Menu = React.memo((props: Props) => {
     }),
   };
 
-  const content = isOpen && (
-    <FloatingOverlay lockScroll>
-      <FloatingFocusManager
-        context={context}
-        initialFocus={refs.floating}
-        returnFocus={false}
-      >
-        <Box
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-          outline="transparent"
+  const content = React.useMemo(() => {
+    if (!isOpen) {
+      return null;
+    }
+
+    const menuContent = (
+      <FloatingOverlay lockScroll>
+        <FloatingFocusManager
+          context={context}
+          initialFocus={refs.floating}
+          returnFocus={false}
         >
-          {menuList}
-        </Box>
-      </FloatingFocusManager>
-    </FloatingOverlay>
-  );
+          <Box
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+            outline="transparent"
+          >
+            {menuList}
+          </Box>
+        </FloatingFocusManager>
+      </FloatingOverlay>
+    );
+    
+    if (inPortal) {
+      return (
+        <FloatingPortal>
+          {menuContent}
+        </FloatingPortal>
+      );
+    }
+
+    return menuContent;
+  }, [isOpen, inPortal, getFloatingProps, floatingStyles, context, menuList, refs]);
 
   return (
     <>
@@ -197,13 +213,8 @@ export const Menu = React.memo((props: Props) => {
           close,
         }}
       >
-        {inPortal ? (
-          <FloatingPortal>
-            {content}
-          </FloatingPortal>
-        ) : content}
+        {content}
       </MenuContext.Provider>
-
     </>
   );
 });
