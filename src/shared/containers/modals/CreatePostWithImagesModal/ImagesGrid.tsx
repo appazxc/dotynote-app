@@ -80,7 +80,7 @@ export const ImagesGrid = (props: ImagesGridProps) => {
               key={fileId}
               id={fileId}
               src={objectUrl}
-              inSeparatePosts={inSeparatePosts}
+              showSeparateIcon={inSeparatePosts && imgFiles.length > 1}
               onRemove={handleFileRemove}
             />
           ))}
@@ -126,11 +126,11 @@ const ImageItem = ({ src, listeners }: ImageItemProps) => {
 type SortableItemProps = {
   id: string,
   src: string | null, 
-  inSeparatePosts: boolean, 
+  showSeparateIcon: boolean, 
   onRemove: (fileId: string) => void
 }
 
-const SortableItem = React.memo(({ id, src, inSeparatePosts, onRemove }: SortableItemProps) => {
+const SortableItem = React.memo(({ id, src, showSeparateIcon, onRemove }: SortableItemProps) => {
   const { 
     attributes, 
     listeners, 
@@ -169,8 +169,8 @@ const SortableItem = React.memo(({ id, src, inSeparatePosts, onRemove }: Sortabl
           right="15px"
           bottom="15px"
         >
-          <Group attached>
-            {inSeparatePosts && (
+          <Group attached={showSeparateIcon}>
+            {showSeparateIcon && (
               <IconButton
                 size="2xs"
                 colorPalette="yellow"

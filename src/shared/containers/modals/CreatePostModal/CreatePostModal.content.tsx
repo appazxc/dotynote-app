@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   noteId: number,
-  onCreate?: (id: string) => void,
+  onCreate?: (id: number) => void,
 }
 
 const schema = z.object({
@@ -74,6 +74,7 @@ const CreatePostModal = ({ noteId, onCreate }: Props) => {
       placement={!isMobile ? 'center' : undefined}
       size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
+      closeOnInteractOutside={!isMobile}
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />

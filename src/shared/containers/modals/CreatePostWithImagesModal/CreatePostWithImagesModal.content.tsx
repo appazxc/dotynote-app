@@ -136,6 +136,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
       placement={!isMobile ? 'center' : undefined}
       size={isMobile ? 'full' : 'sm'}
       scrollBehavior="inside"
+      closeOnInteractOutside={!isMobile}
       onOpenChange={() => {
         removeFiles(imgFiles.map(({ fileId }) => fileId ));
         dispatch(hideModal());
