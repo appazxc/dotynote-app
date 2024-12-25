@@ -35,7 +35,23 @@ const breakpoints = [
 ];
 
 export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps }: NoteBaseImagesProps) => {
-  const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
+  const noteImages = React.useMemo(() => images
+    .filter(image => !image._isDeleted)
+    .map((image) => {
+      return ({
+        key: image.id,
+        src: image.sizes.medium,
+        alt: image.filename,
+        height: image.height,
+        width: image.width,
+        image,
+        srcSet: breakpoints.map(({ breakpoint, size }) => ({
+          src: image.sizes[size],
+          width: breakpoint,
+          height: Math.round((image.height / image.width) * breakpoint),
+        })),
+      }) as Photo & { image: ApiNoteImageEntity };
+    }), [images]);
   const [index, setIndex] = React.useState(-1);
 
   const { files } = useFileUpload();
@@ -48,21 +64,7 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
 
   const photos = React.useMemo(() => {
     return [
-      ...visibleImages.map((image) => {
-        return ({
-          key: image.id,
-          src: image.sizes.medium,
-          alt: image.filename,
-          height: image.height,
-          width: image.width,
-          image,
-          srcSet: breakpoints.map(({ breakpoint, size }) => ({
-            src: image.sizes[size],
-            width: breakpoint,
-            height: Math.round((image.height / image.width) * breakpoint),
-          })),
-        }) as Photo & { image: ApiNoteImageEntity };
-      }), 
+      ...noteImages, 
       ...imgFiles.map(imgFile => {
         return ({
           key: imgFile.fileId,
@@ -73,9 +75,9 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
           uploadImage: imgFile,
         }) as Photo & { uploadImage: MergedFilteredFile };
       })];
-  }, [visibleImages, imgFiles]);
+  }, [noteImages, imgFiles]);
 
-  if (!visibleImages.length && !imgFiles.length) {
+  if (!photos.length) {
     return null;
   }
   
@@ -86,7 +88,7 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
           layout="rows"
           photos={photos}
           spacing={4}
-          targetRowHeight={250}
+          targetRowHeight={200}
           rowConstraints={{ singleRowMaxHeight: 250 }}
           render={{
             photo: (_, context) => {
@@ -119,25 +121,29 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
                 />
               );
             },
-            container: ({ ref, ...rest }) => (
-              <Box
-                ref={ref}
-                {...rest}
-                overflow="hidden"
-                borderRadius="md"
-              />
-            ),
           }}
         />
       </Box>
-      <Lightbox
-        slides={photos}
-        open={index >= 0}
-        index={index}
-        close={() => setIndex(-1)}
-        plugins={[Zoom]}
-        carousel={{ finite: true }}
-      />
+      <Box
+        onClick={(e) => e.stopPropagation()}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
+        <Lightbox
+          slides={noteImages}
+          open={index >= 0}
+          index={index}
+          close={() => setIndex(-1)}
+          plugins={[Zoom]}
+          carousel={{ finite: true }}
+          render={{
+            iconZoomIn: () => null,
+            iconZoomOut: () => null,
+          }}
+        />
+      </Box>
     </>
   );
 });
@@ -164,7 +170,7 @@ const WithImageControls = (props: WithImageControlsProps) => {
 
   const handleImageClick = React.useCallback((event) => {
     event.stopPropagation();
-
+    console.log('handleImageClick' );
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
     } else {
@@ -240,6 +246,7 @@ const NoteImage = ({ height, width, src, onClick }: NoteImageProps) => {
       height={height}
       width={width}
       fit="cover"
+      borderRadius="sm"
       onClick={onClick}
     />
   );

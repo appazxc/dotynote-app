@@ -46,6 +46,7 @@ export const NotePosts = React.memo((props: Props) => {
 
   const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
+
     if ('concretePlace' in operation && operation.concretePlace) {
       concretePostClick(post);
       return;
