@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { useLocation, useRouterState } from '@tanstack/react-router';
 import throttle from 'lodash/throttle';
+import React from 'react';
 
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -24,7 +23,6 @@ export const TabScrollRestoration = React.memo(() => {
     
     if (scroll?.current) {
       scroll?.current?.scrollTo(0, value);
-      // setTimeout(() => scroll?.current?.scrollTo(0, value), 0);
     }
 
     const onScroll = throttle(() => {

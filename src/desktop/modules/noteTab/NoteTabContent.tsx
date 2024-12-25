@@ -19,9 +19,19 @@ export const NoteTabContent = React.memo((props: Props) => {
   const { id: noteId, settings, postsSettings } = note;
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
+  const [visible, setVisible] = React.useState(false);
+
+  // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
+  React.useEffect(() => {
+    setVisible(true);
+  }, []);
 
   return (
-    <Container h="full" maxW="3xl">
+    <Container
+      h="full"
+      maxW="3xl"
+      opacity={visible ? 1 : 0}
+    >
       <Box
         h="full"
         display="flex"

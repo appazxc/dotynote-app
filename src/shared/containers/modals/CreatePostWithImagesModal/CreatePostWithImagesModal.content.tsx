@@ -130,6 +130,10 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     && imgFiles.length > 1;
   const showOptionsMenu = canSeparatePosts;
 
+  if (!imgFiles.length) {
+    return null;
+  }
+  
   return (
     <DialogRoot
       open

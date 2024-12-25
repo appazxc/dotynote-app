@@ -93,6 +93,7 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
                     hasControls={hasControls}
                     src={context.photo.src}
                     height={context.height}
+                    blurhash={context.photo.image.blurhash}
                     width={context.width}
                     onClick={() => {
                       setIndex(context.index);

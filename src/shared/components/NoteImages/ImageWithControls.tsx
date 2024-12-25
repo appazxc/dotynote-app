@@ -16,11 +16,12 @@ type WithImageControlsProps = {
   src: string,
   width: number,
   height: number,
+  blurhash: string,
   onClick?: () => void,
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls, onClick } = props;
+  const { noteId, imageId, src, height, width, hasControls, blurhash, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -61,6 +62,7 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
             src={src}
             height={height}
             width={width}
+            blurhash={blurhash}
             onClick={handleImageClick}
           />
           {isSelecting && (

@@ -83,7 +83,9 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     });
   }, [files, dispatch]);
 
-  const handleFileSelect = React.useCallback(async (event: Event, type: UploadFileType, config: ConfigType) => {
+  const handleFileSelect = React.useCallback(async (
+    event: Event, type: UploadFileType, config: ConfigType, onSuccess?: () => void
+  ) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     const { zone, zoneId, uploadImmediately = true } = config;
@@ -119,6 +121,8 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       if (uploadImmediately) {
         dispatch(uploadFiles(newData, removeFiles));
       }
+
+      onSuccess?.();
     }
 
     target.value = '';
@@ -137,10 +141,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       input.accept = 'image/png, image/jpeg, image/gif, image/webp';
       input.multiple = true; 
       input.onchange = (event) => {
-        handleFileSelect(event, 'image', config);
-        input.value = '';
-        input.onchange = null;
-        onSuccess?.();
+        handleFileSelect(event, 'image', config, () => {
+          input.value = '';
+          input.onchange = null;
+          onSuccess?.();
+        });
       };
 
       input.click();
@@ -150,10 +155,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       input.accept = '.pdf,.doc,.docx';
       input.multiple = true; 
       input.onchange = (event) => {
-        handleFileSelect(event, 'file', config);
-        input.value = '';
-        input.onchange = null;
-        onSuccess?.();
+        handleFileSelect(event, 'file', config), () => {
+          input.value = '';
+          input.onchange = null;
+          onSuccess?.();
+        };
       };
 
       input.click();

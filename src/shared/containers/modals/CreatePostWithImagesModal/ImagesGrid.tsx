@@ -166,8 +166,8 @@ const SortableItem = React.memo(({ id, src, showSeparateIcon, onRemove }: Sortab
         />
         <Box
           position="absolute"
-          right="15px"
-          bottom="15px"
+          right="5px"
+          bottom="5px"
         >
           <Group attached={showSeparateIcon}>
             {showSeparateIcon && (
