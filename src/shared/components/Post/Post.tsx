@@ -54,7 +54,7 @@ export const Post = (props: Props) => {
       position="relative"
       {...boxProps}
     >
-      <motion.div layout="position">
+      <Box>
         {renderedSelectingContent}
         <Box
           key="text"
@@ -103,7 +103,7 @@ export const Post = (props: Props) => {
             />
           )}
         </Box>
-      </motion.div>
+      </Box>
     </Box>
   );
 };

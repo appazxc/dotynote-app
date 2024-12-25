@@ -1,6 +1,7 @@
 import * as ReactDOM from 'react-dom/client';
 
 import 'react-photo-album/styles.css';
+import 'yet-another-react-lightbox/styles.css';
 import { initialize } from 'shared/core/actions/initializeActions';
 
 import Main from './shared/core';

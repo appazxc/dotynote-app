@@ -1,9 +1,10 @@
 import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
-import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { Photo, default as PhotoAlbum } from 'react-photo-album';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
@@ -27,8 +28,15 @@ type NoteBaseImagesProps = {
   images: NoteImageEntity[],
 } & BoxProps;
 
+const breakpoints = [
+  { breakpoint: 1080, size: 'large' },
+  { breakpoint: 640, size: 'medium' }, 
+  { breakpoint: 384, size: 'small' },
+];
+
 export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps }: NoteBaseImagesProps) => {
   const visibleImages = React.useMemo(() => images.filter(image => !image._isDeleted), [images]);
+  const [index, setIndex] = React.useState(-1);
 
   const { files } = useFileUpload();
 
@@ -48,6 +56,11 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
           height: image.height,
           width: image.width,
           image,
+          srcSet: breakpoints.map(({ breakpoint, size }) => ({
+            src: image.sizes[size],
+            width: breakpoint,
+            height: Math.round((image.height / image.width) * breakpoint),
+          })),
         }) as Photo & { image: ApiNoteImageEntity };
       }), 
       ...imgFiles.map(imgFile => {
@@ -67,56 +80,65 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
   }
   
   return (
-    <LayoutGroup>
-      <AnimatePresence>
-        <Box {...boxProps}>
-          <PhotoAlbum
-            layout="rows"
-            photos={photos}
-            spacing={4}
-            targetRowHeight={250}
-            rowConstraints={{ singleRowMaxHeight: 250 }}
-            render={{
-              photo: (_, context) => {
-                if ('image' in context.photo) {
-                  return (
-                    <WithImageControls
-                      key={context.photo.key}
-                      imageId={context.photo.image.id}
-                      noteId={noteId}
-                      hasControls={hasControls}
-                      src={context.photo.src}
-                      height={context.height}
-                      width={context.width}
-                    />
-                  );
-                }
-                 
+    <>
+      <Box {...boxProps}>
+        <PhotoAlbum
+          layout="rows"
+          photos={photos}
+          spacing={4}
+          targetRowHeight={250}
+          rowConstraints={{ singleRowMaxHeight: 250 }}
+          render={{
+            photo: (_, context) => {
+              if ('image' in context.photo) {
                 return (
-                  <ImagePreview
+                  <WithImageControls
                     key={context.photo.key}
+                    imageId={context.photo.image.id}
+                    noteId={noteId}
+                    hasControls={hasControls}
                     src={context.photo.src}
-                    status={context.photo.uploadImage.status}
-                    progress={context.photo.uploadImage.progress}
-                    error={context.photo.uploadImage.error}
                     height={context.height}
                     width={context.width}
+                    onClick={() => {
+                      setIndex(context.index);
+                    }}
                   />
                 );
-              },
-              container: ({ ref, ...rest }) => (
-                <Box
-                  ref={ref}
-                  {...rest}
-                  overflow="hidden"
-                  borderRadius="md"
+              }
+                 
+              return (
+                <ImagePreview
+                  key={context.photo.key}
+                  src={context.photo.src}
+                  status={context.photo.uploadImage.status}
+                  progress={context.photo.uploadImage.progress}
+                  error={context.photo.uploadImage.error}
+                  height={context.height}
+                  width={context.width}
                 />
-              ),
-            }}
-          />
-        </Box>
-      </AnimatePresence>
-    </LayoutGroup>
+              );
+            },
+            container: ({ ref, ...rest }) => (
+              <Box
+                ref={ref}
+                {...rest}
+                overflow="hidden"
+                borderRadius="md"
+              />
+            ),
+          }}
+        />
+      </Box>
+      <Lightbox
+        slides={photos}
+        open={index >= 0}
+        index={index}
+        close={() => setIndex(-1)}
+        plugins={[Zoom]}
+        carousel={{ finite: true }}
+      />
+    </>
   );
 });
 
@@ -127,10 +149,11 @@ type WithImageControlsProps = {
   src: string,
   width: number,
   height: number,
+  onClick?: () => void,
 }
 
 const WithImageControls = (props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls } = props;
+  const { noteId, imageId, src, height, width, hasControls, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -144,8 +167,10 @@ const WithImageControls = (props: WithImageControlsProps) => {
 
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
+    } else {
+      onClick?.();
     }
-  }, [dispatch, imageId, isSelecting]);
+  }, [dispatch, imageId, onClick, isSelecting]);
 
   const handleImageSelect = React.useCallback((event) => {
     event.stopPropagation();
@@ -209,7 +234,6 @@ type NoteImageProps = {
 const NoteImage = ({ height, width, src, onClick }: NoteImageProps) => {
   return (
     <Image
-      asChild
       src={src}
       alt="Image"
       background="gray.300"
@@ -217,9 +241,7 @@ const NoteImage = ({ height, width, src, onClick }: NoteImageProps) => {
       width={width}
       fit="cover"
       onClick={onClick}
-    >
-      <motion.img layout />
-    </Image>
+    />
   );
 };
 
@@ -227,66 +249,64 @@ const ImagePreview = ({ height, width, src, status, progress, error }) => {
   const value = useSpringValue(progress);
 
   return src ? (
-    <Box asChild position="relative">
-      <motion.div layout>
-        <NoteImage
-          height={height}
-          width={width}
-          src={src}
-        />
+    <Box position="relative">
+      <NoteImage
+        height={height}
+        width={width}
+        src={src}
+      />
 
-        {status === 'idle' && (
-          <Center
-            position="absolute"
-            top="0"
-            left="0"
-            bottom="0"
-            right="0"
-            bg="gray.200"
-            opacity="0.3"
+      {status === 'idle' && (
+        <Center
+          position="absolute"
+          top="0"
+          left="0"
+          bottom="0"
+          right="0"
+          bg="gray.200"
+          opacity="0.3"
+        >
+          <Icon fontSize="30px" color="black">
+            <Box>
+              <GoClock />
+            </Box>
+          </Icon>
+        </Center>
+      )}
+
+      {status === 'pending' && (
+        <Center
+          position="absolute"
+          top="0"
+          left="0"
+          bottom="0"
+          right="0"
+        > 
+          <ProgressCircleRoot
+            size="sm"
+            value={value}
+            colorPalette="gray"
+            animation={'spin 2s linear infinite'}
           >
-            <Icon fontSize="30px" color="black">
+            <ProgressCircleRing css={{ '--thickness': '2px' }} />
+          </ProgressCircleRoot>
+        </Center>
+      )}
+      {status === 'error' && (
+        <Float
+          offset="15px"
+          zIndex="docked"
+          cursor="pointer"
+        >
+          <Tooltip content={error}>
+            <Icon fontSize="20px" color="red">
               <Box>
-                <GoClock />
+                <IoMdInformationCircle />
               </Box>
             </Icon>
-          </Center>
-        )}
-
-        {status === 'pending' && (
-          <Center
-            position="absolute"
-            top="0"
-            left="0"
-            bottom="0"
-            right="0"
-          > 
-            <ProgressCircleRoot
-              size="sm"
-              value={value}
-              colorPalette="gray"
-              animation={'spin 2s linear infinite'}
-            >
-              <ProgressCircleRing css={{ '--thickness': '2px' }} />
-            </ProgressCircleRoot>
-          </Center>
-        )}
-        {status === 'error' && (
-          <Float
-            offset="15px"
-            zIndex="docked"
-            cursor="pointer"
-          >
-            <Tooltip content={error}>
-              <Icon fontSize="20px" color="red">
-                <Box>
-                  <IoMdInformationCircle />
-                </Box>
-              </Icon>
-            </Tooltip>
-          </Float>
-        )}
-      </motion.div>
+          </Tooltip>
+        </Float>
+      )}
     </Box>
   ) : null;
 };

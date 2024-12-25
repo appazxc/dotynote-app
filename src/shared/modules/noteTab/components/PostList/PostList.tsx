@@ -138,7 +138,7 @@ export const PostList = React.memo((props: Props) => {
   return (
     <>
       <LayoutGroup>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           <Box
             pb="20"
             flexGrow={data ? '1' : '0'}
