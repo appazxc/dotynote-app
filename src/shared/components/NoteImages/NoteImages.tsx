@@ -1,9 +1,9 @@
-import { Box, BoxProps, Center, Float, Grid, Icon, Image } from '@chakra-ui/react';
+import { Box, BoxProps, Center, Float, Icon, Image } from '@chakra-ui/react';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
-import { Photo, RowsPhotoAlbum } from 'react-photo-album';
+import { Photo, default as PhotoAlbum } from 'react-photo-album';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
@@ -12,7 +12,7 @@ import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/pro
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { useSpringValue } from 'shared/hooks/useSpringValue';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
-import { 
+import {
   MergedFilteredFile,
   selectFilteredFilesByTag,
 } from 'shared/modules/fileUpload/selectors';
@@ -69,15 +69,13 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
   return (
     <LayoutGroup>
       <AnimatePresence>
-        <Box
-          overflow="hidden"
-          borderRadius="md"
-          {...boxProps}
-        >
-          <RowsPhotoAlbum
+        <Box {...boxProps}>
+          <PhotoAlbum
+            layout="rows"
             photos={photos}
             spacing={4}
             targetRowHeight={250}
+            rowConstraints={{ singleRowMaxHeight: 250 }}
             render={{
               photo: (_, context) => {
                 if ('image' in context.photo) {
@@ -106,6 +104,14 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
                   />
                 );
               },
+              container: ({ ref, ...rest }) => (
+                <Box
+                  ref={ref}
+                  {...rest}
+                  overflow="hidden"
+                  borderRadius="md"
+                />
+              ),
             }}
           />
         </Box>
