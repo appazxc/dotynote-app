@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 
 import { Loader } from 'shared/components/Loader';
 import {
@@ -28,10 +28,10 @@ export const ModalLoader = ({ delay }: Props) => {
       >
         <DialogBackdrop />
         <DialogContent>
-          <DialogBody>
-            <Box p="4">
+          <DialogBody p="0">
+            <Center h="200px">
               <Loader delay={0} />
-            </Box>
+            </Center>
           </DialogBody>
         </DialogContent>
       </DialogRoot>
