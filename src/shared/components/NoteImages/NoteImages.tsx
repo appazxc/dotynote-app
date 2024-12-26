@@ -18,6 +18,7 @@ type NoteBaseImagesProps = {
   noteId: number,
   hasControls?: boolean,
   images: NoteImageEntity[],
+  inPost?: boolean,
 } & BoxProps;
 
 const breakpoints = [
@@ -26,7 +27,7 @@ const breakpoints = [
   { breakpoint: 384, size: 'small' },
 ];
 
-export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps }: NoteBaseImagesProps) => {
+export const NoteImages = React.memo(({ noteId, hasControls, images, inPost, ...boxProps }: NoteBaseImagesProps) => {
   const noteImages = React.useMemo(() => images
     .filter(image => !image._isDeleted)
     .map((image) => {
@@ -81,7 +82,10 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, ...boxProps
           photos={photos}
           spacing={4}
           targetRowHeight={200}
-          rowConstraints={{ singleRowMaxHeight: 250 }}
+          rowConstraints={{ 
+            singleRowMaxHeight: 250,
+            minPhotos: photos.length >= 6 && inPost ? 3 : undefined,
+          }}
           render={{
             photo: (_, context) => {
               if ('image' in context.photo) {

@@ -89,6 +89,7 @@ export const Post = (props: Props) => {
               content={note.content}
             />
             <NoteImages
+              inPost
               mt="2"
               noteId={noteId}
               images={note.images}
