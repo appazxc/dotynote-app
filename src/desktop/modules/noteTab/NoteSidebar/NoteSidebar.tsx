@@ -65,7 +65,7 @@ export const NoteSidebar = React.memo((props: Props) => {
           <SidebarPlusMenu
             key={noteId}
             noteId={noteId}
-            canAddToNote={permissions.update}
+            canAddToNote={permissions.update && isNoteContentVisible}
             canAddToPosts={permissions.createPost}
           />
         ),
@@ -120,6 +120,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     tab.routes.length,
     isSearchActive,
     isNoteContentVisible,
+    permissions,
   ]);
 
   const renderedItems = React.useMemo(() => {

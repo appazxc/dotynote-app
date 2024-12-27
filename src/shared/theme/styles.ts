@@ -10,9 +10,6 @@ export const getEditorStyles = () => {
       pointerEvents: 'none',
       height: 0,
     },
-    '& p': {
-      lineHeight: '1.3',
-    },
     '&:focus': {
       outline: 'none',
     },
@@ -39,7 +36,7 @@ export const getEditorStyles = () => {
     //   marginBlockStart: '1em',
     //   marginBlockEnd: '1em',
     // },
-    '& ul li p, ol li p': {
+    '& ul li, ol li': {
       marginBottom: '.25em',
     },
     '& ul, ol': {
