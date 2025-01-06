@@ -52,7 +52,6 @@ export const Post = React.memo((props: Props) => {
           onClick?.(event)(post);
         }}
       />
-      
     );
   }, [isSelecting, isSelected, onClick, post]);
 

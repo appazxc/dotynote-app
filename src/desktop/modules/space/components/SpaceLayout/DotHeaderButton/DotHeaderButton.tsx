@@ -72,17 +72,18 @@ export const DotHeaderButton = () => {
         isContextMenu
         contextMousePosition={false}
       >
-        <MenuTrigger
-          as={IconButton}
-          position="relative"
-          size="xs"
-          iconSize="auto"
-          aria-label="Side note menu"
-          colorScheme={space.mainNoteId ? undefined : 'gray'}
-          variant="outline"
-          onClick={handlePrimaryNoteButtonClick}
-        >
-          <GoDotFill size="30" color={space.mainNoteId ? brand : 'gray'} />
+        <MenuTrigger>
+          <IconButton
+            position="relative"
+            size="xs"
+            iconSize="auto"
+            aria-label="Side note menu"
+            colorScheme={space.mainNoteId ? undefined : 'gray'}
+            variant="outline"
+            onClick={handlePrimaryNoteButtonClick}
+          >
+            <GoDotFill size="30" color={space.mainNoteId ? brand : 'gray'} />
+          </IconButton>
         </MenuTrigger>
         <MenuList>
           <MenuSub

@@ -43,12 +43,15 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   return (
     <>
       <Menu placement={isMobile ? 'bottom-end' : 'right-start'}>
-        <MenuTrigger
-          as={IconButton}
-          size="xs"
-          aria-label="Note menu"
-          variant="ghost"
-        >{isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}</MenuTrigger>
+        <MenuTrigger>
+          <IconButton
+            size="xs"
+            aria-label="Note menu"
+            variant="ghost"
+          >
+            {isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}
+          </IconButton>
+        </MenuTrigger>
         <MenuList>
           {note.permissions.stick && (
             <MenuItem

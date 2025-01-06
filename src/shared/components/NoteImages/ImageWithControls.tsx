@@ -54,28 +54,13 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
   return (
     <Menu isContextMenu enabled={hasControls && !isSelecting}>
       <MenuTrigger>
-        <Box
-          position="relative"
-          cursor="pointer"
-        >
-          <NoteImage
-            src={src}
-            height={height}
-            width={width}
-            blurhash={blurhash}
-            onClick={handleImageClick}
-          />
-          {isSelecting && (
-            <Float offset="15px" placement="top-end">
-              <Checkbox
-                borderRadius="full"
-                colorPalette="blue"
-                radius="full"
-                checked={isSelected}
-              />
-            </Float>
-          )}
-        </Box>
+        <NoteImage
+          src={src}
+          height={height}
+          width={width}
+          blurhash={blurhash}
+          onClick={handleImageClick}
+        />
       </MenuTrigger>
       <MenuList>
         <MenuItem

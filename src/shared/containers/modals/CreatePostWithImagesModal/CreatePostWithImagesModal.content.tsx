@@ -184,13 +184,14 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
                 placement="top-start"
                 inPortal={false}
               >
-                <MenuTrigger
-                  as={IconButton}
-                  iconSize="auto"
-                  aria-label="Options"
-                  variant="ghost"
-                >
-                  <DotsIcon />
+                <MenuTrigger>
+                  <IconButton
+                    iconSize="auto"
+                    aria-label="Options"
+                    variant="ghost"
+                  >
+                    <DotsIcon />
+                  </IconButton>
                 </MenuTrigger>
                 <MenuList>
                   {canSeparatePosts && (

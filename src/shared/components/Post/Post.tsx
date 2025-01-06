@@ -20,7 +20,7 @@ type Props = {
   note: NoteEntity,
 } & BoxProps;
 
-export const Post = (props: Props) => {
+export const Post = React.forwardRef((props: Props, ref) => {
   const { noteId, note, isSelecting, isSelected, isPinned, dots, showDotsAmount, ...boxProps } = props;
   
   const renderedSelectingContent = React.useMemo(() => {
@@ -107,4 +107,4 @@ export const Post = (props: Props) => {
       </Box>
     </Box>
   );
-};
+});

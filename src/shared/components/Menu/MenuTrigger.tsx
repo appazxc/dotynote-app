@@ -1,3 +1,4 @@
+import { useMergeRefs } from '@floating-ui/react';
 import React from 'react';
 
 declare module 'react' {
@@ -24,11 +25,19 @@ interface CustomComponent<
 }
 
 // @ts-ignore
-const Component: CustomComponent<'div', object> = ({ as, ...props }, ref) => {
-  const As = as || 'div';
+const Component: CustomComponent<'div', object> = ({ children, ...props }, propRef) => {
+  const childrenRef = (children as any).ref;
+  const refs = [propRef];
+
+  if (childrenRef) {
+    refs.push(childrenRef);
+  }
   
-  return (
-    <As ref={ref} {...props} />
+  const ref = useMergeRefs(refs);
+  
+  return React.cloneElement(
+    children,
+    { ref, ...props, ...children.props }
   );
 };
 

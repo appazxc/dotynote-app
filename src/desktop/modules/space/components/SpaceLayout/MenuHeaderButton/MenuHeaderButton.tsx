@@ -32,14 +32,15 @@ export const MenuHeaderButton = React.memo(() => {
   return (
     <>
       <Menu placement="bottom-end">
-        <MenuTrigger
-          as={IconButton}
-          size="xs"
-          aria-label="User menu"
-          variant="outline"
-          colorScheme="brand"
-        >
-          <BsThreeDotsVertical />
+        <MenuTrigger>
+          <IconButton 
+            size="xs"
+            aria-label="User menu"
+            variant="outline"
+            colorScheme="brand"
+          >
+            <BsThreeDotsVertical />
+          </IconButton>
         </MenuTrigger>
         <MenuList>
           <MenuItem
