@@ -17,6 +17,7 @@ import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteI
 type NoteBaseImagesProps = {
   noteId: number,
   hasControls?: boolean,
+  isDisabled?: boolean,
   images: NoteImageEntity[],
   inPost?: boolean,
 } & BoxProps;
@@ -27,7 +28,9 @@ const breakpoints = [
   { breakpoint: 384, size: 'small' },
 ];
 
-export const NoteImages = React.memo(({ noteId, hasControls, images, inPost, ...boxProps }: NoteBaseImagesProps) => {
+export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
+  const { noteId, hasControls, images, isDisabled, inPost, ...boxProps } = props;
+
   const noteImages = React.useMemo(() => images
     .filter(image => !image._isDeleted)
     .map((image) => {
@@ -70,6 +73,13 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, inPost, ...
       })];
   }, [noteImages, imgFiles]);
 
+  const handleImageClick = React.useCallback((index) => () => {
+    if (isDisabled) {
+      return;
+    }
+    setIndex(index);
+  }, [isDisabled]);
+
   if (!photos.length) {
     return null;
   }
@@ -99,9 +109,8 @@ export const NoteImages = React.memo(({ noteId, hasControls, images, inPost, ...
                     height={context.height}
                     blurhash={context.photo.image.blurhash}
                     width={context.width}
-                    onClick={() => {
-                      setIndex(context.index);
-                    }}
+                    canPropagate={isDisabled}
+                    onClick={handleImageClick(context.index)}
                   />
                 );
               }

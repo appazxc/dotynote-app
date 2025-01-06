@@ -17,11 +17,12 @@ type WithImageControlsProps = {
   width: number,
   height: number,
   blurhash: string,
+  canPropagate?: boolean,
   onClick?: () => void,
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls, blurhash, onClick } = props;
+  const { noteId, imageId, src, height, width, hasControls, blurhash, canPropagate = false, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -31,13 +32,15 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
   const isSelected = isSelecting && operation.imageIds.includes(imageId);
 
   const handleImageClick = React.useCallback((event) => {
-    event.stopPropagation();
+    if (!canPropagate) {
+      event.stopPropagation();
+    }
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
     } else {
       onClick?.();
     }
-  }, [dispatch, imageId, onClick, isSelecting]);
+  }, [dispatch, imageId, onClick, isSelecting, canPropagate]);
 
   const handleImageSelect = React.useCallback((event) => {
     event.stopPropagation();
@@ -54,13 +57,28 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
   return (
     <Menu isContextMenu enabled={hasControls && !isSelecting}>
       <MenuTrigger>
-        <NoteImage
-          src={src}
-          height={height}
-          width={width}
-          blurhash={blurhash}
-          onClick={handleImageClick}
-        />
+        <Box
+          position="relative"
+          cursor="pointer"
+        >
+          <NoteImage
+            src={src}
+            height={height}
+            width={width}
+            blurhash={blurhash}
+            onClick={handleImageClick}
+          />
+          {isSelecting && (
+            <Float offset="15px" placement="top-end">
+              <Checkbox
+                borderRadius="full"
+                colorPalette="blue"
+                radius="full"
+                checked={isSelected}
+              />
+            </Float>
+          )}
+        </Box>
       </MenuTrigger>
       <MenuList>
         <MenuItem

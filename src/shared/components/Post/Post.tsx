@@ -91,6 +91,7 @@ export const Post = React.forwardRef((props: Props, ref) => {
             <NoteImages
               inPost
               mt="2"
+              isDisabled={isSelecting}
               noteId={noteId}
               images={note.images}
               hasControls={true}
