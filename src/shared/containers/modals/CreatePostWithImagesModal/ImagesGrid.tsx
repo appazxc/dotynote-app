@@ -7,7 +7,8 @@ import {
   DraggableSyntheticListeners,
   DragOverlay,
   MeasuringStrategy,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useDndContext,
   useSensor,
   useSensors,
@@ -31,13 +32,20 @@ type ImagesGridProps = {
   handleFileRemove: (fileId: string) => void,
 }
 
+const activationConstraint = {
+  distance: 10,
+};
+
 export const ImagesGrid = (props: ImagesGridProps) => {
   const { imgFiles, imgFileIds, setImgFileIds, inSeparatePosts, handleFileRemove } = props;
-  const sensors = useSensors(useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 10,
-    },
-  }));
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint,
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint,
+    })
+  );
   const [activeId, setActiveId] = React.useState(null);
 
   function handleDragStart({ active }) {
@@ -58,8 +66,12 @@ export const ImagesGrid = (props: ImagesGridProps) => {
     );
   }
 
-  const activeIdUrl = imgFiles.find(({ fileId }) => fileId === activeId)?.objectUrl;
+  function onDragCancel(){
+    setActiveId(null);
+  }
 
+  const activeIdUrl = imgFiles.find(({ fileId }) => fileId === activeId)?.objectUrl;
+  console.log('activeId && activeIdUrl', activeId, activeIdUrl);
   return (
     <DndContext
       sensors={sensors}
@@ -69,6 +81,7 @@ export const ImagesGrid = (props: ImagesGridProps) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragMove}
+      onDragCancel={onDragCancel}
     >
       <SortableContext items={imgFileIds} strategy={rectSortingStrategy}>
         <Grid

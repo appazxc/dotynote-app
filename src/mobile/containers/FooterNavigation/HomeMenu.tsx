@@ -31,10 +31,9 @@ export const HomeMenu = React.memo((props: Props) => {
       placement="top-start"
       contextMousePosition={false}
     >
-      <MenuTrigger
-        as={IconButton}
-        {...props}
-      />
+      <MenuTrigger>
+        <IconButton {...props} />
+      </MenuTrigger>
       <MenuList>
         <MenuItem
           label="Change primary note"
