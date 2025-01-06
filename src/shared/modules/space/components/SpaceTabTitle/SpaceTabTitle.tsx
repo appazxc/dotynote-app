@@ -16,7 +16,7 @@ export const SpaceTabTitle = React.memo(({ title, ...props }: Props) => {
         asChild
         {...props}
       >
-        <motion.div layout="position">
+        <motion.div>
           {title}
         </motion.div>
       </Box>

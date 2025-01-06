@@ -40,7 +40,6 @@ export const SpaceTabs = React.memo(() => {
           gap="1"
         >
           <Reorder.Group
-            layout
             axis="x"
             values={pinnedTabs}
             onReorder={handleReorderPinnedTabs}
@@ -62,7 +61,6 @@ export const SpaceTabs = React.memo(() => {
           flexGrow="1"
         >
           <Reorder.Group
-            layout
             axis="x"
             values={unpinnedTabs}
             onReorder={handleReorderUnpinnedTabs}
