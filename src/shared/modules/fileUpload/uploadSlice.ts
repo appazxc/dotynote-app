@@ -11,6 +11,7 @@ export type UploadFileEntity = {
   zoneId: number,
   status: StatusType,
   progress: number,
+  realId?: string,
   error: string | null,
   dimensions: { width: number, height: number },
 }

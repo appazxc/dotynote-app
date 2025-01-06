@@ -30,8 +30,10 @@ const breakpoints = [
 
 export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
   const { noteId, hasControls, images, isDisabled, inPost, ...boxProps } = props;
+  const [index, setIndex] = React.useState(-1);
+  const { files } = useFileUpload();
 
-  const noteImages = React.useMemo(() => images
+  const notePhotos = React.useMemo(() => images
     .filter(image => !image._isDeleted)
     .map((image) => {
       return ({
@@ -48,20 +50,21 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
         })),
       }) as Photo & { image: ApiNoteImageEntity };
     }), [images]);
-  const [index, setIndex] = React.useState(-1);
 
-  const { files } = useFileUpload();
+  const noteImageIds = React.useMemo(() => notePhotos.map(noteImage => noteImage.image.id), [notePhotos]);
 
-  const imgFiles = useAppSelector(state => 
+  const uploadImages = useAppSelector(state => 
     selectFilteredFilesByTag(state, { 
       files, 
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
     }));
-
+    
   const photos = React.useMemo(() => {
     return [
-      ...noteImages, 
-      ...imgFiles.map(imgFile => {
+      ...notePhotos, 
+      ...uploadImages.filter(image => {
+        return image.realId ? !noteImageIds.includes(image.realId) : true;
+      }).map(imgFile => {
         return ({
           key: imgFile.fileId,
           src: imgFile.objectUrl,
@@ -71,7 +74,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
           uploadImage: imgFile,
         }) as Photo & { uploadImage: MergedFilteredFile };
       })];
-  }, [noteImages, imgFiles]);
+  }, [notePhotos, uploadImages, noteImageIds]);
 
   const handleImageClick = React.useCallback((index) => () => {
     if (isDisabled) {
@@ -137,7 +140,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
         }}
       >
         <Lightbox
-          slides={noteImages}
+          slides={notePhotos}
           open={index >= 0}
           index={index}
           close={() => setIndex(-1)}

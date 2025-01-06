@@ -6,7 +6,6 @@ import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/selectors';
 import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
-import { invariant } from 'shared/util/invariant';
 
 export const uploadFiles = (
   files: UploadFile[], 
@@ -17,11 +16,11 @@ export const uploadFiles = (
   }
 
   const entity = selectUploadFileEntity(getState(), files[0].fileId);
-
+  
   if (entity && entity.zone === 'note') {
     await queryClient.fetchQuery({ ...options.notes.load(Number(entity.zoneId)), staleTime: 0 });
   }
-
+  
   removeFiles(files.map(({ fileId }) => fileId));
 };
 
@@ -49,7 +48,7 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
-      await api.post(
+      const imageId = await api.post<string>(
         '/upload/images', 
         formData,
         { 
@@ -58,7 +57,7 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
           }, 
         });
 
-      dispatch(updateFile({ fileId: file.fileId, status: 'complete' }));
+      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId: imageId }));
     } catch(error) {
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }
