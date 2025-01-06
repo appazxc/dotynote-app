@@ -35,8 +35,11 @@ export const LayoutHeader = (props: Props) => {
         aria-label="Note back"
         variant="plain"
         display="inline-flex"
+        iconSize="auto"
         onClick={onBackButtonClick || (() => history.back())}
-      ><BsArrowLeft size="18" /></IconButton>
+      >
+        <BsArrowLeft size="18" />
+      </IconButton>
     );
   }, [history, showBackButton, onBackButtonClick]);
 

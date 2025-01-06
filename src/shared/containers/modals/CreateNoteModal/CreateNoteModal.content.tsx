@@ -75,7 +75,7 @@ const CreateNoteModal = ({ onCreate }: Props) => {
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
-      <DialogContent maxH="90vh">
+      <DialogContent asChild maxH="90vh">
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader pb="1"><DialogTitle>Create note</DialogTitle></DialogHeader>
           <DialogCloseTrigger />
@@ -86,6 +86,8 @@ const CreateNoteModal = ({ onCreate }: Props) => {
                 display: 'none',
               },
             }}
+            display="flex"
+            flexDirection="column"
           >
             <Field invalid={!!errors.title} errorText={errors.title?.message}>
               <AutoResizeTextarea

@@ -58,34 +58,36 @@ export const SpaceCard = React.memo(({ id, isActive }: Props) => {
   return (
     <>
       <Menu isContextMenu>
-        <MenuTrigger
-          as={Box}
-          p="4"
-          border="2px solid"
-          borderColor={borderColor}
-          borderRadius="md"
-          display="flex"
-          alignItems="flex-end"
-          justifyContent="space-between"
-          w="full"
-          minH="20"
-          pt="10"
-          _hover={{
-            borderColor: hoverBorderColor,
-          }}
-          cursor="pointer"
-          transitionDuration="slow"
-          onClick={handleClick}
-        >
-          <Text fontSize="large" fontWeight="500">{space.name}</Text>
-          <Text
-            fontSize="sm"
-            color="gray"
-            ml="4"
-            whiteSpace="nowrap"
+        <MenuTrigger>
+          <Box
+            p="4"
+            border="2px solid"
+            borderColor={borderColor}
+            borderRadius="md"
+            display="flex"
+            alignItems="flex-end"
+            justifyContent="space-between"
+            w="full"
+            minH="20"
+            pt="10"
+            _hover={{
+              borderColor: hoverBorderColor,
+            }}
+            cursor="pointer"
+            transitionDuration="slow"
+            onClick={handleClick}
           >
-            {space.tabs.length} tabs
-          </Text>
+
+            <Text fontSize="large" fontWeight="500">{space.name}</Text>
+            <Text
+              fontSize="sm"
+              color="gray"
+              ml="4"
+              whiteSpace="nowrap"
+            >
+              {space.tabs.length} tabs
+            </Text>
+          </Box>
         </MenuTrigger>
         <MenuList>
           <MenuItem

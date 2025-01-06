@@ -53,8 +53,11 @@ export const NoteHeader = (props: Props) => {
         disabled={tab.routes.length <= 1}
         variant="plain"
         display="inline-flex"
+        iconSize="auto"
         onClick={() => history.back()}
-      ><BsArrowLeft /></IconButton>
+      >
+        <BsArrowLeft size="20" />
+      </IconButton>
     );
   }, [tab.routes.length, history, firstPageOfPrimaryNote]);
 

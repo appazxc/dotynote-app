@@ -62,8 +62,8 @@ const Tab = ({ id, isActive }) => {
         <Box overflow="hidden">
           <SpaceTabTitle
             title={tabTitle}
-            fontSize="lg"
-            fontWeight="500"
+            fontSize="md"
+            // fontWeight="500"
             textOverflow="ellipsis"
             lineClamp={2}
             display="-webkit-box"

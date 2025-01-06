@@ -1,4 +1,5 @@
 import { Container, Stack } from '@chakra-ui/react';
+import React from 'react';
 
 import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -17,9 +18,18 @@ export const NoteTabContent = (props: Props) => {
   const { id: noteId, settings, postsSettings } = note;
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
+  const [visible, setVisible] = React.useState(false);
   
+  // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
+  React.useEffect(() => {
+    setVisible(true);
+  }, []);
+    
   return (
-    <Container h="full">
+    <Container
+      h="full" 
+      opacity={visible ? 1 : 0}
+    >
       <Stack
         gap="5"
         pt="3"

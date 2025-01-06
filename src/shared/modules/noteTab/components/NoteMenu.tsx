@@ -2,13 +2,13 @@ import { IconButton } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
 import { api } from 'shared/api';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { DotsIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -49,7 +49,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             aria-label="Note menu"
             variant="ghost"
           >
-            {isMobile ? <BsThreeDotsVertical /> : <PiDotsSixVerticalBold />}
+            {isMobile ? <DotsIcon /> : <PiDotsSixVerticalBold />}
           </IconButton>
         </MenuTrigger>
         <MenuList>

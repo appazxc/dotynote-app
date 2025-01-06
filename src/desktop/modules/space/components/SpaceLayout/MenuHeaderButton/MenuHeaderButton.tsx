@@ -1,13 +1,13 @@
 import { IconButton } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { useColorMode } from 'shared/components/ui/color-mode';
+import { DotsIcon } from 'shared/components/ui/icons';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
@@ -39,7 +39,7 @@ export const MenuHeaderButton = React.memo(() => {
             variant="outline"
             colorScheme="brand"
           >
-            <BsThreeDotsVertical />
+            <DotsIcon />
           </IconButton>
         </MenuTrigger>
         <MenuList>

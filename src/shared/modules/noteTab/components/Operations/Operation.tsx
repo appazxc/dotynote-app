@@ -1,11 +1,11 @@
 import { Box, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdOutlineDone } from 'react-icons/md';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Button } from 'shared/components/ui/button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
+import { DotsIcon } from 'shared/components/ui/icons';
 import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useAppDispatch } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';
@@ -52,13 +52,17 @@ export const Operation = React.memo((props: Props) => {
         <Box display="flex" gap="2">
           {options && (
             <Menu placement="top-end">
-              <MenuTrigger
-                as={IconButton}
-                size="sm"
-                aria-label=""
-                variant="plain"
-                display="inline-flex"
-              ><BsThreeDotsVertical size="18" /></MenuTrigger>
+              <MenuTrigger>
+                <IconButton
+                  size="sm"
+                  aria-label=""
+                  variant="plain"
+                  display="inline-flex"
+                  iconSize="auto"
+                >
+                  <DotsIcon size="18" />
+                </IconButton> 
+              </MenuTrigger>
               <MenuList>
                 {options.map((option) => (
                   <MenuItem
