@@ -8,7 +8,7 @@ import { MenuContext } from './MenuContext';
 
 export type MenuItemProps = {
   label: React.ReactNode,
-  onClick?: (event) => void,
+  onClick?: () => void,
   closeOnClick?: boolean,
 } & Omit<ButtonProps, 'children'>
 
@@ -27,7 +27,7 @@ export const MenuItem = (props: MenuItemProps) => {
       onClick={(event) => {
         event.stopPropagation();
 
-        onClick?.(event);
+        onClick?.();
         
         if (closeOnClick) {
           menu.close();

@@ -34,7 +34,7 @@ type Props = {
   internalLevel: number,
 };
 
-type Menu = { key: string, hasDivider?: boolean, menu?: Menu[] } & (MenuItemProps | MenuSubProps)
+type MenuProps = { key: string, hasDivider?: boolean, menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
@@ -217,7 +217,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props
         onClick: () => dispatch(showModal({ id: modalIds.confirm, extraId: post.id })),
         hasDivider: !showRemove,
       }] : [],
-    ] as Menu[];
+    ] as MenuProps[];
   }, [
     post,
     dispatch,
@@ -237,10 +237,10 @@ export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props
     handleCreateOrDeleteInternal,
   ]);
 
-  const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : Menu) => {
+  const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : MenuProps) => {
     const Component = menu ? MenuSub : MenuItem;
     const children = menu ? menu.map(renderMenuItem) : undefined;
-
+    
     return (
       <React.Fragment key={key}>
         {hasDivider && <MenuDivider />}

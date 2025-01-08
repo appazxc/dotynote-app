@@ -42,9 +42,7 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
     }
   }, [dispatch, imageId, onClick, isSelecting, canPropagate]);
 
-  const handleImageSelect = React.useCallback((event) => {
-    event.stopPropagation();
-
+  const handleImageSelect = React.useCallback(() => {
     if (!isSelecting) {
       dispatch(startSelectNoteImagesOperation({ imageId, noteId }));
     }
