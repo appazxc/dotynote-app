@@ -1,6 +1,7 @@
+import { Box } from '@chakra-ui/react';
 import * as React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { BrowserProviders } from 'shared/components/BrowserProviders';
 
 type Props = {
   children: React.ReactNode,
@@ -10,11 +11,13 @@ type Props = {
 
 const Layout = ({ children, header, footer }: Props) => {
   return (
-    <Box h="full" w="full">
-      {header && header}
-      {children}
-      {footer}
-    </Box>
+    <BrowserProviders>
+      <Box h="full" w="full">
+        {header && header}
+        {children}
+        {footer}
+      </Box>
+    </BrowserProviders>
   );
 };
 

@@ -25,7 +25,7 @@ export const SpaceCard = React.memo(({ id, isActive }: Props) => {
   const space = useAppSelector(state => spaceSelector.getEntityById(state, id));
   const dispatch = useAppDispatch();
   const navigate = useBrowserNavigate();
-  
+
   invariant(space, 'Missing space');
 
   const handleClick = React.useCallback(() => {

@@ -57,7 +57,7 @@ export const LoginForm = () => {
     }
 
     setValue('code', '', { shouldDirty: false });
-    setValue('email', e.target.value, { shouldDirty: true });
+    setValue('email', e.target.value.toLowerCase(), { shouldDirty: true });
   }, [isEmailSent, setValue]);
 
   const onSubmit = React.useCallback(async ({ email, code }) => {
@@ -110,6 +110,7 @@ export const LoginForm = () => {
                   >
                     <Input
                       placeholder="Your email address"
+                      spellCheck="false"
                       {...field}
                       onChange={handleEmailChange}
                     />
