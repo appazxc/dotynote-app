@@ -41,7 +41,7 @@ export const makeGetEntityById = (schema) => {
   const keys = getEntitiesKeys(schema);
 
   return createSelector([
-    (_, id) => id,
+    (_: AppState, id) => id,
     ...keys.map((key) => (state: AppState) => {
       return state.entities[key];
     }),

@@ -48,8 +48,10 @@ export default class Selector<T extends EntityName> {
     this.type = entityType;
     this.getById = makeGetById(entityType);
     this.getByIds = makeGetByIds(entityType);
+    // @ts-ignore TODO: fix
     this.getEntityById = makeGetEntityById(schemaMap[entityType]);
     this.getEntitiesById = makeGetEntitiesById(schemaMap[entityType]);
+    // @ts-ignore TODO: fix
     this.makeGetEntityById = () => makeGetEntityById(schemaMap[entityType]);
     this.makeGetById = () => makeGetById(entityType);
   }
