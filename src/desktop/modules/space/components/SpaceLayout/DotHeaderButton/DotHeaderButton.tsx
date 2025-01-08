@@ -24,13 +24,12 @@ export const DotHeaderButton = () => {
   const dispatch = useAppDispatch();
   const space = useAppSelector(selectActiveSpace);
   const brandToken = useColorModeValue(
-    'brand.700',
+    'gray.900',
     'white'
   );
   const [brand] = useToken('colors', brandToken);
   const { data: spaceIds = [] } = useSpaces();
   invariant(space, 'Missing space');
-  
   const { mutate } = useUpdateSpace(space.id);
 
   const handleRemovePrimaryNote = React.useCallback(() => {
@@ -115,12 +114,16 @@ export const DotHeaderButton = () => {
                 }}
               />
             )}
-            <MenuDivider />
-            <MenuItem
-              label="Remove"
-              colorScheme="red"
-              onClick={handleRemovePrimaryNote}
-            />
+            {space.mainNoteId && (
+              <>
+                <MenuDivider />
+                <MenuItem
+                  label="Remove"
+                  colorScheme="red"
+                  onClick={handleRemovePrimaryNote}
+                />
+              </>
+            )}
           </MenuSub>
         </MenuList>
       </Menu>

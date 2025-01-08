@@ -2,10 +2,12 @@ import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 import { Photo, default as PhotoAlbum } from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
+import Download from 'yet-another-react-lightbox/plugins/download';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 import { ImageWithControls } from 'shared/components/NoteImages/ImageWithControls';
 import { UploadingImage } from 'shared/components/NoteImages/UploadingImage';
+import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import {
   MergedFilteredFile,
@@ -13,6 +15,7 @@ import {
 } from 'shared/modules/fileUpload/selectors';
 import { useAppSelector } from 'shared/store/hooks';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
+import { downloadImage } from 'shared/util/downloadImage';
 
 type NoteBaseImagesProps = {
   noteId: number,
@@ -21,6 +24,8 @@ type NoteBaseImagesProps = {
   images: NoteImageEntity[],
   inPost?: boolean,
 } & BoxProps;
+
+type NotePhoto = Photo & { image: ApiNoteImageEntity };
 
 const breakpoints = [
   { breakpoint: 1080, size: 'large' },
@@ -48,7 +53,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
           width: breakpoint,
           height: Math.round((image.height / image.width) * breakpoint),
         })),
-      }) as Photo & { image: ApiNoteImageEntity };
+      }) as NotePhoto;
     }), [images]);
 
   const noteImageIds = React.useMemo(() => notePhotos.map(noteImage => noteImage.image.id), [notePhotos]);
@@ -144,8 +149,15 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
           open={index >= 0}
           index={index}
           close={() => setIndex(-1)}
-          plugins={[Zoom]}
+          plugins={[Zoom, Download]}
           carousel={{ finite: true }}
+          download={{
+            download(props) {
+              const slide = props.slide as NotePhoto;
+
+              downloadImage(`/notes/images/${slide.image.id}/original`, slide.image.filename);
+            },
+          }}
           render={{
             iconZoomIn: () => null,
             iconZoomOut: () => null,

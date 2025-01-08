@@ -27,6 +27,7 @@ export type Api = {
   get<T>(
     path: string,
     params?: Params,
+    config?: AxiosRequestConfig
   ): Promise<T>;
   post<T>(path: string, body: any, config?: AxiosRequestConfig): Promise<T>;
   patch<T>(path: string, body: any, options?: Options): Promise<T>;
@@ -87,7 +88,7 @@ export default () => {
   });
 
   const api: Api = {
-    async get(path, params = {}) {
+    async get(path, params = {}, options = {}) {
       const updatedParams = mapValues(params, (value) => {
         if (isArray(value)) {
           return value.join(',');
@@ -100,6 +101,7 @@ export default () => {
         .get(getBaseApi() + path, {
           params: pickBy(updatedParams, (param) => param !== undefined),
           headers: createHeaders(),
+          ...options,
         })
         .then(response => handleResponse(response));
     },

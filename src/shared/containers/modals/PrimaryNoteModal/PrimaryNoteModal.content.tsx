@@ -1,6 +1,7 @@
 import {
   Box,
   DialogTitle,
+  Image,
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -45,7 +46,7 @@ const PrimaryNoteModal = React.memo(() => {
     <DialogRoot
       defaultOpen
       placement={!isMobile ? 'center' : undefined}
-      size={isMobile ? 'full' : 'xl'}
+      size={isMobile ? 'full' : 'lg'}
       scrollBehavior="inside"
       onOpenChange={() => dispatch(hideModal())}
     >
@@ -61,8 +62,13 @@ const PrimaryNoteModal = React.memo(() => {
             p="4"
             bg="gray.100"
             borderRadius="md"
+            maxW="fit-content"
           >
-            <img src={isMobile ? exampleMobile : exampleDesktop} alt="" />
+            <Image
+              src={isMobile ? exampleMobile : exampleDesktop}
+              alt=""
+              maxW="400px"
+            />
           </Box>
         </DialogBody>
         <DialogFooter>
