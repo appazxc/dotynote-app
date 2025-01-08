@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { denormalize } from 'normalizr';
 
+import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 import { AppState } from 'shared/types/store';
 
 const getEntitiesKeys = (schema) => {
@@ -37,15 +38,17 @@ const transformToEntities = (keys, entitiesList) => {
   }, {});
 };
 
+type EntitySelector = (state: AppState, id?: string | number | null) => ApiEntityTypes | null
+
 export const makeGetEntityById = (schema) => {
   const keys = getEntitiesKeys(schema);
 
   return createSelector([
-    (_: AppState, id) => id,
+    (_, id) => id,
     ...keys.map((key) => (state: AppState) => {
       return state.entities[key];
     }),
-  ],
+  ] as EntitySelector[],
   (id, ...entitiesList) => {
     const entities = transformToEntities(keys, entitiesList);
 
