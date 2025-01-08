@@ -98,7 +98,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
         <PhotoAlbum
           layout="rows"
           photos={photos}
-          spacing={4}
+          spacing={2}
           targetRowHeight={200}
           rowConstraints={{ 
             singleRowMaxHeight: 250,
