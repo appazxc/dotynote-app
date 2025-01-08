@@ -1,68 +1,54 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useLongPress } from '@uidotdev/usehooks';
 import { motion } from 'motion/react';
 import React from 'react';
 
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Tag } from 'shared/components/ui/tag';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 
 type Props = {
   showAmount?: boolean,
-  onClick: () => void,
-  onLongPress: () => void,
+  onPlus: () => void,
+  onMinus: () => void,
 } & Pick<NoteDotEntity, 'my' | 'text' | 'total'>;
 
 export const Dot = React.memo((props: Props) => {
-  const { text, total, my, showAmount, onClick, onLongPress } = props;
-  const [longPressTriggered, setLongPressTriggered] = React.useState(false);
-
-  const attrs = useLongPress(
-    (event: Event) => {
-      if (event.type === 'mousedown' && 'button' in event && event.button !== 0) return;
-
-      setLongPressTriggered(true);
-      onLongPress();
-    },
-    {
-      onFinish: () => {
-        setTimeout(() => setLongPressTriggered(false), 100);
-      },
-      threshold: 500,
-    }
-  );
+  const { text, total, my, showAmount, onPlus, onMinus } = props;
 
   const handleOnClick = (event) => {
     event.stopPropagation();
 
-    if (longPressTriggered) {
-      return;
+    if (my) {
+      onMinus();
+    } else {
+      onPlus();
     }
-
-    onClick();
   };
   
   return (
     <motion.div layout>
-      <Tag
-        size="lg"
-        colorPalette={my > 0 ? 'blue' : my < 0 ? 'red' : 'gray'}
-        bg="colorPalette.50"
-        rounded="full"
-        variant="subtle"
-        title={text || ''}
-        cursor="pointer"
-        onClick={handleOnClick}
-        {...attrs}
-        // onContextMenu={(event) => {
-        //   event.stopPropagation();
-        //   event.preventDefault();
-        // }}
-      >
-        <Box display="flex" gap="1">
-          {showAmount && <Text fontSize="xs" color="colorPalette.600">{total}</Text>}
-          <Text>{text}</Text>
-        </Box>
-      </Tag>
+      <Menu isContextMenu>
+        <MenuTrigger>
+          <Tag
+            size="lg"
+            colorPalette={my > 0 ? 'blue' : my < 0 ? 'red' : 'gray'}
+            bg="colorPalette.50"
+            rounded="full"
+            variant="subtle"
+            title={text || ''}
+            cursor="pointer"
+            onClick={handleOnClick}
+          >
+            <Box display="flex" gap="1">
+              {showAmount && <Text fontSize="xs" color="colorPalette.600">{total}</Text>}
+              <Text>{text}</Text>
+            </Box>
+          </Tag>
+        </MenuTrigger>
+        <MenuList>
+          <MenuItem label="Remove" onClick={onMinus} />
+        </MenuList>
+      </Menu>
     </motion.div>
   );
 });

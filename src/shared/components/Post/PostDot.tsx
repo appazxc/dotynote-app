@@ -12,25 +12,25 @@ export const PostDot = React.memo((props: Props) => {
   const { id, text, total, my, showAmount } = props;
   const { mutate, isPending } = useUpdatePostDot();
  
-  const handleOnClick = () => {
+  const handlePlusClick = () => {
     if (isPending) {
       return;
     }
     
     mutate({
       dotId: id,
-      action: 'click',
+      amount: 1,
     });
   };
 
-  const handleLongPress = () => {
+  const handleMinusClick = () => {
     if (isPending) {
       return;
     }
 
     mutate({
       dotId: id,
-      action: 'longPress',
+      amount: -1,
     });
   };
 
@@ -40,8 +40,8 @@ export const PostDot = React.memo((props: Props) => {
       total={total}
       my={my}
       showAmount={showAmount}
-      onClick={handleOnClick}
-      onLongPress={handleLongPress}
+      onPlus={handlePlusClick}
+      onMinus={handleMinusClick}
     />
   );
 });

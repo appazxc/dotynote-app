@@ -19,24 +19,24 @@ const getNewTotal = (total, my, amount) => {
 };
 
 export type UpdateDotParams = {
-  action: 'click' | 'longPress',
+  amount: -1 | 1,
   dotId: string,
 }
 
-export const updateNoteDot = ({ action, dotId }: UpdateDotParams): ThunkAction =>
+export const updateNoteDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =>
   async (dispatch, getState) => {
     const dot = noteDotSelector.getById(getState(), dotId);
 
     invariant(dot, 'Missing dot');
 
     const { my, total } = dot;
-    let amount = 0;
+    let newAmount = 0;
 
     if (my === 0) {
-      amount = action === 'click' ? 1 : -1;
+      newAmount = amount;
     }
   
-    const newTotal = getNewTotal(total, my, amount);
+    const newTotal = getNewTotal(total, my, newAmount);
     const isDeleted = newTotal === 0;
 
     try {
@@ -50,7 +50,7 @@ export const updateNoteDot = ({ action, dotId }: UpdateDotParams): ThunkAction =
         },
       }));
         
-      const result = await api.patch<string>('/dots/note', { dotId, amount, noteId: dot.noteId });
+      const result = await api.patch<string>('/dots/note', { dotId, amount: newAmount, noteId: dot.noteId });
 
       if (isDeleted) {
         dispatch(removeNoteDot(dotId));
