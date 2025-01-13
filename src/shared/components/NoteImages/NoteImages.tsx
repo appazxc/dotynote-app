@@ -7,7 +7,6 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 import { ImageWithControls } from 'shared/components/NoteImages/ImageWithControls';
 import { UploadingImage } from 'shared/components/NoteImages/UploadingImage';
-import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import {
   MergedFilteredFile,

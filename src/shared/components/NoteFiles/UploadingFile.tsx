@@ -6,19 +6,21 @@ import { splitFileName } from 'shared/components/NoteFiles/splitFileName';
 
 type Props = {
   filename: string,
-  size: number,
+  size?: 'sm' | 'md',
+  fileSize: number,
   progress: number | null,
 }
 
-export const UploadingFile = React.memo(({ filename, size, progress }: Props) => {
+export const UploadingFile = React.memo(({ filename, fileSize, size, progress }: Props) => {
   const { name, extension } = splitFileName(filename);
   
   return (
     <FileSnippet
       name={name}
-      size={formatFileSize(size)}
+      fileSize={formatFileSize(fileSize)}
       extension={extension}
       progress={progress}
+      size={size}
     />
   );
 });

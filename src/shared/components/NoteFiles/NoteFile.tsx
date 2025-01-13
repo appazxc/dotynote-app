@@ -9,10 +9,12 @@ type Props = {
   noteId: number,
   id: string,
   filename: string,
-  size: number,
+  size?: 'sm' | 'md',
+  fileSize: number,
+  isDisabled?: boolean,
 }
 
-export const NoteFile = React.memo(({ id, noteId, filename, size }: Props) => {
+export const NoteFile = React.memo(({ id, noteId, filename, isDisabled, fileSize, size }: Props) => {
   const { name, extension } = splitFileName(filename);
   
   const { mutate, isPending } = useDeleteNoteFile();
@@ -36,9 +38,11 @@ export const NoteFile = React.memo(({ id, noteId, filename, size }: Props) => {
   return (
     <FileSnippet
       name={name}
-      size={formatFileSize(size)}
+      size={size}
+      fileSize={formatFileSize(fileSize)}
       extension={extension}
       options={options}
+      isDisabled={isDisabled}
     />
   );
 });

@@ -71,7 +71,7 @@ export const ImagesGrid = (props: ImagesGridProps) => {
   }
 
   const activeIdUrl = imgFiles.find(({ fileId }) => fileId === activeId)?.objectUrl;
-  console.log('activeId && activeIdUrl', activeId, activeIdUrl);
+
   return (
     <DndContext
       sensors={sensors}

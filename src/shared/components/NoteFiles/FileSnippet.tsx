@@ -1,4 +1,5 @@
 import { Box, Card, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
+import isNumber from 'lodash/isNumber';
 import React from 'react';
 import { FaRegFileLines } from 'react-icons/fa6';
 
@@ -10,21 +11,41 @@ import { ProgressBar, ProgressRoot } from 'shared/components/ui/progress';
 type Props = {
   name: string,
   extension: string,
-  size: string,
+  fileSize: string,
+  size?: 'sm' | 'md',
   progress?: number | null,
+  isDisabled?: boolean,
   options?: { label: string, onClick: () => void }[],
 };
 
+const sizes = {
+  md: {
+    bodyPadding: '4',
+    titleFontSize: 'md',
+    infoFontSize: 'sm',
+    iconSize: 'sm' as const,
+  },
+  sm: {
+    bodyPadding: '2',
+    titleFontSize: 'sm',
+    infoFontSize: 'xs',
+    iconSize: 'xs' as const,
+  },
+};
+
 export const FileSnippet = React.memo((props: Props) => {
-  const { name, extension, size, progress, options } = props;
+  const { name, extension, fileSize, size = 'md', isDisabled, progress, options } = props;
+
+  const snippetProps = sizes[size];
 
   return (
-    <Card.Root position="relative" pr="2">
+    <Card.Root position="relative">
       <Card.Body
         display="flex"
         flexDirection="row"
         gap="3"
-        p="4"
+        p={snippetProps.bodyPadding}
+        pr="6"
       >
         <Box
           p="3"
@@ -43,27 +64,28 @@ export const FileSnippet = React.memo((props: Props) => {
             display="block"
             fontWeight="500"
             lineClamp={1}
+            fontSize={snippetProps.titleFontSize}
             title={name}
           >
             {name}
           </Text>
           <HStack gap="2">
-            <Text fontSize="sm">{size}</Text>
+            <Text fontSize={snippetProps.infoFontSize}>{fileSize}</Text>
             <Separator orientation="vertical" height="4" />
-            <Text fontSize="sm">{extension}</Text>
+            <Text fontSize={snippetProps.infoFontSize}>{extension}</Text>
           </HStack>
         </Box>
       </Card.Body>
-      {progress && (
-        <ProgressRoot value={progress}>
+      {isNumber(progress) && (
+        <ProgressRoot value={null} size="xs">
           <ProgressBar />
         </ProgressRoot>
       )}
       {options && (
-        <Menu placement="bottom-end">
+        <Menu placement="bottom-end" enabled={!isDisabled}>
           <MenuTrigger>
             <IconButton
-              size="sm"
+              size={snippetProps.iconSize}
               aria-label=""
               variant="plain"
               display="inline-flex"
@@ -72,7 +94,7 @@ export const FileSnippet = React.memo((props: Props) => {
               top="0"
               right="0"
             >
-              <DotsIcon size="18" />
+              <DotsIcon />
             </IconButton> 
           </MenuTrigger>
           <MenuList>

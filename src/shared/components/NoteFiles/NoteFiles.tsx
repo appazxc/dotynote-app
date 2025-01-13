@@ -1,4 +1,4 @@
-import { Box, BoxProps, HStack, Stack, StackProps, VStack } from '@chakra-ui/react';
+import { Stack, StackProps } from '@chakra-ui/react';
 import React from 'react';
 
 import { NoteFile } from 'shared/components/NoteFiles/NoteFile';
@@ -16,10 +16,11 @@ type Props = {
   isDisabled?: boolean,
   files: NoteFileEntity[],
   inPost?: boolean,
+  size?: 'sm' | 'md',
 } & StackProps;
 
 export const NoteFiles = React.memo((props: Props) => {
-  const { noteId, hasControls, files: noteFiles, isDisabled, inPost, ...boxProps } = props;
+  const { noteId, hasControls, files: noteFiles, size, isDisabled, inPost, ...boxProps } = props;
   const { files } = useFileUpload();
 
   const filteredNoteFiles = React.useMemo(() => noteFiles
@@ -45,7 +46,15 @@ export const NoteFiles = React.memo((props: Props) => {
   }
   
   return (
-    <Stack {...boxProps} gap="2">
+    <Stack
+      {...boxProps}
+      gap="2"
+      onClick={(e) => {
+        if (!isDisabled) {
+          e.stopPropagation();
+        }
+      }}
+    >
       {filteredNoteFiles.map((noteFile) => {
         return (
           <NoteFile
@@ -53,7 +62,9 @@ export const NoteFiles = React.memo((props: Props) => {
             noteId={noteId}
             id={noteFile.id}
             filename={noteFile.filename}
-            size={noteFile.size}
+            fileSize={noteFile.size}
+            size={size}
+            isDisabled={isDisabled}
           />
         );
       })}
@@ -62,8 +73,9 @@ export const NoteFiles = React.memo((props: Props) => {
           <UploadingFile
             key={uploadFile.fileId}
             filename={uploadFile.file.name}
-            size={uploadFile.file.size}
+            fileSize={uploadFile.file.size}
             progress={uploadFile.progress}
+            size={size}
           />
         );
       })}

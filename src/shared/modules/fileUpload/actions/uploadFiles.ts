@@ -82,7 +82,6 @@ export const uploadNoteFile = (file: UploadFile, entity: UploadFileEntity): Thun
         formData,
         { 
           onUploadProgress: (event) => {
-            console.log('event.progress', event.progress);
             dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
           }, 
         });

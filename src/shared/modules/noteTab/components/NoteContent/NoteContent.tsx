@@ -67,6 +67,7 @@ export const NoteContent = (props: Props) => {
       flexGrow={isWriteMode ? '1' : undefined}
       display="flex"
       flexDirection="column"
+      gap="4"
     >
       {parent?.title && showParent && (
         <Tag
@@ -91,21 +92,18 @@ export const NoteContent = (props: Props) => {
         isTextContentEmpty={isTextContentEmpty}
         content={content}
       />
-      <NoteFiles 
-        my="4"
-        noteId={noteId}
-        files={note.files}
-      />
       <NoteImages
-        my="4"
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
       />
+      <NoteFiles 
+        noteId={noteId}
+        files={note.files}
+      />
       <NoteContentDots
         dots={note.dots}
         showAmount={note.access === 'public'}
-        mt="4"
       />
     </Box>
   );

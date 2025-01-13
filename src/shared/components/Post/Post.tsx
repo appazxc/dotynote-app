@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
+import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
@@ -90,11 +91,16 @@ export const Post = React.forwardRef((props: Props, ref) => {
             />
             <NoteImages
               inPost
-              mt="2"
               isDisabled={isSelecting}
               noteId={noteId}
               images={note.images}
               hasControls={true}
+            />
+            <NoteFiles
+              size="sm"
+              isDisabled={isSelecting}
+              noteId={noteId}
+              files={note.files}
             />
           </Stack>
           {dots && (
