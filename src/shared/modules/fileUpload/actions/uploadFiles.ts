@@ -36,6 +36,11 @@ export const uploadFile = (file: UploadFile): ThunkAction => async (dispatch, ge
     return;
   }
 
+  if (entity.type === 'file' && entity.zone === 'note') {
+    await dispatch(uploadNoteFile(file, entity));
+    return;
+  }
+
   console.log(`Not implemented file upload. Type: ${entity.type}, zone: ${entity.zone}`);
 };
 
@@ -48,7 +53,7 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
-      const imageId = await api.post<string>(
+      const realId = await api.post<string>(
         '/upload/images', 
         formData,
         { 
@@ -57,7 +62,32 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
           }, 
         });
 
-      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId: imageId }));
+      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
+    } catch(error) {
+      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
+    }
+  };
+
+export const uploadNoteFile = (file: UploadFile, entity: UploadFileEntity): ThunkAction => 
+  async (dispatch) => {
+    const formData = new FormData();
+    formData.append('file', file.file);
+    formData.append('noteId', String(entity.zoneId));
+    
+    try {
+      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
+
+      const realId = await api.post<string>(
+        '/upload/files', 
+        formData,
+        { 
+          onUploadProgress: (event) => {
+            console.log('event.progress', event.progress);
+            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
+          }, 
+        });
+
+      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
     } catch(error) {
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }

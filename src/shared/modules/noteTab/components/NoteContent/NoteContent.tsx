@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
+import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { Tag } from 'shared/components/ui/tag';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
@@ -89,6 +90,11 @@ export const NoteContent = (props: Props) => {
         isWriteMode={isWriteMode}
         isTextContentEmpty={isTextContentEmpty}
         content={content}
+      />
+      <NoteFiles 
+        my="4"
+        noteId={noteId}
+        files={note.files}
       />
       <NoteImages
         my="4"

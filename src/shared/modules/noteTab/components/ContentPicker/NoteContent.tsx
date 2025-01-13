@@ -46,8 +46,14 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
       {
         icon: <GoFile size={ICON_SIZE} />,
         title: 'File',
-        to: '/',
-        disabled: true,
+        onClick: () => {
+          openFilePicker({ 
+            zoneId: noteId,
+            zone: 'note',
+            type: 'file',
+          });
+          onFinish?.();
+        },
       },
       {
         icon: <PiFeather size={ICON_SIZE} />,

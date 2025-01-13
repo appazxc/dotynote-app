@@ -1,6 +1,7 @@
-import { EntityName, entityTypes } from 'shared/constants/entityTypes';
+import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { ApiNoteDotEntity, NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
+import { ApiNoteFileEntity, NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
@@ -14,35 +15,37 @@ import { ApiUserEntity, UserEntity } from 'shared/types/entities/UserEntity';
 import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
 export type ApiEntityTypes = {
-  [entityTypes.user]: ApiUserEntity,
-  [entityTypes.space]: ApiSpaceEntity,
-  [entityTypes.spaceTab]: ApiSpaceTabEntity,
-  [entityTypes.note]: ApiNoteEntity,
-  [entityTypes.post]: ApiPostEntity,
-  [entityTypes.postsSettings]: ApiPostsSettingsEntity,
-  [entityTypes.noteSettings]: ApiNoteSettingsEntity,
-  [entityTypes.userSettings]: ApiUserSettingsEntity,
-  [entityTypes.orderBy]: ApiOrderByEntity,
-  [entityTypes.postInternal]: ApiPostInternalEntity,
-  [entityTypes.postDot]: ApiPostDotEntity,
-  [entityTypes.noteDot]: ApiNoteDotEntity,
-  [entityTypes.noteImage]: ApiNoteImageEntity,
+  [entityNames.user]: ApiUserEntity,
+  [entityNames.space]: ApiSpaceEntity,
+  [entityNames.spaceTab]: ApiSpaceTabEntity,
+  [entityNames.note]: ApiNoteEntity,
+  [entityNames.post]: ApiPostEntity,
+  [entityNames.postsSettings]: ApiPostsSettingsEntity,
+  [entityNames.noteSettings]: ApiNoteSettingsEntity,
+  [entityNames.userSettings]: ApiUserSettingsEntity,
+  [entityNames.orderBy]: ApiOrderByEntity,
+  [entityNames.postInternal]: ApiPostInternalEntity,
+  [entityNames.postDot]: ApiPostDotEntity,
+  [entityNames.noteDot]: ApiNoteDotEntity,
+  [entityNames.noteImage]: ApiNoteImageEntity,
+  [entityNames.noteFile]: ApiNoteFileEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
 
 export type EntityTypes = {
-  [entityTypes.user]: UserEntity,
-  [entityTypes.space]: SpaceEntity,
-  [entityTypes.spaceTab]: SpaceTabEntity,
-  [entityTypes.note]: NoteEntity,
-  [entityTypes.post]: PostEntity,
-  [entityTypes.postsSettings]: PostsSettingsEntity,
-  [entityTypes.noteSettings]: NoteSettingsEntity,
-  [entityTypes.userSettings]: UserSettingsEntity,
-  [entityTypes.orderBy]: OrderByEntity,
-  [entityTypes.postInternal]: PostInternalEntity,
-  [entityTypes.postDot]: PostDotEntity,
-  [entityTypes.noteDot]: NoteDotEntity,
-  [entityTypes.noteImage]: NoteImageEntity,
+  [entityNames.user]: UserEntity,
+  [entityNames.space]: SpaceEntity,
+  [entityNames.spaceTab]: SpaceTabEntity,
+  [entityNames.note]: NoteEntity,
+  [entityNames.post]: PostEntity,
+  [entityNames.postsSettings]: PostsSettingsEntity,
+  [entityNames.noteSettings]: NoteSettingsEntity,
+  [entityNames.userSettings]: UserSettingsEntity,
+  [entityNames.orderBy]: OrderByEntity,
+  [entityNames.postInternal]: PostInternalEntity,
+  [entityNames.postDot]: PostDotEntity,
+  [entityNames.noteDot]: NoteDotEntity,
+  [entityNames.noteImage]: NoteImageEntity,
+  [entityNames.noteFile]: NoteFileEntity,
 }

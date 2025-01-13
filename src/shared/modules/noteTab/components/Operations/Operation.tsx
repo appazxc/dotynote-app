@@ -1,11 +1,10 @@
 import { Box, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
-import { MdOutlineDone } from 'react-icons/md';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Button } from 'shared/components/ui/button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
-import { DotsIcon } from 'shared/components/ui/icons';
+import { DoneIcon, DotsIcon } from 'shared/components/ui/icons';
 import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useAppDispatch } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';
@@ -69,7 +68,7 @@ export const Operation = React.memo((props: Props) => {
                     key={option.label}
                     label={(
                       <Box display="flex" justifyContent="space-between">
-                        {option.label} {option.selected ? <MdOutlineDone /> : undefined}
+                        {option.label} {option.selected ? <DoneIcon /> : undefined}
                       </Box>
                     )}
                     onClick={option.onClick}

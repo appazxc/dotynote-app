@@ -152,7 +152,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     } else if (params.type === 'file') {
       const input = document.createElement('input');
       input.type = 'file'; 
-      input.accept = '.pdf,.doc,.docx';
+      // input.accept = '.pdf,.doc,.docx';
       input.multiple = true; 
       input.onchange = (event) => {
         handleFileSelect(event, 'file', config), () => {

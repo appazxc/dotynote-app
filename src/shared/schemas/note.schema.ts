@@ -1,6 +1,7 @@
 import { schema } from 'normalizr';
 
 import { noteDotSchema } from 'shared/schemas/noteDot.schema';
+import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
@@ -14,4 +15,5 @@ export const noteSchema = new schema.Entity(
     settings: noteSettingsSchema,
     dots: [noteDotSchema],
     images: [noteImageSchema],
+    files: [noteFileSchema],
   });

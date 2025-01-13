@@ -1,4 +1,4 @@
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { addPrimaryNoteTab } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
@@ -24,7 +24,7 @@ export const createPrimaryNoteTab = (): ThunkAction => (dispatch, getState) => {
   };
 
   dispatch(addEntity({
-    type: entityTypes.spaceTab,
+    type: entityNames.spaceTab,
     data: tab,
   }));
 

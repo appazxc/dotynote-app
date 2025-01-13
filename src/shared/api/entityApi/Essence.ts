@@ -1,5 +1,5 @@
 import { api } from 'shared/api';
-import { EntityName } from 'shared/constants/entityTypes';
+import { EntityName } from 'shared/constants/entityNames';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectUserId } from 'shared/selectors/auth/selectUserId';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';

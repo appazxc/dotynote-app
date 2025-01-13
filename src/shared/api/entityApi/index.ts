@@ -1,4 +1,4 @@
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import {
   noteSelector,
   postSelector,
@@ -14,11 +14,11 @@ import Essense from './Essence';
 import { NoteEssence } from './note';
 import { SpaceTabEssence } from './spaceTab';
 
-const user = new Essense<UserEntity>(entityTypes.user, userSelector);
-const note = new NoteEssence(entityTypes.note, noteSelector);
-const space = new Essense<SpaceEntity>(entityTypes.space, spaceSelector);
-const post = new Essense<PostEntity>(entityTypes.post, postSelector);
-const spaceTab = new SpaceTabEssence(entityTypes.spaceTab, spaceTabSelector);
+const user = new Essense<UserEntity>(entityNames.user, userSelector);
+const note = new NoteEssence(entityNames.note, noteSelector);
+const space = new Essense<SpaceEntity>(entityNames.space, spaceSelector);
+const post = new Essense<PostEntity>(entityNames.post, postSelector);
+const spaceTab = new SpaceTabEssence(entityNames.spaceTab, spaceTabSelector);
 
 export const entityApi = {
   user,

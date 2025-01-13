@@ -1,5 +1,5 @@
 import { api } from 'shared/api';
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { noteSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -11,7 +11,7 @@ export type DeleteNoteImageParams = {
 
 export const deleteNoteImage = ({ imageId, noteId }: DeleteNoteImageParams): ThunkAction => 
   async (dispatch, getState) => {
-    dispatch(updateEntity({ id: imageId, type: entityTypes.noteImage, data: { _isDeleted: true } }));
+    dispatch(updateEntity({ id: imageId, type: entityNames.noteImage, data: { _isDeleted: true } }));
   
     try {
       await api.delete(`/notes/${noteId}/images/${imageId}`);
@@ -20,13 +20,13 @@ export const deleteNoteImage = ({ imageId, noteId }: DeleteNoteImageParams): Thu
 
       dispatch(updateEntity({ 
         id: noteId, 
-        type: entityTypes.note, 
+        type: entityNames.note, 
         data: { images: note.images.filter(id => imageId !== id) }, 
       }));
 
-      dispatch(deleteEntity({ id: imageId, type: entityTypes.noteImage }));
+      dispatch(deleteEntity({ id: imageId, type: entityNames.noteImage }));
     } catch (error) {
-      dispatch(updateEntity({ id: imageId, type: entityTypes.noteImage, data: { _isDeleted: false } }));
+      dispatch(updateEntity({ id: imageId, type: entityNames.noteImage, data: { _isDeleted: false } }));
       throw error;
     }
   };

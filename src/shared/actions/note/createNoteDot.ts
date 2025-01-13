@@ -1,5 +1,5 @@
 import { api } from 'shared/api';
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { noteSelector } from 'shared/selectors/entities';
 import { addEntity, deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -16,7 +16,7 @@ export const createNoteDot = (noteId: number, { text }: { text: string }): Thunk
     const fakeId = createFakeId();
     
     dispatch(addEntity({ 
-      type: entityTypes.noteDot, 
+      type: entityNames.noteDot, 
       data: {
         id: fakeId,
         text,
@@ -27,7 +27,7 @@ export const createNoteDot = (noteId: number, { text }: { text: string }): Thunk
     }));
 
     dispatch(updateEntity({
-      type: entityTypes.note, 
+      type: entityNames.note, 
       id: noteId, 
       data: {
         dots: [...note.dots, fakeId],
@@ -46,7 +46,7 @@ export const createNoteDot = (noteId: number, { text }: { text: string }): Thunk
       }
 
       dispatch(updateEntity({
-        type: entityTypes.note, 
+        type: entityNames.note, 
         id: noteId, 
         data: {
           dots: newDots,
@@ -54,7 +54,7 @@ export const createNoteDot = (noteId: number, { text }: { text: string }): Thunk
       }));
 
       dispatch(deleteEntity({
-        type: entityTypes.noteDot,
+        type: entityNames.noteDot,
         id: fakeId,
       }));
 

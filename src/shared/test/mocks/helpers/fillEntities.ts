@@ -1,4 +1,4 @@
-import { EntityName } from 'shared/constants/entityTypes';
+import { EntityName } from 'shared/constants/entityNames';
 import { Entities } from 'shared/store/slices/entitiesSlice';
 import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 

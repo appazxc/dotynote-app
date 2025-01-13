@@ -1,7 +1,7 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import isEqual from 'lodash/isEqual';
 
-import { EntityName, entityTypes } from 'shared/constants/entityTypes';
+import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
@@ -27,7 +27,7 @@ type AddEntityPayloadGeneric<T extends EntityName> = {
 type AddEntityPayload<T extends EntityName> = T extends EntityName 
   ? AddEntityPayloadGeneric<T> : AddEntityPayloadGeneric<T>
 
-const initialState = Object.keys(entityTypes).reduce((acc, name) => {
+const initialState = Object.keys(entityNames).reduce((acc, name) => {
   acc[name] = {};
   return acc;
 }, {}) as Entities;

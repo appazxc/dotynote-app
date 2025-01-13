@@ -1,4 +1,4 @@
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { postDotSelector, postSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -13,7 +13,7 @@ export const removePostDot = (dotId: string): ThunkAction =>
     }
     
     dispatch(updateEntity({ 
-      type: entityTypes.post, 
+      type: entityNames.post, 
       id: post.id, 
       data: {
         dots: post.dots.filter((id) => id !== dotId),
@@ -21,7 +21,7 @@ export const removePostDot = (dotId: string): ThunkAction =>
     }));
 
     dispatch(deleteEntity({
-      type: entityTypes.postDot,
+      type: entityNames.postDot,
       id: dotId,
     }));
   };

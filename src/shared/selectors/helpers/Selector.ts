@@ -1,6 +1,7 @@
-import { EntityName, entityTypes } from 'shared/constants/entityTypes';
+import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { noteSchema } from 'shared/schemas/note.schema';
 import { noteDotSchema } from 'shared/schemas/noteDot.schema';
+import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { orderBySchema } from 'shared/schemas/orderBy.schema';
@@ -20,19 +21,20 @@ import { ApiEntityTypes, EntityTypes } from 'shared/types/entities/entityTypes';
 import { AppState } from 'shared/types/store';
 
 const schemaMap = {
-  [entityTypes.note]: noteSchema,
-  [entityTypes.noteSettings]: noteSettingsSchema,
-  [entityTypes.post]: postSchema,
-  [entityTypes.postsSettings]: postsSettingsSchema,
-  [entityTypes.space]: spaceSchema,
-  [entityTypes.spaceTab]: spaceTabSchema,
-  [entityTypes.user]: userSchema,
-  [entityTypes.userSettings]: userSettingsSchema,
-  [entityTypes.orderBy]: orderBySchema,
-  [entityTypes.postInternal]: postInternalSchema,
-  [entityTypes.postDot]: postDotSchema,
-  [entityTypes.noteDot]: noteDotSchema,
-  [entityTypes.noteImage]: noteImageSchema,
+  [entityNames.note]: noteSchema,
+  [entityNames.noteSettings]: noteSettingsSchema,
+  [entityNames.post]: postSchema,
+  [entityNames.postsSettings]: postsSettingsSchema,
+  [entityNames.space]: spaceSchema,
+  [entityNames.spaceTab]: spaceTabSchema,
+  [entityNames.user]: userSchema,
+  [entityNames.userSettings]: userSettingsSchema,
+  [entityNames.orderBy]: orderBySchema,
+  [entityNames.postInternal]: postInternalSchema,
+  [entityNames.postDot]: postDotSchema,
+  [entityNames.noteDot]: noteDotSchema,
+  [entityNames.noteImage]: noteImageSchema,
+  [entityNames.noteFile]: noteFileSchema,
 };
 
 export default class Selector<T extends EntityName> {

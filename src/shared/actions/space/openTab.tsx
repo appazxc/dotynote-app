@@ -2,7 +2,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { entityApi } from 'shared/api/entityApi';
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
 import { withLoader } from 'shared/modules/loaders/actions/withLoaders';
 import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
@@ -49,7 +49,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           const { id: fakeId } = fakeSpaceTab;
           
           dispatch(addEntity({
-            type: entityTypes.spaceTab,
+            type: entityNames.spaceTab,
             data: fakeSpaceTab,
           }));
           

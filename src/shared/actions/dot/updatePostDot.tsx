@@ -1,6 +1,6 @@
 import { removePostDot } from 'shared/actions/post/removePostDot';
 import { api } from 'shared/api';
-import { entityTypes } from 'shared/constants/entityTypes';
+import { entityNames } from 'shared/constants/entityNames';
 import { postDotSelector } from 'shared/selectors/entities';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -41,7 +41,7 @@ export const updatePostDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =
 
     try {
       dispatch(updateEntity({ 
-        type: entityTypes.postDot, 
+        type: entityNames.postDot, 
         id: dotId, 
         data: {
           my: amount,
@@ -59,7 +59,7 @@ export const updatePostDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =
       return result;
     } catch(error) {
       dispatch(updateEntity({ 
-        type: entityTypes.postDot, 
+        type: entityNames.postDot, 
         id: dotId, 
         data: {
           my,
