@@ -23,7 +23,9 @@ export const NoteTabContent = React.memo((props: Props) => {
 
   // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
   React.useEffect(() => {
-    setVisible(true);
+    setTimeout(() => {
+      setVisible(true);
+    }, 10);
   }, []);
 
   return (
