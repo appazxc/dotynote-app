@@ -68,6 +68,7 @@ export const NoteContent = (props: Props) => {
       display="flex"
       flexDirection="column"
       gap="4"
+      pb="10"
     >
       {parent?.title && showParent && (
         <Tag

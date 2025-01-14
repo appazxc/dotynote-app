@@ -29,7 +29,6 @@ export const NoteTabContent = (props: Props) => {
       opacity={visible ? 1 : 0}
     >
       <Stack
-        gap="5"
         pt="3"
         h="full"
       >
