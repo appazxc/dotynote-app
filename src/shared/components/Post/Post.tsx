@@ -50,67 +50,64 @@ export const Post = React.forwardRef((props: Props, ref) => {
 
   return (
     <Box
-      asChild
       display="flex"
       position="relative"
       {...boxProps}
     >
-      <Box>
-        {renderedSelectingContent}
-        <Box
-          key="text"
-          flexGrow="1"
-        >
-          {isPinned && (
-            <Box
-              p="2"
-              color="blue.500"
-              display="flex"
-              justifyContent="flex-end"
-              position="absolute"
-              top="0px"
-              right="0px"
-            >
-              <BsFillPinAngleFill size="16" />
-            </Box>
-          )}
-          <Stack
-            p="4"
-            borderWidth="2px"
-            borderRadius="lg"
-            borderColor="gray.200"
-            cursor="pointer"
-            userSelect="none"
-            gap="2"
+      {renderedSelectingContent}
+      <Box
+        key="text"
+        flexGrow="1"
+      >
+        {isPinned && (
+          <Box
+            p="2"
+            color="blue.500"
+            display="flex"
+            justifyContent="flex-end"
+            position="absolute"
+            top="0px"
+            right="0px"
           >
-            {note.title && <Text fontWeight="500">{note.title}</Text>}
-            <EditorView
-              removeEmptyDivsFromEnd
-              maxLines={4}
-              content={note.content}
-            />
-            <NoteImages
-              inPost
-              isDisabled={isSelecting}
-              noteId={noteId}
-              images={note.images}
-              hasControls={true}
-            />
-            <NoteFiles
-              size="sm"
-              isDisabled={isSelecting}
-              noteId={noteId}
-              files={note.files}
-            />
-          </Stack>
-          {dots && (
-            <PostDots
-              dots={dots}
-              showAmount={showDotsAmount}
-              mt="2"
-            />
-          )}
-        </Box>
+            <BsFillPinAngleFill size="16" />
+          </Box>
+        )}
+        <Stack
+          p="4"
+          borderWidth="2px"
+          borderRadius="lg"
+          borderColor="gray.200"
+          cursor="pointer"
+          userSelect="none"
+          gap="2"
+        >
+          {note.title && <Text fontWeight="500">{note.title}</Text>}
+          <EditorView
+            removeEmptyDivsFromEnd
+            maxLines={4}
+            content={note.content}
+          />
+          <NoteImages
+            inPost
+            isDisabled={isSelecting}
+            noteId={noteId}
+            images={note.images}
+            hasControls={true}
+          />
+          <NoteFiles
+            size="sm"
+            isDisabled={isSelecting}
+            noteId={noteId}
+            files={note.files}
+          />
+        </Stack>
+        {dots && (
+          <PostDots
+            dots={dots}
+            showAmount={showDotsAmount}
+            mt="2"
+          />
+        )}
       </Box>
     </Box>
   );
