@@ -7,7 +7,11 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
 const scrollMap = new Map();
 
-export const TabScrollRestoration = React.memo(() => {
+type Props = {
+  onScrollRestoration?: () => void,
+}
+
+export const TabScrollRestoration = React.memo(({ onScrollRestoration }: Props) => {
   const scroll = useScrollContext();
   const { href } = useLocation();
   const tab = useTabContext();
@@ -21,9 +25,12 @@ export const TabScrollRestoration = React.memo(() => {
       return;
     }
     
-    if (scroll?.current) {
-      scroll?.current?.scrollTo(0, value);
-    }
+    setTimeout(() => {
+      if (scroll?.current) {
+        scroll?.current?.scrollTo(0, value);
+        onScrollRestoration?.();
+      }
+    });
 
     const onScroll = throttle(() => {
       scrollMap.set(id, scroll?.current?.scrollTop);
@@ -34,7 +41,7 @@ export const TabScrollRestoration = React.memo(() => {
     return () => {
       scroll?.current?.removeEventListener('scroll', onScroll);    
     };
-  }, [id, scroll, status]);
+  }, [id, scroll, status, onScrollRestoration]);
 
   return null;
 });

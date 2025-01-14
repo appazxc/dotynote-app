@@ -18,10 +18,11 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 type Props = {
   note: NoteEntity,
   search: string,
+  onScrollRestoration?: () => void,
 };
 
 export const NotePosts = React.memo((props: Props) => {
-  const { note, search } = props;
+  const { note, search, onScrollRestoration } = props;
   const { id: noteId, postsSettings } = note;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -77,6 +78,7 @@ export const NotePosts = React.memo((props: Props) => {
         orderBy={postsSettings.orderById}
         pinnedOnTop={postsSettings.pinnedOnTop}
         onPostClick={handlePostClick}
+        onScrollRestoration={onScrollRestoration}
       />
       <SelectConcretePlaceModal noteId={noteId} />
     </>

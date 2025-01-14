@@ -19,14 +19,10 @@ export const NoteTabContent = React.memo((props: Props) => {
   const { id: noteId, settings, postsSettings } = note;
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(!showPosts);
 
   // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
-  React.useEffect(() => {
-    setTimeout(() => {
-      setVisible(true);
-    }, 10);
-  }, []);
+  const handleScrollRestoration = React.useCallback(() => setVisible(true), []);
 
   return (
     <Container
@@ -47,10 +43,13 @@ export const NoteTabContent = React.memo((props: Props) => {
             isWriteMode={isWriteMode}
           />
         )}
-        <NotePosts
-          note={note}
-          search={search}
-        />
+        {showPosts && (
+          <NotePosts
+            note={note}
+            search={search}
+            onScrollRestoration={handleScrollRestoration}
+          />
+        )}
       </Box>
     </Container>
   );

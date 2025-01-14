@@ -35,6 +35,7 @@ type Props = {
   selectedPosts?: number[],
   options?: InfinityPostsOptions,
   internalLevel?: number,
+  onScrollRestoration?: () => void,
 } & BoxProps
 
 export const PostList = React.memo((props: Props) => {
@@ -52,6 +53,7 @@ export const PostList = React.memo((props: Props) => {
     orderBy = ORDER_BY_IDS.POSITION,
     options = EMPTY_OBJECT,
     pinnedOnTop,
+    onScrollRestoration,
     ...boxProps
   } = props;
   const scrollRef = useScrollContext();
@@ -129,11 +131,11 @@ export const PostList = React.memo((props: Props) => {
   const showNextPageObserver = !isFetching && hasNextPage;
   const showPreviousPageObserver = !isFetching && hasPreviousPage;
 
-  const isFullyLoaded = !(hasNextPage && hasPreviousPage);
+  // const isFullyLoaded = !(hasNextPage && hasPreviousPage);
 
-  if (!isFetchingFirstTime && isFullyLoaded && !flatData.length) {
-    return null;
-  }
+  // if (!isFetchingFirstTime && isFullyLoaded && !flatData.length) {
+  //   return null;
+  // }
 
   return (
     <>
@@ -168,7 +170,7 @@ export const PostList = React.memo((props: Props) => {
         </AnimatePresence>
       </LayoutGroup>
 
-      {scrollRestoration && <TabScrollRestoration />}
+      {scrollRestoration && <TabScrollRestoration onScrollRestoration={onScrollRestoration} />}
     </>
   );
 });
