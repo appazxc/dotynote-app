@@ -60,18 +60,17 @@ export const Post = React.memo((props: Props) => {
   }
 
   return (
-    isSelecting ? renderedPost : (
-      <Box>
-        <PostWithMenu
-          internalLevel={internalLevel}
-          post={post}
-        >
-          {renderedPost}
-        </PostWithMenu>
-        {showInternal && (
-          <InternalPosts post={post} internalLevel={internalLevel} />
-        )}
-      </Box>
-    )
+    <Box>
+      <PostWithMenu
+        internalLevel={internalLevel}
+        post={post}
+        isMenuDisabled={isSelected}
+      >
+        {renderedPost}
+      </PostWithMenu>
+      {showInternal && (
+        <InternalPosts post={post} internalLevel={internalLevel} />
+      )}
+    </Box>
   );
 });

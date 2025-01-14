@@ -32,13 +32,14 @@ type Props = {
   children: React.ReactNode,
   post: PostEntity,
   internalLevel: number,
+  isMenuDisabled?: boolean,
 };
 
 type MenuProps = { key: string, hasDivider?: boolean, menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
-export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props) => {
+export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, children }: Props) => {
   const dispatch = useAppDispatch();
   const { id: postId, note: { id: noteId } } = post;
   const navigate = useBrowserNavigate();
@@ -251,7 +252,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, children }: Props
 
   return (
     <>
-      <Menu isContextMenu>
+      <Menu isContextMenu enabled={!isMenuDisabled}>
         <MenuTrigger>
           {children}
         </MenuTrigger>
