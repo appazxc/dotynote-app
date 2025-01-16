@@ -1,8 +1,13 @@
-import { useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { 
+  GetNextPageParamFunction, 
+  GetPreviousPageParamFunction, 
+  useInfiniteQuery, 
+  UseInfiniteQueryOptions, 
+} from '@tanstack/react-query';
 import React from 'react';
 
 import { EMPTY_OBJECT } from 'shared/constants/common';
-import { DEFAULT_PAGE_SIZE, Directions, DIRECTIONS } from 'shared/constants/requests';
+import { Directions, DIRECTIONS } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useSaveNoteTabQueryKey';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
@@ -15,15 +20,35 @@ export type PageParam = {
   direction?: Directions | null, 
 }
 
-const initialPageParam: PageParam = {
-  cursor: null,
-  direction: null,
-};
+export type QueryFnData = { items: number [], hasNextPage: boolean, hasPrevPage: boolean }
 
 export type InfinityPostsOptions = Omit<
   UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,
   'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
 >;
+
+const initialPageParam: PageParam = {
+  cursor: null,
+  direction: null,
+};
+
+const getPreviousPageParam: GetPreviousPageParamFunction<PageParam, QueryFnData> = 
+  (lastPage, _allPages, _pageParam, _allPageParams) => {
+    const result = lastPage.hasPrevPage
+      ? { cursor: lastPage.items[lastPage.items.length - 1], direction: DIRECTIONS.PREVIOUS } 
+      : null;
+
+    return result;
+  };
+
+const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> = 
+  (firstPage, _allPages, _pageParam, _allPageParams) => {
+    const result = firstPage.hasNextPage
+      ? { cursor: firstPage.items[0], direction: DIRECTIONS.NEXT } 
+      : null;
+  
+    return result;
+  };
 
 export const getInfinityPostsQueryKey = (noteId: number | string = '', filters: Filters = {}) => 
   ['posts', noteId, filters];
@@ -45,6 +70,8 @@ export const useInfinityPosts = (
     queryFn: async ({ pageParam }) => {
       const { cursor, direction } = pageParam;
 
+      const pageSize = filters.pageSize;
+
       const apiFilters = {
         parentId: noteId,
         ...filters,
@@ -54,25 +81,22 @@ export const useInfinityPosts = (
         apiFilters[getCursorName(direction)] = cursor;
       }
 
-      return entityApi.post.loadList<number>({ filters: apiFilters });
-    },
-    getPreviousPageParam: (lastPage, _allPages, _pageParam, _allPageParams) => {
-      const result = lastPage.length === DEFAULT_PAGE_SIZE 
-        ? { cursor: lastPage[lastPage.length - 1], direction: DIRECTIONS.PREVIOUS } 
-        : null;
+      const items = await entityApi.post.loadList<number>({ filters: apiFilters });
 
-      return result;
+      const isNextDirection = direction === DIRECTIONS.NEXT;
+      const isPrevDirection = direction === DIRECTIONS.PREVIOUS;
+      const isMaxPageSize = items.length === pageSize;
+      const hasNextPage = isNextDirection && isMaxPageSize;
+      const hasPrevPage = (isPrevDirection || !direction) && isMaxPageSize;
+
+      return {
+        items,
+        hasPrevPage,
+        hasNextPage,
+      };
     },
-    getNextPageParam: (firstPage, _allPages, pageParam, allPageParams) => {
-      const loadedOnlyPreviousPage = allPageParams.length === 1 
-      && allPageParams[0].direction === DIRECTIONS.PREVIOUS;
-        
-      const result = (firstPage.length === DEFAULT_PAGE_SIZE && pageParam.direction) || loadedOnlyPreviousPage
-        ? { cursor: firstPage[0], direction: DIRECTIONS.NEXT } 
-        : null;
-      
-      return result;
-    },
+    getPreviousPageParam,
+    getNextPageParam,
     initialPageParam,
     ...options,
   });

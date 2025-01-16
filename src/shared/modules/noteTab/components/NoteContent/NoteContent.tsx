@@ -70,29 +70,31 @@ export const NoteContent = (props: Props) => {
       gap="4"
       pb="10"
     >
-      {parent?.title && showParent && (
-        <Tag
-          size="lg"
-          display="inline-flex"
-          w="fit-content"
-          mb="4"
-        >
-          {parent?.title}
-        </Tag>
-      )}
-      <NoteTitle
-        title={title}
-        isWriteMode={isWriteMode}
-        onChange={debouncedUpdateTitle}
-      />
-      <NoteEditorBase
-        key={noteId}
-        noteId={noteId}
-        isMobile={isMobile}
-        isWriteMode={isWriteMode}
-        isTextContentEmpty={isTextContentEmpty}
-        content={content}
-      />
+      <Box>
+        {parent?.title && showParent && (
+          <Tag
+            size="lg"
+            display="inline-flex"
+            w="fit-content"
+            mb="4"
+          >
+            {parent?.title}
+          </Tag>
+        )}
+        <NoteTitle
+          title={title}
+          isWriteMode={isWriteMode}
+          onChange={debouncedUpdateTitle}
+        />
+        <NoteEditorBase
+          key={noteId}
+          noteId={noteId}
+          isMobile={isMobile}
+          isWriteMode={isWriteMode}
+          isTextContentEmpty={isTextContentEmpty}
+          content={content}
+        />
+      </Box>
       <NoteImages
         noteId={noteId}
         images={note.images}

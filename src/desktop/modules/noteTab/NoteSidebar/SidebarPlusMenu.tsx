@@ -6,7 +6,6 @@ import {
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 
-import { queryClient } from 'shared/api/queryClient';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
@@ -17,6 +16,7 @@ import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
 
 type Props = { 
   canAddToNote: boolean,
@@ -31,10 +31,9 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
   const noteTabId = useNoteTabId(noteId);
   
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || {};
+    const { queryKey } = noteTabStore.get(noteTabId) || { queryKey: [] };
 
-    queryClient.invalidateQueries({ queryKey });
-
+    turnOnQueryNextPage(queryKey);
     dispatch(hideModal());
   }, [noteTabId, dispatch]);
   

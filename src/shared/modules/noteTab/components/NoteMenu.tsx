@@ -27,7 +27,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { mutateAsync } = useDeleteNotes(noteId);
+  const { mutateAsync, isPending } = useDeleteNotes(noteId);
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
 
   const { mutateAsync: createNoteSettings } = useMutation({
@@ -90,6 +90,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
               <MenuItem
                 colorScheme="red"
                 label="Delete"
+                disabled={isPending}
                 onClick={() => { dispatch(showModal({ id: modalIds.confirm })); }}
               />
             </>

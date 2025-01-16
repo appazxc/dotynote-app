@@ -15,7 +15,7 @@ type Props = {
   isSelected?: boolean,
   internalLevel: number,
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
-  onDelete: () => void,
+  onDelete: (postId: number) => void,
 }
 
 export const Post = React.memo((props: Props) => {
@@ -30,9 +30,9 @@ export const Post = React.memo((props: Props) => {
 
   React.useEffect(() => {
     if ((post._isDeleted || post.note._isDeleted) && onDelete) {
-      onDelete();
+      onDelete(postId);
     }
-  }, [post._isDeleted, post.note._isDeleted, onDelete]);
+  }, [post._isDeleted, post.note._isDeleted, onDelete, postId]);
 
   const renderedPost = React.useMemo(() => {
     if (post._isDeleted) {

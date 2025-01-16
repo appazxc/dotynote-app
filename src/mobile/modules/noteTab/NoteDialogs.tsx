@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { queryClient } from 'shared/api/queryClient';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
@@ -8,6 +7,7 @@ import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
 import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { useAppDispatch } from 'shared/store/hooks';
+import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
 
 type Props = {
   noteId: number,
@@ -18,10 +18,9 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
   const noteTabId = useNoteTabId(noteId);
   
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || {};
+    const { queryKey } = noteTabStore.get(noteTabId) || { queryKey: [] };
 
-    queryClient.invalidateQueries({ queryKey });
-
+    turnOnQueryNextPage(queryKey);
     dispatch(hideModal());
   }, [noteTabId, dispatch]);
   

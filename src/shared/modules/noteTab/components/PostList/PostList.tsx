@@ -1,11 +1,16 @@
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
-import debounce from 'lodash/debounce';
 import { AnimatePresence, LayoutGroup } from 'motion/react';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { getInfinityPostsQueryKey, InfinityPostsOptions, useInfinityPosts } from 'shared/api/hooks/useInfinityPosts';
+import {
+  getInfinityPostsQueryKey,
+  InfinityPostsOptions,
+  PageParam,
+  QueryFnData,
+  useInfinityPosts,
+} from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
@@ -121,12 +126,72 @@ export const PostList = React.memo((props: Props) => {
       fetchNextPage();
     }
   }, [fetchNextPage, inViewNext, hasNextPage]);
-
-  const handleOnPostDelete = React.useMemo(() => debounce(() => {
-    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId, filters) });
-  }, 100), [noteId, filters]);
   
-  const flatData = React.useMemo(() => ((data?.pages?.slice(0).reverse() || []).flat()), [data]);
+  const handleOnPostDelete = React.useCallback((postId: number) => {
+    queryClient.setQueryData<{
+      pageParams: PageParam[],
+      pages: QueryFnData[],
+    }>(getInfinityPostsQueryKey(noteId, filters), (oldData) => {
+      if (!oldData) {
+        return oldData;
+      }
+
+      const filteredPages = oldData.pages.map((page) => ({
+        ...page,
+        items: page.items.filter((id) => id !== postId),
+      }));
+
+      const restorePagesStructure = (pages: QueryFnData[], pageSize: number) => {
+        const length = pages.length;
+
+        if (length <= 1) {
+          return pages;
+        }
+
+        const result: QueryFnData[] = [];
+
+        for (let i = 0; i < length; i++) {
+          const data = pages[i];
+          const { items, ...restDataProps } = data;
+          const lastData = result[result.length - 1];
+
+          if (!lastData || lastData.items.length === pageSize) {
+            result.push(data);
+            continue;
+          }
+
+          const lastDataLength = lastData.items.length;
+          const dataLength = items.length;
+
+          if (lastDataLength + dataLength <= pageSize) { 
+            result[result.length - 1] = {
+              items: [...items, ...lastData.items],
+              ...restDataProps,
+            };
+            continue;
+          }
+
+          const lengthToFill = pageSize - lastDataLength;
+
+          lastData.items = [...items.slice(-lengthToFill), ...lastData.items];
+
+          result.push({
+            ...restDataProps,
+            items: items.slice(0, items.length - lengthToFill),
+          });
+        }
+
+        return result;
+      };
+      
+      return {
+        ...oldData,
+        pages: restorePagesStructure(filteredPages, pageSize),
+      };
+    });
+  }, [noteId, filters, pageSize]);
+
+  const flatData = React.useMemo(() => ((data?.pages?.map(({ items }) => items).reverse() || []).flat()), [data]);
 
   const showNextPageObserver = !isFetching && hasNextPage;
   const showPreviousPageObserver = !isFetching && hasPreviousPage;

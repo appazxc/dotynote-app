@@ -48,7 +48,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
   const user = useAppSelector(selectUser);
   const isHubNote = user?.settings?.hubId === post.parent.id;
 
-  const { mutate: deleteNote } = useDeleteNotes(post.note.id);
+  const { mutate: deleteNote, isPending: isDeletePending } = useDeleteNotes(post.note.id);
   const { mutate: remove } = useRemovePosts(postId);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
@@ -215,6 +215,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
       ...showDelete ? [{
         key: 'Delete',
         label: 'Delete',
+        disabled: isDeletePending,
         onClick: () => dispatch(showModal({ id: modalIds.confirm, extraId: post.id })),
         hasDivider: !showRemove,
       }] : [],
@@ -236,6 +237,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
     unpin,
     updateInternal,
     handleCreateOrDeleteInternal,
+    isDeletePending,
   ]);
 
   const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : MenuProps) => {
