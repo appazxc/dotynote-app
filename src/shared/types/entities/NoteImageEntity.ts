@@ -8,7 +8,7 @@ export type ApiNoteImageEntity = BaseEntity<{
   width: number,             
   height: number,            
   size: number,   
-  sizes: {
+  variants: {
     small: string,
     medium: string,
     large: string,

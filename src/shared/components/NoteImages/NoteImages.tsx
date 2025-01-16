@@ -42,13 +42,13 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
     .map((image) => {
       return ({
         key: image.id,
-        src: image.sizes.medium,
+        src: image.variants.medium,
         alt: image.filename,
         height: image.height,
         width: image.width,
         image,
         srcSet: breakpoints.map(({ breakpoint, size }) => ({
-          src: image.sizes[size],
+          src: image.variants[size],
           width: breakpoint,
           height: Math.round((image.height / image.width) * breakpoint),
         })),
