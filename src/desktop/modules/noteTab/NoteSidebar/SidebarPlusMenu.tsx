@@ -6,6 +6,7 @@ import {
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 
+import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
@@ -31,9 +32,12 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
   const noteTabId = useNoteTabId(noteId);
   
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || { queryKey: [] };
+    const { queryKey } = noteTabStore.get(noteTabId) || {};
 
-    turnOnQueryNextPage(queryKey);
+    if (queryKey) {
+      turnOnQueryNextPage(queryKey);
+    }
+    
     dispatch(hideModal());
   }, [noteTabId, dispatch]);
   

@@ -18,9 +18,12 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
   const noteTabId = useNoteTabId(noteId);
   
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || { queryKey: [] };
+    const { queryKey } = noteTabStore.get(noteTabId) || {};
 
-    turnOnQueryNextPage(queryKey);
+    if (queryKey) {
+      turnOnQueryNextPage(queryKey);
+    }
+
     dispatch(hideModal());
   }, [noteTabId, dispatch]);
   
