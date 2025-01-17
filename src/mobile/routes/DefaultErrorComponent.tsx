@@ -1,11 +1,17 @@
 import { Center, Link, Stack, Text } from '@chakra-ui/react';
+import * as Sentry from '@sentry/react';
+import React from 'react';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
 import { MobileLink } from 'mobile/components/MobileLink';
 
 function DefaultErrorComponent({ error }) {
-  console.log('error', error);
+  React.useEffect(() => {
+    Sentry.captureException(error, {
+      tags: { module: 'DefaultErrorComponent' },
+    });
+  }, [error]);
 
   return (
     <Layout header={<LayoutHeader position="absolute" />}>

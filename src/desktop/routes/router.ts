@@ -27,6 +27,7 @@ const createNewRouter = () => createRouter({
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
   defaultPendingComponent: Loader,
+
 });
 
 let router = createNewRouter();

@@ -1,8 +1,16 @@
 import { Center, Link, Stack, Text } from '@chakra-ui/react';
+import * as Sentry from '@sentry/react';
+import React from 'react';
 
 import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 
 function DefaultErrorComponent({ error }) {
+  React.useEffect(() => {
+    Sentry.captureException(error, {
+      tags: { module: 'DefaultErrorComponent' },
+    });
+  }, [error]);
+
   return (
     <Center
       w="full"
