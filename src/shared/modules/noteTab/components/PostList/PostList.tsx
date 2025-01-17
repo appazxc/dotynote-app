@@ -40,6 +40,7 @@ type Props = {
   selectedPosts?: number[],
   options?: InfinityPostsOptions,
   internalLevel?: number,
+  disablePagination?: boolean,
   onScrollRestoration?: () => void,
 } & BoxProps
 
@@ -58,6 +59,7 @@ export const PostList = React.memo((props: Props) => {
     orderBy = ORDER_BY_IDS.POSITION,
     options = EMPTY_OBJECT,
     pinnedOnTop,
+    disablePagination,
     onScrollRestoration,
     ...boxProps
   } = props;
@@ -193,8 +195,8 @@ export const PostList = React.memo((props: Props) => {
 
   const flatData = React.useMemo(() => ((data?.pages?.map(({ items }) => items).reverse() || []).flat()), [data]);
 
-  const showNextPageObserver = !isFetching && hasNextPage;
-  const showPreviousPageObserver = !isFetching && hasPreviousPage;
+  const showNextPageObserver = !isFetching && hasNextPage && !disablePagination;
+  const showPreviousPageObserver = !isFetching && hasPreviousPage && !disablePagination;
 
   // const isFullyLoaded = !(hasNextPage && hasPreviousPage);
 

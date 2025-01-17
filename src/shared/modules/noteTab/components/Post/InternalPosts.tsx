@@ -33,6 +33,7 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
 
   return (
     <PostList
+      disablePagination
       pt="2"
       pb="0"
       noteId={note.id}

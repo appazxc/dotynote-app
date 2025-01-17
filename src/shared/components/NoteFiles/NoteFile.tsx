@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { api } from 'shared/api';
 import { useDeleteNoteFile } from 'shared/api/hooks/useDeleteNoteFile';
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
 import { formatFileSize } from 'shared/components/NoteFiles/formatFileSize';
 import { splitFileName } from 'shared/components/NoteFiles/splitFileName';
+import { downloadFile } from 'shared/util/downloadFile';
 
 type Props = {
   noteId: number,
@@ -19,7 +21,19 @@ export const NoteFile = React.memo(({ id, noteId, filename, isDisabled, fileSize
   
   const { mutate, isPending } = useDeleteNoteFile();
   
+  const handleFileDownload = async () => {
+    const fileUrl = await api.get<string>(`/notes/files/${id}/signed-url`);
+
+    downloadFile(fileUrl);
+  };
+
   const options = [
+    { 
+      label: 'Download', 
+      onClick: () =>{
+        handleFileDownload();
+      }, 
+    },
     { 
       label: 'Delete', 
       onClick: () =>{
