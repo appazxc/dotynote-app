@@ -24,8 +24,8 @@ import {
 import { DotsIcon } from 'shared/components/ui/icons';
 import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { ImagesGrid } from 'shared/containers/modals/CreatePostWithImagesModal/ImagesGrid';
-import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
-import { selectUploadEntities } from 'shared/modules/fileUpload/fileUploadSelectors';
+import { useFileUpload } from 'shared/modules/fileUpload';
+import { selectUploadFiles } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { noteSelector } from 'shared/selectors/entities';
@@ -75,9 +75,9 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const { files, removeFiles, reorderFiles } = useFileUpload();
 
   const imgFiles = useAppSelector(state => 
-    selectUploadEntities(state, { 
+    selectUploadFiles(state, { 
       files, 
-      tag: buildFileTag({ zone: 'post', zoneId: noteId, type: 'image' }),
+      type: 'image',
       status: 'idle',
     }));
 

@@ -1,21 +1,18 @@
 import { uploadPostAttachments } from 'shared/actions/post/uploadPostAttachments';
 import { api } from 'shared/api';
-import { RemoveFilesType } from 'shared/modules/fileUpload/FileUploadProvider';
-import { UploadEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { postSelector } from 'shared/selectors/entities';
+import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { ThunkAction } from 'shared/types/store';
-import { invariant } from 'shared/util/invariant';
 
 type Params = {
   parentId: number,
-  files: UploadEntity[],
+  files: UploadFile[],
   onPostCreated?: (postId: number) => void,
   onAttachmentsUploaded?: () => void,
   removeFiles: RemoveFilesType,
 }
 
 export const createPost = (params: Params): ThunkAction => 
-  async (dispatch, getState) => {
+  async (dispatch) => {
     const { 
       parentId,
       files,
@@ -27,10 +24,6 @@ export const createPost = (params: Params): ThunkAction =>
     
     onPostCreated?.(postId);
     
-    const post = postSelector.getEntityById(getState(), postId);
-
-    invariant(post, 'Missing post');
-
     await dispatch(uploadPostAttachments({
       postId,
       files,

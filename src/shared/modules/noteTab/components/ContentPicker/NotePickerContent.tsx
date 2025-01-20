@@ -5,6 +5,7 @@ import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
+import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -13,11 +14,11 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
   noteId: number,
-  onClose?: () => void,
+  onClick: () => void,
 }
 const ICON_SIZE = 24;
 
-export const NotePickerContent = React.memo(({ noteId, onClose }: Props) => {
+export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
 
@@ -27,7 +28,7 @@ export const NotePickerContent = React.memo(({ noteId, onClose }: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Dot',
         onClick: () => {
-          onClose?.();
+          onClick?.();
           dispatch(showModal({ id: modalIds.createNoteDot }));
         },
       },
@@ -35,24 +36,39 @@ export const NotePickerContent = React.memo(({ noteId, onClose }: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
         onClick: () => {
+          const onFilesAdd = (files, removeFiles) => {
+            dispatch(uploadNoteFiles({
+              noteId,
+              files,
+              removeFiles,
+            }));
+          };
+
           openFilePicker({ 
-            zoneId: noteId,
-            zone: 'note',
+            noteId,
             type: 'image',
-          });
-          onClose?.();
+          }, onFilesAdd);
+          onClick?.();
         },
       },
       {
         icon: <GoFile size={ICON_SIZE} />,
         title: 'File',
         onClick: () => {
+          const onFilesAdd = (files, removeFiles) => {
+            dispatch(uploadNoteFiles({
+              noteId,
+              files,
+              removeFiles,
+            }));
+          };
+
           openFilePicker({ 
-            zoneId: noteId,
-            zone: 'note',
+            noteId,
             type: 'file',
-          });
-          onClose?.();
+          }, onFilesAdd);
+
+          onClick?.();
         },
       },
       {
@@ -92,7 +108,7 @@ export const NotePickerContent = React.memo(({ noteId, onClose }: Props) => {
         disabled: true,
       },
     ];
-  }, [dispatch, openFilePicker, noteId, onClose]);
+  }, [dispatch, openFilePicker, noteId, onClick]);
 
   return (
     <ContentPickerCards items={items} />

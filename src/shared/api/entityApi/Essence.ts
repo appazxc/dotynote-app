@@ -66,8 +66,8 @@ export default class Essense<T extends { id: string | number }> {
     }
   }
 
-  async create(data: Partial<T>) {
-    return await this.api.post<string>(this.path, data);
+  async create<I = string>(data: Partial<T>) {
+    return await this.api.post<I>(this.path, data);
   }
 
   async updateRelation<R extends { id: string | number }>(relationPath, id, data: Partial<T[keyof T]>, selector: any) {

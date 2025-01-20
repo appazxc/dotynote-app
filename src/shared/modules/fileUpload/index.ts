@@ -1,1 +1,1 @@
-export { FileUploadProvider, useFileUpload, buildFileTag } from './FileUploadProvider';
+export { FileUploadProvider, useFileUpload } from './FileUploadProvider';

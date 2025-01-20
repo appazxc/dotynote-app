@@ -4,52 +4,55 @@ import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
+import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
 
-export const uploadFiles = (
-  files: UploadFile[], 
+type UploadNoteFilesParams = {
+  noteId: number,
+  files: UploadFile[],
   removeFiles: (fileIds: string[]) => void
-): ThunkAction => async (dispatch, getState) => {
+}
+
+export const uploadNoteFiles = ({ 
+  noteId,
+  files, 
+  removeFiles,
+}: UploadNoteFilesParams): ThunkAction => async (dispatch) => {
   for await (const file of files) {
-    await dispatch(uploadFile(file));
+    await dispatch(uploadFile(noteId, file));
   }
 
-  const entity = selectUploadFileEntity(getState(), files[0].fileId);
-  
-  if (entity && entity.zone === 'note') {
-    await queryClient.fetchQuery({ ...options.notes.load(Number(entity.zoneId)), staleTime: 0 });
-  }
+  await queryClient.fetchQuery({ ...options.notes.load(Number(noteId)), staleTime: 0 });
   
   removeFiles(files.map(({ fileId }) => fileId));
 };
 
-export const uploadFile = (file: UploadFile): ThunkAction => async (dispatch, getState) => {
+export const uploadFile = (noteId: number, file: UploadFile): ThunkAction => async (dispatch, getState) => {
   const entity = selectUploadFileEntity(getState(), file.fileId);
 
   if (!entity || entity.status === 'canceled') {
     return;
   }
   
-  if (entity.type === 'image' && entity.zone === 'note') {
-    await dispatch(uploadNoteImage(file, entity));
+  if (entity.type === 'image') {
+    await dispatch(uploadNoteImage(noteId, file));
     return;
   }
 
-  if (entity.type === 'file' && entity.zone === 'note') {
-    await dispatch(uploadNoteFile(file, entity));
+  if (entity.type === 'file') {
+    await dispatch(uploadNoteFile(noteId, file));
     return;
   }
 
-  console.log(`Not implemented file upload. Type: ${entity.type}, zone: ${entity.zone}`);
+  console.log(`Not implemented file upload. Type: ${entity.type}}`);
 };
 
-export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): ThunkAction => 
+export const uploadNoteImage = (noteId: number, file: UploadFile): ThunkAction => 
   async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
-    formData.append('noteId', String(entity.zoneId));
-    
+    formData.append('noteId', String(noteId));
+
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
@@ -68,11 +71,11 @@ export const uploadNoteImage = (file: UploadFile, entity: UploadFileEntity): Thu
     }
   };
 
-export const uploadNoteFile = (file: UploadFile, entity: UploadFileEntity): ThunkAction => 
+export const uploadNoteFile = (noteId: number, file: UploadFile): ThunkAction => 
   async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
-    formData.append('noteId', String(entity.zoneId));
+    formData.append('noteId', String(noteId));
     
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));

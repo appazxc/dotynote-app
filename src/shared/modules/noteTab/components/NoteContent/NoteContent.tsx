@@ -56,7 +56,8 @@ export const NoteContent = (props: Props) => {
     isWriteMode 
     || !isTextContentEmpty
     || note.images.length
-    || note.dots.length;
+    || note.dots.length
+    || note.files.length;
 
   if (!showContent) {
     return null;

@@ -7,7 +7,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 import { ImageWithControls } from 'shared/components/NoteImages/ImageWithControls';
 import { UploadingImage } from 'shared/components/NoteImages/UploadingImage';
-import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
+import { useFileUpload } from 'shared/modules/fileUpload';
 import {
   UploadEntity,
   selectUploadEntities,
@@ -60,7 +60,8 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
   const uploadImages = useAppSelector(state => 
     selectUploadEntities(state, { 
       files, 
-      tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
+      noteId,
+      type: 'image',
     }));
     
   const photos = React.useMemo(() => {

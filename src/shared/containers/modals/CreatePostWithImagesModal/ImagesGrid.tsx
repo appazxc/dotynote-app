@@ -20,12 +20,12 @@ import React from 'react';
 import { SiOneplus } from 'react-icons/si';
 
 import { DeleteIcon } from 'shared/components/ui/icons';
-import { UploadEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
+import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 
 const ANIMATION_DURATION_MS = 750;
 
 type ImagesGridProps = {
-  imgFiles: UploadEntity[],
+  imgFiles: UploadFile[],
   imgFileIds: string[],
   setImgFileIds: (fileIds: string[]) => void,
   inSeparatePosts: boolean,
