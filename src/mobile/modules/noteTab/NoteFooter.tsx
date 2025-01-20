@@ -1,12 +1,12 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 
+import { NoteDialogs } from 'shared/components/NoteDialogs';
 import { useEditorContext } from 'shared/modules/editor';
 import { Operations } from 'shared/modules/noteTab/components/Operations';
 import { selectIsOperationActive } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { NoteDialogs } from 'mobile/modules/noteTab/NoteDialogs';
 import { NoteEditorControls } from 'mobile/modules/noteTab/NoteEditorControls';
 import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 

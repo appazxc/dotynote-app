@@ -6,18 +6,11 @@ import {
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 
-import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { NoteDialogs } from 'shared/components/NoteDialogs';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from 'shared/components/ui/popover';
-import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
-import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
-import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
-import { hideModal } from 'shared/modules/modal/modalSlice';
 import { ContentPicker } from 'shared/modules/noteTab/components/ContentPicker';
-import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
-import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
 import { noteSelector } from 'shared/selectors/entities';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
+import { useAppSelector } from 'shared/store/hooks';
 
 type Props = { 
   canAddToNote: boolean,
@@ -26,20 +19,8 @@ type Props = {
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {
-  const dispatch = useAppDispatch();
   const { open, onClose, onOpen } = useDisclosure();
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
-  const noteTabId = useNoteTabId(noteId);
-  
-  const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || {};
-
-    if (queryKey) {
-      turnOnQueryNextPage(queryKey);
-    }
-    
-    dispatch(hideModal());
-  }, [noteTabId, dispatch]);
   
   if (!note) {
     return null;
@@ -93,17 +74,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
         </PopoverContent>
       </PopoverRoot>
 
-      <CreatePostModal
-        noteId={noteId}
-        onCreate={handlePostCreate}
-      />
-      <CreatePostWithImagesModal
-        noteId={noteId}
-        onCreate={handlePostCreate}
-      />
-      <CreateNoteDotModal
-        noteId={noteId}
-      />
+      <NoteDialogs noteId={noteId} />
     </>
   );
 };
