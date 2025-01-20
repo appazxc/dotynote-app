@@ -68,7 +68,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
               noteId={noteId}
               canAddToNote={canAddToNote}
               canAddToPosts={canAddToPosts}
-              onFinish={onClose}
+              onClose={onClose}
             />
           </PopoverBody>
         </PopoverContent>

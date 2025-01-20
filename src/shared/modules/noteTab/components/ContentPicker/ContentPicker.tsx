@@ -2,8 +2,8 @@ import { Center, Text, Tabs } from '@chakra-ui/react';
 import React from 'react';
 
 import { apos } from 'shared/constants/htmlCodes';
-import { NoteContent } from 'shared/modules/noteTab/components/ContentPicker/NoteContent';
-import { PostsContent } from 'shared/modules/noteTab/components/ContentPicker/PostsContent';
+import { NotePickerContent } from 'shared/modules/noteTab/components/ContentPicker/NotePickerContent';
+import { PostsPickerContent } from 'shared/modules/noteTab/components/ContentPicker/PostsPickerContent';
 import { addTo, AddTo } from 'shared/modules/noteTab/constants';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
@@ -15,10 +15,10 @@ type Props = {
   noteId: number,
   canAddToNote: boolean,
   canAddToPosts: boolean,
-  onFinish: () => void,
+  onClose: () => void,
 };
 
-export const ContentPicker = React.memo(({ noteId, onFinish, canAddToNote, canAddToPosts }: Props) => {
+export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAddToPosts }: Props) => {
   const dispatch = useAppDispatch();
   const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
@@ -47,14 +47,14 @@ export const ContentPicker = React.memo(({ noteId, onFinish, canAddToNote, canAd
 
       {canAddToNote && (
         <Tabs.Content value={addTo.NOTE}>
-          <NoteContent noteId={noteId} onFinish={onFinish} />
+          <NotePickerContent noteId={noteId} onClose={onClose} />
         </Tabs.Content>
       )}
       {canAddToPosts && (
         <Tabs.Content value={addTo.POSTS}>
-          <PostsContent
+          <PostsPickerContent
             note={note}
-            onFinish={onFinish}
+            onClose={onClose}
           />
         </Tabs.Content>
       )}

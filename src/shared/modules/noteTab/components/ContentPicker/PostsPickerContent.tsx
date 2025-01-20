@@ -12,26 +12,26 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
   note: NoteEntity,
-  onFinish: () => void,
+  onClose: () => void,
 };
 
 const ICON_SIZE = 24;
 
-export const PostsContent = React.memo((props: Props) => {
-  const { note, onFinish } = props;
+export const PostsPickerContent = React.memo((props: Props) => {
+  const { note, onClose } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
 
   const { mutateAsync } = useCreatePostsSettings(note.id);
 
   const withPostsSettingsCreate = React.useCallback((cb) => async () => {
-    onFinish();
+    onClose();
 
     if (!note.postsSettings) {
       await mutateAsync({});
     }
     await cb();
-  }, [mutateAsync, onFinish, note.postsSettings]);
+  }, [mutateAsync, onClose, note.postsSettings]);
 
   const renderedCards = React.useMemo(() => {
     const items = [
@@ -57,7 +57,7 @@ export const PostsContent = React.memo((props: Props) => {
             uploadImmediately: false,
           }, onSuccess);
 
-          onFinish();
+          onClose();
         },
       },
     ];
@@ -65,7 +65,7 @@ export const PostsContent = React.memo((props: Props) => {
     return (
       <ContentPickerCards items={items} />
     );
-  }, [dispatch, withPostsSettingsCreate, openFilePicker, onFinish, note.id]);
+  }, [dispatch, withPostsSettingsCreate, openFilePicker, onClose, note.id]);
 
   return renderedCards;
 });

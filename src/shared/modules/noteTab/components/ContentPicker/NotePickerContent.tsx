@@ -13,11 +13,11 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
   noteId: number,
-  onFinish?: () => void,
+  onClose?: () => void,
 }
 const ICON_SIZE = 24;
 
-export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
+export const NotePickerContent = React.memo(({ noteId, onClose }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
 
@@ -27,7 +27,7 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Dot',
         onClick: () => {
-          onFinish?.();
+          onClose?.();
           dispatch(showModal({ id: modalIds.createNoteDot }));
         },
       },
@@ -40,7 +40,7 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
             zone: 'note',
             type: 'image',
           });
-          onFinish?.();
+          onClose?.();
         },
       },
       {
@@ -52,7 +52,7 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
             zone: 'note',
             type: 'file',
           });
-          onFinish?.();
+          onClose?.();
         },
       },
       {
@@ -92,7 +92,7 @@ export const NoteContent = React.memo(({ noteId, onFinish }: Props) => {
         disabled: true,
       },
     ];
-  }, [dispatch, openFilePicker, noteId, onFinish]);
+  }, [dispatch, openFilePicker, noteId, onClose]);
 
   return (
     <ContentPickerCards items={items} />

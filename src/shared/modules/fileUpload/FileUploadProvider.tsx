@@ -84,7 +84,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [files, dispatch]);
 
   const handleFileSelect = React.useCallback(async (
-    event: Event, type: UploadFileType, config: ConfigType, onSuccess?: () => void
+    event: Event, type: UploadFileType, config: ConfigType, onFilesAdd?: () => void
   ) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
@@ -118,17 +118,17 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       
       setFiles((prev) => [...prev, ...newData]);
 
+      onFilesAdd?.();
+
       if (uploadImmediately) {
         dispatch(uploadFiles(newData, removeFiles));
       }
-
-      onSuccess?.();
     }
 
     target.value = '';
   }, [dispatch, removeFiles]);
 
-  const openFilePicker: OpenFilePicker = React.useCallback((params, onSuccess) => {
+  const openFilePicker: OpenFilePicker = React.useCallback((params, onFilesAdd) => {
     const config = {
       zoneId: params.zoneId,
       zone: params.zone,
@@ -144,7 +144,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'image', config, () => {
           input.value = '';
           input.onchange = null;
-          onSuccess?.();
+          onFilesAdd?.();
         });
       };
 
@@ -158,7 +158,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         handleFileSelect(event, 'file', config), () => {
           input.value = '';
           input.onchange = null;
-          onSuccess?.();
+          onFilesAdd?.();
         };
       };
 
