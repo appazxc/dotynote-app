@@ -1,10 +1,12 @@
 import React from 'react';
+import { GoFile } from 'react-icons/go';
 import { IoImageOutline } from 'react-icons/io5';
 import { SlNotebook } from 'react-icons/sl';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
+import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -46,7 +48,7 @@ export const PostsPickerContent = React.memo((props: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
         onClick: () => {
-          const onSuccess = () => {
+          const onFilesAdd = () => {
             dispatch(showModal({ id: modalIds.createPostWithImages }));
           };
           
@@ -55,7 +57,25 @@ export const PostsPickerContent = React.memo((props: Props) => {
             zone: 'post',
             type: 'image',
             uploadImmediately: false,
-          }, onSuccess);
+          }, onFilesAdd);
+
+          onClose();
+        },
+      },
+      {
+        icon: <GoFile size={ICON_SIZE} />,
+        title: 'File',
+        onClick: () => {
+          const onFilesAdd = (files: UploadFile[]) => {
+            console.log('files', files);
+          };
+
+          openFilePicker({ 
+            zoneId: note.id,
+            zone: 'post',
+            type: 'file',
+            uploadImmediately: false,
+          }, onFilesAdd);
 
           onClose();
         },

@@ -20,12 +20,12 @@ import React from 'react';
 import { SiOneplus } from 'react-icons/si';
 
 import { DeleteIcon } from 'shared/components/ui/icons';
-import { SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
+import { UploadEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 
 const ANIMATION_DURATION_MS = 750;
 
 type ImagesGridProps = {
-  imgFiles: SelectFilteredFilesByTagReturn,
+  imgFiles: UploadEntity[],
   imgFileIds: string[],
   setImgFileIds: (fileIds: string[]) => void,
   inSeparatePosts: boolean,

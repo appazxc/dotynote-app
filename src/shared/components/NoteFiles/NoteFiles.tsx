@@ -5,8 +5,8 @@ import { NoteFile } from 'shared/components/NoteFiles/NoteFile';
 import { UploadingFile } from 'shared/components/NoteFiles/UploadingFile';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import {
-  selectFilteredFilesByTag,
-} from 'shared/modules/fileUpload/selectors';
+  selectUploadEntities,
+} from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 
@@ -32,7 +32,7 @@ export const NoteFiles = React.memo((props: Props) => {
   }, [filteredNoteFiles]);
 
   const uploadFiles = useAppSelector(state => 
-    selectFilteredFilesByTag(state, { 
+    selectUploadEntities(state, { 
       files, 
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'file' }),
     }));

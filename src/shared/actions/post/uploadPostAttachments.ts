@@ -1,7 +1,6 @@
-import { api } from 'shared/api';
 import { uploadFiles } from 'shared/modules/fileUpload/actions/uploadFiles';
 import { RemoveFilesType } from 'shared/modules/fileUpload/FileUploadProvider';
-import { SelectFilteredFilesByTagReturn } from 'shared/modules/fileUpload/selectors';
+import { UploadEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { postSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/types/store';
@@ -9,7 +8,7 @@ import { invariant } from 'shared/util/invariant';
 
 type Params = {
   postId: number,
-  files: SelectFilteredFilesByTagReturn,
+  files: UploadEntity[],
   onPostsCreated?: (postIds: number[]) => void,
   onAttachmentsUploaded?: () => void,
   removeFiles: RemoveFilesType,

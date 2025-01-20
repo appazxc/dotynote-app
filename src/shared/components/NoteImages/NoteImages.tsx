@@ -9,9 +9,9 @@ import { ImageWithControls } from 'shared/components/NoteImages/ImageWithControl
 import { UploadingImage } from 'shared/components/NoteImages/UploadingImage';
 import { buildFileTag, useFileUpload } from 'shared/modules/fileUpload';
 import {
-  MergedFilteredFile,
-  selectFilteredFilesByTag,
-} from 'shared/modules/fileUpload/selectors';
+  UploadEntity,
+  selectUploadEntities,
+} from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useAppSelector } from 'shared/store/hooks';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { downloadImage } from 'shared/util/downloadImage';
@@ -58,7 +58,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
   const noteImageIds = React.useMemo(() => notePhotos.map(noteImage => noteImage.image.id), [notePhotos]);
 
   const uploadImages = useAppSelector(state => 
-    selectFilteredFilesByTag(state, { 
+    selectUploadEntities(state, { 
       files, 
       tag: buildFileTag({ zone: 'note', zoneId: noteId, type: 'image' }),
     }));
@@ -76,7 +76,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
           height: imgFile.dimensions.height,
           width: imgFile.dimensions.width,
           uploadImage: imgFile,
-        }) as Photo & { uploadImage: MergedFilteredFile };
+        }) as Photo & { uploadImage: UploadEntity };
       })];
   }, [notePhotos, uploadImages, noteImageIds]);
 

@@ -3,7 +3,7 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
-import { selectUploadFileEntity } from 'shared/modules/fileUpload/selectors';
+import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile, UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
 

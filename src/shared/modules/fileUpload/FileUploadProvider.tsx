@@ -31,7 +31,7 @@ export type RemoveFilesType = (fileIds: string[]) => void
 
 export type ReorderFilesType = (fileIds: string[]) => void
 
-type OpenFilePicker = (params: OpenFilePickerParams, onSuccess?: () => void) => void
+type OpenFilePicker = (params: OpenFilePickerParams, onFilesAdd?: (files: UploadFile[]) => void) => void
 
 type FileUploadContextType = { 
   removeFiles: RemoveFilesType,
@@ -84,7 +84,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [files, dispatch]);
 
   const handleFileSelect = React.useCallback(async (
-    event: Event, type: UploadFileType, config: ConfigType, onFilesAdd?: () => void
+    event: Event, type: UploadFileType, config: ConfigType, onFilesAdd?: (files: UploadFile[]) => void
   ) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
@@ -116,9 +116,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         dispatch(addFile({ fileId, type: fileType, zone, zoneId, dimensions }));
       });
       
-      setFiles((prev) => [...prev, ...newData]);
+      const newFiles = newData.map(({ dimensions, ...rest }) => rest);
 
-      onFilesAdd?.();
+      setFiles((prev) => [...prev, ...newFiles]);
+
+      onFilesAdd?.(newFiles);
 
       if (uploadImmediately) {
         dispatch(uploadFiles(newData, removeFiles));
@@ -141,11 +143,9 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       input.accept = 'image/png, image/jpeg, image/gif, image/webp';
       input.multiple = true; 
       input.onchange = (event) => {
-        handleFileSelect(event, 'image', config, () => {
-          input.value = '';
-          input.onchange = null;
-          onFilesAdd?.();
-        });
+        handleFileSelect(event, 'image', config, onFilesAdd);
+        input.value = '';
+        input.onchange = null;
       };
 
       input.click();
@@ -155,11 +155,9 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       // input.accept = '.pdf,.doc,.docx';
       input.multiple = true; 
       input.onchange = (event) => {
-        handleFileSelect(event, 'file', config), () => {
-          input.value = '';
-          input.onchange = null;
-          onFilesAdd?.();
-        };
+        handleFileSelect(event, 'file', config, onFilesAdd);
+        input.value = '';
+        input.onchange = null;
       };
 
       input.click();
