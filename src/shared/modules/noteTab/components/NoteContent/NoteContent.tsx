@@ -7,6 +7,7 @@ import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { Tag } from 'shared/components/ui/tag';
+import { selectIsNoteFilesUploading } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
@@ -40,6 +41,8 @@ export const NoteContent = (props: Props) => {
 
   invariant(note, 'Missing note');
 
+  const isFilesLoading = useAppSelector(state => selectIsNoteFilesUploading(state, noteId));
+
   const { mutate } = useUpdateNote();
 
   const { title, content } = note;
@@ -51,13 +54,13 @@ export const NoteContent = (props: Props) => {
   }, [mutate, noteId]);
 
   const isTextContentEmpty = !content || getIsTextContentEmpty(content);
-
   const showContent = 
     isWriteMode 
     || !isTextContentEmpty
     || note.images.length
     || note.dots.length
-    || note.files.length;
+    || note.files.length
+    || isFilesLoading;
 
   if (!showContent) {
     return null;

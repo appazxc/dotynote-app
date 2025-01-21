@@ -13,7 +13,7 @@ type Params = {
 }
 
 export const createNote = (params: Params): ThunkAction => 
-  async (dispatch, getState) => {
+  async (dispatch) => {
     const { 
       note,
       files,

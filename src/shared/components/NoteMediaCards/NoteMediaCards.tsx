@@ -1,4 +1,5 @@
-import { Text, Card, SimpleGrid } from '@chakra-ui/react';
+import { Text, Card, SimpleGrid, Center, Spinner } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
@@ -7,7 +8,10 @@ import { PiFeather, PiVideo, PiMusicNotes, PiFileAudioFill } from 'react-icons/p
 import { SlNotebook } from 'react-icons/sl';
 import { VscRecord } from 'react-icons/vsc';
 
+import { createNote } from 'shared/actions/note/createNote';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { useFileUpload } from 'shared/modules/fileUpload';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -17,6 +21,9 @@ type Props = {
 
 export const NoteMediaCards = React.memo(({ isMobile }: Props) => {
   const dispatch = useAppDispatch();
+  const { openFilePicker } = useFileUpload();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const constructionText = isMobile ? 'Constructing' : 'Under construction';
 
@@ -33,14 +40,46 @@ export const NoteMediaCards = React.memo(({ isMobile }: Props) => {
       title: 'Image',
       to: '/',
       description: constructionText,
-      isDisabled: true,
+      onClick: () => {
+        const onFilesAdd = (files, removeFiles) => {
+          setIsLoading(true);
+
+          dispatch(createNote({
+            files,
+            onNoteCreated: (noteId: number) => {
+              navigate({ to: noteRoutePath, params: { noteId } });
+            },
+            removeFiles,
+          }));
+        };
+
+        openFilePicker({
+          type: 'image',
+        }, onFilesAdd);
+      },
     },
     {
       icon: <GoFile size="35" />,
       title: 'File',
       to: '/',
       description: constructionText,
-      isDisabled: true,
+      onClick: () => {
+        const onFilesAdd = (files, removeFiles) => {
+          setIsLoading(true);
+
+          dispatch(createNote({
+            files,
+            onNoteCreated: (noteId: number) => {
+              navigate({ to: noteRoutePath, params: { noteId } });
+            },
+            removeFiles,
+          }));
+        };
+
+        openFilePicker({
+          type: 'file',
+        }, onFilesAdd);
+      },
     },
     {
       icon: <PiFeather size="35" />,
@@ -84,8 +123,12 @@ export const NoteMediaCards = React.memo(({ isMobile }: Props) => {
       description: constructionText,
       isDisabled: true,
     },
-  ], [dispatch, constructionText]);
+  ], [dispatch, constructionText, navigate, openFilePicker]);
 
+  if (isLoading) {
+    return <Center h="300px"><Spinner /></Center>;
+  }
+  
   return (
     <SimpleGrid
       gap={4}

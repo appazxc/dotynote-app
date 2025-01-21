@@ -43,5 +43,14 @@ export const selectUploadEntities: SelectUploadEntities = createSelector([
   }));
 });
 
+export const selectIsNoteFilesUploading = createSelector([
+  (state: AppState) => state.upload.byId,
+  (_, noteId: number) => noteId,
+], (filesById, noteId) => {
+  return !!Object.values(filesById).find(file => {
+    return file.noteId === noteId && file.status === 'pending';
+  });
+});
+
 export const selectUploadFileEntity = (state: AppState, id: string): UploadFileEntity | null => 
   state.upload.byId[id] || null;

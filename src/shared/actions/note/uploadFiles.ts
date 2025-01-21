@@ -18,6 +18,13 @@ export const uploadNoteFiles = ({
   files, 
   removeFiles,
 }: UploadNoteFilesParams): ThunkAction => async (dispatch) => {
+  files.forEach(({ fileId }) => {
+    dispatch(updateFile({
+      fileId,
+      noteId,
+    }));
+  });
+
   for await (const file of files) {
     await dispatch(uploadFile(noteId, file));
   }
