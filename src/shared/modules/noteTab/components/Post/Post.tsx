@@ -55,7 +55,7 @@ export const Post = React.memo((props: Props) => {
     );
   }, [isSelecting, isSelected, onClick, post]);
 
-  if (post._isDeleted) {
+  if (post._isDeleted || post.note._isDeleted) {
     return null;
   }
 
