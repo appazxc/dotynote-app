@@ -59,7 +59,7 @@ export const FileSnippet = React.memo((props: Props) => {
             <FaRegFileLines size="18px" />
           </Icon>
         </Box>
-        <Box>
+        <Box overflow="hidden">
           <Text
             display="block"
             fontWeight="500"

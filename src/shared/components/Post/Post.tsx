@@ -58,6 +58,7 @@ export const Post = React.forwardRef((props: Props, ref) => {
       <Box
         key="text"
         flexGrow="1"
+        w="full"
       >
         {isPinned && (
           <Box
@@ -81,7 +82,7 @@ export const Post = React.forwardRef((props: Props, ref) => {
           userSelect="none"
           gap="2"
         >
-          {note.title && <Text fontWeight="500">{note.title}</Text>}
+          {note.title && <Text fontWeight="500">{ note.title}</Text>}
           <EditorView
             removeEmptyDivsFromEnd
             maxLines={4}
