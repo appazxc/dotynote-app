@@ -7,9 +7,7 @@ import { getImageDimensions } from 'shared/util/getImageDimensions';
 
 type Props = React.PropsWithChildren<{}>;
 
-export type UploadFileType = 'image' | 'file';
-
-export type TagType = string; // like an ID or something similar to determine where this file belongs.
+export type UploadFileType = 'image' | 'file' | 'audio';
 
 export type UploadFile = { 
   fileId: string, 
@@ -27,9 +25,11 @@ export type RemoveFilesType = (fileIds: string[]) => void
 
 export type ReorderFilesType = (fileIds: string[]) => void
 
+type OnFilesAdd = (files: UploadFile[], removeFiles: RemoveFilesType) => void
+
 type OpenFilePicker = (
   params: OpenFilePickerParams, 
-  onFilesAdd?: (files: UploadFile[], removeFiles: RemoveFilesType) => void
+  onFilesAdd?: OnFilesAdd
 ) => void
 
 type FileUploadContextType = { 
@@ -38,10 +38,6 @@ type FileUploadContextType = {
   openFilePicker: OpenFilePicker,
   files: UploadFile[],
 };
-
-type ConfigType = {
-  noteId?: number,
-}
 
 const FileUploadContext = React.createContext<FileUploadContextType>(null!);
 
@@ -77,12 +73,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const handleFileSelect = React.useCallback(async (
     event: Event, 
     type: UploadFileType, 
-    config: ConfigType, 
+    noteId: number | undefined, 
     onFilesAdd?: (files: UploadFile[], removeFiles: RemoveFilesType) => void
   ) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
-    const { noteId } = config;
     
     if (files.length > 0) {
       const newData = await Promise.all(files.map(async file => {
@@ -118,37 +113,45 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     target.value = '';
   }, [dispatch, removeFiles]);
 
-  const openFilePicker: OpenFilePicker = React.useCallback((params, onFilesAdd) => {
-    const config = {
-      noteId: params.noteId,
+  const createAndClickInput = React.useCallback((
+    noteId: number | undefined, 
+    type: UploadFileType, 
+    onFilesAdd: OnFilesAdd | undefined, 
+    accept?: string) => {
+    const input = document.createElement('input');
+    input.type = 'file'; // Пример для загрузки файлов
+    input.multiple = true; 
+
+    if (accept) {
+      input.accept = accept;
+    }
+    
+    input.onchange = (event) => {
+      handleFileSelect(event, type, noteId, onFilesAdd);
+      input.value = '';
+      input.onchange = null;
     };
 
-    if (params.type === 'image') {
-      const input = document.createElement('input');
-      input.type = 'file'; // Пример для загрузки файлов
-      input.accept = 'image/png, image/jpeg, image/gif, image/webp';
-      input.multiple = true; 
-      input.onchange = (event) => {
-        handleFileSelect(event, 'image', config, onFilesAdd);
-        input.value = '';
-        input.onchange = null;
-      };
-
-      input.click();
-    } else if (params.type === 'file') {
-      const input = document.createElement('input');
-      input.type = 'file'; 
-      // input.accept = '.pdf,.doc,.docx';
-      input.multiple = true; 
-      input.onchange = (event) => {
-        handleFileSelect(event, 'file', config, onFilesAdd);
-        input.value = '';
-        input.onchange = null;
-      };
-
-      input.click();
-    }
+    input.click();
   }, [handleFileSelect]);
+
+  const openFilePicker: OpenFilePicker = React.useCallback((params, onFilesAdd) => {
+    const { noteId, type } = params;
+    
+    switch(type) {
+    case 'image': 
+      createAndClickInput(noteId, type, onFilesAdd, 'image/png, image/jpeg, image/gif, image/webp');
+      break;
+    case 'file': 
+      createAndClickInput(noteId, type, onFilesAdd);
+      break;
+    case 'audio': 
+      createAndClickInput(noteId, type, onFilesAdd, 'audio/mpeg,audio/wav,audio/ogg,audio/aac,audio/flac');
+      break;
+    default:
+      console.error(`Unsupported file type: ${type}`);
+    }
+  }, [createAndClickInput]);
 
   return (
     <FileUploadContext.Provider value={{ files, openFilePicker, removeFiles, reorderFiles }}>

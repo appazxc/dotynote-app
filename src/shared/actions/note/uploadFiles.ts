@@ -51,6 +51,11 @@ export const uploadFile = (noteId: number, file: UploadFile): ThunkAction => asy
     return;
   }
 
+  if (entity.type === 'audio') {
+    await dispatch(uploadNoteAudio(noteId, file));
+    return;
+  }
+
   console.log(`Not implemented file upload. Type: ${entity.type}}`);
 };
 
@@ -89,6 +94,30 @@ export const uploadNoteFile = (noteId: number, file: UploadFile): ThunkAction =>
 
       const realId = await api.post<string>(
         '/upload/files', 
+        formData,
+        { 
+          onUploadProgress: (event) => {
+            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
+          }, 
+        });
+
+      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
+    } catch(error) {
+      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
+    }
+  };
+
+export const uploadNoteAudio = (noteId: number, file: UploadFile): ThunkAction => 
+  async (dispatch) => {
+    const formData = new FormData();
+    formData.append('file', file.file);
+    formData.append('noteId', String(noteId));
+    
+    try {
+      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
+
+      const realId = await api.post<string>(
+        '/upload/audio', 
         formData,
         { 
           onUploadProgress: (event) => {

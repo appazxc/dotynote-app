@@ -2,6 +2,7 @@ import { JSONContent } from '@tiptap/core';
 
 import { BaseEntity } from 'shared/types/entities/BaseEntity';
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
+import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
@@ -30,6 +31,7 @@ export type ApiNoteEntity = BaseEntity<{
   dots: string[],
   images: string[],
   files: string[],
+  audio: string[],
 }, number>
 
 export type NoteEntity = MergeEntity<ApiNoteEntity, { 
@@ -38,4 +40,5 @@ export type NoteEntity = MergeEntity<ApiNoteEntity, {
   dots: NoteDotEntity[],
   images: NoteImageEntity[],
   files: NoteFileEntity[],
+  audio: NoteAudioEntity[],
 }>

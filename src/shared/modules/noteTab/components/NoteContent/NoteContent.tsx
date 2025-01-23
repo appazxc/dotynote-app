@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
+import { NoteAudioFiles } from 'shared/components/NoteAudioFiles';
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { Tag } from 'shared/components/ui/tag';
@@ -60,6 +61,7 @@ export const NoteContent = (props: Props) => {
     || note.images.length
     || note.dots.length
     || note.files.length
+    || note.audio.length
     || isFilesLoading;
 
   if (!showContent) {
@@ -103,6 +105,10 @@ export const NoteContent = (props: Props) => {
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
+      />
+      <NoteAudioFiles 
+        noteId={noteId}
+        audio={note.audio}
       />
       <NoteFiles 
         noteId={noteId}

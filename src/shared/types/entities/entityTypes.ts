@@ -1,4 +1,5 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { ApiNoteAudioEntity, NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 import { ApiNoteDotEntity, NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiNoteFileEntity, NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
@@ -29,6 +30,7 @@ export type ApiEntityTypes = {
   [entityNames.noteDot]: ApiNoteDotEntity,
   [entityNames.noteImage]: ApiNoteImageEntity,
   [entityNames.noteFile]: ApiNoteFileEntity,
+  [entityNames.noteAudio]: ApiNoteAudioEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -48,4 +50,5 @@ export type EntityTypes = {
   [entityNames.noteDot]: NoteDotEntity,
   [entityNames.noteImage]: NoteImageEntity,
   [entityNames.noteFile]: NoteFileEntity,
+  [entityNames.noteAudio]: NoteAudioEntity,
 }

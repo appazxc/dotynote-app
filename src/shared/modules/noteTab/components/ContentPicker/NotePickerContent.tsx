@@ -72,6 +72,27 @@ export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
         },
       },
       {
+        icon: <PiFileAudioFill size={ICON_SIZE} />,
+        title: 'Audio',
+        to: '/',
+        onClick: () => {
+          const onFilesAdd = (files, removeFiles) => {
+            dispatch(uploadNoteFiles({
+              noteId,
+              files,
+              removeFiles,
+            }));
+          };
+
+          openFilePicker({ 
+            noteId,
+            type: 'audio',
+          }, onFilesAdd);
+
+          onClick?.();
+        },
+      },
+      {
         icon: <PiFeather size={ICON_SIZE} />,
         title: 'Excalidraw',
         to: '/',
@@ -83,24 +104,18 @@ export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
         to: '/',
         disabled: true,
       },
-      {
-        icon: <PiVideo size={ICON_SIZE} />,
-        title: 'Stream',
-        to: '/',
-        disabled: true,
-      },
-      {
-        icon: <PiMusicNotes size={ICON_SIZE} />,
-        title: 'Music',
-        to: '/',
-        disabled: true,
-      },
-      {
-        icon: <PiFileAudioFill size={ICON_SIZE} />,
-        title: 'Audio',
-        to: '/',
-        disabled: true,
-      },
+      // {
+      //   icon: <PiVideo size={ICON_SIZE} />,
+      //   title: 'Stream',
+      //   to: '/',
+      //   disabled: true,
+      // },
+      // {
+      //   icon: <PiMusicNotes size={ICON_SIZE} />,
+      //   title: 'Music',
+      //   to: '/',
+      //   disabled: true,
+      // },
       {
         icon: <VscRecord size={ICON_SIZE} />,
         title: 'Record',

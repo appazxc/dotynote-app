@@ -1,5 +1,6 @@
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { noteSchema } from 'shared/schemas/note.schema';
+import { noteAudioSchema } from 'shared/schemas/noteAudio.schema';
 import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
@@ -35,6 +36,7 @@ const schemaMap = {
   [entityNames.noteDot]: noteDotSchema,
   [entityNames.noteImage]: noteImageSchema,
   [entityNames.noteFile]: noteFileSchema,
+  [entityNames.noteAudio]: noteAudioSchema,
 };
 
 export default class Selector<T extends EntityName> {

@@ -1,5 +1,6 @@
 import { schema } from 'normalizr';
 
+import { noteAudioSchema } from 'shared/schemas/noteAudio.schema';
 import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
@@ -16,4 +17,5 @@ export const noteSchema = new schema.Entity(
     dots: [noteDotSchema],
     images: [noteImageSchema],
     files: [noteFileSchema],
+    audio: [noteAudioSchema],
   });
