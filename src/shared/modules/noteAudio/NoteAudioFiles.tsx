@@ -1,12 +1,13 @@
 import { Stack, StackProps } from '@chakra-ui/react';
 import React from 'react';
 
-import { NoteFile } from 'shared/components/NoteAudioFiles/NoteFile';
-import { UploadingFile } from 'shared/components/NoteAudioFiles/UploadingFile';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import {
   selectUploadEntities,
 } from 'shared/modules/fileUpload/fileUploadSelectors';
+import { NoteAudio } from 'shared/modules/noteAudio/NoteAudio';
+import { NoteFile } from 'shared/modules/noteAudio/NoteFile';
+import { UploadingFile } from 'shared/modules/noteAudio/UploadingFile';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 
@@ -56,17 +57,11 @@ export const NoteAudioFiles = React.memo((props: Props) => {
         }
       }}
     >
-      {filteredNoteAudioFiles.map((noteAudio) => {
+      {filteredNoteAudioFiles.slice(0, 1).map((noteAudio) => {
         return (
-          <NoteFile
+          <NoteAudio
             key={noteAudio.id}
-            noteId={noteId}
-            id={noteAudio.id}
-            filename={noteAudio.filename}
-            fileSize={noteAudio.size}
-            size={size}
-            url={noteAudio.url}
-            isDisabled={isDisabled}
+            audioId={noteAudio.id}
           />
         );
       })}

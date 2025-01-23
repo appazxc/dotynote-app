@@ -7,6 +7,7 @@ import drawersReducer from 'shared/modules/drawer/drawerSlice';
 import uploadReducer from 'shared/modules/fileUpload/uploadSlice';
 import loadersReducer from 'shared/modules/loaders/loadersSlice';
 import modalsReducer from 'shared/modules/modal/modalSlice';
+import audioReducer from 'shared/modules/noteAudio/audioSlice';
 
 import appReducer from './slices/appSlice';
 import authReducer from './slices/authSlice';
@@ -32,6 +33,7 @@ const reducer = combineReducers({
   drawers: drawersReducer,
   request: requestReducer,
   upload: uploadReducer,
+  audio: audioReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   app: persistReducer(appPersistConfig, appReducer),
 });

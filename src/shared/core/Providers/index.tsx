@@ -7,6 +7,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { Provider as ThemeProvider } from 'shared/components/ui/provider';
 import { Device } from 'shared/core/Providers/Device';
 import { FileUploadProvider } from 'shared/modules/fileUpload';
+import { AudioProvider } from 'shared/modules/noteAudio';
 import { persistor, store } from 'shared/store';
 
 type Props = React.PropsWithChildren<{}>
@@ -17,11 +18,13 @@ export const Providers = React.memo(({ children }: Props) => {
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
-            <Device>
-              <FileUploadProvider>
-                {children}
-              </FileUploadProvider>
-            </Device>
+            <AudioProvider>
+              <Device>
+                <FileUploadProvider>
+                  {children}
+                </FileUploadProvider>
+              </Device>
+            </AudioProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </PersistGate>

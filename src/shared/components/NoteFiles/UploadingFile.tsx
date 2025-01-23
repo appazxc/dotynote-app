@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
 import { formatFileSize } from 'shared/components/NoteFiles/formatFileSize';
-import { splitFileName } from 'shared/components/NoteFiles/splitFileName';
+import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
   filename: string,

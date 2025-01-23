@@ -4,11 +4,11 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
-import { NoteAudioFiles } from 'shared/components/NoteAudioFiles';
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { Tag } from 'shared/components/ui/tag';
 import { selectIsNoteFilesUploading } from 'shared/modules/fileUpload/fileUploadSelectors';
+import { NoteAudioFiles } from 'shared/modules/noteAudio';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
