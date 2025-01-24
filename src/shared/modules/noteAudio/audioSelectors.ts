@@ -9,9 +9,9 @@ export const selectActiveAudio = createSelector([
   return audioId ? audioById[audioId] : null;
 });
 
-export const selectAudioUrl: (state: AppState) => string | null = createSelector([
+export const selectAudioUrl: (state: AppState, audioId: string | null) => string | null = createSelector([
   (state: AppState) => state.entities.noteAudio,
-  (state: AppState) => state.audio.audioId,
+  (_, audioId: string | null) => audioId,
 ], (audioById, audioId) => {
   return audioId ? audioById[audioId]?.url || null : null;
 });

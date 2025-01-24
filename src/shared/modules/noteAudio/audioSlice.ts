@@ -40,7 +40,7 @@ const audioSlice = createSlice({
     },
     playAudio: (state, { payload }: PayloadAction<PlayAudioParams>) => {
       if (isNumber(payload.startTime)) {
-        state.startTime = payload.startTime || 0;
+        state.startTime = payload.startTime;
       }
 
       state.isPlaying = true;

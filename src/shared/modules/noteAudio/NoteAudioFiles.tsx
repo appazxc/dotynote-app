@@ -6,7 +6,6 @@ import {
   selectUploadEntities,
 } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { NoteAudio } from 'shared/modules/noteAudio/NoteAudio';
-import { NoteFile } from 'shared/modules/noteAudio/NoteFile';
 import { UploadingFile } from 'shared/modules/noteAudio/UploadingFile';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
@@ -57,10 +56,11 @@ export const NoteAudioFiles = React.memo((props: Props) => {
         }
       }}
     >
-      {filteredNoteAudioFiles.slice(0, 1).map((noteAudio) => {
+      {filteredNoteAudioFiles.map((noteAudio) => {
         return (
           <NoteAudio
             key={noteAudio.id}
+            noteId={noteId}
             audioId={noteAudio.id}
           />
         );
