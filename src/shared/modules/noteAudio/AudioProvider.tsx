@@ -87,7 +87,6 @@ export const AudioProvider = ({ children }) => {
       }}
     >
       {children}
-      {children}
       
       <audio
         ref={audioRef}
