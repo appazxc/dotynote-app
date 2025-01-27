@@ -75,6 +75,12 @@ export const NoteAudio = React.memo((props: Props) => {
         });
       }}
       onPause={() => pauseAudio()}
+      onProgressClick={(startTime) => {
+        if (isActive) {
+          playAudio({ startTime });
+          return;
+        }
+      }}
     />
   );
 });

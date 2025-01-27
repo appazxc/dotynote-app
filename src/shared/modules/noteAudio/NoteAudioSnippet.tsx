@@ -15,14 +15,16 @@ type Props = {
   duration: number,
   currentTime: number | null,
   onPlay: (startTime?: number) => void,
+  onProgressClick: (startTime: number) => void,
   onPause: () => void,
   options?: { label: string, onClick: () => void }[],
 };
 
 export const NoteAudioSnippet = React.memo((props: Props) => {
-  const { name, duration, currentTime, options, isPlaying, onPause, onPlay } = props;
+  const { name, duration, currentTime, options, isPlaying, onPause, onPlay, onProgressClick } = props;
   const value = React.useRef<number>(currentTime || 0);
   const [isDragging, setIsDragging] = React.useState(false);
+  const isActive = !!currentTime;
 
   if (!isDragging) {
     value.current = currentTime || 0;
@@ -104,10 +106,10 @@ export const NoteAudioSnippet = React.memo((props: Props) => {
         )}
       </Card.Body>
       <Slider
-        showThumb={!!currentTime}
+        showThumb={isActive}
         position="relative"
         bottom="-2px"
-        cursor="pointer"
+        cursor={isActive ? 'pointer' : 'default'}
         size="xs"
         max={duration}
         variant="solid"
@@ -118,7 +120,7 @@ export const NoteAudioSnippet = React.memo((props: Props) => {
           value.current = startTime;
         }}
         onValueChangeEnd={() => {
-          onPlay(value.current);
+          onProgressClick(value.current);
           setIsDragging(false);
         }}
       />
