@@ -8,6 +8,7 @@ import { NoteImages } from 'shared/components/NoteImages';
 import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
+import { NoteAudioFiles } from 'shared/modules/noteAudio';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
@@ -100,6 +101,10 @@ export const Post = React.forwardRef((props: Props, ref) => {
             isDisabled={isSelecting}
             noteId={noteId}
             files={note.files}
+          />
+          <NoteAudioFiles
+            noteId={noteId}
+            audio={note.audio}
           />
         </Stack>
         {dots && (
