@@ -44,27 +44,27 @@ export const uploadFile = (noteId: number, file: UploadFile): ThunkAction => asy
 
   const controller = new AbortController();
   const signal = controller.signal;
+  const eventName = `cancelFileUpload:${entity.fileId}`;
 
-  emitter.once(`cancelFileUpload:${entity.fileId}`, () => {
+  emitter.once(eventName, () => {
     controller.abort();
   });
 
-  if (entity.type === 'image') {
+  switch(entity.type) {
+  case 'image':
     await dispatch(uploadNoteImage(noteId, file, signal));
-    return;
-  }
-
-  if (entity.type === 'file') {
+    break;
+  case 'file':
     await dispatch(uploadNoteFile(noteId, file, signal));
-    return;
-  }
-
-  if (entity.type === 'audio') {
+    break;
+  case 'audio':
     await dispatch(uploadNoteAudio(noteId, file, signal));
-    return;
+    break;
+  default:
+    console.log(`Not implemented file upload. Type: ${entity.type}}`);
   }
 
-  console.log(`Not implemented file upload. Type: ${entity.type}}`);
+  emitter.removeAllListeners(eventName);
 };
 
 export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
