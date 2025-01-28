@@ -5,11 +5,11 @@ import { AudioSliderDragParams } from 'shared/modules/noteAudio/AudioProvider';
 
 type Props = {
   isActive: boolean,
-  isDragging: boolean,
+  isDragging?: boolean,
   duration: number,
-  dragTime: number,
+  dragTime?: number,
   currentTime: number | null,
-  onChange: (time: number) => void,
+  onChange?: (time: number) => void,
   onDragChange?: (params: AudioSliderDragParams) => void
 } & Omit<SliderProps, 'onChange'>;
 
@@ -25,13 +25,13 @@ export const AudioSlider = React.memo((props: Props) => {
       size="xs"
       max={duration}
       variant="solid"
-      value={[isDragging ? dragTime : currentTime || 0]}
+      value={[isDragging && dragTime ? dragTime : currentTime || 0]}
       minH="6px"
       onValueChange={({ value: [startTime] }) => {
         onDragChange?.({ isDragging: true, dragTime: startTime });
       }}
       onValueChangeEnd={() => {
-        onChange(dragTime);
+        onChange?.(dragTime || 0);
         onDragChange?.({ isDragging: false, dragTime: 0 });
       }}
       {...restProps}

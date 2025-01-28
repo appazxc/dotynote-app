@@ -41,13 +41,14 @@ export const NoteAudioWidget = React.memo((props: Props) => {
   } = props;
 
   return (
-    <Card.Root position="relative">
-      <Card.Body
+    <Box position="relative" border="none">
+      <Box
         p="2"
         display="flex"
         flexDirection="row"
         alignItems="center"
         gap="3"
+        pb="1"
       >
         <Box
           bg="gray.900"
@@ -76,7 +77,6 @@ export const NoteAudioWidget = React.memo((props: Props) => {
             {name}
           </Box>
           <Box
-            justifyContent="center"
             display="flex"
             alignItems="center"
             gap="1"
@@ -114,9 +114,9 @@ export const NoteAudioWidget = React.memo((props: Props) => {
             </MenuList>
           </Menu>
         )}
-      </Card.Body>
+      </Box>
       <AudioSlider
-        bottom="-2px"
+        opacity={isActive ? 1 : 0}
         isDragging={isDragging}
         dragTime={dragTime}
         isActive={isActive}
@@ -125,6 +125,6 @@ export const NoteAudioWidget = React.memo((props: Props) => {
         onChange={onProgressClick}
         onDragChange={onDragChange}
       />
-    </Card.Root>
+    </Box>
   );
 });

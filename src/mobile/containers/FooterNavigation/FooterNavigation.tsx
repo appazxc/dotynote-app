@@ -1,6 +1,7 @@
 import { Box, Center, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
 import React from 'react';
+import { BsSoundwave } from 'react-icons/bs';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 
@@ -11,11 +12,14 @@ import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
+import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
 import { HomeMenu } from 'mobile/containers/FooterNavigation/HomeMenu';
+import { SoundMenu } from 'mobile/containers/FooterNavigation/SoundMenu';
 
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -24,6 +28,8 @@ export const FooterNavigation = React.memo(() => {
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const isPrimaryNote = useIsPrimareNote();
+  const { activeAudioId } = useAudio();
+  const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
 
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
@@ -100,6 +106,13 @@ export const FooterNavigation = React.memo(() => {
         },
         isActive: pathname === '/app/tabs',
       },
+      ...activeAudioId && !isMobileWidgetOpen ? [{
+        label: 'media',
+        onClick: () => {
+          dispatch(toggleMobileWidget());
+        },
+        icon: <SoundMenu />,
+      }] : [],
       {
         label: 'menu',
         onClick: () => {
@@ -117,6 +130,8 @@ export const FooterNavigation = React.memo(() => {
     activeSpace,
     isPrimaryNote,
     pathname,
+    activeAudioId,
+    isMobileWidgetOpen,
   ]);
 
   return (

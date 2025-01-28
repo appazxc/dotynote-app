@@ -8,6 +8,7 @@ import { selectIsOperationActive } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { NoteEditorControls } from 'mobile/modules/noteTab/NoteEditorControls';
+import { NoteFooterAudioWidget } from 'mobile/modules/noteTab/NoteFooterAudioWidget';
 import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 
 type Props = {
@@ -19,10 +20,10 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
   const editor = useEditorContext();
   const isOperationActive = useAppSelector(selectIsOperationActive);
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
+  const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
 
   const showEditorControls = isAdvancedEditActive && isWriteMode;
-
-  const showPlusButton = !isOperationActive && !showEditorControls;
+  const showPlusButton = !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
 
   return (
     <>
@@ -30,9 +31,9 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
         <NotePlusButton noteId={noteId} /> 
       ) : (
         <>
-          {isOperationActive && (
-            <Container maxW="3xl">
-              <Operations />
+          {(isOperationActive || isMobileWidgetOpen) && (
+            <Container maxW="3xl" position="relative">
+              {isOperationActive ? <Operations /> : <NoteFooterAudioWidget />}
             </Container>
           )}
 

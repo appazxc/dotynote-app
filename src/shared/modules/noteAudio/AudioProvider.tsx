@@ -62,6 +62,8 @@ export const AudioProvider = ({ children }) => {
       setAudioCurrentTime(startTime);
       setCurrentTime(startTime);
       setPlaying();
+
+      audioRef.current.onloadeddata = null;
     };
     
   }, [setAudioCurrentTime, setPlaying]);
@@ -119,6 +121,7 @@ export const AudioProvider = ({ children }) => {
       <audio
         ref={audioRef}
         src={url || ''}
+        autoPlay={false}
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
           setIsPlaying(true);

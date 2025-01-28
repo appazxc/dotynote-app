@@ -9,6 +9,12 @@ import { getEditorStyles } from 'shared/theme/styles';
 
 const customConfig = defineConfig({
   theme: {
+    keyframes: {
+      sound: {
+        '0%': { opacity:'.35', height:'6px' },
+        '100%': { opacity:'1', height:'23px' },
+      },
+    },
     recipes: {
       textarea: textareaRecipe,
       button: buttonRecipe,

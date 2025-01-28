@@ -49,7 +49,7 @@ export const NoteAudioFiles = React.memo((props: Props) => {
   return (
     <Stack
       {...boxProps}
-      gap="2"
+      gap="0"
       onClick={(e) => {
         if (!isDisabled) {
           e.stopPropagation();
