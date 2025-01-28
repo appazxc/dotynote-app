@@ -5,29 +5,40 @@ import React from 'react';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Icon } from 'shared/components/ui/icon';
 import { DotsIcon, PauseIcon, PlayIcon } from 'shared/components/ui/icons';
+import { AudioSliderDragParams } from 'shared/modules/noteAudio/AudioProvider';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
 import { formatTime } from 'shared/util/formatTime';
 
 type Props = {
   isPlaying: boolean,
+  isActive: boolean,
   name: string,
   duration: number,
   currentTime: number | null,
+  isDragging: boolean,
+  dragTime: number,
   onPlay: (startTime?: number) => void,
   onProgressClick: (startTime: number) => void,
   onPause: () => void,
   options?: { label: string, onClick: () => void }[],
+  onDragChange: (params: AudioSliderDragParams) => void,
 };
 
 export const NoteAudioWidget = React.memo((props: Props) => {
-  const { name, duration, currentTime, options, isPlaying, onPause, onPlay, onProgressClick } = props;
-  const value = React.useRef<number>(currentTime || 0);
-  const [isDragging, setIsDragging] = React.useState(false);
-  const isActive = !!currentTime;
-
-  if (!isDragging) {
-    value.current = currentTime || 0;
-  }
+  const { 
+    name, 
+    duration,
+    currentTime,
+    options,
+    isActive,
+    isPlaying,
+    isDragging,
+    dragTime,
+    onPause,
+    onPlay,
+    onProgressClick, 
+    onDragChange,
+  } = props;
 
   return (
     <Card.Root position="relative">
@@ -71,7 +82,7 @@ export const NoteAudioWidget = React.memo((props: Props) => {
             gap="1"
           >
             {isNumber(currentTime) ? (
-              <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? value.current : currentTime)}</Text>
+              <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? dragTime : currentTime)}</Text>
             ) : (
               <Text fontSize="xs" color="gray.400">{formatTime(duration)}</Text>
             )}
@@ -106,10 +117,13 @@ export const NoteAudioWidget = React.memo((props: Props) => {
       </Card.Body>
       <AudioSlider
         bottom="-2px"
+        isDragging={isDragging}
+        dragTime={dragTime}
         isActive={isActive}
         currentTime={currentTime}
         duration={duration}
         onChange={onProgressClick}
+        onDragChange={onDragChange}
       />
     </Card.Root>
   );

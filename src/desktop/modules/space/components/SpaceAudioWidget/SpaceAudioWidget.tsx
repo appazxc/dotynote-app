@@ -11,7 +11,17 @@ import { useAppSelector } from 'shared/store/hooks';
 import { formatTime } from 'shared/util/formatTime';
 
 export const SpaceAudioWidget = React.memo(() => {
-  const { isPlaying, activeAudioId, playAudio, stopAudio, pauseAudio, currentTime } = useAudio();
+  const { 
+    isPlaying,
+    activeAudioId,
+    playAudio,
+    stopAudio,
+    pauseAudio,
+    currentTime,
+    isDragging,
+    dragTime,
+    onDragChange, 
+  } = useAudio();
   const audio = useAppSelector(state => audioSelector.getById(state, activeAudioId));
 
   const content = React.useMemo(() => {
@@ -41,18 +51,21 @@ export const SpaceAudioWidget = React.memo(() => {
         <Box mt="2">
           <AudioSlider
             isActive
+            isDragging={isDragging}
+            dragTime={dragTime}
             currentTime={currentTime}
             duration={audio.duration}
             onChange={(startTime) => playAudio({ startTime })}
+            onDragChange={onDragChange}
           />
         </Box>
         <Box display="flex" justifyContent="space-between">
-          <Text fontSize="xs" color="fg.subtle">{formatTime(currentTime)}</Text>
+          <Text fontSize="xs" color="fg.subtle">{formatTime(isDragging ? dragTime : currentTime)}</Text>
           <Text fontSize="xs" color="fg.subtle">{formatTime(audio.duration)}</Text>
         </Box>
       </Box>
     );
-  }, [audio, isPlaying, pauseAudio, playAudio, currentTime]);
+  }, [audio, isPlaying, pauseAudio, isDragging, dragTime, playAudio, onDragChange, currentTime]);
   
   if (!audio) {
     return null;

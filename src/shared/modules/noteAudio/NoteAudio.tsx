@@ -17,7 +17,17 @@ type Props = {
 
 export const NoteAudio = React.memo((props: Props) => {
   const { audioId, noteId } = props;
-  const { isPlaying, activeAudioId, playAudio, startAudio, pauseAudio, currentTime } = useAudio();
+  const { 
+    isPlaying,
+    activeAudioId,
+    playAudio,
+    startAudio,
+    pauseAudio,
+    currentTime,
+    isDragging,
+    dragTime,
+    onDragChange,
+  } = useAudio();
   const audio = useAppSelector(state => audioSelector.getById(state, audioId));
   const isActive = activeAudioId === audioId;
 
@@ -57,8 +67,11 @@ export const NoteAudio = React.memo((props: Props) => {
 
   return (
     <NoteAudioWidget
+      isActive={isActive}
       isPlaying={isPlaying && isActive}
       name={name}
+      isDragging={isActive ? isDragging : false}
+      dragTime={isActive ? dragTime : 0}
       duration={audio.duration}
       currentTime={isActive ? currentTime : null}
       options={options}
@@ -78,6 +91,11 @@ export const NoteAudio = React.memo((props: Props) => {
         if (isActive) {
           playAudio({ startTime });
           return;
+        }
+      }}
+      onDragChange={(params) => {
+        if (isActive) {
+          onDragChange(params);
         }
       }}
     />

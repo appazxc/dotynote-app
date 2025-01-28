@@ -4,14 +4,19 @@ import React from 'react';
 import { selectAudioUrl } from 'shared/modules/noteAudio/audioSelectors';
 import { useAppSelector } from 'shared/store/hooks';
 
+export type AudioSliderDragParams = { isDragging: boolean, dragTime: number };
+
 type AudioContext = {
   activeAudioId: string | null,
   isPlaying: boolean,
+  isDragging: boolean,
   currentTime: number,
+  dragTime: number,
   startAudio: (params: { audioId: string, startTime?: number }) => void,
   playAudio: (params?: { startTime?: number }) => void,
   pauseAudio: () => void,
   stopAudio: () => void,
+  onDragChange: (params: AudioSliderDragParams) => void,
 }
 
 const AudioContext = React.createContext<AudioContext>(null!);
@@ -20,6 +25,8 @@ export const AudioProvider = ({ children }) => {
   const [audioId, setAudioId] = React.useState<string | null>(null);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
+  const [isDragging, setIsDragging] = React.useState<boolean>(false);
+  const [dragTime, setDragTime] = React.useState<number>(0);
   const url = useAppSelector(state => selectAudioUrl(state, audioId));
   const audioRef = React.useRef(new Audio()); 
 
@@ -87,6 +94,11 @@ export const AudioProvider = ({ children }) => {
     }
   }, [setAudioCurrentTime]);
 
+  const handleDragChange = React.useCallback(({ isDragging, dragTime }: AudioSliderDragParams) => {
+    setIsDragging(isDragging);
+    setDragTime(dragTime);
+  }, []);
+
   return (
     <AudioContext.Provider
       value={{
@@ -97,6 +109,9 @@ export const AudioProvider = ({ children }) => {
         playAudio,
         pauseAudio,
         stopAudio,
+        onDragChange: handleDragChange,
+        isDragging,
+        dragTime,
       }}
     >
       {children}
