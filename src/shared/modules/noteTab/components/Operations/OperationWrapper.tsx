@@ -1,10 +1,10 @@
 import { Box, BoxProps } from '@chakra-ui/react';
 import { motion } from 'motion/react';
 import React from 'react';
-import { MdClose } from 'react-icons/md';
 
 import { CloseButton } from 'shared/components/ui/close-button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
+import { CloseIcon } from 'shared/components/ui/icons';
 
 type Props = React.PropsWithChildren<{
   onClose: () => void,
@@ -44,7 +44,7 @@ export const OperationWrapper = React.memo(({ children, onClose, ...boxProps }: 
           transform="translate(50%, -50%)"
           onClick={onClose}
         >
-          <MdClose />
+          <CloseIcon />
         </CloseButton>
       </motion.div>
     </Box>

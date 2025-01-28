@@ -9,8 +9,9 @@ type AudioContext = {
   isPlaying: boolean,
   currentTime: number,
   startAudio: (params: { audioId: string, startTime?: number }) => void,
-  playAudio: (params: { startTime?: number }) => void,
+  playAudio: (params?: { startTime?: number }) => void,
   pauseAudio: () => void,
+  stopAudio: () => void,
 }
 
 const AudioContext = React.createContext<AudioContext>(null!);
@@ -58,7 +59,8 @@ export const AudioProvider = ({ children }) => {
     
   }, [setAudioCurrentTime, setPlaying]);
   
-  const playAudio = React.useCallback(({ startTime }: { startTime?: number }) => {
+  const playAudio = React.useCallback((params: { startTime?: number } = {}) => {
+    const { startTime } = params;
     if (isNumber(startTime)) {
       setAudioCurrentTime(startTime);
       setCurrentTime(startTime);
@@ -66,6 +68,16 @@ export const AudioProvider = ({ children }) => {
     
     setPlaying();
   }, [setPlaying, setAudioCurrentTime]);
+
+  const stopAudio = React.useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    setAudioCurrentTime(0);
+    setCurrentTime(0);
+    setAudioId(null);
+  }, [setAudioCurrentTime]);
   
   const pauseAudio = React.useCallback(() => {
     setAudioCurrentTime(audioRef.current.currentTime);
@@ -84,6 +96,7 @@ export const AudioProvider = ({ children }) => {
         startAudio,
         playAudio,
         pauseAudio,
+        stopAudio,
       }}
     >
       {children}

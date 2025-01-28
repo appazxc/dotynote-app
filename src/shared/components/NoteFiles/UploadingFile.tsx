@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
-import { formatFileSize } from 'shared/components/NoteFiles/formatFileSize';
+import { formatFileSize } from 'shared/util/formatFileSize';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {

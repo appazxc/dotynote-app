@@ -1,7 +1,7 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
-
+import { SpaceAudioWidget } from 'desktop/modules/space/components/SpaceAudioWidget';
 import { DotHeaderButton } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton';
 import { MenuHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MenuHeaderButton';
 import { SpaceTabs } from 'desktop/modules/space/components/SpaceLayout/SpaceTabs';
@@ -32,11 +32,13 @@ export const SpaceHeader = React.memo(() => {
         </Box>
         <Box
           display="flex"
-          alignItems="center"
+          alignItems="stretch"
           justifyContent="space-between"
           ml="1"
           flexShrink="0"
+          gap="2"
         >
+          <SpaceAudioWidget />
           <MenuHeaderButton />
         </Box>
       </Box>

@@ -1,10 +1,9 @@
-import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { api } from 'shared/api';
 import { useDeleteNoteAudio } from 'shared/api/hooks/useDeleteNoteAudio';
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
-import { NoteAudioSnippet } from 'shared/modules/noteAudio/NoteAudioSnippet';
+import { NoteAudioWidget } from 'shared/modules/noteAudio/NoteAudioWidget';
 import { audioSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { downloadFile } from 'shared/util/downloadFile';
@@ -57,7 +56,7 @@ export const NoteAudio = React.memo((props: Props) => {
   ];
 
   return (
-    <NoteAudioSnippet
+    <NoteAudioWidget
       isPlaying={isPlaying && isActive}
       name={name}
       duration={audio.duration}

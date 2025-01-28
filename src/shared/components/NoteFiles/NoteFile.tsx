@@ -3,8 +3,8 @@ import React from 'react';
 import { api } from 'shared/api';
 import { useDeleteNoteFile } from 'shared/api/hooks/useDeleteNoteFile';
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
-import { formatFileSize } from 'shared/components/NoteFiles/formatFileSize';
 import { downloadFile } from 'shared/util/downloadFile';
+import { formatFileSize } from 'shared/util/formatFileSize';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {

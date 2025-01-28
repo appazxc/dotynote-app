@@ -28,6 +28,7 @@ type Props = React.PropsWithChildren<{
   offsetOptions?: OffsetOptions,
   enabled?: boolean,
   inPortal?: boolean,
+  onOpenChange?: (isOpen: boolean) => void,
 }>
 
 export const Menu = React.memo((props: Props) => {
@@ -39,6 +40,7 @@ export const Menu = React.memo((props: Props) => {
     placement,
     children, 
     offsetOptions = { mainAxis: 5, alignmentAxis: 4 },
+    onOpenChange,
   } = props;
   const [menuTrigger, menuList] = React.Children.toArray(children);
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
@@ -55,8 +57,9 @@ export const Menu = React.memo((props: Props) => {
       return;
     }
 
+    onOpenChange?.(open);
     setIsOpen(open);
-  }, [enabled]);
+  }, [enabled, onOpenChange]);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,

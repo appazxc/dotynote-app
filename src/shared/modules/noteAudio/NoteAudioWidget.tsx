@@ -1,12 +1,11 @@
 import { Box, Card, IconButton, Text } from '@chakra-ui/react';
 import isNumber from 'lodash/isNumber';
 import React from 'react';
-import { IoPauseOutline, IoPlay } from 'react-icons/io5';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Icon } from 'shared/components/ui/icon';
-import { DotsIcon } from 'shared/components/ui/icons';
-import { Slider } from 'shared/components/ui/slider';
+import { DotsIcon, PauseIcon, PlayIcon } from 'shared/components/ui/icons';
+import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
 import { formatTime } from 'shared/util/formatTime';
 
 type Props = {
@@ -20,7 +19,7 @@ type Props = {
   options?: { label: string, onClick: () => void }[],
 };
 
-export const NoteAudioSnippet = React.memo((props: Props) => {
+export const NoteAudioWidget = React.memo((props: Props) => {
   const { name, duration, currentTime, options, isPlaying, onPause, onPlay, onProgressClick } = props;
   const value = React.useRef<number>(currentTime || 0);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -58,7 +57,7 @@ export const NoteAudioSnippet = React.memo((props: Props) => {
             position="relative"
             left="1px"
           >
-            {isPlaying ? <IoPauseOutline /> : <IoPlay />}
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </Icon>
         </Box>
         <Box>
@@ -105,24 +104,12 @@ export const NoteAudioSnippet = React.memo((props: Props) => {
           </Menu>
         )}
       </Card.Body>
-      <Slider
-        showThumb={isActive}
-        position="relative"
+      <AudioSlider
         bottom="-2px"
-        cursor={isActive ? 'pointer' : 'default'}
-        size="xs"
-        max={duration}
-        variant="solid"
-        value={[currentTime ? value.current : 0]}
-        minH="6px"
-        onValueChange={({ value: [startTime] }) => {
-          setIsDragging(true);
-          value.current = startTime;
-        }}
-        onValueChangeEnd={() => {
-          onProgressClick(value.current);
-          setIsDragging(false);
-        }}
+        isActive={isActive}
+        currentTime={currentTime}
+        duration={duration}
+        onChange={onProgressClick}
       />
     </Card.Root>
   );
