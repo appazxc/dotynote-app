@@ -16,7 +16,7 @@ type Props = {
   duration: number,
   currentTime: number | null,
   isDragging: boolean,
-  dragTime: number,
+  currentTimePos: number,
   onPlay: (startTime?: number) => void,
   onProgressClick: (startTime: number) => void,
   onPause: () => void,
@@ -33,7 +33,7 @@ export const NoteAudioWidget = React.memo((props: Props) => {
     isActive,
     isPlaying,
     isDragging,
-    dragTime,
+    currentTimePos,
     onPause,
     onPlay,
     onProgressClick, 
@@ -82,7 +82,7 @@ export const NoteAudioWidget = React.memo((props: Props) => {
             gap="1"
           >
             {isNumber(currentTime) ? (
-              <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? dragTime : currentTime)}</Text>
+              <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? currentTimePos : currentTime)}</Text>
             ) : (
               <Text fontSize="xs" color="gray.400">{formatTime(duration)}</Text>
             )}
@@ -118,7 +118,7 @@ export const NoteAudioWidget = React.memo((props: Props) => {
       <AudioSlider
         opacity={isActive ? 1 : 0}
         isDragging={isDragging}
-        dragTime={dragTime}
+        currentTimePos={currentTimePos}
         isActive={isActive}
         currentTime={currentTime}
         duration={duration}

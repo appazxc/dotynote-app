@@ -19,8 +19,9 @@ export const SpaceAudioWidget = React.memo(() => {
     pauseAudio,
     currentTime,
     isDragging,
-    dragTime,
+    currentTimePos,
     onDragChange, 
+    changeCurrentTime,
   } = useAudio();
   const audio = useAppSelector(state => audioSelector.getById(state, activeAudioId));
 
@@ -52,20 +53,30 @@ export const SpaceAudioWidget = React.memo(() => {
           <AudioSlider
             isActive
             isDragging={isDragging}
-            dragTime={dragTime}
+            currentTimePos={currentTimePos}
             currentTime={currentTime}
             duration={audio.duration}
-            onChange={(startTime) => playAudio({ startTime })}
+            onChange={(startTime) => changeCurrentTime(startTime)}
             onDragChange={onDragChange}
           />
         </Box>
         <Box display="flex" justifyContent="space-between">
-          <Text fontSize="xs" color="fg.subtle">{formatTime(isDragging ? dragTime : currentTime)}</Text>
+          <Text fontSize="xs" color="fg.subtle">{formatTime(isDragging ? currentTimePos : currentTime)}</Text>
           <Text fontSize="xs" color="fg.subtle">{formatTime(audio.duration)}</Text>
         </Box>
       </Box>
     );
-  }, [audio, isPlaying, pauseAudio, isDragging, dragTime, playAudio, onDragChange, currentTime]);
+  }, [
+    audio,
+    isPlaying,
+    pauseAudio,
+    changeCurrentTime,
+    isDragging,
+    currentTimePos,
+    playAudio,
+    onDragChange,
+    currentTime,
+  ]);
   
   if (!audio) {
     return null;

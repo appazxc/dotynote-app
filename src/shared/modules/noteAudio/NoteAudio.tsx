@@ -25,8 +25,9 @@ export const NoteAudio = React.memo((props: Props) => {
     pauseAudio,
     currentTime,
     isDragging,
-    dragTime,
+    currentTimePos,
     onDragChange,
+    changeCurrentTime,
   } = useAudio();
   const audio = useAppSelector(state => audioSelector.getById(state, audioId));
   const isActive = activeAudioId === audioId;
@@ -71,7 +72,7 @@ export const NoteAudio = React.memo((props: Props) => {
       isPlaying={isPlaying && isActive}
       name={name}
       isDragging={isActive ? isDragging : false}
-      dragTime={isActive ? dragTime : 0}
+      currentTimePos={isActive ? currentTimePos : 0}
       duration={audio.duration}
       currentTime={isActive ? currentTime : null}
       options={options}
@@ -89,7 +90,7 @@ export const NoteAudio = React.memo((props: Props) => {
       onPause={() => pauseAudio()}
       onProgressClick={(startTime) => {
         if (isActive) {
-          playAudio({ startTime });
+          changeCurrentTime(startTime);
           return;
         }
       }}

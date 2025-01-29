@@ -1,7 +1,6 @@
 import { Box, Center, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
 import React from 'react';
-import { BsSoundwave } from 'react-icons/bs';
 import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 

@@ -20,7 +20,7 @@ export const NoteFooterAudioWidget = React.memo((props: Props) => {
     pauseAudio,
     currentTime,
     isDragging,
-    dragTime,
+    currentTimePos,
     onDragChange, 
   } = useAudio();
   const dispatch = useAppDispatch();

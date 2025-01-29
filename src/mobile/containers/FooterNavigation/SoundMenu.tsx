@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
 import React from 'react';
-import { BsSoundwave } from 'react-icons/bs';
 
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 

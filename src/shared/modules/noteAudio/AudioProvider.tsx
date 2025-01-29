@@ -1,21 +1,23 @@
 import isNumber from 'lodash/isNumber';
 import React from 'react';
 
+import { loadAudioUrl } from 'shared/actions/note/loadAudioUrl';
 import { selectAudioUrl } from 'shared/modules/noteAudio/audioSelectors';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-export type AudioSliderDragParams = { isDragging: boolean, dragTime: number };
+export type AudioSliderDragParams = { isDragging: boolean, currentTimePos: number };
 
 type AudioContext = {
   activeAudioId: string | null,
   isPlaying: boolean,
   isDragging: boolean,
   currentTime: number,
-  dragTime: number,
+  currentTimePos: number,
   startAudio: (params: { audioId: string, startTime?: number }) => void,
   playAudio: (params?: { startTime?: number }) => void,
   pauseAudio: () => void,
   stopAudio: () => void,
+  changeCurrentTime: (time: number) => void,
   onDragChange: (params: AudioSliderDragParams) => void,
 }
 
@@ -24,11 +26,18 @@ const AudioContext = React.createContext<AudioContext>(null!);
 export const AudioProvider = ({ children }) => {
   const [audioId, setAudioId] = React.useState<string | null>(null);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
+  const [currentTimePos, setCurrentTimePos] = React.useState<number>(0);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
-  const [dragTime, setDragTime] = React.useState<number>(0);
   const url = useAppSelector(state => selectAudioUrl(state, audioId));
   const audioRef = React.useRef(new Audio()); 
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (audioId && !url) {
+      dispatch(loadAudioUrl(audioId));
+    }
+  }, [dispatch, audioId, url]);
 
   const handleTimeUpdate = React.useCallback(() => {
     // !audioRef.current.paused add to prevent progress jumping when start playing another audio
@@ -62,7 +71,7 @@ export const AudioProvider = ({ children }) => {
       setAudioCurrentTime(startTime);
       setCurrentTime(startTime);
       setPlaying();
-
+    
       audioRef.current.onloadeddata = null;
     };
     
@@ -70,13 +79,16 @@ export const AudioProvider = ({ children }) => {
   
   const playAudio = React.useCallback((params: { startTime?: number } = {}) => {
     const { startTime } = params;
+
     if (isNumber(startTime)) {
       setAudioCurrentTime(startTime);
       setCurrentTime(startTime);
+    } else {
+      audioRef.current.currentTime = currentTime;
     }
     
     setPlaying();
-  }, [setPlaying, setAudioCurrentTime]);
+  }, [setPlaying, setAudioCurrentTime, currentTime]);
 
   const stopAudio = React.useCallback(() => {
     if (audioRef.current) {
@@ -90,16 +102,21 @@ export const AudioProvider = ({ children }) => {
   
   const pauseAudio = React.useCallback(() => {
     setAudioCurrentTime(audioRef.current.currentTime);
-    
+
     if (audioRef.current) {
       audioRef.current.pause();
     }
   }, [setAudioCurrentTime]);
 
-  const handleDragChange = React.useCallback(({ isDragging, dragTime }: AudioSliderDragParams) => {
+  const handleDragChange = React.useCallback(({ isDragging, currentTimePos }: AudioSliderDragParams) => {
     setIsDragging(isDragging);
-    setDragTime(dragTime);
+    setCurrentTimePos(currentTimePos);
   }, []);
+
+  const handleChangeCurrentTime = React.useCallback((time: number) => {
+    setAudioCurrentTime(time);
+    setCurrentTime(time);
+  }, [setAudioCurrentTime]);
 
   return (
     <AudioContext.Provider
@@ -113,7 +130,8 @@ export const AudioProvider = ({ children }) => {
         stopAudio,
         onDragChange: handleDragChange,
         isDragging,
-        dragTime,
+        currentTimePos,
+        changeCurrentTime: handleChangeCurrentTime,
       }}
     >
       {children}
@@ -129,8 +147,15 @@ export const AudioProvider = ({ children }) => {
         onPause={() => {
           setIsPlaying(false);
         }}
-      />
+        onError={(event) => {
+          const audioElement = event.target as HTMLAudioElement;
+          const PIPELINE_ERROR_READ = 2;
 
+          if (audioElement.error?.code === PIPELINE_ERROR_READ && audioId) {
+            dispatch(loadAudioUrl(audioId));
+          }
+        }}
+      />
     </AudioContext.Provider>
   );
 };
