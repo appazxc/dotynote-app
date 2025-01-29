@@ -29,6 +29,7 @@ export const NoteTabContent = React.memo((props: Props) => {
       h="full"
       maxW="3xl"
       opacity={visible ? 1 : 0}
+      px="6"
     >
       <Box
         h="full"

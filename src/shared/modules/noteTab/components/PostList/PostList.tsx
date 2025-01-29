@@ -210,6 +210,7 @@ export const PostList = React.memo((props: Props) => {
         <AnimatePresence initial={false}>
           <Box
             pb="20"
+            px="6"
             flexGrow={data ? '1' : '0'}
             {...boxProps}
           >

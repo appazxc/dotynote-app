@@ -6,16 +6,17 @@ import { EditableTitle } from './EditableTitle';
 type Props = {
   title?: string,
   isWriteMode: boolean,
+  isMobile: boolean,
   onChange: (title: string) => void,
 }
 
-export const NoteTitle = ({ title, isWriteMode, onChange }: Props) => {
+export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => {
   const content = React.useMemo(() => {
     if (!isWriteMode) {
       return title ? (
         <Text
-          fontSize="4xl"
-          fontWeight="600"
+          fontSize={isMobile ? 'xl' : '4xl'}
+          fontWeight="500"
           lineHeight="1.2"
           whiteSpaceCollapse="preserve"
         >
@@ -27,10 +28,11 @@ export const NoteTitle = ({ title, isWriteMode, onChange }: Props) => {
     return (
       <EditableTitle
         title={title}
+        isMobile={isMobile}
         onChange={onChange}
       />
     );
-  }, [title, isWriteMode, onChange]);
+  }, [title, isWriteMode, onChange, isMobile]);
 
   return (
     <Box>

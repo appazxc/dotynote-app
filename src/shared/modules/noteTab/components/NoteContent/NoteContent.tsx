@@ -75,6 +75,7 @@ export const NoteContent = (props: Props) => {
       flexDirection="column"
       gap="4"
       pb="10"
+      px="6"
     >
       <Box>
         {parent?.title && showParent && (
@@ -89,6 +90,7 @@ export const NoteContent = (props: Props) => {
         )}
         <NoteTitle
           title={title}
+          isMobile={isMobile}
           isWriteMode={isWriteMode}
           onChange={debouncedUpdateTitle}
         />
