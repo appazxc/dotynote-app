@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Text } from '@chakra-ui/react';
+import { Box, IconButton, Text } from '@chakra-ui/react';
 import isNumber from 'lodash/isNumber';
 import React from 'react';
 
@@ -42,63 +42,67 @@ export const NoteAudioWidget = React.memo((props: Props) => {
 
   return (
     <Box position="relative" border="none">
-      <Box
-        p="2"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        gap="3"
-        pb="1"
-      >
+      <Box display="flex">
         <Box
-          bg="gray.900"
-          borderRadius="full"
-          w="40px"
-          h="40px"
+          p="2"
           display="flex"
-          justifyContent="center"
+          flexDirection="row"
           alignItems="center"
-          cursor="pointer"
-          onClick={() => {
-            isPlaying ? onPause() : onPlay();
-          }}
+          gap="3"
+          pb="1"
         >
-          <Icon
-            color="white"
-            fontSize="20px"
-            position="relative"
-            left="1px"
-          >
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
-          </Icon>
-        </Box>
-        <Box>
-          <Box>
-            {name}
-          </Box>
           <Box
+            bg="gray.900"
+            borderRadius="full"
+            w="40px"
+            h="40px"
             display="flex"
+            justifyContent="center"
             alignItems="center"
-            gap="1"
+            cursor="pointer"
+            flexShrink="0"
+            onClick={() => {
+              isPlaying ? onPause() : onPlay();
+            }}
           >
-            {isNumber(currentTime) ? (
-              <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? currentTimePos : currentTime)}</Text>
-            ) : (
-              <Text fontSize="xs" color="gray.400">{formatTime(duration)}</Text>
-            )}
+            <Icon
+              color="white"
+              fontSize="20px"
+              position="relative"
+              left="1px"
+            >
+              {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            </Icon>
           </Box>
+          <Box>
+            <Box lineClamp={1}>
+              {name}
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap="1"
+            >
+              {isNumber(currentTime) ? (
+                <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? currentTimePos : currentTime)}</Text>
+              ) : (
+                <Text fontSize="xs" color="gray.400">{formatTime(duration)}</Text>
+              )}
+            </Box>
+          </Box>
+        
         </Box>
         {options && (
           <Menu placement="bottom-end">
             <MenuTrigger>
               <IconButton
                 aria-label=""
+                size="md"
                 variant="plain"
                 display="inline-flex"
+                alignSelf="start"
                 iconSize="auto"
-                position="absolute"
-                top="0"
-                right="0"
+                ml="auto"
               >
                 <DotsIcon />
               </IconButton> 

@@ -48,9 +48,9 @@ export const SoundMenu = React.memo((props: Props) => {
       justifyContent="space-around"
       {...buttonProps}
     >
-      {spans.map(({ height, animationDuration }) => (
+      {spans.map(({ height, animationDuration }, index) => (
         <Box 
-          key={height}
+          key={index}
           height={height}
           w="2px"
           mr="1px"
