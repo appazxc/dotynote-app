@@ -22,7 +22,7 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 
 import { Post } from '../Post';
 
-import { PostsSkeleton } from './PostsList.skeleton';
+import { PostsLoader } from './PostsListLoader';
 
 const ROOT_MARGIN = '400px';
 
@@ -213,10 +213,10 @@ export const PostList = React.memo((props: Props) => {
             flexGrow={data ? '1' : '0'}
             {...boxProps}
           >
-            {isFetchingFirstTime && <PostsSkeleton />}
+            {isFetchingFirstTime && <PostsLoader />}
             <Stack gap="4">
               {showNextPageObserver && <Box ref={nextRef} />}
-              {isFetchingNextPage && <PostsSkeleton />}
+              {isFetchingNextPage && <PostsLoader />}
               {
                 flatData.map((postId) => (
                   <Post
@@ -230,7 +230,7 @@ export const PostList = React.memo((props: Props) => {
                   />
                 ))
               }
-              {isFetchingPreviousPage && <PostsSkeleton />}
+              {isFetchingPreviousPage && <PostsLoader />}
               {showPreviousPageObserver && <Box ref={prevRef} />}
             </Stack>
           </Box>

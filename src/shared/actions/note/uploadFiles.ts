@@ -71,13 +71,12 @@ export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: Abort
   async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
-    formData.append('noteId', String(noteId));
 
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
       const realId = await api.post<string>(
-        '/upload/images', 
+        `/notes/${noteId}/images`, 
         formData,
         { 
           signal,
@@ -96,13 +95,12 @@ export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortS
   async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
-    formData.append('noteId', String(noteId));
     
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
       const realId = await api.post<string>(
-        '/upload/files', 
+        `/notes/${noteId}/files`, 
         formData,
         { 
           signal,
@@ -121,13 +119,12 @@ export const uploadNoteAudio = (noteId: number, file: UploadFile, signal?: Abort
   async (dispatch) => {
     const formData = new FormData();
     formData.append('file', file.file);
-    formData.append('noteId', String(noteId));
     
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
 
       const realId = await api.post<string>(
-        '/upload/audio', 
+        `/notes/${noteId}/audio`, 
         formData,
         { 
           signal,

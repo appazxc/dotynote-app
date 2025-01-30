@@ -1,6 +1,6 @@
 import { Center, Spinner } from '@chakra-ui/react';
 
-export const PostsSkeleton = () => {
+export const PostsLoader = () => {
   return (
     <Center h="100px">
       <Spinner />

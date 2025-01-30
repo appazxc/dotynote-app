@@ -5,6 +5,8 @@ export const useSpringValue = (value: number) => {
   const springValue = useSpring(value, {
     stiffness: 100, // Жесткость пружины
     damping: 20, // Затухание
+    // duration: 3000,
+    // visualDuration: 3000,
   });
 
   const [result, setResult] = React.useState(value);
@@ -15,6 +17,7 @@ export const useSpringValue = (value: number) => {
 
   // Обновляем motionValue при изменении `value`
   React.useEffect(() => {
+
     springValue.set(value);
   }, [springValue, value]);
 
