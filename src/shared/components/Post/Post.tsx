@@ -22,8 +22,8 @@ type Props = {
   note: NoteEntity,
 } & BoxProps;
 
-export const Post = React.forwardRef((props: Props, ref) => {
-  const { noteId, note, isSelecting, isSelected, isPinned, dots, showDotsAmount, ...boxProps } = props;
+export const Post = React.forwardRef((props: Props, _) => {
+  const { noteId, note, isSelecting, isSelected, isPinned, dots, onClick, showDotsAmount, ...boxProps } = props;
   
   const renderedSelectingContent = React.useMemo(() => {
     if (!isSelecting) {
@@ -32,10 +32,34 @@ export const Post = React.forwardRef((props: Props, ref) => {
 
     return (
       <Box p="2">
-        <Checkbox size="md" checked={isSelected} />
+        <Checkbox
+          size="md"
+          checked={isSelected}
+        />
       </Box>
     );
   }, [isSelecting, isSelected]);
+
+  const renderedSelectingOverlay = React.useMemo(() => {
+    if (!isSelecting) {
+      return null;
+    }
+
+    return (
+      <Box
+        position="absolute"
+        left="0"
+        right="0"
+        w="full"
+        h="full"
+        cursor="pointer"
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick?.(event);
+        }}
+      />
+    );
+  }, [isSelecting, onClick]);
 
   if (note._isDeleted) {
     return (
@@ -53,6 +77,7 @@ export const Post = React.forwardRef((props: Props, ref) => {
     <Box
       display="flex"
       position="relative"
+      onClick={onClick}
       {...boxProps}
     >
       {renderedSelectingContent}
@@ -91,14 +116,12 @@ export const Post = React.forwardRef((props: Props, ref) => {
           />
           <NoteImages
             inPost
-            isDisabled={isSelecting}
             noteId={noteId}
             images={note.images}
             hasControls={true}
           />
           <NoteFiles
             size="sm"
-            isDisabled={isSelecting}
             noteId={noteId}
             files={note.files}
           />
@@ -115,6 +138,7 @@ export const Post = React.forwardRef((props: Props, ref) => {
           />
         )}
       </Box>
+      {renderedSelectingOverlay}
     </Box>
   );
 });

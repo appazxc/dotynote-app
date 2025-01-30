@@ -13,10 +13,9 @@ type Props = {
   filename: string,
   size?: 'sm' | 'md',
   fileSize: number,
-  isDisabled?: boolean,
 }
 
-export const NoteFile = React.memo(({ id, noteId, filename, isDisabled, fileSize, size }: Props) => {
+export const NoteFile = React.memo(({ id, noteId, filename, fileSize, size }: Props) => {
   const { name, extension } = splitFileName(filename);
   
   const { mutate, isPending } = useDeleteNoteFile();
@@ -56,7 +55,6 @@ export const NoteFile = React.memo(({ id, noteId, filename, isDisabled, fileSize
       fileSize={formatFileSize(fileSize)}
       extension={extension}
       options={options}
-      isDisabled={isDisabled}
     />
   );
 });

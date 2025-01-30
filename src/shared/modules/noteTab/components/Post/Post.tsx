@@ -20,8 +20,8 @@ type Props = {
 
 export const Post = React.memo((props: Props) => {
   const { postId, onClick, onDelete, isSelecting, isSelected, internalLevel } = props;
-  const getByIdPost = React.useMemo(() => postSelector.makeGetEntityById(), []);
-  const post = useAppSelector(state => getByIdPost(state, postId));
+  const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
+  const post = useAppSelector(state => getPostById(state, postId));
 
   invariant(post, 'Missing post', { id: postId });
 

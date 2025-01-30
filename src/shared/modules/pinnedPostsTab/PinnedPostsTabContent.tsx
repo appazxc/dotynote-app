@@ -1,6 +1,5 @@
+import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
-
-import { Box } from '@chakra-ui/react';
 
 import { PostList } from 'shared/modules/noteTab/components/PostList';
 import { noteSelector } from 'shared/selectors/entities';
@@ -19,12 +18,12 @@ export const PinnedPostsTabContent = React.memo(({ noteId } : Props) => {
   invariant(note, 'Missing note');
 
   return (
-    <Box>
+    <Container maxW="2xl">
       <PostList
         isPinned
         noteId={note.id}
         options={OPTIONS}
       />
-    </Box>
+    </Container>
   );
 });

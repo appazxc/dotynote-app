@@ -14,7 +14,6 @@ type Props = {
   fileSize: string,
   size?: 'sm' | 'md',
   progress?: number | null,
-  isDisabled?: boolean,
   options?: { label: string, onClick: () => void }[],
 };
 
@@ -34,7 +33,7 @@ const sizes = {
 };
 
 export const FileSnippet = React.memo((props: Props) => {
-  const { name, extension, fileSize, size = 'md', isDisabled, progress, options } = props;
+  const { name, extension, fileSize, size = 'md', progress, options } = props;
 
   const snippetProps = sizes[size];
 
@@ -82,7 +81,7 @@ export const FileSnippet = React.memo((props: Props) => {
         </ProgressRoot>
       )}
       {options && (
-        <Menu placement="bottom-end" enabled={!isDisabled}>
+        <Menu placement="bottom-end">
           <MenuTrigger>
             <IconButton
               size={snippetProps.iconSize}

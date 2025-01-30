@@ -17,12 +17,11 @@ type WithImageControlsProps = {
   width: number,
   height: number,
   blurhash: string,
-  canPropagate?: boolean,
   onClick?: () => void,
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls, blurhash, canPropagate = false, onClick } = props;
+  const { noteId, imageId, src, height, width, hasControls, blurhash, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -32,15 +31,14 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
   const isSelected = isSelecting && operation.imageIds.includes(imageId);
 
   const handleImageClick = React.useCallback((event) => {
-    if (!canPropagate) {
-      event.stopPropagation();
-    }
+    event.stopPropagation();
+    
     if (isSelecting) {
       dispatch(toggleSelectNoteImage(imageId));
     } else {
       onClick?.();
     }
-  }, [dispatch, imageId, onClick, isSelecting, canPropagate]);
+  }, [dispatch, imageId, onClick, isSelecting]);
 
   const handleImageSelect = React.useCallback(() => {
     if (!isSelecting) {

@@ -13,14 +13,13 @@ import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 type Props = {
   noteId: number,
   hasControls?: boolean,
-  isDisabled?: boolean,
   files: NoteFileEntity[],
   inPost?: boolean,
   size?: 'sm' | 'md',
 } & StackProps;
 
 export const NoteFiles = React.memo((props: Props) => {
-  const { noteId, hasControls, files: noteFiles, size, isDisabled, inPost, ...boxProps } = props;
+  const { noteId, hasControls, files: noteFiles, size, inPost, ...boxProps } = props;
   const { files } = useFileUpload();
 
   const filteredNoteFiles = React.useMemo(() => noteFiles
@@ -50,11 +49,6 @@ export const NoteFiles = React.memo((props: Props) => {
     <Stack
       {...boxProps}
       gap="2"
-      onClick={(e) => {
-        if (!isDisabled) {
-          e.stopPropagation();
-        }
-      }}
     >
       {filteredNoteFiles.map((noteFile) => {
         return (
@@ -65,7 +59,6 @@ export const NoteFiles = React.memo((props: Props) => {
             filename={noteFile.filename}
             fileSize={noteFile.size}
             size={size}
-            isDisabled={isDisabled}
           />
         );
       })}

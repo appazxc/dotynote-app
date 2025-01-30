@@ -19,7 +19,6 @@ import { downloadImage } from 'shared/util/downloadImage';
 type NoteBaseImagesProps = {
   noteId: number,
   hasControls?: boolean,
-  isDisabled?: boolean,
   images: NoteImageEntity[],
   inPost?: boolean,
 } & BoxProps;
@@ -33,7 +32,7 @@ const breakpoints = [
 ];
 
 export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
-  const { noteId, hasControls, images, isDisabled, inPost, ...boxProps } = props;
+  const { noteId, hasControls, images, inPost, ...boxProps } = props;
   const [index, setIndex] = React.useState(-1);
   const { files } = useFileUpload();
 
@@ -82,11 +81,8 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
   }, [notePhotos, uploadImages, noteImageIds]);
 
   const handleImageClick = React.useCallback((index) => () => {
-    if (isDisabled) {
-      return;
-    }
     setIndex(index);
-  }, [isDisabled]);
+  }, []);
 
   if (!photos.length) {
     return null;
@@ -117,7 +113,6 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
                     height={context.height}
                     blurhash={context.photo.image.blurhash}
                     width={context.width}
-                    canPropagate={isDisabled}
                     onClick={handleImageClick(context.index)}
                   />
                 );
