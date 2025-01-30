@@ -1,4 +1,4 @@
-import { Container, Stack } from '@chakra-ui/react';
+import { Box, Container, Stack } from '@chakra-ui/react';
 import React from 'react';
 
 import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
@@ -42,11 +42,13 @@ export const NoteTabContent = (props: Props) => {
         )}
 
         {showPosts && (
-          <NotePosts 
-            note={note}
-            search={search}
-            onScrollRestoration={handleScrollRestoration}
-          />
+          <Box px="6">
+            <NotePosts 
+              note={note}
+              search={search}
+              onScrollRestoration={handleScrollRestoration}
+            />
+          </Box>
         )}
       </Stack>
     </Container>

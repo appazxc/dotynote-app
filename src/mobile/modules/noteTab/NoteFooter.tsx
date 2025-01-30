@@ -23,7 +23,7 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
   const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
 
   const showEditorControls = isAdvancedEditActive && isWriteMode;
-  const showPlusButton = !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
+  const showPlusButton = !editor.isFocused && !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
 
   return (
     <>
