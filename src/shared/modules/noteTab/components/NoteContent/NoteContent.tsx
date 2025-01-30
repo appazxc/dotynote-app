@@ -77,7 +77,12 @@ export const NoteContent = (props: Props) => {
       pb="10"
       px="6"
     >
-      <Box>
+      <Box
+        display="flex"
+        flexGrow="1"
+        flexDirection="column"
+        justifyContent="stretch"
+      >
         {parent?.title && showParent && (
           <Tag
             size="lg"

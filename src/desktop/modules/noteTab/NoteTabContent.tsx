@@ -45,11 +45,13 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
         {showPosts && (
-          <NotePosts
-            note={note}
-            search={search}
-            onScrollRestoration={handleScrollRestoration}
-          />
+          <Box px="6">
+            <NotePosts
+              note={note}
+              search={search}
+              onScrollRestoration={handleScrollRestoration}
+            />
+          </Box>
         )}
       </Box>
     </Container>

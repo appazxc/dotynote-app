@@ -5,7 +5,7 @@ import { useEditorContext } from 'shared/modules/editor';
 
 type Props = {
   title?: string,
-  isMobile: boolean,
+  isMobile?: boolean,
   onChange: (title: string) => void,
 }
 
