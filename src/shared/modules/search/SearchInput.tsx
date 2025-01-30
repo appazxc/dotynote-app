@@ -39,6 +39,9 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
       _focusVisible={isMobile ? {
         boxShadow: 'none',
       } : undefined}
+      css={isMobile ? {
+        '--focus-ring-color': 'transparent',
+      } : undefined}
       onChange={handleChange}
     />
   );

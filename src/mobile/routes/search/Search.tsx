@@ -25,7 +25,7 @@ export const Search = React.memo(() => {
   return (
     <Layout 
       header={(
-        <LayoutHeader minH="48px" px="2">
+        <LayoutHeader minH="56px" px="2">
           <SearchInput isMobile />
         </LayoutHeader>
       )} 

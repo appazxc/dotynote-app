@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Box, Text, Center, Spinner, VStack } from '@chakra-ui/react';
+import React from 'react';
 
 import { useNotes } from 'shared/api/hooks/useNotes';
 import { PAGE_SIZE } from 'shared/constants/queryKeys';
