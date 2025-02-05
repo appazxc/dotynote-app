@@ -72,17 +72,19 @@ axiosInstance.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
+export const provideJwt = () => {
+  const { getState } = getStore();
+
+  return selectToken(getState());
+};
+
 export default () => {
-  const provideJwt = () => {
-    const { getState } = getStore();
 
-    return selectToken(getState());
-  };
-
-  const createHeaders = () => ({
+  const createHeaders = (headers = {}) => ({
     ...(provideJwt()
       ? {
         Authorization: `Bearer ${provideJwt()}`,
+        ...headers,
       }
       : {}),
   });
@@ -105,11 +107,13 @@ export default () => {
         })
         .then(response => handleResponse(response));
     },
-    async post(path, body, config: AxiosRequestConfig) {
+    async post(path, body, config: AxiosRequestConfig = {}) {
+      const { headers, ...restConfig } = config;
+
       return axiosInstance
         .post(getBaseApi() + path, body, {
-          headers: createHeaders(),
-          ...config,
+          headers: createHeaders(headers),
+          ...restConfig,
         } )
         .then(response => handleResponse(response));
     },

@@ -1,12 +1,22 @@
+import axios from 'axios';
+import throttle from 'lodash/throttle';
+
 import { api } from 'shared/api';
+import { provideJwt } from 'shared/api/apiFactory';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
+import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { ThunkAction } from 'shared/types/store';
+import { connectSSE } from 'shared/util/connectSse';
 import { emitter } from 'shared/util/emitter';
+
+const updateFileUploadStatus = throttle((id: string, progress: number) => {
+  api.patch(`/upload/${id}`, { progress });
+}, 5000, { trailing: false });
 
 type UploadNoteFilesParams = {
   noteId: number,
@@ -27,7 +37,7 @@ export const uploadNoteFiles = ({
   });
 
   for await (const file of files) {
-    await dispatch(uploadFile(noteId, file));
+    await dispatch(uploadAttachment(noteId, file));
   }
 
   await queryClient.fetchQuery({ ...options.notes.load(Number(noteId)), staleTime: 0 });
@@ -35,7 +45,7 @@ export const uploadNoteFiles = ({
   removeFiles(files.map(({ fileId }) => fileId));
 };
 
-export const uploadFile = (noteId: number, file: UploadFile): ThunkAction => async (dispatch, getState) => {
+export const uploadAttachment = (noteId: number, file: UploadFile): ThunkAction => async (dispatch, getState) => {
   const entity = selectUploadFileEntity(getState(), file.fileId);
 
   if (!entity || entity.status === 'canceled') {
@@ -73,7 +83,7 @@ export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: Abort
     formData.append('file', file.file);
 
     try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
+      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
 
       const realId = await api.post<string>(
         `/notes/${noteId}/images`, 
@@ -93,27 +103,92 @@ export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: Abort
 
 export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
   async (dispatch) => {
-    const formData = new FormData();
-    formData.append('file', file.file);
-    
     try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
+      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
+      
+      const { url, id } = await api.post<{ url: string, id: string }>(
+        '/upload', 
+        {
+          noteId,
+          filename: file.file.name,
+          size: file.file.size,
+          type: 'file',
+        });
 
-      const realId = await api.post<string>(
-        `/notes/${noteId}/files`, 
-        formData,
+      dispatch(updateFile({ 
+        fileId: file.fileId, 
+        tempId: id,
+      }));
+
+      await axios.put(
+        url, 
+        file.file,
         { 
           signal,
           onUploadProgress: (event) => {
-            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
+            const progress = Math.floor((event.progress || 0) * 100);
+
+            dispatch(updateFile({ 
+              fileId: file.fileId, 
+              progress,
+            }));
+
+            updateFileUploadStatus(id, progress);
           }, 
         });
 
-      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
+      await api.post(`/upload/${id}/uploaded`, {});
+      
+      await dispatch(connectSSE<{ 
+        progress: number,
+        status: string,
+        realId: string | null
+       }>({
+         url: `${getBaseApi()}/upload/status/${id}`,
+         onClose: () => {
+           console.log('closed' );
+         },
+         onMessage: (data, close) => {
+           dispatch(updateFile({
+             fileId: file.fileId, 
+             progress: data.progress,
+             status: data.status === 'complete' ? 'complete' : 'processing',
+             realId: data.realId,
+           }));
+
+           if (data.status === 'complete') {
+             close();
+           }
+         },
+       }));
     } catch(error) {
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };
+
+// export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
+//   async (dispatch) => {
+//     const formData = new FormData();
+//     formData.append('file', file.file);
+    
+//     try {
+//       dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
+
+//       const realId = await api.post<string>(
+//         `/notes/${noteId}/files`, 
+//         formData,
+//         { 
+//           signal,
+//           onUploadProgress: (event) => {
+//             dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
+//           }, 
+//         });
+
+//       dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
+//     } catch(error) {
+//       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
+//     }
+//   };
 
 export const uploadNoteAudio = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
   async (dispatch) => {
@@ -121,7 +196,7 @@ export const uploadNoteAudio = (noteId: number, file: UploadFile, signal?: Abort
     formData.append('file', file.file);
     
     try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'pending' }));
+      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
 
       const realId = await api.post<string>(
         `/notes/${noteId}/audio`, 

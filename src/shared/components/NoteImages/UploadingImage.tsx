@@ -43,7 +43,7 @@ export const UploadingImage = React.memo(({ height, width, src, status, error }:
         </Center>
       )}
 
-      {status === 'pending' && (
+      {status === 'uploading' && (
         <Center
           position="absolute"
           top="0"

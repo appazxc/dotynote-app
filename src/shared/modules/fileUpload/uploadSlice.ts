@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 
-type StatusType = 'idle' | 'pending' | 'complete' | 'canceled' | 'error';
+type StatusType = 'idle' | 'uploading' | 'processing' | 'complete' | 'canceled' | 'error';
 
 export type UploadFileEntity = { 
   fileId: string,
@@ -10,7 +10,8 @@ export type UploadFileEntity = {
   noteId?: number,
   status: StatusType,
   progress: number,
-  realId?: string,
+  tempId?: string,
+  realId?: string | null,
   error: string | null,
   dimensions: { width: number, height: number },
 }
