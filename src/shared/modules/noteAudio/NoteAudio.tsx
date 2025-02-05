@@ -4,7 +4,7 @@ import { api } from 'shared/api';
 import { useDeleteNoteAudio } from 'shared/api/hooks/useDeleteNoteAudio';
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { NoteAudioWidget } from 'shared/modules/noteAudio/NoteAudioWidget';
-import { audioSelector } from 'shared/selectors/entities';
+import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { downloadFile } from 'shared/util/downloadFile';
 import { invariant } from 'shared/util/invariant';
@@ -29,7 +29,7 @@ export const NoteAudio = React.memo((props: Props) => {
     onDragChange,
     changeCurrentTime,
   } = useAudio();
-  const audio = useAppSelector(state => audioSelector.getById(state, audioId));
+  const audio = useAppSelector(state => noteAudioSelector.getById(state, audioId));
   const isActive = activeAudioId === audioId;
 
   const { mutate, isPending } = useDeleteNoteAudio();

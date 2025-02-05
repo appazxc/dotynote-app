@@ -6,7 +6,7 @@ import { Icon } from 'shared/components/ui/icon';
 import { PauseIcon, PlayIcon } from 'shared/components/ui/icons';
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
-import { audioSelector } from 'shared/selectors/entities';
+import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { formatTime } from 'shared/util/formatTime';
 
@@ -23,7 +23,7 @@ export const SpaceAudioWidget = React.memo(() => {
     onDragChange, 
     changeCurrentTime,
   } = useAudio();
-  const audio = useAppSelector(state => audioSelector.getById(state, activeAudioId));
+  const audio = useAppSelector(state => noteAudioSelector.getById(state, activeAudioId));
 
   const content = React.useMemo(() => {
     if (!audio) {

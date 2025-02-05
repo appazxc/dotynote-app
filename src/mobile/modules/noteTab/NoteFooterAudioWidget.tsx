@@ -6,7 +6,7 @@ import { PauseIcon, PlayIcon } from 'shared/components/ui/icons';
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
-import { audioSelector } from 'shared/selectors/entities';
+import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 type Props = {};
@@ -16,15 +16,11 @@ export const NoteFooterAudioWidget = React.memo((props: Props) => {
     isPlaying,
     activeAudioId,
     playAudio,
-    stopAudio,
     pauseAudio,
     currentTime,
-    isDragging,
-    currentTimePos,
-    onDragChange, 
   } = useAudio();
   const dispatch = useAppDispatch();
-  const audio = useAppSelector(state => audioSelector.getById(state, activeAudioId));
+  const audio = useAppSelector(state => noteAudioSelector.getById(state, activeAudioId));
   
   if (!audio) {
     return null;

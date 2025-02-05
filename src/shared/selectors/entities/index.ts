@@ -12,4 +12,5 @@ export const noteImageSelector = new Selector(entityNames.noteImage);
 export const orderBySelector = new Selector(entityNames.orderBy);
 export const noteDotSelector = new Selector(entityNames.noteDot);
 export const postDotSelector = new Selector(entityNames.postDot);
-export const audioSelector = new Selector(entityNames.noteAudio);
+export const noteAudioSelector = new Selector(entityNames.noteAudio);
+export const noteFileSelector = new Selector(entityNames.noteFile);

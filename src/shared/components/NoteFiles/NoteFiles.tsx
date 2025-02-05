@@ -22,13 +22,8 @@ export const NoteFiles = React.memo((props: Props) => {
   const { noteId, hasControls, files: noteFiles, size, inPost, ...boxProps } = props;
   const { files } = useFileUpload();
 
-  const filteredNoteFiles = React.useMemo(() => noteFiles
-    .filter(file => !file._isDeleted)
-  , [noteFiles]);
-
-  const filteredNoteFileIds = React.useMemo(() => {
-    return filteredNoteFiles.map(file => file.id);
-  }, [filteredNoteFiles]);
+  const filteredNoteFiles = React.useMemo(() => noteFiles.filter(file => !file._isDeleted), [noteFiles]);
+  const filteredNoteFileIds = React.useMemo(() => filteredNoteFiles.map(file => file.id), [filteredNoteFiles]);
 
   const uploadFiles = useAppSelector(state => 
     selectUploadEntities(state, { 
@@ -50,14 +45,12 @@ export const NoteFiles = React.memo((props: Props) => {
       {...boxProps}
       gap="2"
     >
-      {filteredNoteFiles.map((noteFile) => {
+      {filteredNoteFileIds.map((id) => {
         return (
           <NoteFile
-            key={noteFile.id}
+            key={id}
             noteId={noteId}
-            id={noteFile.id}
-            filename={noteFile.filename}
-            fileSize={noteFile.size}
+            id={id}
             size={size}
           />
         );
@@ -66,9 +59,9 @@ export const NoteFiles = React.memo((props: Props) => {
         return (
           <UploadingFile
             key={uploadFile.fileId}
+            id={uploadFile.fileId}
             filename={uploadFile.file.name}
             fileSize={uploadFile.file.size}
-            progress={uploadFile.progress}
             size={size}
           />
         );

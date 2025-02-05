@@ -3,19 +3,26 @@ import React from 'react';
 import { api } from 'shared/api';
 import { useDeleteNoteFile } from 'shared/api/hooks/useDeleteNoteFile';
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
+import { noteFileSelector } from 'shared/selectors/entities';
+import { useAppSelector } from 'shared/store/hooks';
 import { downloadFile } from 'shared/util/downloadFile';
 import { formatFileSize } from 'shared/util/formatFileSize';
+import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
   noteId: number,
   id: string,
-  filename: string,
   size?: 'sm' | 'md',
-  fileSize: number,
 }
 
-export const NoteFile = React.memo(({ id, noteId, filename, fileSize, size }: Props) => {
+export const NoteFile = React.memo(({ id, noteId, size }: Props) => {
+  const getFileById = React.useMemo(() => noteFileSelector.makeGetById(), []);
+  const noteFile = useAppSelector(state => getFileById(state, id));
+
+  invariant(noteFile, 'Missing note file');
+
+  const { filename, size: fileSize } = noteFile;
   const { name, extension } = splitFileName(filename);
   
   const { mutate, isPending } = useDeleteNoteFile();

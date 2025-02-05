@@ -145,22 +145,20 @@ export const uploadAttachmentByType = (
       
       await dispatch(connectSSE<{ 
         progress: number,
-        status: string,
         realId: string | null
        }>({
          url: `${getBaseApi()}/upload/status/${id}`,
-         onClose: () => {
-           console.log('closed' );
-         },
          onMessage: (data, close) => {
+           const isComplete = !!data.realId || data.progress === 100;
+          
            dispatch(updateFile({
              fileId: file.fileId, 
              progress: data.progress,
-             status: data.status === 'complete' ? 'complete' : 'processing',
              realId: data.realId,
+             status: isComplete ? 'complete' : 'processing',
            }));
 
-           if (data.status === 'complete') {
+           if (isComplete) {
              close();
            }
          },

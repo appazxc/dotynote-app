@@ -76,7 +76,7 @@ export const FileSnippet = React.memo((props: Props) => {
         </Box>
       </Card.Body>
       {isNumber(progress) && (
-        <ProgressRoot value={null} size="xs">
+        <ProgressRoot value={progress} size="xs">
           <ProgressBar />
         </ProgressRoot>
       )}

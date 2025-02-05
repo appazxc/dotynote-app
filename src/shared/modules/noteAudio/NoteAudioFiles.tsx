@@ -69,9 +69,9 @@ export const NoteAudioFiles = React.memo((props: Props) => {
         return (
           <UploadingFile
             key={uploadFile.fileId}
+            id={uploadFile.fileId}
             filename={uploadFile.file.name}
             fileSize={uploadFile.file.size}
-            progress={uploadFile.progress}
             size={size}
           />
         );
