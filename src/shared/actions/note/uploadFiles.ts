@@ -2,7 +2,6 @@ import axios from 'axios';
 import throttle from 'lodash/throttle';
 
 import { api } from 'shared/api';
-import { provideJwt } from 'shared/api/apiFactory';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -65,10 +64,10 @@ export const uploadAttachment = (noteId: number, file: UploadFile): ThunkAction 
     await dispatch(uploadNoteImage(noteId, file, signal));
     break;
   case 'file':
-    await dispatch(uploadNoteFile(noteId, file, signal));
+    await dispatch(uploadAttachmentByType('file', noteId, file, signal));
     break;
   case 'audio':
-    await dispatch(uploadNoteAudio(noteId, file, signal));
+    await dispatch(uploadAttachmentByType('audio', noteId, file, signal));
     break;
   default:
     console.log(`Not implemented file upload. Type: ${entity.type}}`);
@@ -101,7 +100,12 @@ export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: Abort
     }
   };
 
-export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
+export const uploadAttachmentByType = (
+  type: 'file' | 'audio', 
+  noteId: number, 
+  file: UploadFile, 
+  signal?: AbortSignal
+): ThunkAction => 
   async (dispatch) => {
     try {
       dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
@@ -112,7 +116,7 @@ export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortS
           noteId,
           filename: file.file.name,
           size: file.file.size,
-          type: 'file',
+          type,
         });
 
       dispatch(updateFile({ 
@@ -161,54 +165,6 @@ export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortS
            }
          },
        }));
-    } catch(error) {
-      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
-    }
-  };
-
-// export const uploadNoteFile = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
-//   async (dispatch) => {
-//     const formData = new FormData();
-//     formData.append('file', file.file);
-    
-//     try {
-//       dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
-
-//       const realId = await api.post<string>(
-//         `/notes/${noteId}/files`, 
-//         formData,
-//         { 
-//           signal,
-//           onUploadProgress: (event) => {
-//             dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
-//           }, 
-//         });
-
-//       dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
-//     } catch(error) {
-//       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
-//     }
-//   };
-
-export const uploadNoteAudio = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
-  async (dispatch) => {
-    const formData = new FormData();
-    formData.append('file', file.file);
-    
-    try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
-
-      const realId = await api.post<string>(
-        `/notes/${noteId}/audio`, 
-        formData,
-        { 
-          signal,
-          onUploadProgress: (event) => {
-            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
-          }, 
-        });
-
-      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
     } catch(error) {
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }
