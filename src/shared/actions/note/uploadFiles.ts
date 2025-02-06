@@ -187,6 +187,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       if (axios.isCancel(error)) {
         dispatch(updateFile({ fileId: uploadFile.fileId, status: 'canceled' }));
         onCancel?.();
+        return;
       }
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: parseApiError(error).message }));
     }
