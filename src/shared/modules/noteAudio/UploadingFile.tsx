@@ -21,7 +21,7 @@ export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props
   invariant(uploadFile, 'Uploading file is missing');
   
   const { name, extension } = splitFileName(filename);
-  
+
   return (
     <FileSnippet
       name={name}

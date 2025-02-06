@@ -22,7 +22,8 @@ export const NoteFiles = React.memo((props: Props) => {
   const { noteId, hasControls, files: noteFiles, size, inPost, ...boxProps } = props;
   const { files } = useFileUpload();
 
-  const filteredNoteFiles = React.useMemo(() => noteFiles.filter(file => !file._isDeleted), [noteFiles]);
+  const filteredNoteFiles = React.useMemo(() => 
+    noteFiles.filter(file => !file._isDeleted).sort((a, b) => a.pos - b.pos), [noteFiles]);
   const filteredNoteFileIds = React.useMemo(() => filteredNoteFiles.map(file => file.id), [filteredNoteFiles]);
 
   const uploadFiles = useAppSelector(state => 
@@ -35,11 +36,10 @@ export const NoteFiles = React.memo((props: Props) => {
   const filteredUploadFiles = React.useMemo(() => {
     return uploadFiles.filter((file) => file.realId ? !filteredNoteFileIds.includes(file.realId) : true);
   }, [filteredNoteFileIds, uploadFiles]);
-
+  
   if (!filteredNoteFiles.length && !filteredUploadFiles.length) {
     return null;
   }
-  
   return (
     <Stack
       {...boxProps}

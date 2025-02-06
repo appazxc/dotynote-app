@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import throttle from 'lodash/throttle';
 
 import { api } from 'shared/api';
@@ -6,9 +6,11 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
-import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
+import { noteSelector } from 'shared/selectors/entities';
+import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { connectSSE } from 'shared/util/connectSse';
 import { emitter } from 'shared/util/emitter';
@@ -20,7 +22,7 @@ const updateFileUploadStatus = throttle((id: string, progress: number) => {
 type UploadNoteFilesParams = {
   noteId: number,
   files: UploadFile[],
-  removeFiles: (fileIds: string[]) => void
+  removeFiles: RemoveFilesType
 }
 
 export const uploadNoteFiles = ({ 
@@ -35,17 +37,32 @@ export const uploadNoteFiles = ({
     }));
   });
 
-  for await (const file of files) {
-    await dispatch(uploadAttachment(noteId, file));
+  for await (const uploadFile of files) {
+    await new Promise((resolve) => {
+      dispatch(uploadAttachment({ 
+        noteId, 
+        uploadFile, 
+        removeFiles,
+        unlockNextStep: () => resolve(true),
+      }));
+    });
   }
 
-  await queryClient.fetchQuery({ ...options.notes.load(Number(noteId)), staleTime: 0 });
+  // await queryClient.fetchQuery({ ...options.notes.load(Number(noteId)), staleTime: 0 });
   
-  removeFiles(files.map(({ fileId }) => fileId));
+  // removeFiles(files.map(({ fileId }) => fileId));
 };
 
-export const uploadAttachment = (noteId: number, file: UploadFile): ThunkAction => async (dispatch, getState) => {
-  const entity = selectUploadFileEntity(getState(), file.fileId);
+type UploadAttachmentParams = {
+  noteId: number,
+  uploadFile: UploadFile,
+  removeFiles: RemoveFilesType
+  unlockNextStep?: () => void
+}
+
+export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction => async (dispatch, getState) => {
+  const { noteId, uploadFile, unlockNextStep, removeFiles } = params;
+  const entity = selectUploadFileEntity(getState(), uploadFile.fileId);
 
   if (!entity || entity.status === 'canceled') {
     return;
@@ -61,13 +78,14 @@ export const uploadAttachment = (noteId: number, file: UploadFile): ThunkAction 
 
   switch(entity.type) {
   case 'image':
-    await dispatch(uploadNoteImage(noteId, file, signal));
+    await dispatch(uploadNoteImage(noteId, uploadFile, signal));
+    unlockNextStep?.();
     break;
   case 'file':
-    await dispatch(uploadAttachmentByType('file', noteId, file, signal));
+    await dispatch(uploadAttachmentByType({ type: 'file', noteId, uploadFile, signal, unlockNextStep, removeFiles }));
     break;
   case 'audio':
-    await dispatch(uploadAttachmentByType('audio', noteId, file, signal));
+    await dispatch(uploadAttachmentByType({ type: 'audio', noteId, uploadFile, signal, unlockNextStep, removeFiles }));
     break;
   default:
     console.log(`Not implemented file upload. Type: ${entity.type}}`);
@@ -75,6 +93,172 @@ export const uploadAttachment = (noteId: number, file: UploadFile): ThunkAction 
 
   emitter.removeAllListeners(eventName);
 };
+
+type UploadAttachmentByTypeBaseParams = UploadAttachmentByTypeParams & {
+  tempUploadPath: string,
+  getUploadConfirmPath: (id: string) => string,
+  onComplete?: () => void,
+  onCancel?: () => void
+}
+
+export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBaseParams): ThunkAction => 
+  async (dispatch) => {
+    const {   
+      type, 
+      noteId, 
+      uploadFile, 
+      signal,
+      unlockNextStep,
+      tempUploadPath,
+      getUploadConfirmPath,
+      onComplete,
+      onCancel,
+    } = params;
+
+    try {
+      dispatch(updateFile({ fileId: uploadFile.fileId, status: 'uploading' }));
+      
+      const { url, id } = await api.post<{ url: string, id: string }>(
+        tempUploadPath, 
+        {
+          noteId,
+          filename: uploadFile.file.name,
+          size: uploadFile.file.size,
+          type,
+        });
+
+      unlockNextStep?.();
+
+      dispatch(updateFile({ 
+        fileId: uploadFile.fileId, 
+        tempId: id,
+      }));
+
+      await axios.put(
+        url, 
+        uploadFile.file,
+        { 
+          signal,
+          onUploadProgress: (event) => {
+            const progress = Math.floor((event.progress || 0) * 100);
+
+            dispatch(updateFile({ 
+              fileId: uploadFile.fileId, 
+              progress,
+            }));
+
+            updateFileUploadStatus(id, progress);
+          }, 
+        });
+
+      await api.post(getUploadConfirmPath(id), {});
+      
+      await dispatch(connectSSE<{ 
+        progress: number,
+        realId: string | null
+       }>({
+         url: `${getBaseApi()}/upload/status/${id}`,
+         onMessage: (data, close) => {
+           const isComplete = !!data.realId || data.progress === 100;
+          
+           dispatch(updateFile({
+             fileId: uploadFile.fileId, 
+             progress: data.progress,
+             realId: data.realId,
+             status: isComplete ? 'complete' : 'processing',
+           }));
+
+           if (isComplete) {
+             onComplete?.();
+             close();
+           }
+         },
+       }));
+    } catch(error) {
+      if (axios.isCancel(error)) {
+        dispatch(updateFile({ fileId: uploadFile.fileId, status: 'canceled' }));
+        onCancel?.();
+      }
+      dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: parseApiError(error).message }));
+    }
+  };
+
+type UploadAttachmentByTypeParams = {
+  type: 'file' | 'audio', 
+  noteId: number, 
+  uploadFile: UploadFile, 
+  signal?: AbortSignal,
+  unlockNextStep?: () => void,
+  removeFiles: RemoveFilesType
+}
+
+export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): ThunkAction => 
+  async (dispatch, getState) => {
+    const {   
+      type, 
+      noteId, 
+      uploadFile, 
+      removeFiles,
+    } = params;
+
+    const getAttachmentLoadPath = (type: 'file' | 'audio', id: string) => {
+      switch(type) {
+      case 'file':
+        return `/notes/${noteId}/files/${id}`;
+      case 'audio':
+        return `/notes/${noteId}/audio/${id}`;
+      default:
+        throw new Error(`Invalid attachment type: ${type}`);
+      }
+    };
+
+    const getNoteAttachmentField = (type: 'file' | 'audio') => {
+      switch(type) {
+      case 'file':
+        return 'files';
+      case 'audio':
+        return 'audio';
+      default:
+        throw new Error(`Invalid attachment type: ${type}`);
+      }
+    };
+
+    async function onComplete() {
+      const uploadEntity = selectUploadFileEntity(getState(), uploadFile.fileId);
+      
+      if (!uploadEntity?.realId) {
+        return;
+      }
+      
+      const id = await api.get(getAttachmentLoadPath(type, uploadEntity.realId));
+
+      const noteEntity = noteSelector.getById(getState(), noteId);
+
+      if (!noteEntity) {
+        return;
+      }
+
+      const attachmentField = getNoteAttachmentField(type);
+
+      dispatch(updateEntity({
+        id: noteId,
+        type: 'note',
+        data: {
+          [attachmentField]: [...noteEntity[attachmentField], id],
+        },
+      }));
+
+      removeFiles([uploadFile.fileId]);
+    }
+
+    await dispatch(uploadAttachmentByTypeBase({
+      ...params,
+      tempUploadPath: '/upload',
+      getUploadConfirmPath: (id) => `/upload/${id}/uploaded`,
+      onComplete,
+      onCancel: () => removeFiles([uploadFile.fileId]),
+    }));
+  };
 
 export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
   async (dispatch) => {
@@ -95,74 +279,6 @@ export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: Abort
         });
 
       dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
-    } catch(error) {
-      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
-    }
-  };
-
-export const uploadAttachmentByType = (
-  type: 'file' | 'audio', 
-  noteId: number, 
-  file: UploadFile, 
-  signal?: AbortSignal
-): ThunkAction => 
-  async (dispatch) => {
-    try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
-      
-      const { url, id } = await api.post<{ url: string, id: string }>(
-        '/upload', 
-        {
-          noteId,
-          filename: file.file.name,
-          size: file.file.size,
-          type,
-        });
-
-      dispatch(updateFile({ 
-        fileId: file.fileId, 
-        tempId: id,
-      }));
-
-      await axios.put(
-        url, 
-        file.file,
-        { 
-          signal,
-          onUploadProgress: (event) => {
-            const progress = Math.floor((event.progress || 0) * 100);
-
-            dispatch(updateFile({ 
-              fileId: file.fileId, 
-              progress,
-            }));
-
-            updateFileUploadStatus(id, progress);
-          }, 
-        });
-
-      await api.post(`/upload/${id}/uploaded`, {});
-      
-      await dispatch(connectSSE<{ 
-        progress: number,
-        realId: string | null
-       }>({
-         url: `${getBaseApi()}/upload/status/${id}`,
-         onMessage: (data, close) => {
-           const isComplete = !!data.realId || data.progress === 100;
-          
-           dispatch(updateFile({
-             fileId: file.fileId, 
-             progress: data.progress,
-             realId: data.realId,
-             status: isComplete ? 'complete' : 'processing',
-           }));
-
-           if (isComplete) {
-             close();
-           }
-         },
-       }));
     } catch(error) {
       dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }

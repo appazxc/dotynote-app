@@ -8,8 +8,10 @@ export const parseApiError = (err: unknown) => {
   };
 
   if (err instanceof AxiosError) {
+    console.log('fetch instance', err);
+
     error.code = err.code || error.code;
-    error.message = err.response?.data?.message || error.message;
+    error.message = err.response?.data?.message || err.message || error.message;
     error.statusCode = err.response?.status || error.statusCode;
   }
 

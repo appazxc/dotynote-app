@@ -5,6 +5,7 @@ export type ApiNoteAudioEntity = BaseEntity<{
   filename: string,
   size: number,   
   duration: number,   
+  pos: number,   
   url: string,   
   deletedAt: string | null,      
 }>

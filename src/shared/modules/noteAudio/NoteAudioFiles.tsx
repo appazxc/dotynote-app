@@ -24,7 +24,7 @@ export const NoteAudioFiles = React.memo((props: Props) => {
   const { files } = useFileUpload();
 
   const filteredNoteAudioFiles = React.useMemo(() => audioFiles
-    .filter(file => !file._isDeleted)
+    .filter(file => !file._isDeleted).sort((a, b) => a.pos - b.pos)
   , [audioFiles]);
 
   const filteredNoteFileIds = React.useMemo(() => {

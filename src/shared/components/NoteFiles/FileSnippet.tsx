@@ -1,4 +1,4 @@
-import { Box, Card, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
+import { Box, Card, CardRootProps, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
 import isNumber from 'lodash/isNumber';
 import React from 'react';
 import { FaRegFileLines } from 'react-icons/fa6';
@@ -15,7 +15,7 @@ type Props = {
   size?: 'sm' | 'md',
   progress?: number | null,
   options?: { label: string, onClick: () => void }[],
-};
+} & CardRootProps;
 
 const sizes = {
   md: {
@@ -33,12 +33,12 @@ const sizes = {
 };
 
 export const FileSnippet = React.memo((props: Props) => {
-  const { name, extension, fileSize, size = 'md', progress, options } = props;
+  const { name, extension, fileSize, size = 'md', progress, options, ...restProps } = props;
 
   const snippetProps = sizes[size];
 
   return (
-    <Card.Root position="relative">
+    <Card.Root position="relative" {...restProps}>
       <Card.Body
         display="flex"
         flexDirection="row"
@@ -76,7 +76,11 @@ export const FileSnippet = React.memo((props: Props) => {
         </Box>
       </Card.Body>
       {isNumber(progress) && (
-        <ProgressRoot value={progress} size="xs">
+        <ProgressRoot
+          value={progress}
+          size="xs"
+          mx="1"
+        >
           <ProgressBar />
         </ProgressRoot>
       )}

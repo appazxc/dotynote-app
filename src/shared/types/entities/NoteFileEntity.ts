@@ -4,6 +4,7 @@ import { MergeEntity } from 'shared/types/entities/MergeEntity';
 export type ApiNoteFileEntity = BaseEntity<{
   filename: string,
   size: number,   
+  pos: number,
   deletedAt: string | null,      
 }>
 
