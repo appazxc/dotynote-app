@@ -15,10 +15,10 @@ type Props = {
   fileSize: number,
 }
 
-export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props) => {
-  const uploadFile = useAppSelector(state => selectUploadFileEntity(state, id));
+export const UploadingAudio = React.memo(({ id, filename, fileSize, size }: Props) => {
+  const uploadAudio = useAppSelector(state => selectUploadFileEntity(state, id));
 
-  invariant(uploadFile, 'Uploading file is missing');
+  invariant(uploadAudio, 'Uploading file is missing');
   
   const { name, extension } = splitFileName(filename);
 
@@ -27,7 +27,7 @@ export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props
       name={name}
       fileSize={formatFileSize(fileSize)}
       extension={extension}
-      progress={getFileUploadProgress(uploadFile)}
+      progress={getFileUploadProgress(uploadAudio)}
       size={size}
     />
   );

@@ -4,6 +4,7 @@ import throttle from 'lodash/throttle';
 import { api } from 'shared/api';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
+import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
@@ -40,7 +41,6 @@ export const uploadNoteFiles = ({
   for await (const uploadFile of files) {
     await new Promise((resolve) => {
       dispatch(uploadAttachment({ 
-        noteId, 
         uploadFile, 
         removeFiles,
         unlockNextStep: () => resolve(true),
@@ -54,20 +54,21 @@ export const uploadNoteFiles = ({
 };
 
 type UploadAttachmentParams = {
-  noteId: number,
   uploadFile: UploadFile,
   removeFiles: RemoveFilesType
   unlockNextStep?: () => void
+  pos?: number,
 }
 
 export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction => async (dispatch, getState) => {
-  const { noteId, uploadFile, unlockNextStep, removeFiles } = params;
+  const { uploadFile, unlockNextStep, removeFiles, pos } = params;
   const entity = selectUploadFileEntity(getState(), uploadFile.fileId);
 
-  if (!entity || entity.status === 'canceled') {
+  if (!entity || entity.status === 'canceled' || !entity.noteId) {
     return;
   }
 
+  const { noteId } = entity;
   const controller = new AbortController();
   const signal = controller.signal;
   const eventName = `cancelFileUpload:${entity.fileId}`;
@@ -82,10 +83,16 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
     unlockNextStep?.();
     break;
   case 'file':
-    await dispatch(uploadAttachmentByType({ type: 'file', noteId, uploadFile, signal, unlockNextStep, removeFiles }));
-    break;
   case 'audio':
-    await dispatch(uploadAttachmentByType({ type: 'audio', noteId, uploadFile, signal, unlockNextStep, removeFiles }));
+    await dispatch(uploadAttachmentByType({ 
+      type: entity.type, 
+      noteId,
+      uploadFile,
+      signal,
+      unlockNextStep,
+      removeFiles,
+      pos,
+    }));
     break;
   default:
     console.log(`Not implemented file upload. Type: ${entity.type}}`);
@@ -113,6 +120,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       getUploadConfirmPath,
       onComplete,
       onCancel,
+      pos,
     } = params;
 
     try {
@@ -125,6 +133,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
           filename: uploadFile.file.name,
           size: uploadFile.file.size,
           type,
+          pos,
         });
 
       unlockNextStep?.();
@@ -183,13 +192,10 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
     }
   };
 
-type UploadAttachmentByTypeParams = {
+type UploadAttachmentByTypeParams = UploadAttachmentParams & {
+  noteId: number,
   type: 'file' | 'audio', 
-  noteId: number, 
-  uploadFile: UploadFile, 
   signal?: AbortSignal,
-  unlockNextStep?: () => void,
-  removeFiles: RemoveFilesType
 }
 
 export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): ThunkAction => 
@@ -258,6 +264,34 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
       onComplete,
       onCancel: () => removeFiles([uploadFile.fileId]),
     }));
+  };
+
+type RetryAttachmentUploadParams = Pick<UploadAttachmentParams, 'uploadFile' | 'removeFiles'>
+
+export const retryAttachmentUpload = (params: RetryAttachmentUploadParams): ThunkAction =>
+  async (dispatch, getState) => {
+    const { uploadFile, removeFiles } = params;
+    const entity = selectUploadFileEntity(getState(), uploadFile.fileId);
+
+    if (!entity?.tempId) {
+      // TODO log
+      return;
+    }
+
+    try {
+      const { pos } = await api.get<{ pos: number }>(`/upload/${entity.tempId}`);
+
+      await dispatch(uploadAttachment({
+        uploadFile,
+        removeFiles,
+        pos,
+      }));
+    } catch(err) {
+      toaster.create({
+        type: 'error',
+        description: 'Error occured while uploading attachment',
+      });
+    }
   };
 
 export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 

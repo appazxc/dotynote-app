@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { retryAttachmentUpload } from 'shared/actions/note/uploadFiles';
+import { api } from 'shared/api';
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { emitter } from 'shared/util/emitter';
 import { formatFileSize } from 'shared/util/formatFileSize';
 import { invariant } from 'shared/util/invariant';
@@ -19,12 +21,21 @@ type Props = {
 
 export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props) => {
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, id));
-  const { removeFiles } = useFileUpload();
+  const { removeFiles, files } = useFileUpload();
+  const dispatch = useAppDispatch();
 
   invariant(uploadFile, 'Uploading file is missing');
 
   const { name, extension } = splitFileName(filename);
   
+  const retryFileUpload = React.useCallback(() => {
+    const file = files.find(f => f.fileId === id);
+
+    if (file) {
+      dispatch(retryAttachmentUpload({ uploadFile: file, removeFiles }));
+    }
+  }, [id, removeFiles, dispatch, files]);
+
   const options = React.useMemo(() => {
     return [
       ...uploadFile.status === 'uploading' ? [{
@@ -33,15 +44,30 @@ export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props
           emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
         },
       }] : [],
-      ...uploadFile.status === 'error' ? [{
-        label: 'Remove',
-        onClick: () => {
+      ...uploadFile.status === 'processing' && uploadFile.tempId ? [{
+        label: 'Cancel',
+        onClick: async () => {
+          await api.post(`/upload/${uploadFile.tempId}/cancel`, {});
           removeFiles([uploadFile.fileId]);
         },
-      },
+      }] : [],
+      ...uploadFile.status === 'error' ? [
+        {
+          label: 'Retry',
+          onClick: () => {
+            retryFileUpload();
+          },
+        },
+        {
+          label: 'Remove',
+          onClick: () => {
+            removeFiles([uploadFile.fileId]);
+          },
+        },
       ] : [],
     ];
-  }, [uploadFile.status, uploadFile.fileId, removeFiles]);
+  }, [uploadFile.status, uploadFile.fileId, uploadFile.tempId, removeFiles, retryFileUpload]);
+
   return (
     <FileSnippet
       name={name}

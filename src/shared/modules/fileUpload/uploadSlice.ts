@@ -55,6 +55,11 @@ export const uploadSlice = createSlice({
         ...state.byId[fileId],
         ...rest,
       };
+
+      if (rest.status === 'uploading') {
+        state.byId[fileId].error = null;
+        state.byId[fileId].progress = 0;
+      }
     },
     deleteFiles: (
       state, 
