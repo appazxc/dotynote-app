@@ -7,7 +7,7 @@ import { entityApi } from '../entityApi';
 export const useCreateNote = () => {
   return useMutation({
     mutationFn: (note: Partial<NoteEntity>) => {
-      return entityApi.note.create(note);
+      return entityApi.note.create<number>(note);
     },
   });
 };

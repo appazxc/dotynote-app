@@ -19,6 +19,7 @@ import { invariant } from 'shared/util/invariant';
 import { SpaceMenuItem } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton/SpaceMenuItem';
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 
 export const DotHeaderButton = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ export const DotHeaderButton = () => {
       dispatch(
         openTab({
           route: buildTabHref({
-            to: '/n/$noteId',
+            to: noteRoutePath,
             params: { noteId: String(space.mainNoteId) },
           }),
           active: true,

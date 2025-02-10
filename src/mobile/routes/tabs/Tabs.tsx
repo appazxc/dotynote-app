@@ -12,7 +12,12 @@ import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { CloseButton } from 'shared/components/ui/close-button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
+import { drawerIds } from 'shared/constants/drawerIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
+import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
+import { hideModal } from 'shared/modules/modal/modalSlice';
 import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
@@ -23,6 +28,8 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
+import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
@@ -63,7 +70,6 @@ const Tab = ({ id, isActive }) => {
           <SpaceTabTitle
             title={tabTitle}
             fontSize="md"
-            // fontWeight="500"
             textOverflow="ellipsis"
             lineClamp={2}
             display="-webkit-box"
@@ -85,10 +91,9 @@ const Tab = ({ id, isActive }) => {
 const Tabs = () => {
   const tabs = useAppSelector(selectSortedTabs);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const activeTabId = useAppSelector(selectActiveTabId);
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
-
+  const navigate = useNavigate();
   invariant(activeSpaceId, 'activeSpaceId is missings');
 
   const {
@@ -97,6 +102,16 @@ const Tabs = () => {
     ...options.notes.tabNotes(activeSpaceId, router),
     throwOnError: true,
   });
+
+  const handleCreateNote = React.useCallback((noteId) => {
+    dispatch(openTab({ 
+      route: buildTabHref({ to: noteRoutePath, params: { noteId: String(noteId) } }),
+      active: true,
+    }));
+    navigate({ to: '/app' });
+    dispatch(hideDrawer());
+    dispatch(hideModal());
+  }, [navigate, dispatch]);
 
   const renderedHeader = React.useMemo(() => {
     return (
@@ -108,18 +123,18 @@ const Tabs = () => {
               size="sm"
               variant="ghost"
               iconSize="auto"
+              px="2"
               onClick={() => {
-                dispatch(openTab({ active: true }));
-                navigate({ to: '/app' });
+                dispatch(showDrawer({ id: drawerIds.createNote }));
               }}
             >
-              <BsPlus size="22px" /> New tab
+              <BsPlus size="22px" />
             </Button>
           </Box>
         )}
       />
     );
-  }, [dispatch, navigate]);
+  }, [dispatch]);
   
   const renderedContent = React.useMemo(() => {
     if (tabNotesIsLoading) {
@@ -155,6 +170,8 @@ const Tabs = () => {
   return (
     <Layout header={renderedHeader}>
       {renderedContent}
+      <CreateNoteDrawer onCreate={handleCreateNote} />
+      <CreateNoteModal onCreate={handleCreateNote} />
     </Layout>
   );
 };

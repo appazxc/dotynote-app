@@ -42,7 +42,7 @@ export const NoteTabContent = (props: Props) => {
         )}
 
         {showPosts && (
-          <Box px="6">
+          <Box px="4">
             <NotePosts 
               note={note}
               search={search}

@@ -2,7 +2,7 @@ import React from 'react';
 import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
-import { PiFeather, PiFileAudioFill, PiMusicNotes, PiVideo } from 'react-icons/pi';
+import { PiFeather, PiFileAudioFill } from 'react-icons/pi';
 import { VscRecord } from 'react-icons/vsc';
 
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';

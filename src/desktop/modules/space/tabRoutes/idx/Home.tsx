@@ -65,7 +65,6 @@ const Home = React.memo(() => {
           {showSearch ? <SearchResults value={search} renderNote={renderNote} /> : <NoteCreate />}
         </Box>
       </Container>
-      <CreateNoteModal onCreate={handleCreateNote} />
     </TabLayout>
   );
 });
