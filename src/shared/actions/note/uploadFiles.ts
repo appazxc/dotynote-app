@@ -1,13 +1,11 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import throttle from 'lodash/throttle';
 
 import { api } from 'shared/api';
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
-import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveFilesType, UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { noteSelector } from 'shared/selectors/entities';
@@ -47,10 +45,6 @@ export const uploadNoteFiles = ({
       }));
     });
   }
-
-  // await queryClient.fetchQuery({ ...options.notes.load(Number(noteId)), staleTime: 0 });
-  
-  // removeFiles(files.map(({ fileId }) => fileId));
 };
 
 type UploadAttachmentParams = {
@@ -78,12 +72,13 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
   });
 
   switch(entity.type) {
-  case 'image':
-    await dispatch(uploadNoteImage(noteId, uploadFile, signal));
-    unlockNextStep?.();
-    break;
+  // case 'image':
+  //   await dispatch(uploadNoteImage(noteId, uploadFile, signal));
+  //   unlockNextStep?.();
+  //   break;
   case 'file':
   case 'audio':
+  case 'image':
     await dispatch(uploadAttachmentByType({ 
       type: entity.type, 
       noteId,
@@ -122,11 +117,12 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       onCancel,
       pos,
     } = params;
+    const isImage = type === 'image';
 
     try {
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'uploading' }));
       
-      const { url, id } = await api.post<{ url: string, id: string }>(
+      const { url, id, pos: tempFilePos } = await api.post<{ url: string, id: string, pos: number }>(
         tempUploadPath, 
         {
           noteId,
@@ -141,11 +137,15 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       dispatch(updateFile({ 
         fileId: uploadFile.fileId, 
         tempId: id,
+        pos: tempFilePos,
       }));
 
-      await axios.put(
+      const form = new FormData();
+      form.append('file', uploadFile.file);
+
+      await axios[isImage ? 'post' : 'put'](
         url, 
-        uploadFile.file,
+        isImage ? form : uploadFile.file,
         { 
           signal,
           onUploadProgress: (event) => {
@@ -195,7 +195,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
 
 type UploadAttachmentByTypeParams = UploadAttachmentParams & {
   noteId: number,
-  type: 'file' | 'audio', 
+  type: UploadFileType, 
   signal?: AbortSignal,
 }
 
@@ -208,23 +208,27 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
       removeFiles,
     } = params;
 
-    const getAttachmentLoadPath = (type: 'file' | 'audio', id: string) => {
+    const getAttachmentLoadPath = (type: UploadFileType, id: string) => {
       switch(type) {
       case 'file':
         return `/notes/${noteId}/files/${id}`;
       case 'audio':
         return `/notes/${noteId}/audio/${id}`;
+      case 'image':
+        return `/notes/${noteId}/images/${id}`;
       default:
         throw new Error(`Invalid attachment type: ${type}`);
       }
     };
 
-    const getNoteAttachmentField = (type: 'file' | 'audio') => {
+    const getNoteAttachmentField = (type: UploadFileType) => {
       switch(type) {
       case 'file':
         return 'files';
       case 'audio':
         return 'audio';
+      case 'image':
+        return 'images';
       default:
         throw new Error(`Invalid attachment type: ${type}`);
       }
@@ -292,29 +296,5 @@ export const retryAttachmentUpload = (params: RetryAttachmentUploadParams): Thun
         type: 'error',
         description: 'Error occured while uploading attachment',
       });
-    }
-  };
-
-export const uploadNoteImage = (noteId: number, file: UploadFile, signal?: AbortSignal): ThunkAction => 
-  async (dispatch) => {
-    const formData = new FormData();
-    formData.append('file', file.file);
-
-    try {
-      dispatch(updateFile({ fileId: file.fileId, status: 'uploading' }));
-
-      const realId = await api.post<string>(
-        `/notes/${noteId}/images`, 
-        formData,
-        { 
-          signal,
-          onUploadProgress: (event) => {
-            dispatch(updateFile({ fileId: file.fileId, progress: Math.min((event.progress || 0) * 100, 90) }));
-          }, 
-        });
-
-      dispatch(updateFile({ fileId: file.fileId, status: 'complete', realId }));
-    } catch(error) {
-      dispatch(updateFile({ fileId: file.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };

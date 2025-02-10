@@ -10,6 +10,7 @@ export type UploadFileEntity = {
   noteId?: number,
   status: StatusType,
   progress: number,
+  pos: number,
   tempId?: string,
   realId?: string | null,
   error: string | null,
@@ -45,6 +46,7 @@ export const uploadSlice = createSlice({
         status: 'idle',
         progress: 0,
         error: null,
+        pos: Infinity,
       };
     },
     updateFile: (

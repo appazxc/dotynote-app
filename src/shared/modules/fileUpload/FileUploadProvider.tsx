@@ -94,9 +94,12 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
 
       newData.forEach(({ fileId, file, dimensions }) => {
         let fileType = type;
-        const maxSize = 10 * 1024 * 1024; // 10mb
+        const MAX_PIXELS = 12000;
+        const MAX_SIZE = 10 * 10 * 1024 * 1024; // 10mb
+        const isImageTooLarge = type === 'image'
+          && (file.size > MAX_SIZE || dimensions.width >= MAX_PIXELS || dimensions.height >= MAX_PIXELS);
 
-        if (type === 'image' && file.size > maxSize) {
+        if (isImageTooLarge) {
           fileType = 'file';
         }
 

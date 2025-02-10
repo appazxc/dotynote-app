@@ -1,4 +1,4 @@
-import { Box, BoxProps, Center, Float, Icon } from '@chakra-ui/react';
+import { Box, Center, Float, Icon } from '@chakra-ui/react';
 import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
@@ -6,17 +6,28 @@ import { IoMdInformationCircle } from 'react-icons/io';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
-import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
+import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
+import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
+import { useAppSelector } from 'shared/store/hooks';
+import { invariant } from 'shared/util/invariant';
 
 type Props = {
+  fileId: string,
   height: number,
   width: number,
   src: string | null,
-  status: UploadFileEntity['status'],
-  error: UploadFileEntity['error'],
 }
 
-export const UploadingImage = React.memo(({ height, width, src, status, error }: Props) => {
+export const UploadingImage = React.memo(({ fileId, height, width, src }: Props) => {
+  const uploadFile = useAppSelector(state => selectUploadFileEntity(state, fileId));
+
+  invariant(uploadFile, 'Missing upload file');
+
+  const { status, error } = uploadFile;
+
+  const showLoader = status === 'uploading' || status === 'complete' || status === 'processing';
+  const progress = getFileUploadProgress(uploadFile);
+
   return src ? (
     <Box position="relative">
       <NoteImage
@@ -43,7 +54,7 @@ export const UploadingImage = React.memo(({ height, width, src, status, error }:
         </Center>
       )}
 
-      {status === 'uploading' && (
+      {showLoader && (
         <Center
           position="absolute"
           top="0"
@@ -53,7 +64,7 @@ export const UploadingImage = React.memo(({ height, width, src, status, error }:
         > 
           <ProgressCircleRoot
             size="sm"
-            value={null}
+            value={progress}
             colorPalette="gray"
             animation={'spin 2s linear infinite'}
           >

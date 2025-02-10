@@ -8,10 +8,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import { ImageWithControls } from 'shared/components/NoteImages/ImageWithControls';
 import { UploadingImage } from 'shared/components/NoteImages/UploadingImage';
 import { useFileUpload } from 'shared/modules/fileUpload';
-import {
-  UploadEntity,
-  selectUploadEntities,
-} from 'shared/modules/fileUpload/fileUploadSelectors';
+import { selectUploadEntities } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useAppSelector } from 'shared/store/hooks';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { downloadImage } from 'shared/util/downloadImage';
@@ -75,8 +72,8 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
           alt: 'Uploading image',
           height: imgFile.dimensions.height,
           width: imgFile.dimensions.width,
-          uploadImage: imgFile,
-        }) as Photo & { uploadImage: UploadEntity };
+          uploadImageId: imgFile.fileId,
+        }) as Photo & { uploadImageId: string };
       })];
   }, [notePhotos, uploadImages, noteImageIds]);
 
@@ -122,8 +119,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
                 <UploadingImage
                   key={context.photo.key}
                   src={context.photo.src}
-                  status={context.photo.uploadImage.status}
-                  error={context.photo.uploadImage.error}
+                  fileId={context.photo.uploadImageId}
                   height={context.height}
                   width={context.width}
                 />
