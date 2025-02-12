@@ -22,7 +22,7 @@ type Props = {
 
 const ICON_SIZE = 24;
 
-export const PostsPickerContent = React.memo((props: Props) => {
+export const PostsContentPicker = React.memo((props: Props) => {
   const { note, onClick } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();

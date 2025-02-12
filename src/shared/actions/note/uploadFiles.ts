@@ -72,13 +72,10 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
   });
 
   switch(entity.type) {
-  // case 'image':
-  //   await dispatch(uploadNoteImage(noteId, uploadFile, signal));
-  //   unlockNextStep?.();
-  //   break;
   case 'file':
   case 'audio':
   case 'image':
+  case 'video':
     await dispatch(uploadAttachmentByType({ 
       type: entity.type, 
       noteId,
@@ -216,6 +213,8 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
         return `/notes/${noteId}/audio/${id}`;
       case 'image':
         return `/notes/${noteId}/images/${id}`;
+      case 'video':
+        return `/notes/${noteId}/videos/${id}`;
       default:
         throw new Error(`Invalid attachment type: ${type}`);
       }
@@ -229,6 +228,8 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
         return 'audio';
       case 'image':
         return 'images';
+      case 'video':
+        return 'videos';
       default:
         throw new Error(`Invalid attachment type: ${type}`);
       }

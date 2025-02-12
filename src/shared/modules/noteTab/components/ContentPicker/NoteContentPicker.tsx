@@ -8,6 +8,7 @@ import { VscRecord } from 'react-icons/vsc';
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
+import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -18,9 +19,25 @@ type Props = {
 }
 const ICON_SIZE = 24;
 
-export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
+export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
+
+  const handleNoteAttachmentClick = React.useCallback((type: UploadFileType) => () => {
+    const onFilesAdd = (files, removeFiles) => {
+      dispatch(uploadNoteFiles({
+        noteId,
+        files,
+        removeFiles,
+      }));
+    };
+
+    openFilePicker({ 
+      noteId,
+      type,
+    }, onFilesAdd);
+    onClick?.();
+  }, [dispatch, noteId, onClick, openFilePicker]);
 
   const items = React.useMemo(() => {
     return [
@@ -35,72 +52,26 @@ export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
       {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
-        onClick: () => {
-          const onFilesAdd = (files, removeFiles) => {
-            dispatch(uploadNoteFiles({
-              noteId,
-              files,
-              removeFiles,
-            }));
-          };
-
-          openFilePicker({ 
-            noteId,
-            type: 'image',
-          }, onFilesAdd);
-          onClick?.();
-        },
+        onClick: handleNoteAttachmentClick('image'),
       },
       {
         icon: <GoFile size={ICON_SIZE} />,
         title: 'File',
-        onClick: () => {
-          const onFilesAdd = (files, removeFiles) => {
-            dispatch(uploadNoteFiles({
-              noteId,
-              files,
-              removeFiles,
-            }));
-          };
-
-          openFilePicker({ 
-            noteId,
-            type: 'file',
-          }, onFilesAdd);
-
-          onClick?.();
-        },
+        onClick: handleNoteAttachmentClick('file'),
       },
       {
         icon: <PiFileAudioFill size={ICON_SIZE} />,
         title: 'Audio',
-        to: '/',
-        onClick: () => {
-          const onFilesAdd = (files, removeFiles) => {
-            dispatch(uploadNoteFiles({
-              noteId,
-              files,
-              removeFiles,
-            }));
-          };
-
-          openFilePicker({ 
-            noteId,
-            type: 'audio',
-          }, onFilesAdd);
-
-          onClick?.();
-        },
-      },
-      {
-        icon: <PiFeather size={ICON_SIZE} />,
-        title: 'Excalidraw',
-        to: '/',
-        disabled: true,
+        onClick: handleNoteAttachmentClick('audio'),
       },
       {
         icon: <HiOutlineVideoCamera size={ICON_SIZE} />,
         title: 'Video',
+        onClick: handleNoteAttachmentClick('video'),
+      },
+      {
+        icon: <PiFeather size={ICON_SIZE} />,
+        title: 'Excalidraw',
         to: '/',
         disabled: true,
       },
@@ -123,7 +94,7 @@ export const NotePickerContent = React.memo(({ noteId, onClick }: Props) => {
         disabled: true,
       },
     ];
-  }, [dispatch, openFilePicker, noteId, onClick]);
+  }, [dispatch, openFilePicker, noteId, onClick, handleNoteAttachmentClick]);
 
   return (
     <ContentPickerCards items={items} />

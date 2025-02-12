@@ -1,13 +1,14 @@
 import { nanoid } from 'nanoid';
 import React from 'react';
 
+import { toaster } from 'shared/components/ui/toaster';
 import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { getImageDimensions } from 'shared/util/getImageDimensions';
 
 type Props = React.PropsWithChildren<{}>;
 
-export type UploadFileType = 'image' | 'file' | 'audio';
+export type UploadFileType = 'image' | 'file' | 'audio' | 'video';
 
 export type UploadFile = { 
   fileId: string, 
@@ -95,14 +96,22 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       newData.forEach(({ fileId, file, dimensions }) => {
         let fileType = type;
         const MAX_PIXELS = 12000;
-        const MAX_SIZE = 10 * 10 * 1024 * 1024; // 10mb
+        const MAX_IMAGE_SIZE = 10 * 10 * 1024 * 1024; // 10mb
+        const MAX_SIZE = 4294967296; // 4gb
         const isImageTooLarge = type === 'image'
-          && (file.size > MAX_SIZE || dimensions.width >= MAX_PIXELS || dimensions.height >= MAX_PIXELS);
+          && (file.size > MAX_IMAGE_SIZE || dimensions.width >= MAX_PIXELS || dimensions.height >= MAX_PIXELS);
 
+        const isFileTooLarge = file.size >= MAX_SIZE;
         if (isImageTooLarge) {
           fileType = 'file';
         }
 
+        if (isFileTooLarge) {
+          toaster.create({
+            description: 'Maximum file size is 4GB.',
+          });
+          return;
+        }
         dispatch(addFile({ fileId, type: fileType, noteId, dimensions }));
       });
       
@@ -150,6 +159,9 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       break;
     case 'audio': 
       createAndClickInput(noteId, type, onFilesAdd, 'audio/mpeg,audio/wav,audio/ogg,audio/aac,audio/flac');
+      break;
+    case 'video': 
+      createAndClickInput(noteId, type, onFilesAdd, 'video/*,.mkv');
       break;
     default:
       console.error(`Unsupported file type: ${type}`);

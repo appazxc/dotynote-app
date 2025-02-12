@@ -2,8 +2,8 @@ import { Center, Text, Tabs } from '@chakra-ui/react';
 import React from 'react';
 
 import { apos } from 'shared/constants/htmlCodes';
-import { NotePickerContent } from 'shared/modules/noteTab/components/ContentPicker/NotePickerContent';
-import { PostsPickerContent } from 'shared/modules/noteTab/components/ContentPicker/PostsPickerContent';
+import { NoteContentPicker } from 'shared/modules/noteTab/components/ContentPicker/NoteContentPicker';
+import { PostsContentPicker } from 'shared/modules/noteTab/components/ContentPicker/PostsContentPicker';
 import { addTo, AddTo } from 'shared/modules/noteTab/constants';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
@@ -47,12 +47,12 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
 
       {canAddToNote && (
         <Tabs.Content value={addTo.NOTE}>
-          <NotePickerContent noteId={noteId} onClick={onClose} />
+          <NoteContentPicker noteId={noteId} onClick={onClose} />
         </Tabs.Content>
       )}
       {canAddToPosts && (
         <Tabs.Content value={addTo.POSTS}>
-          <PostsPickerContent
+          <PostsContentPicker
             note={note}
             onClick={onClose}
           />
