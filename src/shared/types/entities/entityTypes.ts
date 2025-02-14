@@ -31,6 +31,7 @@ export type ApiEntityTypes = {
   [entityNames.noteImage]: ApiNoteImageEntity,
   [entityNames.noteFile]: ApiNoteFileEntity,
   [entityNames.noteAudio]: ApiNoteAudioEntity,
+  [entityNames.noteVideo]: ApiNoteAudioEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -51,4 +52,5 @@ export type EntityTypes = {
   [entityNames.noteImage]: NoteImageEntity,
   [entityNames.noteFile]: NoteFileEntity,
   [entityNames.noteAudio]: NoteAudioEntity,
+  [entityNames.noteVideo]: NoteAudioEntity,
 }

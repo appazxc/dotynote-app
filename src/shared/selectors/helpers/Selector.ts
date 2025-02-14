@@ -1,3 +1,5 @@
+import { schema } from 'normalizr';
+
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { noteSchema } from 'shared/schemas/note.schema';
 import { noteAudioSchema } from 'shared/schemas/noteAudio.schema';
@@ -5,6 +7,7 @@ import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
+import { noteVideoSchema } from 'shared/schemas/noteVideo.schema';
 import { orderBySchema } from 'shared/schemas/orderBy.schema';
 import { postSchema } from 'shared/schemas/post.schema';
 import { postDotSchema } from 'shared/schemas/postDot.schema';
@@ -21,7 +24,9 @@ import { makeGetEntityById } from 'shared/selectors/helpers/makeGetEntityById';
 import { ApiEntityTypes, EntityTypes } from 'shared/types/entities/entityTypes';
 import { AppState } from 'shared/types/store';
 
-const schemaMap = {
+const schemaMap: {
+  [key in EntityName]: schema.Entity<any>;
+} = {
   [entityNames.note]: noteSchema,
   [entityNames.noteSettings]: noteSettingsSchema,
   [entityNames.post]: postSchema,
@@ -37,6 +42,7 @@ const schemaMap = {
   [entityNames.noteImage]: noteImageSchema,
   [entityNames.noteFile]: noteFileSchema,
   [entityNames.noteAudio]: noteAudioSchema,
+  [entityNames.noteVideo]: noteVideoSchema,
 };
 
 export default class Selector<T extends EntityName> {

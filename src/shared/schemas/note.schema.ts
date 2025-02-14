@@ -5,6 +5,7 @@ import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
+import { noteVideoSchema } from 'shared/schemas/noteVideo.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { userSchema } from 'shared/schemas/user.schema';
 
@@ -18,4 +19,5 @@ export const noteSchema = new schema.Entity(
     images: [noteImageSchema],
     files: [noteFileSchema],
     audio: [noteAudioSchema],
+    videos: [noteVideoSchema],
   });

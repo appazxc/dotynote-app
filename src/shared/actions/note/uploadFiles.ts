@@ -15,6 +15,7 @@ import { connectSSE } from 'shared/util/connectSse';
 import { emitter } from 'shared/util/emitter';
 
 const updateFileUploadStatus = throttle((id: string, progress: number) => {
+  console.log('progress trailed', progress );
   api.patch(`/upload/${id}`, { progress });
 }, 5000, { trailing: false });
 
@@ -152,13 +153,14 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
               fileId: uploadFile.fileId, 
               progress,
             }));
-
+            console.log('progress update start', progress);
             updateFileUploadStatus(id, progress);
+            console.log('progress update finish', progress);
           }, 
         });
 
       await api.post(getUploadConfirmPath(id), {});
-      
+      console.log('after confirm');
       await dispatch(connectSSE<{ 
         progress: number,
         realId: string | null
