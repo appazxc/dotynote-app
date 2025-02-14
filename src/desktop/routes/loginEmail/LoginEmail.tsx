@@ -1,5 +1,5 @@
+import { LoginEmailContent } from 'shared/components/LoginEmailContent';
 import { Logo } from 'shared/components/Logo';
-import { LoginEmailContent } from 'shared/modules/loginEmail/LoginEmailContent';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
