@@ -18,7 +18,7 @@ type Props = {
   fileSize: number,
 }
 
-export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props) => {
+export const UploadingVideo = React.memo(({ id, filename, fileSize, size }: Props) => {
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, id));
   const { removeFiles } = useFileUpload();
 

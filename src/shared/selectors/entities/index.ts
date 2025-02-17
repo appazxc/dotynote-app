@@ -14,3 +14,4 @@ export const noteDotSelector = new Selector(entityNames.noteDot);
 export const postDotSelector = new Selector(entityNames.postDot);
 export const noteAudioSelector = new Selector(entityNames.noteAudio);
 export const noteFileSelector = new Selector(entityNames.noteFile);
+export const noteVideoSelector = new Selector(entityNames.noteVideo);

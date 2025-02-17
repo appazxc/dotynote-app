@@ -6,6 +6,7 @@ import React from 'react';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
+import { NoteVideos } from 'shared/components/NoteVideos';
 import { Tag } from 'shared/components/ui/tag';
 import { selectIsNoteFilesUploading } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { NoteAudioFiles } from 'shared/modules/noteAudio';
@@ -112,6 +113,10 @@ export const NoteContent = (props: Props) => {
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
+      />
+      <NoteVideos
+        noteId={noteId}
+        videos={note.videos}
       />
       <NoteAudioFiles 
         noteId={noteId}

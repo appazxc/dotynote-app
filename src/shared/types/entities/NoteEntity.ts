@@ -7,6 +7,7 @@ import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 import { NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
+import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 export type ApiNoteEntity = BaseEntity<{
@@ -32,6 +33,7 @@ export type ApiNoteEntity = BaseEntity<{
   images: string[],
   files: string[],
   audio: string[],
+  videos: string[],
 }, number>
 
 export type NoteEntity = MergeEntity<ApiNoteEntity, { 
@@ -41,4 +43,5 @@ export type NoteEntity = MergeEntity<ApiNoteEntity, {
   images: NoteImageEntity[],
   files: NoteFileEntity[],
   audio: NoteAudioEntity[],
+  videos: NoteVideoEntity[],
 }>
