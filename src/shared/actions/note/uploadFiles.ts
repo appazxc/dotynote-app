@@ -15,7 +15,6 @@ import { connectSSE } from 'shared/util/connectSse';
 import { emitter } from 'shared/util/emitter';
 
 const updateFileUploadStatus = throttle((id: string, progress: number) => {
-  console.log('progress trailed', progress );
   api.patch(`/upload/${id}`, { progress });
 }, 5000, { trailing: false });
 
@@ -153,22 +152,28 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
               fileId: uploadFile.fileId, 
               progress,
             }));
-            console.log('progress update start', progress);
+
             updateFileUploadStatus(id, progress);
-            console.log('progress update finish', progress);
           }, 
         });
 
       await api.post(getUploadConfirmPath(id), {});
-      console.log('after confirm');
+
       await dispatch(connectSSE<{ 
         progress: number,
-        realId: string | null
+        realId: string | null,
+        isError?: boolean
        }>({
          url: `${getBaseApi()}/upload/status/${id}`,
          onMessage: (data, close) => {
-           const isComplete = !!data.realId || data.progress === 100;
+           const isComplete = !!data.realId;
           
+           if (data.isError) {
+             dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: 'An error occured.' }));
+             close();
+             return;
+           }
+           
            dispatch(updateFile({
              fileId: uploadFile.fileId, 
              progress: data.progress,
