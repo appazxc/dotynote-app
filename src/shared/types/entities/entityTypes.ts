@@ -5,6 +5,7 @@ import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiNoteFileEntity, NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
+import { ApiNoteVideoEntity, NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { ApiPostDotEntity, PostDotEntity } from 'shared/types/entities/PostDotEntity';
 import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
@@ -31,7 +32,7 @@ export type ApiEntityTypes = {
   [entityNames.noteImage]: ApiNoteImageEntity,
   [entityNames.noteFile]: ApiNoteFileEntity,
   [entityNames.noteAudio]: ApiNoteAudioEntity,
-  [entityNames.noteVideo]: ApiNoteAudioEntity,
+  [entityNames.noteVideo]: ApiNoteVideoEntity,
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -52,5 +53,5 @@ export type EntityTypes = {
   [entityNames.noteImage]: NoteImageEntity,
   [entityNames.noteFile]: NoteFileEntity,
   [entityNames.noteAudio]: NoteAudioEntity,
-  [entityNames.noteVideo]: NoteAudioEntity,
+  [entityNames.noteVideo]: NoteVideoEntity,
 }

@@ -4,7 +4,7 @@ import React from 'react';
 import { toaster } from 'shared/components/ui/toaster';
 import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
-import { getImageDimensions } from 'shared/util/getImageDimensions';
+import { getFileDimensions } from 'shared/util/getFileDimensions';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -82,9 +82,9 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     
     if (files.length > 0) {
       const newData = await Promise.all(files.map(async file => {
-        const objectUrl = type === 'image' ? URL.createObjectURL(file) : null;
-        const dimensions = type === 'image' ? await getImageDimensions(file) : { width: 0, height: 0 };
-
+        const objectUrl = type === 'image' || type === 'video' ? URL.createObjectURL(file) : null;
+        const dimensions = await getFileDimensions(file);
+console.log('objecturl', objectUrl, URL.createObjectURL(file), file);
         return ({
           file,
           fileId: nanoid(),
@@ -100,8 +100,8 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         const MAX_SIZE = 4294967296; // 4gb
         const isImageTooLarge = type === 'image'
           && (file.size > MAX_IMAGE_SIZE || dimensions.width >= MAX_PIXELS || dimensions.height >= MAX_PIXELS);
-
         const isFileTooLarge = file.size >= MAX_SIZE;
+        
         if (isImageTooLarge) {
           fileType = 'file';
         }

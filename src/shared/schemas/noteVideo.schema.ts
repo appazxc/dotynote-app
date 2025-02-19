@@ -1,3 +1,7 @@
 import { schema } from 'normalizr';
 
-export const noteVideoSchema = new schema.Entity('noteVideo', {});
+import { noteVideoThumbnailSchema } from 'shared/schemas/noteVideoThumbnail.schema';
+
+export const noteVideoSchema = new schema.Entity('noteVideo', {
+  thumbnail: noteVideoThumbnailSchema,
+});

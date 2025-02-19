@@ -1,9 +1,12 @@
+import { Box, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { api } from 'shared/api';
-import { useDeleteNoteFile } from 'shared/api/hooks/useDeleteNoteFile';
 import { useDeleteNoteVideo } from 'shared/api/hooks/useDeleteNoteVideo';
+import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { VideoWidget } from 'shared/components/NoteVideos/VideoWidget';
+import { DotsIcon } from 'shared/components/ui/icons';
+import { VideoPlayer } from 'shared/components/VideoPlayer';
 import { noteVideoSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { downloadFile } from 'shared/util/downloadFile';
@@ -13,13 +16,20 @@ import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
   noteId: number,
-  id: string,
-  size?: 'sm' | 'md',
+  videoId: string,
+  width: number,
+  height: number,
 }
-
-export const NoteVideo = React.memo(({ id, noteId, size }: Props) => {
-  const getFileById = React.useMemo(() => noteVideoSelector.makeGetById(), []);
-  const noteVideo = useAppSelector(state => getFileById(state, id));
+// <VideoPlayer
+//       url={noteVideo.url}
+//       width={noteVideo.width}
+//       height={noteVideo.height}
+//       mimeType={noteVideo.mimeType}
+//     /> 
+export const NoteVideo = React.memo((props: Props) => {
+  const { videoId, noteId, width, height } = props;
+  const getVideoById = React.useMemo(() => noteVideoSelector.makeGetEntityById(), []);
+  const noteVideo = useAppSelector(state => getVideoById(state, videoId));
 
   invariant(noteVideo, 'Missing note video upload');
 
@@ -29,7 +39,7 @@ export const NoteVideo = React.memo(({ id, noteId, size }: Props) => {
   const { mutate, isPending } = useDeleteNoteVideo();
   
   const handleFileDownload = async () => {
-    const fileUrl = await api.get<string>(`/notes/videos/${id}/signed-url`);
+    const fileUrl = await api.get<string>(`/notes/videos/${videoId}/signed-url`);
 
     downloadFile(fileUrl);
   };
@@ -50,11 +60,35 @@ export const NoteVideo = React.memo(({ id, noteId, size }: Props) => {
 
         mutate({
           noteId,
-          entityId: id,
+          entityId: videoId,
         });
       }, 
     },
   ];
+  console.log('noteVideo', noteVideo);
+
+  return (
+    <Menu isContextMenu>
+      <MenuTrigger>
+        <Box
+          backgroundImage={`url(${noteVideo.thumbnail.url})`} 
+          backgroundSize="cover"
+          height={height}
+          width={width}
+          borderRadius="md"
+        />
+      </MenuTrigger>
+      <MenuList>
+        {options.map((option) => (
+          <MenuItem
+            key={option.label}
+            label={option.label}
+            onClick={option.onClick}
+          />
+        ))}
+      </MenuList>
+    </Menu>
+  );
 
   return (
     <VideoWidget

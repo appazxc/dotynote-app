@@ -58,6 +58,7 @@
     "@tiptap/pm": "^2.3.0",
     "@tiptap/react": "^2.3.0",
     "@uidotdev/usehooks": "^2.4.1",
+    "@vidstack/react": "^1.12.13",
     "axios": "^1.4.0",
     "blurhash": "^2.0.5",
     "eventemitter3": "^5.0.1",

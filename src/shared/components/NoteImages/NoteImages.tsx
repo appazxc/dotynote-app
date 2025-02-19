@@ -108,8 +108,8 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
                     hasControls={hasControls}
                     src={context.photo.src}
                     height={context.height}
-                    blurhash={context.photo.image.blurhash}
                     width={context.width}
+                    blurhash={context.photo.image.blurhash}
                     onClick={handleImageClick(context.index)}
                   />
                 );
