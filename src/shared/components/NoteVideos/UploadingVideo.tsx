@@ -1,18 +1,13 @@
-import { AbsoluteCenter, Box, Center, ProgressCircle } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { api } from 'shared/api';
-import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
-import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
+import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
-import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useUploadEntity } from 'shared/modules/fileUpload/useUploadEntity';
-import { useAppSelector } from 'shared/store/hooks';
 import { emitter } from 'shared/util/emitter';
-import { formatFileSize } from 'shared/util/formatFileSize';
 import { invariant } from 'shared/util/invariant';
-import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
   fileId: string,
@@ -29,6 +24,17 @@ export const UploadingVideo = React.memo((props: Props) => {
 
   const progress = getFileUploadProgress(uploadVideo);
   
+  const handleCancel = React.useCallback(async () => {
+    if (uploadVideo.status === 'uploading'){
+      emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
+    }
+
+    if (uploadVideo.status === 'processing' && uploadVideo.tempId) {
+      await api.post(`/upload/${uploadVideo.tempId}/cancel`, {});
+      removeFiles([uploadVideo.fileId]);
+    }
+  }, [uploadVideo.status, uploadVideo.tempId, uploadVideo.fileId, removeFiles]);
+
   const options = React.useMemo(() => {
     return [
       ...uploadVideo.status === 'uploading' ? [{
@@ -55,6 +61,10 @@ export const UploadingVideo = React.memo((props: Props) => {
     ];
   }, [uploadVideo.status, uploadVideo.fileId, uploadVideo.tempId, removeFiles]);
 
+  if (!uploadVideo.objectUrl) {
+    return null;
+  }
+  
   return (
     <Box
       position="relative"
@@ -67,18 +77,13 @@ export const UploadingVideo = React.memo((props: Props) => {
         controls={false}
         width={width}
         height={height}
-        src={uploadVideo.objectUrl!}
+        src={uploadVideo.objectUrl}
       />
-      <AbsoluteCenter>
-        <ProgressCircleRoot
-          size="sm"
-          value={progress}
-          colorPalette="gray"
-          animation={'spin 2s linear infinite'}
-        >
-          <ProgressCircleRing css={{ '--thickness': '2px' }} />
-        </ProgressCircleRoot>
-      </AbsoluteCenter>
+      <MediaProgressCircle
+        progress={progress}
+        min={3}
+        onCancel={handleCancel}
+      />
     </Box>
   );
 });

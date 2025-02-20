@@ -88,6 +88,19 @@ module.exports = {
         'extendDefaults': true,
       },
     ],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        'multiline': {
+          'delimiter': 'semi', // Обязательно ставить ;
+          'requireLast': true,
+        },
+        'singleline': {
+          'delimiter': 'semi', // Обязательно ставить ;
+          'requireLast': false,
+        },
+      },
+    ],
     'react/self-closing-comp': ['error', {
       component: true,
       html: true,

@@ -6,6 +6,7 @@ export type ApiNoteVideoThumbnailEntity = BaseEntity<{
   width: number,
   height: number,
   url: string,  
+  blurhash: string,
 }>
 
 export type NoteVideoThumbnailEntity = MergeEntity<ApiNoteVideoThumbnailEntity, {}>;

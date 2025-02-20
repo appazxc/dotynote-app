@@ -84,7 +84,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       const newData = await Promise.all(files.map(async file => {
         const objectUrl = type === 'image' || type === 'video' ? URL.createObjectURL(file) : null;
         const dimensions = await getFileDimensions(file);
-console.log('objecturl', objectUrl, URL.createObjectURL(file), file);
+
         return ({
           file,
           fileId: nanoid(),

@@ -1,5 +1,6 @@
-import { decode } from 'blurhash';
 import React from 'react';
+
+import { decodeBlurHash } from 'shared/util/decodeBlurHash';
 
 type Props = {
   src: string,
@@ -27,7 +28,8 @@ export const NoteImageComponent = ({ blurhash, height, width, src, onClick, ...r
       src={src}
       style={{ 
         backgroundImage: placeholder && !isLoaded ? `url(${placeholder})` : undefined,
-        backgroundSize: 'cover', borderRadius: 6, 
+        backgroundSize: 'cover',
+        borderRadius: 6, 
       }}
       height={height}
       width={width}
@@ -40,16 +42,3 @@ export const NoteImageComponent = ({ blurhash, height, width, src, onClick, ...r
 };
 
 export const NoteImage = React.memo(React.forwardRef(NoteImageComponent));
-
-function decodeBlurHash(blurHash: string, width: number, height: number) {
-  const pixels = decode(blurHash, width, height);
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const context = canvas.getContext('2d');
-  
-  const imageData = context!.createImageData(width, height);
-  imageData.data.set(pixels);
-  context!.putImageData(imageData, 0, 0);
-  return canvas.toDataURL();
-}

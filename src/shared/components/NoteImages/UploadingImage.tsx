@@ -3,6 +3,7 @@ import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
@@ -54,24 +55,7 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
         </Center>
       )}
 
-      {showLoader && (
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          bottom="0"
-          right="0"
-        > 
-          <ProgressCircleRoot
-            size="sm"
-            value={progress}
-            colorPalette="gray"
-            animation={'spin 2s linear infinite'}
-          >
-            <ProgressCircleRing css={{ '--thickness': '2px' }} />
-          </ProgressCircleRoot>
-        </Center>
-      )}
+      <MediaProgressCircle progress={progress} min={3} />
       {status === 'error' && (
         <Float
           offset="15px"

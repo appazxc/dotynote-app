@@ -70,7 +70,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
           asChild
           alignItems="stretch"
           w={isPinned ? '28px' : undefined}
-          maxWidth="128px"
+          maxWidth="160px"
           minW={isActive || isPinned ? '28px' : '12px'}
           h="30px"
           flexGrow="1"
