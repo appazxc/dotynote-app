@@ -44,7 +44,13 @@ export const PostsContentPicker = React.memo((props: Props) => {
         onClick: () => {
           onClick();
 
-          dispatch(showModal({ id: modalIds.createPost }));
+          // looks like there some problems with popover + modal focus events. modal close instantly after open
+          // if not wait a bit
+          // src/desktop/modules/noteTab/NoteSidebar/SidebarPlusMenu.tsx
+          // TODO find a solution
+          setTimeout(() => {
+            dispatch(showModal({ id: modalIds.createPost }));
+          });
         },
       },
       {
