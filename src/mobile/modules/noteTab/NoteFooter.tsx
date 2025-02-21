@@ -12,8 +12,8 @@ import { NoteFooterAudioWidget } from 'mobile/modules/noteTab/NoteFooterAudioWid
 import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 
 type Props = {
-  noteId: number,
-  isWriteMode: boolean,
+  noteId: number;
+  isWriteMode: boolean;
 }
 
 export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {

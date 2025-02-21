@@ -8,7 +8,7 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { TabSidebar } from 'desktop/modules/space/components/TabSidebar';
 
 type Props = {
-  inline?: boolean,
+  inline?: boolean;
 }
 
 export const DefaultTabSidebar = React.memo(({ inline }: Props) => {

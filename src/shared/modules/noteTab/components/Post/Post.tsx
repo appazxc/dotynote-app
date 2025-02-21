@@ -10,12 +10,12 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId: number,
-  isSelecting?: boolean,
-  isSelected?: boolean,
-  internalLevel: number,
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
-  onDelete: (postId: number) => void,
+  postId: number;
+  isSelecting?: boolean;
+  isSelected?: boolean;
+  internalLevel: number;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
+  onDelete: (postId: number) => void;
 }
 
 export const Post = React.memo((props: Props) => {

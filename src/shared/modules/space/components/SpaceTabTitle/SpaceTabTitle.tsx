@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import React from 'react';
 
 type Props = {
-  title: string,
+  title: string;
 } & BoxProps
 
 export const SpaceTabTitle = React.memo(({ title, ...props }: Props) => {

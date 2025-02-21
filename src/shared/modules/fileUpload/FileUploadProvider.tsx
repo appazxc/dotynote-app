@@ -11,15 +11,15 @@ type Props = React.PropsWithChildren<{}>;
 export type UploadFileType = 'image' | 'file' | 'audio' | 'video';
 
 export type UploadFile = { 
-  fileId: string, 
-  file: File,
-  objectUrl: string | null,
+  fileId: string; 
+  file: File;
+  objectUrl: string | null;
 }
 
 type OpenFilePickerParams = {
-  noteId?: number,
-  type: UploadFileType,
-  uploadImmediately?: boolean,
+  noteId?: number;
+  type: UploadFileType;
+  uploadImmediately?: boolean;
 }
 
 export type RemoveFilesType = (fileIds: string[]) => void
@@ -34,10 +34,10 @@ type OpenFilePicker = (
 ) => void
 
 type FileUploadContextType = { 
-  removeFiles: RemoveFilesType,
-  reorderFiles: ReorderFilesType,
-  openFilePicker: OpenFilePicker,
-  files: UploadFile[],
+  removeFiles: RemoveFilesType;
+  reorderFiles: ReorderFilesType;
+  openFilePicker: OpenFilePicker;
+  files: UploadFile[];
 };
 
 const FileUploadContext = React.createContext<FileUploadContextType>(null!);

@@ -10,7 +10,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number,
+  noteId: number;
 };
 
 export const NotePostsSettingsTabContent = React.memo(({ noteId }: Props) => {

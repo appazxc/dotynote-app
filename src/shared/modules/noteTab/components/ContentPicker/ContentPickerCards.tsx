@@ -5,7 +5,7 @@ import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppSelector } from 'shared/store/hooks';
 
 type Props = {
-  items: any[],
+  items: any[];
 };
 
 export const ContentPickerCards = React.memo(({ items }: Props) => {

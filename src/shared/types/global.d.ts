@@ -1,5 +1,5 @@
 interface Keyable {
-  [key: string]: any
+  [key: string]: any;
 }
 
 declare module App {

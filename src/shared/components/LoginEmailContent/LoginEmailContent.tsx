@@ -1,15 +1,14 @@
-import React from 'react';
-
 import { Center, Text } from '@chakra-ui/react';
 import { Navigate } from '@tanstack/react-router';
 import { AxiosError } from 'axios';
+import React from 'react';
 
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
 import { Loader } from 'shared/components/Loader';
 
 type Props = {
-  email: string,
-  token: string,
+  email: string;
+  token: string;
 }
 
 function LoginEmailContent({ email, token }: Props) {

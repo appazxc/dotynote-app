@@ -5,7 +5,7 @@ import { Dot } from 'shared/components/Dots/Dot';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 
 type Props = {
-  showAmount?: boolean
+  showAmount?: boolean;
 } & NoteDotEntity;
 
 export const NoteDot = React.memo((props: Props) => {

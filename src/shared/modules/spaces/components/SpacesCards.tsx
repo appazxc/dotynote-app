@@ -4,8 +4,8 @@ import React from 'react';
 import { SpaceCard } from 'shared/modules/spaces/components/SpaceCard';
 
 type Props = {
-  activeSpaceId: string | null,
-  spaceIds: string[],
+  activeSpaceId: string | null;
+  spaceIds: string[];
 };
 
 export const SpacesCards = React.memo(({ spaceIds, activeSpaceId }: Props) => {

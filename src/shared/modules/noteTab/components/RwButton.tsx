@@ -8,8 +8,8 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { toggleRwMode } from 'shared/store/slices/appSlice';
 
 type Props = {
-  rwMode: RwMode,
-  tooltip?: Omit<TooltipProps, 'children'>
+  rwMode: RwMode;
+  tooltip?: Omit<TooltipProps, 'children'>;
 }
 
 const RwButtonComponent = ({ rwMode, tooltip, ...rest }: Props, ref) => {

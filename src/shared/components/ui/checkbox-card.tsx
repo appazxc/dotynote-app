@@ -2,13 +2,13 @@ import { CheckboxCard as ChakraCheckboxCard } from '@chakra-ui/react';
 import { Fragment, forwardRef } from 'react';
 
 export interface CheckboxCardProps extends ChakraCheckboxCard.RootProps {
-  icon?: React.ReactElement
-  label?: React.ReactNode
-  description?: React.ReactNode
-  addon?: React.ReactNode
-  indicator?: React.ReactNode | null
-  indicatorPlacement?: 'start' | 'end' | 'inside'
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  icon?: React.ReactElement;
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  addon?: React.ReactNode;
+  indicator?: React.ReactNode | null;
+  indicatorPlacement?: 'start' | 'end' | 'inside';
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export const CheckboxCard = forwardRef<HTMLInputElement, CheckboxCardProps>(

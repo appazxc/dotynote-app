@@ -10,18 +10,18 @@ import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
 import { formatTime } from 'shared/util/formatTime';
 
 type Props = {
-  isPlaying: boolean,
-  isActive: boolean,
-  name: string,
-  duration: number,
-  currentTime: number | null,
-  isDragging: boolean,
-  currentTimePos: number,
-  onPlay: (startTime?: number) => void,
-  onProgressClick: (startTime: number) => void,
-  onPause: () => void,
-  options?: { label: string, onClick: () => void }[],
-  onDragChange: (params: AudioSliderDragParams) => void,
+  isPlaying: boolean;
+  isActive: boolean;
+  name: string;
+  duration: number;
+  currentTime: number | null;
+  isDragging: boolean;
+  currentTimePos: number;
+  onPlay: (startTime?: number) => void;
+  onProgressClick: (startTime: number) => void;
+  onPause: () => void;
+  options?: { label: string; onClick: () => void }[];
+  onDragChange: (params: AudioSliderDragParams) => void;
 };
 
 export const NoteAudioWidget = React.memo((props: Props) => {

@@ -4,10 +4,10 @@ import { InternalAxiosRequestConfig } from 'axios';
 type Req = Pick<InternalAxiosRequestConfig<any>, 'data' | 'url'>
 
 type InitialState = {
-  requestIds: string[],
+  requestIds: string[];
   byId: {
-    [x: string]: Req
-  }
+    [x: string]: Req;
+  };
 }
 
 const initialState: InitialState = {
@@ -20,8 +20,8 @@ export const requestSlice = createSlice({
   initialState,
   reducers: {
     startRequest: (state, { payload: { id, request } }: PayloadAction<{
-      id: string,
-      request: Req
+      id: string;
+      request: Req;
     }>) => {
       state.byId[id] = request;
       state.requestIds.push(id);

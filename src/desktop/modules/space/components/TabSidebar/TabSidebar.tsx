@@ -1,12 +1,11 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
-
 type Props = {
-  children?: React.ReactNode,
-  header?: React.ReactNode,
-  footer?: React.ReactNode,
-  inline?: boolean,
+  children?: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+  inline?: boolean;
 }
 
 export const TabSidebar = React.memo(({ children, header, footer, inline }: Props) => {

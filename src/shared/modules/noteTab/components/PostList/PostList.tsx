@@ -27,21 +27,21 @@ import { PostsLoader } from './PostsListLoader';
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId: number,
-  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void,
-  scrollRestoration?: boolean,
-  search?: string,
-  sort?: Sort,
-  orderBy?: number,
-  isSelecting?: boolean,
-  pageSize?: number,
-  isPinned?: boolean,
-  pinnedOnTop?: boolean,
-  selectedPosts?: number[],
-  options?: InfinityPostsOptions,
-  internalLevel?: number,
-  disablePagination?: boolean,
-  onScrollRestoration?: () => void,
+  noteId: number;
+  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
+  scrollRestoration?: boolean;
+  search?: string;
+  sort?: Sort;
+  orderBy?: number;
+  isSelecting?: boolean;
+  pageSize?: number;
+  isPinned?: boolean;
+  pinnedOnTop?: boolean;
+  selectedPosts?: number[];
+  options?: InfinityPostsOptions;
+  internalLevel?: number;
+  disablePagination?: boolean;
+  onScrollRestoration?: () => void;
 } & BoxProps
 
 export const PostList = React.memo((props: Props) => {
@@ -131,8 +131,8 @@ export const PostList = React.memo((props: Props) => {
   
   const handleOnPostDelete = React.useCallback((postId: number) => {
     queryClient.setQueryData<{
-      pageParams: PageParam[],
-      pages: QueryFnData[],
+      pageParams: PageParam[];
+      pages: QueryFnData[];
     }>(getInfinityPostsQueryKey(noteId, filters), (oldData) => {
       if (!oldData) {
         return oldData;

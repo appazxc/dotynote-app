@@ -19,9 +19,9 @@ type HOCType<Props extends object> =
 type Loader = (dispatch: AppDispatch) => Promise<void>;
 
 type AsModalParams<Props extends object> = {
-  getModalParams: GetModalParamsType<Props>,
-  loader?: Loader,
-  modalLoader?: JSX.Element | false,
+  getModalParams: GetModalParamsType<Props>;
+  loader?: Loader;
+  modalLoader?: JSX.Element | false;
 };
 
 export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
@@ -50,7 +50,7 @@ export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
       // }, [active, dispatch]);
 
       const { 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         extraId: omitExtraId, 
         ...rest 
       } = props;

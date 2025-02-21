@@ -8,8 +8,8 @@ import { selectRequests } from 'shared/selectors/selectRequests';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 type Props = {
-  delay?: number,
-  text?: string
+  delay?: number;
+  text?: string;
 }
 
 export const Loader = React.memo(({ delay, text }: Props) => {

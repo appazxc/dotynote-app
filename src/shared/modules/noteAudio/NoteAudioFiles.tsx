@@ -11,12 +11,12 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 
 type Props = {
-  noteId: number,
-  hasControls?: boolean,
-  isDisabled?: boolean,
-  audio: NoteAudioEntity[],
-  inPost?: boolean,
-  size?: 'sm' | 'md',
+  noteId: number;
+  hasControls?: boolean;
+  isDisabled?: boolean;
+  audio: NoteAudioEntity[];
+  inPost?: boolean;
+  size?: 'sm' | 'md';
 } & StackProps;
 
 export const NoteAudioFiles = React.memo((props: Props) => {

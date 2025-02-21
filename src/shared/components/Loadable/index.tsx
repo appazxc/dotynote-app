@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 type Options = { 
-  fallback?: React.ReactNode, 
+  fallback?: React.ReactNode; 
 };
 
 export const Loadable = (lazyFunction, { fallback = null } : Options = {}) => {

@@ -11,11 +11,11 @@ import {
 } from 'shared/components/ui/select';
 
 type Props = {
-  label?: string,
-  placeholder?: string,
-  options: { label: string, value: string | number }[],
-  onChange: (value: (string | number)[]) => void,
-  value: (string | number)[],
+  label?: string;
+  placeholder?: string;
+  options: { label: string; value: string | number }[];
+  onChange: (value: (string | number)[]) => void;
+  value: (string | number)[];
 } & Omit<ChakraSelect.RootProps, 'onValueChange' | 'value' | 'collection'>;
 
 export const Select = React.memo(({ label, placeholder, size, value, onChange, options, ...restProps }: Props) => {

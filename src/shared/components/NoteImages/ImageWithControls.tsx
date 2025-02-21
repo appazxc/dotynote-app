@@ -10,14 +10,14 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
 
 type WithImageControlsProps = {
-  imageId: string,
-  noteId: number,
-  hasControls?: boolean,
-  src: string,
-  width: number,
-  height: number,
-  blurhash: string,
-  onClick?: () => void,
+  imageId: string;
+  noteId: number;
+  hasControls?: boolean;
+  src: string;
+  width: number;
+  height: number;
+  blurhash: string;
+  onClick?: () => void;
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {

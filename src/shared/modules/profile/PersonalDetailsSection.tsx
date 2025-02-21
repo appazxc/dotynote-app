@@ -4,13 +4,13 @@ import React from 'react';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 
 type Props = {
-  title: string,
+  title: string;
   description: {
-    open?: React.ReactNode,
-    close?: React.ReactNode,
-  },
-  children?: React.ReactNode,
-  onClose?: () => void,
+    open?: React.ReactNode;
+    close?: React.ReactNode;
+  };
+  children?: React.ReactNode;
+  onClose?: () => void;
 };
 
 export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props, ref) => {

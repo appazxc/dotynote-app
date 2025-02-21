@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { VStack } from '@chakra-ui/react';
+import React from 'react';
 
 import { HubSettings } from 'shared/modules/settings/HubSettings';
 import { selectUser } from 'shared/selectors/auth/selectUser';

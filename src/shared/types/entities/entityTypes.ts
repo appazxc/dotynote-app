@@ -17,41 +17,41 @@ import { ApiUserEntity, UserEntity } from 'shared/types/entities/UserEntity';
 import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
 export type ApiEntityTypes = {
-  [entityNames.user]: ApiUserEntity,
-  [entityNames.space]: ApiSpaceEntity,
-  [entityNames.spaceTab]: ApiSpaceTabEntity,
-  [entityNames.note]: ApiNoteEntity,
-  [entityNames.post]: ApiPostEntity,
-  [entityNames.postsSettings]: ApiPostsSettingsEntity,
-  [entityNames.noteSettings]: ApiNoteSettingsEntity,
-  [entityNames.userSettings]: ApiUserSettingsEntity,
-  [entityNames.orderBy]: ApiOrderByEntity,
-  [entityNames.postInternal]: ApiPostInternalEntity,
-  [entityNames.postDot]: ApiPostDotEntity,
-  [entityNames.noteDot]: ApiNoteDotEntity,
-  [entityNames.noteImage]: ApiNoteImageEntity,
-  [entityNames.noteFile]: ApiNoteFileEntity,
-  [entityNames.noteAudio]: ApiNoteAudioEntity,
-  [entityNames.noteVideo]: ApiNoteVideoEntity,
+  [entityNames.user]: ApiUserEntity;
+  [entityNames.space]: ApiSpaceEntity;
+  [entityNames.spaceTab]: ApiSpaceTabEntity;
+  [entityNames.note]: ApiNoteEntity;
+  [entityNames.post]: ApiPostEntity;
+  [entityNames.postsSettings]: ApiPostsSettingsEntity;
+  [entityNames.noteSettings]: ApiNoteSettingsEntity;
+  [entityNames.userSettings]: ApiUserSettingsEntity;
+  [entityNames.orderBy]: ApiOrderByEntity;
+  [entityNames.postInternal]: ApiPostInternalEntity;
+  [entityNames.postDot]: ApiPostDotEntity;
+  [entityNames.noteDot]: ApiNoteDotEntity;
+  [entityNames.noteImage]: ApiNoteImageEntity;
+  [entityNames.noteFile]: ApiNoteFileEntity;
+  [entityNames.noteAudio]: ApiNoteAudioEntity;
+  [entityNames.noteVideo]: ApiNoteVideoEntity;
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
 
 export type EntityTypes = {
-  [entityNames.user]: UserEntity,
-  [entityNames.space]: SpaceEntity,
-  [entityNames.spaceTab]: SpaceTabEntity,
-  [entityNames.note]: NoteEntity,
-  [entityNames.post]: PostEntity,
-  [entityNames.postsSettings]: PostsSettingsEntity,
-  [entityNames.noteSettings]: NoteSettingsEntity,
-  [entityNames.userSettings]: UserSettingsEntity,
-  [entityNames.orderBy]: OrderByEntity,
-  [entityNames.postInternal]: PostInternalEntity,
-  [entityNames.postDot]: PostDotEntity,
-  [entityNames.noteDot]: NoteDotEntity,
-  [entityNames.noteImage]: NoteImageEntity,
-  [entityNames.noteFile]: NoteFileEntity,
-  [entityNames.noteAudio]: NoteAudioEntity,
-  [entityNames.noteVideo]: NoteVideoEntity,
+  [entityNames.user]: UserEntity;
+  [entityNames.space]: SpaceEntity;
+  [entityNames.spaceTab]: SpaceTabEntity;
+  [entityNames.note]: NoteEntity;
+  [entityNames.post]: PostEntity;
+  [entityNames.postsSettings]: PostsSettingsEntity;
+  [entityNames.noteSettings]: NoteSettingsEntity;
+  [entityNames.userSettings]: UserSettingsEntity;
+  [entityNames.orderBy]: OrderByEntity;
+  [entityNames.postInternal]: PostInternalEntity;
+  [entityNames.postDot]: PostDotEntity;
+  [entityNames.noteDot]: NoteDotEntity;
+  [entityNames.noteImage]: NoteImageEntity;
+  [entityNames.noteFile]: NoteFileEntity;
+  [entityNames.noteAudio]: NoteAudioEntity;
+  [entityNames.noteVideo]: NoteVideoEntity;
 }

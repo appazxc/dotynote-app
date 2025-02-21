@@ -1,56 +1,60 @@
-"use client"
+'use client';
 
-import type { ButtonProps } from "@chakra-ui/react"
+import type { ButtonProps } from '@chakra-ui/react';
 import {
   Button,
   Toggle as ChakraToggle,
   useToggleContext,
-} from "@chakra-ui/react"
-import { forwardRef } from "react"
+} from '@chakra-ui/react';
+import { forwardRef } from 'react';
 
 interface ToggleProps extends ChakraToggle.RootProps {
-  variant?: keyof typeof variantMap
-  size?: ButtonProps["size"]
+  variant?: keyof typeof variantMap;
+  size?: ButtonProps['size'];
 }
 
 const variantMap = {
-  solid: { on: "solid", off: "outline" },
-  surface: { on: "surface", off: "outline" },
-  subtle: { on: "subtle", off: "ghost" },
-  ghost: { on: "subtle", off: "ghost" },
-} as const
+  solid: { on: 'solid', off: 'outline' },
+  surface: { on: 'surface', off: 'outline' },
+  subtle: { on: 'subtle', off: 'ghost' },
+  ghost: { on: 'subtle', off: 'ghost' },
+} as const;
 
 export const Toggle = forwardRef<HTMLButtonElement, ToggleProps>(
   function Toggle(props, ref) {
-    const { variant = "subtle", size, children, ...rest } = props
-    const variantConfig = variantMap[variant]
+    const { variant = 'subtle', size, children, ...rest } = props;
+    const variantConfig = variantMap[variant];
 
     return (
       <ChakraToggle.Root asChild {...rest}>
-        <ToggleBaseButton size={size} variant={variantConfig} ref={ref}>
+        <ToggleBaseButton
+          ref={ref}
+          size={size}
+          variant={variantConfig}
+        >
           {children}
         </ToggleBaseButton>
       </ChakraToggle.Root>
-    )
-  },
-)
+    );
+  }
+);
 
-interface ToggleBaseButtonProps extends Omit<ButtonProps, "variant"> {
-  variant: Record<"on" | "off", ButtonProps["variant"]>
+interface ToggleBaseButtonProps extends Omit<ButtonProps, 'variant'> {
+  variant: Record<'on' | 'off', ButtonProps['variant']>;
 }
 
 const ToggleBaseButton = forwardRef<HTMLButtonElement, ToggleBaseButtonProps>(
   function ToggleBaseButton(props, ref) {
-    const toggle = useToggleContext()
-    const { variant, ...rest } = props
+    const toggle = useToggleContext();
+    const { variant, ...rest } = props;
     return (
       <Button
-        variant={toggle.pressed ? variant.on : variant.off}
         ref={ref}
+        variant={toggle.pressed ? variant.on : variant.off}
         {...rest}
       />
-    )
-  },
-)
+    );
+  }
+);
 
-export const ToggleIndicator = ChakraToggle.Indicator
+export const ToggleIndicator = ChakraToggle.Indicator;

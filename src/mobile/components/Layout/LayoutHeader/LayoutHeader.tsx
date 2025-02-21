@@ -4,12 +4,12 @@ import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 type Props = {
-  title?: React.ReactNode,
-  left?: React.ReactNode,
-  children?: React.ReactNode,
-  right?: React.ReactNode,
-  showBackButton?: React.ReactNode,
-  onBackButtonClick?: () => void,
+  title?: React.ReactNode;
+  left?: React.ReactNode;
+  children?: React.ReactNode;
+  right?: React.ReactNode;
+  showBackButton?: React.ReactNode;
+  onBackButtonClick?: () => void;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
 export const LayoutHeader = (props: Props) => {

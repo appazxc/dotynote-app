@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { OpenChangeDetails } from 'shared/types/drawer';
 
 export type Props = {
-  noteId: number,
+  noteId: number;
 }
 
 const NoteMenuDrawer = (props: Props) => {

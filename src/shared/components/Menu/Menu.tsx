@@ -22,13 +22,13 @@ import React from 'react';
 import { MenuContext } from './MenuContext';
 
 type Props = React.PropsWithChildren<{
-  isContextMenu?: boolean,
-  contextMousePosition?: boolean,
-  placement?: Placement,
-  offsetOptions?: OffsetOptions,
-  enabled?: boolean,
-  inPortal?: boolean,
-  onOpenChange?: (isOpen: boolean) => void,
+  isContextMenu?: boolean;
+  contextMousePosition?: boolean;
+  placement?: Placement;
+  offsetOptions?: OffsetOptions;
+  enabled?: boolean;
+  inPortal?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }>
 
 export const Menu = React.memo((props: Props) => {

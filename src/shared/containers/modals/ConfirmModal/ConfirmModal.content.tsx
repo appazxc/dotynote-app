@@ -16,11 +16,11 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
 
 export type Props = ModalBase<{
-  title: string,
-  description: string,
-  isLoading?: boolean,
-  confirmText?: string,
-  onConfirm: () => void,
+  title: string;
+  description: string;
+  isLoading?: boolean;
+  confirmText?: string;
+  onConfirm: () => void;
 }>
 
 const ConfirmModal = (props: Props) => {

@@ -10,8 +10,8 @@ import { invariant } from 'shared/util/invariant';
 import { EditorContext } from './EditorContext';
 
 type Props = React.PropsWithChildren<{
-  id: number,
-  isWriteMode: boolean,
+  id: number;
+  isWriteMode: boolean;
 }>
 
 export const EditorProvider = ({ id, children }: Props) => {

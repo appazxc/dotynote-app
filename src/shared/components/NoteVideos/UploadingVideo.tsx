@@ -10,9 +10,9 @@ import { emitter } from 'shared/util/emitter';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  fileId: string,
-  width: number,
-  height: number,
+  fileId: string;
+  width: number;
+  height: number;
 }
 
 export const UploadingVideo = React.memo((props: Props) => {

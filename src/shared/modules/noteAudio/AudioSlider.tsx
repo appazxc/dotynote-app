@@ -4,13 +4,13 @@ import { Slider, SliderProps } from 'shared/components/ui/slider';
 import { AudioSliderDragParams } from 'shared/modules/noteAudio/AudioProvider';
 
 type Props = {
-  isActive: boolean,
-  isDragging?: boolean,
-  duration: number,
-  currentTimePos?: number,
-  currentTime: number | null,
-  onChange?: (time: number) => void,
-  onDragChange?: (params: AudioSliderDragParams) => void
+  isActive: boolean;
+  isDragging?: boolean;
+  duration: number;
+  currentTimePos?: number;
+  currentTime: number | null;
+  onChange?: (time: number) => void;
+  onDragChange?: (params: AudioSliderDragParams) => void;
 } & Omit<SliderProps, 'onChange'>;
 
 export const AudioSlider = React.memo((props: Props) => {

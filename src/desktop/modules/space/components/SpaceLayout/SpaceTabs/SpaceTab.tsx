@@ -24,8 +24,8 @@ import { invariant } from 'shared/util/invariant';
 import { router } from 'desktop/modules/space/tabRoutes/router';
 
 type Props = {
-  id: string,
-  isLast: boolean,
+  id: string;
+  isLast: boolean;
 }
 
 export const SpaceTab = React.memo(({ id, isLast }: Props) => {

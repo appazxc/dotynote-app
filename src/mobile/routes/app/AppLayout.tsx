@@ -7,7 +7,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { FooterNavigation } from 'mobile/containers/FooterNavigation';
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 export const AppLayout = React.memo(({ children }: Props) => {

@@ -4,10 +4,10 @@ import React from 'react';
 import { EditableTitle } from './EditableTitle';
 
 type Props = {
-  title?: string,
-  isWriteMode: boolean,
-  isMobile?: boolean,
-  onChange: (title: string) => void,
+  title?: string;
+  isWriteMode: boolean;
+  isMobile?: boolean;
+  onChange: (title: string) => void;
 }
 
 export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => {

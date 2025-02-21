@@ -19,10 +19,10 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { LayoutHeader } from 'mobile/components/Layout';
 
 type Props = {
-  note: NoteEntity,
-  isPrimary?: boolean,
-  search: string,
-  onSearchChange: (value: string) => void,
+  note: NoteEntity;
+  isPrimary?: boolean;
+  search: string;
+  onSearchChange: (value: string) => void;
 }
 
 export const NoteHeader = (props: Props) => {

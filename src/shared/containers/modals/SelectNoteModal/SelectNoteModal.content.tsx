@@ -20,8 +20,8 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { SearchResults } from './SearchResults';
 
 export type Props = {
-  title?: string,
-  onSelect?: (id: string) => void,
+  title?: string;
+  onSelect?: (id: string) => void;
 }
 
 const DEFAULT_TITLE = 'Select note';

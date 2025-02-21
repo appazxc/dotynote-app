@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
+import React from 'react';
 
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 import { Logo } from 'shared/components/Logo';

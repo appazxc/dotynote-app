@@ -16,8 +16,8 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
 
 type Props = {
-  note: NoteEntity,
-  onClick: () => void,
+  note: NoteEntity;
+  onClick: () => void;
 };
 
 const ICON_SIZE = 24;

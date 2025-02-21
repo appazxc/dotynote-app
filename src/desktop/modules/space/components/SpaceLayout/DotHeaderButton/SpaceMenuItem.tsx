@@ -10,7 +10,7 @@ import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  spaceId: string,
+  spaceId: string;
 };
 
 export const SpaceMenuItem = React.memo(({ spaceId }: Props) => {

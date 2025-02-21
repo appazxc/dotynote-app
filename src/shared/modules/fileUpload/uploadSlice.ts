@@ -5,16 +5,16 @@ import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 type StatusType = 'idle' | 'uploading' | 'processing' | 'complete' | 'canceled' | 'error';
 
 export type UploadFileEntity = { 
-  fileId: string,
-  type: UploadFileType,
-  noteId?: number,
-  status: StatusType,
-  progress: number,
-  pos: number,
-  tempId?: string,
-  realId?: string | null,
-  error: string | null,
-  dimensions: { width: number, height: number },
+  fileId: string;
+  type: UploadFileType;
+  noteId?: number;
+  status: StatusType;
+  progress: number;
+  pos: number;
+  tempId?: string;
+  realId?: string | null;
+  error: string | null;
+  dimensions: { width: number; height: number };
 }
 
 type AddFilePayload = Pick<UploadFileEntity, 'fileId' | 'type' | 'noteId' | 'dimensions'>;
@@ -23,8 +23,8 @@ type UpdateFilePayload = { fileId: UploadFileEntity['fileId'] } & Partial<Omit<U
 
 type InitialState = {
   byId: {
-    [x: string]: UploadFileEntity
-  }
+    [x: string]: UploadFileEntity;
+  };
 }
 
 const initialState: InitialState = {

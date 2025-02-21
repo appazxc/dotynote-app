@@ -17,8 +17,8 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateActiveSpaceId } from 'shared/store/slices/appSlice';
 
 type Props = { 
-  id: string, 
-  isActive: boolean
+  id: string; 
+  isActive: boolean;
 };
 
 export const SpaceCard = React.memo(({ id, isActive }: Props) => {

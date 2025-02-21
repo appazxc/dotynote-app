@@ -6,8 +6,8 @@ import { useNotes } from 'shared/api/hooks/useNotes';
 import { NoteItem } from './NoteItem';
 
 type Props = {
-  query: string,
-  onClick?: (id: string) => void,
+  query: string;
+  onClick?: (id: string) => void;
 }
 
 export function SearchResults({ query = '', onClick }: Props) {

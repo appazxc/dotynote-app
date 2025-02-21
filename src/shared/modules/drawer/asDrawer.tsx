@@ -19,9 +19,9 @@ type HOCType<Props extends object> =
 type Loader = (dispatch: AppDispatch) => Promise<void>;
 
 type AsDrawerParams<Props extends object> = {
-  getDrawerParams: GetDrawerParams<Props>,
-  loader?: Loader,
-  drawerLoader?: JSX.Element | false,
+  getDrawerParams: GetDrawerParams<Props>;
+  loader?: Loader;
+  drawerLoader?: JSX.Element | false;
 };
 
 export default function asDrawer<Props extends Partial<DrawerIdentity>>({
@@ -50,9 +50,9 @@ export default function asDrawer<Props extends Partial<DrawerIdentity>>({
       // }, [active, dispatch]);
 
       const { 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         id: omitIdKey, 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         extraId: omitextraId, 
         ...rest 
       } = props;

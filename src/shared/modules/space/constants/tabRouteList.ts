@@ -1,9 +1,9 @@
 import { tabRouteNames, TabName } from './tabRouteNames';
 
 export type TabRouteListItem = {
-  name: TabName,
-  path: string,
-  title: string,
+  name: TabName;
+  path: string;
+  title: string;
 }
 
 export const tabRouteList: TabRouteListItem[] = [

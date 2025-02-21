@@ -15,7 +15,7 @@ import {
 import { Field } from 'shared/components/ui/field';
 
 type Props = {
-  onSubmit: (values: FormValues) => void
+  onSubmit: (values: FormValues) => void;
 };
 
 const schema = z.object({

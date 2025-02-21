@@ -4,11 +4,11 @@ import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploa
 import { ThunkAction } from 'shared/types/store';
 
 type Params = {
-  parentId: number,
-  files: UploadFile[],
-  onPostCreated?: (postId: number) => void,
-  onAttachmentsUploaded?: () => void,
-  removeFiles: RemoveFilesType,
+  parentId: number;
+  files: UploadFile[];
+  onPostCreated?: (postId: number) => void;
+  onAttachmentsUploaded?: () => void;
+  removeFiles: RemoveFilesType;
 }
 
 export const createPost = (params: Params): ThunkAction => 

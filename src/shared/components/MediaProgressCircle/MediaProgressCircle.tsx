@@ -5,9 +5,9 @@ import { CloseIcon } from 'shared/components/ui/icons';
 import { ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 
 type Props = {
-  progress: number,
-  min?: number,
-  onCancel?: () => void,
+  progress: number;
+  min?: number;
+  onCancel?: () => void;
 };
 
 export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0 }: Props) => {

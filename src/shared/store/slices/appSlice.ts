@@ -4,12 +4,12 @@ import { Device } from 'shared/constants/devices';
 import { AddTo, RwMode, addTo, rwModes } from 'shared/modules/noteTab/constants';
 
 type TempNote = {
-  title: string,
-  content?: any,
+  title: string;
+  content?: any;
 }
 
 type NoOperation = {
-  type: null,
+  type: null;
 };
 
 export const operationTypes = {
@@ -22,40 +22,40 @@ export const operationTypes = {
 } as const;
 
 export type StickOperation = {
-  type: typeof operationTypes.STICK,
-  fromNoteId: number | null,
-  noteId: number | null,
-  postIds: number[],
-  concretePlace: boolean,
-  concretePostId?: number,
+  type: typeof operationTypes.STICK;
+  fromNoteId: number | null;
+  noteId: number | null;
+  postIds: number[];
+  concretePlace: boolean;
+  concretePostId?: number;
 }
 
 export type PrimaryNoteOperation = {
-  type: typeof operationTypes.PRIMARY_NOTE,
+  type: typeof operationTypes.PRIMARY_NOTE;
 }
 
 export type SelectNoteImagesOperation = {
-  type: typeof operationTypes.SELECT_NOTE_IMAGES,
-  imageIds: string[],
-  noteId: number,
+  type: typeof operationTypes.SELECT_NOTE_IMAGES;
+  imageIds: string[];
+  noteId: number;
 }
 
 export type HubOperation = {
-  type: typeof operationTypes.HUB,
+  type: typeof operationTypes.HUB;
 }
 
 export type SelectOperation = {
-  type: typeof operationTypes.SELECT,
-  noteId: number,
-  postIds: number[],
+  type: typeof operationTypes.SELECT;
+  noteId: number;
+  postIds: number[];
 }
 
 export type MoveOperation = {
-  type: typeof operationTypes.MOVE,
-  fromNoteId: number,
-  postIds: number[],
-  concretePlace: boolean,
-  concretePostId?: number,
+  type: typeof operationTypes.MOVE;
+  fromNoteId: number;
+  postIds: number[];
+  concretePlace: boolean;
+  concretePostId?: number;
 }
 
 type OperationType =
@@ -68,24 +68,24 @@ type OperationType =
   | SelectNoteImagesOperation
 
 type InitialState = {
-  isSideOpen: boolean,
-  isPageLoading: boolean,
-  activeSpaceId: string | null,
-  activeTabId: string | null,
+  isSideOpen: boolean;
+  isPageLoading: boolean;
+  activeSpaceId: string | null;
+  activeTabId: string | null;
   // when user enter some link we redirect him to app and open tab with this route
-  waitedRoute: string | null,
-  device: Device | null,
-  tempNote: TempNote | null,
+  waitedRoute: string | null;
+  device: Device | null;
+  tempNote: TempNote | null;
   primaryNoteTabIds: {
-    [x: string]: string
-  },
+    [x: string]: string;
+  };
   note: {
-    rwMode: RwMode,
-    isAdvancedEditActive: boolean,
-    addTo: AddTo,
-    isSearchActive: boolean,
-  },
-  operation: OperationType,
+    rwMode: RwMode;
+    isAdvancedEditActive: boolean;
+    addTo: AddTo;
+    isSearchActive: boolean;
+  };
+  operation: OperationType;
 };
 
 const noOperation = { type: null };
@@ -162,9 +162,9 @@ export const appSlice = createSlice({
     startStickOperation: (
       state, 
       { payload }: PayloadAction<{
-        fromNoteId?: number,
-        noteId?: number,
-        postIds?: number[],
+        fromNoteId?: number;
+        noteId?: number;
+        postIds?: number[];
       }>
     ) => {
       state.operation = {
@@ -178,8 +178,8 @@ export const appSlice = createSlice({
     startMoveOperation: (
       state, 
       { payload }: PayloadAction<{
-        fromNoteId: number,
-        postIds: number[],
+        fromNoteId: number;
+        postIds: number[];
       }>
     ) => {
       state.operation = {
@@ -202,8 +202,8 @@ export const appSlice = createSlice({
     startSelectOperation: (
       state,
       { payload }: PayloadAction<{
-        noteId: number,
-        postId: number,
+        noteId: number;
+        postId: number;
       }>
     ) => {
       state.operation = {
@@ -215,8 +215,8 @@ export const appSlice = createSlice({
     startSelectNoteImagesOperation: (
       state,
       { payload }: PayloadAction<{
-        noteId: number,
-        imageId: string,
+        noteId: number;
+        imageId: string;
       }>
     ) => {
       state.operation = {
@@ -266,7 +266,7 @@ export const appSlice = createSlice({
     },
     addPrimaryNoteTab: (
       state, 
-      { payload }: PayloadAction<{ spaceId: string, primaryNoteId: number, tabId: string }>
+      { payload }: PayloadAction<{ spaceId: string; primaryNoteId: number; tabId: string }>
     ) => {
       const { 
         spaceId,

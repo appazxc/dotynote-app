@@ -13,7 +13,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { hideModal } from './modalSlice';
 
 type Props = {
-  delay?: number,
+  delay?: number;
 }
 
 export const ModalLoader = ({ delay }: Props) => {

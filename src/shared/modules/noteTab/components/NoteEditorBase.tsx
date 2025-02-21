@@ -6,11 +6,11 @@ import { NoteEditor } from 'shared/modules/noteTab/components/NoteEditor';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
-  noteId: number,
-  isWriteMode: boolean,
-  isMobile?: boolean,
-  isTextContentEmpty: boolean,
-  content: NoteEntity['content']
+  noteId: number;
+  isWriteMode: boolean;
+  isMobile?: boolean;
+  isTextContentEmpty: boolean;
+  content: NoteEntity['content'];
 }
 
 export const NoteEditorBase = React.memo((props: Props) => {

@@ -12,8 +12,8 @@ import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
-  title: string,
-  description: string,
+  title: string;
+  description: string;
 }
 
 const InfoModal = (props: Props) => {

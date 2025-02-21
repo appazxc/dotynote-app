@@ -7,9 +7,9 @@ import { AppState } from 'shared/types/store';
 type InitialState = {
   ids: {
     [key in keyof Loader]?: boolean
-  },
-  isPageLoading: boolean,
-  appLoaders: Loader[]
+  };
+  isPageLoading: boolean;
+  appLoaders: Loader[];
 }
 
 const initialState: InitialState = {
@@ -63,7 +63,7 @@ export const {
   startLoader,
   stopLoader, 
   startPageLoading,
-  stopPageLoading ,
+  stopPageLoading,
   startAppLoader,
   stopAppLoader,
 } = loadersSlice.actions;

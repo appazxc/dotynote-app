@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { ProfileContent } from 'shared/modules/profile/ProfileContent';
 

@@ -15,7 +15,7 @@ import { startHubOperation } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
-  hub?: NoteEntity | null
+  hub?: NoteEntity | null;
 }
 
 export const HubSettings = React.memo(({ hub }: Props) => {

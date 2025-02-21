@@ -5,7 +5,7 @@ import { DrawerId } from 'shared/constants/drawerIds';
 import { makeDrawerId } from './helpers/makeDrawerId';
 
 type InitialState = {
- stack: string[],
+ stack: string[];
 }
 
 const initialState: InitialState = {
@@ -16,7 +16,7 @@ export const modalSlice = createSlice({
   name: 'drawer',
   initialState,
   reducers: {
-    showDrawer: (state, { payload }: PayloadAction<{ id: DrawerId, extraId?: string | number }>) => {
+    showDrawer: (state, { payload }: PayloadAction<{ id: DrawerId; extraId?: string | number }>) => {
       const { id, extraId = '' } = payload;
 
       state.stack.push(makeDrawerId(id, extraId));

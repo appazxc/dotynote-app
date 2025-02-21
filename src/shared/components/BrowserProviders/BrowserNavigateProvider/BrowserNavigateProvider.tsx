@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 import { BrowserNavigateContext } from './BrowserNavigateContext';
 
 type Props = {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const BrowserNavigateProvider = ({ children }: Props) => {

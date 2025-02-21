@@ -2,8 +2,8 @@ import React from 'react';
 import { useTimeout } from 'usehooks-ts';
 
 type Props = {
-  delay?: number,
-  children: React.ReactNode,
+  delay?: number;
+  children: React.ReactNode;
 }
 
 export const Wait = React.memo(({ delay = 0, children }: Props) => {

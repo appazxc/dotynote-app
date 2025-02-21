@@ -4,9 +4,9 @@ import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
 import { useEditorContext } from 'shared/modules/editor';
 
 type Props = {
-  title?: string,
-  isMobile?: boolean,
-  onChange: (title: string) => void,
+  title?: string;
+  isMobile?: boolean;
+  onChange: (title: string) => void;
 }
 
 export const EditableTitle = ({ title, isMobile, onChange }: Props) => {

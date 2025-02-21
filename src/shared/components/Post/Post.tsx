@@ -13,13 +13,13 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
-  noteId: number,
-  isSelecting?: boolean,
-  isSelected?: boolean,
-  isPinned?: boolean,
-  dots?: PostDotEntity[],
-  showDotsAmount?: boolean,
-  note: NoteEntity,
+  noteId: number;
+  isSelecting?: boolean;
+  isSelected?: boolean;
+  isPinned?: boolean;
+  dots?: PostDotEntity[];
+  showDotsAmount?: boolean;
+  note: NoteEntity;
 } & BoxProps;
 
 export const Post = React.forwardRef((props: Props, _) => {

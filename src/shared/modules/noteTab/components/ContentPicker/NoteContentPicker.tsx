@@ -14,8 +14,8 @@ import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPic
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
-  noteId: number,
-  onClick: () => void,
+  noteId: number;
+  onClick: () => void;
 }
 const ICON_SIZE = 24;
 

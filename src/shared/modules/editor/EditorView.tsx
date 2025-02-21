@@ -8,9 +8,9 @@ import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './
 import { extensions } from './extensions';
 
 type Props = {
-  content?: JSONContent,
-  maxLines?: number,
-  removeEmptyDivsFromEnd?: boolean
+  content?: JSONContent;
+  maxLines?: number;
+  removeEmptyDivsFromEnd?: boolean;
 }
 
 export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {

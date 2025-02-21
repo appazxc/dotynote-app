@@ -9,10 +9,10 @@ import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
-  id: string,
-  filename: string,
-  size?: 'sm' | 'md',
-  fileSize: number,
+  id: string;
+  filename: string;
+  size?: 'sm' | 'md';
+  fileSize: number;
 }
 
 export const UploadingAudio = React.memo(({ id, filename, fileSize, size }: Props) => {

@@ -5,8 +5,8 @@ import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
 export type DeleteNoteImageParams = {
-  imageId: string,
-  noteId: number,
+  imageId: string;
+  noteId: number;
 }
 
 export const deleteNoteImage = ({ imageId, noteId }: DeleteNoteImageParams): ThunkAction => 

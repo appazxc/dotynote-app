@@ -12,9 +12,9 @@ import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
-  title: string,
-  description: string,
-  onConfirm: () => void,
+  title: string;
+  description: string;
+  onConfirm: () => void;
 }
 
 const ConfirmDrawer = (props: Props) => {

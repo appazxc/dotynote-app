@@ -6,11 +6,11 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  postId: number,
-  files: UploadFile[],
-  onPostsCreated?: (postIds: number[]) => void,
-  onAttachmentsUploaded?: () => void,
-  removeFiles: RemoveFilesType,
+  postId: number;
+  files: UploadFile[];
+  onPostsCreated?: (postIds: number[]) => void;
+  onAttachmentsUploaded?: () => void;
+  removeFiles: RemoveFilesType;
 }
 
 export const uploadPostAttachments = (params: Params): ThunkAction => 

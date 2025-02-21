@@ -4,8 +4,8 @@ import { EditorProvider } from 'shared/modules/editor';
 import { NoteProvider } from 'shared/modules/noteTab/components/NoteProvider';
 
 type Props = React.PropsWithChildren<{
-  id: number,
-  isWriteMode: boolean,
+  id: number;
+  isWriteMode: boolean;
 }>
 
 export const NoteProviders = React.memo(({ id, isWriteMode, children }: Props) => {

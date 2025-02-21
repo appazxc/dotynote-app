@@ -1,11 +1,10 @@
+import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, BoxProps } from '@chakra-ui/react';
-
 type Props = {
-  left?: React.ReactNode,
-  children?: React.ReactNode,
-  right?: React.ReactNode,
+  left?: React.ReactNode;
+  children?: React.ReactNode;
+  right?: React.ReactNode;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>;
 
 export const TabHeader = ({ children, left, right, ...restProps }: Props) => {

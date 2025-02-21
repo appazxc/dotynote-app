@@ -2,7 +2,7 @@ import { Box, Button } from '@chakra-ui/react';
 import { Editor } from '@tiptap/react';
 
 type Props = {
-  editor?: Editor
+  editor?: Editor;
 }
 
 export const EditorMenu = ({ editor }: Props) => {
@@ -14,9 +14,9 @@ export const EditorMenu = ({ editor }: Props) => {
     <Box py="2">
       <Button
         size="xs"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
         colorScheme="brand"
         variant={editor.isActive('bulletList') ? 'solid' : 'outline'}
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
       >
         toggleBulletList
       </Button>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
-  isMobileWidgetOpen: boolean,
+  isMobileWidgetOpen: boolean;
 }
 
 const initialState: InitialState = {

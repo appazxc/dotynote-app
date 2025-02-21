@@ -8,8 +8,8 @@ import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 type Props = {
-  postsSettings: PostsSettingsEntity,
-  orderBy: ApiOrderByEntity[],
+  postsSettings: PostsSettingsEntity;
+  orderBy: ApiOrderByEntity[];
 };
 
 const sortOptions = [{ label: 'Ascending', value: 'asc' }, { label: 'Descending', value: 'desc' }];

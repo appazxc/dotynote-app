@@ -14,10 +14,10 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
-  isMobile?: boolean,
-  loaderHeight?: string,
-  onCreate: (noteId: number) => void,
-  onTextClick?: () => void,
+  isMobile?: boolean;
+  loaderHeight?: string;
+  onCreate: (noteId: number) => void;
+  onTextClick?: () => void;
 };
 
 export const NoteMediaCards = React.memo((props: Props) => {

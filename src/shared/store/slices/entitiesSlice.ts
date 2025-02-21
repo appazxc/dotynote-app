@@ -6,22 +6,22 @@ import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
 
 export type Entities = {
   [name in EntityName]: {
-    [key: string]: ApiEntityTypes[name]
+    [key: string]: ApiEntityTypes[name];
   }
 }
 
 type UpdateEntityPayloadGeneric<T extends EntityName> = { 
-  type: T, 
-  id: ApiEntityTypes[T]['id'], 
-  data: Partial<ApiEntityTypes[T]>
+  type: T; 
+  id: ApiEntityTypes[T]['id']; 
+  data: Partial<ApiEntityTypes[T]>;
 }
 
 type UpdateEntityPayload<T extends EntityName> = T extends EntityName 
   ? UpdateEntityPayloadGeneric<T> : UpdateEntityPayloadGeneric<T>
 
 type AddEntityPayloadGeneric<T extends EntityName> = { 
-  type: T, 
-  data: Partial<ApiEntityTypes[T]> & { id: ApiEntityTypes[T]['id'] }
+  type: T; 
+  data: Partial<ApiEntityTypes[T]> & { id: ApiEntityTypes[T]['id'] };
 }
 
 type AddEntityPayload<T extends EntityName> = T extends EntityName 
@@ -91,7 +91,7 @@ export const entitiesSlice = createSlice({
     },
     deleteEntity: (
       state, 
-      { payload }: PayloadAction<{ id: string | number, type: EntityName }>
+      { payload }: PayloadAction<{ id: string | number; type: EntityName }>
     ) => {
       const { id, type } = payload;
 

@@ -7,10 +7,10 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { NotePosts } from 'mobile/modules/noteTab/NotePosts';
 
 type Props = {
-  note: NoteEntity,
-  isWriteMode: boolean,
-  isSearchActive: boolean,
-  search: string,
+  note: NoteEntity;
+  isWriteMode: boolean;
+  isSearchActive: boolean;
+  search: string;
 }
 
 export const NoteTabContent = (props: Props) => {

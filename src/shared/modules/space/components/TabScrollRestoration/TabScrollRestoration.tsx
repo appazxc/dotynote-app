@@ -8,7 +8,7 @@ import { useTabContext } from 'shared/modules/space/components/TabProvider';
 const scrollMap = new Map();
 
 type Props = {
-  onScrollRestoration?: () => void,
+  onScrollRestoration?: () => void;
 }
 
 export const TabScrollRestoration = React.memo(({ onScrollRestoration }: Props) => {

@@ -21,11 +21,11 @@ import { NoteEditorBase } from '../NoteEditorBase';
 import { NoteTitle } from './NoteTitle';
 
 type Props = {
-  noteId: number,
-  isWriteMode: boolean,
-  isMobile?: boolean,
-  parent?: NoteEntity | null,
-  showParent?: boolean,
+  noteId: number;
+  isWriteMode: boolean;
+  isMobile?: boolean;
+  parent?: NoteEntity | null;
+  showParent?: boolean;
 }
 
 const EMPTY_TEXT_CONTENT = JSON.stringify({

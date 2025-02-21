@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
+import React from 'react';
 
 import { SettingsContent } from 'shared/modules/settings/SettingsContent';
 

@@ -11,9 +11,9 @@ import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
-  noteId: number,
-  id: string,
-  size?: 'sm' | 'md',
+  noteId: number;
+  id: string;
+  size?: 'sm' | 'md';
 }
 
 export const NoteFile = React.memo(({ id, noteId, size }: Props) => {

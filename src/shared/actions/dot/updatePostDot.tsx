@@ -19,8 +19,8 @@ const getNewTotal = (total, my, amount) => {
 };
 
 export type UpdateDotParams = {
-  amount: -1 | 1,
-  dotId: string,
+  amount: -1 | 1;
+  dotId: string;
 }
 
 export const updatePostDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =>

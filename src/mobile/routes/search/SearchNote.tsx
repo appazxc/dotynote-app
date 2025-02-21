@@ -10,7 +10,7 @@ import { invariant } from 'shared/util/invariant';
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 
 type Props = {
-  noteId: number
+  noteId: number;
 };
 
 export const SearchNote = React.memo(({ noteId }: Props) => {

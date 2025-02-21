@@ -4,7 +4,7 @@ import { EditorContent as TiptapEditorContent } from '@tiptap/react';
 import React from 'react';
 
 type Props = {
-  editor?: Editor
+  editor?: Editor;
 } & BoxProps
 
 export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {

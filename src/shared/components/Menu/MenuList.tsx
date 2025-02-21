@@ -2,9 +2,9 @@ import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
 type Context = {
-  activeItemId: string | null,
-  setActive: (itemId: string) => void,
-  goBack: () => void,
+  activeItemId: string | null;
+  setActive: (itemId: string) => void;
+  goBack: () => void;
 }
 
 export const MenuListContext = React.createContext<Context>({

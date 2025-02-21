@@ -33,16 +33,16 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type OnCreateParams = {
-  single: true,
-  postId: number,
+  single: true;
+  postId: number;
 } | {
-  single: false,
-  postIds: number[]
+  single: false;
+  postIds: number[];
 }
 
 export type Props = {
-  noteId: number,
-  onCreate?: (params: OnCreateParams) => void,
+  noteId: number;
+  onCreate?: (params: OnCreateParams) => void;
 }
 
 const schema = z.object({

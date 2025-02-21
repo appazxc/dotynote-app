@@ -15,15 +15,15 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 
 type Props = {
-  noteId: number,
-  hasControls?: boolean,
-  videos: NoteVideoEntity[],
-  inPost?: boolean,
-  size?: 'sm' | 'md',
+  noteId: number;
+  hasControls?: boolean;
+  videos: NoteVideoEntity[];
+  inPost?: boolean;
+  size?: 'sm' | 'md';
 } & StackProps;
 
 type NoteVideo = Photo & {
-  video: NoteVideoEntity
+  video: NoteVideoEntity;
 }
 
 export const NoteVideos = React.memo((props: Props) => {

@@ -5,11 +5,11 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ThunkAction } from 'shared/types/store';
 
 type Params = {
-  note?: Partial<NoteEntity>,
-  files: UploadFile[],
-  onCreate?: (postId: number) => void,
-  onAttachmentsUploaded?: () => void,
-  removeFiles: RemoveFilesType,
+  note?: Partial<NoteEntity>;
+  files: UploadFile[];
+  onCreate?: (postId: number) => void;
+  onAttachmentsUploaded?: () => void;
+  removeFiles: RemoveFilesType;
 }
 
 export const createNote = (params: Params): ThunkAction => 

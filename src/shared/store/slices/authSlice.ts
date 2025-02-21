@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type InitialState = {
-  token: null | string,
-  userId: null | string,
+  token: null | string;
+  userId: null | string;
 }
 
 const initialState: InitialState = {

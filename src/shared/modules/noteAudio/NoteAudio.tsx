@@ -11,8 +11,8 @@ import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
-  noteId: number,
-  audioId: string,
+  noteId: number;
+  audioId: string;
 };
 
 export const NoteAudio = React.memo((props: Props) => {

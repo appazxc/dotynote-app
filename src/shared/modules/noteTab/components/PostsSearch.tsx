@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleSearch } from 'shared/store/slices/appSlice';
 
 type Props = {
-  value: string,
-  onChange: (value: string) => void,
-  showCancelButton?: boolean,
+  value: string;
+  onChange: (value: string) => void;
+  showCancelButton?: boolean;
 };
 
 export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Props) => {

@@ -5,7 +5,7 @@ import { ModalId } from 'shared/constants/modalIds';
 import { makeModalId } from './util/makeModalId';
 
 type InitialState = {
- stack: string[],
+ stack: string[];
 }
 
 const initialState: InitialState = {
@@ -16,7 +16,7 @@ export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    showModal: (state, { payload }: PayloadAction<{ id: ModalId, extraId?: string | number }>) => {
+    showModal: (state, { payload }: PayloadAction<{ id: ModalId; extraId?: string | number }>) => {
       const { id, extraId = '' } = payload;
 
       state.stack.push(makeModalId(id, extraId));

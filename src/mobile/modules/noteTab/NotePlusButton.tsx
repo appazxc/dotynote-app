@@ -8,7 +8,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { NoteMenuDrawer } from 'mobile/containers/drawers/NoteMenuDrawer';
 
 type Props = {
-  noteId: number,
+  noteId: number;
 }
 
 export const NotePlusButton = ({ noteId }: Props) => {

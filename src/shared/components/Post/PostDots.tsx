@@ -6,8 +6,8 @@ import { PostDot } from 'shared/components/Post/PostDot';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
-  dots: PostDotEntity[]
-  showAmount?: boolean,
+  dots: PostDotEntity[];
+  showAmount?: boolean;
 } & BoxProps;
 
 export const PostDots = React.memo(({ dots, showAmount, ...boxProps }: Props) => {

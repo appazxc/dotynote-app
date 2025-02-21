@@ -21,7 +21,7 @@ import { ModalBase } from 'shared/types/modal';
 import { invariant } from 'shared/util/invariant';
 
 export type Props = ModalBase<{
-  noteId: number,
+  noteId: number;
 }>
 
 const SelectConcretePlaceModal = (props: Props) => {

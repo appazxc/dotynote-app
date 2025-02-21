@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { useRouter } from '@tanstack/react-router';
+import React from 'react';
 
 import { BrowserRouterContext } from './BrowserRouterContext';
 
 type Props = {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const BrowserRouterProvider = ({ children }: Props) => {

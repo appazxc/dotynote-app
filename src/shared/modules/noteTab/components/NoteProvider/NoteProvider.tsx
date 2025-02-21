@@ -3,8 +3,8 @@ import React from 'react';
 import { NoteContext } from './NoteContext';
 
 type Props = {
-  children: React.ReactNode,
-  id: number,
+  children: React.ReactNode;
+  id: number;
 }
 
 export const NoteProvider = ({ children, id }: Props) => {

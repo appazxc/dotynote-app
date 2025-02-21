@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollContext } from './ScrollContext';
 
 type Props = {
-  children: (ref: React.RefObject<HTMLDivElement> | null) => React.ReactNode
+  children: (ref: React.RefObject<HTMLDivElement> | null) => React.ReactNode;
 }
 
 export const ScrollProvider = ({ children }: Props) => {

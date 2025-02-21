@@ -2,9 +2,9 @@ import { selectToken } from 'shared/selectors/auth/selectToken';
 import { ThunkAction } from 'shared/types/store';
 
 type Params<T> = {
-  url: string,
-  onMessage: (data: T, closeConnection: () => void) => void,
-  onClose?: () => void, // Обработчик закрытия соединения
+  url: string;
+  onMessage: (data: T, closeConnection: () => void) => void;
+  onClose?: () => void; // Обработчик закрытия соединения
 }
 
 export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getState) => {

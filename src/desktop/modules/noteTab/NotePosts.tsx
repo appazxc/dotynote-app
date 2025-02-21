@@ -16,9 +16,9 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
-  note: NoteEntity,
-  search: string,
-  onScrollRestoration?: () => void,
+  note: NoteEntity;
+  search: string;
+  onScrollRestoration?: () => void;
 };
 
 export const NotePosts = React.memo((props: Props) => {

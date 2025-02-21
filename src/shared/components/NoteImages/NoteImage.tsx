@@ -3,12 +3,12 @@ import React from 'react';
 import { decodeBlurHash } from 'shared/util/decodeBlurHash';
 
 type Props = {
-  src: string,
-  height: number,
-  width: number,
-  blurhash?: string,
-  lazy?: boolean,
-  onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
+  src: string;
+  height: number;
+  width: number;
+  blurhash?: string;
+  lazy?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
 }
 
 export const NoteImageComponent = ({ blurhash, height, width, src, onClick, ...restProps }: Props, ref) => {

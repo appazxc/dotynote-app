@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
 import { useParams } from '@tanstack/react-router';
+import React from 'react';
 
 import { PinnedPostsTabContent } from 'shared/modules/pinnedPostsTab/PinnedPostsTabContent';
 

@@ -9,8 +9,8 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
-  post: PostEntity,
-  internalLevel: number,
+  post: PostEntity;
+  internalLevel: number;
 };
 
 export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {

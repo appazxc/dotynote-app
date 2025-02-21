@@ -8,9 +8,9 @@ import { NoteEditorHeader } from './NoteEditorHeader';
 import { NoteEmptyHeader } from './NoteEmptyHeader';
 
 type Props = {
-  isWriteMode: boolean,
-  search: string,
-  onSearchChange: (value: string) => void,
+  isWriteMode: boolean;
+  search: string;
+  onSearchChange: (value: string) => void;
 }
 
 export const NoteHeader = React.memo(({ isWriteMode, search, onSearchChange }: Props) => {

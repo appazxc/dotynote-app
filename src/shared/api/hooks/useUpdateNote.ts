@@ -11,7 +11,7 @@ export const updateNoteMutationKey = () => ['updateNote'];
 export const useUpdateNote = () => {
   return useMutation({
     mutationKey: updateNoteMutationKey(),
-    mutationFn: ({ id, data }: { id: number, data: Partial<NoteEntity> }) => {
+    mutationFn: ({ id, data }: { id: number; data: Partial<NoteEntity> }) => {
       return entityApi.note.update(id, data);
     },
     onError: (error) => {

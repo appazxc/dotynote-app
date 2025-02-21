@@ -7,12 +7,12 @@ import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollR
 import { DefaultTabSidebar } from './DefaultTabSidebar';
 
 type Props = {
-  children: React.ReactNode,
-  leftSide?: React.ReactNode,
-  footer?: React.ReactNode,
-  header?: React.ReactNode,
-  defaultSidebar?: React.ReactNode,
-  scrollRestoration?: boolean,
+  children: React.ReactNode;
+  leftSide?: React.ReactNode;
+  footer?: React.ReactNode;
+  header?: React.ReactNode;
+  defaultSidebar?: React.ReactNode;
+  scrollRestoration?: boolean;
 }
 
 export const TabLayout = (props: Props) => {

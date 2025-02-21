@@ -4,9 +4,9 @@ import * as React from 'react';
 import { BrowserProviders } from 'shared/components/BrowserProviders';
 
 type Props = {
-  children: React.ReactNode,
-  header?: React.ReactNode,
-  footer?: React.ReactNode,
+  children: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 const Layout = ({ children, header, footer }: Props) => {

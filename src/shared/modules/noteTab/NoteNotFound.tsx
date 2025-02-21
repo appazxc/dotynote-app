@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Box, Heading, Text, Button, Center } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 
 export const NoteNotFound = () => {
   const navigate = useNavigate();

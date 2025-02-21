@@ -11,7 +11,7 @@ import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 export type Props = {
-  postId: number,
+  postId: number;
 }
 
 const CreatePostDotModal = ({ postId }: Props) => {

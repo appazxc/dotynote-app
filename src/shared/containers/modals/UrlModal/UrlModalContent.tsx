@@ -20,7 +20,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
 
 export type Props = ModalBase<{
-  editor: Editor,
+  editor: Editor;
 }>
 
 const UrlModal = (props: Props) => {

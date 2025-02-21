@@ -3,8 +3,8 @@ import { queryClient } from 'shared/api/queryClient';
 
 export const turnOnQueryNextPage = (queryKey: InfinityPostsQueryKey) => {
   queryClient.setQueryData<{
-    pageParams: PageParam[],
-    pages: QueryFnData[],
+    pageParams: PageParam[];
+    pages: QueryFnData[];
   }>(queryKey, (oldData) => {
     if (!oldData) {
       return oldData;

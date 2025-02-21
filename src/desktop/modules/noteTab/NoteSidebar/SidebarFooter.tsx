@@ -5,7 +5,7 @@ import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
 
 type Props = {
-  noteId: number,
+  noteId: number;
 }
 
 export const SidebarFooter = ({ noteId }: Props) => {

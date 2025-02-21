@@ -7,9 +7,9 @@ import { Tag } from 'shared/components/ui/tag';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 
 type Props = {
-  showAmount?: boolean,
-  onPlus: () => void,
-  onMinus: () => void,
+  showAmount?: boolean;
+  onPlus: () => void;
+  onMinus: () => void;
 } & Pick<NoteDotEntity, 'my' | 'text' | 'total'>;
 
 export const Dot = React.memo((props: Props) => {

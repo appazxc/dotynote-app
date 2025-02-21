@@ -6,11 +6,11 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Params = {
-  postIds: number[],
-  parentId: number,
-  fromNoteId: number,
-  place?: 'top' | 'bottom',
-  concretePostId?: number
+  postIds: number[];
+  parentId: number;
+  fromNoteId: number;
+  place?: 'top' | 'bottom';
+  concretePostId?: number;
 }
 
 export const useMovePosts = () => {

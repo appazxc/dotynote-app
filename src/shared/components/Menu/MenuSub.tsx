@@ -20,9 +20,9 @@ import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { MenuContext } from './MenuContext';
 
 export type MenuSubProps = React.PropsWithChildren<{
-  label: React.ReactNode,
-  onClick?: () => void,
-  placement?: Placement,
+  label: React.ReactNode;
+  onClick?: () => void;
+  placement?: Placement;
 } & ButtonProps>
 
 export const MenuSub = ({ onClick, label, children, placement, ...buttonProps }: MenuSubProps) => {

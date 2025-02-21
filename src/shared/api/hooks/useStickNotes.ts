@@ -6,11 +6,11 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Params = {
-  noteId?: number | null,
-  postIds: number[],
-  parentId: number,
-  concretePostId?: number,
-  place?: 'top' | 'bottom',
+  noteId?: number | null;
+  postIds: number[];
+  parentId: number;
+  concretePostId?: number;
+  place?: 'top' | 'bottom';
 }
 
 export const useStickNotes = () => {

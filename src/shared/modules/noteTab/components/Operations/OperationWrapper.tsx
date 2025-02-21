@@ -7,7 +7,7 @@ import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { CloseIcon } from 'shared/components/ui/icons';
 
 type Props = React.PropsWithChildren<{
-  onClose: () => void,
+  onClose: () => void;
 }> & BoxProps;
 
 export const OperationWrapper = React.memo(({ children, onClose, ...boxProps }: Props) => {

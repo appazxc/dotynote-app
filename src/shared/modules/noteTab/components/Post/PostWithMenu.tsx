@@ -29,13 +29,13 @@ import { startMoveOperation, startSelectOperation, startStickOperation } from 's
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
-  children: React.ReactNode,
-  post: PostEntity,
-  internalLevel: number,
-  isMenuDisabled?: boolean,
+  children: React.ReactNode;
+  post: PostEntity;
+  internalLevel: number;
+  isMenuDisabled?: boolean;
 };
 
-type MenuProps = { key: string, hasDivider?: boolean, menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
+type MenuProps = { key: string; hasDivider?: boolean; menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 

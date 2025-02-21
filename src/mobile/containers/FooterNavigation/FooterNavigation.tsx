@@ -57,7 +57,7 @@ export const FooterNavigation = React.memo(() => {
         },
         icon: <GoHome size="25" />,
         getMenu: activeSpace ? (
-          { key, isActive, ...triggerProps }: { key: string, isActive: boolean } & IconButtonProps
+          { key, isActive, ...triggerProps }: { key: string; isActive: boolean } & IconButtonProps
         ) => {
           return (
             <HomeMenu key={key} {...triggerProps} />

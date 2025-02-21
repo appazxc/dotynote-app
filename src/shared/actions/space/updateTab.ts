@@ -7,7 +7,7 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 
-export const updateTab = ({ id, data }: { id: string, data: Partial<SpaceTabEntity>}) => 
+export const updateTab = ({ id, data }: { id: string; data: Partial<SpaceTabEntity>}) => 
   async (dispatch, getState) => {
     const oldTab = spaceTabSelector.getEntityById(getState(), id);
     const activeSpace = selectActiveSpace(getState());

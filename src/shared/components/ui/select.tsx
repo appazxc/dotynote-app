@@ -7,7 +7,7 @@ import { forwardRef } from 'react';
 import { CloseButton } from './close-button';
 
 interface SelectTriggerProps extends ChakraSelect.ControlProps {
-  clearable?: boolean
+  clearable?: boolean;
 }
 
 export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
@@ -47,8 +47,8 @@ const SelectClearTrigger = forwardRef<
 });
 
 interface SelectContentProps extends ChakraSelect.ContentProps {
-  portalled?: boolean
-  portalRef?: React.RefObject<HTMLElement>
+  portalled?: boolean;
+  portalRef?: React.RefObject<HTMLElement>;
 }
 
 export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
@@ -83,7 +83,7 @@ export const SelectItem = forwardRef<HTMLDivElement, ChakraSelect.ItemProps>(
 
 interface SelectValueTextProps
   extends Omit<ChakraSelect.ValueTextProps, 'children'> {
-  children?(items: CollectionItem[]): React.ReactNode
+  children?(items: CollectionItem[]): React.ReactNode;
 }
 
 export const SelectValueText = forwardRef<
@@ -129,7 +129,7 @@ export const SelectRoot = forwardRef<HTMLDivElement, ChakraSelect.RootProps>(
 ) as ChakraSelect.RootComponent;
 
 interface SelectItemGroupProps extends ChakraSelect.ItemGroupProps {
-  label: React.ReactNode
+  label: React.ReactNode;
 }
 
 export const SelectItemGroup = forwardRef<HTMLDivElement, SelectItemGroupProps>(

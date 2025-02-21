@@ -11,11 +11,11 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 
 type Props = {
-  noteId: number,
-  hasControls?: boolean,
-  files: NoteFileEntity[],
-  inPost?: boolean,
-  size?: 'sm' | 'md',
+  noteId: number;
+  hasControls?: boolean;
+  files: NoteFileEntity[];
+  inPost?: boolean;
+  size?: 'sm' | 'md';
 } & StackProps;
 
 export const NoteFiles = React.memo((props: Props) => {

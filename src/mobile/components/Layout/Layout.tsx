@@ -4,9 +4,9 @@ import React from 'react';
 import { ScrollProvider } from 'shared/components/ScrollProvider';
 
 type Props = {
-  children: React.ReactNode,
-  header?: React.ReactNode,
-  footer?: React.ReactNode,
+  children: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 export const Layout = ({ children, header, footer }: Props) => {

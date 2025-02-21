@@ -12,10 +12,10 @@ import { updateAddTo } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number,
-  canAddToNote: boolean,
-  canAddToPosts: boolean,
-  onClose: () => void,
+  noteId: number;
+  canAddToNote: boolean;
+  canAddToPosts: boolean;
+  onClose: () => void;
 };
 
 export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAddToPosts }: Props) => {

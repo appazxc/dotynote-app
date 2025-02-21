@@ -5,20 +5,20 @@ import { loadAudioUrl } from 'shared/actions/note/loadAudioUrl';
 import { selectAudioUrl } from 'shared/modules/noteAudio/audioSelectors';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-export type AudioSliderDragParams = { isDragging: boolean, currentTimePos: number };
+export type AudioSliderDragParams = { isDragging: boolean; currentTimePos: number };
 
 type AudioContext = {
-  activeAudioId: string | null,
-  isPlaying: boolean,
-  isDragging: boolean,
-  currentTime: number,
-  currentTimePos: number,
-  startAudio: (params: { audioId: string, startTime?: number }) => void,
-  playAudio: (params?: { startTime?: number }) => void,
-  pauseAudio: () => void,
-  stopAudio: () => void,
-  changeCurrentTime: (time: number) => void,
-  onDragChange: (params: AudioSliderDragParams) => void,
+  activeAudioId: string | null;
+  isPlaying: boolean;
+  isDragging: boolean;
+  currentTime: number;
+  currentTimePos: number;
+  startAudio: (params: { audioId: string; startTime?: number }) => void;
+  playAudio: (params?: { startTime?: number }) => void;
+  pauseAudio: () => void;
+  stopAudio: () => void;
+  changeCurrentTime: (time: number) => void;
+  onDragChange: (params: AudioSliderDragParams) => void;
 }
 
 const AudioContext = React.createContext<AudioContext>(null!);

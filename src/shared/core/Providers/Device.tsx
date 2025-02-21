@@ -7,7 +7,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { updateDevice } from 'shared/store/slices/appSlice';
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 }
 
 const deviceBoolMap = {

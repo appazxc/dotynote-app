@@ -10,7 +10,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
 
 type Props = {
-  noteId: number,
+  noteId: number;
 };
 
 export const NoteDialogs = React.memo(({ noteId }: Props) => {

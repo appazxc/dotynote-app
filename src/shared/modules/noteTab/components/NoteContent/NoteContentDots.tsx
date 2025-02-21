@@ -6,8 +6,8 @@ import { NoteDot } from 'shared/modules/noteTab/components/NoteContent/NoteDot';
 import { NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 
 type Props = {
-  dots: NoteDotEntity[]
-  showAmount?: boolean,
+  dots: NoteDotEntity[];
+  showAmount?: boolean;
 } & BoxProps;
 
 export const NoteContentDots = React.memo(({ dots, showAmount, ...boxProps }: Props) => {

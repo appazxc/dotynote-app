@@ -9,6 +9,7 @@ import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'sha
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { toaster } from 'shared/components/ui/toaster';
 import { modalIds } from 'shared/constants/modalIds';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -19,7 +20,6 @@ import { invariant } from 'shared/util/invariant';
 import { SpaceMenuItem } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton/SpaceMenuItem';
 import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
 
 export const DotHeaderButton = () => {
   const dispatch = useAppDispatch();

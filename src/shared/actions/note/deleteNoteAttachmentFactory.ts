@@ -5,13 +5,13 @@ import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
 type DeleteEntityFactoryParams<T extends EntityName> = {
-  entityName: T,
-  attachmentField: string,
+  entityName: T;
+  attachmentField: string;
 };
 
 export type DeleteAttachmentParams = {
-  entityId: string | number,
-  noteId: number,
+  entityId: string | number;
+  noteId: number;
 };
 
 export const deleteNoteAttachmentFactory = <T extends EntityName>({

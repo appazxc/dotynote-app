@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 type Props = {
-  isMobile?: boolean,
+  isMobile?: boolean;
 };
 
 export const SearchInput = React.memo(({ isMobile }: Props) => {

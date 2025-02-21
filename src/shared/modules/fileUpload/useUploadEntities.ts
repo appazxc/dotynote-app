@@ -4,9 +4,9 @@ import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppSelector } from 'shared/store/hooks';
 
 type Params = {
-    noteId?: number,
-    type?: UploadFileType,
-    status?: UploadFileEntity['status'],
+    noteId?: number;
+    type?: UploadFileType;
+    status?: UploadFileEntity['status'];
 }
 
 export const useUploadEntities = (params: Params) => {

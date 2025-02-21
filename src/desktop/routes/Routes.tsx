@@ -1,8 +1,7 @@
-import * as React from 'react';
-
 import {
   RouterProvider,
 } from '@tanstack/react-router';
+import * as React from 'react';
 
 import { getNewRouterInstance } from './router';
 

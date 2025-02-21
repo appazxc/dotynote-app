@@ -4,7 +4,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { MenuItemBase } from 'shared/components/Menu/MenuItemBase';
 
 type Props = {
-  onClick: () => void 
+  onClick: () => void; 
 };
 
 export const MenuBack = React.memo(({ onClick }: Props) => {

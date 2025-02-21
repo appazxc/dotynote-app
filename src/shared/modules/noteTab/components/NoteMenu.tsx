@@ -18,9 +18,9 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startStickOperation, toggleSearch } from 'shared/store/slices/appSlice';
 
 type Props = {
-  noteId: number,
-  isMobile?: boolean,
-  showSearch?: boolean,
+  noteId: number;
+  isMobile?: boolean;
+  showSearch?: boolean;
 };
 
 export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => {

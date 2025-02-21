@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { useLocation } from '@tanstack/react-router';
+import React from 'react';
 
 import { BrowserLocationContext } from './BrowserLocationContext';
 
 type Props = {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const BrowserLocationProvider = ({ children }: Props) => {

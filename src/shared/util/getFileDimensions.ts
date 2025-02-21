@@ -1,4 +1,4 @@
-export function getFileDimensions(file: File): Promise<{ width: number, height: number }> {
+export function getFileDimensions(file: File): Promise<{ width: number; height: number }> {
   if (file.type.startsWith('image/')) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

@@ -9,12 +9,12 @@ import { DotsIcon } from 'shared/components/ui/icons';
 import { ProgressBar, ProgressRoot } from 'shared/components/ui/progress';
 
 type Props = {
-  name: string,
-  extension: string,
-  fileSize: string,
-  size?: 'sm' | 'md',
-  progress?: number | null,
-  options?: { label: string, onClick: () => void }[],
+  name: string;
+  extension: string;
+  fileSize: string;
+  size?: 'sm' | 'md';
+  progress?: number | null;
+  options?: { label: string; onClick: () => void }[];
 } & CardRootProps;
 
 const sizes = {

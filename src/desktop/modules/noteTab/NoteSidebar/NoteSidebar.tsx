@@ -21,10 +21,10 @@ import { SidebarFooter } from './SidebarFooter';
 import { SidebarPlusMenu } from './SidebarPlusMenu';
 
 type Props = {
-  note: NoteEntity,
-  rwMode: RwMode,
-  showRwMode: boolean,
-  showSearch: boolean,
+  note: NoteEntity;
+  rwMode: RwMode;
+  showRwMode: boolean;
+  showSearch: boolean;
 }
 
 export const NoteSidebar = React.memo((props: Props) => {

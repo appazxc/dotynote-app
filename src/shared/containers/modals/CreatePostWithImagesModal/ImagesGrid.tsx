@@ -25,11 +25,11 @@ import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 const ANIMATION_DURATION_MS = 750;
 
 type ImagesGridProps = {
-  imgFiles: UploadFile[],
-  imgFileIds: string[],
-  setImgFileIds: (fileIds: string[]) => void,
-  inSeparatePosts: boolean,
-  handleFileRemove: (fileId: string) => void,
+  imgFiles: UploadFile[];
+  imgFileIds: string[];
+  setImgFileIds: (fileIds: string[]) => void;
+  inSeparatePosts: boolean;
+  handleFileRemove: (fileId: string) => void;
 }
 
 const activationConstraint = {
@@ -117,8 +117,8 @@ export const ImagesGrid = (props: ImagesGridProps) => {
 };
 
 type ImageItemProps = { 
-  src: string, 
-  listeners?: DraggableSyntheticListeners 
+  src: string; 
+  listeners?: DraggableSyntheticListeners; 
 }
 
 const ImageItem = ({ src, listeners }: ImageItemProps) => {
@@ -137,10 +137,10 @@ const ImageItem = ({ src, listeners }: ImageItemProps) => {
 };
 
 type SortableItemProps = {
-  id: string,
-  src: string | null, 
-  showSeparateIcon: boolean, 
-  onRemove: (fileId: string) => void
+  id: string;
+  src: string | null; 
+  showSeparateIcon: boolean; 
+  onRemove: (fileId: string) => void;
 }
 
 const SortableItem = React.memo(({ id, src, showSeparateIcon, onRemove }: SortableItemProps) => {
@@ -211,7 +211,7 @@ const SortableItem = React.memo(({ id, src, showSeparateIcon, onRemove }: Sortab
 });
 
 // https://github.com/clauderic/dnd-kit/issues/605
-function DragOverlayItem(props: { id: string, src: string }) {
+function DragOverlayItem(props: { id: string; src: string }) {
   const { id, src } = props;
 
   // DragOver seems to cache this component so I can't tell if the item is still actually active

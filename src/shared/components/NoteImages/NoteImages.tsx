@@ -14,10 +14,10 @@ import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteI
 import { downloadImage } from 'shared/util/downloadImage';
 
 type NoteBaseImagesProps = {
-  noteId: number,
-  hasControls?: boolean,
-  images: NoteImageEntity[],
-  inPost?: boolean,
+  noteId: number;
+  hasControls?: boolean;
+  images: NoteImageEntity[];
+  inPost?: boolean;
 } & BoxProps;
 
 type NotePhoto = Photo & { image: ApiNoteImageEntity };

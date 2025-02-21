@@ -5,10 +5,10 @@ import React from 'react';
 import { getAspectRatio } from 'shared/util/getAspectRatio';
 
 type Props = {
-  url?: string,
-  width: number,
-  height: number,
-  mimeType: VideoMimeType,
+  url?: string;
+  width: number;
+  height: number;
+  mimeType: VideoMimeType;
 };
 
 export const VideoPlayer = React.memo((props: Props) => {

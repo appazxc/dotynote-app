@@ -13,7 +13,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { hideDrawer } from './drawerSlice';
 
 type Props = {
-  delay?: number,
+  delay?: number;
 }
 
 export const DrawerLoader = ({ delay }: Props) => {

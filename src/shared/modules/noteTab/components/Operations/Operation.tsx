@@ -10,13 +10,13 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';
 
 type Props = {
-  title: React.ReactNode,
-  description?: string,
-  options?: { label: string, onClick: () => void, selected?: boolean }[],
-  confirmText?: string,
-  isLoading?: boolean,
-  onConfirm?: () => void,
-  onClose?: () => void,
+  title: React.ReactNode;
+  description?: string;
+  options?: { label: string; onClick: () => void; selected?: boolean }[];
+  confirmText?: string;
+  isLoading?: boolean;
+  onConfirm?: () => void;
+  onClose?: () => void;
 };
 
 export const Operation = React.memo((props: Props) => {

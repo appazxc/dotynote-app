@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 export type Props = {
-  id: string,
+  id: string;
 }
 
 const EditSpaceModal = ({ id }: Props) => {

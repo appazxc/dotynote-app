@@ -19,9 +19,9 @@ const updateFileUploadStatus = throttle((id: string, progress: number) => {
 }, 5000, { trailing: false });
 
 type UploadNoteFilesParams = {
-  noteId: number,
-  files: UploadFile[],
-  removeFiles: RemoveFilesType
+  noteId: number;
+  files: UploadFile[];
+  removeFiles: RemoveFilesType;
 }
 
 export const uploadNoteFiles = ({ 
@@ -48,10 +48,10 @@ export const uploadNoteFiles = ({
 };
 
 type UploadAttachmentParams = {
-  uploadFile: UploadFile,
-  removeFiles: RemoveFilesType
-  unlockNextStep?: () => void
-  pos?: number,
+  uploadFile: UploadFile;
+  removeFiles: RemoveFilesType;
+  unlockNextStep?: () => void;
+  pos?: number;
 }
 
 export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction => async (dispatch, getState) => {
@@ -94,10 +94,10 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
 };
 
 type UploadAttachmentByTypeBaseParams = UploadAttachmentByTypeParams & {
-  tempUploadPath: string,
-  getUploadConfirmPath: (id: string) => string,
-  onComplete?: () => void,
-  onCancel?: () => void
+  tempUploadPath: string;
+  getUploadConfirmPath: (id: string) => string;
+  onComplete?: () => void;
+  onCancel?: () => void;
 }
 
 export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBaseParams): ThunkAction => 
@@ -119,7 +119,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
     try {
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'uploading' }));
       
-      const { url, id, pos: tempFilePos } = await api.post<{ url: string, id: string, pos: number }>(
+      const { url, id, pos: tempFilePos } = await api.post<{ url: string; id: string; pos: number }>(
         tempUploadPath, 
         {
           noteId,
@@ -160,9 +160,9 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       await api.post(getUploadConfirmPath(id), {});
 
       await dispatch(connectSSE<{ 
-        progress: number,
-        realId: string | null,
-        isError?: boolean
+        progress: number;
+        realId: string | null;
+        isError?: boolean;
        }>({
          url: `${getBaseApi()}/upload/status/${id}`,
          onMessage: (data, close) => {
@@ -198,9 +198,9 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
   };
 
 type UploadAttachmentByTypeParams = UploadAttachmentParams & {
-  noteId: number,
-  type: UploadFileType, 
-  signal?: AbortSignal,
+  noteId: number;
+  type: UploadFileType; 
+  signal?: AbortSignal;
 }
 
 export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): ThunkAction => 

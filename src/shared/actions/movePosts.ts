@@ -4,11 +4,11 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  postIds: number[],
-  parentId: number,
-  fromNoteId: number,
-  place?: 'top' | 'bottom',
-  concretePostId?: number
+  postIds: number[];
+  parentId: number;
+  fromNoteId: number;
+  place?: 'top' | 'bottom';
+  concretePostId?: number;
 }
 
 const revertPlaceMap = {

@@ -13,10 +13,10 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  fileId: string,
-  height: number,
-  width: number,
-  src: string | null,
+  fileId: string;
+  height: number;
+  width: number;
+  src: string | null;
 }
 
 export const UploadingImage = React.memo(({ fileId, height, width, src }: Props) => {

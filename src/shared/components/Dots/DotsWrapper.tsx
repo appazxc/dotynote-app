@@ -3,7 +3,7 @@ import { AnimatePresence, LayoutGroup } from 'motion/react';
 import React from 'react';
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 } & BoxProps;
 
 export const DotsWrapper = React.memo(({ children, ...boxProps }: Props) => {

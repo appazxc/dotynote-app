@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { AnyRouter, RouterHistory, createMemoryHistory } from '@tanstack/react-router';
+import React from 'react';
 
 import { handleTabRouteChange } from 'shared/modules/space/actions/router/handleTabRouteChange';
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';

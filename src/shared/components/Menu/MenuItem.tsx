@@ -7,9 +7,9 @@ import { MenuListContext } from 'shared/components/Menu/MenuList';
 import { MenuContext } from './MenuContext';
 
 export type MenuItemProps = {
-  label: React.ReactNode,
-  onClick?: () => void,
-  closeOnClick?: boolean,
+  label: React.ReactNode;
+  onClick?: () => void;
+  closeOnClick?: boolean;
 } & Omit<ButtonProps, 'children'>
 
 export const MenuItem = (props: MenuItemProps) => {

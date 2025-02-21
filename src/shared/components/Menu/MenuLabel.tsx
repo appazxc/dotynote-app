@@ -5,8 +5,8 @@ import React from 'react';
 import { DoneIcon } from 'shared/components/ui/icons';
 
 type Props = {
-  label: React.ReactNode,
-  checked?: boolean,
+  label: React.ReactNode;
+  checked?: boolean;
 };
 
 export const MenuLabel = React.memo(({ label, checked }: Props) => {

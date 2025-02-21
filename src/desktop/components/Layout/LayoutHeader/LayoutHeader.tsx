@@ -1,12 +1,11 @@
+import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
-import { Box, BoxProps } from '@chakra-ui/react';
-
 type Props = {
-  position?: BoxProps['position'],
-  left?: React.ReactNode,
-  right?: React.ReactNode,
-  children?: React.ReactNode,
+  position?: BoxProps['position'];
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  children?: React.ReactNode;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
 export const LayoutHeader = ({ position, left, right, children, ...boxProps }: Props) => {

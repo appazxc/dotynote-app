@@ -25,10 +25,10 @@ export const load = (id?: number | null) => {
 };
 
 export type LoadListFilters = {
-  query?: string,
-  authorId?: string,
-  access?: string,
-  pageSize?: number,
+  query?: string;
+  authorId?: string;
+  access?: string;
+  pageSize?: number;
 }
 
 export const loadList = (filters: LoadListFilters = {}) => {

@@ -9,8 +9,8 @@ import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { createTabRouter } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = {
-  tab: SpaceTabEntity,
-  isLoading?: boolean,
+  tab: SpaceTabEntity;
+  isLoading?: boolean;
 }
 
 const Space = React.memo(({ tab, isLoading }: Props) => {
@@ -25,8 +25,8 @@ const Space = React.memo(({ tab, isLoading }: Props) => {
 });
 
 type SpaceTabContentProps = { 
-  tabId: string, 
-  isLoading?: boolean 
+  tabId: string; 
+  isLoading?: boolean; 
 };
 
 function SpaceTabContent({ tabId, isLoading }: SpaceTabContentProps) {

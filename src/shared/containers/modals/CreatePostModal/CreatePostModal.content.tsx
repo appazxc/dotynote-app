@@ -23,8 +23,8 @@ import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
-  noteId: number,
-  onCreate?: (id: number) => void,
+  noteId: number;
+  onCreate?: (id: number) => void;
 }
 
 const schema = z.object({

@@ -16,11 +16,11 @@ import { entityApi } from '../entityApi';
 type Filters = Record<string, string | number>;
 
 export type PageParam = { 
-  cursor?: number | null,
-  direction?: Directions | null, 
+  cursor?: number | null;
+  direction?: Directions | null; 
 }
 
-export type QueryFnData = { items: number [], hasNextPage: boolean, hasPrevPage: boolean }
+export type QueryFnData = { items: number []; hasNextPage: boolean; hasPrevPage: boolean }
 
 export type InfinityPostsOptions = Omit<
   UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,

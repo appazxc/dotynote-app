@@ -9,7 +9,7 @@ import { invariant } from 'shared/util/invariant';
 import { Api } from '../apiFactory';
 
 type DeleteOptions = {
-  deleteFlag?: boolean,
+  deleteFlag?: boolean;
 }
 export default class Essense<T extends { id: string | number }> {
   api: Api;
@@ -50,7 +50,7 @@ export default class Essense<T extends { id: string | number }> {
     if (!entity || !data) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     const { id: omitId, ...restData } = data;
 
     try {

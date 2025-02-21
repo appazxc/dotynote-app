@@ -5,9 +5,9 @@ import { ZodIssue } from 'zod';
 
 type CreateFormErrorsReturn = {
   [key: string]: {
-    code: string,
-    message: string,
-  }
+    code: string;
+    message: string;
+  };
 }
 
 export const handleFormApiErrors = <T extends FieldValues>(form: UseFormReturn<T>, apiError: unknown) => {

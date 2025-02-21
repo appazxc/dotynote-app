@@ -2,7 +2,7 @@
 import React, { use } from 'react';
 
 type Props = {
-  loader: Promise<void>,
+  loader: Promise<void>;
 };
 
 export const SuspenseLoader = React.memo<Props>(({ loader }) => {

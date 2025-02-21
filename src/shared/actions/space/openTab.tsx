@@ -17,8 +17,8 @@ import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
 
 type CreateSpaceTabParams = { 
-  route?: string, 
-  active?: boolean,
+  route?: string; 
+  active?: boolean;
 };
 
 export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction => 

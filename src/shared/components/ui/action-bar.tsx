@@ -4,8 +4,8 @@ import { forwardRef } from 'react';
 import { CloseButton } from './close-button';
 
 interface ActionBarContentProps extends ActionBar.ContentProps {
-  portalled?: boolean
-  portalRef?: React.RefObject<HTMLElement>
+  portalled?: boolean;
+  portalRef?: React.RefObject<HTMLElement>;
 }
 
 export const ActionBarContent = forwardRef<

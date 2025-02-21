@@ -5,10 +5,10 @@ import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { AppState } from 'shared/types/store';
 
 type Params = {
-  files: UploadFile[],
-  noteId?: number,
-  type?: UploadFileType,
-  status?: UploadFileEntity['status'],
+  files: UploadFile[];
+  noteId?: number;
+  type?: UploadFileType;
+  status?: UploadFileEntity['status'];
 }
 
 export type UploadEntity = UploadFile & UploadFileEntity;

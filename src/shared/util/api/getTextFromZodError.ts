@@ -22,7 +22,7 @@ export const getTextFromZodError = (error?: ZodIssue) => {
   const { code, path } = error;
   const pathString = String(path[0]);
   const text = getTextFromCode(code);
-  const result = `${pathString}${pathString ? ' ': ''}${text}`;
+  const result = `${pathString}${pathString ? ' ' : ''}${text}`;
 
   return result[0].toUpperCase() + result.slice(1);
 };
