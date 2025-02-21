@@ -4,12 +4,17 @@ import { SiFusionauth } from 'react-icons/si';
 
 import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
+import { UnauthorizedError } from 'shared/util/errors';
 
-import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
-function AuthErrorComponent({ reset }) {
+function AuthErrorComponent({ reset, error }) {
   const router = useRouter();
+  const isAuthError = error instanceof UnauthorizedError;
+  const title = isAuthError ? 'Authorization Error' : 'Loading Error';
+  const description = isAuthError 
+    ? 'There was a problem with your login. Please try to reload the page.' 
+    : 'There was a problem with loading the page. Please try to reload.';
 
   return (
     <Layout header={<LayoutHeader position="absolute" />}>
@@ -19,8 +24,8 @@ function AuthErrorComponent({ reset }) {
       >
         <EmptyState
           icon={<SiFusionauth />}
-          title="Authorization Error"
-          description="There was a problem with your login. Please try to reload the page."
+          title={title}
+          description={description}
         >
           <Group>
             <Button
@@ -30,9 +35,6 @@ function AuthErrorComponent({ reset }) {
               }}
             >
               Reload page
-            </Button>
-            <Button asChild variant="outline">
-              <DesktopLink to="/">Go to home</DesktopLink>
             </Button>
           </Group>
         </EmptyState>

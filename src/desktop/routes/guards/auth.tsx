@@ -5,7 +5,7 @@ import { BACK_URL } from 'shared/constants/queryKeys';
 import { selectIsAuthenticated } from 'shared/selectors/auth/selectIsAuthenticated';
 import { selectToken } from 'shared/selectors/auth/selectToken';
 
-import { AuthErrorComponent } from 'desktop/routes/app/AuthErrorComponent';
+import { AuthErrorComponent } from 'desktop/routes/guards/AuthErrorComponent';
 
 import { root } from '../root';
 import { Context } from '../routerContext';

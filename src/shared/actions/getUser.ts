@@ -7,6 +7,7 @@ import { selectToken } from 'shared/selectors/auth/selectToken';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
+import { UnauthorizedError } from 'shared/util/errors';
 
 export const getUser = (): ThunkAction => async (dispatch, getState) => {
   const token = selectToken(getState());
@@ -26,7 +27,7 @@ export const getUser = (): ThunkAction => async (dispatch, getState) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response?.status === 401) {
       dispatch(logout());
-      throw Error('Can not authorize user');
+      throw new UnauthorizedError();
     }
 
     throw Error('Unexpected error occurred');
