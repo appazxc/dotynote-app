@@ -82,6 +82,7 @@
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "react-textarea-autosize": "^8.5.3",
+    "react-use-audio-player": "^3.0.2",
     "redux-persist": "^6.0.0",
     "rollup-preserve-directives": "^1.1.2",
     "strip-ansi": "^7.1.0",
