@@ -2,7 +2,7 @@ interface Keyable {
   [key: string]: any;
 }
 
-declare module App {
+declare namespace App {
   type Theme = { colors: { brand: string } };
 }
 
