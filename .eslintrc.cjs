@@ -1,5 +1,10 @@
 /* eslint-env node */
 module.exports = {
+  settings: {
+    react: {
+      'version': 'detect',
+    },
+  },
   extends: [
     'eslint:recommended', 
     'plugin:@typescript-eslint/recommended',
