@@ -1,8 +1,11 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Float } from '@chakra-ui/react';
 import React from 'react';
+import { IoMdInformationCircle } from 'react-icons/io';
 
 import { api } from 'shared/api';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
+import { Icon } from 'shared/components/ui/icon';
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { useUploadEntity } from 'shared/modules/fileUpload/useUploadEntity';
@@ -23,7 +26,9 @@ export const UploadingVideo = React.memo((props: Props) => {
   invariant(uploadVideo, 'Uploading file is missing');
 
   const progress = getFileUploadProgress(uploadVideo);
-  
+  const { status, error } = uploadVideo;
+  const isError = status === 'error';
+
   const handleCancel = React.useCallback(async () => {
     if (uploadVideo.status === 'uploading'){
       emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
@@ -33,38 +38,16 @@ export const UploadingVideo = React.memo((props: Props) => {
       await api.post(`/upload/${uploadVideo.tempId}/cancel`, {});
       removeFiles([uploadVideo.fileId]);
     }
-  }, [uploadVideo.status, uploadVideo.tempId, uploadVideo.fileId, removeFiles]);
 
-  const options = React.useMemo(() => {
-    return [
-      ...uploadVideo.status === 'uploading' ? [{
-        label: 'Cancel',
-        onClick: () => {
-          emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
-        },
-      }] : [],
-      ...uploadVideo.status === 'processing' && uploadVideo.tempId ? [{
-        label: 'Cancel',
-        onClick: async () => {
-          await api.post(`/upload/${uploadVideo.tempId}/cancel`, {});
-          removeFiles([uploadVideo.fileId]);
-        },
-      }] : [],
-      ...uploadVideo.status === 'error' ? [
-        {
-          label: 'Remove',
-          onClick: () => {
-            removeFiles([uploadVideo.fileId]);
-          },
-        },
-      ] : [],
-    ];
-  }, [uploadVideo.status, uploadVideo.fileId, uploadVideo.tempId, removeFiles]);
+    if (uploadVideo.status === 'error') {
+      removeFiles([uploadVideo.fileId]);
+    }
+  }, [uploadVideo.status, uploadVideo.tempId, uploadVideo.fileId, removeFiles]);
 
   if (!uploadVideo.objectUrl) {
     return null;
   }
-  
+
   return (
     <Box
       position="relative"
@@ -81,9 +64,23 @@ export const UploadingVideo = React.memo((props: Props) => {
       />
       <MediaProgressCircle
         progress={progress}
-        min={3}
+        min={isError ? 0 : 3}
+        iconColor={isError ? 'red.300' : undefined}
         onCancel={handleCancel}
       />
+      {isError && (
+        <Float
+          offset="15px"
+          zIndex="docked"
+          cursor="pointer"
+        >
+          <Tooltip portalled content={error}>
+            <Icon fontSize="20px" color="red">
+              <IoMdInformationCircle />
+            </Icon>
+          </Tooltip>
+        </Float>
+      )}
     </Box>
   );
 });

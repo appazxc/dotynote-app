@@ -162,14 +162,14 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       await dispatch(connectSSE<{ 
         progress: number;
         realId: string | null;
-        isError?: boolean;
+        error?: { text: string, code: number };
        }>({
          url: `${getBaseApi()}/upload/status/${id}`,
          onMessage: (data, close) => {
            const isComplete = !!data.realId;
           
-           if (data.isError) {
-             dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: 'An error occured.' }));
+           if (data.error) {
+             dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: data.error.text }));
              close();
              return;
            }

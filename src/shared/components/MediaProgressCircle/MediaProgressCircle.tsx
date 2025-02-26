@@ -7,10 +7,11 @@ import { ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 type Props = {
   progress: number;
   min?: number;
+  iconColor?: string;
   onCancel?: () => void;
 };
 
-export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0 }: Props) => {
+export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, iconColor = 'white' }: Props) => {
   return (
     <AbsoluteCenter>
       <Box
@@ -23,7 +24,6 @@ export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0 }: 
         <ProgressCircleRoot
           size="md"
           value={Math.max(min, progress)}
-          colorPalette="gray"
           animation={'spin 2s linear infinite'}
         >
           <ProgressCircle.Circle css={{ '--thickness': '2px' }}>
@@ -37,7 +37,7 @@ export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0 }: 
           <AbsoluteCenter>
             <IconButton
               variant="plain"
-              color="white"
+              color={iconColor}
               iconSize="auto"
               onClick={onCancel}
             >

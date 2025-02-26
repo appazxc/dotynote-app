@@ -1,17 +1,10 @@
-import { Box, Stack, StackProps } from '@chakra-ui/react';
+import { Box, BoxProps, StackProps } from '@chakra-ui/react';
 import React from 'react';
 import { Photo, default as PhotoAlbum } from 'react-photo-album';
 
 import { NoteVideo } from 'shared/components/NoteVideos/NoteVideo';
 import { UploadingVideo } from 'shared/components/NoteVideos/UploadingVideo';
-import { useFileUpload } from 'shared/modules/fileUpload';
-import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
-import {
-  selectUploadEntities,
-} from 'shared/modules/fileUpload/fileUploadSelectors';
-import { UploadFileEntity } from 'shared/modules/fileUpload/uploadSlice';
 import { useUploadEntities } from 'shared/modules/fileUpload/useUploadEntities';
-import { useAppSelector } from 'shared/store/hooks';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 
 type Props = {
@@ -20,7 +13,7 @@ type Props = {
   videos: NoteVideoEntity[];
   inPost?: boolean;
   size?: 'sm' | 'md';
-} & StackProps;
+} & BoxProps;
 
 type NoteVideo = Photo & {
   video: NoteVideoEntity;
@@ -69,7 +62,7 @@ export const NoteVideos = React.memo((props: Props) => {
   }
   
   return (
-    <Box>
+    <Box {...boxProps}>
       <PhotoAlbum
         layout="rows"
         photos={galleryItems}
@@ -105,37 +98,5 @@ export const NoteVideos = React.memo((props: Props) => {
         }}
       />
     </Box>
-  );
-  
-  return (
-    <Stack
-      {...boxProps}
-      gap="2"
-      direction="row"
-      flexWrap="wrap"
-    >
-      {filteredNoteFileIds.map((id) => {
-        return (
-          <NoteVideo
-            key={id}
-            noteId={noteId}
-            id={id}
-            size={size}
-          />
-        );
-      })}
-      {filteredUploadFiles.map((uploadFile) => {
-        return (
-          <UploadingVideo
-            key={uploadFile.fileId}
-            id={uploadFile.fileId}
-            filename={uploadFile.file.name}
-            fileSize={uploadFile.file.size}
-            size={size}
-
-          />
-        );
-      })}
-    </Stack>
   );
 });
