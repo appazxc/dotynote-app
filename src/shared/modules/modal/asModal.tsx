@@ -21,7 +21,7 @@ type Loader = (dispatch: AppDispatch) => Promise<void>;
 type AsModalParams<Props extends object> = {
   getModalParams: GetModalParamsType<Props>;
   loader?: Loader;
-  modalLoader?: JSX.Element | false;
+  modalLoader?: React.ReactElement | false;
 };
 
 export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({

@@ -26,11 +26,13 @@ import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
+import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
   children: React.ReactNode;
   post: PostEntity;
+  parent: NoteEntity;
   internalLevel: number;
   isMenuDisabled?: boolean;
 };
@@ -39,14 +41,14 @@ type MenuProps = { key: string; hasDivider?: boolean; menu?: MenuProps[] } & (Me
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
-export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, children }: Props) => {
+export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDisabled, children }: Props) => {
   const dispatch = useAppDispatch();
   const { id: postId, note: { id: noteId } } = post;
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
   const isInternal = internalLevel;
   const user = useAppSelector(selectUser);
-  const isHubNote = user?.settings?.hubId === post.parent.id;
+  const isHubNote = user?.settings?.hubId === parent.id;
 
   const { mutate: deleteNote, isPending: isDeletePending } = useDeleteNotes(post.note.id);
   const { mutate: remove } = useRemovePosts(postId);
@@ -90,7 +92,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
     const showSelect = !isInternal;
     const showStick = post.permissions.stick;
     const showMove = post.permissions.move;
-    const showInternal = !isInternal && post.permissions.updateInternal && post.parent.postsSettings?.internal;
+    const showInternal = !isInternal && post.permissions.updateInternal && parent.postsSettings?.internal;
     const showRemove = post.permissions.remove && !isHubNote;
     const showDelete = post.permissions.delete;
     const showDot = post.permissions.upsertDot;
@@ -115,7 +117,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
         label: 'Pin',
         onClick: () => pin(postId, {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(post.parent.id) });
+            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parent.id) });
           },
         }),
       }] : [],
@@ -131,7 +133,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
         label: 'Unpin',
         onClick: () => unpin(postId, {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(post.parent.id) });
+            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parent.id) });
           },
         }),
       }] : [],
@@ -139,7 +141,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
         key: 'Select',
         label: 'Select',
         onClick: () => dispatch(startSelectOperation({
-          noteId: post.parent.id,
+          noteId: parent.id,
           postId: post.id,
         })),
       }] : [],
@@ -147,7 +149,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
         key: 'Stick to',
         label: 'Stick to',
         onClick: () => dispatch(startStickOperation({
-          fromNoteId: post.parent.id,
+          fromNoteId: parent.id,
           postIds: [post.id],
         })),
       }] : [],
@@ -155,7 +157,7 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
         key: 'Move to',
         label: 'Move to',
         onClick: () => dispatch(startMoveOperation({
-          fromNoteId: post.parent.id,
+          fromNoteId: parent.id,
           postIds: [post.id],
         })),
       }] : [],
@@ -238,6 +240,8 @@ export const PostWithMenu = React.memo(({ post, internalLevel, isMenuDisabled, c
     updateInternal,
     handleCreateOrDeleteInternal,
     isDeletePending,
+    parent.id,
+    parent.postsSettings?.internal,
   ]);
 
   const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : MenuProps) => {

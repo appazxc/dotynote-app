@@ -3,7 +3,7 @@ import uniqBy from 'lodash/uniqBy';
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
-import { postSelector } from 'shared/selectors/entities';
+import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { selectAllPostsWithConcreteNote } from 'shared/selectors/post/selectAllPostsWithConcreteNote';
 import { ThunkAction } from 'shared/types/store';
 
@@ -12,9 +12,10 @@ const invalidatePostsQueryIfNeeded = (noteId: number): ThunkAction => (_, getSta
   const posts = postSelector.getEntitiesById(getState(), postIds);
 
   posts
-    .filter(({ parent }) => parent.postsSettings?.orderById === ORDER_BY_IDS.UPDATED)
-    .forEach(({ parent }) => {
-      queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(parent.id).slice(0, 2) });
+    .filter(({ parentId }) => 
+      noteSelector.getEntityById(getState(), parentId)?.postsSettings?.orderById === ORDER_BY_IDS.UPDATED)
+    .forEach(({ parentId }) => {
+      queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(parentId).slice(0, 2) });
     });
 };
 

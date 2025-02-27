@@ -4,7 +4,7 @@ import React from 'react';
 import { Post as PostComponent } from 'shared/components/Post';
 import { InternalPosts } from 'shared/modules/noteTab/components/Post/InternalPosts';
 import { PostWithMenu } from 'shared/modules/noteTab/components/Post/PostWithMenu';
-import { postSelector } from 'shared/selectors/entities';
+import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
@@ -21,12 +21,14 @@ type Props = {
 export const Post = React.memo((props: Props) => {
   const { postId, onClick, onDelete, isSelecting, isSelected, internalLevel } = props;
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
+  const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getPostById(state, postId));
+  const parent = useAppSelector(state => getNoteById(state, post?.parentId));
 
-  invariant(post, 'Missing post', { id: postId });
+  invariant(post && parent, 'Missing post or parent', { id: postId, parentId: post?.parentId });
 
   const allowInternal = internalLevel === 0;
-  const showInternal = allowInternal && post.parent.postsSettings?.internal && !!post.internal?.max;
+  const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
 
   React.useEffect(() => {
     if ((post._isDeleted || post.note._isDeleted) && onDelete) {
@@ -47,13 +49,13 @@ export const Post = React.memo((props: Props) => {
         noteId={post.note.id}
         dots={post.dots}
         note={post.note}
-        showDotsAmount={post.parent.access === 'public'}
+        showDotsAmount={parent.access === 'public'}
         onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           onClick?.(event)(post);
         }}
       />
     );
-  }, [isSelecting, isSelected, onClick, post]);
+  }, [isSelecting, isSelected, onClick, post, parent.access]);
 
   if (post._isDeleted || post.note._isDeleted) {
     return null;
@@ -64,6 +66,7 @@ export const Post = React.memo((props: Props) => {
       <PostWithMenu
         internalLevel={internalLevel}
         post={post}
+        parent={parent}
         isMenuDisabled={isSelected}
       >
         {renderedPost}

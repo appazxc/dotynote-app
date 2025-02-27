@@ -21,7 +21,7 @@ type Loader = (dispatch: AppDispatch) => Promise<void>;
 type AsDrawerParams<Props extends object> = {
   getDrawerParams: GetDrawerParams<Props>;
   loader?: Loader;
-  drawerLoader?: JSX.Element | false;
+  drawerLoader?: React.ReactElement | false;
 };
 
 export default function asDrawer<Props extends Partial<DrawerIdentity>>({

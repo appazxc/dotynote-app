@@ -48,6 +48,10 @@ export const NoteVideo = React.memo((props: Props) => {
     downloadFile(fileUrl);
   };
 
+  const handleVideoClick = () => {
+    console.log('noteVideo', noteVideo);
+  };
+
   const options = [
     { 
       label: 'Download', 
@@ -69,12 +73,11 @@ export const NoteVideo = React.memo((props: Props) => {
       }, 
     },
   ];
-  console.log('noteVideo', noteVideo);
 
   return (
     <Menu isContextMenu>
       <MenuTrigger>
-        <Box position="relative">
+        <Box position="relative" onClick={handleVideoClick}>
           <Box
             bg="gray.700/80"
             borderRadius="20px"

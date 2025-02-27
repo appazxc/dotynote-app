@@ -109,14 +109,14 @@ export const NoteContent = (props: Props) => {
           content={content}
         />
       </Box>
+      <NoteVideos
+        noteId={noteId}
+        videos={note.videos}
+      />
       <NoteImages
         noteId={noteId}
         images={note.images}
         hasControls={note.permissions.update}
-      />
-      <NoteVideos
-        noteId={noteId}
-        videos={note.videos}
       />
       <NoteAudioFiles 
         noteId={noteId}

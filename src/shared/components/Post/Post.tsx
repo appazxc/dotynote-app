@@ -5,6 +5,7 @@ import { BsFillPinAngleFill } from 'react-icons/bs';
 
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
+import { NoteVideos } from 'shared/components/NoteVideos';
 import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
@@ -113,6 +114,10 @@ export const Post = React.forwardRef((props: Props, _) => {
             removeEmptyDivsFromEnd
             maxLines={4}
             content={note.content}
+          />
+          <NoteVideos
+            noteId={noteId}
+            videos={note.videos}
           />
           <NoteImages
             inPost
