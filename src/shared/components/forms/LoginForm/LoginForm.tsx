@@ -89,7 +89,6 @@ export const LoginForm = () => {
 
   return (
     <Box
-      bg="white"
       py={6}
       rounded="md"
     >
