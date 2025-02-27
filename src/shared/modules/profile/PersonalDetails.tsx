@@ -137,7 +137,9 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
       </Heading>
       <Form {...form}>
         <PersonalDetailsSection
-          ref={(el: SectionRef) => sectionRefs.current.nickname = el}
+          ref={(el: SectionRef) => {
+            sectionRefs.current.nickname = el;
+          }}
           title="Name"
           description={{
             open: 'This will visible in notes.',
@@ -169,7 +171,9 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           />
         </PersonalDetailsSection>
         <PersonalDetailsSection
-          ref={(el: SectionRef) => sectionRefs.current.username = el}
+          ref={(el: SectionRef) => {
+            sectionRefs.current.username = el;
+          }}
           title="Username"
           description={{
             open: 'Users can find you with this name.',

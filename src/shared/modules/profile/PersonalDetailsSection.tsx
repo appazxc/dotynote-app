@@ -12,7 +12,7 @@ type Props = {
   };
   children?: React.ReactNode;
   onClose?: () => void;
-  ref: React.Ref<SectionRef>,
+  ref?: React.RefCallback<SectionRef | null>;
 }
 
 export const PersonalDetailsSection = React.memo((props: Props) => {
@@ -21,7 +21,7 @@ export const PersonalDetailsSection = React.memo((props: Props) => {
   const { open, onClose, onToggle } = useDisclosure({ 
     onClose: () => {
       handleOnClose?.();
-    }, 
+    },
   });
 
   const borderColor = useToken('colors', 'gray.100');
