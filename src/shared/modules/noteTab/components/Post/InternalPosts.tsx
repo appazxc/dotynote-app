@@ -2,6 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
+import { useNote } from 'shared/api/hooks/useNote';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
@@ -17,6 +18,7 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
   const { note, internal } = post;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { data } = useNote(note.id);
 
   const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
@@ -31,6 +33,10 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
     }
   }, [navigate, dispatch]);
 
+  if (!data) {
+    return null;
+  }
+  
   return (
     <PostList
       disablePagination

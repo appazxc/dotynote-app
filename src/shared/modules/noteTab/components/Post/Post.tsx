@@ -29,7 +29,7 @@ export const Post = React.memo((props: Props) => {
 
   const allowInternal = internalLevel === 0;
   const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
-
+  
   React.useEffect(() => {
     if ((post._isDeleted || post.note._isDeleted) && onDelete) {
       onDelete(postId);
