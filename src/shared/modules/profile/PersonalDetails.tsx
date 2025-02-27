@@ -22,7 +22,7 @@ import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-type Props = {} & BoxProps;
+type Props = BoxProps;
 
 const schema = z.object({
   email: z.string().email('Enter a valid email'),
@@ -34,7 +34,7 @@ type FormValues = z.infer<typeof schema>
 
 type FieldNames = keyof FormValues
 
-type SectionRef = {
+export type SectionRef = {
   close: () => void;
 };
 

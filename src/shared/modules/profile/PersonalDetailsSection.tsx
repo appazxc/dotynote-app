@@ -2,6 +2,7 @@ import { Box, Heading, Link, Text, useDisclosure, useToken } from '@chakra-ui/re
 import React from 'react';
 
 import { useColorModeValue } from 'shared/components/ui/color-mode';
+import { SectionRef } from 'shared/modules/profile/PersonalDetails';
 
 type Props = {
   title: string;
@@ -11,10 +12,11 @@ type Props = {
   };
   children?: React.ReactNode;
   onClose?: () => void;
-};
+  ref: React.Ref<SectionRef>,
+}
 
-export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props, ref) => {
-  const { title, description, children, onClose: handleOnClose } = props;
+export const PersonalDetailsSection = React.memo((props: Props) => {
+  const { title, description, children, onClose: handleOnClose, ref } = props;
 
   const { open, onClose, onToggle } = useDisclosure({ 
     onClose: () => {
@@ -74,4 +76,4 @@ export const PersonalDetailsSection = React.memo(React.forwardRef((props: Props,
       )}
     </Box>
   );
-}));
+});

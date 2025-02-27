@@ -8,18 +8,18 @@ declare module 'react' {
 }
 
 type CustomComponentProps<
-  C extends keyof JSX.IntrinsicElements | React.ComponentType<any>,
+  C extends keyof React.JSX.IntrinsicElements | React.ComponentType<any>,
   O extends object
 > = React.ComponentPropsWithRef<
-  C extends keyof JSX.IntrinsicElements | React.ComponentType<any> ? C : never
+  C extends keyof React.JSX.IntrinsicElements | React.ComponentType<any> ? C : never
 > &
   O & { as?: C };
 
 interface CustomComponent<
-  C extends keyof JSX.IntrinsicElements | React.ComponentType<any>,
+  C extends keyof React.JSX.IntrinsicElements | React.ComponentType<any>,
   O extends object
 > {
-  <AsC extends keyof JSX.IntrinsicElements | React.ComponentType<any> = C>(
+  <AsC extends keyof React.JSX.IntrinsicElements | React.ComponentType<any> = C>(
     props: CustomComponentProps<AsC, O>
   ): React.ReactElement<CustomComponentProps<AsC, O>>;
 }

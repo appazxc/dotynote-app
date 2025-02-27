@@ -15,7 +15,7 @@ export const AutoResizeTextarea = React.forwardRef<
   HTMLTextAreaElement,
   Omit<TextareaProps, 'style'> & TextareaRecipeProps
 >((props, ref) => {
-  const recipe = useRecipe<'textarea'>({ key: 'textarea' });
+  const recipe = useRecipe({ key: 'textarea' });
   const [recipeProps, restProps] = recipe.splitVariantProps(props);
   const styles = recipe({ ...recipeProps, variant: 'plain' });
 

@@ -21,7 +21,7 @@ import React from 'react';
 
 import { MenuContext } from './MenuContext';
 
-type Props = React.PropsWithChildren<{
+type Props = {
   isContextMenu?: boolean;
   contextMousePosition?: boolean;
   placement?: Placement;
@@ -29,7 +29,8 @@ type Props = React.PropsWithChildren<{
   enabled?: boolean;
   inPortal?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-}>
+  children: React.ReactNode;
+}
 
 export const Menu = React.memo((props: Props) => {
   const { 
@@ -48,7 +49,7 @@ export const Menu = React.memo((props: Props) => {
   const listItemsRef = React.useRef<Array<HTMLButtonElement | null>>([]);
   const listContentRef = React.useRef(
     React.Children.map(children, (child) =>
-      React.isValidElement(child) ? child.props.label : null
+      React.isValidElement<{ label?: string }>(child) ? child.props.label : null
     ) as Array<string | null>
   );
 
@@ -146,10 +147,10 @@ export const Menu = React.memo((props: Props) => {
     ...getReferenceProps({
       onContextMenu,
       onClick: (event) => {
-        React.isValidElement(menuTrigger) && menuTrigger.props.onClick?.(event);
+        React.isValidElement<{ onClick?: (event) => void }>(menuTrigger) && menuTrigger.props.onClick?.(event);
       },
       onPointerDown: (event) => {
-        if (event.button !== 2 && React.isValidElement(menuTrigger)) {
+        if (event.button !== 2 && React.isValidElement<{ onMouseDown?: (event) => void }>(menuTrigger)) {
           menuTrigger.props.onMouseDown?.(event);
         }
       },

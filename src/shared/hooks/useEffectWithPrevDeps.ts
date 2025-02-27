@@ -3,7 +3,7 @@ import React from 'react';
 const useEffectWithPrevDeps = <const T extends readonly any[]>(
   cb: (args: T | readonly []) => void, dependencies: T
 ) => {
-  const prevDepsRef = React.useRef<T>();
+  const prevDepsRef = React.useRef<T>(null);
 
   return React.useEffect(() => {
     const prevDeps = prevDepsRef.current;

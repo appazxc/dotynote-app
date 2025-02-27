@@ -1,3 +1,5 @@
 import React from 'react';
 
-export const ScrollContext = React.createContext<React.RefObject<HTMLDivElement> | null>(null);
+import { createReactContext } from 'shared/util/createReactContext';
+
+export const ScrollContext = createReactContext<React.RefObject<HTMLDivElement | null>>();
