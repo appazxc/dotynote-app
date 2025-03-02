@@ -1,8 +1,10 @@
 export const getEditorStyles = () => {
   return {
-    minHeight: '100%',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
+    '&': {
+      minHeight: '100%',
+      whiteSpace: 'break-spaces',
+      wordBreak: 'break-word',
+    },
     '& p.is-editor-empty:first-of-type::before': {
       content: 'attr(data-placeholder)',
       color: 'gray.500',
@@ -133,28 +135,3 @@ export const getEditorStyles = () => {
     },
   };
 }; 
-
-export const styles = {
-  global: () => ({
-    'html, body, #root': {
-      width: '100%',
-      height: '100%',
-    },
-    'body > iframe': {
-      display: 'none',
-    },
-    body: {
-      // "*, ::before, ::after": {
-      //   borderColor: "#9fa3b114",
-      // },
-      background: 'body',
-      '.clear': {
-        clear: 'both',
-      },
-      '.ProseMirror': getEditorStyles(), // .ProseMirror
-    },
-    '*': {
-      'WebkitTapHighlightColor': 'transparent',
-    },
-  }),
-};
