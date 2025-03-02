@@ -24,7 +24,7 @@ type AsModalParams<Props extends object> = {
   modalLoader?: React.ReactElement | false;
 };
 
-export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
+export default function asModal<Props extends {}>({
   getModalParams,
   // loader,
   modalLoader,
@@ -49,12 +49,6 @@ export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
       //   return loader(dispatch);
       // }, [active, dispatch]);
 
-      const { 
-         
-        extraId: omitExtraId, 
-        ...rest 
-      } = props;
-
       if (!active) {
         return null;
       }
@@ -66,7 +60,7 @@ export default function asModal<Props extends Omit<ModalIdentity, 'id'>>({
           : <ModalLoader />;
 
       const targetProps = {
-        ...rest,
+        ...props,
         isOpen: !hidden,
       };
 

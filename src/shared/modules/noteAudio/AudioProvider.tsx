@@ -138,7 +138,8 @@ export const AudioProvider = ({ children }) => {
       
       <audio
         ref={audioRef}
-        src={url || ''}
+        // @ts-ignore
+        src={url}
         autoPlay={false}
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {

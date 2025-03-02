@@ -9,9 +9,9 @@ import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 
 type Props = {
   noteId: number;
+  extraId?: number | string;
   hasControls?: boolean;
   videos: NoteVideoEntity[];
-  inPost?: boolean;
   size?: 'sm' | 'md';
 } & BoxProps;
 
@@ -20,7 +20,8 @@ type NoteVideo = Photo & {
 }
 
 export const NoteVideos = React.memo((props: Props) => {
-  const { noteId, hasControls, videos, size, inPost, ...boxProps } = props;
+  const { noteId, hasControls, videos, size, extraId, ...boxProps } = props;
+  const inPost = !!extraId;
   const uploadVideoEntities = useUploadEntities({
     noteId,
     type: 'video',
@@ -79,6 +80,7 @@ export const NoteVideos = React.memo((props: Props) => {
                 <NoteVideo
                   key={context.photo.video.id}
                   noteId={noteId}
+                  extraId={extraId}
                   videoId={context.photo.video.id}
                   width={context.width}
                   height={context.height}

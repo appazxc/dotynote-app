@@ -15,6 +15,7 @@ import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
   noteId: number;
+  extraId?: number | string;
   isSelecting?: boolean;
   isSelected?: boolean;
   isPinned?: boolean;
@@ -24,7 +25,18 @@ type Props = {
 } & BoxProps;
 
 export const Post = React.forwardRef((props: Props, _) => {
-  const { noteId, note, isSelecting, isSelected, isPinned, dots, onClick, showDotsAmount, ...boxProps } = props;
+  const { 
+    noteId,
+    extraId,
+    note,
+    isSelecting,
+    isSelected,
+    isPinned,
+    dots,
+    onClick,
+    showDotsAmount,
+    ...boxProps 
+  } = props;
   
   const renderedSelectingContent = React.useMemo(() => {
     if (!isSelecting) {
@@ -117,6 +129,7 @@ export const Post = React.forwardRef((props: Props, _) => {
           />
           <NoteVideos
             noteId={noteId}
+            extraId={extraId}
             videos={note.videos}
           />
           <NoteImages

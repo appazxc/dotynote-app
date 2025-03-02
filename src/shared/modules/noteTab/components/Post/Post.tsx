@@ -47,6 +47,7 @@ export const Post = React.memo((props: Props) => {
         isSelected={isSelected}
         isPinned={!!post.pinnedAt}
         noteId={post.note.id}
+        extraId={post.id}
         dots={post.dots}
         note={post.note}
         showDotsAmount={parent.access === 'public'}
