@@ -63,7 +63,10 @@ export const NoteVideos = React.memo((props: Props) => {
   }
   
   return (
-    <Box {...boxProps}>
+    <Box
+      {...boxProps} 
+      onClick={(e) => e.stopPropagation()}
+    >
       <PhotoAlbum
         layout="rows"
         photos={galleryItems}

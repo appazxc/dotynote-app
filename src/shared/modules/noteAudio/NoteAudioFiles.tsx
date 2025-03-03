@@ -13,14 +13,13 @@ import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 type Props = {
   noteId: number;
   hasControls?: boolean;
-  isDisabled?: boolean;
   audio: NoteAudioEntity[];
   inPost?: boolean;
   size?: 'sm' | 'md';
 } & StackProps;
 
 export const NoteAudioFiles = React.memo((props: Props) => {
-  const { noteId, hasControls, audio: audioFiles, size, isDisabled, inPost, ...boxProps } = props;
+  const { noteId, hasControls, audio: audioFiles, size, inPost, ...boxProps } = props;
   const { files } = useFileUpload();
 
   const filteredNoteAudioFiles = React.useMemo(() => audioFiles
@@ -50,11 +49,7 @@ export const NoteAudioFiles = React.memo((props: Props) => {
     <Stack
       {...boxProps}
       gap="0"
-      onClick={(e) => {
-        if (!isDisabled) {
-          e.stopPropagation();
-        }
-      }}
+      onClick={(event) => event.stopPropagation()}
     >
       {filteredNoteAudioFiles.map((noteAudio) => {
         return (
