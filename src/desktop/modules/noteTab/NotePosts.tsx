@@ -8,7 +8,7 @@ import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { showModal } from 'shared/modules/modal/modalSlice';
-import { PostList } from 'shared/modules/noteTab/components/PostList';
+import { PostList } from 'shared/modules/noteTab/components/PostList/PostList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, togglePostSelect, updateOperationConcretePost } from 'shared/store/slices/appSlice';

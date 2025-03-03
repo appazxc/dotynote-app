@@ -5,7 +5,7 @@ import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
+import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink/DesktopTabLink';
 
 type Props = {
   noteId: number;

@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 
-import { PostList } from 'shared/modules/noteTab/components/PostList';
+import { PostList } from 'shared/modules/noteTab/components/PostList/PostList';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
