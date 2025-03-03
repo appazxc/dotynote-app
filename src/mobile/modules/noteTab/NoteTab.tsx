@@ -35,6 +35,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const debouncedSearch = useDebounce(search, 500);
   const isWriteMode = rwMode === rwModes.WRITE;
+  const isNoteContentVisible = !note.settings?.hide;
 
   if (note._isDeleted) {
     return (
@@ -67,6 +68,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
           <NoteFooter
             noteId={noteId}
             isWriteMode={isWriteMode}
+            isNoteContentVisible={isNoteContentVisible}
           />
         )}
       >

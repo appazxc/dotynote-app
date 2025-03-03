@@ -4,6 +4,7 @@ import React from 'react';
 import { toaster } from 'shared/components/ui/toaster';
 import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
+import { createReactContext } from 'shared/util/createReactContext';
 import { getFileDimensions } from 'shared/util/getFileDimensions';
 
 type Props = React.PropsWithChildren<{}>;
@@ -40,7 +41,7 @@ type FileUploadContextType = {
   files: UploadFile[];
 };
 
-const FileUploadContext = React.createContext<FileUploadContextType>(null!);
+const FileUploadContext = createReactContext<FileUploadContextType>();
 
 export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);

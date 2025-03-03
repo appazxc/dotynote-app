@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { queryClient } from 'shared/api/queryClient';
 import { Provider as ThemeProvider } from 'shared/components/ui/provider';
 import { Device } from 'shared/core/Providers/Device';
+import { SWProvider } from 'shared/core/Providers/SWProvider';
 import { FileUploadProvider } from 'shared/modules/fileUpload';
 import { AudioProvider } from 'shared/modules/noteAudio';
 import { persistor, store } from 'shared/store';
@@ -21,7 +22,9 @@ export const Providers = React.memo(({ children }: Props) => {
             <AudioProvider>
               <Device>
                 <FileUploadProvider>
-                  {children}
+                  <SWProvider>
+                    {children}
+                  </SWProvider>
                 </FileUploadProvider>
               </Device>
             </AudioProvider>

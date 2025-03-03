@@ -1,4 +1,4 @@
-import { IconButton } from '@chakra-ui/react';
+import { Box, Button, IconButton, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
@@ -10,9 +10,11 @@ import { useColorMode } from 'shared/components/ui/color-mode';
 import { DotsIcon } from 'shared/components/ui/icons';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { SWContext } from 'shared/core/Providers/SWProvider';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
+import { useReactContext } from 'shared/util/useReactContext';
 
 import { router } from 'desktop/routes/router';
 
@@ -20,6 +22,7 @@ export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
+  const { isUpdateAvailable, updateSW } = useReactContext(SWContext);
 
   const handleSettingsClick = React.useCallback(() => {
     navigate({ to: '/app/settings' });
@@ -42,7 +45,21 @@ export const MenuHeaderButton = React.memo(() => {
             <DotsIcon />
           </IconButton>
         </MenuTrigger>
-        <MenuList>
+        <MenuList minW="200px">
+          {isUpdateAvailable && (
+            <Box px="2" py="1">
+              <Text color="colorPalette.info" fontSize="xs">New version available</Text>
+              <Button
+                w="full"
+                variant="subtle"
+                colorPalette="purple"
+                size="xs"
+                onClick={() => updateSW?.(true)}
+              >
+              Update
+              </Button>
+            </Box>
+          )}
           <MenuItem
             label={<><FiUser /> Profile</>}
             onClick={handleProfileClick}

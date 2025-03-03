@@ -1,5 +1,4 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import React from 'react';
 
 import { Toaster } from 'shared/components/ui/toaster';
 import config from 'shared/config';

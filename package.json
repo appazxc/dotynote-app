@@ -5,7 +5,7 @@
   "proxy": "http://localhost:4000",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "start:mock": "MOCK=true yarn start",
     "build": "vite build",
     "tsc": "tsc",

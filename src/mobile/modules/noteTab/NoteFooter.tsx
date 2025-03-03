@@ -14,15 +14,16 @@ import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 type Props = {
   noteId: number;
   isWriteMode: boolean;
+  isNoteContentVisible: boolean;
 }
 
-export const NoteFooter = React.memo(({ noteId, isWriteMode }: Props) => {
+export const NoteFooter = React.memo(({ noteId, isWriteMode, isNoteContentVisible }: Props) => {
   const editor = useEditorContext();
   const isOperationActive = useAppSelector(selectIsOperationActive);
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
   const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
 
-  const showEditorControls = isAdvancedEditActive && isWriteMode;
+  const showEditorControls = isAdvancedEditActive && isWriteMode && isNoteContentVisible;
   const showPlusButton = !editor.isFocused && !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
 
   return (

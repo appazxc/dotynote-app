@@ -83,7 +83,7 @@ module.exports = {
       argsIgnorePattern: '^_',
       vars: 'all',
     }],
-    "@typescript-eslint/no-empty-object-type": "off",
+    '@typescript-eslint/no-empty-object-type': 'off',
     'react/self-closing-comp': ['error', {
       component: true,
       html: true,

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
 import { ScrollProvider } from 'shared/components/ScrollProvider';
@@ -7,9 +7,10 @@ type Props = {
   children: React.ReactNode;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  scrollProps?: BoxProps;
 }
 
-export const Layout = ({ children, header, footer }: Props) => {
+export const Layout = ({ children, header, footer, scrollProps }: Props) => {
   return (
     <Box
       w="full"
@@ -42,6 +43,7 @@ export const Layout = ({ children, header, footer }: Props) => {
                   display: 'none',
                 },
               }}
+              {...scrollProps}
             >
               {children}
             </Box>
