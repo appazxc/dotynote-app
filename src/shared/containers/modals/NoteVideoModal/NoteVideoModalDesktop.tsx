@@ -15,6 +15,7 @@ import { VideoPlayer } from 'shared/components/VideoPlayer';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
+import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
   noteId: number;
@@ -27,38 +28,28 @@ function isHorizontal(noteVideo: NoteVideoEntity) {
 
 export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
   const dispatch = useAppDispatch();
-  console.log('noteVideo', noteVideo);
+
   const isVideoHorizontal = isHorizontal(noteVideo);
-  console.log('dsa', isVideoHorizontal ? '600px' : '300px');
+  const { name } = splitFileName(noteVideo.filename);
+
   return (
     <DialogRoot
       defaultOpen
       placement="center"
-      size="full"
+      size={isVideoHorizontal ? 'lg' : 'xs'}
       motionPreset="none"
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogBackdrop />
-      <DialogContent
-        alignItems="center"
-        display="flex"
-        justifyContent="center"
-        background="transparent"
-        width="fit-content"
-        boxShadow="none"
-        animationDuration="0"
-      >
-        <Box
-          maxW={isVideoHorizontal ? '70vw' : '26vw'}
-        >
-          <VideoPlayer
-            url={noteVideo.url}
-            width={noteVideo.width}
-            height={noteVideo.height}
-            mimeType={noteVideo.mimeType}
-            posterUrl={noteVideo.thumbnail.url}
-          /> 
-        </Box>
+      <DialogContent>
+        <VideoPlayer
+          url={noteVideo.url}
+          width={noteVideo.width}
+          height={noteVideo.height}
+          mimeType={noteVideo.mimeType}
+          posterUrl={noteVideo.thumbnail.url}
+          title={name}
+        /> 
       </DialogContent>
     </DialogRoot>
   );
