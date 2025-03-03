@@ -1,5 +1,7 @@
 import { Box } from '@chakra-ui/react';
+import { useWindowSize } from '@uidotdev/usehooks';
 import React from 'react';
+import { useScreen } from 'usehooks-ts';
 
 import { Button } from 'shared/components/ui/button';
 import {
@@ -28,9 +30,20 @@ function isHorizontal(noteVideo: NoteVideoEntity) {
 
 export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
   const dispatch = useAppDispatch();
-
   const isVideoHorizontal = isHorizontal(noteVideo);
   const { name } = splitFileName(noteVideo.filename);
+  const { height } = useScreen();
+  const isAutoFullscreen = height < 600;
+
+  const handleFullScreenChange = (isFullScreen: boolean) => {
+    if (!isAutoFullscreen) {
+      return;
+    }
+
+    if (!isFullScreen) {
+      dispatch(hideModal());
+    }
+  };
 
   return (
     <DialogRoot
@@ -49,6 +62,8 @@ export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
           mimeType={noteVideo.mimeType}
           posterUrl={noteVideo.thumbnail.url}
           title={name}
+          autoFullscreen={isAutoFullscreen}
+          onFullScreenChange={handleFullScreenChange}
         /> 
       </DialogContent>
     </DialogRoot>

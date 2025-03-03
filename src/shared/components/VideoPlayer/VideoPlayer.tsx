@@ -30,11 +30,13 @@ type Props = {
   width: number;
   height: number;
   title?: string;
+  autoFullscreen?: boolean;
+  onFullScreenChange?: (isFullScreen: boolean) => void;
   mimeType: VideoMimeType;
 };
 
 export const VideoPlayer = React.memo((props: Props) => {
-  const { url = '', posterUrl, width, height, title, mimeType } = props;
+  const { url = '', posterUrl, width, height, title, autoFullscreen, onFullScreenChange, mimeType } = props;
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
 
@@ -52,6 +54,24 @@ export const VideoPlayer = React.memo((props: Props) => {
   function onCanPlay(detail: MediaCanPlayDetail, nativeEvent: MediaCanPlayEvent) {
     // ...
   }
+
+  React.useEffect(() => {
+    async function enterFullscreen() {
+      if (!player.current || !autoFullscreen) {
+        return;
+      }
+      try {
+        await player.current.enterFullscreen();
+      } catch (e) {
+        // This will generally throw if:
+        // 1. Fullscreen API is not available.
+        // 2. Or, the user has not interacted with the document yet.
+      }
+    }
+
+    enterFullscreen();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const customIcons: DefaultLayoutIcons = {
     ...defaultLayoutIcons,
@@ -91,6 +111,9 @@ export const VideoPlayer = React.memo((props: Props) => {
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
+        onFullscreenChange={(isFullScreen) => {
+          onFullScreenChange?.(isFullScreen);
+        }}
         // fullscreenOrientation=''
       >
         <MediaProvider>
