@@ -8,7 +8,7 @@ import { useAppSelector } from 'shared/store/hooks';
 
 import { SpaceHeader } from '../SpaceHeader';
 
-type Props = React.PropsWithChildren<unknown>;
+type Props = React.PropsWithChildren<{}>;
 
 export const SpaceLayout = ({ children }: Props) => {
   const isLoading = useAppSelector((state) => state.app.isPageLoading);
