@@ -11,6 +11,7 @@ import {
   MediaProviderChangeEvent,
   Poster, 
   ScreenOrientationChangeEventDetail, 
+  ScreenOrientationLockType, 
   useMediaStore, 
   VideoMimeType, 
 } from '@vidstack/react';
@@ -24,6 +25,8 @@ import React, { useRef } from 'react';
 import './player.css';
 
 import { getAspectRatio } from 'shared/util/getAspectRatio';
+
+import { useOrientation } from '@uidotdev/usehooks';
 
 const None = () => null;
 
@@ -51,6 +54,7 @@ export const VideoPlayer = React.memo((props: Props) => {
     mimeType,
     isVideoHorizontal,
   } = props;
+  const orientation = useOrientation();
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
 
@@ -114,8 +118,8 @@ export const VideoPlayer = React.memo((props: Props) => {
     // ...
   }
   
-  const { canOrientScreen, orientation } = useMediaStore(player);
-  console.log('canOrientScreen, orientation', canOrientScreen, orientation);
+  const { canOrientScreen, orientation: or } = useMediaStore(player);
+  console.log('canOrientScreen, orientation', canOrientScreen, or);
   return (
     <Box
       asChild
@@ -130,7 +134,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         title={title}
         src={{ src: url, type: mimeType }}
         posterLoad="eager"
-        fullscreenOrientation={isVideoHorizontal ? 'landscape' : 'portrait'}
+        fullscreenOrientation={orientation.type as ScreenOrientationLockType}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
