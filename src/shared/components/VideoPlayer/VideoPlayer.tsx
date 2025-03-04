@@ -3,12 +3,15 @@ import {
   isHLSProvider,
   MediaCanPlayDetail,
   MediaCanPlayEvent,
+  MediaOrientationChangeEvent,
   MediaPlayer,
   MediaPlayerInstance,
   MediaProvider,
   MediaProviderAdapter,
   MediaProviderChangeEvent,
   Poster, 
+  ScreenOrientationChangeEventDetail, 
+  useMediaStore, 
   VideoMimeType, 
 } from '@vidstack/react';
 import {
@@ -63,7 +66,7 @@ export const VideoPlayer = React.memo((props: Props) => {
 
   // We can listen for the `can-play` event to be notified when the player is ready.
   function onCanPlay(detail: MediaCanPlayDetail, nativeEvent: MediaCanPlayEvent) {
-    // ...
+
   }
 
   React.useEffect(() => {
@@ -103,12 +106,21 @@ export const VideoPlayer = React.memo((props: Props) => {
     },
   }), []);
 
+  function onOrientationChange(
+    { orientation, lock }: ScreenOrientationChangeEventDetail,
+    nativeEvent: MediaOrientationChangeEvent
+  ) {
+    console.log('{ orientation, lock }', { orientation, lock }, nativeEvent);
+    // ...
+  }
+  
+  const store = useMediaStore(player);
+  console.log('store', store);
   return (
     <Box
       asChild
       css={css}
     >
-
       <MediaPlayer
         ref={player}
         crossOrigin
@@ -117,16 +129,13 @@ export const VideoPlayer = React.memo((props: Props) => {
         className="player"
         title={title}
         src={{ src: url, type: mimeType }}
-        // src={url}
         posterLoad="visible"
         fullscreenOrientation={isVideoHorizontal ? 'landscape' : 'portrait'}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
-        onFullscreenChange={(isFullScreen) => {
-          onFullScreenChange?.(isFullScreen);
-        }}
-        // fullscreenOrientation=''
+        onFullscreenChange={onFullScreenChange}
+        onOrientationChange={onOrientationChange}
       >
         <MediaProvider>
           <Poster
