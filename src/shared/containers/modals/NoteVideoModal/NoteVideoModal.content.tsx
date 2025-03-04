@@ -19,7 +19,7 @@ const NoteVideoModal = (props: Props) => {
   const noteVideo = useAppSelector(state => noteVideoSelector.getEntityById(state, videoId));
 
   invariant(noteVideo, 'Note video is missing');
-
+  console.log('isMobile', isMobile);
   if (isMobile) {
     return <NoteVideoModalMobile noteId={noteId} noteVideo={noteVideo} />;
   }

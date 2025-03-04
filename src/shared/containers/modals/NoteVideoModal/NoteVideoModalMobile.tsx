@@ -50,6 +50,7 @@ export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
           mimeType={noteVideo.mimeType}
           posterUrl={noteVideo.thumbnail.url}
           title={name}
+          isVideoHorizontal={isVideoHorizontal}
           onFullScreenChange={handleFullScreenChange}
         /> 
       </DialogContent>
