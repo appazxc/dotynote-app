@@ -62,6 +62,7 @@ export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
           mimeType={noteVideo.mimeType}
           posterUrl={noteVideo.thumbnail.url}
           title={name}
+          isVideoHorizontal={isVideoHorizontal}
           autoFullscreen={isAutoFullscreen}
           onFullScreenChange={handleFullScreenChange}
         /> 

@@ -31,12 +31,23 @@ type Props = {
   height: number;
   title?: string;
   autoFullscreen?: boolean;
+  isVideoHorizontal?: boolean;
   onFullScreenChange?: (isFullScreen: boolean) => void;
   mimeType: VideoMimeType;
 };
 
 export const VideoPlayer = React.memo((props: Props) => {
-  const { url = '', posterUrl, width, height, title, autoFullscreen, onFullScreenChange, mimeType } = props;
+  const { 
+    url = '',
+    posterUrl,
+    width,
+    height,
+    title,
+    autoFullscreen,
+    onFullScreenChange,
+    mimeType,
+    isVideoHorizontal,
+  } = props;
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
 
@@ -108,6 +119,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         src={{ src: url, type: mimeType }}
         // src={url}
         posterLoad="visible"
+        fullscreenOrientation={isVideoHorizontal ? 'landscape' : 'portrait'}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
