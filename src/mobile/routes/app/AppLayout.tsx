@@ -21,7 +21,6 @@ export const AppLayout = React.memo(({ children }: Props) => {
         minW="80"
         mx="auto"
         maxW="lg"
-        bg="red"
       >
         <Box
           w="full"
