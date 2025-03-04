@@ -29,6 +29,12 @@ export default defineConfig((params) => {
         //   clientsClaim: true, // Заменяет старый SW на новый сразу
         //   skipWaiting: true, // Активирует новый SW мгновенно
         // },
+        includeAssets: [
+          '**/*',
+        ],
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,png}'],
+        },
       }),
       // @ts-ignore
       vitePluginRequire.default(),
