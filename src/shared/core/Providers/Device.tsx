@@ -10,11 +10,6 @@ type Props = {
   children: React.ReactNode;
 }
 
-const deviceBoolMap = {
-  [devices.DESKTOP]: false,
-  [devices.MOBILE]: true,
-};
-
 export const Device = React.memo(({ children }: Props) => {
   const dispatch = useDispatch();
   const device = useAppSelector(state => state.app.device);
@@ -26,7 +21,8 @@ export const Device = React.memo(({ children }: Props) => {
       return;
     }
 
-    if (!device || isMobileMatch !== deviceBoolMap[device]) {
+    // only set. no update on changes
+    if (!device) {
       dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
     }
   }, [dispatch, device, isMobileMatch]);
