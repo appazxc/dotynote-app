@@ -114,8 +114,8 @@ export const VideoPlayer = React.memo((props: Props) => {
     // ...
   }
   
-  const store = useMediaStore(player);
-  console.log('store', store);
+  const { canOrientScreen, orientation } = useMediaStore(player);
+  console.log('canOrientScreen, orientation', canOrientScreen, orientation);
   return (
     <Box
       asChild
@@ -129,7 +129,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         className="player"
         title={title}
         src={{ src: url, type: mimeType }}
-        posterLoad="visible"
+        posterLoad="eager"
         fullscreenOrientation={isVideoHorizontal ? 'landscape' : 'portrait'}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}

@@ -1,10 +1,8 @@
 import { IconButton } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
-import { api } from 'shared/api';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
@@ -29,12 +27,6 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useDeleteNotes(noteId);
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
-
-  const { mutateAsync: createNoteSettings } = useMutation({
-    mutationFn: () => {
-      return api.post<string>(`/notes/${noteId}/settings`, {});
-    },
-  });
 
   if (!note) {
     return null;
@@ -77,9 +69,6 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Settings"
               onClick={async () => {
-                if (!note.settings) {
-                  await createNoteSettings();
-                }
                 navigate({ to: `${noteRoutePath}/settings` });
               }}
             />
