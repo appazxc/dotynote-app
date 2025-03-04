@@ -17,6 +17,7 @@ export const SWProvider = React.memo(({ children }: Props) => {
   const [isUpdateAvailable, setIsUpdateAvailable] = React.useState(false);
 
   const { updateServiceWorker } = useRegisterSW({
+    immediate: true,
     onRegisteredSW(swUrl, r) {
       if (r) {
         setInterval(async () => {
