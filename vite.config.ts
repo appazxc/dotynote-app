@@ -23,12 +23,12 @@ export default defineConfig((params) => {
       preserveDirectives(),
       react(),
       VitePWA({
-        registerType: 'autoUpdate',
-        workbox: {
-          cleanupOutdatedCaches: true,
-          clientsClaim: true, // Заменяет старый SW на новый сразу
-          skipWaiting: true, // Активирует новый SW мгновенно
-        },
+        // registerType: 'autoUpdate',
+        // workbox: {
+        //   cleanupOutdatedCaches: true,
+        //   clientsClaim: true, // Заменяет старый SW на новый сразу
+        //   skipWaiting: true, // Активирует новый SW мгновенно
+        // },
       }),
       // @ts-ignore
       vitePluginRequire.default(),

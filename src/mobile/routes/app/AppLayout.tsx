@@ -12,7 +12,7 @@ type Props = {
 
 export const AppLayout = React.memo(({ children }: Props) => {
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
-console.log('333', );
+console.log('444', );
   return (
     <BrowserProviders>
       <Box
