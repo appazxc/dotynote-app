@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const intervalMS = 60 * 60 * 1000;
+const intervalMS = 60 * 1000;
 
 type UpdateSW = (reloadPage?: boolean | undefined) => Promise<void>
 
