@@ -7,6 +7,8 @@ type Props = {
   children: React.ReactNode;
 };
 
+const intervalMS = 60 * 1000;
+
 type UpdateSW = (reloadPage?: boolean | undefined) => Promise<void>
 
 export const SWContext = createReactContext<{ updateSW: UpdateSW | null, isUpdateAvailable: boolean }>();
@@ -17,7 +19,28 @@ export const SWProvider = React.memo(({ children }: Props) => {
 
   React.useEffect(() => {
     updateSW.current = registerSW({
-      immediate: true,
+      onRegisteredSW(swUrl, r) {
+        if (r) {
+          setInterval(async () => {
+            if (r.installing || !navigator)
+              return;
+    
+            if (('connection' in navigator) && !navigator.onLine)
+              return;
+    
+            const resp = await fetch(swUrl, {
+              cache: 'no-store',
+              headers: {
+                'cache': 'no-store',
+                'cache-control': 'no-cache',
+              },
+            });
+    
+            if (resp?.status === 200)
+              await r.update();
+          }, intervalMS);
+        }
+      },
       onNeedRefresh() {
         setIsUpdateAvailable(true);
       },
