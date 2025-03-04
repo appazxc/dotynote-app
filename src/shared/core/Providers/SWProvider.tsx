@@ -17,6 +17,7 @@ export const SWProvider = React.memo(({ children }: Props) => {
 
   React.useEffect(() => {
     updateSW.current = registerSW({
+      immediate: true,
       onNeedRefresh() {
         setIsUpdateAvailable(true);
       },
