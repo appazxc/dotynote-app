@@ -22,7 +22,9 @@ export default defineConfig((params) => {
     plugins: [
       preserveDirectives(),
       react(),
-      VitePWA(),
+      VitePWA({
+        registerType: 'autoUpdate',
+      }),
       // @ts-ignore
       vitePluginRequire.default(),
       isProduction ? resolve({
