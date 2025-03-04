@@ -120,6 +120,7 @@ export const VideoPlayer = React.memo((props: Props) => {
   }
   
   const { canOrientScreen, orientation: or } = useMediaStore(player);
+  console.log('orientation.type', orientation.type);
   console.log('canOrientScreen, orientation', canOrientScreen, or);
   return (
     <Box
