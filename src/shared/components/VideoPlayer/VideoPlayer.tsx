@@ -70,7 +70,8 @@ export const VideoPlayer = React.memo((props: Props) => {
 
   // We can listen for the `can-play` event to be notified when the player is ready.
   function onCanPlay(detail: MediaCanPlayDetail, nativeEvent: MediaCanPlayEvent) {
-
+    console.log('unlock' );
+    player.current?.remoteControl.unlockScreenOrientation();
   }
 
   React.useEffect(() => {
