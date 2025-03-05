@@ -75,6 +75,7 @@ type InitialState = {
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null;
   device: Device | null;
+  isDeviceLocked: boolean;
   tempNote: TempNote | null;
   primaryNoteTabIds: {
     [x: string]: string;
@@ -97,6 +98,7 @@ const initialState: InitialState = {
   activeTabId: null,
   waitedRoute: null,
   device: null,
+  isDeviceLocked: false,
   tempNote: null,
   primaryNoteTabIds: {},
   note: {
@@ -150,6 +152,12 @@ export const appSlice = createSlice({
     },
     stopOperation: (state) => {
       state.operation = noOperation;
+    },
+    lockDevice: (state) => {
+      state.isDeviceLocked = true;
+    },
+    unlockDevice: (state) => {
+      state.isDeviceLocked = false;
     },
     updateOperationConcretePost: (
       state, 
@@ -304,6 +312,8 @@ export const {
   startHubOperation,
   startSelectNoteImagesOperation,
   toggleSelectNoteImage,
+  lockDevice,
+  unlockDevice,
 } = appSlice.actions;
 
 export default appSlice.reducer;

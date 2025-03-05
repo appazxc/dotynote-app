@@ -10,9 +10,15 @@ type Props = {
   children: React.ReactNode;
 }
 
+const deviceBoolMap = {
+  [devices.DESKTOP]: false,
+  [devices.MOBILE]: true,
+};
+
 export const Device = React.memo(({ children }: Props) => {
   const dispatch = useDispatch();
   const device = useAppSelector(state => state.app.device);
+  const isDeviceLocked = useAppSelector(state => state.app.isDeviceLocked);
   // standard media initialized with wrong values
   const [isMobileMatch] = useMedia('(max-width: 30em)');
   
@@ -22,10 +28,10 @@ export const Device = React.memo(({ children }: Props) => {
     }
 
     // only set. no update on changes
-    if (!device) {
+    if (!device || (isMobileMatch !== deviceBoolMap[device] && !isDeviceLocked)) {
       dispatch(updateDevice(isMobileMatch ? devices.MOBILE : devices.DESKTOP));
     }
-  }, [dispatch, device, isMobileMatch]);
+  }, [dispatch, device, isMobileMatch, isDeviceLocked]);
 
   if (!device) {
     return null;
