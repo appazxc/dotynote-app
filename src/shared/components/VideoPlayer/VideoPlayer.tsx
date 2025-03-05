@@ -38,6 +38,7 @@ type Props = {
   title?: string;
   autoFullscreen?: boolean;
   isVideoHorizontal?: boolean;
+  fullscreenOrientation?: ScreenOrientationLockType;
   onFullScreenChange?: (isFullScreen: boolean) => void;
   mimeType: VideoMimeType;
 };
@@ -53,8 +54,8 @@ export const VideoPlayer = React.memo((props: Props) => {
     onFullScreenChange,
     mimeType,
     isVideoHorizontal,
+    orientation,
   } = props;
-  const orientation = useOrientation();
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
 
@@ -70,7 +71,6 @@ export const VideoPlayer = React.memo((props: Props) => {
 
   // We can listen for the `can-play` event to be notified when the player is ready.
   function onCanPlay(detail: MediaCanPlayDetail, nativeEvent: MediaCanPlayEvent) {
-    console.log('unlock' );
     player.current?.remoteControl.unlockScreenOrientation();
   }
 
@@ -115,13 +115,9 @@ export const VideoPlayer = React.memo((props: Props) => {
     { orientation, lock }: ScreenOrientationChangeEventDetail,
     nativeEvent: MediaOrientationChangeEvent
   ) {
-    console.log('{ orientation, lock }', { orientation, lock }, nativeEvent);
     // ...
   }
   
-  const { canOrientScreen, orientation: or } = useMediaStore(player);
-  console.log('orientation.type', orientation.type);
-  console.log('canOrientScreen, orientation', canOrientScreen, or);
   return (
     <Box
       asChild
@@ -136,7 +132,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         title={title}
         src={{ src: url, type: mimeType }}
         posterLoad="eager"
-        fullscreenOrientation={orientation.type as ScreenOrientationLockType}
+        fullscreenOrientation={orientation}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}

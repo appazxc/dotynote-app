@@ -1,5 +1,6 @@
+import { useOrientation } from '@uidotdev/usehooks';
+import { ScreenOrientationLockType } from '@vidstack/react';
 import React from 'react';
-import { useScreen } from 'usehooks-ts';
 
 import {
   DialogBackdrop,
@@ -18,15 +19,11 @@ type Props = {
   noteVideo: NoteVideoEntity,
 };
 
-function isHorizontal(noteVideo: NoteVideoEntity) {
-  return noteVideo.width > noteVideo.height;
-}
-
 export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
   useDeviceLock();
   const dispatch = useAppDispatch();
-  const isVideoHorizontal = isHorizontal(noteVideo);
   const { name } = splitFileName(noteVideo.filename);
+  const orientation = useOrientation();
   
   const handleFullScreenChange = (isFullScreen: boolean) => {
     if (!isFullScreen) {
@@ -52,7 +49,7 @@ export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
           mimeType={noteVideo.mimeType}
           posterUrl={noteVideo.thumbnail.url}
           title={name}
-          isVideoHorizontal={isVideoHorizontal}
+          fullscreenOrientation={orientation.type as ScreenOrientationLockType}
           onFullScreenChange={handleFullScreenChange}
         /> 
       </DialogContent>

@@ -1,17 +1,10 @@
-import { Box } from '@chakra-ui/react';
-import { useWindowSize } from '@uidotdev/usehooks';
 import React from 'react';
 import { useScreen } from 'usehooks-ts';
 
-import { Button } from 'shared/components/ui/button';
 import {
   DialogBackdrop,
-  DialogBody,
   DialogContent,
-  DialogFooter,
-  DialogHeader,
   DialogRoot,
-  DialogTitle,
 } from 'shared/components/ui/dialog';
 import { VideoPlayer } from 'shared/components/VideoPlayer';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -62,7 +55,6 @@ export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
           mimeType={noteVideo.mimeType}
           posterUrl={noteVideo.thumbnail.url}
           title={name}
-          isVideoHorizontal={isVideoHorizontal}
           autoFullscreen={isAutoFullscreen}
           onFullScreenChange={handleFullScreenChange}
         /> 
