@@ -49,6 +49,7 @@ export const NoteVideoModalDesktop = React.memo(({ noteVideo }: Props) => {
       <DialogBackdrop />
       <DialogContent>
         <VideoPlayer
+          autoPlay
           url={noteVideo.url}
           width={noteVideo.width}
           height={noteVideo.height}

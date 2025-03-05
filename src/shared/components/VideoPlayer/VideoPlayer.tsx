@@ -34,6 +34,7 @@ type Props = {
   height: number;
   title?: string;
   autoFullscreen?: boolean;
+  autoPlay?: boolean;
   isVideoHorizontal?: boolean;
   fullscreenOrientation?: ScreenOrientationLockType;
   onFullScreenChange?: (isFullScreen: boolean) => void;
@@ -50,6 +51,7 @@ export const VideoPlayer = React.memo((props: Props) => {
     autoFullscreen,
     onFullScreenChange,
     mimeType,
+    autoPlay,
     fullscreenOrientation,
   } = props;
   const aspectRatio = getAspectRatio(width, height);
@@ -123,23 +125,20 @@ export const VideoPlayer = React.memo((props: Props) => {
         ref={player}
         crossOrigin
         playsInline
-        autoPlay
+        autoPlay={autoPlay}
         className="player"
         title={title}
         src={{ src: url, type: mimeType }}
-        posterLoad="eager"
         fullscreenOrientation={fullscreenOrientation}
         aspectRatio={aspectRatio}
+        poster={posterUrl}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
         onFullscreenChange={onFullScreenChange}
         onOrientationChange={onOrientationChange}
       >
         <MediaProvider>
-          {/* <Poster
-            className="vds-poster"
-            src={posterUrl}
-          /> */}
+          <Poster className="vds-poster" alt="ar" />
         </MediaProvider>
         <DefaultAudioLayout icons={defaultLayoutIcons} />
         <DefaultVideoLayout

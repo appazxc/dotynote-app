@@ -41,6 +41,7 @@ export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
       <DialogContent>
         <VideoPlayer
           autoFullscreen
+          autoPlay
           url={noteVideo.url}
           width={noteVideo.width}
           height={noteVideo.height}
