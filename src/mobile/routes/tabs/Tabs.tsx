@@ -138,7 +138,7 @@ const Tabs = () => {
   
   const renderedContent = React.useMemo(() => {
     if (tabNotesIsLoading) {
-      return <Loader />;
+      return <Loader showRequests />;
     }
 
     if (!tabs.length) {

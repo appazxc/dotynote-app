@@ -1,9 +1,7 @@
 import React, { Suspense } from 'react';
 
-// need 18.3 react version
-// import { SuspenseLoader } from 'shared/components/SuspenseLoader';
-
-import { useAppSelector } from 'shared/store/hooks';
+import { SuspenseLoader } from 'shared/components/SuspenseLoader';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 import { AppDispatch } from 'shared/types/store';
 
@@ -16,38 +14,37 @@ export type GetModalParamsType<Props extends object> =
 type HOCType<Props extends object> = 
   (a: () => Promise<{ default: React.ComponentType<Omit<Props, 'extraId'>> }>) => React.ComponentType<Props>;
 
-type Loader = (dispatch: AppDispatch) => Promise<void>;
+type Loader<T> = (props: T, dispatch: AppDispatch) => Promise<void>;
 
 type AsModalParams<Props extends object> = {
   getModalParams: GetModalParamsType<Props>;
-  loader?: Loader;
+  loader?: Loader<Props>;
   modalLoader?: React.ReactElement | false;
 };
 
 export default function asModal<Props extends {}>({
   getModalParams,
-  // loader,
+  loader,
   modalLoader,
 }: AsModalParams<Props>): HOCType<Props> {
   return function (LazyTarget) {
     const TargetComponent = React.lazy(LazyTarget);
 
     return React.memo(function Wrapper(props: Props) {
-      // const dispatch = useAppDispatch();
+      const dispatch = useAppDispatch();
       const { id, extraId } = getModalParams(props);
       const modalId = makeModalId(id, extraId);
-
       const modalsStack = useAppSelector((state) => state.modals.stack);
       const active = modalsStack.includes(modalId);
       const hidden = active && modalsStack[modalsStack.length - 1] !== modalId;
 
-      // const promiseLoader = React.useMemo(() => {
-      //   if (!active || !loader) {
-      //     return null;
-      //   }
+      const promiseLoader = React.useMemo(() => {
+        if (!active || !loader) {
+          return null;
+        }
 
-      //   return loader(dispatch);
-      // }, [active, dispatch]);
+        return loader(props, dispatch);
+      }, [active, dispatch, props]);
 
       if (!active) {
         return null;
@@ -65,10 +62,11 @@ export default function asModal<Props extends {}>({
       };
 
       return (
-        <Suspense fallback={fallbackComponent}>
-          {/** @ts-ignore-error **/}
-          <TargetComponent {...targetProps} />
-          {/* {promiseLoader && <SuspenseLoader loader={promiseLoader} />} */}
+        <Suspense key={modalId} fallback={fallbackComponent}>
+          {promiseLoader && <SuspenseLoader loader={promiseLoader} />}
+          <Suspense fallback={fallbackComponent}>
+            <TargetComponent {...targetProps} />
+          </Suspense>
         </Suspense>
       );
     });

@@ -11,6 +11,7 @@ import { VideoPlayer } from 'shared/components/VideoPlayer';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
+import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
@@ -22,6 +23,8 @@ export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
   const dispatch = useAppDispatch();
   const { name } = splitFileName(noteVideo.filename);
   const orientation = useOrientation();
+
+  invariant(noteVideo.url, 'Note video url is missing');
   
   const handleFullScreenChange = (isFullScreen: boolean) => {
     if (!isFullScreen) {

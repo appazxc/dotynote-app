@@ -28,7 +28,7 @@ import { getAspectRatio } from 'shared/util/getAspectRatio';
 const None = () => null;
 
 type Props = {
-  url?: string;
+  url: string;
   posterUrl?: string;
   width: number;
   height: number;
@@ -43,7 +43,7 @@ type Props = {
 
 export const VideoPlayer = React.memo((props: Props) => {
   const { 
-    url = '',
+    url,
     posterUrl,
     width,
     height,
@@ -54,6 +54,7 @@ export const VideoPlayer = React.memo((props: Props) => {
     autoPlay,
     fullscreenOrientation,
   } = props;
+
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
 

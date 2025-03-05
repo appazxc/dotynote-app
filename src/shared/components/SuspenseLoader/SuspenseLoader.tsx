@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { use } from 'react';
 
 type Props = {

@@ -1,4 +1,6 @@
+import { loadVideoUrl } from 'shared/actions/note/loadVideoUrl';
 import { modalIds } from 'shared/constants/modalIds';
+import { hour } from 'shared/constants/time';
 import asModal from 'shared/modules/modal/asModal';
 import { ModalLoader } from 'shared/modules/modal/ModalLoader';
 
@@ -12,4 +14,7 @@ const getModalParams = (props: Props) => ({
 export default asModal<Props>({ 
   getModalParams, 
   modalLoader: <ModalLoader />, 
+  loader: async ({ videoId }, dispatch) => {
+    await dispatch(loadVideoUrl(videoId, hour * 4));
+  },
 })(() => import('./NoteVideoModal.content'));

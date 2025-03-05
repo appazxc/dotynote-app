@@ -10,9 +10,10 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 type Props = {
   delay?: number;
   text?: string;
+  showRequests?: boolean;
 }
 
-export const Loader = React.memo(({ delay, text }: Props) => {
+export const Loader = React.memo(({ delay, text, showRequests }: Props) => {
   const [canReload, setCanReload] = React.useState(false);
   const dispatch = useAppDispatch();
   const requests = useAppSelector(selectRequests);
@@ -52,22 +53,24 @@ export const Loader = React.memo(({ delay, text }: Props) => {
             </Button>
           </Box>
         )}
-        <Box
-          position="absolute"
-          bottom="0"
-          right="0"
-          p="4"
-        >
-          {requests.map((request) => {
-            const { url = '' } = request;
+        {showRequests && (
+          <Box
+            position="absolute"
+            bottom="0"
+            right="0"
+            p="4"
+          >
+            {requests.map((request) => {
+              const { url = '' } = request;
 
-            return (
-              <div key={url}>
+              return (
+                <div key={url}>
                 Loading... {url.slice(7)}
-              </div>
-            );
-          })}
-        </Box>
+                </div>
+              );
+            })}
+          </Box>
+        )}
       </Center>
     </Wait>
   );

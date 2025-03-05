@@ -12,7 +12,6 @@ import { useAppSelector } from 'shared/store/hooks';
 
 import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
-import { SpaceLoading } from 'desktop/modules/space/components/SpaceLoading';
 import { createTabRouter, router } from 'desktop/modules/space/tabRoutes/router';
 
 const Space = React.memo(() => {
@@ -30,7 +29,7 @@ const Space = React.memo(() => {
   });
 
   if (tabNotesIsLoading) {
-    return <SpaceLoading />;
+    return <Loader showRequests delay={300} />;
   }
 
   if (!activeTab || !activeTab.routes.length) {
