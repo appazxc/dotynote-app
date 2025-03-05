@@ -136,27 +136,29 @@ export const AudioProvider = ({ children }) => {
     >
       {children}
       
-      <audio
-        ref={audioRef}
-        // @ts-ignore
-        src={url}
-        autoPlay={false}
-        onTimeUpdate={handleTimeUpdate}
-        onPlay={() => {
-          setIsPlaying(true);
-        }}
-        onPause={() => {
-          setIsPlaying(false);
-        }}
-        onError={(event) => {
-          const audioElement = event.target as HTMLAudioElement;
-          const PIPELINE_ERROR_READ = 2;
+      {url && (
+        <audio
+          ref={audioRef}
+          src={url}
+          autoPlay={false}
+          onTimeUpdate={handleTimeUpdate}
+          onPlay={() => {
+            setIsPlaying(true);
+          }}
+          onPause={() => {
+            setIsPlaying(false);
+          }}
+          onError={(event) => {
+            const audioElement = event.target as HTMLAudioElement;
+            const PIPELINE_ERROR_READ = 2;
 
-          if (audioElement.error?.code === PIPELINE_ERROR_READ && audioId) {
-            dispatch(loadAudioUrl(audioId));
-          }
-        }}
-      />
+            if (audioElement.error?.code === PIPELINE_ERROR_READ && audioId) {
+              dispatch(loadAudioUrl(audioId));
+            }
+          }}
+        />
+      )}
+      
     </AudioContext.Provider>
   );
 };

@@ -8,7 +8,6 @@ import {
   DialogRoot,
 } from 'shared/components/ui/dialog';
 import { VideoPlayer } from 'shared/components/VideoPlayer';
-import { useDeviceLock } from 'shared/hooks/useDeviceLock';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
@@ -20,7 +19,6 @@ type Props = {
 };
 
 export const NoteVideoModalMobile = React.memo(({ noteVideo }: Props) => {
-  useDeviceLock();
   const dispatch = useAppDispatch();
   const { name } = splitFileName(noteVideo.filename);
   const orientation = useOrientation();

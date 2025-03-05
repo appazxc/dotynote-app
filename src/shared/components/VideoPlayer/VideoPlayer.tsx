@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { 
+import {
   isHLSProvider,
   MediaCanPlayDetail,
   MediaCanPlayEvent,
@@ -9,24 +9,21 @@ import {
   MediaProvider,
   MediaProviderAdapter,
   MediaProviderChangeEvent,
-  Poster, 
-  ScreenOrientationChangeEventDetail, 
-  ScreenOrientationLockType, 
-  useMediaStore, 
-  VideoMimeType, 
+  Poster,
+  ScreenOrientationChangeEventDetail,
+  ScreenOrientationLockType,
+  VideoMimeType,
 } from '@vidstack/react';
 import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
   DefaultAudioLayout,
+  defaultLayoutIcons,
   DefaultLayoutIcons,
+  DefaultVideoLayout,
 } from '@vidstack/react/player/layouts/default';
 import React, { useRef } from 'react';
 import './player.css';
 
 import { getAspectRatio } from 'shared/util/getAspectRatio';
-
-import { useOrientation } from '@uidotdev/usehooks';
 
 const None = () => null;
 
@@ -53,8 +50,7 @@ export const VideoPlayer = React.memo((props: Props) => {
     autoFullscreen,
     onFullScreenChange,
     mimeType,
-    isVideoHorizontal,
-    orientation,
+    fullscreenOrientation,
   } = props;
   const aspectRatio = getAspectRatio(width, height);
   const player = useRef<MediaPlayerInstance>(null);
@@ -132,7 +128,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         title={title}
         src={{ src: url, type: mimeType }}
         posterLoad="eager"
-        fullscreenOrientation={orientation}
+        fullscreenOrientation={fullscreenOrientation}
         aspectRatio={aspectRatio}
         onProviderChange={onProviderChange}
         onCanPlay={onCanPlay}
@@ -140,10 +136,10 @@ export const VideoPlayer = React.memo((props: Props) => {
         onOrientationChange={onOrientationChange}
       >
         <MediaProvider>
-          <Poster
+          {/* <Poster
             className="vds-poster"
             src={posterUrl}
-          />
+          /> */}
         </MediaProvider>
         <DefaultAudioLayout icons={defaultLayoutIcons} />
         <DefaultVideoLayout
