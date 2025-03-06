@@ -8,11 +8,13 @@ type Props = {
   width: number;
   blurhash?: string;
   lazy?: boolean;
+  onError?: (event: React.SyntheticEvent<HTMLImageElement, Event>) => void;
   onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
 }
 
-export const NoteImageComponent = ({ blurhash, height, width, src, onClick, ...restProps }: Props, ref) => {
+export const NoteImageComponent = ({ blurhash, height, width, src, onClick, onError, ...restProps }: Props, ref) => {
   const [isLoaded, setLoaded] = React.useState(false);
+
   const placeholder = React.useMemo(() => {
     if (!blurhash) return null;
 
@@ -36,6 +38,7 @@ export const NoteImageComponent = ({ blurhash, height, width, src, onClick, ...r
       onLoad={() => {
         setLoaded(true);
       }}
+      onError={onError}
       onClick={onClick}
     />
   );

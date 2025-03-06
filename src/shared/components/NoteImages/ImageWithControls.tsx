@@ -3,11 +3,14 @@ import React from 'react';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { ImageError } from 'shared/components/NoteImages/ImageError';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { Checkbox } from 'shared/components/ui/checkbox';
+import { entityNames } from 'shared/constants/entityNames';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
+import { updateEntity } from 'shared/store/slices/entitiesSlice';
 
 type WithImageControlsProps = {
   imageId: string;
@@ -17,11 +20,12 @@ type WithImageControlsProps = {
   width: number;
   height: number;
   blurhash: string;
+  hasError?: boolean;
   onClick?: () => void;
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls, blurhash, onClick } = props;
+  const { noteId, imageId, src, height, width, hasControls, hasError, blurhash, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
 
@@ -57,13 +61,27 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
           position="relative"
           cursor="pointer"
         >
-          <NoteImage
-            src={src}
-            height={height}
-            width={width}
-            blurhash={blurhash}
-            onClick={handleImageClick}
-          />
+          {hasError ? (
+            <ImageError width={width} height={height} />
+          ) : (
+            <NoteImage
+              src={src}
+              height={height}
+              width={width}
+              blurhash={blurhash}
+              onClick={handleImageClick}
+              onError={() => {
+                dispatch(updateEntity({
+                  type: entityNames.noteImage,
+                  id: imageId,
+                  data: {
+                    _isError: true,
+                  },
+                }));
+              }}
+            />
+          )}
+          
           {isSelecting && (
             <Float offset="15px" placement="top-end">
               <Checkbox
