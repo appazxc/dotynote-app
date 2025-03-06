@@ -62,11 +62,9 @@ export default function asModal<Props extends {}>({
       };
 
       return (
-        <Suspense key={modalId} fallback={fallbackComponent}>
+        <Suspense fallback={fallbackComponent}>
           {promiseLoader && <SuspenseLoader loader={promiseLoader} />}
-          <Suspense fallback={fallbackComponent}>
-            <TargetComponent {...targetProps} />
-          </Suspense>
+          <TargetComponent {...targetProps} />
         </Suspense>
       );
     });
