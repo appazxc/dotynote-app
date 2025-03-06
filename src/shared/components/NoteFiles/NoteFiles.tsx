@@ -44,6 +44,7 @@ export const NoteFiles = React.memo((props: Props) => {
     <Stack
       {...boxProps}
       gap="2"
+      onClick={(e) => e.stopPropagation()}
     >
       {filteredNoteFileIds.map((id) => {
         return (
