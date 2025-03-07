@@ -27,5 +27,5 @@ export const movePosts = (params: Params): ThunkAction => (_, getState) => {
     data.place = revertPlaceMap[params.place];
   }
 
-  return api.post('/posts/move', data);
+  return api.post<number[]>('/posts/move', data);
 };

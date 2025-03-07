@@ -4,10 +4,9 @@ import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal'
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
-import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
-import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
+import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
-import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
+import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
 
 type Props = {
   noteId: number;
@@ -15,17 +14,12 @@ type Props = {
 
 export const NoteDialogs = React.memo(({ noteId }: Props) => {
   const dispatch = useAppDispatch();
-  const noteTabId = useNoteTabId(noteId);
+  const getQueryKey = useGetNoteTabQueryKey(noteId);
   
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || {};
-
-    if (queryKey) {
-      turnOnQueryNextPage(queryKey);
-    }
-
+    activateInfinityQueryNextPage(getQueryKey());
     dispatch(hideModal());
-  }, [noteTabId, dispatch]);
+  }, [getQueryKey, dispatch]);
   
   return (
     <>

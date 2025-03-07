@@ -16,7 +16,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   const dispatch = useAppDispatch();
   const note = useTabNote();
 
-  const { mutateAsync: move, isPending } = useMovePosts();
+  const { mutateAsync: move, isPending } = useMovePosts(note.id);
   const { mutateAsync: createPostsSettings, isPending: isCreatePostsSettingsPending } = useCreatePostsSettings(note.id);
   
   const handleMove = React.useCallback(async () => {
@@ -24,24 +24,17 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
       await createPostsSettings({});
     }
 
-    move({
+    await move({
       postIds,
       fromNoteId,
-      parentId: note.id,
-    }).then(() => {
-      dispatch(stopOperation());
-      queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
-
-      if (note.id !== fromNoteId) {
-        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
-      }
     });
+
+    dispatch(stopOperation());
   }, [
     dispatch,
     move,
     fromNoteId,
     postIds,
-    note.id,
     note.postsSettings,
     createPostsSettings,
   ]);

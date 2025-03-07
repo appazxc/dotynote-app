@@ -9,11 +9,10 @@ import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
-import { useNoteTabId } from 'shared/modules/noteTab/hooks/useNoteTabId';
-import { noteTabStore } from 'shared/modules/noteTab/lib/noteTabStore';
+import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { turnOnQueryNextPage } from 'shared/util/api/turnOnQueryNextPage';
+import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
 
 type Props = {
   note: NoteEntity;
@@ -26,15 +25,11 @@ export const PostsContentPicker = React.memo((props: Props) => {
   const { note, onClick } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
-  const noteTabId = useNoteTabId(note.id);
+  const getQueryKey = useGetNoteTabQueryKey(note.id);
 
   const handlePostCreate = React.useCallback(() => {
-    const { queryKey } = noteTabStore.get(noteTabId) || {};
-
-    if (queryKey) {
-      turnOnQueryNextPage(queryKey);
-    }
-  }, [noteTabId]);
+    activateInfinityQueryNextPage(getQueryKey());
+  }, [getQueryKey]);
 
   const renderedCards = React.useMemo(() => {
     const items = [

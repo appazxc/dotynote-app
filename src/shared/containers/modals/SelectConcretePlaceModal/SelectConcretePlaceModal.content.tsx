@@ -14,10 +14,12 @@ import {
   DialogTitle, 
 } from 'shared/components/ui/dialog';
 import { hideModal } from 'shared/modules/modal/modalSlice';
+import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { stopOperation } from 'shared/store/slices/appSlice';
 import { ModalBase } from 'shared/types/modal';
+import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 import { invariant } from 'shared/util/invariant';
 
 export type Props = ModalBase<{
@@ -28,24 +30,19 @@ const SelectConcretePlaceModal = (props: Props) => {
   const { noteId, isOpen = true } = props;
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
-
-  const { mutateAsync: move, isPending: isPendingMove } = useMovePosts();
+  const { mutateAsync: move, isPending: isPendingMove } = useMovePosts(noteId);
   const { mutateAsync: stick, isPending: isPendingStick } = useStickNotes();
 
   invariant(operation.type, 'Operation type is empty in SelectConcretePlaceModal');
 
   const handleClick = (place: 'top' | 'bottom') => async () => {
-    if (operation.type === 'move') {
+    if (operation.type === 'move' && operation.concretePostId) {
       await move({
-        parentId: noteId,
         fromNoteId: operation.fromNoteId,
         postIds: operation.postIds,
         concretePostId: operation.concretePostId,
         place,
       });
-
-      if (operation.fromNoteId !== noteId)
-        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(operation.fromNoteId).slice(0, 2) });
     }
 
     if (operation.type === 'stick') {
@@ -57,8 +54,6 @@ const SelectConcretePlaceModal = (props: Props) => {
         place,
       });
     }
-
-    queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(noteId).slice(0, 2) });
 
     dispatch(hideModal());
     dispatch(stopOperation());

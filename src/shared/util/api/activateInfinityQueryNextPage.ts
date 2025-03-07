@@ -1,7 +1,11 @@
 import { InfinityPostsQueryKey, PageParam, QueryFnData } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 
-export const turnOnQueryNextPage = (queryKey: InfinityPostsQueryKey) => {
+export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) => {
+  if (!queryKey) {
+    return;
+  }
+  
   queryClient.setQueryData<{
     pageParams: PageParam[];
     pages: QueryFnData[];
@@ -10,7 +14,8 @@ export const turnOnQueryNextPage = (queryKey: InfinityPostsQueryKey) => {
       return oldData;
     }
     
-    const descSort = queryKey[2]?.sort === 'desc';
+    const filtersIndex = 2;
+    const descSort = queryKey[filtersIndex]?.sort === 'desc';
 
     return {
       ...oldData,
@@ -21,7 +26,6 @@ export const turnOnQueryNextPage = (queryKey: InfinityPostsQueryKey) => {
         } : {
           hasPrevPage: true,
         },
-        items: page.items,
       })),
     };
   });
