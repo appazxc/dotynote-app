@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
-import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
-import { useStickNotes } from 'shared/api/hooks/useStickNotes';
-import { queryClient } from 'shared/api/queryClient';
+import { useStickNotesAndPosts } from 'shared/api/hooks/useStickNotesAndPosts';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { StickOperation as StickOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
@@ -12,27 +10,24 @@ import { Operation } from './Operation';
 
 type Props = StickOperationType;
 
-export const StickOperation = React.memo(({ fromNoteId, noteId, postIds, concretePlace }: Props) => {
+export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concretePlace }: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
   
   const { mutateAsync: createPostsSettings, isPending } = useCreatePostsSettings(note.id);
-  const { mutateAsync: stick, isPending: isStickPending } = useStickNotes();
+  const { mutateAsync: stick, isPending: isStickPending } = useStickNotesAndPosts(note.id);
   
   const handleStick = React.useCallback(async () => {
     if (!note.postsSettings) {
       await createPostsSettings({});
     }
 
-    stick({
-      noteId,
+    await stick({
+      noteIds,
       postIds,
-      parentId: note.id,
-    }).then(() => {
-      dispatch(stopOperation());
-      queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(note.id).slice(0, 2) });
     });
-  }, [dispatch, stick, createPostsSettings, noteId, postIds, note.id, note.postsSettings]);
+    dispatch(stopOperation());
+  }, [dispatch, stick, createPostsSettings, noteIds, postIds, note.postsSettings]);
 
   const isSameNote = note.id == fromNoteId;
   

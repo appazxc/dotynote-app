@@ -4,22 +4,22 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  noteId?: number | null;
-  postIds: number[];
   parentId: number;
-  concretePostId?: number;
-  place?: 'top' | 'bottom';
-}
+  noteIds: number[];
+  postIds: number[];
+  concretePostId?: number; 
+  place?: 'top' | 'bottom'
+} 
 
 const revertPlaceMap = {
   'top': 'bottom',
   'bottom': 'top',
 } as const;
 
-export const stickNotes = (params: Params): ThunkAction => (_, getState) => {
+export const stickNotesAndPosts = (params: Params): ThunkAction<number[]> => (_, getState) => {
   const parentNote = noteSelector.getEntityById(getState(), params.parentId);
 
-  invariant(parentNote, 'Missing parentNote');
+  invariant(parentNote, 'Missing parent note');
   
   const data = params;
 
@@ -27,5 +27,5 @@ export const stickNotes = (params: Params): ThunkAction => (_, getState) => {
     data.place = revertPlaceMap[params.place];
   }
 
-  return api.post('/notes/stick', data);
+  return api.post<number[]>('/posts/stick', data);
 };

@@ -24,7 +24,7 @@ export const operationTypes = {
 export type StickOperation = {
   type: typeof operationTypes.STICK;
   fromNoteId: number | null;
-  noteId: number | null;
+  noteIds: number[];
   postIds: number[];
   concretePlace: boolean;
   concretePostId?: number;
@@ -171,14 +171,14 @@ export const appSlice = createSlice({
       state, 
       { payload }: PayloadAction<{
         fromNoteId?: number;
-        noteId?: number;
+        noteIds?: number[];
         postIds?: number[];
       }>
     ) => {
       state.operation = {
         type: operationTypes.STICK,
         fromNoteId: payload.fromNoteId || null,
-        noteId: payload.noteId || null,
+        noteIds: payload.noteIds || [],
         postIds: payload.postIds || [],
         concretePlace: false,
       };

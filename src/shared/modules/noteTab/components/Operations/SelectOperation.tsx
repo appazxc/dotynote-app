@@ -54,7 +54,7 @@ export const SelectOperation = React.memo((props: Props) => {
 
   const list = [
     ...canStick ? [{
-      label: 'Stick to',
+      label: 'Stick',
       icon: <PiSticker />,
       onClick: () => dispatch(startStickOperation({
         fromNoteId: note.id,
@@ -62,7 +62,7 @@ export const SelectOperation = React.memo((props: Props) => {
       })),
     }] : [],
     ...canMove ? [{
-      label: 'Move to',
+      label: 'Move',
       icon: <TbArrowMoveLeft />,
       onClick: () => {
         dispatch(startMoveOperation({

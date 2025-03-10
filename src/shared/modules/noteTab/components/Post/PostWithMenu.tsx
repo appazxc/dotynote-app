@@ -146,16 +146,16 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         })),
       }] : [],
       ...showStick ? [{
-        key: 'Stick to',
-        label: 'Stick to',
+        key: 'Stick',
+        label: 'Stick',
         onClick: () => dispatch(startStickOperation({
           fromNoteId: parent.id,
           postIds: [post.id],
         })),
       }] : [],
       ...showMove ? [{
-        key: 'Move to',
-        label: 'Move to',
+        key: 'Move',
+        label: 'Move',
         onClick: () => dispatch(startMoveOperation({
           fromNoteId: parent.id,
           postIds: [post.id],

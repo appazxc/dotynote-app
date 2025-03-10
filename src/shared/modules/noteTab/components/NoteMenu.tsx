@@ -47,9 +47,9 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
         <MenuList>
           {note.permissions.stick && (
             <MenuItem
-              label="Stick to"
+              label="Stick"
               onClick={() => dispatch(startStickOperation({
-                noteId: note.id,
+                noteIds: [note.id],
               }))}
             />
           )}

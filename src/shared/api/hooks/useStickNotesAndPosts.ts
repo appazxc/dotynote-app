@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { movePosts } from 'shared/actions/movePosts';
+import { stickNotesAndPosts } from 'shared/actions/stickNotesAndPosts';
 import { getInfinityPostsQueryKey, InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
@@ -11,26 +11,23 @@ import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQ
 import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 type Params = {
+  noteIds: number[];
   postIds: number[];
-  fromNoteId: number;
-} & (
-  { concretePostId: number; place: 'top' | 'bottom' } |
-  { concretePostId?: never; place?: never }
-);
+  concretePostId?: number;
+  place?: 'top' | 'bottom';
+}
 
-export const useMovePosts = (noteId: number) => {
+export const useStickNotesAndPosts = (parentId: number) => {
   const dispatch = useAppDispatch();
-  const getQueryKey = useGetNoteTabQueryKey(noteId);
+  const getQueryKey = useGetNoteTabQueryKey(parentId);
   
   return useMutation({
     mutationFn: async (params: Params) => {
-      const ids = await dispatch(movePosts({ ...params, parentId: noteId }));
+      const ids = await dispatch(stickNotesAndPosts({ ...params, parentId }));
 
       const {
-        postIds,
-        fromNoteId,
-        place,
         concretePostId,
+        place,
       } = params;
 
       if (concretePostId) {
@@ -38,27 +35,7 @@ export const useMovePosts = (noteId: number) => {
       } else {
         activateInfinityQueryNextPage(getQueryKey());
       }
-      // remove old posts from the list
-      queryClient
-        .getQueriesData({ queryKey: getInfinityPostsQueryKey(fromNoteId) })
-        .forEach(([queryKey]) => {
-          updateInfinityQuery(queryKey as InfinityPostsQueryKey, (oldData) => {
-            if (!oldData) {
-              return oldData;
-            }
-      
-            return {
-              ...oldData,
-              pages: oldData.pages.map((page) => {
-                return {
-                  ...page,
-                  items: page.items.filter((id) => !postIds.includes(id)),
-                };
-              }),
-            };
-          });
-        });
-
+              
       return ids;
     },
     onError: (error) => {
