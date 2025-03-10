@@ -1,12 +1,14 @@
 import React from 'react';
 import { GoFile } from 'react-icons/go';
+import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoImageOutline } from 'react-icons/io5';
+import { PiFileAudioFill } from 'react-icons/pi';
 import { SlNotebook } from 'react-icons/sl';
 
 import { createPost } from 'shared/actions/post/createPost';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
-import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
@@ -30,6 +32,23 @@ export const PostsContentPicker = React.memo((props: Props) => {
   const handlePostCreate = React.useCallback(() => {
     activateInfinityQueryNextPage(getQueryKey());
   }, [getQueryKey]);
+
+  const handlePostAttachmentClick = React.useCallback((type: UploadFileType) => () => {
+    const onFilesAdd = (files: UploadFile[], removeFiles) => {
+      dispatch(createPost({
+        parentId: note.id,
+        files,
+        removeFiles,
+        onPostCreated: handlePostCreate,
+      }));
+    };
+
+    openFilePicker({
+      type,
+    }, onFilesAdd);
+
+    onClick();
+  }, [dispatch, onClick, handlePostCreate, openFilePicker, note.id]);
 
   const renderedCards = React.useMemo(() => {
     const items = [
@@ -66,29 +85,24 @@ export const PostsContentPicker = React.memo((props: Props) => {
       {
         icon: <GoFile size={ICON_SIZE} />,
         title: 'File',
-        onClick: () => {
-          const onFilesAdd = (files: UploadFile[], removeFiles) => {
-            dispatch(createPost({
-              parentId: note.id,
-              files,
-              removeFiles,
-              onPostCreated: handlePostCreate,
-            }));
-          };
-
-          openFilePicker({
-            type: 'file',
-          }, onFilesAdd);
-
-          onClick();
-        },
+        onClick: handlePostAttachmentClick('file'),
+      },
+      {
+        icon: <PiFileAudioFill size={ICON_SIZE} />,
+        title: 'Audio',
+        onClick: handlePostAttachmentClick('audio'),
+      },
+      {
+        icon: <HiOutlineVideoCamera size={ICON_SIZE} />,
+        title: 'Video',
+        onClick: handlePostAttachmentClick('video'),
       },
     ];
 
     return (
       <ContentPickerCards items={items} />
     );
-  }, [dispatch, handlePostCreate, openFilePicker, onClick, note.id]);
+  }, [dispatch, handlePostAttachmentClick, openFilePicker, onClick]);
 
   return renderedCards;
 });

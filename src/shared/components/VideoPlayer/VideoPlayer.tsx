@@ -139,7 +139,7 @@ export const VideoPlayer = React.memo((props: Props) => {
         onOrientationChange={onOrientationChange}
       >
         <MediaProvider>
-          <Poster className="vds-poster" alt="ar" />
+          <Poster className="vds-poster" />
         </MediaProvider>
         <DefaultAudioLayout icons={defaultLayoutIcons} />
         <DefaultVideoLayout

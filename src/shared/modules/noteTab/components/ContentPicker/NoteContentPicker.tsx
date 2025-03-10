@@ -46,7 +46,14 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
         title: 'Dot',
         onClick: () => {
           onClick?.();
-          dispatch(showModal({ id: modalIds.createNoteDot }));
+
+          // looks like there some problems with popover + modal focus events. modal close instantly after open
+          // if not wait a bit
+          // src/desktop/modules/noteTab/NoteSidebar/SidebarPlusMenu.tsx
+          // TODO find a solution
+          setTimeout(() => {
+            dispatch(showModal({ id: modalIds.createNoteDot }));
+          });
         },
       },
       {
@@ -70,6 +77,12 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
         onClick: handleNoteAttachmentClick('video'),
       },
       {
+        icon: <VscRecord size={ICON_SIZE} />,
+        title: 'Record',
+        to: '/',
+        disabled: true,
+      },
+      {
         icon: <PiFeather size={ICON_SIZE} />,
         title: 'Excalidraw',
         to: '/',
@@ -87,14 +100,8 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
       //   to: '/',
       //   disabled: true,
       // },
-      {
-        icon: <VscRecord size={ICON_SIZE} />,
-        title: 'Record',
-        to: '/',
-        disabled: true,
-      },
     ];
-  }, [dispatch, openFilePicker, noteId, onClick, handleNoteAttachmentClick]);
+  }, [dispatch, onClick, handleNoteAttachmentClick]);
 
   return (
     <ContentPickerCards items={items} />
