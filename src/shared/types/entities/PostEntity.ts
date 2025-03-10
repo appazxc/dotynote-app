@@ -16,7 +16,7 @@ export type ApiPostEntity = BaseEntity<{
   permissions: {
     delete: boolean;
     stick: boolean;
-    remove: boolean;
+    unstick: boolean;
     move: boolean;
     pin: boolean;
     unpin: boolean;

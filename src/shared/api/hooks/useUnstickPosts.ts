@@ -5,7 +5,7 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 
 import { entityApi } from '../entityApi';
 
-export const useRemovePosts = (id: number | number[]) => {
+export const useUnstickPosts = (id: number | number[]) => {
   return useMutation({
     mutationFn: () => {
       return entityApi.post.deleteMany(Array.isArray(id) ? id : [id], { deleteFlag: true });

@@ -5,7 +5,7 @@ import { PiSticker } from 'react-icons/pi';
 import { TbArrowMoveLeft } from 'react-icons/tb';
 
 import { useDeletePostNotes } from 'shared/api/hooks/useDeletePostNotes';
-import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
+import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
@@ -37,7 +37,7 @@ export const SelectOperation = React.memo((props: Props) => {
   
   const {
     mutate: unstick,
-  } = useRemovePosts(postIds);
+  } = useUnstickPosts(postIds);
  
   if (note.id !== noteId) {
     return null;
@@ -48,7 +48,7 @@ export const SelectOperation = React.memo((props: Props) => {
   };
   
   const canStick = posts.every((post) => post.permissions.stick);
-  const canRemove = posts.every((post) => post.permissions.remove);
+  const canUnstick = posts.every((post) => post.permissions.unstick);
   const canMove = posts.every((post) => post.permissions.move);
   const canDelete = posts.every((post) => post.permissions.delete);
 
@@ -71,8 +71,8 @@ export const SelectOperation = React.memo((props: Props) => {
         }));
       },
     }] : [],
-    ...canRemove ? [{
-      label: 'Remove',
+    ...canUnstick ? [{
+      label: 'Unstick',
       icon: <Box display="flex" transform="rotate(180deg)"><PiSticker /></Box>,
       onClick: () => {
         dispatch(stopOperation());

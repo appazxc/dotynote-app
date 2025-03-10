@@ -7,8 +7,8 @@ import { openTab } from 'shared/actions/space/openTab';
 import { api } from 'shared/api';
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
-import { useRemovePosts } from 'shared/api/hooks/useRemovePosts';
 import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
+import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { getPinnedPostsCountQueryKey } from 'shared/api/options/posts';
 import { queryClient } from 'shared/api/queryClient';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
@@ -51,7 +51,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
   const isHubNote = user?.settings?.hubId === parent.id;
 
   const { mutate: deleteNote, isPending: isDeletePending } = useDeleteNotes(post.note.id);
-  const { mutate: remove } = useRemovePosts(postId);
+  const { mutate: unstick } = useUnstickPosts(postId);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
   const { mutate: createInternalPosts, isPending: isCreatingInternal } = useMutation({
@@ -93,7 +93,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     const showStick = post.permissions.stick;
     const showMove = post.permissions.move;
     const showInternal = !isInternal && post.permissions.updateInternal && parent.postsSettings?.internal;
-    const showRemove = post.permissions.remove && !isHubNote;
+    const showUnstick = post.permissions.unstick && !isHubNote;
     const showDelete = post.permissions.delete;
     const showDot = post.permissions.upsertDot;
 
@@ -208,10 +208,10 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
           }] : [],
         ],
       }] : [],
-      ...showRemove ? [{
-        key: 'Remove',
-        label: 'Remove',
-        onClick: () => remove(),
+      ...showUnstick ? [{
+        key: 'Unstick',
+        label: 'Unstick',
+        onClick: () => unstick(),
         hasDivider: true,
       }] : [],
       ...showDelete ? [{
@@ -219,7 +219,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         label: 'Delete',
         disabled: isDeletePending,
         onClick: () => dispatch(showModal({ id: modalIds.confirm, extraId: post.id })),
-        hasDivider: !showRemove,
+        hasDivider: !showUnstick,
       }] : [],
     ] as MenuProps[];
   }, [
@@ -235,7 +235,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     pin,
     postId,
     isHubNote,
-    remove,
+    unstick,
     unpin,
     updateInternal,
     handleCreateOrDeleteInternal,
