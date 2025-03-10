@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { stickNotesAndPosts } from 'shared/actions/stickNotesAndPosts';
-import { getInfinityPostsQueryKey, InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
-import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';

@@ -16,11 +16,10 @@ type Props = {
   isSelected?: boolean;
   internalLevel: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
-  onDelete: (postId: number) => void;
 }
 
 export const Post = React.memo((props: Props) => {
-  const { postId, onClick, onDelete, isSelecting, isSelected, hasOverlay, internalLevel } = props;
+  const { postId, onClick, isSelecting, isSelected, hasOverlay, internalLevel } = props;
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getPostById(state, postId));
@@ -31,12 +30,6 @@ export const Post = React.memo((props: Props) => {
   const allowInternal = internalLevel === 0;
   const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
   
-  React.useEffect(() => {
-    if ((post._isDeleted || post.note._isDeleted) && onDelete) {
-      onDelete(postId);
-    }
-  }, [post._isDeleted, post.note._isDeleted, onDelete, postId]);
-
   const renderedPost = React.useMemo(() => {
     if (post._isDeleted) {
       return null;

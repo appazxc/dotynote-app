@@ -1,4 +1,4 @@
-import { Box, Center, Text, DialogBody, Spinner, Stack } from '@chakra-ui/react';
+import { Center, DialogBody, Spinner, Stack, Text } from '@chakra-ui/react';
 import { FaLongArrowAltDown, FaLongArrowAltUp } from 'react-icons/fa';
 
 import { useMovePosts } from 'shared/api/hooks/useMovePosts';

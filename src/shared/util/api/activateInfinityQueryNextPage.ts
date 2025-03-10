@@ -1,15 +1,13 @@
-import { InfinityPostsQueryKey, PageParam, QueryFnData } from 'shared/api/hooks/useInfinityPosts';
+import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
+import { TQueryFnData } from 'shared/types/query';
 
 export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) => {
   if (!queryKey) {
     return;
   }
   
-  queryClient.setQueryData<{
-    pageParams: PageParam[];
-    pages: QueryFnData[];
-  }>(queryKey, (oldData) => {
+  queryClient.setQueryData<TQueryFnData>(queryKey, (oldData) => {
     if (!oldData) {
       return oldData;
     }

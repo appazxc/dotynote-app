@@ -12,7 +12,7 @@ export const useDeletePostNotes = (noteId: number) => {
   
   return useMutation({
     mutationKey: deletePostNotesMutationKey(noteId),
-    mutationFn: (postIds: number[]) => {
+    mutationFn: async (postIds: number[]) => {
       return dispatch(deletePostNotes(noteId, postIds));
     },
     onError: (error) => {

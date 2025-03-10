@@ -7,20 +7,14 @@ import {
 import React from 'react';
 
 import { EMPTY_OBJECT } from 'shared/constants/common';
-import { Directions, DIRECTIONS } from 'shared/constants/requests';
+import { DIRECTIONS } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useSaveNoteTabQueryKey';
+import { PageParam, QueryFnData } from 'shared/types/query';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
 import { entityApi } from '../entityApi';
 
 type Filters = Record<string, string | number>;
-
-export type PageParam = { 
-  cursor?: number | null;
-  direction?: Directions | null; 
-}
-
-export type QueryFnData = { items: number []; hasNextPage: boolean; hasPrevPage: boolean }
 
 export type InfinityPostsOptions = Omit<
   UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,

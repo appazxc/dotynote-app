@@ -1,5 +1,6 @@
-import { InfinityPostsQueryKey, PageParam, QueryFnData } from 'shared/api/hooks/useInfinityPosts';
+import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
+import { TQueryFnData } from 'shared/types/query';
 
 export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldData, queryKey) => {
   if (!oldData) {
@@ -39,13 +40,10 @@ export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldDa
   };
 };
 
-export const updateInfinityQuery = <T extends {
-  pageParams: PageParam[];
-  pages: QueryFnData[];
-}>(
-    queryKey: InfinityPostsQueryKey | undefined, 
-    updater: (oldData: T | undefined, queryKey: InfinityPostsQueryKey) => T | undefined
-  ) => {
+export const updateInfinityQuery = <T extends TQueryFnData>(
+  queryKey: InfinityPostsQueryKey | undefined, 
+  updater: (oldData: T | undefined, queryKey: InfinityPostsQueryKey) => T | undefined
+) => {
   if (!queryKey) {
     return;
   }
