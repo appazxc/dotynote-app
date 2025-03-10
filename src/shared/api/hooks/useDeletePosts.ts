@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { deletePostNotes } from 'shared/actions/post/deletePostNotes';
+import { deletePosts } from 'shared/actions/post/deletePosts';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const deletePostNotesMutationKey = (noteId: number) => ['deletePostNotes', noteId];
+export const deletePostsMutationKey = (parentId: number) => ['deletePostNotes', parentId];
 
-export const useDeletePostNotes = (noteId: number) => {
+export const useDeletePosts = (parentId: number) => {
   const dispatch = useAppDispatch();
   
   return useMutation({
-    mutationKey: deletePostNotesMutationKey(noteId),
+    mutationKey: deletePostsMutationKey(parentId),
     mutationFn: async (postIds: number[]) => {
-      return dispatch(deletePostNotes(noteId, postIds));
+      return dispatch(deletePosts(parentId, postIds));
     },
     onError: (error) => {
       toaster.create({

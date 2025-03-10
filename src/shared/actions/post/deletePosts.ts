@@ -5,14 +5,14 @@ import { deleteEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
-export const deletePostNotes = (parentId: number, postIds: number[]): ThunkAction => 
+export const deletePosts = (parentId: number, postIds: number[]): ThunkAction => 
   async (dispatch, getState) => {
     const posts = postSelector.getEntitiesById(getState(), postIds);
   
     const revert = removePostIdsFromQuery(parentId, postIds);
 
     try {
-      await api.post('/posts/delete-notes', {
+      await api.delete('/posts', {
         parentId,
         postIds,
       });

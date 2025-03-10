@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const SidebarFooter = ({ noteId }: Props) => {
-  const isMutating = useIsNoteMutating();
+  const isMutating = useIsNoteMutating(noteId);
   const [showSpinner, setShowSpinner] = React.useState(false);
 
   React.useEffect(() => {

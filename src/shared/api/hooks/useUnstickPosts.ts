@@ -1,14 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
 
+import { unstickPosts } from 'shared/actions/post/unstickPosts';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
+import { useAppDispatch } from 'shared/store/hooks';
 
-import { entityApi } from '../entityApi';
-
-export const useUnstickPosts = (id: number | number[]) => {
+export const useUnstickPosts = (parentId: number, postIds: number[]) => {
+  const dispatch = useAppDispatch();
+  
   return useMutation({
     mutationFn: () => {
-      return entityApi.post.deleteMany(Array.isArray(id) ? id : [id], { deleteFlag: true });
+      return dispatch(unstickPosts(parentId, postIds));
     },
     onError: (error) => {
       const apiError = parseApiError(error);

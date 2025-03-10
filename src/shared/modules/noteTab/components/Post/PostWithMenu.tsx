@@ -5,7 +5,7 @@ import { MdOutlineDone } from 'react-icons/md';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { api } from 'shared/api';
-import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
+import { useDeletePosts } from 'shared/api/hooks/useDeletePosts';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
 import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
 import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
@@ -43,15 +43,15 @@ const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
 export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDisabled, children }: Props) => {
   const dispatch = useAppDispatch();
-  const { id: postId, note: { id: noteId } } = post;
+  const { id: postId, note: { id: noteId }, parentId } = post;
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
   const isInternal = internalLevel;
   const user = useAppSelector(selectUser);
   const isHubNote = user?.settings?.hubId === parent.id;
 
-  const { mutate: deleteNote, isPending: isDeletePending } = useDeleteNotes(post.note.id);
-  const { mutate: unstick } = useUnstickPosts(postId);
+  const { mutate: deletePosts, isPending: isDeletePending } = useDeletePosts(parentId);
+  const { mutate: unstick } = useUnstickPosts(parentId, [postId]);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
   const { mutate: createInternalPosts, isPending: isCreatingInternal } = useMutation({
@@ -273,7 +273,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         extraId={post.id}
         onConfirm={() => {
           dispatch(hideModal());
-          deleteNote();
+          deletePosts([post.id]);
         }}
       />
       <CreatePostDotModal 

@@ -1,11 +1,13 @@
 import { useIsMutating } from '@tanstack/react-query';
 
 import { deleteNoteMutationKey } from 'shared/api/hooks/useDeleteNotes';
+import { deletePostsMutationKey } from 'shared/api/hooks/useDeletePosts';
 import { updateNoteMutationKey } from 'shared/api/hooks/useUpdateNote';
 
-export const useIsNoteMutating = () => {
+export const useIsNoteMutating = (noteId: number) => {
   const isUpdatingNote = useIsMutating({ mutationKey: updateNoteMutationKey() });
   const isDeletingNote = useIsMutating({ mutationKey: deleteNoteMutationKey() });
+  const isDeletingPosts = useIsMutating({ mutationKey: deletePostsMutationKey(noteId) });
 
-  return isUpdatingNote || isDeletingNote;
+  return isUpdatingNote || isDeletingNote || isDeletingPosts;
 };
