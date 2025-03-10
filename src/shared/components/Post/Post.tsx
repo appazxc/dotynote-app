@@ -18,6 +18,7 @@ type Props = {
   extraId?: number | string;
   isSelecting?: boolean;
   isSelected?: boolean;
+  hasOverlay?: boolean;
   isPinned?: boolean;
   dots?: PostDotEntity[];
   showDotsAmount?: boolean;
@@ -31,6 +32,7 @@ export const Post = React.forwardRef((props: Props, _) => {
     note,
     isSelecting,
     isSelected,
+    hasOverlay,
     isPinned,
     dots,
     onClick,
@@ -53,8 +55,8 @@ export const Post = React.forwardRef((props: Props, _) => {
     );
   }, [isSelecting, isSelected]);
 
-  const renderedSelectingOverlay = React.useMemo(() => {
-    if (!isSelecting) {
+  const renderedOverlay = React.useMemo(() => {
+    if (!hasOverlay) {
       return null;
     }
 
@@ -72,7 +74,7 @@ export const Post = React.forwardRef((props: Props, _) => {
         }}
       />
     );
-  }, [isSelecting, onClick]);
+  }, [hasOverlay, onClick]);
 
   if (note._isDeleted) {
     return (
@@ -156,7 +158,7 @@ export const Post = React.forwardRef((props: Props, _) => {
           />
         )}
       </Box>
-      {renderedSelectingOverlay}
+      {renderedOverlay}
     </Box>
   );
 });

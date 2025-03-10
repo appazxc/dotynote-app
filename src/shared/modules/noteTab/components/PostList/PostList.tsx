@@ -34,6 +34,7 @@ type Props = {
   sort?: Sort;
   orderBy?: number;
   isSelecting?: boolean;
+  hasOverlay?: boolean;
   pageSize?: number;
   isPinned?: boolean;
   pinnedOnTop?: boolean;
@@ -52,6 +53,7 @@ export const PostList = React.memo((props: Props) => {
     isPinned,
     internalLevel = 0,
     isSelecting = false,
+    hasOverlay = false,
     scrollRestoration = true,
     selectedPosts = EMPTY_ARRAY,
     sort = SORT.DESC,
@@ -224,6 +226,7 @@ export const PostList = React.memo((props: Props) => {
                     internalLevel={internalLevel}
                     isSelecting={isSelecting}
                     isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
+                    hasOverlay={hasOverlay}
                     postId={postId} 
                     onClick={onPostClick}
                     onDelete={handleOnPostDelete}

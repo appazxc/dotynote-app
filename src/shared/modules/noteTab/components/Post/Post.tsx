@@ -12,6 +12,7 @@ import { invariant } from 'shared/util/invariant';
 type Props = {
   postId: number;
   isSelecting?: boolean;
+  hasOverlay?: boolean;
   isSelected?: boolean;
   internalLevel: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
@@ -19,7 +20,7 @@ type Props = {
 }
 
 export const Post = React.memo((props: Props) => {
-  const { postId, onClick, onDelete, isSelecting, isSelected, internalLevel } = props;
+  const { postId, onClick, onDelete, isSelecting, isSelected, hasOverlay, internalLevel } = props;
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getPostById(state, postId));
@@ -45,6 +46,7 @@ export const Post = React.memo((props: Props) => {
       <PostComponent
         isSelecting={isSelecting}
         isSelected={isSelected}
+        hasOverlay={hasOverlay}
         isPinned={!!post.pinnedAt}
         noteId={post.note.id}
         extraId={post.id}
@@ -56,7 +58,7 @@ export const Post = React.memo((props: Props) => {
         }}
       />
     );
-  }, [isSelecting, isSelected, onClick, post, parent.access]);
+  }, [isSelecting, isSelected, onClick, post, hasOverlay, parent.access]);
 
   if (post._isDeleted || post.note._isDeleted) {
     return null;

@@ -29,7 +29,8 @@ export const NotePosts = React.memo((props: Props) => {
   const operation = useAppSelector(selectOperation);
   const isSelecting = operation.type === operationTypes.SELECT && operation.noteId === noteId;
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
-  
+  const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
+
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
     if (event.metaKey) {
       dispatch(openTab({ 
@@ -48,7 +49,7 @@ export const NotePosts = React.memo((props: Props) => {
   const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
 
-    if ('concretePlace' in operation && operation.concretePlace) {
+    if (isConcretePlace) {
       concretePostClick(post);
       return;
     }
@@ -59,7 +60,7 @@ export const NotePosts = React.memo((props: Props) => {
     }
     
     defaultPostClick(event, post.note.id);
-  }, [dispatch, operation, defaultPostClick, concretePostClick, isSelecting]);
+  }, [dispatch, defaultPostClick, concretePostClick, isSelecting, isConcretePlace]);
 
   const showPosts = !!postsSettings;
   
@@ -73,6 +74,7 @@ export const NotePosts = React.memo((props: Props) => {
         noteId={noteId}
         search={search}
         isSelecting={isSelecting}
+        hasOverlay={isSelecting || isConcretePlace}
         selectedPosts={selectedPosts}
         sort={postsSettings.sort}
         orderBy={postsSettings.orderById}
