@@ -25,7 +25,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { mutateAsync, isPending } = useDeleteNotes(noteId);
+  const { mutateAsync, isPending } = useDeleteNotes([noteId]);
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
 
   if (!note) {

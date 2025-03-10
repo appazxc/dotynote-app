@@ -1,17 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 
+import { deleteNotes } from 'shared/actions/note/deleteNotes';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
+import { useAppDispatch } from 'shared/store/hooks';
 
-import { entityApi } from '../entityApi';
+export const deleteNoteMutationKey = () => ['deleteNotes'];
 
-export const deleteNoteMutationKey = () => ['deleteNote'];
-
-export const useDeleteNotes = (id: number | number[]) => {
+export const useDeleteNotes = (noteIds: number[]) => {
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationKey: deleteNoteMutationKey(),
     mutationFn: () => {
-      return entityApi.note.deleteMany(Array.isArray(id) ? id : [id], { deleteFlag: true });
+      return dispatch(deleteNotes(noteIds));
     },
     onError: (error) => {
       toaster.create({

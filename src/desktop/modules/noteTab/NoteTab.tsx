@@ -28,6 +28,7 @@ export const NoteTab = React.memo(() => {
   const userId = useAppSelector(selectUserId);
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
+  
   invariant(note, 'Missing note');
   invariant(userId, 'Missing userId');
 
