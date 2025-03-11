@@ -21,6 +21,6 @@ export const useUpdateNote = (noteId) => {
       });
     },
     retryDelay: attempt => Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-    retry: 1,
+    retry: 5,
   });
 };
