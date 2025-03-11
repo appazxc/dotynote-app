@@ -13,12 +13,11 @@ export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) 
     return;
   }
 
-  const isEmpty = queryData.pageParams.length === 1 
-      && queryData.pages.length === 1 
+  const isEmpty = queryData.pages.length === 1 
       && queryData.pages[0].items.length === 0;
 
   if (isEmpty) {
-    queryClient.invalidateQueries({ queryKey: queryKey });
+    queryClient.resetQueries({ queryKey: queryKey });
     return;
   }
 
@@ -26,11 +25,9 @@ export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) 
     if (!oldData) {
       return oldData;
     }
-    console.log('oldData', oldData);
+
     const filtersIndex = 2;
     const descSort = queryKey[filtersIndex]?.sort === 'desc';
-    
-    // return undefined
 
     return {
       ...oldData,
