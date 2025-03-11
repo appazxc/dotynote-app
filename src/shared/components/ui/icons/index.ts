@@ -1,5 +1,6 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { IoMdInformationCircle } from 'react-icons/io';
 import { IoPauseOutline, IoPlay } from 'react-icons/io5';
 import { MdClose, MdOutlineDone } from 'react-icons/md';
 
@@ -9,3 +10,4 @@ export const DoneIcon = MdOutlineDone;
 export const PlayIcon = IoPlay;
 export const PauseIcon = IoPauseOutline;
 export const CloseIcon = MdClose;
+export const InfoIcon = IoMdInformationCircle;

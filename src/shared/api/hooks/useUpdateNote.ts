@@ -6,11 +6,11 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 import { entityApi } from '../entityApi';
 
-export const updateNoteMutationKey = () => ['updateNote'];
+export const updateNoteMutationKey = (noteId) => ['updateNote', noteId];
 
-export const useUpdateNote = () => {
+export const useUpdateNote = (noteId) => {
   return useMutation({
-    mutationKey: updateNoteMutationKey(),
+    mutationKey: updateNoteMutationKey(noteId),
     mutationFn: ({ id, data }: { id: number; data: Partial<NoteEntity> }) => {
       return entityApi.note.update(id, data);
     },
@@ -20,5 +20,7 @@ export const useUpdateNote = () => {
         type: 'error',
       });
     },
+    retryDelay: attempt => Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
+    retry: 5,
   });
 };

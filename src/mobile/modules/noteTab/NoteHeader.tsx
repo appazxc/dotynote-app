@@ -4,11 +4,14 @@ import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
+import { InfoIcon } from 'shared/components/ui/icons';
+import { Tooltip } from 'shared/components/ui/tooltip';
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { PostsSearch } from 'shared/modules/noteTab/components/PostsSearch';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
 import { rwModes } from 'shared/modules/noteTab/constants';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
+import { useNoteMutationError } from 'shared/modules/noteTab/hooks/useNoteMutationError';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
@@ -31,6 +34,7 @@ export const NoteHeader = (props: Props) => {
   const dispatch = useAppDispatch();
   const tab = useTabContext();
   const isMutating = useIsNoteMutating(noteId);
+  const mutationError = useNoteMutationError(noteId);
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId }));
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
@@ -41,6 +45,32 @@ export const NoteHeader = (props: Props) => {
   const isNoteContentVisible = !settings?.hide;
   const showTitle = !isNoteContentVisible && title;
 
+  const renderedError = React.useMemo(() => {
+    if (!mutationError) {
+      return null;
+    }
+  
+    return (
+      <Center h="32px" w="32px">
+        <Tooltip
+          key={mutationError}
+          content={`Save error: ${mutationError}`}
+          openDelay={1000}
+          positioning={{ placement: 'bottom' }}
+        >
+          <IconButton
+            aria-label={mutationError}
+            size="xs"
+            colorPalette="red"
+            variant="subtle"
+          >
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
+      </Center>
+    );
+  }, [mutationError]);
+    
   const renderedBackButton = React.useMemo(() => {
     if (firstPageOfPrimaryNote) {
       return null;
@@ -106,8 +136,8 @@ export const NoteHeader = (props: Props) => {
   }, [dispatch, showRwMode, rwMode, isAdvancedEditActive, isNoteContentVisible]);
 
   const renderedRightSide = React.useMemo(() => {
-    return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedMenu}</HStack>;
-  }, [renderedMenu, renderedRwButton, renderedAdvancedEditButton]);
+    return <HStack gap="2">{renderedAdvancedEditButton}{renderedRwButton}{renderedError}{renderedMenu}</HStack>;
+  }, [renderedMenu, renderedRwButton, renderedAdvancedEditButton, renderedError]);
 
   React.useEffect(() => {
     lastIsAdvancedEditActive.current = isAdvancedEditActive;

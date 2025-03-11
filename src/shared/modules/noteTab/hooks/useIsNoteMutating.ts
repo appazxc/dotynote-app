@@ -5,7 +5,7 @@ import { deletePostsMutationKey } from 'shared/api/hooks/useDeletePosts';
 import { updateNoteMutationKey } from 'shared/api/hooks/useUpdateNote';
 
 export const useIsNoteMutating = (noteId: number) => {
-  const isUpdatingNote = useIsMutating({ mutationKey: updateNoteMutationKey() });
+  const isUpdatingNote = useIsMutating({ mutationKey: updateNoteMutationKey(noteId) });
   const isDeletingNote = useIsMutating({ mutationKey: deleteNoteMutationKey() });
   const isDeletingPosts = useIsMutating({ mutationKey: deletePostsMutationKey(noteId) });
 

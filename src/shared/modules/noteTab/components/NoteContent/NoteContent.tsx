@@ -45,7 +45,7 @@ export const NoteContent = (props: Props) => {
 
   const isFilesLoading = useAppSelector(state => selectIsNoteFilesUploading(state, noteId));
 
-  const { mutate } = useUpdateNote();
+  const { mutate } = useUpdateNote(noteId);
 
   const { title, content } = note;
 

@@ -1,5 +1,6 @@
 import { Mutation, useMutationState } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { isEqual } from 'lodash';
 import last from 'lodash/last';
 
 import { deleteNoteMutationKey } from 'shared/api/hooks/useDeleteNotes';
@@ -26,9 +27,13 @@ const select = (mutation: Mutation<unknown, Error, unknown, unknown>) => {
   return null;
 };
 
-export const useNoteMutationError = () => {
+export const useNoteMutationError = (noteId: number) => {
   const updateErrors = useMutationState<string>({
-    filters: { mutationKey: updateNoteMutationKey() },
+    filters: { 
+      predicate: ({ options }) => {
+        return isEqual(options.mutationKey, updateNoteMutationKey(noteId));
+      }, 
+    },
     select,
   });
 
