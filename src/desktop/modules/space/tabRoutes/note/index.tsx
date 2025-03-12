@@ -7,6 +7,8 @@ import { queryClient } from 'shared/api/queryClient';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
+import { NoteTabError } from 'desktop/modules/space/tabRoutes/note/NoteTabError';
+
 import { root } from '../root';
 
 export const note = createRoute({
@@ -27,6 +29,7 @@ export const note = createRoute({
     });
   },
   notFoundComponent: NoteNotFound,
+  errorComponent: NoteTabError,
   pendingMinMs: 0,
   pendingMs: 300,
   shouldReload: ({ params }) => {

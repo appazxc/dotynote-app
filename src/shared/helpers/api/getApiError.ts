@@ -8,13 +8,15 @@ type FormError = {
   };
 }
 
-export const parseApiError = (apiError: unknown) => {
-  const error: {
-    statusCode: number,
-    code: string | number,
-    message: string,
-    fieldErrors: FormError,
-  } = {
+export type ParsedApiError = {
+  statusCode: number,
+  code: string | number,
+  message: string,
+  fieldErrors: FormError,
+}
+
+export const parseApiError = (apiError: unknown): ParsedApiError => {
+  const error: ParsedApiError = {
     statusCode: 400,
     code: '',
     message: 'An error has occurred',

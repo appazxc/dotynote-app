@@ -2,8 +2,8 @@ import { createRouter } from '@tanstack/react-router';
 
 import { Loader } from 'shared/components/Loader';
 
-import { DefaultErrorComponent } from 'mobile/modules/space/tabRoutes/DefaultErrorComponent';
 import { DefaultNotFoundComponent } from 'mobile/modules/space/tabRoutes/DefaultNotFoundComponent';
+import { DefaultTabError } from 'mobile/modules/space/tabRoutes/DefaultTabError';
 import { note } from 'mobile/modules/space/tabRoutes/note';
 import { noteNotFound } from 'mobile/modules/space/tabRoutes/noteNotFound';
 import { noteSettings } from 'mobile/modules/space/tabRoutes/noteSettings';
@@ -27,7 +27,7 @@ const defaultRouterOptions = {
   defaultPendingMs: 0,
   defaultPendingComponent: Loader,
   defaultNotFoundComponent: DefaultNotFoundComponent,
-  defaultErrorComponent: DefaultErrorComponent,
+  defaultErrorComponent: DefaultTabError,
 };
 
 const router = createRouter({ 

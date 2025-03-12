@@ -1,6 +1,9 @@
-import { Center, Link, Stack, Text } from '@chakra-ui/react';
+import { Button, Center, Group } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import React from 'react';
+import { TbFaceIdError } from 'react-icons/tb';
+
+import { EmptyState } from 'shared/components/ui/empty-state';
 
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
 
@@ -20,20 +23,18 @@ function DefaultErrorComponent({ error }) {
         h="full"
         bg="slate.1"
       >
-        <Stack textAlign="center">
-
-          <Text fontSize="6xl">Error</Text>
-          <Text fontSize="2xl">Try to reload the page</Text>
-
-          <Link
-            asChild
-            color="teal.500"
-            mt="10"
-            justifyContent="center"
-          >
-            <MobileLink to="/">Go to home page</MobileLink>
-          </Link>
-        </Stack>
+        <EmptyState
+          icon={<TbFaceIdError />}
+          title="Error"
+          description="Try to reload the page"
+        >
+          <Group>
+            <Button onClick={() => window.location.reload()}>Reload</Button>
+            <Button asChild variant="outline">
+              <MobileLink to="/">Go to home page</MobileLink>
+            </Button>
+          </Group>
+        </EmptyState>
       </Center>
     </Layout>
 

@@ -1,21 +1,22 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { movePosts } from 'shared/actions/movePosts';
-import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { getInfinityPostsQueryKey, InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
-import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
+import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
+import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 type Params = {
   postIds: number[];
-  parentId: number;
   fromNoteId: number;
-  place?: 'top' | 'bottom';
-  concretePostId?: number;
-}
+} & (
+  { concretePostId: number; place: 'top' | 'bottom' } |
+  { concretePostId?: never; place?: never }
+);
 
 export const useMovePosts = (noteId: number) => {
   const dispatch = useAppDispatch();
@@ -23,45 +24,40 @@ export const useMovePosts = (noteId: number) => {
   
   return useMutation({
     mutationFn: async (params: Params) => {
-      const ids = await dispatch(movePosts(params));
+      const ids = await dispatch(movePosts({ ...params, parentId: noteId }));
 
       const {
         postIds,
-        parentId,
         fromNoteId,
         place,
         concretePostId,
       } = params;
-      const isSameNote = parentId === fromNoteId;
 
       if (concretePostId) {
-        updateInfinityQuery(getQueryKey(), (oldData, queryKey) => {
-          if (!oldData) {
-            return oldData;
-          }
-      
-          const filtersIndex = 2;
-          const descSort = queryKey[filtersIndex]?.sort === 'desc';
-      
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) => ({
-              ...page,
-              ...descSort ? {
-                hasNextPage: true,
-              } : {
-                hasPrevPage: true,
-              },
-              items: page.items,
-            })),
-          };
-        });
+        updateInfinityQuery(getQueryKey(), pasteIdsInConretePlace({ ids, concretePostId, place }));
       } else {
-        queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(parentId).slice(0, 2) });
-        if (!isSameNote) {
-          queryClient.invalidateQueries({ queryKey: getInfinityPostsQueryKey(fromNoteId).slice(0, 2) });
-        }
+        activateInfinityQueryNextPage(getQueryKey());
       }
+      // remove old posts from the list
+      queryClient
+        .getQueriesData({ queryKey: getInfinityPostsQueryKey(fromNoteId) })
+        .forEach(([queryKey]) => {
+          updateInfinityQuery(queryKey as InfinityPostsQueryKey, (oldData) => {
+            if (!oldData) {
+              return oldData;
+            }
+      
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page) => {
+                return {
+                  ...page,
+                  items: page.items.filter((id) => !postIds.includes(id)),
+                };
+              }),
+            };
+          });
+        });
 
       return ids;
     },

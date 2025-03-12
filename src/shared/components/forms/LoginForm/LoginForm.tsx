@@ -1,8 +1,7 @@
 import {
   Box,
   Input,
-  VStack,
-  Text,
+  VStack
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useSearch } from '@tanstack/react-router';
@@ -19,7 +18,7 @@ import {
   FormError,
   FormField,
 } from 'shared/components/Form';
-import { getServerErrorMessage, handleFormApiErrors, hasServerError } from 'shared/components/Form/util';
+import { handleFormApiErrors } from 'shared/components/Form/util';
 import { Button } from 'shared/components/ui/button';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { BACK_URL } from 'shared/constants/queryKeys';
@@ -35,7 +34,7 @@ type FormValues = z.infer<typeof schema>
 const defaultValues: Partial<FormValues> = {
   email: '',
   code: '',
-  referralCode: store2.get(localStorageKeys.REFERRAL_CODE),
+  referralCode: store2.get(localStorageKeys.REFERRAL_CODE) || '',
 };
 
 export const EmailForm = () => {
@@ -50,14 +49,15 @@ export const EmailForm = () => {
     defaultValues,
     resolver: zodResolver(schema), 
   });
-  console.log('defaultValues', defaultValues);
-
+  
   const {
     handleSubmit,
     formState: { isSubmitting },
+    getValues,
     setValue,
     setError,
   } = form;
+  console.log('formState', getValues(), isEmailSent);
 
   const handleEmailChange = React.useCallback((e) => {
     if (isEmailSent) {
