@@ -1,7 +1,7 @@
 import {
   Box,
   Input,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useSearch } from '@tanstack/react-router';
@@ -23,13 +23,13 @@ import { Button } from 'shared/components/ui/button';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { BACK_URL } from 'shared/constants/queryKeys';
 
-const schema = z.object({
+const schema = (isEmailSent: boolean) => z.object({
   email: z.string().email('Enter a valid email'),
-  code: z.string(),
+  code: isEmailSent ? z.string().min(4, 'Code must be at least 4 characters') : z.string(),
   referralCode: z.string(),
 });
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<ReturnType<typeof schema>>
 
 const defaultValues: Partial<FormValues> = {
   email: '',
@@ -37,7 +37,7 @@ const defaultValues: Partial<FormValues> = {
   referralCode: store2.get(localStorageKeys.REFERRAL_CODE) || '',
 };
 
-export const EmailForm = () => {
+export const LoginForm = () => {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const [showReferralField, setShowReferralField] = React.useState(false);
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export const EmailForm = () => {
   
   const form = useForm<FormValues>({ 
     defaultValues,
-    resolver: zodResolver(schema), 
+    resolver: zodResolver(schema(isEmailSent)), 
   });
   
   const {
@@ -165,10 +165,4 @@ export const EmailForm = () => {
       </Form>
     </Box>
   );
-};
-
-export const LoginForm = () => {
-  const [emailSent, setEmailSent] = React.useState(false);
-
-  return <EmailForm />;
 };
