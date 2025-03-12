@@ -53,11 +53,9 @@ export const LoginForm = () => {
   const {
     handleSubmit,
     formState: { isSubmitting },
-    getValues,
     setValue,
     setError,
   } = form;
-  console.log('formState', getValues(), isEmailSent);
 
   const handleEmailChange = React.useCallback((e) => {
     if (isEmailSent) {
@@ -95,10 +93,7 @@ export const LoginForm = () => {
   }, [loginEmail, isEmailSent, sendCodeEmail, navigate, backUrl, setError]);
 
   return (
-    <Box
-      py={6}
-      rounded="md"
-    >
+    <Box py={6} rounded="md">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack
