@@ -7,7 +7,7 @@ import { setToken } from 'shared/store/slices/authSlice';
 import { api } from '..';
 
 type AuthData = { code: string } | { token: string };
-type Data = { email: string } & AuthData;
+type Data = { email: string; referralCode?: string } & AuthData ;
 
 export const useLoginEmail = () => {
   const dispatch = useAppDispatch();

@@ -21,7 +21,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
           </ChakraField.Label>
         )}
         {children}
-        {helperText && (
+        {helperText && !errorText && (
           <ChakraField.HelperText>{helperText}</ChakraField.HelperText>
         )}
         {errorText && (

@@ -94,7 +94,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
 
     mutate({ [fieldProp]: value }, { 
       onError: (error) => {
-        handleFormApiErrors(form, error);
+        handleFormApiErrors(form.setError, error);
       }, 
       onSuccess: () => {
         const fieldNameMap = {

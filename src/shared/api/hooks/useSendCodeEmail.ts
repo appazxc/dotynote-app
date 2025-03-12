@@ -5,7 +5,7 @@ import { api } from '..';
 export const useSendCodeEmail = () => {
   return useMutation({
     mutationFn: (email: string) => {
-      return api.post('/auth/send-code-email', { email });
+      return api.post<{ needReferral: boolean }>('/auth/send-code-email', { email });
     },
   });
 };

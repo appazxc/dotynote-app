@@ -1,3 +1,4 @@
+import { Text, TextProps } from '@chakra-ui/react';
 import * as React from 'react';
 import { useForm as useFormBase } from 'react-hook-form';
 import {
@@ -11,6 +12,7 @@ import {
   UseFormReturn,
 } from 'react-hook-form';
 
+import { getServerErrorMessage, hasServerError } from 'shared/components/Form/util';
 import { Field, FieldProps } from 'shared/components/ui/field';
 
 const Form = FormProvider;
@@ -145,10 +147,30 @@ const useForm = <FormState extends FieldValues>(props: UseFormProps<FormState>) 
   };
 };
 
+const FormError = (props: TextProps) => {
+  const { formState: { errors } } = useFormContext();
+
+  if (!hasServerError(errors)) {
+    return null;
+  } 
+
+  return (
+    <Text
+      color="fg.error"
+      fontSize="xs"
+      textAlign="center"
+      {...props}
+    >
+      {getServerErrorMessage(errors)}
+    </Text>
+  );
+};
+
 export {
   useFormField,
   Form,
   FormControl,
   FormField,
   useForm,
+  FormError,
 };

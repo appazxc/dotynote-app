@@ -1,44 +1,28 @@
-import { AxiosError } from 'axios';
-import pick from 'lodash/pick';
-import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
-import { ZodIssue } from 'zod';
+import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
 
-type CreateFormErrorsReturn = {
-  [key: string]: {
-    code: string;
-    message: string;
-  };
-}
+import { parseApiError } from 'shared/helpers/api/getApiError';
 
-export const handleFormApiErrors = <T extends FieldValues>(form: UseFormReturn<T>, apiError: unknown) => {
-  const formErrors = createFormErrors(apiError);
+export const handleFormApiErrors = <T extends FieldValues>(setError: UseFormSetError<T>, apiError: unknown) => {
+  const { fieldErrors, message } = parseApiError(apiError);
 
-  const errors = pick(formErrors, Object.keys(form.formState.dirtyFields));
-
-  Object.entries(errors).forEach(([key, value]: any[]) => {
-    form.setError(key as Path<T>, {
+  Object.entries(fieldErrors).forEach(([key, value]: any[]) => {
+    setError(key as Path<T>, {
       type: 'manual',
       message: value.message,
     });
   });
+
+  if (!Object.keys(fieldErrors).length) {
+    setError('root.serverError', {
+      message: message,
+    });
+  }
 };
 
-export const createFormErrors = (apiError: unknown): CreateFormErrorsReturn => {
-  if (apiError instanceof AxiosError) {
-    const errors = apiError.response?.data.errors || [];
+export const hasServerError = (errors) => {
+  return !!errors.root?.serverError;
+};
 
-    return errors.reduce((acc, error: ZodIssue) => {
-      return {
-        ...acc,
-        [error.path[0]]: {
-          code: error.code,
-          message: error.message,
-        },
-      };
-    }, {});
-  }
-  
-  console.error('Unhandled createFormErrors apiError', apiError);
-
-  return {};
+export const getServerErrorMessage = (errors) => {
+  return errors.root?.serverError?.message;
 };
