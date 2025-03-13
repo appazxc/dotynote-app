@@ -29,7 +29,7 @@ export const NoteVideo = React.memo((props: Props) => {
   const [isLoaded, setLoaded] = React.useState(false);
   const dispatch = useAppDispatch();
   invariant(noteVideo, 'Missing note video upload');
-  
+
   const { thumbnail: { blurhash, url } } = noteVideo;
   const placeholder = React.useMemo(() => {
     if (!blurhash) return null;
@@ -81,6 +81,8 @@ export const NoteVideo = React.memo((props: Props) => {
           <Box
             position="relative"
             cursor="pointer"
+            height={height}
+            width={width}
             onClick={handleVideoClick}
           >
             <Box

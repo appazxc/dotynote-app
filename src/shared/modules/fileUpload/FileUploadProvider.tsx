@@ -162,7 +162,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       createAndClickInput(noteId, type, onFilesAdd, 'audio/mpeg,audio/wav,audio/ogg,audio/aac,audio/flac');
       break;
     case 'video': 
-      createAndClickInput(noteId, type, onFilesAdd, 'video/mp4');
+      createAndClickInput(noteId, type, onFilesAdd, 'video/mp4,video/quicktime');
       break;
     default:
       console.error(`Unsupported file type: ${type}`);
