@@ -5,11 +5,11 @@ import { deleteEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
-export const deletePostsNotes = (parentId: number, postIds: number[]): ThunkAction => 
+export const deleteNoteFromPosts = (parentId: number, postIds: number[]): ThunkAction => 
   async (dispatch, getState) => {
     const posts = postSelector.getEntitiesById(getState(), postIds);
 
-    const noteIds = posts.map((post) => post.note.id);
+    const noteIds = posts.map((post) => post.noteId);
     const revert = removePostIdsFromQuery(parentId, postIds);
 
     try {
@@ -19,7 +19,7 @@ export const deletePostsNotes = (parentId: number, postIds: number[]): ThunkActi
 
       const postsWithDeletedNoteIds = Object
         .entries(getState().entities.post)
-        .filter(([_, post]) => noteIds.includes(post.note))
+        .filter(([_, post]) => noteIds.includes(post.noteId))
         .map(([_, post]) => post);
 
       postsWithDeletedNoteIds.forEach((post) => {

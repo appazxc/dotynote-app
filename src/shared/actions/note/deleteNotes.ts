@@ -23,7 +23,7 @@ export const deleteNotes = (noteIds: number[]): ThunkAction =>
 
       const postsWithDeletedNoteIds = Object
         .entries(getState().entities.post)
-        .filter(([_, post]) => noteIds.includes(post.note))
+        .filter(([_, post]) => noteIds.includes(post.noteId))
         .map(([_, post]) => post);
 
       postsWithDeletedNoteIds.forEach((post) => {

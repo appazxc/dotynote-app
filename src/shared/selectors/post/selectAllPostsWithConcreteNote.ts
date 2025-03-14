@@ -7,5 +7,5 @@ export const selectAllPostsWithConcreteNote = createSelector([
   (_, noteId) => noteId,
 ], 
 (entities, noteId) => {
-  return Object.values(entities.post).filter((post) => post.note === noteId);
+  return Object.values(entities.post).filter((post) => post.noteId === noteId);
 });

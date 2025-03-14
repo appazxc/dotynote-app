@@ -10,7 +10,7 @@ export type ApiPostEntity = BaseEntity<{
   pinnedAt: string | null;
   pos: number;
   parentId: number;
-  note: number;
+  noteId: number;
   author: string;
   internal: string;
   permissions: {
