@@ -8,7 +8,6 @@ import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 export const deleteNoteFromPosts = (parentId: number, postIds: number[]): ThunkAction => 
   async (dispatch, getState) => {
     const posts = postSelector.getEntitiesById(getState(), postIds);
-
     const noteIds = posts.map((post) => post.noteId);
     const revert = removePostIdsFromQuery(parentId, postIds);
 
@@ -17,15 +16,18 @@ export const deleteNoteFromPosts = (parentId: number, postIds: number[]): ThunkA
         noteIds,
       });
 
-      const postsWithDeletedNoteIds = Object
+      Object
         .entries(getState().entities.post)
-        .filter(([_, post]) => noteIds.includes(post.noteId))
-        .map(([_, post]) => post);
+        .filter(([_, post]) => 
+          noteIds.includes(post.noteId) 
+          && !postIds.includes(post.id) // already deleted
+        )
+        .map(([_, post]) => post)
+        .forEach((post) => {
+          removePostIdsFromQuery(post.parentId, [post.id]);
+          dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
+        });
 
-      postsWithDeletedNoteIds.forEach((post) => {
-        removePostIdsFromQuery(post.parentId, [post.id]);
-        dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
-      });
       noteIds.forEach((id) => {
         dispatch(deleteEntity({ id, type: entityNames.note }));
       });
