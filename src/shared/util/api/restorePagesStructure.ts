@@ -5,54 +5,50 @@ export const restorePagesStructure = (pages: QueryFnData[], pageSize: number) =>
     return pages;
   }
 
+  const flatPages = pages.map(({ items }) => items).reverse().flat();
+
   const result: { items: QueryFnData['items'] }[] = [];
 
-  for (let i = 0; i < length; i++) {
-    const data = pages[i];
-    const { items } = data;
-    const lastData = result[result.length - 1];
-
-    if (!lastData || lastData.items.length === pageSize) {
-      result.push(data);
-      continue;
-    }
-
-    const lastDataLength = lastData.items.length;
-    const dataLength = items.length;
-
-    if (lastDataLength + dataLength <= pageSize) { 
-      result[result.length - 1] = {
-        items: [...items, ...lastData.items],
+  for (let i = 0; i < flatPages.length; i++) {
+    const newPageIndex = Math.floor(i / pageSize);
+    if (!result[newPageIndex]) {
+      result[newPageIndex] = {
+        items: [],
       };
-      continue;
     }
-
-    const lengthToFill = pageSize - lastDataLength;
-
-    lastData.items = [...items.slice(-lengthToFill), ...lastData.items];
-
-    result.push({
-      items: items.slice(0, items.length - lengthToFill),
-    });
+    result[newPageIndex].items.push(flatPages[i]);
   }
 
+  result.reverse();
+
+  console.log('result', result);
+  
   return result
     .filter(({ items }) => !!items.length)
     .map(((data, index) => {
       const isFirst = index === 0;
       const isLast = result.length - 1 === index;
+      const isOnlyOnePage = result.length === 1;
+
+      if (isOnlyOnePage) {
+        return {
+          items: data.items,
+          hasNextPage: pages[0].hasPrevPage,
+          hasPrevPage: pages[pages.length - 1].hasNextPage,
+        };
+      }
 
       if (isFirst) {
         const hasNextPage = pages[0].hasNextPage;
         const hasPrevPage = pages[0].hasPrevPage;
-
+        
         return {
           items: data.items,
           hasNextPage, 
           hasPrevPage,
         };
       }
-
+      
       if (isLast) {
         const hasNextPage = pages[pages.length - 1].hasNextPage;
         const hasPrevPage = pages[pages.length - 1].hasPrevPage;
