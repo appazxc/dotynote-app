@@ -71,8 +71,17 @@ export const PostsContentPicker = React.memo((props: Props) => {
         icon: <IoImageOutline size={ICON_SIZE} />,
         title: 'Image',
         onClick: () => {
-          const onFilesAdd = () => {
-            dispatch(showModal({ id: modalIds.createPostWithImages }));
+          const onFilesAdd = (files: UploadFile[], removeFiles) => {
+            if (files.length === 1) {
+              dispatch(createPost({
+                parentId: note.id,
+                files,
+                removeFiles,
+                onPostCreated: handlePostCreate,
+              }));
+            } else {
+              dispatch(showModal({ id: modalIds.createPostWithImages }));
+            }
           };
           
           openFilePicker({ 
