@@ -40,6 +40,25 @@ export const removePostIdsFromQuery = (parentId: number, postIds: number[]) => {
       });
     });
 
+  // reset queries if they are empty
+  queryClient
+    .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
+    .forEach(([queryKey]) => {
+      const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
+
+      if (!queryData) {
+        return;
+      }
+    
+      const isEmpty = queryData.pages.length === 1 
+          && queryData.pages[0].items.length === 0;
+    
+      if (isEmpty) {
+        queryClient.resetQueries({ queryKey: queryKey });
+        return;
+      }
+    });
+
   const revert = () => {
     queriesData.forEach(({ queryKey, data }) => {
       updateInfinityQuery(queryKey, () => {
