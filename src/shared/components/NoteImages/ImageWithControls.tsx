@@ -7,10 +7,12 @@ import { ImageError } from 'shared/components/NoteImages/ImageError';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { entityNames } from 'shared/constants/entityNames';
+import { noteImageSelector } from 'shared/selectors/entities';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, startSelectNoteImagesOperation, toggleSelectNoteImage } from 'shared/store/slices/appSlice';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
+import { invariant } from 'shared/util/invariant';
 
 type WithImageControlsProps = {
   imageId: string;
@@ -19,16 +21,18 @@ type WithImageControlsProps = {
   src: string;
   width: number;
   height: number;
-  blurhash: string;
-  hasError?: boolean;
   onClick?: () => void;
 }
 
 export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
-  const { noteId, imageId, src, height, width, hasControls, hasError, blurhash, onClick } = props;
+  const { noteId, imageId, src, height, width, hasControls, onClick } = props;
   const operation = useAppSelector(selectOperation);
   const dispatch = useAppDispatch();
+  const noteImage = useAppSelector(state => noteImageSelector.getById(state, imageId));
 
+  invariant(noteImage, 'Note image not found');
+
+  const { blurhash, _isError: hasError, _isLoaded: isLoaded } = noteImage;
   const { mutate: deleteNoteImage } = useDeleteNoteImage();
 
   const isSelecting = operation.type === operationTypes.SELECT_NOTE_IMAGES && operation.noteId === noteId;
@@ -69,7 +73,17 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
               height={height}
               width={width}
               blurhash={blurhash}
+              isLoaded={isLoaded}
               onClick={handleImageClick}
+              onLoad={() => {
+                dispatch(updateEntity({
+                  type: entityNames.noteImage,
+                  id: imageId,
+                  data: {
+                    _isLoaded: true,
+                  },
+                }));
+              }}
               onError={() => {
                 dispatch(updateEntity({
                   type: entityNames.noteImage,

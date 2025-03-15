@@ -12,7 +12,8 @@ export type ApiNoteImageEntity = BaseEntity<{
     small: string;
     medium: string;
     large: string;
-  };           
+  };
+  _isLoaded?: boolean;           
 }>
 
 export type NoteImageEntity = MergeEntity<ApiNoteImageEntity, {}>;
