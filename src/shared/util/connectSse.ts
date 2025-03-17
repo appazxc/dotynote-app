@@ -36,6 +36,18 @@ export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getSt
       break;
     }
     const chunk = decoder.decode(value, { stream: true });
-    onMessage(JSON.parse(chunk) as T, closeConnection);
+    const messages = chunk
+      .split('\n')
+      .filter(msg => msg.trim());
+    
+    for (const message of messages) {
+      try {
+        onMessage(JSON.parse(message) as T, closeConnection);
+      } catch (error) {
+        console.error('SSE parse error:', error);
+        console.error('Raw message:', message);
+        throw error;
+      }
+    }
   }
 };
