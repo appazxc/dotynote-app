@@ -33,8 +33,8 @@ export const restorePagesStructure = (pages: QueryFnData[], pageSize: number) =>
       if (isOnlyOnePage) {
         return {
           items: data.items,
-          hasNextPage: pages[0].hasPrevPage,
-          hasPrevPage: pages[pages.length - 1].hasNextPage,
+          hasNextPage: pages[pages.length - 1].hasNextPage,
+          hasPrevPage: pages[0].hasPrevPage,
         };
       }
 

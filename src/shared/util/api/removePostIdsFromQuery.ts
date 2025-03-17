@@ -5,7 +5,7 @@ import { TQueryFnData } from 'shared/types/query';
 import { restorePagesStructure } from 'shared/util/api/restorePagesStructure';
 import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
-export const removePostIdsFromQuery = (parentId: number, postIds: number[], needReset = true) => {
+export const removePostIdsFromQuery = (parentId: number, postIds: number[], resetEmptyQueries = true) => {
   const queriesData: {
     queryKey: InfinityPostsQueryKey;
     data?: TQueryFnData;
@@ -41,7 +41,7 @@ export const removePostIdsFromQuery = (parentId: number, postIds: number[], need
     });
 
   // reset queries if they are empty
-  if (needReset) {
+  if (resetEmptyQueries) {
     queryClient
       .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
       .forEach(([queryKey]) => {
