@@ -13,7 +13,6 @@ type Props = {
 
 export const NoteTabError = React.memo((props: Props) => {
   const parsedError = parseApiError(props.error);
-  console.log('parsedError', parsedError);
 
   if (parsedError.statusCode === HTTP_CODES.FORBIDDEN) {
     return <ForbiddenNoteTabError error={parsedError} />;

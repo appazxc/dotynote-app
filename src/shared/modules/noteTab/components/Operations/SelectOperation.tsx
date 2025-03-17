@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { PiSticker } from 'react-icons/pi';
 import { TbArrowMoveLeft } from 'react-icons/tb';
 
-import { useDeletePosts } from 'shared/api/hooks/useDeletePosts';
+import { useDeleteNotesFromPosts } from 'shared/api/hooks/useDeleteNotesFromPosts';
 import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -33,7 +33,7 @@ export const SelectOperation = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(state => postSelector.getByIds(state, postIds));
 
-  const { mutate: deletePosts } = useDeletePosts(noteId);
+  const { mutate: deletePosts } = useDeleteNotesFromPosts(noteId);
   const { mutate: unstick } = useUnstickPosts(noteId, postIds);
  
   if (note.id !== noteId) {

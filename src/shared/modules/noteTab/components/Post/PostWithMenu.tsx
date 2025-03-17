@@ -5,7 +5,7 @@ import { MdOutlineDone } from 'react-icons/md';
 
 import { openTab } from 'shared/actions/space/openTab';
 import { api } from 'shared/api';
-import { useDeletePosts } from 'shared/api/hooks/useDeletePosts';
+import { useDeleteNotesFromPosts } from 'shared/api/hooks/useDeleteNotesFromPosts';
 import { usePinPost } from 'shared/api/hooks/usePinPost';
 import { useUnpinPost } from 'shared/api/hooks/useUnpinPost';
 import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
@@ -50,7 +50,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
   const user = useAppSelector(selectUser);
   const isHubNote = user?.settings?.hubId === parent.id;
 
-  const { mutate: deletePosts, isPending: isDeletePending } = useDeletePosts(parentId);
+  const { mutate: deletePosts, isPending: isDeletePending } = useDeleteNotesFromPosts(parentId);
   const { mutate: unstick } = useUnstickPosts(parentId, [postId]);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();

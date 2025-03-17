@@ -5,7 +5,7 @@ import { TQueryFnData } from 'shared/types/query';
 import { restorePagesStructure } from 'shared/util/api/restorePagesStructure';
 import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
-export const removePostIdsFromQuery = (parentId: number, postIds: number[]) => {
+export const removePostIdsFromQuery = (parentId: number, postIds: number[], needReset = true) => {
   const queriesData: {
     queryKey: InfinityPostsQueryKey;
     data?: TQueryFnData;
@@ -41,23 +41,25 @@ export const removePostIdsFromQuery = (parentId: number, postIds: number[]) => {
     });
 
   // reset queries if they are empty
-  queryClient
-    .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
-    .forEach(([queryKey]) => {
-      const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
+  if (needReset) {
+    queryClient
+      .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
+      .forEach(([queryKey]) => {
+        const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
 
-      if (!queryData) {
-        return;
-      }
+        if (!queryData) {
+          return;
+        }
     
-      const isEmpty = queryData.pages.length === 1 
+        const isEmpty = queryData.pages.length === 1 
           && queryData.pages[0].items.length === 0;
     
-      if (isEmpty) {
-        queryClient.resetQueries({ queryKey: queryKey });
-        return;
-      }
-    });
+        if (isEmpty) {
+          queryClient.resetQueries({ queryKey: queryKey });
+          return;
+        }
+      });
+  }
 
   const revert = () => {
     queriesData.forEach(({ queryKey, data }) => {
