@@ -3,13 +3,15 @@ import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { api } from 'shared/api';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
-import { ProgressCircleRing, ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 import { Tooltip } from 'shared/components/ui/tooltip';
+import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useAppSelector } from 'shared/store/hooks';
+import { emitter } from 'shared/util/emitter';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
@@ -21,13 +23,26 @@ type Props = {
 
 export const UploadingImage = React.memo(({ fileId, height, width, src }: Props) => {
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, fileId));
-
+  const { removeFiles } = useFileUpload();
   invariant(uploadFile, 'Missing upload file');
 
   const { status, error } = uploadFile;
-
-  const showLoader = status === 'uploading' || status === 'complete' || status === 'processing';
   const progress = getFileUploadProgress(uploadFile);
+
+  const handleCancel = React.useCallback(async () => {
+    if (uploadFile.status === 'uploading'){
+      emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
+    }
+
+    if (uploadFile.status === 'processing' && uploadFile.tempId) {
+      await api.post(`/upload/${uploadFile.tempId}/cancel`, {});
+      removeFiles([uploadFile.fileId]);
+    }
+
+    if (uploadFile.status === 'error') {
+      removeFiles([uploadFile.fileId]);
+    }
+  }, [uploadFile.status, uploadFile.tempId, uploadFile.fileId, removeFiles]);
 
   return src ? (
     <Box position="relative">
@@ -55,12 +70,22 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
         </Center>
       )}
 
-      <MediaProgressCircle progress={progress} min={3} />
+      <MediaProgressCircle
+        progress={progress}
+        min={3}
+        onCancel={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          handleCancel();
+        }}
+      />
+
       {status === 'error' && (
         <Float
           offset="15px"
-          zIndex="docked"
           cursor="pointer"
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+          }}
         >
           <Tooltip content={error}>
             <Icon fontSize="20px" color="red">

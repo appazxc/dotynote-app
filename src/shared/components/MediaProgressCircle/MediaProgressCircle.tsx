@@ -1,17 +1,18 @@
 import { AbsoluteCenter, Box, IconButton, ProgressCircle } from '@chakra-ui/react';
 import React from 'react';
 
-import { CloseIcon } from 'shared/components/ui/icons';
+import { CloseIcon, DoneIcon } from 'shared/components/ui/icons';
 import { ProgressCircleRoot } from 'shared/components/ui/progress-circle';
 
 type Props = {
   progress: number;
   min?: number;
   iconColor?: string;
-  onCancel?: () => void;
+  onCancel?: (event: React.MouseEvent) => void;
 };
 
 export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, iconColor = 'white' }: Props) => {
+  const isComplete = progress === 100;
   return (
     <AbsoluteCenter>
       <Box
@@ -33,7 +34,7 @@ export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, ic
             <ProgressCircle.Range stroke="white" />
           </ProgressCircle.Circle>
         </ProgressCircleRoot>
-        {!!onCancel && (
+        {!!onCancel && !isComplete && (
           <AbsoluteCenter>
             <IconButton
               variant="plain"
@@ -42,6 +43,17 @@ export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, ic
               onClick={onCancel}
             >
               <CloseIcon size="25px" />
+            </IconButton>
+          </AbsoluteCenter>
+        )}
+        {isComplete && (
+          <AbsoluteCenter>
+            <IconButton
+              variant="plain"
+              color={iconColor}
+              iconSize="auto"
+            >
+              <DoneIcon size="25px" />
             </IconButton>
           </AbsoluteCenter>
         )}

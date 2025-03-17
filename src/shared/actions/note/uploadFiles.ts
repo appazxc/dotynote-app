@@ -159,6 +159,12 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
 
       await api.post(getUploadConfirmPath(id), {});
 
+      dispatch(updateFile({
+        fileId: uploadFile.fileId, 
+        progress: 0,
+        status: 'processing',
+      }));
+
       await dispatch(connectSSE<{ 
         progress: number;
         realId: string | null;
@@ -174,16 +180,20 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
              return;
            }
            
-           dispatch(updateFile({
-             fileId: uploadFile.fileId, 
-             progress: data.progress,
-             realId: data.realId,
-             status: isComplete ? 'complete' : 'processing',
-           }));
-
            if (isComplete) {
+             dispatch(updateFile({
+               fileId: uploadFile.fileId, 
+               realId: data.realId,
+               progress: 100,
+               status: 'complete',
+             }));
              onComplete?.();
              close();
+           } else {
+             dispatch(updateFile({
+               fileId: uploadFile.fileId, 
+               progress: data.progress,
+             })); 
            }
          },
        }));
