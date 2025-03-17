@@ -117,6 +117,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
               return (
                 <UploadingImage
                   key={context.photo.key}
+                  noteId={noteId}
                   src={context.photo.src}
                   fileId={context.photo.uploadImageId}
                   height={context.height}

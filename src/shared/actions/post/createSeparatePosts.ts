@@ -1,6 +1,6 @@
 import { uploadPostAttachments } from 'shared/actions/post/uploadPostAttachments';
 import { api } from 'shared/api';
-import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveUploadFiles, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { noteSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
@@ -10,7 +10,7 @@ type Params = {
   files: UploadFile[];
   onPostsCreated?: (postIds: number[]) => void;
   onAttachmentsUploaded?: () => void;
-  removeFiles: RemoveFilesType;
+  removeFiles: RemoveUploadFiles;
 }
 
 export const createSeparatePosts = (params: Params): ThunkAction => 

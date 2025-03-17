@@ -1,5 +1,5 @@
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
-import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveUploadFiles, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { postSelector } from 'shared/selectors/entities';
 import { ThunkAction } from 'shared/types/store';
@@ -10,7 +10,7 @@ type Params = {
   files: UploadFile[];
   onPostsCreated?: (postIds: number[]) => void;
   onAttachmentsUploaded?: () => void;
-  removeFiles: RemoveFilesType;
+  removeFiles: RemoveUploadFiles;
 }
 
 export const uploadPostAttachments = (params: Params): ThunkAction => 

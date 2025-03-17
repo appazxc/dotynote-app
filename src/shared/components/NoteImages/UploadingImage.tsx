@@ -3,6 +3,7 @@ import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { handleNoteAttachmentUploadCancel } from 'shared/actions/note/handleNoteAttachmentUploadCancel';
 import { api } from 'shared/api';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
@@ -10,20 +11,22 @@ import { Tooltip } from 'shared/components/ui/tooltip';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { emitter } from 'shared/util/emitter';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
+  noteId: number;
   fileId: string;
   height: number;
   width: number;
   src: string | null;
 }
 
-export const UploadingImage = React.memo(({ fileId, height, width, src }: Props) => {
+export const UploadingImage = React.memo(({ noteId, fileId, height, width, src }: Props) => {
+  const dispatch = useAppDispatch();
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, fileId));
-  const { removeFiles } = useFileUpload();
+  const { removeFiles, getFiles } = useFileUpload();
   invariant(uploadFile, 'Missing upload file');
 
   const { status, error } = uploadFile;
@@ -42,7 +45,9 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
     if (uploadFile.status === 'error') {
       removeFiles([uploadFile.fileId]);
     }
-  }, [uploadFile.status, uploadFile.tempId, uploadFile.fileId, removeFiles]);
+
+    dispatch(handleNoteAttachmentUploadCancel(noteId, getFiles));
+  }, [dispatch, uploadFile.status, uploadFile.tempId, uploadFile.fileId, removeFiles, noteId, getFiles]);
 
   return src ? (
     <Box position="relative">

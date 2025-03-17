@@ -23,11 +23,13 @@ type OpenFilePickerParams = {
   uploadImmediately?: boolean;
 }
 
-export type RemoveFilesType = (fileIds: string[]) => void
+export type RemoveUploadFiles = (fileIds: string[]) => void
 
-export type ReorderFilesType = (fileIds: string[]) => void
+export type ReorderUploadFiles = (fileIds: string[]) => void
 
-type OnFilesAdd = (files: UploadFile[], removeFiles: RemoveFilesType) => void
+export type GetUploadFiles = () => UploadFile[]
+
+type OnFilesAdd = (files: UploadFile[], removeFiles: RemoveUploadFiles) => void
 
 type OpenFilePicker = (
   params: OpenFilePickerParams, 
@@ -35,10 +37,11 @@ type OpenFilePicker = (
 ) => void
 
 type FileUploadContextType = { 
-  removeFiles: RemoveFilesType;
-  reorderFiles: ReorderFilesType;
+  removeFiles: RemoveUploadFiles;
+  reorderFiles: ReorderUploadFiles;
   openFilePicker: OpenFilePicker;
   files: UploadFile[];
+  getFiles: () => UploadFile[];
 };
 
 const FileUploadContext = createReactContext<FileUploadContextType>();
@@ -46,6 +49,8 @@ const FileUploadContext = createReactContext<FileUploadContextType>();
 export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);
   const dispatch = useAppDispatch();
+  const filesRef = React.useRef<UploadFile[]>([]);
+  filesRef.current = files;
 
   const reorderFiles = React.useCallback((fileIds) => {
     setFiles(prevFiles => {
@@ -57,6 +62,10 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     });
   }, []);
 
+  const getFiles = React.useCallback(() => {
+    return filesRef.current;
+  }, []);
+
   const removeFiles = React.useCallback((fileIds: string[]) => {
     files
       .filter(({ fileId }) => fileIds.includes(fileId))
@@ -65,7 +74,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
           URL.revokeObjectURL(objectUrl);
         }
       });
-      
+    console.log('set' );
     setFiles(prevFiles => prevFiles.filter(file => !fileIds.includes(file.fileId)));
     setTimeout(() => {
       dispatch(deleteFiles(fileIds));
@@ -76,7 +85,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     event: Event, 
     type: UploadFileType, 
     noteId: number | undefined, 
-    onFilesAdd?: (files: UploadFile[], removeFiles: RemoveFilesType) => void
+    onFilesAdd?: (files: UploadFile[], removeFiles: RemoveUploadFiles) => void
   ) => {
     const target = event.target as HTMLInputElement;
     const files = Array.from(target.files || []);
@@ -170,7 +179,15 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [createAndClickInput]);
 
   return (
-    <FileUploadContext.Provider value={{ files, openFilePicker, removeFiles, reorderFiles }}>
+    <FileUploadContext.Provider
+      value={{ 
+        files,
+        openFilePicker,
+        removeFiles,
+        reorderFiles,
+        getFiles,
+      }}
+    >
       {children}
     </FileUploadContext.Provider>
   );

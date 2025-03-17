@@ -5,7 +5,7 @@ import { api } from 'shared/api';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
-import { RemoveFilesType, UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveUploadFiles, UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { noteSelector } from 'shared/selectors/entities';
@@ -21,7 +21,7 @@ const updateFileUploadStatus = throttle((id: string, progress: number) => {
 type UploadNoteFilesParams = {
   noteId: number;
   files: UploadFile[];
-  removeFiles: RemoveFilesType;
+  removeFiles: RemoveUploadFiles;
 }
 
 export const uploadNoteFiles = ({ 
@@ -49,7 +49,7 @@ export const uploadNoteFiles = ({
 
 type UploadAttachmentParams = {
   uploadFile: UploadFile;
-  removeFiles: RemoveFilesType;
+  removeFiles: RemoveUploadFiles;
   unlockNextStep?: () => void;
   pos?: number;
 }

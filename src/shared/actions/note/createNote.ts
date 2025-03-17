@@ -1,6 +1,6 @@
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { entityApi } from 'shared/api/entityApi';
-import { RemoveFilesType, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { RemoveUploadFiles, UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ThunkAction } from 'shared/types/store';
 
@@ -9,7 +9,7 @@ type Params = {
   files: UploadFile[];
   onCreate?: (postId: number) => void;
   onAttachmentsUploaded?: () => void;
-  removeFiles: RemoveFilesType;
+  removeFiles: RemoveUploadFiles;
 }
 
 export const createNote = (params: Params): ThunkAction => 
