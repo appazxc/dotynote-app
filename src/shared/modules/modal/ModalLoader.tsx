@@ -20,16 +20,17 @@ export const ModalLoader = ({ delay }: Props) => {
   const dispatch = useAppDispatch();
   
   return (
-    <Wait delay={delay ?? 300}>
+    <Wait delay={delay ?? 1000}>
       <DialogRoot
         defaultOpen
         placement="center"
+        size="xs"
         onOpenChange={() => dispatch(hideModal())}
       >
         <DialogBackdrop />
         <DialogContent>
           <DialogBody p="0">
-            <Center h="200px">
+            <Center h="150px">
               <Loader delay={0} />
             </Center>
           </DialogBody>
