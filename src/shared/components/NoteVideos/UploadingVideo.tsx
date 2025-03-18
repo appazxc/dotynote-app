@@ -2,14 +2,11 @@ import { Box, Float } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
-import { handleNoteAttachmentUploadCancel } from 'shared/actions/note/handleNoteAttachmentUploadCancel';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { Icon } from 'shared/components/ui/icon';
 import { Tooltip } from 'shared/components/ui/tooltip';
-import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { useUploadEntity } from 'shared/modules/fileUpload/useUploadEntity';
-import { useAppDispatch } from 'shared/store/hooks';
 import { emitter } from 'shared/util/emitter';
 import { invariant } from 'shared/util/invariant';
 
@@ -22,8 +19,6 @@ type Props = {
 export const UploadingVideo = React.memo((props: Props) => {
   const { fileId, width, height } = props;
   const uploadVideo = useUploadEntity(fileId);
-  const { removeFiles } = useFileUpload();
-  const dispatch = useAppDispatch();
   
   invariant(uploadVideo, 'Uploading file is missing');
 
@@ -33,17 +28,7 @@ export const UploadingVideo = React.memo((props: Props) => {
 
   const handleCancel = React.useCallback(async () => {
     emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
-
-    if (isError) {
-      const onFilesRemove = () => {
-        if (uploadVideo.noteId) {
-          dispatch(handleNoteAttachmentUploadCancel(uploadVideo.noteId));
-        }
-      };
-  
-      removeFiles([uploadVideo.fileId], onFilesRemove);
-    }
-  }, [uploadVideo.fileId, dispatch, isError, removeFiles, uploadVideo.noteId]);
+  }, [uploadVideo.fileId]);
 
   if (!uploadVideo.objectUrl) {
     return null;

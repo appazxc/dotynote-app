@@ -5,6 +5,7 @@ import { toaster } from 'shared/components/ui/toaster';
 import { addFile, deleteFiles } from 'shared/modules/fileUpload/uploadSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { createReactContext } from 'shared/util/createReactContext';
+import { emitter } from 'shared/util/emitter';
 import { getFileDimensions } from 'shared/util/getFileDimensions';
 
 type Props = React.PropsWithChildren<{}>;
@@ -62,13 +63,16 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const removeFiles: RemoveUploadFiles = React.useCallback((fileIds, onRemoved) => {
     files
       .filter(({ fileId }) => fileIds.includes(fileId))
-      .forEach(({ objectUrl }) => {
+      .forEach(({ objectUrl, fileId }) => {
         if (objectUrl) {
           URL.revokeObjectURL(objectUrl);
         }
+
+        emitter.removeAllListeners(`cancelFileUpload:${fileId}`);
       });
       
     setFiles(prevFiles => prevFiles.filter(file => !fileIds.includes(file.fileId)));
+    
     setTimeout(() => {
       dispatch(deleteFiles(fileIds));
       onRemoved?.();

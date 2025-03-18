@@ -66,9 +66,8 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
   const { noteId } = entity;
   const controller = new AbortController();
   const signal = controller.signal;
-  const eventName = `cancelFileUpload:${entity.fileId}`;
 
-  emitter.once(eventName, async () => {
+  emitter.once(`cancelFileUpload:${entity.fileId}`, async () => {
     const uploadFile = selectUploadFileEntity(getState(), entity.fileId);
 
     if (!uploadFile) {
@@ -108,8 +107,6 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
   default:
     console.log(`Not implemented file upload. Type: ${entity.type}}`);
   }
-
-  emitter.removeAllListeners(eventName);
 };
 
 type UploadAttachmentByTypeBaseParams = UploadAttachmentByTypeParams & {
