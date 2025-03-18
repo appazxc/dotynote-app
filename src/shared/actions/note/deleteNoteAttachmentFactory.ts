@@ -1,3 +1,4 @@
+import { handleNoteAttachmentDelete } from 'shared/actions/note/handleNoteAttachmentDelete';
 import { api } from 'shared/api';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { noteSelector } from 'shared/selectors/entities';
@@ -43,6 +44,8 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
       );
 
       dispatch(deleteEntity({ id: entityId, type: entityName }));
+
+      dispatch(handleNoteAttachmentDelete(noteId));
     } catch (error) {
       dispatch(
         updateEntity({

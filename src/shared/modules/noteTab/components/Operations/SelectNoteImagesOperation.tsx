@@ -25,7 +25,7 @@ export const SelectNoteImagesOperation = React.memo((props: Props) => {
     dispatch(stopOperation());
     
     Promise.all(imageIds.map(imageId => {
-      return deleteImage({ noteId, imageId });
+      return deleteImage({ noteId, entityId: imageId });
     }));
   }, [dispatch, noteId, deleteImage, imageIds]);
 

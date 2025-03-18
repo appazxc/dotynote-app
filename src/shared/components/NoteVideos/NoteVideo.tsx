@@ -45,7 +45,9 @@ export const NoteVideo = React.memo((props: Props) => {
     downloadFile(fileUrl);
   };
 
-  const handleVideoClick = () => {
+  const handleVideoClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    
     dispatch(showModal({
       id: modalIds.noteVideo,
       extraId: noteVideo.id + extraId,

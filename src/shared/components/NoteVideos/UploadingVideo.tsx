@@ -41,6 +41,7 @@ export const UploadingVideo = React.memo((props: Props) => {
       h={height}
       borderRadius="md"
       overflow="hidden"
+      onClick={(event) => event.stopPropagation()}
     >
       <video
         controls={false}

@@ -55,7 +55,7 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
   }, [dispatch, imageId, isSelecting, noteId]);
 
   const handleDeleteImage = React.useCallback(() => {
-    deleteNoteImage({ imageId, noteId });
+    deleteNoteImage({ entityId: imageId, noteId });
   }, [deleteNoteImage, noteId, imageId]);
 
   return (

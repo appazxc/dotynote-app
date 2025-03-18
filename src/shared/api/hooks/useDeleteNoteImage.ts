@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { deleteNoteImage, DeleteNoteImageParams } from 'shared/actions/note/deleteNoteImage';
+import { DeleteAttachmentParams } from 'shared/actions/note/deleteNoteAttachmentFactory';
+import { deleteNoteImage } from 'shared/actions/note/deleteNoteImage';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -9,7 +10,7 @@ export const useDeleteNoteImage = () => {
   const dispatch = useAppDispatch();
   
   return useMutation({
-    mutationFn: (data: DeleteNoteImageParams) => {
+    mutationFn: (data: DeleteAttachmentParams) => {
       return dispatch(deleteNoteImage(data));
     },
     onError: (error) => {
