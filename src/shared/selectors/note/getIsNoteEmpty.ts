@@ -11,7 +11,7 @@ export const getIsNoteEmpty = createSelector(
     if (!note) {
       return true;
     }
-console.log('note', note);
+
     const hasText = note.title;
     const hasContent = note.content;
     const hasFiles = note.files.length > 0;

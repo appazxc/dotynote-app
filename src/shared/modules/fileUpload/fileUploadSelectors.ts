@@ -52,5 +52,14 @@ export const selectIsNoteFilesUploading = createSelector([
   });
 });
 
+export const selectNoteUploadingFiles = createSelector([
+  (state: AppState) => state.upload.byId,
+  (_, noteId: number) => noteId,
+], (filesById, noteId) => {
+  return Object.values(filesById).filter(file => {
+    return file.noteId === noteId;
+  });
+});
+
 export const selectUploadFileEntity = (state: AppState, id: string): UploadFileEntity | null => 
   state.upload.byId[id] || null;

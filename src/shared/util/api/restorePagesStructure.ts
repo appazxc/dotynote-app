@@ -20,8 +20,6 @@ export const restorePagesStructure = (pages: QueryFnData[], pageSize: number) =>
   }
 
   result.reverse();
-
-  console.log('result', result);
   
   return result
     .filter(({ items }) => !!items.length)

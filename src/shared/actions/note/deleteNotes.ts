@@ -1,6 +1,6 @@
 import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
-import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
+import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
@@ -28,7 +28,7 @@ export const deleteNotes = (noteIds: number[]): ThunkAction =>
 
       postsWithDeletedNoteIds.forEach((post) => {
         removePostIdsFromQuery(post.parentId, [post.id]);
-        dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
+        dispatch(updateEntity({ id: post.id, type: entityNames.post, data: { _isDeleted: true } }));
       });
     } catch(e) {
       noteIds.forEach((noteId) => {

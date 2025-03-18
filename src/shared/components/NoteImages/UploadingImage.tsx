@@ -3,51 +3,33 @@ import React from 'react';
 import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
-import { handleNoteAttachmentUploadCancel } from 'shared/actions/note/handleNoteAttachmentUploadCancel';
-import { api } from 'shared/api';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { Tooltip } from 'shared/components/ui/tooltip';
-import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import { emitter } from 'shared/util/emitter';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number;
   fileId: string;
   height: number;
   width: number;
   src: string | null;
 }
 
-export const UploadingImage = React.memo(({ noteId, fileId, height, width, src }: Props) => {
-  const dispatch = useAppDispatch();
+export const UploadingImage = React.memo(({ fileId, height, width, src }: Props) => {
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, fileId));
-  const { removeFiles, getFiles } = useFileUpload();
+
   invariant(uploadFile, 'Missing upload file');
 
   const { status, error } = uploadFile;
   const progress = getFileUploadProgress(uploadFile);
 
   const handleCancel = React.useCallback(async () => {
-    if (uploadFile.status === 'uploading'){
-      emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
-    }
-
-    if (uploadFile.status === 'processing' && uploadFile.tempId) {
-      await api.post(`/upload/${uploadFile.tempId}/cancel`, {});
-      removeFiles([uploadFile.fileId]);
-    }
-
-    if (uploadFile.status === 'error') {
-      removeFiles([uploadFile.fileId]);
-    }
-
-    dispatch(handleNoteAttachmentUploadCancel(noteId, getFiles));
-  }, [dispatch, uploadFile.status, uploadFile.tempId, uploadFile.fileId, removeFiles, noteId, getFiles]);
+    emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
+  }, [uploadFile.fileId]);
 
   return src ? (
     <Box position="relative">

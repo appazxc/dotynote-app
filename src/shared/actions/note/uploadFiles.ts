@@ -1,6 +1,7 @@
 import axios from 'axios';
 import throttle from 'lodash/throttle';
 
+import { handleNoteAttachmentUploadCancel } from 'shared/actions/note/handleNoteAttachmentUploadCancel';
 import { api } from 'shared/api';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -67,8 +68,26 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
   const signal = controller.signal;
   const eventName = `cancelFileUpload:${entity.fileId}`;
 
-  emitter.once(eventName, () => {
-    controller.abort();
+  emitter.once(eventName, async () => {
+    const uploadFile = selectUploadFileEntity(getState(), entity.fileId);
+
+    if (!uploadFile) {
+      return;
+    }
+
+    const onFilesRemove = () => {
+      dispatch(handleNoteAttachmentUploadCancel(noteId));
+    };
+
+    if (uploadFile.status === 'uploading') {
+      controller.abort();
+    }
+
+    if (uploadFile.status === 'processing' && uploadFile.tempId) {
+      await api.post(`/upload/${uploadFile.tempId}/cancel`, {});
+    }
+
+    removeFiles([uploadFile.fileId], onFilesRemove);
   });
 
   switch(entity.type) {
@@ -285,7 +304,9 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
       tempUploadPath: '/upload',
       getUploadConfirmPath: (id) => `/upload/${id}/uploaded`,
       onComplete,
-      onCancel: () => removeFiles([uploadFile.fileId]),
+      onCancel: () => {
+        removeFiles([uploadFile.fileId]);
+      },
     }));
   };
 

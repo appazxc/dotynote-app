@@ -23,7 +23,7 @@ type OpenFilePickerParams = {
   uploadImmediately?: boolean;
 }
 
-export type RemoveUploadFiles = (fileIds: string[]) => void
+export type RemoveUploadFiles = (fileIds: string[], onRemoved?: () => void) => void
 
 export type ReorderUploadFiles = (fileIds: string[]) => void
 
@@ -41,7 +41,6 @@ type FileUploadContextType = {
   reorderFiles: ReorderUploadFiles;
   openFilePicker: OpenFilePicker;
   files: UploadFile[];
-  getFiles: () => UploadFile[];
 };
 
 const FileUploadContext = createReactContext<FileUploadContextType>();
@@ -49,8 +48,6 @@ const FileUploadContext = createReactContext<FileUploadContextType>();
 export const FileUploadProvider = React.memo(({ children }: Props) => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);
   const dispatch = useAppDispatch();
-  const filesRef = React.useRef<UploadFile[]>([]);
-  filesRef.current = files;
 
   const reorderFiles = React.useCallback((fileIds) => {
     setFiles(prevFiles => {
@@ -62,11 +59,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     });
   }, []);
 
-  const getFiles = React.useCallback(() => {
-    return filesRef.current;
-  }, []);
-
-  const removeFiles = React.useCallback((fileIds: string[]) => {
+  const removeFiles: RemoveUploadFiles = React.useCallback((fileIds, onRemoved) => {
     files
       .filter(({ fileId }) => fileIds.includes(fileId))
       .forEach(({ objectUrl }) => {
@@ -74,10 +67,11 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
           URL.revokeObjectURL(objectUrl);
         }
       });
-    console.log('set' );
+      
     setFiles(prevFiles => prevFiles.filter(file => !fileIds.includes(file.fileId)));
     setTimeout(() => {
       dispatch(deleteFiles(fileIds));
+      onRemoved?.();
     });
   }, [files, dispatch]);
 
@@ -185,7 +179,6 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         openFilePicker,
         removeFiles,
         reorderFiles,
-        getFiles,
       }}
     >
       {children}

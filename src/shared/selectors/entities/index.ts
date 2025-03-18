@@ -2,6 +2,7 @@ import { entityNames } from 'shared/constants/entityNames';
 import Selector from 'shared/selectors/helpers/Selector';
 
 export const userSelector = new Selector(entityNames.user);
+export const userSettingsSelector = new Selector(entityNames.userSettings);
 export const spaceSelector = new Selector(entityNames.space);
 export const spaceTabSelector = new Selector(entityNames.spaceTab);
 export const noteSelector = new Selector(entityNames.note);

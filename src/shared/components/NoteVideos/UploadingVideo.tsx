@@ -2,7 +2,6 @@ import { Box, Float } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
-import { api } from 'shared/api';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
 import { Icon } from 'shared/components/ui/icon';
 import { Tooltip } from 'shared/components/ui/tooltip';
@@ -21,7 +20,6 @@ type Props = {
 export const UploadingVideo = React.memo((props: Props) => {
   const { fileId, width, height } = props;
   const uploadVideo = useUploadEntity(fileId);
-  const { removeFiles } = useFileUpload();
 
   invariant(uploadVideo, 'Uploading file is missing');
 
@@ -30,19 +28,8 @@ export const UploadingVideo = React.memo((props: Props) => {
   const isError = status === 'error';
 
   const handleCancel = React.useCallback(async () => {
-    if (uploadVideo.status === 'uploading'){
-      emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
-    }
-
-    if (uploadVideo.status === 'processing' && uploadVideo.tempId) {
-      await api.post(`/upload/${uploadVideo.tempId}/cancel`, {});
-      removeFiles([uploadVideo.fileId]);
-    }
-
-    if (uploadVideo.status === 'error') {
-      removeFiles([uploadVideo.fileId]);
-    }
-  }, [uploadVideo.status, uploadVideo.tempId, uploadVideo.fileId, removeFiles]);
+    emitter.emit(`cancelFileUpload:${uploadVideo.fileId}`);
+  }, [uploadVideo.fileId]);
 
   if (!uploadVideo.objectUrl) {
     return null;
