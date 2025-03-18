@@ -4,6 +4,7 @@ import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
+import { PlusIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { CreateSpaceModal } from 'shared/containers/modals/CreateSpaceModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -18,13 +19,12 @@ const Spaces = React.memo(() => {
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [] } = useSpaces();
   const { history } = useRouter();
-  const title = data.length ? 'Select or create space' : 'Create space';
 
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader
         pr="4"
-        title={title}
+        title="Spaces"
         left={(
           <IconButton 
             size="sm"
@@ -39,19 +39,20 @@ const Spaces = React.memo(() => {
           </IconButton>
         )}
         right={(
-          <Button
+          <IconButton
             size="sm"
-            colorScheme="brand"
+            variant="ghost"
+            iconSize="auto"
             onClick={() => {
               dispatch(showModal({ id: modalIds.createSpace }));
             }}
           >
-            Create space
-          </Button>
+            <PlusIcon size="22" />
+          </IconButton>
         )}
       />
     );
-  }, [dispatch, history, title]);
+  }, [dispatch, history]);
 
   return (
     <Layout header={renderedHeader}>

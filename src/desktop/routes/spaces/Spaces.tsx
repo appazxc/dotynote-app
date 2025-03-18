@@ -18,7 +18,6 @@ function Spaces() {
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
   const { data = [], isLoading } = useSpaces();
   const { history } = useRouter();
-  const title = data.length ? 'Select or create space' : 'Create space';
 
   const renderedHeader = React.useMemo(() => {
     return (
@@ -36,12 +35,13 @@ function Spaces() {
                 history.back();
               }}
             ><BsArrowLeft /></IconButton>
-            <Text fontSize="lg">{title}</Text>
+            <Text fontSize="lg">Spaces</Text>
           </Box>
         ) }
         right={(
           <Button
             size="sm"
+            variant="subtle"
             onClick={() => {
               dispatch(showModal({ id: modalIds.createSpace }));
             }}
@@ -51,7 +51,7 @@ function Spaces() {
         )}
       />
     );
-  }, [dispatch, isLoading, history, title]);
+  }, [dispatch, isLoading, history]);
 
   return (
     <Layout header={renderedHeader}>
