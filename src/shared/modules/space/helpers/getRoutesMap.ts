@@ -9,3 +9,11 @@ export const getRoutesMap = () => {
   const isMobile = selectIsMobile(getState());
   return isMobile ? routesMapMobile : routesMapDesktop;
 };
+
+export const getMobileRoutesMap = () => {
+  return routesMapMobile;
+};
+
+export const getDesktopRoutesMap = () => {
+  return routesMapDesktop;
+};
