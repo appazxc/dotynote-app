@@ -16,7 +16,7 @@ const revertPlaceMap = {
   'bottom': 'top',
 } as const;
 
-export const stickNotesAndPosts = (params: Params): ThunkAction<number[]> => (_, getState) => {
+export const stickNotesAndPosts = (params: Params): ThunkAction<Promise<number[]>> => async (_, getState) => {
   const parentNote = noteSelector.getEntityById(getState(), params.parentId);
 
   invariant(parentNote, 'Missing parent note');
