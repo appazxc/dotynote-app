@@ -1,5 +1,6 @@
 import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 import { postSelector } from 'shared/selectors/entities';
 import { deleteEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -31,7 +32,10 @@ export const deleteNotesFromPosts = (parentId: number, postIds: number[]): Thunk
       noteIds.forEach((id) => {
         dispatch(deleteEntity({ id, type: entityNames.note }));
       });
-    } catch(e) {
-      revert();
+    } catch(error) {
+      const parsedError = parseApiError(error);
+      if (parsedError.statusCode !== 404) {
+        revert();
+      }
     }
   };
