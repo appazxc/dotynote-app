@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { api } from 'shared/api';
+import { pinPost } from 'shared/actions/post/pinPost';
+import { useAppDispatch } from 'shared/store/hooks';
 
 export const usePinPost = () => {
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: (postId: number) => {
-      return api.post<string>(`/posts/${postId}/pin`, {});
+      return dispatch(pinPost(postId));
     },
   });
 };

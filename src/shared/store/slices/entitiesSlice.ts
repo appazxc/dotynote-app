@@ -3,6 +3,8 @@ import isEqual from 'lodash/isEqual';
 
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { ApiEntityTypes } from 'shared/types/entities/entityTypes';
+import { ThunkAction } from 'shared/types/store';
+import { invariant } from 'shared/util/invariant';
 
 export type Entities = {
   [name in EntityName]: {
@@ -115,6 +117,22 @@ const updateEntityLogic: UpdateEntityLogic = (state, { payload }) => {
   }
 };
 
-export const { addEntities, updateEntity, addEntity, deleteEntity } = entitiesSlice.actions;
+export const updateEntity = <T extends EntityName>(payload: UpdateEntityPayload<T>): ThunkAction<() => void> =>
+  (dispatch, getState) => {
+    const oldEntity = getState().entities[payload.type][payload.id];
+
+    invariant(oldEntity, 'Entity not found');
+
+    dispatch(entitiesSlice.actions.updateEntity(payload));
+
+    return () => {
+      dispatch(entitiesSlice.actions.updateEntity({
+        ...payload,
+        data: oldEntity as any,
+      }));
+    };
+  };
+
+export const { addEntities, addEntity, deleteEntity } = entitiesSlice.actions;
 
 export default entitiesSlice.reducer;

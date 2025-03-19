@@ -6,4 +6,9 @@ export type AppDispatch = typeof store.dispatch
 
 export type AppStore = typeof store
 
-export type ThunkAction<T = any> = (dispatch: AppDispatch, getState: () => AppState) => T | Promise<T>;
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+export type ThunkAction<T = any> = (
+  dispatch: AppDispatch,
+  getState: () => AppState
+) => T extends Promise<any> ? Promise<UnwrapPromise<T>> : T;

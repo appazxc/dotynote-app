@@ -2,14 +2,12 @@ import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
 import { TQueryFnData } from 'shared/types/query';
 
-export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldData, queryKey) => {
+export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldData) => {
   if (!oldData) {
     return oldData;
   }
-    
-  const FILTERS_INDEX = 2;
+  
   const newIds = [...ids];
-  const descSort = queryKey[FILTERS_INDEX]?.sort === 'desc';
     
   return {
     ...oldData,
@@ -22,7 +20,6 @@ export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldDa
 
       const newItems = [...page.items];
       const isTopPlace = place === 'top';
-      console.log('descSort', descSort, isTopPlace);
       const pasteIndex = isTopPlace ? index : index + 1; 
       const needReverse = isTopPlace;
 
