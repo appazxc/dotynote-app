@@ -22,8 +22,8 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
   return ({ entityId, noteId }) => async (dispatch, getState) => {
     dispatch(
       updateEntity({  
-        id: entityId as any,
-        type: entityName,
+        id: entityId,
+        type: entityName as any,
         data: { _isDeleted: true },
       })
     );
@@ -49,8 +49,8 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
     } catch (error) {
       dispatch(
         updateEntity({
-          id: entityId as any,
-          type: entityName,
+          id: entityId,
+          type: entityName as any,
           data: { _isDeleted: false },
         })
       );
