@@ -33,7 +33,6 @@ type Props = {
   hasOverlay?: boolean;
   pageSize?: number;
   isPinned?: boolean;
-  pinnedOnTop?: boolean;
   selectedPosts?: number[];
   options?: InfinityPostsOptions;
   internalLevel?: number;
@@ -56,7 +55,6 @@ export const PostList = React.memo((props: Props) => {
     pageSize = DEFAULT_PAGE_SIZE,
     orderBy = ORDER_BY_IDS.POSITION,
     options = EMPTY_OBJECT,
-    pinnedOnTop,
     disablePagination,
     onScrollRestoration,
     ...boxProps
@@ -90,16 +88,12 @@ export const PostList = React.memo((props: Props) => {
       result.sort = sort;
     }
 
-    if (isBoolean(pinnedOnTop)) {
-      result.pinnedOnTop = String(pinnedOnTop);
-    }
-
     if (typeof orderBy !== 'undefined') {
       result.orderBy = orderBy;
     }
     
     return result;
-  }, [search, sort, orderBy, pageSize, isPinned, pinnedOnTop]);
+  }, [search, sort, orderBy, pageSize, isPinned]);
 
   const { 
     data, 

@@ -64,10 +64,6 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
     mutate({ internal: checked });
   }, [mutate]);
 
-  const handlePinnedChange = React.useCallback(({ checked }) => {
-    mutate({ pinnedOnTop: checked });
-  }, [mutate]);
-
   return (
     <VStack gap={4} alignItems="stretch">
       <SortSettings orderBy={orderBy} postsSettings={postsSettings} />
@@ -76,11 +72,6 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
         description="Show or hide internal posts content and settings"
         checked={!!note.postsSettings?.internal}
         onCheckedChange={handleInternalChange}
-      />
-      <CheckboxCard
-        label="Show pinned posts always on top"
-        checked={!!note.postsSettings?.pinnedOnTop}
-        onCheckedChange={handlePinnedChange}
       />
     </VStack>
   );

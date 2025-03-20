@@ -5,7 +5,6 @@ import { BaseEntity } from './BaseEntity';
 
 export type ApiPostsSettingsEntity = BaseEntity<{
   internal: boolean;
-  pinnedOnTop: boolean;
   orderById: number;
   sort: 'asc' | 'desc';
   noteId: number;
