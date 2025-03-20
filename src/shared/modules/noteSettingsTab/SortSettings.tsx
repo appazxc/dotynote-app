@@ -1,8 +1,9 @@
-import { Card, Text, Box, Heading } from '@chakra-ui/react';
+import { Box, Card, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
 import { Select } from 'shared/components/Select';
+import { DirectionSelect } from 'shared/modules/noteSettingsTab/DirectionSelect';
 import { getOptionTitleFromOrderType } from 'shared/modules/noteSettingsTab/helpers/getOptionTitleFromOrderType';
 import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
@@ -11,8 +12,6 @@ type Props = {
   postsSettings: PostsSettingsEntity;
   orderBy: ApiOrderByEntity[];
 };
-
-const sortOptions = [{ label: 'Ascending', value: 'asc' }, { label: 'Descending', value: 'desc' }];
 
 export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
   const { mutateAsync } = useUpdatePostsSettings(postsSettings.noteId, postsSettings.id);
@@ -23,9 +22,9 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
     });
   }, [mutateAsync]);
 
-  const handleSortChange = React.useCallback(async (values) => {
+  const handleSortChange = React.useCallback(async (value: PostsSettingsEntity['sort']) => {
     await mutateAsync({
-      sort: values[0] as PostsSettingsEntity['sort'],
+      sort: value,
     });
   }, [mutateAsync]);
 
@@ -34,40 +33,22 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
       p="4"
       gap="3"
     >
-      <Heading as="h3" fontSize="lg">Sorting</Heading>
-      <Box 
+      <Heading as="h3" fontSize="md">Sorting</Heading>
+      <Box
         display="flex"
-        justifyContent="space-between"
+        gap="3"
         flexDirection="row"
-        alignItems="center"
+        alignItems="flex-end"
       >
-        <Text fontWeight="500">Order by</Text>
-        <Box>
-          <Select
-            size="sm"
-            value={[postsSettings.orderById]}
-            w="200px"
-            options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: String(id) }))}
-            onChange={handleOrderByChange}
-          />
-        </Box>
-      </Box>
-      <Box 
-        display="flex"
-        justifyContent="space-between"
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Text fontWeight="500">Direction</Text>
-        <Box>
-          <Select
-            size="sm"
-            value={[postsSettings.sort]}
-            w="200px"
-            options={sortOptions}
-            onChange={handleSortChange}
-          />
-        </Box>
+        <Select
+          size="sm"
+          label="Order by"
+          value={[postsSettings.orderById]}
+          w="200px"
+          options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: String(id) }))}
+          onChange={handleOrderByChange}
+        />
+        <DirectionSelect value={postsSettings.sort} onChange={handleSortChange} />
       </Box>
     </Card.Root>
   );

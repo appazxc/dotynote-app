@@ -49,6 +49,7 @@ export const Post = React.forwardRef((props: Props, _) => {
       <Box p="2">
         <Checkbox
           size="md"
+          borderRadius="full"
           checked={isSelected}
         />
       </Box>
