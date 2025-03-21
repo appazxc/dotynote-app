@@ -53,7 +53,7 @@ export const useNoteAudio = (audioId?: string | null) => {
     if (!audio?.url) {
       setIsUrlLoading(true);
     }
-console.log('audioId', audioId);
+
     dispatch(getAudioWithUrl(audioId)).then((newAudio) => {
       if (!newAudio?.url) {
         return;
