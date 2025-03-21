@@ -1,12 +1,11 @@
 import { Box, IconButton, Text } from '@chakra-ui/react';
-import isNumber from 'lodash/isNumber';
 import React from 'react';
 
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { Icon } from 'shared/components/ui/icon';
 import { DotsIcon, PauseIcon, PlayIcon } from 'shared/components/ui/icons';
-import { AudioSliderDragParams } from 'shared/modules/noteAudio/AudioProvider';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
+import { useAudioTime } from 'shared/modules/noteAudio/useAudioTime';
 import { formatTime } from 'shared/util/formatTime';
 
 type Props = {
@@ -14,30 +13,39 @@ type Props = {
   isActive: boolean;
   name: string;
   duration: number;
-  currentTime: number | null;
-  isDragging: boolean;
-  currentTimePos: number;
+  isLoading: boolean;
   onPlay: (startTime?: number) => void;
-  onProgressClick: (startTime: number) => void;
+  onTrackClick: (startTime: number) => void;
   onPause: () => void;
   options?: { label: string; onClick: () => void }[];
-  onDragChange: (params: AudioSliderDragParams) => void;
 };
+
+type NoteAudioTimeProps = { 
+  isActive: Props['isActive'];
+  duration: Props['duration'];
+}
+
+const NoteAudioTime = React.memo(({ isActive, duration }: NoteAudioTimeProps) => {
+  const { time, isDraggingRef, draggingTimeRef } = useAudioTime();
+
+  const value = isActive 
+    ? formatTime(isDraggingRef.current ? draggingTimeRef.current : time)
+    : formatTime(duration);
+
+  return <Text fontSize="xs" color="gray.400">{value}</Text>;
+});
 
 export const NoteAudioWidget = React.memo((props: Props) => {
   const { 
     name, 
     duration,
-    currentTime,
     options,
     isActive,
     isPlaying,
-    isDragging,
-    currentTimePos,
+    isLoading,
     onPause,
     onPlay,
-    onProgressClick, 
-    onDragChange,
+    onTrackClick, 
   } = props;
 
   return (
@@ -62,7 +70,15 @@ export const NoteAudioWidget = React.memo((props: Props) => {
             cursor="pointer"
             flexShrink="0"
             onClick={() => {
-              isPlaying ? onPause() : onPlay();
+              if (isLoading) {
+                return;
+              }
+
+              if (isPlaying) {
+                onPause();
+              } else {
+                onPlay();
+              }
             }}
           >
             <Icon
@@ -83,11 +99,7 @@ export const NoteAudioWidget = React.memo((props: Props) => {
               alignItems="center"
               gap="1"
             >
-              {isNumber(currentTime) ? (
-                <Text fontSize="xs" color="gray.400">{formatTime(isDragging ? currentTimePos : currentTime)}</Text>
-              ) : (
-                <Text fontSize="xs" color="gray.400">{formatTime(duration)}</Text>
-              )}
+              <NoteAudioTime isActive={isActive} duration={duration} />
             </Box>
           </Box>
         
@@ -119,16 +131,12 @@ export const NoteAudioWidget = React.memo((props: Props) => {
           </Menu>
         )}
       </Box>
-      <AudioSlider
-        opacity={isActive ? 1 : 0}
-        isDragging={isDragging}
-        currentTimePos={currentTimePos}
-        isActive={isActive}
-        currentTime={currentTime}
-        duration={duration}
-        onChange={onProgressClick}
-        onDragChange={onDragChange}
-      />
+      {isActive && (
+        <AudioSlider
+          duration={duration}
+          onChange={onTrackClick}
+        />
+      )}
     </Box>
   );
 });

@@ -3,7 +3,7 @@ import { MergeEntity } from 'shared/types/entities/MergeEntity';
 
 export type ApiNoteAudioEntity = BaseEntity<{
   filename: string;
-  mimeType: string;
+  extension: string;
   size: number;   
   duration: number;   
   pos: number;   

@@ -1,6 +1,8 @@
 import isNumber from 'lodash/isNumber';
 import React from 'react';
+import { useAudioPlayerContext } from 'react-use-audio-player';
 
+import { getAudioWithUrl } from 'shared/actions/note/getAudioWithUrl';
 import { loadAudioUrl } from 'shared/actions/note/loadAudioUrl';
 import { selectAudioUrl } from 'shared/modules/noteAudio/audioSelectors';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -24,6 +26,7 @@ type AudioContext = {
 const AudioContext = React.createContext<AudioContext>(null!);
 
 export const AudioProvider = ({ children }) => {
+  const { load } = useAudioPlayerContext();
   const [audioId, setAudioId] = React.useState<string | null>(null);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [currentTimePos, setCurrentTimePos] = React.useState<number>(0);
@@ -90,6 +93,39 @@ export const AudioProvider = ({ children }) => {
     setPlaying();
   }, [setPlaying, setAudioCurrentTime, currentTime]);
 
+  const startAudioNew = React.useCallback(({ audioId, startTime = 0 }) => {
+    dispatch(getAudioWithUrl(audioId)).then((audio) => {
+      if (!audio?.url) {
+        return;
+      }
+
+      load(audio.url, {
+        autoplay: true,
+        format: audio.extension,
+        html5: true,
+        onstop: () => {
+          console.log('onstop', audioId );
+        },
+        /** Callback that will be triggered when the audio is paused */
+        onpause: () => {
+          console.log('onpause', audioId );
+        },
+        /** Callback that will be triggered when the audio is successfully loaded */
+        onload: () => {
+          console.log('onload', audioId );
+        },
+        /** Callback that will be triggered when the audio reaches its end */
+        onend: () => {
+          console.log('onend', audioId );
+        },
+        /** Callback that will be triggered when the audio starts playing */
+        onplay: () => {
+          console.log('onplay', audioId );
+        },
+      });
+    });
+  }, [dispatch, load]);
+
   const stopAudio = React.useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -124,7 +160,7 @@ export const AudioProvider = ({ children }) => {
         currentTime,
         activeAudioId: audioId,
         isPlaying,
-        startAudio,
+        startAudio: startAudioNew,
         playAudio,
         pauseAudio,
         stopAudio,

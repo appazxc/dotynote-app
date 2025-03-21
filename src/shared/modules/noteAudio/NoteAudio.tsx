@@ -1,9 +1,11 @@
 import React from 'react';
+import { useAudioPlayerContext } from 'react-use-audio-player';
 
 import { api } from 'shared/api';
 import { useDeleteNoteAudio } from 'shared/api/hooks/useDeleteNoteAudio';
 import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { NoteAudioWidget } from 'shared/modules/noteAudio/NoteAudioWidget';
+import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
 import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { downloadFile } from 'shared/util/downloadFile';
@@ -17,21 +19,8 @@ type Props = {
 
 export const NoteAudio = React.memo((props: Props) => {
   const { audioId, noteId } = props;
-  const { 
-    isPlaying,
-    activeAudioId,
-    playAudio,
-    startAudio,
-    pauseAudio,
-    currentTime,
-    isDragging,
-    currentTimePos,
-    onDragChange,
-    changeCurrentTime,
-  } = useAudio();
   const audio = useAppSelector(state => noteAudioSelector.getById(state, audioId));
-  const isActive = activeAudioId === audioId;
-
+  const { isActive, isPlaying, isLoading, seek, play, pause } = useNoteAudio(audioId);
   const { mutate, isPending } = useDeleteNoteAudio();
 
   invariant(audio, 'Missing audio');
@@ -69,34 +58,16 @@ export const NoteAudio = React.memo((props: Props) => {
   return (
     <NoteAudioWidget
       isActive={isActive}
-      isPlaying={isPlaying && isActive}
+      isLoading={isLoading}
+      isPlaying={isPlaying}
       name={name}
-      isDragging={isActive ? isDragging : false}
-      currentTimePos={isActive ? currentTimePos : 0}
       duration={audio.duration}
-      currentTime={isActive ? currentTime : null}
       options={options}
-      onPlay={(startTime) => {
+      onPlay={play}
+      onPause={pause}
+      onTrackClick={(startTime) => {
         if (isActive) {
-          playAudio({ startTime });
-          return;
-        }
-
-        startAudio({
-          audioId,
-          startTime,
-        });
-      }}
-      onPause={() => pauseAudio()}
-      onProgressClick={(startTime) => {
-        if (isActive) {
-          changeCurrentTime(startTime);
-          return;
-        }
-      }}
-      onDragChange={(params) => {
-        if (isActive) {
-          onDragChange(params);
+          seek(startTime);
         }
       }}
     />
