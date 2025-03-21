@@ -5,6 +5,9 @@ import { getAudioWithUrl } from 'shared/actions/note/getAudioWithUrl';
 import { setActiveAudioId } from 'shared/modules/noteAudio/audioSlice';
 import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { getAudioTime } from 'shared/util/audio/getAudioTime';
+import { removeAudioTime } from 'shared/util/audio/removeAudioTime';
+import { saveAudioTime } from 'shared/util/audio/saveAudioTime';
 
 export const useNoteAudio = (audioId?: string | null) => {
   const audio = useAppSelector(state => noteAudioSelector.getById(state, audioId));
@@ -33,6 +36,8 @@ export const useNoteAudio = (audioId?: string | null) => {
     stop: stopAudio,
     pause,
     seek,
+
+    getPosition,
   } = useAudioPlayerContext();
 
   const isActive = src === audio?.url && !isStopped;
@@ -60,32 +65,38 @@ export const useNoteAudio = (audioId?: string | null) => {
       dispatch(setActiveAudioId(audioId));
 
       load(newAudio.url, {
-        autoplay: true,
+        autoplay: false,
         format: newAudio.extension,
         html5: true,
         onstop: () => {
           // console.log('onstop', audioId );
         },
-        /** Callback that will be triggered when the audio is paused */
         onpause: () => {
-          // console.log('onpause', audioId );
+          saveAudioTime(audioId, getPosition());
         },
-        /** Callback that will be triggered when the audio is successfully loaded */
         onload: () => {
-          // console.log('onload', audioId );
+          const time = getAudioTime(audioId);
+
+          if (time) {
+            // instant seek in "onload" not working. In "onplay" seek do bad sound expirience with audio jump.
+            setTimeout(() => {
+              seek(time);
+              playAudio();
+            }, 50);
+          } else {
+            playAudio();
+          }
         },
-        /** Callback that will be triggered when the audio reaches its end */
         onend: () => {
-          // console.log('onend', audioId );
           dispatch(setActiveAudioId(null));
+          removeAudioTime(audioId);
         },
-        /** Callback that will be triggered when the audio starts playing */
         onplay: () => {
           // console.log('onplay', audioId );
         },
       });
     });
-  }, [dispatch, load, audio?.url]);
+  }, [dispatch, load, audio?.url, seek, playAudio]);
 
   const play = React.useCallback(() => {
     if (isActive) {
@@ -119,5 +130,6 @@ export const useNoteAudio = (audioId?: string | null) => {
     stop,
     error,
     togglePlayPause,
+    getPosition,
   };
 };

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useAudioPlayerContext } from 'react-use-audio-player';
 
+import { selectActiveAudioId } from 'shared/selectors/selectActiveAudio';
+import { useAppSelector } from 'shared/store/hooks';
+import { getAudioTime } from 'shared/util/audio/getAudioTime';
 import { createReactContext } from 'shared/util/createReactContext';
 
 type AudioTimeContextType = {
@@ -16,14 +19,7 @@ export const AudioTimeProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [pos, setPos] = React.useState(0);
   const isDraggingRef = React.useRef<boolean>(false);
   const draggingTimeRef = React.useRef<number>(pos);
-  const { getPosition, src } = useAudioPlayerContext();
-
-  // faster change previous audioId position
-  React.useEffect(() => {
-    if (src) {
-      setPos(0);
-    }
-  }, [src]);
+  const { getPosition } = useAudioPlayerContext();
 
   React.useEffect(() => {
     const animate = () => {
