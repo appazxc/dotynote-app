@@ -3,24 +3,20 @@ import React from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
 import { PauseIcon, PlayIcon } from 'shared/components/ui/icons';
-import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
-import { noteAudioSelector } from 'shared/selectors/entities';
+import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
+import { selectActiveAudio } from 'shared/selectors/selectActiveAudio';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-type Props = {};
-
-export const NoteFooterAudioWidget = React.memo((props: Props) => {
+export const NoteFooterAudioWidget = React.memo(() => {
+  const audio = useAppSelector(selectActiveAudio);
   const { 
     isPlaying,
-    activeAudioId,
-    playAudio,
-    pauseAudio,
-    currentTime,
-  } = useAudio();
+    seek,
+    togglePlayPause,
+  } = useNoteAudio(audio?.id);
   const dispatch = useAppDispatch();
-  const audio = useAppSelector(state => noteAudioSelector.getById(state, activeAudioId));
   
   if (!audio) {
     return null;
@@ -53,9 +49,7 @@ export const NoteFooterAudioWidget = React.memo((props: Props) => {
           <IconButton
             variant="plain"
             size="md"
-            onClick={() => {
-              !isPlaying ? playAudio() : pauseAudio();
-            }}
+            onClick={togglePlayPause}
           >
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </IconButton>
@@ -76,9 +70,9 @@ export const NoteFooterAudioWidget = React.memo((props: Props) => {
           w="full"
         >
           <AudioSlider
-            isActive={false}
-            currentTime={currentTime}
+            showThumb={false}
             duration={audio.duration}
+            onChange={seek}
           />
         </Box>
       </Box>

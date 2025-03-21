@@ -1,21 +1,20 @@
 import React from 'react';
 
 import { Slider, SliderProps } from 'shared/components/ui/slider';
-import { AudioSliderDragParams } from 'shared/modules/noteAudio/AudioProvider';
 import { useAudioTime } from 'shared/modules/noteAudio/useAudioTime';
 
 type Props = {
   duration: number;
   onChange?: (time: number) => void;
-  onDragChange?: (params: AudioSliderDragParams) => void;
 } & Omit<SliderProps, 'onChange'>;
 
 export const AudioSlider = React.memo((props: Props) => {
-  const { duration, onChange, onDragChange, ...restProps } = props;
+  const { duration, onChange, showThumb = true, ...restProps } = props;
   const { time, isDraggingRef, draggingTimeRef } = useAudioTime();
 
   return (
     <Slider
+      showThumb={showThumb}
       position="relative"
       cursor={'pointer'}
       size="xs"

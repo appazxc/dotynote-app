@@ -9,7 +9,7 @@ import { NoteVideos } from 'shared/components/NoteVideos';
 import { PostDots } from 'shared/components/Post/PostDots';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
-import { NoteAudioFiles } from 'shared/modules/noteAudio';
+import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 

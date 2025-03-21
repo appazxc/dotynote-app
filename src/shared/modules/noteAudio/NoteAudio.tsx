@@ -1,9 +1,7 @@
 import React from 'react';
-import { useAudioPlayerContext } from 'react-use-audio-player';
 
 import { api } from 'shared/api';
 import { useDeleteNoteAudio } from 'shared/api/hooks/useDeleteNoteAudio';
-import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { NoteAudioWidget } from 'shared/modules/noteAudio/NoteAudioWidget';
 import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
 import { noteAudioSelector } from 'shared/selectors/entities';
@@ -65,11 +63,7 @@ export const NoteAudio = React.memo((props: Props) => {
       options={options}
       onPlay={play}
       onPause={pause}
-      onTrackClick={(startTime) => {
-        if (isActive) {
-          seek(startTime);
-        }
-      }}
+      onTrackClick={seek}
     />
   );
 });

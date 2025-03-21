@@ -6,7 +6,7 @@ import { setActiveAudioId } from 'shared/modules/noteAudio/audioSlice';
 import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-export const useNoteAudio = (audioId: string) => {
+export const useNoteAudio = (audioId?: string | null) => {
   const audio = useAppSelector(state => noteAudioSelector.getById(state, audioId));
   const dispatch = useAppDispatch();
   const [isUrlLoading, setIsUrlLoading] = React.useState(false);
@@ -29,6 +29,7 @@ export const useNoteAudio = (audioId: string) => {
     // isReady,
     // isUnloaded,
 
+    stop: stopAudio,
     pause,
     seek,
   } = useAudioPlayerContext();
@@ -37,7 +38,7 @@ export const useNoteAudio = (audioId: string) => {
   const isPlaying = isActive && (isAudioPlaying || (isAudioLoading && isPaused));
   const isLoading = isUrlLoading || (isActive && isAudioLoading);
 
-  const startAudio = React.useCallback(() => {
+  const start = React.useCallback((audioId?: string | null) => {
     if (!audioId) {
       return;
     }
@@ -62,44 +63,49 @@ export const useNoteAudio = (audioId: string) => {
         format: newAudio.extension,
         html5: true,
         onstop: () => {
-          console.log('onstop', audioId );
+          // console.log('onstop', audioId );
         },
         /** Callback that will be triggered when the audio is paused */
         onpause: () => {
-          console.log('onpause', audioId );
+          // console.log('onpause', audioId );
         },
         /** Callback that will be triggered when the audio is successfully loaded */
         onload: () => {
-          console.log('onload', audioId );
+          // console.log('onload', audioId );
         },
         /** Callback that will be triggered when the audio reaches its end */
         onend: () => {
-          console.log('onend', audioId );
+          // console.log('onend', audioId );
           dispatch(setActiveAudioId(null));
         },
         /** Callback that will be triggered when the audio starts playing */
         onplay: () => {
-          console.log('onplay', audioId );
+          // console.log('onplay', audioId );
         },
       });
     });
-  }, [dispatch, audioId, load, audio?.url]);
+  }, [dispatch, load, audio?.url]);
 
   const play = React.useCallback(() => {
     if (isActive) {
       playAudio();
     } else {
-      startAudio();
+      start(audioId);
     }
-  }, [isActive, playAudio, startAudio]);
+  }, [isActive, playAudio, start, audioId]);
   
+  const stop = React.useCallback(() => {
+    stopAudio();
+    dispatch(setActiveAudioId(null));
+  }, [stopAudio, dispatch]);
+
   const togglePlayPause = React.useCallback(() => {
     if (isActive) {
       toggleAudioPlayPause();
     } else {
-      startAudio();
+      start(audioId);
     }
-  }, [isActive, startAudio, toggleAudioPlayPause]);
+  }, [isActive, audioId, start, toggleAudioPlayPause]);
 
   return {
     audio,
@@ -109,6 +115,7 @@ export const useNoteAudio = (audioId: string) => {
     seek,
     play,
     pause,
+    stop,
     togglePlayPause,
   };
 };

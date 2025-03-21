@@ -2,9 +2,11 @@ import { Box } from '@chakra-ui/react';
 import { useLongPress } from '@uidotdev/usehooks';
 import React from 'react';
 
-import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
+import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
 
-type Props = {};
+type Props = {
+  audioId: string;
+};
 
 // https://codepen.io/mrfrk/pen/BVKmKo
 const spans = [
@@ -31,10 +33,11 @@ const spans = [
 ];
 
 export const SoundMenu = React.memo((props: Props) => {
-  const { isPlaying, stopAudio } = useAudio();
+  const { audioId } = props;
+  const { isPlaying, stop } = useNoteAudio(audioId);
   
   const buttonProps = useLongPress(
-    () => stopAudio(),
+    () => stop(),
     { threshold: 500 }
   );
 

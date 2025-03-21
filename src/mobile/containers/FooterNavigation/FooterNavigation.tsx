@@ -27,8 +27,7 @@ export const FooterNavigation = React.memo(() => {
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const isPrimaryNote = useIsPrimareNote();
-  const { activeAudioId } = useAudio();
-  const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
+  const { isMobileWidgetOpen, activeId } = useAppSelector(state => state.audio);
 
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
@@ -105,12 +104,12 @@ export const FooterNavigation = React.memo(() => {
         },
         isActive: pathname === '/app/tabs',
       },
-      ...activeAudioId && !isMobileWidgetOpen ? [{
+      ...activeId && !isMobileWidgetOpen ? [{
         label: 'media',
         onClick: () => {
           dispatch(toggleMobileWidget());
         },
-        icon: <SoundMenu />,
+        icon: <SoundMenu audioId={activeId} />,
       }] : [],
       {
         label: 'menu',
@@ -129,7 +128,7 @@ export const FooterNavigation = React.memo(() => {
     activeSpace,
     isPrimaryNote,
     pathname,
-    activeAudioId,
+    activeId,
     isMobileWidgetOpen,
   ]);
 

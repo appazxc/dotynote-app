@@ -9,7 +9,7 @@ import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { Tag } from 'shared/components/ui/tag';
 import { selectIsNoteFilesUploading } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { NoteAudioFiles } from 'shared/modules/noteAudio';
+import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
