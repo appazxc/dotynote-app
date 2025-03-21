@@ -13,6 +13,7 @@ export const useNoteAudio = (audioId?: string | null) => {
 
   const { 
     src, 
+    error,
 
     play: playAudio,
     togglePlayPause: toggleAudioPlayPause,
@@ -32,8 +33,9 @@ export const useNoteAudio = (audioId?: string | null) => {
     stop: stopAudio,
     pause,
     seek,
+    ...rest
   } = useAudioPlayerContext();
-
+  console.log(audioId, rest);
   const isActive = src === audio?.url && !isStopped;
   const isPlaying = isActive && (isAudioPlaying || (isAudioLoading && isPaused));
   const isLoading = isUrlLoading || (isActive && isAudioLoading);
@@ -116,6 +118,7 @@ export const useNoteAudio = (audioId?: string | null) => {
     play,
     pause,
     stop,
+    error,
     togglePlayPause,
   };
 };

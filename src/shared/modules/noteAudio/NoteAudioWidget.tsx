@@ -131,12 +131,14 @@ export const NoteAudioWidget = React.memo((props: Props) => {
           </Menu>
         )}
       </Box>
-      {isActive && (
-        <AudioSlider
-          duration={duration}
-          onChange={onTrackClick}
-        />
-      )}
+      <Box h="2">
+        {isActive && (
+          <AudioSlider
+            duration={duration}
+            onChange={onTrackClick}
+          />
+        )}
+      </Box>
     </Box>
   );
 });
