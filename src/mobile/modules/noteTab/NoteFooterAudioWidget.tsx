@@ -6,7 +6,7 @@ import { PauseIcon, PlayIcon } from 'shared/components/ui/icons';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { AudioSlider } from 'shared/modules/noteAudio/AudioSlider';
 import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
-import { selectActiveAudio } from 'shared/selectors/selectActiveAudio';
+import { selectActiveAudio } from 'shared/selectors/audio/selectActiveAudio';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export const NoteFooterAudioWidget = React.memo(() => {

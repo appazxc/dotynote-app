@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAudioPlayerContext } from 'react-use-audio-player';
 
+import { handleAudioEnd } from 'shared/actions/audio/handleAudioEnd';
 import { getAudioWithUrl } from 'shared/actions/note/getAudioWithUrl';
 import { setActiveAudioId } from 'shared/modules/noteAudio/audioSlice';
 import { noteAudioSelector } from 'shared/selectors/entities';
@@ -52,7 +53,7 @@ export const useNoteAudio = (audioId?: string | null) => {
     if (!audio?.url) {
       setIsUrlLoading(true);
     }
-
+console.log('audioId', audioId);
     dispatch(getAudioWithUrl(audioId)).then((newAudio) => {
       if (!newAudio?.url) {
         return;
@@ -88,15 +89,14 @@ export const useNoteAudio = (audioId?: string | null) => {
           }
         },
         onend: () => {
-          dispatch(setActiveAudioId(null));
-          removeAudioTime(audioId);
+          dispatch(handleAudioEnd({ audioId, start }));
         },
         onplay: () => {
           // console.log('onplay', audioId );
         },
       });
     });
-  }, [dispatch, load, audio?.url, seek, playAudio]);
+  }, [dispatch, load, audio?.url, seek, playAudio, getPosition]);
 
   const play = React.useCallback(() => {
     if (isActive) {

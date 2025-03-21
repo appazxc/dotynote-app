@@ -1,9 +1,6 @@
 import React from 'react';
 import { useAudioPlayerContext } from 'react-use-audio-player';
 
-import { selectActiveAudioId } from 'shared/selectors/selectActiveAudio';
-import { useAppSelector } from 'shared/store/hooks';
-import { getAudioTime } from 'shared/util/audio/getAudioTime';
 import { createReactContext } from 'shared/util/createReactContext';
 
 type AudioTimeContextType = {

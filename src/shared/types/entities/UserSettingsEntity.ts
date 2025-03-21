@@ -7,6 +7,7 @@ export type ApiUserSettingsEntity = BaseEntity<{
   hubId?: number | null;
   hub?: number | null;
   deleteEmptyNotes: boolean;
+  autoPlayNextAudio: boolean;
 }>
 
 export type UserSettingsEntity = MergeEntity<ApiUserSettingsEntity, {

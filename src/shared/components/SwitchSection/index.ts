@@ -1,1 +1,0 @@
-export { SwitchSection } from './SwitchSection';

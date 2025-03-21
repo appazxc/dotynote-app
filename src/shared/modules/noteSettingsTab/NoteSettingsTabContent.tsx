@@ -4,8 +4,8 @@ import React from 'react';
 
 import { api } from 'shared/api';
 import { useUpdateNoteSettings } from 'shared/api/hooks/useUpdateNoteSettings';
-import { SwitchSection } from 'shared/components/SwitchSection';
 import { Button } from 'shared/components/ui/button';
+import { CheckboxCard } from 'shared/components/ui/checkbox-card';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
@@ -59,11 +59,11 @@ const NoteSettings = React.memo(({ noteId }: Props) => {
   
   return (
     <Box>
-      <SwitchSection
+      <CheckboxCard
         label="Show content"
         description="Show or hide the note's content. If the content is hidden, only posts will be visible."
         checked={!note.settings.hide}
-        onChange={handleDisplayChange}
+        onCheckedChange={handleDisplayChange}
       />
     </Box>
   );

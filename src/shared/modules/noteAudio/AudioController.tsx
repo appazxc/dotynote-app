@@ -3,7 +3,7 @@ import React from 'react';
 import { loadAudioUrl } from 'shared/actions/note/loadAudioUrl';
 import { toaster } from 'shared/components/ui/toaster';
 import { useNoteAudio } from 'shared/modules/noteAudio/useNoteAudio';
-import { selectActiveAudio } from 'shared/selectors/selectActiveAudio';
+import { selectActiveAudio } from 'shared/selectors/audio/selectActiveAudio';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { saveAudioTime } from 'shared/util/audio/saveAudioTime';
 

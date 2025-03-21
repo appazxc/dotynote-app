@@ -48,6 +48,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
           flexDirection="column"
           pt="10"
           alignItems="stretch"
+          gap="1"
         >
           {links.map(({ label, to, icon }) => {
             return (
@@ -61,8 +62,8 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
                       asChild
                       size="sm"
                       display="inline-flex"
-                      color={match ? 'purple.500' : undefined}
-                      variant="plain"
+                      variant={match ? 'subtle' : 'ghost'}
+                      colorPalette="gray"
                       justifyContent="start"
                     >
                       <DesktopLink to={to}>{icon} {label}</DesktopLink>
