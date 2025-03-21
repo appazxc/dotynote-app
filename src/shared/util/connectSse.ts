@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react';
+
 import { selectToken } from 'shared/selectors/auth/selectToken';
 import { ThunkAction } from 'shared/types/store';
 
@@ -44,8 +46,13 @@ export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getSt
       try {
         onMessage(JSON.parse(message) as T, closeConnection);
       } catch (error) {
-        console.error('SSE parse error:', error);
-        console.error('Raw message:', message);
+        Sentry.captureException(error, {
+          extra: {
+            rawMessage: message,
+            chunk: message,
+            url: url,
+          },
+        });
         throw error;
       }
     }
