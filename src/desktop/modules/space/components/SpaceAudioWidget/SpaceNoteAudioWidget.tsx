@@ -74,10 +74,6 @@ export const SpaceNoteAudioWidget = React.memo(({ audio }: Props) => {
     togglePlayPause,
     seek,
   ]);
-  
-  if (!audio) {
-    return null;
-  }
 
   return (
     <HoverCardRoot

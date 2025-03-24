@@ -7,7 +7,7 @@ import { SpaceNoteAudioWidget } from 'desktop/modules/space/components/SpaceAudi
 
 export const SpaceAudioWidget = React.memo(() => {
   const audio = useAppSelector(selectActiveAudio);
-  
+
   if (!audio) {
     return null;
   }
