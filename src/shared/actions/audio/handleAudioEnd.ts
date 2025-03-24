@@ -8,10 +8,11 @@ import { invariant } from 'shared/util/invariant';
 type Params = {
   audioId: string,
   start: (audioId?: string | null) => void,
+  stop: () => void,
 }
 
 export const handleAudioEnd = (params: Params): ThunkAction => async (dispatch, getState) => {
-  const { audioId, start } = params;
+  const { audioId, start, stop } = params;
   const state = getState();
   const user = selectUser(state);
   const audio = noteAudioSelector.getById(state, audioId);
@@ -21,17 +22,14 @@ export const handleAudioEnd = (params: Params): ThunkAction => async (dispatch, 
 
   removeAudioTime(audioId);
   
-  if (!user?.settings?.autoPlayNextAudio) {
-    dispatch(setActiveAudioId(null));
-    return;
-  }
-  
   const audioIndex = note.audio.indexOf(audioId);
-  if (audioIndex === -1) { 
+  const nextAudioId = note.audio[audioIndex + 1];
+
+  if (!user?.settings?.autoPlayNextAudio || audioIndex === -1 || !nextAudioId) { 
+    stop();
     return;
   }
   
-  const nextAudioId = note.audio[audioIndex + 1];
   // we want to start next audio from start position
   removeAudioTime(nextAudioId);
   start(nextAudioId);

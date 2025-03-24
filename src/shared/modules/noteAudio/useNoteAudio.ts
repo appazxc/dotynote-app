@@ -7,7 +7,6 @@ import { setActiveAudioId } from 'shared/modules/noteAudio/audioSlice';
 import { noteAudioSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { getAudioTime } from 'shared/util/audio/getAudioTime';
-import { removeAudioTime } from 'shared/util/audio/removeAudioTime';
 import { saveAudioTime } from 'shared/util/audio/saveAudioTime';
 
 export const useNoteAudio = (audioId?: string | null) => {
@@ -45,6 +44,11 @@ export const useNoteAudio = (audioId?: string | null) => {
   const isPlaying = isActive && (isAudioPlaying || (isAudioLoading && isPaused));
   const isLoading = isUrlLoading || (isActive && isAudioLoading);
 
+  const stop = React.useCallback(() => {
+    stopAudio();
+    dispatch(setActiveAudioId(null));
+  }, [stopAudio, dispatch]);
+
   const start = React.useCallback((audioId?: string | null) => {
     if (!audioId) {
       return;
@@ -69,9 +73,7 @@ export const useNoteAudio = (audioId?: string | null) => {
         autoplay: false,
         format: newAudio.extension,
         html5: true,
-        onstop: () => {
-          // console.log('onstop', audioId );
-        },
+        onstop: () => {},
         onpause: () => {
           saveAudioTime(audioId, getPosition());
         },
@@ -89,14 +91,12 @@ export const useNoteAudio = (audioId?: string | null) => {
           }
         },
         onend: () => {
-          dispatch(handleAudioEnd({ audioId, start }));
+          dispatch(handleAudioEnd({ audioId, start, stop }));
         },
-        onplay: () => {
-          // console.log('onplay', audioId );
-        },
+        onplay: () => {},
       });
     });
-  }, [dispatch, load, audio?.url, seek, playAudio, getPosition]);
+  }, [dispatch, load, audio?.url, seek, playAudio, getPosition, stop]);
 
   const play = React.useCallback(() => {
     if (isActive) {
@@ -105,11 +105,6 @@ export const useNoteAudio = (audioId?: string | null) => {
       start(audioId);
     }
   }, [isActive, playAudio, start, audioId]);
-  
-  const stop = React.useCallback(() => {
-    stopAudio();
-    dispatch(setActiveAudioId(null));
-  }, [stopAudio, dispatch]);
 
   const togglePlayPause = React.useCallback(() => {
     if (isActive) {
