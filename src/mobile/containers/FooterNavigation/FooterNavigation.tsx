@@ -11,7 +11,6 @@ import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { showModal } from 'shared/modules/modal/modalSlice';
-import { useAudio } from 'shared/modules/noteAudio/AudioProvider';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';

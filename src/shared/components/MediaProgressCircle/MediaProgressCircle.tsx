@@ -1,4 +1,4 @@
-import { AbsoluteCenter, Box, IconButton, ProgressCircle } from '@chakra-ui/react';
+import { AbsoluteCenter, Box, BoxProps, IconButton, ProgressCircle, ProgressCircleRootProps } from '@chakra-ui/react';
 import React from 'react';
 
 import { CloseIcon, DoneIcon } from 'shared/components/ui/icons';
@@ -9,25 +9,37 @@ type Props = {
   min?: number;
   iconColor?: string;
   onCancel?: (event: React.MouseEvent) => void;
+  bg?: BoxProps['bg'];
+  p?: BoxProps['p'];
+  size?: ProgressCircleRootProps['size'];
 };
 
-export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, iconColor = 'white' }: Props) => {
+export const MediaProgressCircle = React.memo((props: Props) => {
+  const { 
+    progress,
+    onCancel,
+    min = 0,
+    iconColor = 'white',
+    bg = 'gray.800/40',
+    size = 'md',
+  } = props;
   const isComplete = progress === 100;
+
   return (
     <AbsoluteCenter>
       <Box
-        bg="gray.800/40"
+        bg={bg}
         display="flex"
         p="2px"
         borderRadius="full"
         position="relative"
       >
         <ProgressCircleRoot
-          size="md"
+          size={size}
           value={Math.max(min, progress)}
           animation={'spin 2s linear infinite'}
         >
-          <ProgressCircle.Circle css={{ '--thickness': '2px' }}>
+          <ProgressCircle.Circle>
             <ProgressCircle.Track 
               css={{ '--track-color': 'transparent' }}
             />
@@ -46,18 +58,18 @@ export const MediaProgressCircle = React.memo(({ progress, onCancel, min = 0, ic
             </IconButton>
           </AbsoluteCenter>
         )}
-        {isComplete && (
-          <AbsoluteCenter>
-            <IconButton
-              variant="plain"
-              color={iconColor}
-              iconSize="auto"
-            >
-              <DoneIcon size="25px" />
-            </IconButton>
-          </AbsoluteCenter>
-        )}
       </Box>
+      {isComplete && (
+        <AbsoluteCenter>
+          <IconButton
+            variant="plain"
+            color={iconColor}
+            iconSize="auto"
+          >
+            <DoneIcon size="25px" />
+          </IconButton>
+        </AbsoluteCenter>
+      )}
     </AbsoluteCenter>
   );
 });

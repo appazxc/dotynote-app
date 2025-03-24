@@ -3,6 +3,7 @@ import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 import { buttonRecipe } from 'shared/theme/recipes/button';
 import { checkboxSlotRecipe } from 'shared/theme/recipes/checkbox';
 import { dialogSlotRecipe } from 'shared/theme/recipes/dialog';
+import { progressCircleSlotRecipe } from 'shared/theme/recipes/progressCircle';
 import { sliderSlotRecipe } from 'shared/theme/recipes/slider';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { getEditorStyles } from 'shared/theme/styles';
@@ -23,6 +24,7 @@ const customConfig = defineConfig({
       dialog: dialogSlotRecipe,
       checkbox: checkboxSlotRecipe,
       slider: sliderSlotRecipe,
+      progressCircle: progressCircleSlotRecipe,
     },
   },
   globalCss: {

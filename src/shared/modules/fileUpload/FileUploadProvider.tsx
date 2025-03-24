@@ -7,6 +7,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { createReactContext } from 'shared/util/createReactContext';
 import { emitter } from 'shared/util/emitter';
 import { getFileDimensions } from 'shared/util/getFileDimensions';
+import { getFileDuration } from 'shared/util/getFileDuration';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -92,16 +93,18 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
       const newData = await Promise.all(files.map(async file => {
         const objectUrl = type === 'image' || type === 'video' ? URL.createObjectURL(file) : null;
         const dimensions = await getFileDimensions(file);
-
+        const duration = await getFileDuration(file);
+        
         return ({
           file,
           fileId: nanoid(),
           objectUrl,
           dimensions,
+          duration,
         });
       }));
 
-      newData.forEach(({ fileId, file, dimensions }) => {
+      newData.forEach(({ fileId, file, dimensions, duration }) => {
         let fileType = type;
         const MAX_PIXELS = 12000;
         const MAX_IMAGE_SIZE = 10 * 10 * 1024 * 1024; // 10mb
@@ -120,7 +123,14 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
           });
           return;
         }
-        dispatch(addFile({ fileId, type: fileType, noteId, dimensions }));
+        dispatch(addFile({ 
+          fileId,
+          type: fileType,
+          noteId,
+          dimensions,
+          duration,
+          filename: file.name,
+        }));
       });
       
       const newFiles = newData.map(({ dimensions, ...rest }) => rest);

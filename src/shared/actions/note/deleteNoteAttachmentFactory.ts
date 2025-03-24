@@ -7,7 +7,7 @@ import { ThunkAction } from 'shared/types/store';
 
 type DeleteEntityFactoryParams<T extends EntityName> = {
   entityName: T;
-  attachmentField: string;
+  attachmentField: 'audio' | 'files' | 'images' | 'videos';
 };
 
 export type DeleteAttachmentParams = {

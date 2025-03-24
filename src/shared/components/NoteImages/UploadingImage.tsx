@@ -1,6 +1,5 @@
-import { Box, Center, Float, Icon } from '@chakra-ui/react';
+import { Box, Float, Icon } from '@chakra-ui/react';
 import React from 'react';
-import { GoClock } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
@@ -38,24 +37,6 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
         width={width}
         src={src}
       />
-
-      {status === 'idle' && (
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          bottom="0"
-          right="0"
-          bg="gray.200"
-          opacity="0.3"
-        >
-          <Icon fontSize="30px" color="black">
-            <Box>
-              <GoClock />
-            </Box>
-          </Icon>
-        </Center>
-      )}
 
       <MediaProgressCircle
         progress={progress}
