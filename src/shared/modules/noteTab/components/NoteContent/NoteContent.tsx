@@ -55,7 +55,8 @@ export const NoteContent = (props: Props) => {
     }, 2000);
   }, [mutate, noteId]);
 
-  const isTextContentEmpty = !title && (!content || getIsTextContentEmpty(content));
+  const isContentEmpty = !content || getIsTextContentEmpty(content);
+  const isTextContentEmpty = !title && isContentEmpty;
   const showContent = 
     isWriteMode 
     || !isTextContentEmpty
@@ -74,7 +75,7 @@ export const NoteContent = (props: Props) => {
       flexGrow={isWriteMode ? '1' : undefined}
       display="flex"
       flexDirection="column"
-      gap="4"
+      gap="6"
       pb="14"
       px="4"
     >
@@ -105,7 +106,7 @@ export const NoteContent = (props: Props) => {
           noteId={noteId}
           isMobile={isMobile}
           isWriteMode={isWriteMode}
-          isTextContentEmpty={isTextContentEmpty}
+          isContentEmpty={isContentEmpty}
           content={content}
         />
       </Box>

@@ -9,14 +9,14 @@ type Props = {
   noteId: number;
   isWriteMode: boolean;
   isMobile?: boolean;
-  isTextContentEmpty: boolean;
+  isContentEmpty: boolean;
   content: NoteEntity['content'];
 }
 
 export const NoteEditorBase = React.memo((props: Props) => {
-  const { isWriteMode, isTextContentEmpty, content } = props;
+  const { isWriteMode, isContentEmpty, content } = props;
 
-  const showEditor = isWriteMode || !isTextContentEmpty;
+  const showEditor = isWriteMode || !isContentEmpty;
   
   if (!showEditor) {
     return null;
@@ -28,7 +28,7 @@ export const NoteEditorBase = React.memo((props: Props) => {
       flexGrow="1"
       display="flex"
       flexDirection="column"
-      minH="40vh"
+      minH={isWriteMode ? '40vh' : undefined}
     >
       {isWriteMode ? <NoteEditor /> : <EditorView content={content} />}
     </Box>
