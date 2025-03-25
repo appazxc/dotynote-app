@@ -41,7 +41,7 @@ export const UserSettings = React.memo((props: Props) => {
       <SwitchSection 
         label="Auto-play next audio"
         // eslint-disable-next-line max-len
-        description="When enabled, the next audio in the list will automatically start playing after the current one finishes"
+        description="When enabled, the next audio will play automatically after the current one ends"
         checked={autoPlayNextAudio}
         onCheckedChange={handleAutoPlayChange}
       />

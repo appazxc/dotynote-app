@@ -19,7 +19,7 @@ export const MenuList = React.memo(React.forwardRef<HTMLDivElement, BoxProps>(({
 
   const listProps = activeItemId ? {} : {
     ref,
-    boxShadow:'md',
+    boxShadow:'xs',
     borderRadius:'md',
     bg:'white',
     display:'flex',

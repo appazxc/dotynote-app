@@ -24,7 +24,7 @@ export const SpaceHeader = React.memo(() => {
             flexGrow="1"
           >
             <DotHeaderButton />
-            <Box mx="2" color="gray">|</Box>
+            <Box mx="2" color="gray.200">|</Box>
             <Box flexGrow="1" overflow="hidden">
               <SpaceTabs />
             </Box>

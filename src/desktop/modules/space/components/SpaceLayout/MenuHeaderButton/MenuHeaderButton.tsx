@@ -39,8 +39,9 @@ export const MenuHeaderButton = React.memo(() => {
           <IconButton 
             size="xs"
             aria-label="User menu"
-            variant="outline"
+            variant="ghost"
             colorScheme="brand"
+            rotate="90"
           >
             <DotsIcon />
           </IconButton>

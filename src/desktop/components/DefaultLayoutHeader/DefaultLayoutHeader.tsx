@@ -31,7 +31,7 @@ export const DefaultLayoutHeader = ({ title, right, showBackButton, children, ..
             <IconButton 
               aria-label="Back"
               size="xs"
-              variant="subtle"
+              variant="ghost"
               iconSize="auto"
               onClick={() => {
                 history.back();
@@ -40,7 +40,7 @@ export const DefaultLayoutHeader = ({ title, right, showBackButton, children, ..
               <ArrowLeftIcon size="20px" />
             </IconButton>
           )}
-          {title && <Text fontSize="md">{title}</Text>}
+          {title && <Text fontSize="md" fontWeight="500">{title}</Text>}
         </Box>
       )}
       right={right}

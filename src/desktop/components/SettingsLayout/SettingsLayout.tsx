@@ -6,6 +6,7 @@ import { TbSettings2 } from 'react-icons/tb';
 
 import { Logo } from 'shared/components/Logo';
 
+import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout } from 'desktop/components/Layout';
 import { LayoutHeader } from 'desktop/components/LayoutHeader';
@@ -28,12 +29,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
 
   const renderedHeader = React.useMemo(() => {
     return (
-      <LayoutHeader
-        py="2"
-        pr="4"
-        pl="6"
-        left={<DesktopLink to="/app"><Logo /></DesktopLink>}
-      />
+      <DefaultLayoutHeader showBackButton />
     );
   }, []);
 
@@ -67,7 +63,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
                       colorPalette="gray"
                       justifyContent="start"
                     >
-                      <DesktopLink to={to}>{icon} {label}</DesktopLink>
+                      <DesktopLink replace to={to}>{icon} {label}</DesktopLink>
                     </Button>
                   );
                 }}

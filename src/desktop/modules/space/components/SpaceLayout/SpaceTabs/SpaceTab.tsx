@@ -61,7 +61,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
   const isActive = activeTabId === id;
   const { isPinned } = spaceTab;
   const bg = useColorModeValue(isActive ? 'white' : 'gray.100', isActive ? 'brand.500' : 'brand.400');
-  const borderColor = useColorModeValue(isActive ? 'gray.900' : 'gray.100', isActive ? 'white' : 'brand.400');
+  const borderColor = useColorModeValue(isActive ? 'gray.300' : 'gray.100', isActive ? 'white' : 'brand.400');
   
   return (
     <Menu isContextMenu>

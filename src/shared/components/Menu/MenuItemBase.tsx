@@ -15,7 +15,7 @@ const MenuItemBaseComponent = ({ children, ...buttonProps }: Props, ref) => {
       borderRadius="md"
       justifyContent="start"
       // pr={buttonProps.rightIcon ? '2' : '6'}
-      fontWeight="medium"
+      fontWeight="400"
       flexGrow="1"
       gap="2"
       fontSize="sm"

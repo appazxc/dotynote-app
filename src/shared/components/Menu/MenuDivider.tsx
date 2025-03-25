@@ -12,6 +12,6 @@ export const MenuDivider = () => {
   }
 
   return (
-    <Separator my="0.5" />
+    <Separator my="0.5" borderColor="gray.100" />
   );
 };

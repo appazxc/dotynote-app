@@ -9,7 +9,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 export const PlusButton = React.memo(() => {
   const dispatch = useAppDispatch();
-  const hoverBg = useColorModeValue('gray.200', 'brand.400');
+  const hoverBg = useColorModeValue('gray.100', 'brand.400');
 
   const handlePlusClick = React.useCallback(() => {
     dispatch(openTab({ active: true }));
