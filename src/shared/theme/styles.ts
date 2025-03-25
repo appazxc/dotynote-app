@@ -41,6 +41,9 @@ export const getEditorStyles = () => {
     '& ul li, ol li': {
       marginBottom: '.25em',
     },
+    '& ul li::marker, ol li::marker': {
+      color: 'var(--chakra-colors-fg)',
+    },
     '& ul, ol': {
       padding: '0 1rem',
       margin: '0 1rem 0 .4rem',
