@@ -1,6 +1,10 @@
-import { Center, Link, Stack, Text } from '@chakra-ui/react';
+import { Center, Group } from '@chakra-ui/react';
 import { useLocation } from '@tanstack/react-router';
 
+import { Button } from 'shared/components/ui/button';
+import { EmptyState } from 'shared/components/ui/empty-state';
+
+import { Layout, LayoutHeader } from 'mobile/components/Layout';
 import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
 
 function DefaultNotFoundComponent() {
@@ -9,26 +13,27 @@ function DefaultNotFoundComponent() {
   console.log('DefaultNotFoundComponent location', location);
 
   return (
-    <Center
-      w="full"
-      h="full"
-    >
-      <Stack textAlign="center">
-
-        <Text fontSize="6xl">404</Text>
-        <Text fontSize="2xl">Tab content not found</Text>
-
-        <Link
-          asChild
-          color="teal.500"
-          mt="10"
-          justifyContent="center"
+    <Layout header={<LayoutHeader showBackButton />}>
+      <Center
+        w="full"
+        h="full"
+      >
+        <EmptyState
+          title="404"
+          description="Not found"
         >
-          <MobileTabLink to="/">Go to home page</MobileTabLink>
-        </Link>
-      </Stack>
-
-    </Center>
+          <Group>
+            <Button
+              asChild
+              variant="subtle"
+              size="3xs"
+            >
+              <MobileTabLink to="/">Return to home</MobileTabLink>
+            </Button>
+          </Group>
+        </EmptyState>
+      </Center>
+    </Layout>
   );
 }
 

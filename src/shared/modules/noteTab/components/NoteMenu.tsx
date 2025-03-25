@@ -5,7 +5,7 @@ import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
-import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
 import { DotsIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
@@ -65,6 +65,24 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
               onClick={() => navigate({ to: `${noteRoutePath}/pinned`, params: { noteId } })}
             />
           )}
+          <MenuSub label="View">
+            <MenuItem
+              label="Note"
+              onClick={() => {
+                navigate({
+                  to: '/app/templates/notes',
+                });
+              }}
+            />
+            <MenuItem
+              label="Posts"
+              onClick={() => {
+                navigate({
+                  to: '/app/templates/posts',
+                });
+              }}
+            />
+          </MenuSub>
           {note.permissions.update && (
             <MenuItem
               label="Settings"

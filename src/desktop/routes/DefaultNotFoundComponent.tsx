@@ -1,4 +1,6 @@
-import { Center, Link, Stack, Text } from '@chakra-ui/react';
+import { Button, Center, Group } from '@chakra-ui/react';
+
+import { EmptyState } from 'shared/components/ui/empty-state';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout, LayoutHeader } from 'desktop/components/Layout';
@@ -10,21 +12,20 @@ function DefaultNotFoundComponent() {
         w="full"
         h="full"
       >
-        <Stack textAlign="center">
-
-          <Text fontSize="6xl">404</Text>
-          <Text fontSize="2xl">Not Found</Text>
-
-          <Link
-            asChild
-            color="teal.500"
-            mt="10"
-            justifyContent="center"
-          >
-            <DesktopLink to="/">Go to home page</DesktopLink>
-          </Link>
-        </Stack>
-
+        <EmptyState
+          title="404"
+          description="Not found"
+        >
+          <Group>
+            <Button
+              asChild
+              variant="subtle"
+              size="3xs"
+            >
+              <DesktopLink to="/">Return to home</DesktopLink>
+            </Button>
+          </Group>
+        </EmptyState>
       </Center>
     </Layout>
   );

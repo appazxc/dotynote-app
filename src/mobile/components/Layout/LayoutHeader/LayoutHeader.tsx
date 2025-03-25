@@ -8,7 +8,7 @@ type Props = {
   left?: React.ReactNode;
   children?: React.ReactNode;
   right?: React.ReactNode;
-  showBackButton?: React.ReactNode;
+  showBackButton?: boolean;
   onBackButtonClick?: () => void;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 

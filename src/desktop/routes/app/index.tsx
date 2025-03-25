@@ -14,6 +14,7 @@ import { search } from 'desktop/routes/search';
 import { settings } from 'desktop/routes/settings';
 import { spaces } from 'desktop/routes/spaces';
 import { tabs } from 'desktop/routes/tabs';
+import { templates } from 'desktop/routes/templates';
 
 export const appRoute = createRoute({
   getParentRoute: () => auth,
@@ -56,4 +57,5 @@ export const app = appRoute.addChildren([
   menu,
   profile,
   settings,
+  templates,
 ]);
