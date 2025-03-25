@@ -7,7 +7,7 @@ import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
 
 function DefaultErrorComponent({ error }) {
   React.useEffect(() => {
@@ -17,7 +17,7 @@ function DefaultErrorComponent({ error }) {
   }, [error]);
 
   return (
-    <Layout header={<LayoutHeader position="absolute" />}>
+    <Layout>
       <Center
         w="full"
         h="full"
@@ -30,7 +30,7 @@ function DefaultErrorComponent({ error }) {
           <Group>
             <Button onClick={() => window.location.reload()}>Reload</Button>
             <Button asChild variant="outline">
-              <DesktopLink to="/">Go to home screen</DesktopLink>
+              <DesktopLink to="/">Return to home</DesktopLink>
             </Button>
           </Group>
         </EmptyState>

@@ -7,7 +7,8 @@ import { TbSettings2 } from 'react-icons/tb';
 import { Logo } from 'shared/components/Logo';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
+import { LayoutHeader } from 'desktop/components/LayoutHeader';
 
 type Props = React.PropsWithChildren<{}>;
 

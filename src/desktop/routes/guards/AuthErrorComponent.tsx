@@ -6,7 +6,7 @@ import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
 import { UnauthorizedError } from 'shared/util/errors';
 
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
 
 function AuthErrorComponent({ reset, error }) {
   const router = useRouter();
@@ -17,7 +17,7 @@ function AuthErrorComponent({ reset, error }) {
     : 'There was a problem with loading the page. Please try to reload.';
 
   return (
-    <Layout header={<LayoutHeader position="absolute" />}>
+    <Layout>
       <Center
         w="full"
         h="full"

@@ -3,11 +3,11 @@ import { Button, Center, Group } from '@chakra-ui/react';
 import { EmptyState } from 'shared/components/ui/empty-state';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
 
 function DefaultNotFoundComponent() {
   return (
-    <Layout header={<LayoutHeader position="absolute" />}>
+    <Layout>
       <Center
         w="full"
         h="full"

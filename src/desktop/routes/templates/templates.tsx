@@ -40,16 +40,16 @@ const Templates = () => {
         <Heading as="h1" mb={6}>
           Шаблоны
         </Heading>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
+        <SimpleGrid columns={{ base: 2, md: 2 }} gap={6}>
           <TemplateCard
-            title="Шаблоны заметок"
+            title="Note templates"
             icon={FiFileText}
-            to="/templates/notes"
+            to="/app/templates/notes"
           />
           <TemplateCard
-            title="Шаблоны постов"
+            title="Post templates"
             icon={FiEdit}
-            to="/templates/posts"
+            to="/app/templates/posts"
           />
         </SimpleGrid>
       </Box>

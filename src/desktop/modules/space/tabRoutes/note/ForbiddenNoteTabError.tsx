@@ -24,7 +24,7 @@ export const ForbiddenNoteTabError = React.memo(({ error }: Props) => {
         description="Access to this note is forbidden"
       >
         <Button asChild variant="outline">
-          <DesktopTabLink to="/">Go to home screen</DesktopTabLink>
+          <DesktopTabLink to="/">Return to home</DesktopTabLink>
         </Button>
       </EmptyState>
     </Center>

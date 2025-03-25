@@ -1,15 +1,15 @@
-import { Box, Container, Heading } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
+
+import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
+import { Layout } from 'desktop/components/Layout';
 
 const PostTemplates = () => {
   return (
-    <Container maxW="container.xl" py={8}>
-      <Box>
-        <Heading as="h1" mb={6}>
-          Шаблоны постов
-        </Heading>
-        {/* Здесь будет список шаблонов постов */}
-      </Box>
-    </Container>
+    <Layout header={<DefaultLayoutHeader showBackButton title="Post Templates" />}>
+      <Container pt="10" maxW="3xl">
+        Post Templates
+      </Container>
+    </Layout>
   );
 };
 

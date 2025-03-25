@@ -10,6 +10,7 @@ import { DotsIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
+import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -25,6 +26,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const browserNavigate = useBrowserNavigate();
   const { mutateAsync, isPending } = useDeleteNotes([noteId]);
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
 
@@ -69,7 +71,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Note"
               onClick={() => {
-                navigate({
+                browserNavigate({
                   to: '/app/templates/notes',
                 });
               }}
@@ -77,7 +79,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
             <MenuItem
               label="Posts"
               onClick={() => {
-                navigate({
+                browserNavigate({
                   to: '/app/templates/posts',
                 });
               }}

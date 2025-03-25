@@ -38,7 +38,7 @@ function DefaultErrorComponent({ reset, error }) {
             Reload
           </Button>
           <Button asChild variant="outline">
-            <DesktopTabLink to="/">Go to home screen</DesktopTabLink>
+            <DesktopTabLink to="/">Return to home</DesktopTabLink>
           </Button>
         </Group>
       </EmptyState>

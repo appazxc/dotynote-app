@@ -5,6 +5,11 @@ import { app } from 'desktop/routes/app';
 export const templatesRoot = createRoute({
   getParentRoute: () => app,
   path: '/templates',
+});
+
+export const templatesIndex = createRoute({
+  getParentRoute: () => templatesRoot,
+  path: '/',
   component: lazyRouteComponent(() => import('./templates')),
 });
 
@@ -20,4 +25,4 @@ export const postTemplates = createRoute({
   component: lazyRouteComponent(() => import('./PostTemplates/PostTemplates')),
 });
 
-export const templates = templatesRoot.addChildren([noteTemplates, postTemplates]);
+export const templates = templatesRoot.addChildren([templatesIndex, noteTemplates, postTemplates]);

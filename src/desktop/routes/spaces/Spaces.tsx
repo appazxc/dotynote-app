@@ -1,7 +1,5 @@
-import { Box, Button, Container, IconButton, Text } from '@chakra-ui/react';
-import { useRouter } from '@tanstack/react-router';
+import { Button, Container } from '@chakra-ui/react';
 import React from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
 import { modalIds } from 'shared/constants/modalIds';
@@ -11,33 +9,19 @@ import { SpacesCards } from 'shared/modules/spaces/components/SpacesCards';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
+import { Layout } from 'desktop/components/Layout';
 
 function Spaces() {
   const dispatch = useAppDispatch();
   const activeSpaceId = useAppSelector(selectActiveSpaceId);
-  const { data = [], isLoading } = useSpaces();
-  const { history } = useRouter();
+  const { data = [] } = useSpaces();
 
   const renderedHeader = React.useMemo(() => {
     return (
-      <LayoutHeader
-        p="2"
-        px="4"
-        left={!isLoading && (
-          <Box display="flex" alignItems="center">
-            <IconButton 
-              aria-label="Back"
-              size="sm"
-              mr="3"
-              variant="ghost"
-              onClick={() => {
-                history.back();
-              }}
-            ><BsArrowLeft /></IconButton>
-            <Text fontSize="lg">Spaces</Text>
-          </Box>
-        ) }
+      <DefaultLayoutHeader
+        showBackButton
+        title="Spaces"
         right={(
           <Button
             size="sm"
@@ -51,7 +35,7 @@ function Spaces() {
         )}
       />
     );
-  }, [dispatch, isLoading, history]);
+  }, [dispatch]);
 
   return (
     <Layout header={renderedHeader}>

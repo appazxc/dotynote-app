@@ -27,7 +27,7 @@ function DefaultTabError({ error }) {
         <Group>
           <Button onClick={() => window.location.reload()}>Reload</Button>
           <Button asChild variant="outline">
-            <MobileTabLink to="/">Go to home page</MobileTabLink>
+            <MobileTabLink to="/">Return to home</MobileTabLink>
           </Button>
         </Group>
       </EmptyState>

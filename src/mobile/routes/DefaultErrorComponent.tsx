@@ -5,8 +5,7 @@ import { TbFaceIdError } from 'react-icons/tb';
 
 import { EmptyState } from 'shared/components/ui/empty-state';
 
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
-
+import { Layout } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 function DefaultErrorComponent({ error }) {
@@ -17,7 +16,7 @@ function DefaultErrorComponent({ error }) {
   }, [error]);
 
   return (
-    <Layout header={<LayoutHeader position="absolute" />}>
+    <Layout>
       <Center
         w="full"
         h="full"
@@ -31,7 +30,7 @@ function DefaultErrorComponent({ error }) {
           <Group>
             <Button onClick={() => window.location.reload()}>Reload</Button>
             <Button asChild variant="outline">
-              <MobileLink to="/">Go to home page</MobileLink>
+              <MobileLink to="/">Return to home</MobileLink>
             </Button>
           </Group>
         </EmptyState>

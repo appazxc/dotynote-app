@@ -5,7 +5,8 @@ import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 import { Logo } from 'shared/components/Logo';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
+import { LayoutHeader } from 'desktop/components/LayoutHeader';
 
 function Login() {
   return (

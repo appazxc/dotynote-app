@@ -9,14 +9,16 @@ type Props = {
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
 export const LayoutHeader = ({ position, left, right, children, ...boxProps }: Props) => {
-  const rootProps: BoxProps = position === 'absolute'
-    ? {
-      position: 'absolute',
-      width: 'full',
-      top: '0',
-      left: '0',
-    }
-    : { position: 'sticky' };
+  const rootProps: BoxProps | undefined = 
+    position === 'absolute'
+      ? {
+        position: 'absolute',
+        width: 'full',
+        top: '0',
+        left: '0',
+      }
+      : position === 'sticky' 
+        ? { position: 'sticky' } : undefined;
 
   return (
     <Box
@@ -27,7 +29,7 @@ export const LayoutHeader = ({ position, left, right, children, ...boxProps }: P
       justifyContent="space-between"
       {...boxProps}
     >
-      {<Box>{left}</Box>}
+      {left && <Box>{left}</Box>}
       {children && <Box>{children}</Box>}
       {right && <Box>{right}</Box>}
     </Box>

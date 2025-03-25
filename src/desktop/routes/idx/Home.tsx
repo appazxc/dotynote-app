@@ -7,8 +7,8 @@ import { selectToken } from 'shared/selectors/auth/selectToken';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
-
+import { Layout } from 'desktop/components/Layout';
+import { LayoutHeader } from 'desktop/components/LayoutHeader';
 const Home = React.memo(() => {
   const hasToken = !!useAppSelector(selectToken);
 

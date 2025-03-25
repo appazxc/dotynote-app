@@ -2,7 +2,8 @@ import { LoginEmailContent } from 'shared/components/LoginEmailContent';
 import { Logo } from 'shared/components/Logo';
 
 import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout, LayoutHeader } from 'desktop/components/Layout';
+import { Layout } from 'desktop/components/Layout';
+import { LayoutHeader } from 'desktop/components/LayoutHeader';
 import { loginEmail } from 'desktop/routes/loginEmail';
 
 function LoginEmail() {

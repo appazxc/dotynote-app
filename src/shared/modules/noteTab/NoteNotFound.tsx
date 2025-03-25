@@ -33,7 +33,7 @@ export const NoteNotFound = () => {
           colorScheme="brand"
           onClick={() => navigate({ to: '/' })}
         >
-          Go to Home
+          Return to home
         </Button>
       </Box>
     </Center>
