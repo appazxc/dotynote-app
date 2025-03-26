@@ -35,38 +35,17 @@ const ConfirmModal = (props: Props) => {
       size="xs"
       onOpenChange={() => dispatch(hideModal())}
     >
-      <DialogBackdrop />
-      <DialogContent>
-        <DialogHeader
-          pb="1"
-          px="4"
-          textAlign="center"
-          fontSize="md"
-        >
+      <DialogContent backdrop>
+        <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <DialogBody px="4" textAlign="center"><Text fontSize="md">{description}</Text></DialogBody>
-        <DialogFooter
-          p="0"
-          borderTop="1px solid"
-          borderColor={borderColor}
-          mt="4"
-          gap="0"
-        >
+        <DialogBody><Text fontSize="md">{description}</Text></DialogBody>
+        <DialogFooter>
+          <Button variant="subtle" onClick={() => dispatch(hideModal())}>Cancel</Button>
           <Button
-            variant="ghost"
-            width="50%"
-            borderRadius="0px"
-            borderBottomLeftRadius="md"
-            onClick={() => dispatch(hideModal())}
-          >
-            Close
-          </Button>
-          <Button
-            width="50%"
-            borderRadius="0"
-            borderBottomRightRadius="md"
             loading={isLoading}
+            colorPalette="red"
+            variant="subtle"
             onClick={onConfirm}
           >
             {confirmText || 'Confirm'}
