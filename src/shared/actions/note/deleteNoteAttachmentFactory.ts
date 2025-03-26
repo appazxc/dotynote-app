@@ -1,6 +1,7 @@
 import { handleNoteAttachmentDelete } from 'shared/actions/note/handleNoteAttachmentDelete';
 import { api } from 'shared/api';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 import { noteSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -47,6 +48,12 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
 
       dispatch(handleNoteAttachmentDelete(noteId));
     } catch (error) {
+      const apiError = parseApiError(error);
+
+      if (apiError.statusCode === 404) {
+        return;
+      }
+      
       dispatch(
         updateEntity({
           id: entityId,
