@@ -1,9 +1,7 @@
 import { Text } from '@chakra-ui/react';
 
 import { Button } from 'shared/components/ui/button';
-import { useColorModeValue } from 'shared/components/ui/color-mode';
 import {
-  DialogBackdrop,
   DialogBody,
   DialogContent,
   DialogFooter,
@@ -26,7 +24,6 @@ export type Props = ModalBase<{
 const ConfirmModal = (props: Props) => {
   const { title, description, isOpen = true, isLoading, confirmText, onConfirm } = props;
   const dispatch = useAppDispatch();
-  const borderColor = useColorModeValue('gray.100', 'brand.400');
 
   return (
     <DialogRoot
