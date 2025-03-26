@@ -3,13 +3,13 @@ import React from 'react';
 
 import { api } from 'shared/api';
 import { useDeleteNoteVideo } from 'shared/api/hooks/useDeleteNoteVideo';
+import { BaseImage } from 'shared/components/BaseImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { modalIds } from 'shared/constants/modalIds';
 import { NoteVideoModal } from 'shared/containers/modals/NoteVideoModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { noteVideoSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { decodeBlurHash } from 'shared/util/decodeBlurHash';
 import { downloadFile } from 'shared/util/downloadFile';
 import { formatTime } from 'shared/util/formatTime';
 import { invariant } from 'shared/util/invariant';
@@ -31,11 +31,6 @@ export const NoteVideo = React.memo((props: Props) => {
   invariant(noteVideo, 'Missing note video upload');
 
   const { thumbnail: { blurhash, url } } = noteVideo;
-  const placeholder = React.useMemo(() => {
-    if (!blurhash) return null;
-  
-    return decodeBlurHash(blurhash, 32, 32);
-  }, [blurhash]);
   
   const { mutate, isPending } = useDeleteNoteVideo();
   
@@ -87,6 +82,16 @@ export const NoteVideo = React.memo((props: Props) => {
             width={width}
             onClick={handleVideoClick}
           >
+            <BaseImage
+              src={url}
+              height={height}
+              width={width}
+              isLoaded={isLoaded}
+              blurhash={blurhash}
+              onLoad={() => {
+                setLoaded(true);
+              }}
+            />
             <Box
               bg="gray.700/80"
               borderRadius="20px"
@@ -99,20 +104,6 @@ export const NoteVideo = React.memo((props: Props) => {
             >
               <Text fontSize="xs" color="gray.100">{formatTime(noteVideo.duration)}</Text>
             </Box>
-            <img
-              style={{ 
-                backgroundImage: placeholder && !isLoaded ? `url(${placeholder})` : undefined,
-                backgroundSize: 'cover',
-                borderRadius: 6, 
-              }}
-              src={url}
-              loading="lazy"
-              height={height}
-              width={width}
-              onLoad={() => {
-                setLoaded(true);
-              }}
-            />
           </Box>
         </MenuTrigger>
         <MenuList>

@@ -2,8 +2,8 @@ import { Box, Float, Icon } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdInformationCircle } from 'react-icons/io';
 
+import { BaseImage } from 'shared/components/BaseImage';
 import { MediaProgressCircle } from 'shared/components/MediaProgressCircle';
-import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
@@ -32,7 +32,7 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
 
   return src ? (
     <Box position="relative">
-      <NoteImage
+      <BaseImage
         height={height}
         width={width}
         src={src}

@@ -12,7 +12,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', '@emotion', 'import'],
+  plugins: ['@emotion', '@typescript-eslint', 'import'],
   root: true,
   rules: {
     indent: ['error', 2],
@@ -88,6 +88,7 @@ module.exports = {
       component: true,
       html: true,
     }],
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
     'react/jsx-max-props-per-line': [2, { maximum: { single: 2, multi: 1 } }],
     'react/jsx-first-prop-new-line': [1, 'multiline'],
     'react/jsx-wrap-multilines': ['error', {

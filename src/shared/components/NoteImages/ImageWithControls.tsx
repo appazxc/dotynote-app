@@ -2,9 +2,9 @@ import { Box, Float } from '@chakra-ui/react';
 import React from 'react';
 
 import { useDeleteNoteImage } from 'shared/api/hooks/useDeleteNoteImage';
+import { BaseImage } from 'shared/components/BaseImage';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { ImageError } from 'shared/components/NoteImages/ImageError';
-import { NoteImage } from 'shared/components/NoteImages/NoteImage';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { entityNames } from 'shared/constants/entityNames';
 import { noteImageSelector } from 'shared/selectors/entities';
@@ -68,7 +68,7 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
           {hasError ? (
             <ImageError width={width} height={height} />
           ) : (
-            <NoteImage
+            <BaseImage
               src={src}
               height={height}
               width={width}
