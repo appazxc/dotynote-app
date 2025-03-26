@@ -6,8 +6,8 @@ import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
 export const unstickPosts = (parentId: number, postIds: number[]): ThunkAction => 
   async (dispatch) => {
-    const revert = removePostIdsFromQuery(parentId, postIds);
-console.log('parentId, postIds', parentId, postIds);
+    const revert = removePostIdsFromQuery(parentId, postIds, false);
+
     try {
       await api.post('/posts/unstick', {
         parentId,
