@@ -1,6 +1,7 @@
-import { Box, Stack, Heading, Text, SimpleGrid, Button, HStack, Badge, Icon, Progress } from '@chakra-ui/react';
+import { Box, Stack, Heading, Text, SimpleGrid, Button, HStack, Badge, Progress, ButtonGroup } from '@chakra-ui/react';
 import React from 'react';
-import { FiCreditCard, FiStar } from 'react-icons/fi';
+
+type BillingPeriod = 'yearly' | 'monthly';
 
 type Plan = {
   title: string;
@@ -118,65 +119,159 @@ const CurrentPlan = ({ isFreePlan }: { isFreePlan: boolean }) => (
   </Box>
 );
 
-const AvailablePlans = () => (
-  <Box mt={4}>
-    <Text color="gray.600" mb={4}>
-      Upgrade to get more credits
-    </Text>
-    <SimpleGrid columns={[1, null, 2]} gap={6}>
-      {availablePlans.map((plan) => (
-        <Box 
-          key={plan.code}
-          bg="white" 
-          p={6} 
-          borderRadius="xl" 
-          borderWidth={1}
-          borderColor="gray.200"
-        >
-          <HStack mb={4}>
-            <Icon as={FiStar} color="blue.500" />
-            <Heading size="md">{plan.title}</Heading>
-            {plan.code === 'standard-monthly' && (
-              <Badge colorScheme="blue" fontSize="sm">
-                Popular
-              </Badge>
-            )}
-          </HStack>
-          
-          <Stack gap={3}>
-            <Text fontSize="2xl" fontWeight="bold">
-              ${plan.price}
-              <Text
-                as="span"
-                fontSize="md"
-                color="gray.600"
-                fontWeight="normal"
-              >
-                /month
-              </Text>
-            </Text>
-            
-            <Text>• {plan.credits.toLocaleString()} credits</Text>
-            <Text>• {plan.doty} doty</Text>
-            
-            <Button 
-              mt={2}
-              size="lg"
-              w="full"
-              colorScheme={plan.code === 'standard-monthly' ? 'blue' : 'gray'}
-              variant={plan.code === 'standard-monthly' ? 'solid' : 'outline'}
-            >
-              <HStack>
-                <FiCreditCard />
-                <Text>Choose plan</Text>
-              </HStack>
-            </Button>
-          </Stack>
-        </Box>
-      ))}
-    </SimpleGrid>
-  </Box>
+const BillingPeriodSwitch = ({ 
+  period, 
+  onChange, 
+}: { 
+  period: BillingPeriod; 
+  onChange: (period: BillingPeriod) => void;
+}) => (
+  <HStack gap={4}>
+    <ButtonGroup
+      size="xs"
+      bg="gray.100"
+      p={1}
+      borderRadius="full"
+      gap={0}
+    >
+      <Button
+        variant="ghost"
+        bg={period === 'yearly' ? 'white' : 'transparent'}
+        borderRadius="full"
+        px={6}
+        onClick={() => onChange('yearly')}
+      >
+        Yearly
+      </Button>
+      <Button
+        variant="ghost"
+        bg={period === 'monthly' ? 'white' : 'transparent'}
+        borderRadius="full"
+        px={6}
+        onClick={() => onChange('monthly')}
+      >
+        Monthly
+      </Button>
+    </ButtonGroup>
+    <Text color="blue.500">Save 33% on a yearly subscription</Text>
+  </HStack>
 );
+
+const AvailablePlans = () => {
+  const [selectedCredits, setSelectedCredits] = React.useState('100000');
+  const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('yearly');
+
+  const getAdjustedPrice = (basePrice: number) => {
+    if (billingPeriod === 'yearly') {
+      return Math.round(basePrice * 0.67 * 12);
+    }
+    return basePrice;
+  };
+
+  return (
+    <Box mt={4}>
+      <Stack gap={8}>
+        <BillingPeriodSwitch 
+          period={billingPeriod} 
+          onChange={setBillingPeriod} 
+        />
+
+        <SimpleGrid
+          columns={[1, null, 2]}
+          gap={6}
+          w="full"
+        >
+          {availablePlans.map((plan) => (
+            <Box 
+              key={plan.code}
+              bg="gray.50" 
+              p={8} 
+              borderRadius="2xl" 
+              borderWidth={1}
+              borderColor="gray.100"
+            >
+              <Stack gap={6}>
+                <HStack justify="space-between">
+                  <Stack gap={4} direction="row">
+                    <Heading size="lg">{plan.title}</Heading>
+                    {plan.code === 'standard-monthly' && (
+                      <Badge
+                        colorPalette="blue"
+                        size="sm"
+                        py={1}
+                        px={3}
+                        borderRadius="full"
+                      >
+                      Popular
+                      </Badge>
+                    )}
+                  </Stack>
+                </HStack>
+
+                <Stack
+                  gap={2}
+                  direction="row"
+                  alignItems="center"
+                >
+                  <Text fontSize="4xl" fontWeight="black">
+                    ${getAdjustedPrice(plan.price).toLocaleString()}
+                  </Text>
+                  <Box display="flex" flexDirection="column"> 
+                    <Text
+                      as="span"
+                      fontSize="xs"
+                      color="gray.600"
+                    >
+                      per month
+                    </Text>
+                    <Text color="gray.600" fontSize="xs">
+                      billed {billingPeriod}
+                    </Text>
+                  </Box>
+                </Stack>
+
+                {plan.code === 'custom-2-monthly' ? (
+                  <select
+                    style={{
+                      backgroundColor: 'white',
+                      border: '1px solid var(--chakra-colors-gray-200)',
+                      padding: '12px',
+                      borderRadius: '12px',
+                      width: '100%',
+                      fontSize: '16px',
+                    }}
+                    value={selectedCredits}
+                    onChange={(e) => setSelectedCredits(e.target.value)}
+                  >
+                    <option value="100000">100,000 credits</option>
+                    <option value="200000">200,000 credits</option>
+                    <option value="500000">500,000 credits</option>
+                  </select>
+                ) : null}
+
+                <Button 
+                  size="lg"
+                  w="full"
+                  h="56px"
+                  bg={'black'}
+                  color={'white'}
+                  borderWidth={1}
+                  borderColor={'black'}
+                  borderRadius="full"
+                  _hover={{
+                    bg: 'gray.900',
+                  }}
+                >
+                  Upgrade
+                </Button>
+              </Stack>
+            </Box>
+          ))}
+        </SimpleGrid>
+      </Stack>
+    </Box>
+  );
+};
 
 export const BillingContent = React.memo(() => {
   const isFreePlan = currentPlan.code === 'starter-monthly';
