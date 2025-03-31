@@ -24,7 +24,7 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
       icon: <TbSettings2 />,
     },
     {
-      label: 'Billing',
+      label: 'Plan & Billing',
       to: '/app/billing' as const,
       icon: <RiBillLine />,
     },
