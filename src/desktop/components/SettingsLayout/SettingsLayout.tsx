@@ -2,14 +2,12 @@ import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
+import { RiBillLine } from 'react-icons/ri';
 import { TbSettings2 } from 'react-icons/tb';
-
-import { Logo } from 'shared/components/Logo';
 
 import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout } from 'desktop/components/Layout';
-import { LayoutHeader } from 'desktop/components/LayoutHeader';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -24,6 +22,11 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
       label: 'Settings',
       to: '/app/settings' as const,
       icon: <TbSettings2 />,
+    },
+    {
+      label: 'Billing',
+      to: '/app/billing' as const,
+      icon: <RiBillLine />,
     },
   ];
 

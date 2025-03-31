@@ -5,6 +5,7 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
+import { billing } from 'desktop/routes/billing';
 import { auth } from 'desktop/routes/guards';
 import { menu } from 'desktop/routes/menu';
 import { primary } from 'desktop/routes/primary';
@@ -58,4 +59,5 @@ export const app = appRoute.addChildren([
   profile,
   settings,
   templates,
+  billing,
 ]);

@@ -10,7 +10,7 @@ import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId'
 import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { NonActiveTab } from 'desktop/modules/space/components/pages/NonActiveTab';
+import { NonActiveTab } from 'desktop/modules/space/components/NonActiveTab';
 import { SpaceLayout } from 'desktop/modules/space/components/SpaceLayout';
 import { createTabRouter, router } from 'desktop/modules/space/tabRoutes/router';
 

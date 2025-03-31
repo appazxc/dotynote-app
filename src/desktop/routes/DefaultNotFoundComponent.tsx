@@ -2,12 +2,13 @@ import { Button, Center, Group } from '@chakra-ui/react';
 
 import { EmptyState } from 'shared/components/ui/empty-state';
 
+import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout } from 'desktop/components/Layout';
 
 function DefaultNotFoundComponent() {
   return (
-    <Layout>
+    <Layout header={<DefaultLayoutHeader showBackButton />}>
       <Center
         w="full"
         h="full"
