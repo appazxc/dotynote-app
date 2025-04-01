@@ -13,6 +13,8 @@ import { ApiPostInternalEntity, PostInternalEntity } from 'shared/types/entities
 import { ApiPostsSettingsEntity, PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 import { ApiSpaceEntity, SpaceEntity } from 'shared/types/entities/SpaceEntity';
 import { ApiSpaceTabEntity, SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
+import { ApiSubscriptionEntity, SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
+import { ApiSubscriptionPlanEntity, SubscriptionPlanEntity } from 'shared/types/entities/SubscriptionPlanEntity';
 import { ApiUserEntity, UserEntity } from 'shared/types/entities/UserEntity';
 import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
@@ -33,6 +35,8 @@ export type ApiEntityTypes = {
   [entityNames.noteFile]: ApiNoteFileEntity;
   [entityNames.noteAudio]: ApiNoteAudioEntity;
   [entityNames.noteVideo]: ApiNoteVideoEntity;
+  [entityNames.subscriptionPlan]: ApiSubscriptionPlanEntity;
+  [entityNames.subscription]: ApiSubscriptionEntity;
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -54,4 +58,6 @@ export type EntityTypes = {
   [entityNames.noteFile]: NoteFileEntity;
   [entityNames.noteAudio]: NoteAudioEntity;
   [entityNames.noteVideo]: NoteVideoEntity;
+  [entityNames.subscriptionPlan]: SubscriptionPlanEntity;
+  [entityNames.subscription]: SubscriptionEntity;
 }

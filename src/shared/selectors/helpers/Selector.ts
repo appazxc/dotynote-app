@@ -15,6 +15,8 @@ import { postInternalSchema } from 'shared/schemas/postInternal.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { spaceSchema } from 'shared/schemas/space.schema';
 import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
+import { subscriptionSchema } from 'shared/schemas/subscription.schema';
+import { subscriptionPlanSchema } from 'shared/schemas/subscriptionPlan.schema';
 import { userSchema } from 'shared/schemas/user.schema';
 import { userSettingsSchema } from 'shared/schemas/userSettings.schema';
 import { makeGetById } from 'shared/selectors/helpers/makeGetBy';
@@ -43,6 +45,8 @@ const schemaMap: {
   [entityNames.noteFile]: noteFileSchema,
   [entityNames.noteAudio]: noteAudioSchema,
   [entityNames.noteVideo]: noteVideoSchema,
+  [entityNames.subscriptionPlan]: subscriptionPlanSchema,
+  [entityNames.subscription]: subscriptionSchema,
 };
 
 export default class Selector<T extends EntityName> {

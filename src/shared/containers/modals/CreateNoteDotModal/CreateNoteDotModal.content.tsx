@@ -39,7 +39,7 @@ const CreateNoteDotModal = ({ noteId }: Props) => {
       onPointerDownOutside={() => console.log('onPointerDownOutside')}
     >
       <DialogBackdrop />
-      <DialogContent>
+      <DialogContent borderRadius="2xl">
         <CreateDotForm onSubmit={onSubmit} />
       </DialogContent>
     </DialogRoot>

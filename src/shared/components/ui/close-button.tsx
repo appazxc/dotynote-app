@@ -11,6 +11,7 @@ export const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
       <ChakraIconButton
         ref={ref}
         variant="ghost"
+        borderRadius="full"
         aria-label="Close"
         {...props}
       >

@@ -10,10 +10,11 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 type Props = {
   delay?: number;
   text?: string;
+  height?: string;
   showRequests?: boolean;
 }
 
-export const Loader = React.memo(({ delay, text, showRequests }: Props) => {
+export const Loader = React.memo(({ delay, text, showRequests, height }: Props) => {
   const [canReload, setCanReload] = React.useState(false);
   const dispatch = useAppDispatch();
   const requests = useAppSelector(selectRequests);
@@ -32,6 +33,7 @@ export const Loader = React.memo(({ delay, text, showRequests }: Props) => {
         w="full"
         h="full"
         position="relative"
+        height={height}
       >
         <Spinner />
         {text}

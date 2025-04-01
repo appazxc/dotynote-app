@@ -1,8 +1,9 @@
 'use client';
 
 import type { CollectionItem } from '@chakra-ui/react';
-import { Select as ChakraSelect, Portal } from '@chakra-ui/react';
+import { Select as ChakraSelect, createListCollection, Portal } from '@chakra-ui/react';
 import { forwardRef } from 'react';
+import React from 'react';
 
 import { CloseButton } from './close-button';
 
@@ -143,6 +144,50 @@ export const SelectItemGroup = forwardRef<HTMLDivElement, SelectItemGroupProps>(
     );
   }
 );
+
+type Props = {
+  label?: string;
+  placeholder?: string;
+  options: { label: string; value: string | number }[];
+  onChange: (value: (string | number)[]) => void;
+  value: (string | number | null)[];
+  contentWidth?: string,
+} & Omit<ChakraSelect.RootProps, 'onValueChange' | 'value' | 'collection' | 'onChange'>;
+
+export const Select = React.memo((props: Props) => {
+  const { label, placeholder, size, value, onChange, options, contentWidth, ...restProps } = props;
+  const frameworks = React.useMemo(() => createListCollection({
+    items: options,
+  }), [options]);
+  
+  const selectValue = React.useMemo(() => value.map(String), [value]);
+  
+  const handleValueChange = React.useCallback((event) => {
+    onChange(event.value);
+  }, [onChange]);
+
+  return (
+    <SelectRoot
+      size={size}
+      value={selectValue}
+      collection={frameworks}
+      onValueChange={handleValueChange}
+      {...restProps}
+    >
+      {label && <SelectLabel>{label}</SelectLabel>}
+      <SelectTrigger>
+        <SelectValueText placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent w={contentWidth}>
+        {frameworks.items.map((item) => (
+          <SelectItem key={item.value} item={item}>
+            {item.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
+  );
+});
 
 export const SelectLabel = ChakraSelect.Label;
 export const SelectItemText = ChakraSelect.ItemText;

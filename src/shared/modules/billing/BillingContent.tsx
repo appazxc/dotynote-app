@@ -1,43 +1,31 @@
-import { Box, Stack, Heading, Text, SimpleGrid, Button, HStack, Badge, Progress, ButtonGroup } from '@chakra-ui/react';
+import { Badge, Box, Button, ButtonGroup, Heading, HStack, Progress, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
+import { FaArrowUpRightDots } from 'react-icons/fa6';
+import { TbChartDots, TbChartDots2 } from 'react-icons/tb';
 
-type BillingPeriod = 'yearly' | 'monthly';
+import { DoneIcon } from 'shared/components/ui/icons';
+import { Select } from 'shared/components/ui/select';
+import { InfoTip } from 'shared/components/ui/toggle-tip';
+import { SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
+import { BillingPeriod, SubscriptionPlanEntity } from 'shared/types/entities/SubscriptionPlanEntity';
+import { formatNumber } from 'shared/util/formatNumber';
+import { invariant } from 'shared/util/invariant';
 
-type Plan = {
-  title: string;
-  code: string;
-  credits: number;
-  doty: number;
-  price: number;
+const creditsTipText = 'Credits are refreshed monthly and used to store and manage your notes.';
+
+const getPlanPrefix = (plan: SubscriptionPlanEntity) => {
+  return plan.code.split('-')[0];
 };
 
-const currentPlan = {
-  code: 'starter-monthly',
-  credits: {
-    total: 1000,
-    used: 600,
-  },
-  doty: 0,
+const getIsStandardPlan = (plan: SubscriptionPlanEntity) => {
+  return getPlanPrefix(plan) === 'standard';
 };
 
-const availablePlans: Plan[] = [
-  {
-    title: 'Standard',
-    code: 'standard-monthly',
-    credits: 100000,
-    doty: 1000,
-    price: 10,
-  },
-  {
-    title: 'Custom',
-    code: 'custom-2-monthly',
-    credits: 200000,
-    doty: 1000,
-    price: 20,
-  },
-];
+const getIsFlexiblePlan = (plan: SubscriptionPlanEntity) => {
+  return getPlanPrefix(plan) === 'flexible';
+};
 
-const CurrentPlan = ({ isFreePlan }: { isFreePlan: boolean }) => (
+const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFreePlan: boolean }) => (
   <Box
     bg="gray.50"
     p={8}
@@ -47,7 +35,7 @@ const CurrentPlan = ({ isFreePlan }: { isFreePlan: boolean }) => (
       <HStack justify="space-between" align="flex-start">
         <Stack gap={1}>
           <Heading size="lg">
-            {isFreePlan ? 'Starter' : 'Standard'} Plan
+            {plan.name} Plan
           </Heading>
           <Text color="gray.600">
             {isFreePlan ? 'Free tier' : 'Active subscription'}
@@ -66,7 +54,7 @@ const CurrentPlan = ({ isFreePlan }: { isFreePlan: boolean }) => (
         )}
       </HStack>
 
-      <Stack gap={4}>
+      {/* <Stack gap={4}>
         <Box>
           <HStack justify="space-between" mb={2}>
             <Text fontWeight="medium">Credits Usage</Text>
@@ -84,7 +72,7 @@ const CurrentPlan = ({ isFreePlan }: { isFreePlan: boolean }) => (
             </Progress.Track>
           </Progress.Root>
         </Box>
-      </Stack>
+      </Stack> */}
 
       {/* Resource usage details */}
       {!isFreePlan && (
@@ -153,37 +141,60 @@ const BillingPeriodSwitch = ({
         Monthly
       </Button>
     </ButtonGroup>
-    <Text color="blue.500">Save 33% on a yearly subscription</Text>
+    <Text as="span" color="blue.500">Save 16% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
   </HStack>
 );
 
-const AvailablePlans = () => {
-  const [selectedCredits, setSelectedCredits] = React.useState('100000');
+const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity, plans: SubscriptionPlanEntity[] }) => {
   const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('yearly');
 
-  const getAdjustedPrice = (basePrice: number) => {
-    if (billingPeriod === 'yearly') {
-      return Math.round(basePrice * 0.67 * 12);
+  const getAdjustedPrice = (plan: SubscriptionPlanEntity) => {
+    if (plan.interval === 'yearly') {
+      return (plan.price / 12 / 100).toFixed(2);
     }
-    return basePrice;
+    return plan.price / 100;
   };
+
+  const standardPlan = React.useMemo(() => {
+    return plans.find((plan) => plan.interval === billingPeriod && getIsStandardPlan(plan));
+  }, [plans, billingPeriod]);
+
+  const flexiblePlans = React.useMemo(() => {
+    return plans.filter((plan) => plan.interval === billingPeriod && getIsFlexiblePlan(plan));
+  }, [plans, billingPeriod]);
+
+  const [currentFlexiblePlanId, setCurrentFlexiblePlanId] = 
+    React.useState<string | null>(flexiblePlans[0]?.id ?? null);  
+
+  const currentFlexiblePlan = React.useMemo(() => {
+    return flexiblePlans.find((plan) => plan.id === currentFlexiblePlanId);
+  }, [flexiblePlans, currentFlexiblePlanId]);
+
+  const handleBillingPeriodChange = React.useCallback((period: BillingPeriod) => {
+    const flexiblePlan = plans.find((plan) => plan.interval === period && getIsFlexiblePlan(plan));
+    setBillingPeriod(period);
+    setCurrentFlexiblePlanId(flexiblePlan?.id ?? null);
+  }, [setBillingPeriod, plans]);
+
+  const handleSubmit = React.useCallback(() => {
+    
+  }, [])
 
   return (
     <Box mt={4}>
       <Stack gap={8}>
         <BillingPeriodSwitch 
           period={billingPeriod} 
-          onChange={setBillingPeriod} 
+          onChange={handleBillingPeriodChange} 
         />
 
         <SimpleGrid
-          columns={[1, null, 2]}
+          columns={{ base: 1, lg: 2 }}
           gap={6}
           w="full"
         >
-          {availablePlans.map((plan) => (
+          {standardPlan && (
             <Box 
-              key={plan.code}
               bg="gray.50" 
               p={8} 
               borderRadius="2xl" 
@@ -192,19 +203,23 @@ const AvailablePlans = () => {
             >
               <Stack gap={6}>
                 <HStack justify="space-between">
-                  <Stack gap={4} direction="row">
-                    <Heading size="lg">{plan.title}</Heading>
-                    {plan.code === 'standard-monthly' && (
+                  <Stack
+                    gap={2}
+                    direction="row"
+                    alignItems="center"
+                  >
+                    <TbChartDots2 size="22px" />
+                    <Heading size="2xl">{standardPlan.name}</Heading>
+                    <Box display="flex" alignItems="center">
                       <Badge
                         colorPalette="blue"
+                        variant="solid"
                         size="sm"
-                        py={1}
-                        px={3}
                         borderRadius="full"
                       >
-                      Popular
+                        Popular
                       </Badge>
-                    )}
+                    </Box>
                   </Stack>
                 </HStack>
 
@@ -214,7 +229,7 @@ const AvailablePlans = () => {
                   alignItems="center"
                 >
                   <Text fontSize="4xl" fontWeight="black">
-                    ${getAdjustedPrice(plan.price).toLocaleString()}
+                    ${getAdjustedPrice(standardPlan)}
                   </Text>
                   <Box display="flex" flexDirection="column"> 
                     <Text
@@ -230,29 +245,10 @@ const AvailablePlans = () => {
                   </Box>
                 </Stack>
 
-                {plan.code === 'custom-2-monthly' ? (
-                  <select
-                    style={{
-                      backgroundColor: 'white',
-                      border: '1px solid var(--chakra-colors-gray-200)',
-                      padding: '12px',
-                      borderRadius: '12px',
-                      width: '100%',
-                      fontSize: '16px',
-                    }}
-                    value={selectedCredits}
-                    onChange={(e) => setSelectedCredits(e.target.value)}
-                  >
-                    <option value="100000">100,000 credits</option>
-                    <option value="200000">200,000 credits</option>
-                    <option value="500000">500,000 credits</option>
-                  </select>
-                ) : null}
-
                 <Button 
                   size="lg"
                   w="full"
-                  h="56px"
+                  h="44px"
                   bg={'black'}
                   color={'white'}
                   borderWidth={1}
@@ -264,17 +260,142 @@ const AvailablePlans = () => {
                 >
                   Upgrade
                 </Button>
+                 
+                <Stack>
+                  <Stack
+                    direction="row"
+                    gap="2"
+                    alignItems="center"
+                  >
+                    <DoneIcon /><Text color="gray.fg" fontSize="sm">Everything in {freePlan.name}, plus:</Text>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    gap="2"
+                    alignItems="center"
+                  >
+                    <DoneIcon />
+                    <Text color="gray.fg" fontSize="sm">{formatNumber(standardPlan.credits)} credits</Text>
+                    <InfoTip content={creditsTipText} contentWidth="200px" />
+                  </Stack>
+                </Stack>
               </Stack>
             </Box>
-          ))}
+          )}
+
+          {currentFlexiblePlan && (
+            <Box 
+              bg="gray.50" 
+              p={8} 
+              borderRadius="2xl" 
+              borderWidth={1}
+              borderColor="gray.100"
+            >
+              <Stack gap={6}>
+                <HStack justify="space-between">
+                  <Stack
+                    gap={2}
+                    direction="row"
+                    alignItems="center"
+                  >
+                    <FaArrowUpRightDots size="22px" />
+                    <Heading size="2xl">{currentFlexiblePlan.name}</Heading>
+                  </Stack>
+                </HStack>
+
+                <Stack
+                  gap={2}
+                  direction="row"
+                  alignItems="center"
+                >
+                  <Text fontSize="4xl" fontWeight="black">
+                    ${getAdjustedPrice(currentFlexiblePlan)}
+                  </Text>
+                  <Box display="flex" flexDirection="column"> 
+                    <Text
+                      as="span"
+                      fontSize="xs"
+                      color="gray.600"
+                    >
+                      per month
+                    </Text>
+                    <Text color="gray.600" fontSize="xs">
+                      billed {billingPeriod}
+                    </Text>
+                  </Box>
+                </Stack>
+
+                <Button 
+                  size="lg"
+                  w="full"
+                  h="44px"
+                  bg={'black'}
+                  color={'white'}
+                  borderWidth={1}
+                  borderColor={'black'}
+                  borderRadius="full"
+                  _hover={{
+                    bg: 'gray.900',
+                  }}
+                >
+                  Upgrade
+                </Button>
+
+                <Stack>
+                  <Stack
+                    direction="row"
+                    gap="2"
+                    alignItems="center"
+                  >
+                    <DoneIcon /><Text color="gray.fg" fontSize="sm">Everything in {freePlan.name}, plus:</Text>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    gap="0"
+                  >
+                    <Stack
+                      direction="row"
+                      gap="2"
+                      alignItems="center"
+                    >
+                      <DoneIcon />
+                      <Select
+                        variant="plain"
+                        contentWidth="180px"
+                        value={[currentFlexiblePlanId]}
+                        options={flexiblePlans.map((plan) => ({
+                          label: `${formatNumber(plan.credits)} credits`,
+                          value: plan.id,
+                        }))}
+                        onChange={([planId]) => setCurrentFlexiblePlanId(String(planId))}
+                      />
+                    </Stack>
+                    <InfoTip content={creditsTipText} contentWidth="200px" />
+                  </Stack>
+
+                </Stack>
+              </Stack>
+            </Box>
+          )}
         </SimpleGrid>
       </Stack>
     </Box>
   );
 };
 
-export const BillingContent = React.memo(() => {
-  const isFreePlan = currentPlan.code === 'starter-monthly';
+type Props = {
+  currentSubscription: SubscriptionEntity | null;
+  plans: SubscriptionPlanEntity[];
+}
+
+export const BillingContent = React.memo(({ currentSubscription, plans }: Props) => {
+  const freePlan = plans.find((plan) => plan.price === 0);
+  
+  invariant(currentSubscription?.plan, 'No current plan found');
+  invariant(freePlan, 'No free plan found');
+
+  const isFreePlan = currentSubscription.plan.price === 0;
 
   return (
     <Stack
@@ -283,8 +404,8 @@ export const BillingContent = React.memo(() => {
       mx="auto"
       px={4}
     >
-      <CurrentPlan isFreePlan={isFreePlan} />
-      {isFreePlan && <AvailablePlans />}
+      <CurrentPlan plan={currentSubscription.plan} isFreePlan={isFreePlan} />
+      {isFreePlan && <AvailablePlans freePlan={freePlan} plans={plans} />}
     </Stack>
   );
 });

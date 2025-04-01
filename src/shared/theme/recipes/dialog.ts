@@ -10,6 +10,11 @@ export const dialogAnatomy = arkDialogAnatomy.extendWith(
 
 export const dialogSlotRecipe = defineSlotRecipe({
   slots: dialogAnatomy.keys(),
+  base: {
+    content: {
+      borderRadius: '2xl',
+    },
+  },
   variants: {
     size: {
       full: {

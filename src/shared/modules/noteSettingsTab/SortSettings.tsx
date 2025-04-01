@@ -2,7 +2,7 @@ import { Box, Card, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
-import { Select } from 'shared/components/Select';
+import { Select } from 'shared/components/ui/select';
 import { DirectionSelect } from 'shared/modules/noteSettingsTab/DirectionSelect';
 import { getOptionTitleFromOrderType } from 'shared/modules/noteSettingsTab/helpers/getOptionTitleFromOrderType';
 import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';

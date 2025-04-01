@@ -7,6 +7,7 @@ export interface ToggleTipProps extends ChakraPopover.RootProps {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement>;
   content?: React.ReactNode;
+  contentWidth?: string,
 }
 
 export const ToggleTip = forwardRef<HTMLDivElement, ToggleTipProps>(
@@ -16,6 +17,7 @@ export const ToggleTip = forwardRef<HTMLDivElement, ToggleTipProps>(
       children,
       portalled = true,
       content,
+      contentWidth,
       portalRef,
       ...rest
     } = props;
@@ -35,6 +37,7 @@ export const ToggleTip = forwardRef<HTMLDivElement, ToggleTipProps>(
               py="1"
               textStyle="xs"
               rounded="sm"
+              w={contentWidth}
             >
               {showArrow && (
                 <ChakraPopover.Arrow>
