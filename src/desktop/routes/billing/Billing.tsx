@@ -15,8 +15,7 @@ function Billing() {
   const subscription = useAppSelector(state => subscriptionSelector.getEntityById(state, subscriptionId));
 
   const isFetched = isPlansFetched && isSubscriptionFetched;
-  console.log('plans', plans);
-  console.log('subscription', subscription);
+
   return (
     <SettingsLayout>
       {isFetched 

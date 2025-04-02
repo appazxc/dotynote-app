@@ -1,8 +1,10 @@
-import { Badge, Box, Button, ButtonGroup, Heading, HStack, Progress, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Badge, Box, Button, ButtonGroup, Heading, HStack, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FaArrowUpRightDots } from 'react-icons/fa6';
-import { TbChartDots, TbChartDots2 } from 'react-icons/tb';
+import { TbChartDots2 } from 'react-icons/tb';
 
+import { useStripeCheckout } from 'shared/api/hooks/useStripeCheckout';
+import { useStripePortal } from 'shared/api/hooks/useStripePortal';
 import { DoneIcon } from 'shared/components/ui/icons';
 import { Select } from 'shared/components/ui/select';
 import { InfoTip } from 'shared/components/ui/toggle-tip';
@@ -25,36 +27,45 @@ const getIsFlexiblePlan = (plan: SubscriptionPlanEntity) => {
   return getPlanPrefix(plan) === 'flexible';
 };
 
-const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFreePlan: boolean }) => (
-  <Box
-    bg="gray.50"
-    p={8}
-    borderRadius="2xl"
-  >
-    <Stack gap={6}>
-      <HStack justify="space-between" align="flex-start">
-        <Stack gap={1}>
-          <Heading size="lg">
-            {plan.name} Plan
-          </Heading>
-          <Text color="gray.600">
-            {isFreePlan ? 'Free tier' : 'Active subscription'}
-          </Text>
-        </Stack>
-        {!isFreePlan && (
-          <Badge
-            colorScheme="green"
-            fontSize="md"
-            py={1}
-            px={3}
-            borderRadius="full"
-          >
-            Active
-          </Badge>
-        )}
-      </HStack>
+const getAdjustedPrice = (plan: SubscriptionPlanEntity) => {
+  if (plan.interval === 'yearly') {
+    return (plan.price / 12 / 100).toFixed(2);
+  }
+  return plan.price / 100;
+};
 
-      {/* <Stack gap={4}>
+const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFreePlan: boolean }) => {
+  const { mutateAsync } = useStripePortal();
+
+  const handleManageSubscription = React.useCallback(async () => {
+    const { url } = await mutateAsync();
+    window.location.href = url;
+  }, [mutateAsync]);
+
+  return (
+    <Box
+      bg="gray.50"
+      p={8}
+      borderRadius="2xl"
+    >
+      <Stack gap={6}>
+        <HStack justify="space-between" align="flex-start">
+          <Stack gap={1}>
+            <Heading size="lg">
+              {plan.name} Plan
+            </Heading>
+            <Text color="gray.600">
+              {isFreePlan ? 'Free tier' : 'Active subscription'}
+            </Text>
+          </Stack>
+          {!isFreePlan && (
+            <Button variant="subtle" onClick={handleManageSubscription}>
+              Manage subscription
+            </Button>
+          )}
+        </HStack>
+
+        {/* <Stack gap={4}>
         <Box>
           <HStack justify="space-between" mb={2}>
             <Text fontWeight="medium">Credits Usage</Text>
@@ -73,39 +84,10 @@ const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFre
           </Progress.Root>
         </Box>
       </Stack> */}
-
-      {/* Resource usage details */}
-      {!isFreePlan && (
-        <SimpleGrid columns={[1, 2, 3]} gap={6}>
-          <Box
-            bg="white"
-            p={6}
-            borderRadius="xl"
-          >
-            <Text color="gray.600" mb={2}>Notes</Text>
-            <Text fontSize="xl" fontWeight="bold">1,000 credits</Text>
-          </Box>
-          <Box
-            bg="white"
-            p={6}
-            borderRadius="xl"
-          >
-            <Text color="gray.600" mb={2}>Images</Text>
-            <Text fontSize="xl" fontWeight="bold">20,000 credits</Text>
-          </Box>
-          <Box
-            bg="white"
-            p={6}
-            borderRadius="xl"
-          >
-            <Text color="gray.600" mb={2}>Files</Text>
-            <Text fontSize="xl" fontWeight="bold">4,000 credits</Text>
-          </Box>
-        </SimpleGrid>
-      )}
-    </Stack>
-  </Box>
-);
+      </Stack>
+    </Box>
+  );
+};
 
 const BillingPeriodSwitch = ({ 
   period, 
@@ -147,13 +129,7 @@ const BillingPeriodSwitch = ({
 
 const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity, plans: SubscriptionPlanEntity[] }) => {
   const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('yearly');
-
-  const getAdjustedPrice = (plan: SubscriptionPlanEntity) => {
-    if (plan.interval === 'yearly') {
-      return (plan.price / 12 / 100).toFixed(2);
-    }
-    return plan.price / 100;
-  };
+  const { mutateAsync: checkout, isPending } = useStripeCheckout();
 
   const standardPlan = React.useMemo(() => {
     return plans.find((plan) => plan.interval === billingPeriod && getIsStandardPlan(plan));
@@ -176,9 +152,10 @@ const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity,
     setCurrentFlexiblePlanId(flexiblePlan?.id ?? null);
   }, [setBillingPeriod, plans]);
 
-  const handleSubmit = React.useCallback(() => {
-    
-  }, [])
+  const handleSubmit = React.useCallback((planId: string) => async () => {
+    const { url } = await checkout({ planId, cancelUrl: window.location.href, successUrl: window.location.href });
+    window.location.href = url;
+  }, [checkout]);
 
   return (
     <Box mt={4}>
@@ -257,6 +234,8 @@ const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity,
                   _hover={{
                     bg: 'gray.900',
                   }}
+                  loading={isPending}
+                  onClick={handleSubmit(standardPlan.id)}
                 >
                   Upgrade
                 </Button>
@@ -337,6 +316,8 @@ const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity,
                   _hover={{
                     bg: 'gray.900',
                   }}
+                  loading={isPending}
+                  onClick={handleSubmit(currentFlexiblePlan.id)}
                 >
                   Upgrade
                 </Button>
@@ -392,7 +373,7 @@ type Props = {
 export const BillingContent = React.memo(({ currentSubscription, plans }: Props) => {
   const freePlan = plans.find((plan) => plan.price === 0);
   
-  invariant(currentSubscription?.plan, 'No current plan found');
+  invariant(currentSubscription?.plan, 'No current subscription found');
   invariant(freePlan, 'No free plan found');
 
   const isFreePlan = currentSubscription.plan.price === 0;
