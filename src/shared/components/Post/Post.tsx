@@ -1,5 +1,5 @@
 import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
@@ -41,19 +41,31 @@ export const Post = React.forwardRef((props: Props, _) => {
   } = props;
   
   const renderedSelectingContent = React.useMemo(() => {
-    if (!isSelecting) {
-      return null;
-    }
-
     return (
-      <Box p="2">
-        <Checkbox
-          size="md"
-          borderRadius="full"
-          radius="full"
-          checked={isSelected}
-        />
-      </Box>
+      <AnimatePresence>
+        {isSelecting && (
+          <Box
+            asChild
+            p="2"
+            position="absolute"
+            left="-40px"
+            top="0"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            >
+              <Checkbox
+                size="md"
+                borderRadius="full"
+                radius="full"
+                checked={isSelected}
+              />
+            </motion.div>
+          </Box>
+        )}
+      </AnimatePresence>
     );
   }, [isSelecting, isSelected]);
 
@@ -92,75 +104,78 @@ export const Post = React.forwardRef((props: Props, _) => {
 
   return (
     <Box
+      asChild
       display="flex"
       position="relative"
       onClick={onClick}
       {...boxProps}
     >
-      {renderedSelectingContent}
-      <Box
-        key="text"
-        flexGrow="1"
-        w="full"
-      >
-        {isPinned && (
-          <Box
-            p="2"
-            color="blue.500"
-            display="flex"
-            justifyContent="flex-end"
-            position="absolute"
-            top="0px"
-            right="0px"
-          >
-            <BsFillPinAngleFill size="16" />
-          </Box>
-        )}
-        <Stack
-          p="4"
-          borderWidth="2px"
-          borderRadius="lg"
-          borderColor="gray.200"
-          cursor="pointer"
-          userSelect="none"
-          gap="2"
+      <motion.div animate={{ left: isSelecting ? '40px' : '0' }}>
+        {renderedSelectingContent}
+        <Box
+          key="text"
+          flexGrow="1"
+          w="full"
         >
-          {note.title && <Text fontWeight="500">{ note.title}</Text>}
-          <EditorView
-            removeEmptyDivsFromEnd
-            maxLines={4}
-            content={note.content}
-          />
-          <NoteVideos
-            noteId={noteId}
-            extraId={extraId}
-            videos={note.videos}
-          />
-          <NoteImages
-            inPost
-            noteId={noteId}
-            images={note.images}
-            hasControls={true}
-          />
-          <NoteFiles
-            size="sm"
-            noteId={noteId}
-            files={note.files}
-          />
-          <NoteAudioFiles
-            noteId={noteId}
-            audio={note.audio}
-          />
-        </Stack>
-        {dots && (
-          <PostDots
-            dots={dots}
-            showAmount={showDotsAmount}
-            mt="2"
-          />
-        )}
-      </Box>
-      {renderedOverlay}
+          {isPinned && (
+            <Box
+              p="2"
+              color="blue.500"
+              display="flex"
+              justifyContent="flex-end"
+              position="absolute"
+              top="0px"
+              right="0px"
+            >
+              <BsFillPinAngleFill size="16" />
+            </Box>
+          )}
+          <Stack
+            p="4"
+            borderWidth="2px"
+            borderRadius="lg"
+            borderColor="gray.200"
+            cursor="pointer"
+            userSelect="none"
+            gap="2"
+          >
+            {note.title && <Text fontWeight="500">{ note.title}</Text>}
+            <EditorView
+              removeEmptyDivsFromEnd
+              maxLines={4}
+              content={note.content}
+            />
+            <NoteVideos
+              noteId={noteId}
+              extraId={extraId}
+              videos={note.videos}
+            />
+            <NoteImages
+              inPost
+              noteId={noteId}
+              images={note.images}
+              hasControls={true}
+            />
+            <NoteFiles
+              size="sm"
+              noteId={noteId}
+              files={note.files}
+            />
+            <NoteAudioFiles
+              noteId={noteId}
+              audio={note.audio}
+            />
+          </Stack>
+          {dots && (
+            <PostDots
+              dots={dots}
+              showAmount={showDotsAmount}
+              mt="2"
+            />
+          )}
+        </Box>
+        {renderedOverlay}
+      </motion.div>
     </Box>
   );
 });

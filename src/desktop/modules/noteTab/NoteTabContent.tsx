@@ -29,7 +29,7 @@ export const NoteTabContent = React.memo((props: Props) => {
       h="full"
       maxW="3xl"
       opacity={visible ? 1 : 0}
-      px="6"
+      px="0"
     >
       <Box
         h="full"
@@ -45,7 +45,7 @@ export const NoteTabContent = React.memo((props: Props) => {
           />
         )}
         {showPosts && (
-          <Box px="6">
+          <Box px="4">
             <NotePosts
               note={note}
               search={search}
