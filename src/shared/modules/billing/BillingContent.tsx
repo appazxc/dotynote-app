@@ -34,8 +34,22 @@ const getAdjustedPrice = (plan: SubscriptionPlanEntity) => {
   return plan.price / 100;
 };
 
-const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFreePlan: boolean }) => {
+type CurrentPlanProps = {
+  isFreePlan: boolean;
+  subscription: SubscriptionEntity;
+}
+
+const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
   const { mutateAsync } = useStripePortal();
+  const plan = subscription.plan;
+  invariant(plan, 'No plan found');
+  
+  const isPastDue = subscription.status === 'past_due';
+  const description = isFreePlan 
+    ? 'Active' 
+    : isPastDue ? 'Payment failed. Limits changed to free plan' : 'Active subscription';
+  
+  const isStripePlan = !!plan.stripeProductId;
 
   const handleManageSubscription = React.useCallback(async () => {
     const { url } = await mutateAsync();
@@ -55,10 +69,10 @@ const CurrentPlan = ({ plan, isFreePlan }: { plan: SubscriptionPlanEntity, isFre
               {plan.name} Plan
             </Heading>
             <Text color="gray.600">
-              {isFreePlan ? 'Free tier' : 'Active subscription'}
+              {description}
             </Text>
           </Stack>
-          {!isFreePlan && (
+          {!isFreePlan && isStripePlan && (
             <Button variant="subtle" onClick={handleManageSubscription}>
               Manage subscription
             </Button>
@@ -385,7 +399,10 @@ export const BillingContent = React.memo(({ currentSubscription, plans }: Props)
       mx="auto"
       px={4}
     >
-      <CurrentPlan plan={currentSubscription.plan} isFreePlan={isFreePlan} />
+      <CurrentPlan
+        subscription={currentSubscription}
+        isFreePlan={isFreePlan}
+      />
       {isFreePlan && <AvailablePlans freePlan={freePlan} plans={plans} />}
     </Stack>
   );

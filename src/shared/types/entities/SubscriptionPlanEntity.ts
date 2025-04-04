@@ -11,6 +11,7 @@ export type ApiSubscriptionPlanEntity = BaseEntity<{
   interval: BillingPeriod;
   credits: number;
   doty: number;
+  stripeProductId: string | null;
 }>
 
 export type SubscriptionPlanEntity = MergeEntity<ApiSubscriptionPlanEntity, {}>;

@@ -6,10 +6,9 @@ export type ApiSubscriptionEntity = BaseEntity<{
   startDate: string;
   endDate: string;
   status: string;
-  stripeStatus: string;
-  canceledAt: string;
   nextLimitUpdateAt: string | null;
   planId: string;
+  canceledAt: string;
 }>
 
 export type SubscriptionEntity = MergeEntity<ApiSubscriptionEntity, {
