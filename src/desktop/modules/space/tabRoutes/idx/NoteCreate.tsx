@@ -29,7 +29,7 @@ export const NoteCreate = () => {
   
   return (
     <Box>
-      <Heading size="lg" mb="6">
+      <Heading size="lg" mb="4">
         Create note
       </Heading>
       <NoteMediaCards onCreate={handleCreateNote} />

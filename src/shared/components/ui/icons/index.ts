@@ -1,5 +1,6 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsArrowDown, BsArrowLeft, BsArrowUp, BsPlus, BsThreeDotsVertical } from 'react-icons/bs';
+import { GoSearch } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { IoPauseOutline, IoPlay } from 'react-icons/io5';
 import { MdClose, MdOutlineDone } from 'react-icons/md';
@@ -7,6 +8,7 @@ import { MdClose, MdOutlineDone } from 'react-icons/md';
 export const DeleteIcon = AiOutlineDelete;
 export const DotsIcon = BsThreeDotsVertical;
 export const DoneIcon = MdOutlineDone;
+export const SearchIcon = GoSearch;
 export const PlayIcon = IoPlay;
 export const PauseIcon = IoPauseOutline;
 export const CloseIcon = MdClose;

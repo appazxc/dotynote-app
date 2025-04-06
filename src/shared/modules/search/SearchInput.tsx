@@ -1,7 +1,9 @@
-import { Input } from '@chakra-ui/react';
+import { Input, InputGroup } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import debounce from 'lodash/debounce';
 import React from 'react';
+
+import { SearchIcon } from 'shared/components/ui/icons';
 
 type Props = {
   isMobile?: boolean;
@@ -30,19 +32,26 @@ export const SearchInput = React.memo(({ isMobile }: Props) => {
   }, [navigate]);
 
   return (
-    <Input
-      autoFocus
-      value={value}
-      placeholder="Search"
-      size="md"
-      variant="subtle"
-      _focusVisible={isMobile ? {
-        boxShadow: 'none',
-      } : undefined}
-      css={isMobile ? {
-        '--focus-ring-color': 'transparent',
-      } : undefined}
-      onChange={handleChange}
-    />
+    <InputGroup
+      startElement={<SearchIcon size="16px" />}
+    >
+      <Input
+        autoFocus
+        value={value}
+        placeholder="Search..."
+        size="md"
+        variant="subtle"
+        _focusVisible={isMobile ? {
+          boxShadow: 'none',
+        } : undefined}
+        css={isMobile ? {
+          '--focus-color': 'transparent',
+        } : {
+          '--focus-color': 'transparent',
+        }}
+        onChange={handleChange}
+      />
+    </InputGroup>
+
   );
 });

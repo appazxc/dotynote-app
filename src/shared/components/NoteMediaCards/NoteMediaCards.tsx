@@ -28,7 +28,7 @@ export const NoteMediaCards = React.memo((props: Props) => {
 
   const cards = React.useMemo(() => [
     {
-      icon: <SlNotebook size="35" />,
+      icon: <SlNotebook size="22" />,
       title: 'Text',
       onClick: () => {
         onTextClick?.();
@@ -36,7 +36,7 @@ export const NoteMediaCards = React.memo((props: Props) => {
       },
     },
     {
-      icon: <GoFile size="35" />,
+      icon: <GoFile size="22" />,
       title: 'File',
       onClick: () => {
         const onFilesAdd = (files, removeFiles) => {
@@ -55,7 +55,7 @@ export const NoteMediaCards = React.memo((props: Props) => {
       },
     },
     {
-      icon: <IoImageOutline size="35" />,
+      icon: <IoImageOutline size="22" />,
       title: 'Image',
       onClick: () => {
         const onFilesAdd = (files, removeFiles) => {
@@ -74,7 +74,7 @@ export const NoteMediaCards = React.memo((props: Props) => {
       },
     },
     {
-      icon: <PiFileAudioFill size="35" />,
+      icon: <PiFileAudioFill size="22" />,
       title: 'Audio',
       onClick: () => {
         const onFilesAdd = (files, removeFiles) => {
@@ -93,33 +93,33 @@ export const NoteMediaCards = React.memo((props: Props) => {
       },
     },
     {
-      icon: <PiFeather size="35" />,
+      icon: <PiFeather size="22" />,
       title: 'Excalidraw',
       to: '/',
       isDisabled: true,
     },
     {
-      icon: <HiOutlineVideoCamera size="35" />,
+      icon: <HiOutlineVideoCamera size="22" />,
       title: 'Video',
       to: '/',
       isDisabled: true,
     },
     // {
-    //   icon: <PiVideo size="35" />,
+    //   icon: <PiVideo size="22" />,
     //   title: 'Stream',
     //   to: '/',
     //   description: constructionText,
     //   isDisabled: true,
     // },
     // {
-    //   icon: <PiMusicNotes size="35" />,
+    //   icon: <PiMusicNotes size="22" />,
     //   title: 'Music',
     //   to: '/',
     //   description: constructionText,
     //   isDisabled: true,
     // },
     {
-      icon: <VscRecord size="35" />,
+      icon: <VscRecord size="22" />,
       title: 'Record',
       to: '/',
       isDisabled: true,
@@ -142,18 +142,17 @@ export const NoteMediaCards = React.memo((props: Props) => {
             {...restProps}
             cursor={isDisabled ? 'default' : 'pointer'}
             opacity={isDisabled ? '0.6' : '1'}
+            flexDirection="row"
+            alignItems="center"
           >
             <Card.Header p="2">
               {icon}
             </Card.Header>
             <Card.Body
-              pt="2"
-              pb="1"
-              px="2"
               display="flex"
-              alignItems="flex-end"
+              p="2"
             >
-              <Text fontWeight="500" fontSize={isMobile ? 'sm' : 'lg'}>{title}</Text>
+              <Text fontSize={isMobile ? 'sm' : 'md'}>{title}</Text>
             </Card.Body>
           </Card.Root>
         );
