@@ -19,12 +19,11 @@ import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQ
 type Props = {
   note: NoteEntity;
   onClick: () => void;
+  isMobile?: boolean;
 };
 
-const ICON_SIZE = 24;
-
 export const PostsContentPicker = React.memo((props: Props) => {
-  const { note, onClick } = props;
+  const { note, onClick, isMobile = false } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const getQueryKey = useGetNoteTabQueryKey(note.id);
@@ -50,11 +49,11 @@ export const PostsContentPicker = React.memo((props: Props) => {
     onClick();
   }, [dispatch, onClick, handlePostCreate, openFilePicker, note.id]);
 
-  const renderedCards = React.useMemo(() => {
-    const items = [
+  const items = React.useMemo(() => {
+    return [
       {
         title: 'Text',
-        icon: <SlNotebook size={ICON_SIZE} />,
+        icon: SlNotebook,
         onClick: () => {
           onClick();
 
@@ -68,7 +67,7 @@ export const PostsContentPicker = React.memo((props: Props) => {
         },
       },
       {
-        icon: <IoImageOutline size={ICON_SIZE} />,
+        icon: IoImageOutline,
         title: 'Image',
         onClick: () => {
           const onFilesAdd = (files: UploadFile[], removeFiles) => {
@@ -92,26 +91,22 @@ export const PostsContentPicker = React.memo((props: Props) => {
         },
       },
       {
-        icon: <GoFile size={ICON_SIZE} />,
+        icon: GoFile,
         title: 'File',
         onClick: handlePostAttachmentClick('file'),
       },
       {
-        icon: <PiFileAudioFill size={ICON_SIZE} />,
+        icon: PiFileAudioFill,
         title: 'Audio',
         onClick: handlePostAttachmentClick('audio'),
       },
       {
-        icon: <HiOutlineVideoCamera size={ICON_SIZE} />,
+        icon: HiOutlineVideoCamera,
         title: 'Video',
         onClick: handlePostAttachmentClick('video'),
       },
     ];
-
-    return (
-      <ContentPickerCards items={items} />
-    );
-  }, [dispatch, handlePostAttachmentClick, openFilePicker, onClick]);
-
-  return renderedCards;
+  }, [dispatch, note.id, handlePostAttachmentClick, handlePostCreate, openFilePicker, onClick]);
+  
+  return <ContentPickerCards view={isMobile ? 'list' : 'grid'} items={items} />;
 });

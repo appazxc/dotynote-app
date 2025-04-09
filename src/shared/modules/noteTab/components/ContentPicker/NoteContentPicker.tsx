@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoFile } from 'react-icons/go';
+import { GoDot, GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
 import { PiFeather, PiFileAudioFill } from 'react-icons/pi';
@@ -16,13 +16,13 @@ import { useAppDispatch } from 'shared/store/hooks';
 type Props = {
   noteId: number;
   onClick: () => void;
+  isMobile?: boolean;
 }
-const ICON_SIZE = 24;
 
-export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
+export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
-
+  
   const handleNoteAttachmentClick = React.useCallback((type: UploadFileType) => () => {
     const onFilesAdd = (files, removeFiles) => {
       dispatch(uploadNoteFiles({
@@ -42,7 +42,7 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
   const items = React.useMemo(() => {
     return [
       {
-        icon: <IoImageOutline size={ICON_SIZE} />,
+        icon: GoDot,
         title: 'Dot',
         onClick: () => {
           onClick?.();
@@ -57,45 +57,45 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
         },
       },
       {
-        icon: <IoImageOutline size={ICON_SIZE} />,
+        icon: IoImageOutline,
         title: 'Image',
         onClick: handleNoteAttachmentClick('image'),
       },
       {
-        icon: <GoFile size={ICON_SIZE} />,
+        icon: GoFile,
         title: 'File',
         onClick: handleNoteAttachmentClick('file'),
       },
       {
-        icon: <PiFileAudioFill size={ICON_SIZE} />,
+        icon: PiFileAudioFill,
         title: 'Audio',
         onClick: handleNoteAttachmentClick('audio'),
       },
       {
-        icon: <HiOutlineVideoCamera size={ICON_SIZE} />,
+        icon: HiOutlineVideoCamera,
         title: 'Video',
         onClick: handleNoteAttachmentClick('video'),
       },
       {
-        icon: <VscRecord size={ICON_SIZE} />,
+        icon: VscRecord,
         title: 'Record',
         to: '/',
         disabled: true,
       },
       {
-        icon: <PiFeather size={ICON_SIZE} />,
+        icon: PiFeather,
         title: 'Excalidraw',
         to: '/',
         disabled: true,
       },
       // {
-      //   icon: <PiVideo size={ICON_SIZE} />,
+      //   icon: PiVideo,
       //   title: 'Stream',
       //   to: '/',
       //   disabled: true,
       // },
       // {
-      //   icon: <PiMusicNotes size={ICON_SIZE} />,
+      //   icon: PiMusicNotes,
       //   title: 'Music',
       //   to: '/',
       //   disabled: true,
@@ -104,6 +104,6 @@ export const NoteContentPicker = React.memo(({ noteId, onClick }: Props) => {
   }, [dispatch, onClick, handleNoteAttachmentClick]);
 
   return (
-    <ContentPickerCards items={items} />
+    <ContentPickerCards view={isMobile ? 'list' : 'grid'} items={items} />
   );
 });

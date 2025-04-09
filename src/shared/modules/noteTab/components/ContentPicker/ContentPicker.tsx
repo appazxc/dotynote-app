@@ -1,10 +1,12 @@
-import { Center, Text, Tabs } from '@chakra-ui/react';
+import { Center, Text, Tabs, Box } from '@chakra-ui/react';
+import { css } from '@emotion/react';
 import React from 'react';
 
 import { apos } from 'shared/constants/htmlCodes';
 import { NoteContentPicker } from 'shared/modules/noteTab/components/ContentPicker/NoteContentPicker';
 import { PostsContentPicker } from 'shared/modules/noteTab/components/ContentPicker/PostsContentPicker';
 import { addTo, AddTo } from 'shared/modules/noteTab/constants';
+import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectAddTo } from 'shared/selectors/user/selectAddTo';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -22,6 +24,7 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
   const dispatch = useAppDispatch();
   const addToState = useAppSelector(state => selectAddTo(state, { noteId }));
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const isMobile = useAppSelector(selectIsMobile);
 
   invariant(note, 'Missing note');
 
@@ -38,22 +41,38 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
       lazyMount
       value={addToState}
       size="sm"
+      variant="subtle"
+      css={{
+        '--tabs-height': 'var(--chakra-sizes-8)',
+      }}
       onValueChange={(e) => dispatch(updateAddTo(e.value as AddTo))}
     >
-      <Tabs.List>
-        {canAddToNote && <Tabs.Trigger value={addTo.NOTE}>Note</Tabs.Trigger>}
-        {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Posts</Tabs.Trigger>}
-      </Tabs.List>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+      >
+        <Text fontSize="sm" fontWeight="500">Create</Text> 
+        <Tabs.List>
+          {canAddToNote && <Tabs.Trigger value={addTo.NOTE}>Note</Tabs.Trigger>}
+          {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Posts</Tabs.Trigger>}
+        </Tabs.List>
+      </Box>
 
       {canAddToNote && (
         <Tabs.Content value={addTo.NOTE}>
-          <NoteContentPicker noteId={noteId} onClick={onClose} />
+          <NoteContentPicker
+            noteId={noteId}
+            isMobile={isMobile}
+            onClick={onClose}
+          />
         </Tabs.Content>
       )}
       {canAddToPosts && (
         <Tabs.Content value={addTo.POSTS}>
           <PostsContentPicker
             note={note}
+            isMobile={isMobile}
             onClick={onClose}
           />
         </Tabs.Content>
