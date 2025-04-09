@@ -33,6 +33,7 @@ export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
       lineHeight="1.2"
       fontWeight="500"
       borderWidth="0"
+      textStyle="content"
       value={value}
       onChange={handleChange}
       onKeyDown={handleKeyDown}

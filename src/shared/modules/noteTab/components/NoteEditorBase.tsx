@@ -29,6 +29,7 @@ export const NoteEditorBase = React.memo((props: Props) => {
       display="flex"
       flexDirection="column"
       minH={isWriteMode ? '40vh' : undefined}
+      textStyle="content"
     >
       {isWriteMode ? <NoteEditor /> : <EditorView content={content} />}
     </Box>

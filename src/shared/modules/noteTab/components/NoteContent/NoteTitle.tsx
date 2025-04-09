@@ -19,6 +19,7 @@ export const NoteTitle = ({ title, isWriteMode, isMobile, onChange }: Props) => 
           fontWeight="500"
           lineHeight="1.2"
           whiteSpaceCollapse="preserve"
+          textStyle="content"
         >
           {title}
         </Text>

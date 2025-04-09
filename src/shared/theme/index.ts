@@ -8,9 +8,19 @@ import { selectSlotRecipe } from 'shared/theme/recipes/select';
 import { sliderSlotRecipe } from 'shared/theme/recipes/slider';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { getEditorStyles } from 'shared/theme/styles';
+import { textStyles } from 'shared/theme/textStyles';
 
 const customConfig = defineConfig({
   theme: {
+    textStyles,
+    tokens: {
+      fonts: {
+        body: { 
+          // eslint-disable-next-line max-len
+          value: '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+        },
+      },
+    },
     keyframes: {
       sound: {
         '0%': { opacity:'.35', height:'6px' },
