@@ -20,7 +20,7 @@ export const queryClient = new QueryClient({
         }
 
         if (failureCount <= 3 && retryCodes.includes(errorCode)) {
-          console.log('retry');
+          console.log('retry', failureCount);
           return true;
         }
 

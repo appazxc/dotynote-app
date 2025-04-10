@@ -55,7 +55,7 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
         <Text fontSize="sm" fontWeight="500">Create</Text> 
         <Tabs.List>
           {canAddToNote && <Tabs.Trigger value={addTo.NOTE}>Note</Tabs.Trigger>}
-          {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Posts</Tabs.Trigger>}
+          {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Post</Tabs.Trigger>}
         </Tabs.List>
       </Box>
 

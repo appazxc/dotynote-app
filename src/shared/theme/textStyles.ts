@@ -7,4 +7,10 @@ export const textStyles = defineTextStyles({
       fontFamily: 'Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
     },
   },
+  secondary: {
+    value: {
+      // eslint-disable-next-line max-len
+      fontFamily: 'ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"',
+    },
+  },
 });
