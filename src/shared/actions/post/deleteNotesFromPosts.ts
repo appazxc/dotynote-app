@@ -26,12 +26,17 @@ export const deleteNotesFromPosts = (parentId: number, postIds: number[]): Thunk
         .map(([_, post]) => post)
         .forEach((post) => {
           removePostIdsFromQuery(post.parentId, [post.id]);
-          dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
+
+          setTimeout(() => {
+            dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
+          }, 1000);
         });
 
-      noteIds.forEach((id) => {
-        dispatch(deleteEntity({ id, type: entityNames.note }));
-      });
+      setTimeout(() => {
+        noteIds.forEach((id) => {
+          dispatch(deleteEntity({ id, type: entityNames.note }));
+        });
+      }, 1000);
     } catch(error) {
       const parsedError = parseApiError(error);
       if (parsedError.statusCode !== 404) {

@@ -25,7 +25,8 @@ export const Post = React.memo((props: Props) => {
   const post = useAppSelector(state => getPostById(state, postId));
   const parent = useAppSelector(state => getNoteById(state, post?.parentId));
 
-  invariant(post && parent, 'Missing post or parent', { id: postId, parentId: post?.parentId });
+  invariant(post, 'Missing post', { id: postId });
+  invariant(parent, 'Missing parent', { id: post?.parentId });
 
   const allowInternal = internalLevel === 0;
   const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
