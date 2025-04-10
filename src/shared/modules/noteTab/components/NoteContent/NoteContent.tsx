@@ -63,6 +63,7 @@ export const NoteContent = (props: Props) => {
     || note.images.length
     || note.dots.length
     || note.files.length
+    || note.videos.length
     || note.audio.length
     || isFilesLoading;
 
