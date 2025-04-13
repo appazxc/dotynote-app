@@ -50,7 +50,7 @@ const Space = React.memo(() => {
 const SpaceTabContent = React.memo(({ activeTabId, isFake }: { activeTabId: string; isFake?: boolean }) => {
   const router = useTabRouter(activeTabId, createTabRouter);
 
-  return isFake ? <Loader /> : <RouterProvider router={router} />;
+  return isFake ? <Loader delay={300} /> : <RouterProvider router={router} />;
 });
 
 export { Space };

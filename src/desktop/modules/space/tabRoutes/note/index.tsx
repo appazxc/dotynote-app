@@ -11,10 +11,12 @@ import { NoteTabError } from 'desktop/modules/space/tabRoutes/note/NoteTabError'
 
 import { root } from '../root';
 
+const NoteTab = lazyRouteComponent(() => import('desktop/modules/noteTab/NoteTab'));
+
 export const note = createRoute({
   getParentRoute: () => root,
   path: noteRoutePath,
-  component: lazyRouteComponent(() => import('desktop/modules/noteTab/NoteTab')),
+  component: () => <NoteTab />,
   validateSearch: z.object({
     parent: z.number().int().optional(),
   }),

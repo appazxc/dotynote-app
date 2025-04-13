@@ -27,7 +27,7 @@ const defaultRouterOptions = {
   defaultPreloadStaleTime: Infinity,
   defaultPendingMinMs: 0,
   defaultPendingMs: 0,
-  defaultPendingComponent: Loader,
+  defaultPendingComponent: () => <Loader delay={300} />,
   defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
 };
