@@ -25,7 +25,6 @@ export const note = createRoute({
     await loadNoteData({
       noteId: Number(params.noteId),
       extraLoaders: [
-        queryClient.fetchQuery(options.posts.loadPinnedPostsCount(Number(params.noteId))),
         ...parent ? [queryClient.fetchQuery(options.notes.load(parent))] : [],
       ],
     });
