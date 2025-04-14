@@ -17,9 +17,6 @@ export const note = createRoute({
   loader: async ({ params }) => {
     await loadNoteData({
       noteId: Number(params.noteId),
-      extraLoaders: [
-        queryClient.fetchQuery(options.posts.loadPinnedPostsCount(Number(params.noteId))),
-      ],
     });
   },
   pendingComponent: LayoutLoader,
