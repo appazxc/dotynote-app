@@ -15,6 +15,7 @@ import { ApiSpaceEntity, SpaceEntity } from 'shared/types/entities/SpaceEntity';
 import { ApiSpaceTabEntity, SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ApiSubscriptionEntity, SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
 import { ApiSubscriptionPlanEntity, SubscriptionPlanEntity } from 'shared/types/entities/SubscriptionPlanEntity';
+import { ApiUserBalanceEntity, UserBalanceEntity } from 'shared/types/entities/UserBalanceEntity';
 import { ApiUserEntity, UserEntity } from 'shared/types/entities/UserEntity';
 import { ApiUserSettingsEntity, UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
@@ -37,6 +38,7 @@ export type ApiEntityTypes = {
   [entityNames.noteVideo]: ApiNoteVideoEntity;
   [entityNames.subscriptionPlan]: ApiSubscriptionPlanEntity;
   [entityNames.subscription]: ApiSubscriptionEntity;
+  [entityNames.userBalance]: ApiUserBalanceEntity;
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -60,4 +62,5 @@ export type EntityTypes = {
   [entityNames.noteVideo]: NoteVideoEntity;
   [entityNames.subscriptionPlan]: SubscriptionPlanEntity;
   [entityNames.subscription]: SubscriptionEntity;
+  [entityNames.userBalance]: UserBalanceEntity;
 }

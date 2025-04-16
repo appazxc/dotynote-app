@@ -19,6 +19,7 @@ export const entityNames = keymirror({
   noteVideo: null,
   subscriptionPlan: null,
   subscription: null,
+  userBalance: null,
 });
 
 export type EntityName = keyof typeof entityNames;

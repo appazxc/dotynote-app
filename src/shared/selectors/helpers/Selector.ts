@@ -18,6 +18,7 @@ import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
 import { subscriptionSchema } from 'shared/schemas/subscription.schema';
 import { subscriptionPlanSchema } from 'shared/schemas/subscriptionPlan.schema';
 import { userSchema } from 'shared/schemas/user.schema';
+import { userBalanceSchema } from 'shared/schemas/userBalance.schema';
 import { userSettingsSchema } from 'shared/schemas/userSettings.schema';
 import { makeGetById } from 'shared/selectors/helpers/makeGetBy';
 import { makeGetByIds } from 'shared/selectors/helpers/makeGetByIds';
@@ -47,6 +48,7 @@ const schemaMap: {
   [entityNames.noteVideo]: noteVideoSchema,
   [entityNames.subscriptionPlan]: subscriptionPlanSchema,
   [entityNames.subscription]: subscriptionSchema,
+  [entityNames.userBalance]: userBalanceSchema,
 };
 
 export default class Selector<T extends EntityName> {
