@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import React from 'react';
 
-import { HubSettings } from 'shared/modules/settings/HubSettings';
+// import { HubSettings } from 'shared/modules/settings/HubSettings';
 import { UserSettings } from 'shared/modules/settings/UserSettings';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
@@ -14,7 +14,7 @@ export const SettingsContent = React.memo(() => {
 
   return (
     <VStack gap="4" alignItems="stretch">
-      <HubSettings hub={user?.settings?.hub} />
+      {/* <HubSettings hub={user?.settings?.hub} /> */}
       <UserSettings />
     </VStack>
   );

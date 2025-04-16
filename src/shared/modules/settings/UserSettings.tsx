@@ -7,9 +7,7 @@ import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-type Props = {};
-
-export const UserSettings = React.memo((props: Props) => {
+export const UserSettings = React.memo(() => {
   const user = useAppSelector(selectUser);
 
   invariant(user?.settings, 'Missing userSettings');

@@ -1,22 +1,22 @@
-import { Box, BoxProps, Heading, Input, Text } from '@chakra-ui/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useDebounce } from '@uidotdev/usehooks';
-import isBoolean from 'lodash/isBoolean';
+import { Box, BoxProps, Heading } from '@chakra-ui/react';
+// import { zodResolver } from '@hookform/resolvers/zod';
+// import { useDebounce } from '@uidotdev/usehooks';
+// import isBoolean from 'lodash/isBoolean';
 import React from 'react';
-import { z } from 'zod';
+// import { z } from 'zod';
 
-import { useUpdateUser } from 'shared/api/hooks/useUpdateUser';
-import { useUsernameCheck } from 'shared/api/hooks/useUsernameCheck';
-import {
-  Form,
-  FormControl,
-  FormField,
-  useForm,
-} from 'shared/components/Form';
-import { handleFormApiErrors } from 'shared/components/Form/util';
-import { Button } from 'shared/components/ui/button';
-import { InputGroup } from 'shared/components/ui/input-group';
-import { toaster } from 'shared/components/ui/toaster';
+// import { useUpdateUser } from 'shared/api/hooks/useUpdateUser';
+// import { useUsernameCheck } from 'shared/api/hooks/useUsernameCheck';
+// import {
+//   Form,
+//   FormControl,
+//   FormField,
+//   useForm,
+// } from 'shared/components/Form';
+// import { handleFormApiErrors } from 'shared/components/Form/util';
+// import { Button } from 'shared/components/ui/button';
+// import { InputGroup } from 'shared/components/ui/input-group';
+// import { toaster } from 'shared/components/ui/toaster';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
 import { selectUser } from 'shared/selectors/auth/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
@@ -24,15 +24,15 @@ import { invariant } from 'shared/util/invariant';
 
 type Props = BoxProps;
 
-const schema = z.object({
-  email: z.string().email('Enter a valid email'),
-  nickname: z.string().min(3),
-  username: z.string().min(3),
-});
+// const schema = z.object({
+//   email: z.string().email('Enter a valid email'),
+//   nickname: z.string().min(3),
+//   username: z.string().min(3),
+// });
 
-type FormValues = z.infer<typeof schema>
+// type FormValues = z.infer<typeof schema>
 
-type FieldNames = keyof FormValues
+// type FieldNames = keyof FormValues
 
 export type SectionRef = {
   close: () => void;
@@ -41,89 +41,89 @@ export type SectionRef = {
 export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
   const user = useAppSelector(selectUser);
 
-  const sectionRefs = React.useRef<{[key in FieldNames]?: SectionRef}>({});
+  // const sectionRefs = React.useRef<{[key in FieldNames]?: SectionRef}>({});
 
   invariant(user, 'Missing user');
 
-  const form = useForm<FormValues>({ 
-    defaultValues: {
-      email: user.email,
-      nickname: user.nickname || '',
-      username: user.username || '',
-    },
-    resolver: zodResolver(schema), 
-  });
-  const { dirtyFields } = form.formState;
+  // const form = useForm<FormValues>({ 
+  //   defaultValues: {
+  //     email: user.email,
+  //     nickname: user.nickname || '',
+  //     username: user.username || '',
+  //   },
+  //   resolver: zodResolver(schema), 
+  // });
+  // const { dirtyFields } = form.formState;
 
-  const { mutate, isPending } = useUpdateUser();
+  // const { mutate, isPending } = useUpdateUser();
   
-  form.watch('username');
+  // form.watch('username');
   
-  const debouncedUsername = useDebounce(form.getValues('username'), 500);
+  // const debouncedUsername = useDebounce(form.getValues('username'), 500);
 
-  const { 
-    data: usernameIsAvailable, 
-    isFetching: isUsernameAvailableFetching, 
-  } = useUsernameCheck(
-    debouncedUsername, 
-    { 
-      enabled: !!debouncedUsername && debouncedUsername !== user.username && debouncedUsername.length >= 3,
-      staleTime: 0,
-    }
-  );
+  // const { 
+  //   data: usernameIsAvailable, 
+  //   isFetching: isUsernameAvailableFetching, 
+  // } = useUsernameCheck(
+  //   debouncedUsername, 
+  //   { 
+  //     enabled: !!debouncedUsername && debouncedUsername !== user.username && debouncedUsername.length >= 3,
+  //     staleTime: 0,
+  //   }
+  // );
 
-  const closeSection = React.useCallback((fieldProp: FieldNames) => {
-    sectionRefs.current[fieldProp]?.close();
-  }, []);
+  // const closeSection = React.useCallback((fieldProp: FieldNames) => {
+  //   sectionRefs.current[fieldProp]?.close();
+  // }, []);
 
-  const handleSectionClose = React.useCallback((fieldProp: FieldNames) => () => {
-    form.resetField(fieldProp);
-  }, [form]);
+  // const handleSectionClose = React.useCallback((fieldProp: FieldNames) => () => {
+  //   form.resetField(fieldProp);
+  // }, [form]);
 
-  const submitField = React.useCallback((fieldProp: FieldNames) => async () => {
-    const values = form.getValues();
-    const value = values[fieldProp];
+  // const submitField = React.useCallback((fieldProp: FieldNames) => async () => {
+  //   const values = form.getValues();
+  //   const value = values[fieldProp];
 
-    form.clearErrors();
+  //   form.clearErrors();
 
-    const isSuccess = await form.trigger(fieldProp);
+  //   const isSuccess = await form.trigger(fieldProp);
 
-    if (!isSuccess) {
-      return;
-    }
+  //   if (!isSuccess) {
+  //     return;
+  //   }
 
-    mutate({ [fieldProp]: value }, { 
-      onError: (error) => {
-        handleFormApiErrors(form.setError, error);
-      }, 
-      onSuccess: () => {
-        const fieldNameMap = {
-          'nickname': 'Name',
-          'username': 'Username',
-          'email': 'Email',
-        };
+  //   mutate({ [fieldProp]: value }, { 
+  //     onError: (error) => {
+  //       handleFormApiErrors(form.setError, error);
+  //     }, 
+  //     onSuccess: () => {
+  //       const fieldNameMap = {
+  //         'nickname': 'Name',
+  //         'username': 'Username',
+  //         'email': 'Email',
+  //       };
 
-        form.resetField(fieldProp, { defaultValue: value });
+  //       form.resetField(fieldProp, { defaultValue: value });
 
-        toaster.create({
-          description: `${fieldNameMap[fieldProp]} updated`,
-        });
+  //       toaster.create({
+  //         description: `${fieldNameMap[fieldProp]} updated`,
+  //       });
 
-        closeSection(fieldProp);
-      },
-    });
-  }, [form, mutate, closeSection]);
+  //       closeSection(fieldProp);
+  //     },
+  //   });
+  // }, [form, mutate, closeSection]);
 
   if (!user) {
     return null;
   }
 
-  const showUsernameAvailableMessage = 
-    (form.getValues('username') !== user.username && isBoolean(usernameIsAvailable)) 
-    || isUsernameAvailableFetching;
-  const usernameAvailableText = isUsernameAvailableFetching 
-    ? 'Checking...' 
-    : usernameIsAvailable ? 'Username is available' : 'Username is not available';
+  // const showUsernameAvailableMessage = 
+  //   (form.getValues('username') !== user.username && isBoolean(usernameIsAvailable)) 
+  //   || isUsernameAvailableFetching;
+  // const usernameAvailableText = isUsernameAvailableFetching 
+  //   ? 'Checking...' 
+  //   : usernameIsAvailable ? 'Username is available' : 'Username is not available';
 
   return (
     <Box {...boxProps}>
@@ -135,8 +135,8 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
       >
         Personal details
       </Heading>
-      <Form {...form}>
-        <PersonalDetailsSection
+      {/* <Form {...form}> */}
+      {/* <PersonalDetailsSection
           ref={(el: SectionRef) => {
             sectionRefs.current.nickname = el;
           }}
@@ -216,14 +216,14 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
               );
             }}
           />
-        </PersonalDetailsSection>
-        <PersonalDetailsSection
-          title="Email address"
-          description={{
-            close: user.email,
-          }}
-        />
-      </Form>
+        </PersonalDetailsSection> */}
+      <PersonalDetailsSection
+        title="Email address"
+        description={{
+          close: user.email,
+        }}
+      />
+      {/* </Form> */}
     </Box>
   );
 });
