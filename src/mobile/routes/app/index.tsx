@@ -8,6 +8,7 @@ import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
+import { billing } from 'mobile/routes/billing';
 import { menu } from 'mobile/routes/menu';
 import { profile } from 'mobile/routes/profile';
 import { search } from 'mobile/routes/search';
@@ -77,4 +78,5 @@ export const app = appRoute.addChildren([
   menu, 
   profile,
   settings,
+  billing,
 ]);

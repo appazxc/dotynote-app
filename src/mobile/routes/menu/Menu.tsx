@@ -1,6 +1,7 @@
-import { Box, VStack, Text } from '@chakra-ui/react';
+import { Box, VStack, Text, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
+import { RiBillLine } from 'react-icons/ri';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
@@ -28,9 +29,15 @@ const Menu = React.memo(() => {
       icon: <TbSettings2 />,
     },
     {
+      label: 'Plan & Billing',
+      to: '/app/billing' as const,
+      icon: <RiBillLine />,
+    },
+    {
       label: 'Spaces',
       to: '/app/spaces' as const,
       icon: <TbChartDots3 />,
+      hasDivider: true,
     },
     // {
     //   label: 'Unsticked notes',
@@ -44,6 +51,7 @@ const Menu = React.memo(() => {
       onClick: () => {
         dispatch(logout());
       },
+      hasDivider: true,
     },
   ];
 
@@ -56,21 +64,20 @@ const Menu = React.memo(() => {
       }}
     >
       <VStack alignItems="stretch" gap="0">
-        {list.map(({ label, icon, ...btnProps }) => {
+        {list.map(({ label, icon, hasDivider, ...btnProps }) => {
           return (
             <React.Fragment key={label}>
-              <Box>
-                <Button
-                  as={MobileLink}
-                  w="full"
-                  variant="plain"
-                  display="flex"
-                  justifyContent="flex-start"
-                  {...btnProps}
-                >
-                  {icon} {label}
-                </Button>
-              </Box>
+              {hasDivider && <Separator borderColor="gray.200" my="1" />}
+              <Button
+                as={MobileLink}
+                w="full"
+                variant="plain"
+                display="flex"
+                justifyContent="flex-start"
+                {...btnProps}
+              >
+                {icon} {label}
+              </Button>
             </React.Fragment>
           );
         })}

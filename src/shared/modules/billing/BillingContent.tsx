@@ -140,7 +140,11 @@ const BillingPeriodSwitch = ({
   period: BillingPeriod; 
   onChange: (period: BillingPeriod) => void;
 }) => (
-  <HStack gap={4}>
+  <Stack
+    gap={4}
+    direction={{ base: 'column', md: 'row' }}
+    alignItems={{ base: 'flex-start', md: 'center' }}
+  >
     <ButtonGroup
       size="xs"
       bg="gray.100"
@@ -168,7 +172,7 @@ const BillingPeriodSwitch = ({
       </Button>
     </ButtonGroup>
     <Text as="span" color="blue.500">Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
-  </HStack>
+  </Stack>
 );
 
 const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity, plans: SubscriptionPlanEntity[] }) => {
@@ -437,7 +441,6 @@ export const BillingContent = React.memo(({ currentSubscription, plans }: Props)
       gap={8}
       maxW="1200px"
       mx="auto"
-      px={4}
     >
       <CurrentPlan
         subscription={currentSubscription}
