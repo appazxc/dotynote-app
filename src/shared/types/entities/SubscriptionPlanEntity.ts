@@ -1,7 +1,7 @@
 import { BaseEntity } from 'shared/types/entities/BaseEntity';
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
 
-export type BillingPeriod = 'yearly' | 'monthly';
+export type BillingPeriod = 'yearly' | 'monthly' | 'perpetual';
 
 export type ApiSubscriptionPlanEntity = BaseEntity<{
   code: string;

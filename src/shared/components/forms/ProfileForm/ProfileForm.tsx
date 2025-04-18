@@ -19,7 +19,7 @@ import {
   useForm,
 } from 'shared/components/Form';
 import { Button } from 'shared/components/ui/button';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { UserEntity } from 'shared/types/entities/UserEntity';
 import { invariant } from 'shared/util/invariant';

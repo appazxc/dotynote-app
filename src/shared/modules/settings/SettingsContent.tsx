@@ -3,7 +3,7 @@ import React from 'react';
 
 // import { HubSettings } from 'shared/modules/settings/HubSettings';
 import { UserSettings } from 'shared/modules/settings/UserSettings';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 

@@ -1,6 +1,6 @@
 import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { queryClient } from 'shared/api/queryClient';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 

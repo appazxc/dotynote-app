@@ -6,7 +6,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { HubOperation as HubOperationType, stopOperation } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';

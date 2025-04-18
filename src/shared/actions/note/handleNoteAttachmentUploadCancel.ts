@@ -1,7 +1,7 @@
 import { deleteNotes } from 'shared/actions/note/deleteNotes';
 import { selectNoteUploadingFiles } from 'shared/modules/fileUpload/fileUploadSelectors';
-import { selectUser } from 'shared/selectors/auth/selectUser';
 import { getIsNoteEmpty } from 'shared/selectors/note/getIsNoteEmpty';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { ThunkAction } from 'shared/types/store';
 
 export const handleNoteAttachmentUploadCancel = (noteId: number): ThunkAction => 

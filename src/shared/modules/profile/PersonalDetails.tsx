@@ -18,7 +18,7 @@ import React from 'react';
 // import { InputGroup } from 'shared/components/ui/input-group';
 // import { toaster } from 'shared/components/ui/toaster';
 import { PersonalDetailsSection } from 'shared/modules/profile/PersonalDetailsSection';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 

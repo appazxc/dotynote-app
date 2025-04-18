@@ -1,4 +1,4 @@
-import { Badge, Box, Button, ButtonGroup, Heading, HStack, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Badge, Box, Button, ButtonGroup, Heading, HStack, Progress, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FaArrowUpRightDots } from 'react-icons/fa6';
 import { TbChartDots2 } from 'react-icons/tb';
@@ -8,6 +8,11 @@ import { useStripePortal } from 'shared/api/hooks/useStripePortal';
 import { DoneIcon } from 'shared/components/ui/icons';
 import { Select } from 'shared/components/ui/select';
 import { InfoTip } from 'shared/components/ui/toggle-tip';
+import { modalIds } from 'shared/constants/modalIds';
+import NotImplementedBillingModal from 'shared/containers/modals/NotImplementedBillingModal/NotImplementedBillingModal';
+import { useUserBalance } from 'shared/hooks/useUserBalance';
+import { showModal } from 'shared/modules/modal/modalSlice';
+import { useAppDispatch } from 'shared/store/hooks';
 import { SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
 import { BillingPeriod, SubscriptionPlanEntity } from 'shared/types/entities/SubscriptionPlanEntity';
 import { formatNumber } from 'shared/util/formatNumber';
@@ -29,7 +34,7 @@ const getIsFlexiblePlan = (plan: SubscriptionPlanEntity) => {
 
 const getAdjustedPrice = (plan: SubscriptionPlanEntity) => {
   if (plan.interval === 'yearly') {
-    return (plan.price / 12 / 100).toFixed(2);
+    return plan.price / 12 / 100;
   }
   return plan.price / 100;
 };
@@ -42,6 +47,7 @@ type CurrentPlanProps = {
 const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
   const { mutateAsync } = useStripePortal();
   const plan = subscription.plan;
+  const balance = useUserBalance();
   invariant(plan, 'No plan found');
   
   const isPastDue = subscription.status === 'past_due';
@@ -79,25 +85,49 @@ const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
           )}
         </HStack>
 
-        {/* <Stack gap={4}>
-        <Box>
-          <HStack justify="space-between" mb={2}>
-            <Text fontWeight="medium">Credits Usage</Text>
-            <Text color="gray.600">
-              {currentPlan.credits.used} of {currentPlan.credits.total}
+        <Stack gap={4}>
+          <Box>
+            <HStack justify="space-between" mb={2}>
+              <Text fontWeight="medium">Usage <InfoTip
+                content={(
+                  <Box>
+                    <Text>
+                      Credits: {balance.totalUsedCredits} / {balance.credits}
+                    </Text>
+                    <Text>
+                      Reserved: {balance.reservedCredits}
+                    </Text>
+                    <Text>
+                      Used: {balance.usedCredits}
+                    </Text>
+                    <Text>
+                      Remaining: {balance.credits - balance.totalUsedCredits}
+                    </Text>
+                  </Box>
+                )}
+                contentWidth="200px"
+              /></Text>
+              <Text color="gray.600">
+                {Math.floor((balance.totalUsedCredits / balance.credits) * 100)}%
+              </Text>
+            </HStack>
+            <Progress.Root 
+              value={(balance.totalUsedCredits / balance.credits) * 100}
+              size="sm"
+            >
+              <Progress.Track>
+                <Progress.Range />
+              </Progress.Track>
+            </Progress.Root>
+            <Text
+              fontSize="sm"
+              color="fg.subtle"
+              mt="2"
+            >
+              Credits will refresh {balance.nextUpdateIn}
             </Text>
-          </HStack>
-          <Progress.Root 
-            value={(currentPlan.credits.used / currentPlan.credits.total) * 100}
-            size="sm"
-            colorScheme={isFreePlan ? 'orange' : 'blue'}
-          >
-            <Progress.Track>
-              <Progress.Range />
-            </Progress.Track>
-          </Progress.Root>
-        </Box>
-      </Stack> */}
+          </Box>
+        </Stack>
       </Stack>
     </Box>
   );
@@ -137,13 +167,16 @@ const BillingPeriodSwitch = ({
         Monthly
       </Button>
     </ButtonGroup>
-    <Text as="span" color="blue.500">Save 16% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
+    <Text as="span" color="blue.500">Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
   </HStack>
 );
 
 const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity, plans: SubscriptionPlanEntity[] }) => {
   const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('yearly');
-  const { mutateAsync: checkout, isPending } = useStripeCheckout();
+  const { 
+    // mutateAsync: checkout,
+    isPending } = useStripeCheckout();
+  const dispatch = useAppDispatch();
 
   const standardPlan = React.useMemo(() => {
     return plans.find((plan) => plan.interval === billingPeriod && getIsStandardPlan(plan));
@@ -166,10 +199,17 @@ const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity,
     setCurrentFlexiblePlanId(flexiblePlan?.id ?? null);
   }, [setBillingPeriod, plans]);
 
-  const handleSubmit = React.useCallback((planId: string) => async () => {
-    const { url } = await checkout({ planId, cancelUrl: window.location.href, successUrl: window.location.href });
-    window.location.href = url;
-  }, [checkout]);
+  const handleSubmit = React.useCallback((
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    planId: string
+  ) => async () => {
+    // const { url } = await checkout({ planId, cancelUrl: window.location.href, successUrl: window.location.href });
+    // window.location.href = url;
+    dispatch(showModal({ id: modalIds.notImplementedBilling }));
+  }, [
+    // checkout,
+    dispatch,
+  ]);
 
   return (
     <Box mt={4}>
@@ -368,13 +408,13 @@ const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity,
                     </Stack>
                     <InfoTip content={creditsTipText} contentWidth="200px" />
                   </Stack>
-
                 </Stack>
               </Stack>
             </Box>
           )}
         </SimpleGrid>
       </Stack>
+      <NotImplementedBillingModal />
     </Box>
   );
 };
@@ -390,7 +430,7 @@ export const BillingContent = React.memo(({ currentSubscription, plans }: Props)
   invariant(currentSubscription?.plan, 'No current subscription found');
   invariant(freePlan, 'No free plan found');
 
-  const isFreePlan = currentSubscription.plan.price === 0;
+  const isFreePlan = currentSubscription.plan.interval === 'perpetual';
 
   return (
     <Stack

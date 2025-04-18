@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react';
 
 import config from 'shared/config';
 import { getStore } from 'shared/helpers/store/getStore';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 
 const beforeSend = (event: Sentry.ErrorEvent) => {
   const state = getStore().getState();

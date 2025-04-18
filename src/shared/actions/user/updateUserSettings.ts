@@ -1,7 +1,7 @@
 import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
-import { selectUser } from 'shared/selectors/auth/selectUser';
 import { userSettingsSelector } from 'shared/selectors/entities';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ApiUserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 import { ThunkAction } from 'shared/types/store';

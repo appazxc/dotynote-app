@@ -23,7 +23,7 @@ import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';

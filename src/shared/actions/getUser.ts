@@ -4,7 +4,7 @@ import { logout } from 'shared/actions/logout';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { selectToken } from 'shared/selectors/auth/selectToken';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { setUser } from 'shared/store/slices/authSlice';
 import { ThunkAction } from 'shared/types/store';
 import { UnauthorizedError } from 'shared/util/errors';

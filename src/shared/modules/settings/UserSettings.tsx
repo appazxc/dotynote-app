@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useUpdateUserSettings } from 'shared/api/hooks/useUpdateUserSettings';
 import { SwitchSection } from 'shared/components/ui/switch-section';
-import { selectUser } from 'shared/selectors/auth/selectUser';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 

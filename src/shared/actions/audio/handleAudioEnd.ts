@@ -1,6 +1,6 @@
 import { setActiveAudioId } from 'shared/modules/noteAudio/audioSlice';
-import { selectUser } from 'shared/selectors/auth/selectUser';
 import { noteAudioSelector, noteSelector } from 'shared/selectors/entities';
+import { selectUser } from 'shared/selectors/user/selectUser';
 import { ThunkAction } from 'shared/types/store';
 import { removeAudioTime } from 'shared/util/audio/removeAudioTime';
 import { invariant } from 'shared/util/invariant';
