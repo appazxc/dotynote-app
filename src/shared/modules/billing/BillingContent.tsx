@@ -142,8 +142,8 @@ const BillingPeriodSwitch = ({
 }) => (
   <Stack
     gap={4}
-    direction={{ base: 'column', md: 'row' }}
-    alignItems={{ base: 'flex-start', md: 'center' }}
+    direction="row"
+    alignItems="center"
   >
     <ButtonGroup
       size="xs"
@@ -171,7 +171,11 @@ const BillingPeriodSwitch = ({
         Monthly
       </Button>
     </ButtonGroup>
-    <Text as="span" color="blue.500">Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
+    <Text
+      as="span"
+      color="blue.500"
+      fontSize={{ base: 'sm', md: 'md' }}
+    >Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
   </Stack>
 );
 
