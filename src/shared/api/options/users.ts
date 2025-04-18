@@ -11,6 +11,15 @@ export const me = () => {
   });
 };
 
+export const userBalance = () => {
+  return queryOptions({
+    queryKey: ['userbalance'],
+    queryFn: () => {
+      return api.get<string>('/users/balance');
+    },
+  });
+};
+
 export const usernameCheck = (username) => {
   return queryOptions({
     queryKey: ['usernameCheck', username],

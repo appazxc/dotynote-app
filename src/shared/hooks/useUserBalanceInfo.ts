@@ -37,7 +37,7 @@ const formatNextUpdateTime = (nextResetAt: string | number | Date): string => {
   return `in ${diffDays} days`;
 };
 
-export const useUserBalance = () => {
+export const useUserBalanceInfo = () => {
   const balance = useAppSelector(selectUserBalance);
 
   const info = React.useMemo(() => {

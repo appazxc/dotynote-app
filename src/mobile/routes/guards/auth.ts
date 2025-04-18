@@ -1,6 +1,6 @@
 import { createRoute, redirect } from '@tanstack/react-router';
 
-import { getUser } from 'shared/actions/getUser';
+import { loadUserData } from 'shared/actions/user/loadUserData';
 import { BACK_URL } from 'shared/constants/queryKeys';
 import { selectIsAuthenticated } from 'shared/selectors/auth/selectIsAuthenticated';
 import { selectToken } from 'shared/selectors/auth/selectToken';
@@ -29,7 +29,7 @@ export const auth = createRoute({
     }
     
     if (!isAuthenticated) {
-      await store.dispatch(getUser());
+      await store.dispatch(loadUserData());
     }
   },
   shouldReload: false,

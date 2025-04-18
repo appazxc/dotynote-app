@@ -1,5 +1,4 @@
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
-import { UserBalanceEntity } from 'shared/types/entities/UserBalanceEntity';
 import { UserSettingsEntity } from 'shared/types/entities/UserSettingsEntity';
 
 import { BaseEntity } from './BaseEntity';
@@ -9,10 +8,9 @@ export type ApiUserEntity = BaseEntity<{
   nickname: string | null;
   email?: string;
   settings?: string;
-  balance?: string;
+  balanceId?: string;
 }>
 
 export type UserEntity = MergeEntity<ApiUserEntity, {
   settings?: UserSettingsEntity;
-  balance?: UserBalanceEntity;
 }>

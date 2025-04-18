@@ -9,6 +9,7 @@ export type ApiSubscriptionEntity = BaseEntity<{
   nextLimitUpdateAt: string | null;
   planId: string;
   canceledAt: string;
+  updatedAt: string;
 }>
 
 export type SubscriptionEntity = MergeEntity<ApiSubscriptionEntity, {

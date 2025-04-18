@@ -10,7 +10,7 @@ import { Select } from 'shared/components/ui/select';
 import { InfoTip } from 'shared/components/ui/toggle-tip';
 import { modalIds } from 'shared/constants/modalIds';
 import NotImplementedBillingModal from 'shared/containers/modals/NotImplementedBillingModal/NotImplementedBillingModal';
-import { useUserBalance } from 'shared/hooks/useUserBalance';
+import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
@@ -47,7 +47,7 @@ type CurrentPlanProps = {
 const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
   const { mutateAsync } = useStripePortal();
   const plan = subscription.plan;
-  const balance = useUserBalance();
+  const balance = useUserBalanceInfo();
   invariant(plan, 'No plan found');
   
   const isPastDue = subscription.status === 'past_due';
@@ -92,7 +92,7 @@ const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
                 content={(
                   <Box>
                     <Text>
-                      Credits: {balance.totalUsedCredits} / {balance.credits}
+                      Credits: {balance.realTotalUsedCredits} / {balance.credits}
                     </Text>
                     <Text>
                       Reserved: {balance.reservedCredits}
