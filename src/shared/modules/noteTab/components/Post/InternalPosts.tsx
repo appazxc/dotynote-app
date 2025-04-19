@@ -18,7 +18,6 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
   const { note, internal } = post;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data } = useNote(note.id);
 
   const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
@@ -33,17 +32,14 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
     }
   }, [navigate, dispatch]);
 
-  if (!data) {
-    return null;
-  }
-  
   return (
     <PostList
       disablePagination
       pt="2"
       pb="0"
       noteId={note.id}
-      sort={note.postsSettings?.sort}
+      // get sort and orderBy from post.internal.note.postSettings
+      sort={note?.postsSettings?.sort}
       orderBy={note.postsSettings?.orderById}
       internalLevel={internalLevel + 1}
       pageSize={internal.max}
