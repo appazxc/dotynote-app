@@ -17,7 +17,7 @@ export default defineConfig((params) => {
 
   return {
     build: {
-      sourcemap: true, // Source map generation must be turned on
+      sourcemap: !isProduction, // Source map generation must be turned on
     },
     plugins: [
       preserveDirectives(),
@@ -66,6 +66,13 @@ export default defineConfig((params) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },
+      },
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
+        chunkFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
+        assetFileNames: isProduction ? 'assets/[hash].[ext]' : 'assets/[name]-[hash].[ext]',
       },
     },
   };

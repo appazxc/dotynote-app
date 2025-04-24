@@ -2,7 +2,6 @@ import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { useNote } from 'shared/api/hooks/useNote';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { PostList } from 'shared/modules/noteTab/components/PostList';
