@@ -14,7 +14,7 @@ const proxyUrl = 'http://localhost:4000/';
 export default defineConfig((params) => {
   const isProduction = params.mode === 'production';
   const buildSentry = !!process.env.SENTRY_AUTH_TOKEN;
-
+  console.log('isProduction', isProduction);
   return {
     build: {
       sourcemap: !isProduction, // Source map generation must be turned on
