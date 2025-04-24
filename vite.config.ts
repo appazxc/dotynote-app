@@ -43,11 +43,11 @@ export default defineConfig((params) => {
           export default {};
         `,
       }) : null,
-      buildSentry ? [sentryVitePlugin({
+      ...buildSentry ? [sentryVitePlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: 'dotify',
         project: 'frontend',
-      })] : null,
+      })] : [],
     ],
     resolve: {
       alias: {
