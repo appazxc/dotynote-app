@@ -1,4 +1,5 @@
 import { Text, TextProps } from '@chakra-ui/react';
+import { createFormHookContexts, createFormHook } from '@tanstack/react-form';
 import * as React from 'react';
 import { useForm as useFormBase } from 'react-hook-form';
 import {
@@ -166,6 +167,55 @@ const FormError = (props: TextProps) => {
   );
 };
 
+const TextField = (props: FieldProps) => {
+  const field = useFieldContext<string>();
+  const errorText = typeof field.state.meta.errors[0] === 'string' 
+    ? field.state.meta.errors[0] 
+    : field.state.meta.errors[0]?.message;
+
+  return (
+    <Field
+      invalid={field.state.meta.errors.length > 0}
+      errorText={errorText}
+      {...props}
+    />
+  );
+};
+
+// export useFieldContext for use in your custom components
+export const { fieldContext, formContext, useFieldContext, useFormContext: useFormContextTanstack } =
+  createFormHookContexts();
+
+const { useAppForm } = createFormHook({
+  fieldContext,
+  formContext,
+
+  // We'll learn more about these options later
+  fieldComponents: {
+    Field: TextField,
+  },
+  formComponents: {
+    FormError: (props: TextProps) => {
+      const form = useFormContextTanstack();
+
+      return (
+        <form.Subscribe selector={(state) => state.errorMap.onSubmit}>
+          {(onSubmit) => onSubmit?.form ? (
+            <Text
+              color="fg.error"
+              fontSize="xs"
+              textAlign="center"
+              {...props}
+            >
+              {onSubmit?.form}
+            </Text>
+          ) : null}
+        </form.Subscribe>
+      );
+    },
+  },
+});
+
 export {
   useFormField,
   Form,
@@ -173,4 +223,5 @@ export {
   FormField,
   useForm,
   FormError,
+  useAppForm,
 };
