@@ -13,7 +13,7 @@ const proxyUrl = 'http://localhost:4000/';
 // https://vitejs.dev/config/
 export default defineConfig((params) => {
   const isProduction = params.mode === 'production';
-
+  console.log('process.env.SENTRY_AUTH_TOKEN', process.env.SENTRY_AUTH_TOKEN);
   return {
     build: {
       sourcemap: true, // Source map generation must be turned on
