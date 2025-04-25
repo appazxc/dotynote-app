@@ -13,10 +13,17 @@ const proxyUrl = 'http://localhost:4000/';
 // https://vitejs.dev/config/
 export default defineConfig((params) => {
   const isProduction = params.mode === 'production';
-  console.log('process.env.SENTRY_AUTH_TOKEN', process.env.SENTRY_AUTH_TOKEN);
+
   return {
     build: {
       sourcemap: true, // Source map generation must be turned on
+      rollupOptions: {
+        output: {
+          entryFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
+          chunkFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
+          assetFileNames: isProduction ? 'assets/[hash].[ext]' : 'assets/[name]-[hash].[ext]',
+        },
+      },
     },
     plugins: [
       preserveDirectives(),
@@ -90,13 +97,6 @@ export default defineConfig((params) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },
-      },
-    },
-    rollupOptions: {
-      output: {
-        entryFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
-        chunkFileNames: isProduction ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
-        assetFileNames: isProduction ? 'assets/[hash].[ext]' : 'assets/[name]-[hash].[ext]',
       },
     },
   };
