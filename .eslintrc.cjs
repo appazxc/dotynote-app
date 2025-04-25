@@ -105,7 +105,7 @@ module.exports = {
       callbacksLast: true,
       shorthandFirst: true,
       noSortAlphabetically: true,
-      reservedFirst: true,
+      reservedFirst: false,
     }],
     'react/jsx-closing-bracket-location': [1, 'line-aligned'],
     'react/display-name': 'off',

@@ -7,6 +7,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from '@tanstack/react-form';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import { c } from 'node_modules/msw/lib/glossary-2792c6da';
 import React from 'react';
 import store2 from 'store2';
 import * as z from 'zod';
@@ -56,7 +57,7 @@ export const LoginForm = () => {
     }
 
     setFieldValue('code', '');
-    setFieldValue('email', e.target.value.toLowerCase());
+    setFieldValue('email', e.target.value.toLowerCase(), { dontUpdateMeta: false });
   }, [isEmailSent, setFieldValue]);
 
   // const onSubmit = React.useCallback(async ({ email, code, referralCode }) => {
@@ -100,8 +101,9 @@ export const LoginForm = () => {
         >
           <FormField
             children={(field) => {
+
               return (
-                <Field.Root invalid={!!field.state.meta.errors}>
+                <Field.Root invalid={field.state.meta.errors.length > 0}>
                   <Field.Label>Email</Field.Label>
                   <Input
                     placeholder="Your email address"
@@ -109,7 +111,7 @@ export const LoginForm = () => {
                     value={field.state.value}
                     onChange={handleEmailChange}
                   />
-                  <Field.ErrorText>{field.state.meta.errors.join(', ')}</Field.ErrorText>
+                  <Field.ErrorText>{field.state.meta.errors[0]?.message}</Field.ErrorText>
                 </Field.Root>
               );
             }}
@@ -118,7 +120,7 @@ export const LoginForm = () => {
             
           <FormField
             children={(field) => (
-              <Field.Root invalid={!!field.state.meta.errors}>
+              <Field.Root invalid={field.state.meta.errors.length > 0}>
                 <Field.Label>Code</Field.Label>
                 <Input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
               </Field.Root>
@@ -129,7 +131,7 @@ export const LoginForm = () => {
           {showReferralField && (
             <FormField
               children={(field) => (
-                <Field.Root invalid={!!field.state.meta.errors}>
+                <Field.Root invalid={field.state.meta.errors.length > 0}>
                   <Field.Label>Referral code</Field.Label>
                   <Input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
                   <Field.HelperText>During the pre-alpha phase, you need a referral code to enter</Field.HelperText>
@@ -140,11 +142,17 @@ export const LoginForm = () => {
           )}
 
           <rest.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <button type="submit" disabled={!canSubmit}>
-                {isSubmitting ? '...' : 'Submit'}
-              </button>
+            selector={(state) => [state.isSubmitting]}
+            children={([isSubmitting]) => (
+              <Button
+                type="submit"
+                colorScheme="brand"
+                width="full"
+                size="md"
+                loading={isSubmitting}
+              >
+                Continue
+              </Button>
             )}
           />
 
