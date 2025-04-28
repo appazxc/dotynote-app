@@ -8,9 +8,10 @@ import { OpenChangeDetails } from 'shared/types/drawer';
 
 export type Props = {
   onCreate: (noteId: number) => void;
+  onError?: (error: unknown) => void;
 }
 
-const CreateNoteDrawer = ({ onCreate }: Props) => {
+const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
   const dispatch = useAppDispatch();
   
   const handleClose = () => {
@@ -43,6 +44,7 @@ const CreateNoteDrawer = ({ onCreate }: Props) => {
                 dispatch(hideDrawer());
               }}
               onCreate={onCreate}
+              onError={onError}
             />
           </DrawerBody>
         </DrawerContent>
@@ -51,4 +53,4 @@ const CreateNoteDrawer = ({ onCreate }: Props) => {
   );
 };
 
-export default CreateNoteDrawer;
+export default NoteContentPickerDrawer;

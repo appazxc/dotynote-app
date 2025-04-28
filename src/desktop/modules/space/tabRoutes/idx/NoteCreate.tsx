@@ -17,15 +17,18 @@ export const NoteCreate = () => {
   const dispatch = useAppDispatch();
   
   const handleCreateNote = React.useCallback((noteId: number) => {
+    dispatch(invalidateHubPosts());
+    dispatch(hideModal());
     navigate({
       to: noteRoutePath,
       params: { noteId: String(noteId) }, 
       replace: true,
-    }).finally(() => {
-      dispatch(invalidateHubPosts());
-      dispatch(hideModal());
     });
   }, [navigate, dispatch]);
+
+  const handleError = React.useCallback(() => {
+    dispatch(hideModal());
+  }, [dispatch]);
   
   return (
     <Box>
@@ -33,7 +36,7 @@ export const NoteCreate = () => {
         Create note
       </Heading>
       <NoteMediaCards onCreate={handleCreateNote} />
-      <CreateNoteModal onCreate={handleCreateNote} />
+      <CreateNoteModal onCreate={handleCreateNote} onError={handleError} />
     </Box>
   );
 };

@@ -3,13 +3,13 @@ import asDrawer, { GetDrawerParams } from 'shared/modules/drawer/asDrawer';
 import { DrawerLoader } from 'shared/modules/drawer/DrawerLoader';
 import { DrawerProps } from 'shared/types/drawer';
 
-import { Props } from './CreateNoteDrawer.content';
+import { Props } from './NoteContentPickerDrawer.content';
 
 const getDrawerParams: GetDrawerParams<DrawerProps<Props>> = () => ({
-  id: drawerIds.createNote,
+  id: drawerIds.noteContentPicker,
 });
 
 export default asDrawer<DrawerProps<Props>>({ 
   getDrawerParams, 
   drawerLoader: <DrawerLoader />, 
-})(() => import('./CreateNoteDrawer.content'));
+})(() => import('./NoteContentPickerDrawer.content'));

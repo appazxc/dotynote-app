@@ -199,17 +199,21 @@ const { useAppForm } = createFormHook({
       const form = useFormContextTanstack();
 
       return (
-        <form.Subscribe selector={(state) => state.errorMap.onSubmit}>
-          {(onSubmit) => onSubmit?.form ? (
-            <Text
-              color="fg.error"
-              fontSize="xs"
-              textAlign="center"
-              {...props}
-            >
-              {onSubmit?.form}
-            </Text>
-          ) : null}
+        <form.Subscribe selector={(state) => [state.errors]}>
+          {([errors]) => {
+            const formError = errors[0]?.form;
+            
+            return formError ? (
+              <Text
+                color="fg.error"
+                fontSize="xs"
+                textAlign="center"
+                {...props}
+              >
+                {formError}
+              </Text>
+            ) : null;
+          }}
         </form.Subscribe>
       );
     },

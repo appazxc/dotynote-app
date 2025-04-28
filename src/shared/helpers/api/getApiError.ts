@@ -24,7 +24,7 @@ export const parseApiError = (apiError: unknown): ParsedApiError => {
   };
 
   if (apiError instanceof AxiosError) {
-    error.code = apiError.code || error.code;
+    error.code = apiError.response?.data?.code || apiError.code || error.code;
     error.message = apiError.response?.data?.message || apiError.message || error.message;
     error.statusCode = apiError.response?.status || error.statusCode;
     error.fieldErrors = (apiError.response?.data?.errors || []).reduce((acc, item: ZodIssue) => {

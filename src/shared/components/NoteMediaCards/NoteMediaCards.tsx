@@ -8,8 +8,10 @@ import { SlNotebook } from 'react-icons/sl';
 import { VscRecord } from 'react-icons/vsc';
 
 import { createNote } from 'shared/actions/note/createNote';
+import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
+import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -17,15 +19,38 @@ type Props = {
   isMobile?: boolean;
   loaderHeight?: string;
   onCreate: (noteId: number) => void;
+  onError?: (error: unknown) => void;
   onTextClick?: () => void;
 };
 
 export const NoteMediaCards = React.memo((props: Props) => {
-  const { isMobile, onCreate, onTextClick, loaderHeight = '300px' } = props;
+  const { isMobile, onCreate, onTextClick, loaderHeight = '300px', onError } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const handleAttachmentClick = React.useCallback((type: UploadFileType) => () => {
+    const onFilesAdd = async (files, removeFiles) => {
+      setIsLoading(true);
+
+      try {
+        await dispatch(createNote({
+          files,
+          onCreate,
+          removeFiles,
+        }));
+      } catch(error) {
+        onError?.(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    openFilePicker({
+      type,
+    }, onFilesAdd);
+  }, [dispatch, onCreate, openFilePicker, onError]);
+  
   const cards = React.useMemo(() => [
     {
       icon: <SlNotebook size="22" />,
@@ -38,69 +63,26 @@ export const NoteMediaCards = React.memo((props: Props) => {
     {
       icon: <GoFile size="22" />,
       title: 'File',
-      onClick: () => {
-        const onFilesAdd = (files, removeFiles) => {
-          setIsLoading(true);
-
-          dispatch(createNote({
-            files,
-            onCreate,
-            removeFiles,
-          }));
-        };
-
-        openFilePicker({
-          type: 'file',
-        }, onFilesAdd);
-      },
+      onClick: handleAttachmentClick('file'),
     },
     {
       icon: <IoImageOutline size="22" />,
       title: 'Image',
-      onClick: () => {
-        const onFilesAdd = (files, removeFiles) => {
-          setIsLoading(true);
-
-          dispatch(createNote({
-            files,
-            onCreate,
-            removeFiles,
-          }));
-        };
-
-        openFilePicker({
-          type: 'image',
-        }, onFilesAdd);
-      },
+      onClick: handleAttachmentClick('image'),
     },
     {
       icon: <PiFileAudioFill size="22" />,
       title: 'Audio',
-      onClick: () => {
-        const onFilesAdd = (files, removeFiles) => {
-          setIsLoading(true);
-
-          dispatch(createNote({
-            files,
-            onCreate,
-            removeFiles,
-          }));
-        };
-
-        openFilePicker({
-          type: 'audio',
-        }, onFilesAdd);
-      },
-    },
-    {
-      icon: <PiFeather size="22" />,
-      title: 'Excalidraw',
-      to: '/',
-      isDisabled: true,
+      onClick: handleAttachmentClick('audio'),
     },
     {
       icon: <HiOutlineVideoCamera size="22" />,
       title: 'Video',
+      onClick: handleAttachmentClick('video'),
+    },
+    {
+      icon: <PiFeather size="22" />,
+      title: 'Excalidraw',
       to: '/',
       isDisabled: true,
     },

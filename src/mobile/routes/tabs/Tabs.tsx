@@ -28,7 +28,7 @@ import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
+import { NoteContentPickerDrawer } from 'mobile/containers/drawers/NoteContentPickerDrawer';
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
@@ -113,6 +113,11 @@ const Tabs = () => {
     dispatch(hideModal());
   }, [navigate, dispatch]);
 
+  const handleError = React.useCallback(() => {
+    dispatch(hideDrawer());
+    dispatch(hideModal());
+  }, [dispatch]);
+
   const renderedHeader = React.useMemo(() => {
     return (
       <LayoutHeader 
@@ -125,7 +130,7 @@ const Tabs = () => {
               iconSize="auto"
               px="2"
               onClick={() => {
-                dispatch(showDrawer({ id: drawerIds.createNote }));
+                dispatch(showDrawer({ id: drawerIds.noteContentPicker }));
               }}
             >
               <BsPlus size="22px" />
@@ -170,8 +175,8 @@ const Tabs = () => {
   return (
     <Layout header={renderedHeader}>
       {renderedContent}
-      <CreateNoteDrawer onCreate={handleCreateNote} />
-      <CreateNoteModal onCreate={handleCreateNote} />
+      <NoteContentPickerDrawer onCreate={handleCreateNote} onError={handleError} />
+      <CreateNoteModal onCreate={handleCreateNote} onError={handleError} />
     </Layout>
   );
 };

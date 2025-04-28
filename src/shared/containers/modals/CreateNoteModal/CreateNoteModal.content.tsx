@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
 export type Props = {
   onCreate?: (noteId: number) => void;
+  onError?: (error: unknown) => void;
 }
 
 const schema = z.object({
@@ -36,7 +37,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-const CreateNoteModal = ({ onCreate }: Props) => {
+const CreateNoteModal = ({ onCreate, onError }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useAppSelector(selectIsMobile);
   const {
@@ -63,7 +64,9 @@ const CreateNoteModal = ({ onCreate }: Props) => {
         onCreate(id);
       }
     // eslint-disable-next-line no-empty
-    } catch(_) {}
+    } catch(error) {
+      onError(error)
+    }
   }, [mutateAsync, editor, onCreate]);
 
   return (

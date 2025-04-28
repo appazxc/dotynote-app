@@ -36,7 +36,7 @@ export const LoginForm = () => {
   const backUrl = useSearch({ strict: false })[BACK_URL];
   const { mutateAsync: sendCodeEmail } = useSendCodeEmail();
   const { mutateAsync: loginEmail } = useLoginEmail();
-  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField } = useAppForm({ 
+  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField, ...rest } = useAppForm({ 
     defaultValues,
     validators: {
       onSubmit: schema(isEmailSent),
