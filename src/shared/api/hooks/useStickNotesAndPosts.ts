@@ -39,7 +39,7 @@ export const useStickNotesAndPosts = (parentId: number) => {
     onError: (error) => {
       const apiError = parseApiError(error);
 
-      toaster.create({ description: apiError.message, type: 'error' });
+      toaster.create({ description: apiError.message });
     },
   });
 };

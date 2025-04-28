@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { api } from 'shared/api';
 import { FileSnippet } from 'shared/components/NoteFiles/FileSnippet';
-import { useFileUpload } from 'shared/modules/fileUpload';
 import { getFileUploadProgress } from 'shared/modules/fileUpload/fileUploadHelpers';
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { useAppSelector } from 'shared/store/hooks';
@@ -20,7 +18,6 @@ type Props = {
 
 export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props) => {
   const uploadFile = useAppSelector(state => selectUploadFileEntity(state, id));
-  const { removeFiles } = useFileUpload();
 
   invariant(uploadFile, 'Uploading file is missing');
 
@@ -28,29 +25,22 @@ export const UploadingFile = React.memo(({ id, filename, fileSize, size }: Props
 
   const options = React.useMemo(() => {
     return [
-      ...uploadFile.status === 'uploading' ? [{
+      ...uploadFile.status === 'uploading' || uploadFile.status === 'processing' && uploadFile.tempId ? [{
         label: 'Cancel',
         onClick: () => {
           emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
-        },
-      }] : [],
-      ...uploadFile.status === 'processing' && uploadFile.tempId ? [{
-        label: 'Cancel',
-        onClick: async () => {
-          await api.post(`/upload/${uploadFile.tempId}/cancel`, {});
-          removeFiles([uploadFile.fileId]);
         },
       }] : [],
       ...uploadFile.status === 'error' ? [
         {
           label: 'Remove',
           onClick: () => {
-            removeFiles([uploadFile.fileId]);
+            emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
           },
         },
       ] : [],
     ];
-  }, [uploadFile.status, uploadFile.fileId, uploadFile.tempId, removeFiles]);
+  }, [uploadFile.status, uploadFile.fileId, uploadFile.tempId]);
 
   return (
     <FileSnippet

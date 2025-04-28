@@ -64,7 +64,7 @@ export const useMovePosts = (noteId: number) => {
     onError: (error) => {
       const apiError = parseApiError(error);
 
-      toaster.create({ description: apiError.message, type: 'error' });
+      toaster.create({ description: apiError.message });
     },
   });
 };

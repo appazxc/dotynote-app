@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
-import { getInfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
 import { useMovePosts } from 'shared/api/hooks/useMovePosts';
-import { queryClient } from 'shared/api/queryClient';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
 import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';

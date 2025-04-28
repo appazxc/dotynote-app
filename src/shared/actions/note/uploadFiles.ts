@@ -110,7 +110,6 @@ export const uploadAttachment = (params: UploadAttachmentParams): ThunkAction =>
 };
 
 type UploadAttachmentByTypeBaseParams = UploadAttachmentByTypeParams & {
-  tempUploadPath: string;
   getUploadConfirmPath: (id: string) => string;
   onComplete?: () => void;
   onCancel?: () => void;
@@ -124,7 +123,6 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       uploadFile, 
       signal,
       unlockNextStep,
-      tempUploadPath,
       getUploadConfirmPath,
       onComplete,
       onCancel,
@@ -136,7 +134,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'uploading' }));
       
       const { url, id, pos: tempFilePos } = await api.post<{ url: string; id: string; pos: number }>(
-        tempUploadPath, 
+        '/upload', 
         {
           noteId,
           filename: uploadFile.file.name,
@@ -219,6 +217,12 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
         onCancel?.();
         return;
       }
+
+      toaster.create({
+        description: parseApiError(error).message,
+        type: 'warning',
+      });
+
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };
@@ -298,7 +302,6 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
 
     await dispatch(uploadAttachmentByTypeBase({
       ...params,
-      tempUploadPath: '/upload',
       getUploadConfirmPath: (id) => `/upload/${id}/uploaded`,
       onComplete,
       onCancel: () => {

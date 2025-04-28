@@ -8,7 +8,6 @@ import { SlNotebook } from 'react-icons/sl';
 import { VscRecord } from 'react-icons/vsc';
 
 import { createNote } from 'shared/actions/note/createNote';
-import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';

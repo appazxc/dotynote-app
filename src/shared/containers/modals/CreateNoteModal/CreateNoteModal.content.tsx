@@ -59,15 +59,11 @@ const CreateNoteModal = ({ onCreate, onError }: Props) => {
   const onSubmit = React.useCallback(async (values) => {
     try {
       const id = await mutateAsync({ ...values, content: editor.getJSON() });
-
-      if (onCreate) {
-        onCreate(id);
-      }
-    // eslint-disable-next-line no-empty
+      onCreate?.(id);
     } catch(error) {
-      onError(error)
+      onError?.(error);
     }
-  }, [mutateAsync, editor, onCreate]);
+  }, [mutateAsync, editor, onCreate, onError]);
 
   return (
     <DialogRoot

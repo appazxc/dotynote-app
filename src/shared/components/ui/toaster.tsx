@@ -7,10 +7,6 @@ import {
   Toast,
   createToaster,
 } from '@chakra-ui/react';
-import React from 'react';
-
-import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
-import { useAppSelector } from 'shared/store/hooks';
 
 export const toaster = createToaster({
   placement: 'bottom-end',
@@ -19,12 +15,6 @@ export const toaster = createToaster({
 });
 
 export const Toaster = () => {
-  const isMobile = useAppSelector(selectIsMobile);
-
-  React.useEffect(() => {
-    toaster.machine.setContext({ placement: isMobile ? 'bottom' : 'bottom-end' });
-  }, [isMobile]);
-
   return (
     <Portal>
       <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }}>

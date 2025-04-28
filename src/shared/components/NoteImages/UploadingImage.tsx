@@ -25,13 +25,18 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
 
   const { status, error } = uploadFile;
   const progress = getFileUploadProgress(uploadFile);
-
+  console.log('uploadFile', uploadFile);
   const handleCancel = React.useCallback(async () => {
     emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
   }, [uploadFile.fileId]);
 
   return src ? (
-    <Box position="relative">
+    <Box
+      position="relative"
+      onClick={(event: React.MouseEvent) => {
+        event.stopPropagation();
+      }}
+    >
       <BaseImage
         height={height}
         width={width}
@@ -39,8 +44,9 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
       />
 
       <MediaProgressCircle
-        progress={progress}
-        min={3}
+        progress={status === 'error' ? 0 : progress}
+        min={status === 'error' ? 0 : 3}
+        iconColor={status === 'error' ? 'red.500' : 'white'}
         onCancel={(event: React.MouseEvent) => {
           event.stopPropagation();
           handleCancel();
@@ -55,7 +61,7 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
             event.stopPropagation();
           }}
         >
-          <Tooltip content={error}>
+          <Tooltip portalled content={error}>
             <Icon fontSize="20px" color="red">
               <Box>
                 <IoMdInformationCircle />

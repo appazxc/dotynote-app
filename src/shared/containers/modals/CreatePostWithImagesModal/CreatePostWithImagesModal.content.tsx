@@ -32,17 +32,9 @@ import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-type OnCreateParams = {
-  single: true;
-  postId: number;
-} | {
-  single: false;
-  postIds: number[];
-}
-
 export type Props = {
   noteId: number;
-  onCreate?: (params: OnCreateParams) => void;
+  onCreate?: () => void;
 }
 
 const schema = z.object({
@@ -102,9 +94,9 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
         await dispatch(createSeparatePosts({
           parentId: noteId,
           files: imgFiles,
-          onPostsCreated: (postIds: number[]) => {
+          onPostsCreated: () => {
             dispatch(hideModal());
-            onCreate?.({ single: false, postIds });
+            onCreate?.();
           },
           removeFiles,
         }));
@@ -112,9 +104,9 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
         await dispatch(createPost({
           parentId: noteId,
           files: imgFiles,
-          onPostCreated: (postId: number) => {
+          onPostCreated: () => {
             dispatch(hideModal());
-            onCreate?.({ single: true, postId });
+            onCreate?.();
           },
           removeFiles,
         }));
