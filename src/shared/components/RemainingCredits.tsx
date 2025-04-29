@@ -1,4 +1,4 @@
-import { Box, Text, Flex, BoxProps } from '@chakra-ui/react';
+import { Box, Text, Flex, BoxProps, FlexProps } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -7,7 +7,7 @@ import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
 
 type Props = {
   size?: 'sm' | 'md';
-} & BoxProps;
+} & FlexProps;
 
 export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props) => {
   const { remainingCredits, isCreditsLimitReached } = useUserBalanceInfo();
@@ -28,28 +28,28 @@ export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props)
   const buttonColorPalette = isCreditsLimitReached ? 'red' : 'yellow';
 
   return (
-    <Box 
+    <Flex 
       bg={creditColor}
       p="2"
       borderRadius="md"
+      flexDirection="column"
+      gap="2"
       {...boxProps}
     >
-      <Flex direction="column" gap="2">
-        <Text
-          fontWeight="bold"
-          fontSize="xs"
-          color={textColor}
-        >
-          {text}
-        </Text>
-        <Button 
-          size={buttonSize}
-          colorPalette={buttonColorPalette}
-          onClick={handleUpgradePlan}
-        >
+      <Text
+        fontWeight="bold"
+        fontSize="xs"
+        color={textColor}
+      >
+        {text}
+      </Text>
+      <Button 
+        size={buttonSize}
+        colorPalette={buttonColorPalette}
+        onClick={handleUpgradePlan}
+      >
           Upgrade plan
-        </Button>
-      </Flex>
-    </Box>
+      </Button>
+    </Flex>
   );
 });

@@ -1,4 +1,4 @@
-import { IconButton } from '@chakra-ui/react';
+import { IconButton, Stack } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
@@ -56,8 +56,10 @@ export const MenuHeaderButton = React.memo(() => {
           </IconButton>
         </MenuTrigger>
         <MenuList minW="200px">
-          <RemainingCredits mb="2" />
-          <UpdateAvailability px="2" py="1" />
+          <Stack gap="2">
+            <RemainingCredits size="sm" />
+            <UpdateAvailability size="sm" />
+          </Stack>
           <MenuItem
             label={<><FiUser /> Profile</>}
             onClick={handleProfileClick}
