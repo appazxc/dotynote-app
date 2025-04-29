@@ -1,4 +1,4 @@
-import { Separator, VStack } from '@chakra-ui/react';
+import { Box, Separator, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { RiBillLine } from 'react-icons/ri';
@@ -81,8 +81,10 @@ const Menu = React.memo(() => {
           );
         })}
       </VStack>
-      <RemainingCredits m="4" size="md" />
-      <UpdateAvailability px="4" py="2" />
+      <Box>
+        <RemainingCredits m="4" size="md" />
+        <UpdateAvailability px="4" py="2" />
+      </Box>
     </Layout>
   );
 });
