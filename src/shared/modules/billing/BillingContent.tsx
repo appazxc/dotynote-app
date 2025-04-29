@@ -154,15 +154,6 @@ const BillingPeriodSwitch = ({
     >
       <Button
         variant="ghost"
-        bg={period === 'yearly' ? 'white' : 'transparent'}
-        borderRadius="full"
-        px={6}
-        onClick={() => onChange('yearly')}
-      >
-        Yearly
-      </Button>
-      <Button
-        variant="ghost"
         bg={period === 'monthly' ? 'white' : 'transparent'}
         borderRadius="full"
         px={6}
@@ -170,17 +161,28 @@ const BillingPeriodSwitch = ({
       >
         Monthly
       </Button>
+      <Button
+        variant="ghost"
+        bg={period === 'yearly' ? 'white' : 'transparent'}
+        borderRadius="full"
+        px={6}
+        onClick={() => onChange('yearly')}
+      >
+        Yearly
+      </Button>
     </ButtonGroup>
     <Text
       as="span"
       color="blue.500"
       fontSize={{ base: 'sm', md: 'md' }}
-    >Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text></Text>
+    >
+      Save 20% <Text as="span" color="gray.600">on a yearly subscription</Text>
+    </Text>
   </Stack>
 );
 
 const AvailablePlans = ({ freePlan, plans }: { freePlan: SubscriptionPlanEntity, plans: SubscriptionPlanEntity[] }) => {
-  const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('yearly');
+  const [billingPeriod, setBillingPeriod] = React.useState<BillingPeriod>('monthly');
   const { 
     // mutateAsync: checkout,
     isPending } = useStripeCheckout();
