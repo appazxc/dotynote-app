@@ -45,7 +45,7 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
         <DrawerContent roundedTop="md">
           <DrawerHeader pb="1" pt="4">
             <Flex alignItems="center" gap="2">
-              <Text fontSize="md" fontWeight="600">Create note</Text> 
+              <Text fontSize="md" fontWeight="500">Create note</Text> 
             </Flex>
           </DrawerHeader>
           <DrawerBody pt="1">  

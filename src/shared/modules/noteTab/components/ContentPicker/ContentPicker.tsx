@@ -51,7 +51,7 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
         alignItems="center"
         gap={2}
       >
-        <Text fontSize="md" fontWeight="600">Create</Text> 
+        <Text fontSize="md" fontWeight="500">Create</Text> 
         <Tabs.List alignItems="center">
           {canAddToNote && (
             <Tabs.Trigger
