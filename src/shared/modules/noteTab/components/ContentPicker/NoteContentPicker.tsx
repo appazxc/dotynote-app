@@ -7,6 +7,7 @@ import { VscRecord } from 'react-icons/vsc';
 
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
+import { useCreditsCheck } from 'shared/hooks/useCreditsCheck';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -22,14 +23,17 @@ type Props = {
 export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
-  
+  const checkCredits = useCreditsCheck();
   const handleNoteAttachmentClick = React.useCallback((type: UploadFileType) => () => {
     const onFilesAdd = (files, removeFiles) => {
-      dispatch(uploadNoteFiles({
-        noteId,
-        files,
-        removeFiles,
-      }));
+      checkCredits(
+        { files },
+        () => dispatch(uploadNoteFiles({
+          noteId,
+          files,
+          removeFiles,
+        }))
+      );
     };
 
     openFilePicker({ 
@@ -37,7 +41,7 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false
       type,
     }, onFilesAdd);
     onClick?.();
-  }, [dispatch, noteId, onClick, openFilePicker]);
+  }, [dispatch, checkCredits, noteId, onClick, openFilePicker]);
 
   const items = React.useMemo(() => {
     return [

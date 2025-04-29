@@ -126,7 +126,6 @@ const InsufficientCreditsModal: React.FC<Props> = () => {
                 />
               </Box>
 
-
               {/* CTA Button */}
               <Button
                 width="full"

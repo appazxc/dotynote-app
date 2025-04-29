@@ -48,7 +48,7 @@ export const selectIsNoteFilesUploading = createSelector([
   (_, noteId: number) => noteId,
 ], (filesById, noteId) => {
   return !!Object.values(filesById).find(file => {
-    return file.noteId === noteId && file.status === 'uploading';
+    return file.noteId === noteId;
   });
 });
 

@@ -10,7 +10,7 @@ const getModalParams: GetModalParamsType<ModalProps<Props>> = (props) => ({
   extraId: props.extraId,
 });
 
-export default asModal<ModalProps<Props>>({ 
+export default asModal<Props>({ 
   getModalParams, 
   modalLoader: <ModalLoader />, 
 })(() => import('./CreatePostWithImagesModal.content'));

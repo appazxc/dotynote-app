@@ -21,8 +21,14 @@ export const modalSlice = createSlice({
 
       state.stack.push(makeModalId(id, extraId));
     },
-    hideModal: (state) => {
-      state.stack = state.stack.slice(0, -1);
+    hideModal: (state, { payload }: PayloadAction<{ id: ModalId; extraId?: string | number } | undefined>) => {
+      if (payload) {
+        const modalId = makeModalId(payload.id, payload.extraId);
+        
+        state.stack = state.stack.filter(id => id !== modalId);
+      } else {
+        state.stack = state.stack.slice(0, -1);
+      }
     },
     hideModals: (state) => {
       state.stack = [];

@@ -22,8 +22,10 @@ import {
   DialogTitle,
 } from 'shared/components/ui/dialog';
 import { DotsIcon } from 'shared/components/ui/icons';
+import { modalIds } from 'shared/constants/modalIds';
 import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { ImagesGrid } from 'shared/containers/modals/CreatePostWithImagesModal/ImagesGrid';
+import { useCreditsCheck } from 'shared/hooks/useCreditsCheck';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { selectUploadFiles } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { hideModal } from 'shared/modules/modal/modalSlice';
@@ -47,6 +49,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useAppSelector(selectIsMobile);
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const checkCredits = useCreditsCheck();
 
   invariant(note, 'Missing note');
 
@@ -89,9 +92,10 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   const onSubmit = React.useCallback(async (values: FormValues) => {
     const separatePosts = imgFiles.length > 1 && values.separatePosts;
     
-    try {
-      if (separatePosts) {
-        await dispatch(createSeparatePosts({
+    if (separatePosts) {
+      await checkCredits(
+        { files: imgFiles, resources: { post: imgFiles.length } },
+        () => dispatch(createSeparatePosts({
           parentId: noteId,
           files: imgFiles,
           onPostsCreated: () => {
@@ -99,9 +103,12 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
             onCreate?.();
           },
           removeFiles,
-        }));
-      } else {
-        await dispatch(createPost({
+        }))
+      );
+    } else {
+      await checkCredits(
+        { files: imgFiles, resources: { post: 1 } },
+        () => dispatch(createPost({
           parentId: noteId,
           files: imgFiles,
           onPostCreated: () => {
@@ -109,13 +116,12 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
             onCreate?.();
           },
           removeFiles,
-        }));
-
-      }
-    } catch(_) {
-      dispatch(hideModal());
+        }))
+      );
     }
-  }, [dispatch, noteId, onCreate, removeFiles, imgFiles]);
+    
+    dispatch(hideModal({ id: modalIds.createPostWithImages }));
+  }, [dispatch, noteId, onCreate, removeFiles, imgFiles, checkCredits]);
 
   const canSeparatePosts = 
     (!note.postsSettings || note.postsSettings.orderById === ORDER_BY_IDS.POSITION) 

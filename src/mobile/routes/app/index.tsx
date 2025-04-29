@@ -31,7 +31,6 @@ export const appRoute = createRoute({
     const { dispatch } = store;
 
     await dispatch(loadSpaces(ctx.location.pathname));
-
   },
   component: React.memo(() => {
     return (

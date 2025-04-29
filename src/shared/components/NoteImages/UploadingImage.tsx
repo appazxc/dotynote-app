@@ -25,7 +25,7 @@ export const UploadingImage = React.memo(({ fileId, height, width, src }: Props)
 
   const { status, error } = uploadFile;
   const progress = getFileUploadProgress(uploadFile);
-  console.log('uploadFile', uploadFile);
+
   const handleCancel = React.useCallback(async () => {
     emitter.emit(`cancelFileUpload:${uploadFile.fileId}`);
   }, [uploadFile.fileId]);

@@ -2,16 +2,7 @@ import React from 'react';
 
 import { selectUserBalance } from 'shared/selectors/user/selectUserBalance';
 import { useAppSelector } from 'shared/store/hooks';
-
-const defaultInfo = {
-  credits: 0,
-  usedCredits: 0,
-  reservedCredits: 0,
-  totalUsedCredits: 0,
-  realTotalUsedCredits: 0,
-  remainingCredits: 0,
-  nextUpdateIn: 'unknown',
-};
+import { invariant } from 'shared/util/invariant';
 
 const formatNextUpdateTime = (nextResetAt: string | number | Date): string => {
   if (!nextResetAt || nextResetAt === 'unknown') {
@@ -40,12 +31,11 @@ const formatNextUpdateTime = (nextResetAt: string | number | Date): string => {
 export const useUserBalanceInfo = () => {
   const balance = useAppSelector(selectUserBalance);
 
+  invariant(balance, 'Balance is not found');
+  
   const info = React.useMemo(() => {
-    if (!balance) {
-      return defaultInfo;
-    }
-
     const realTotalUsedCredits = balance.usedCredits + balance.reservedCredits;
+    const remainingCredits = Math.max(0, balance.credits - realTotalUsedCredits);
 
     return {
       credits: balance.credits,
@@ -53,7 +43,9 @@ export const useUserBalanceInfo = () => {
       reservedCredits: balance.reservedCredits,
       totalUsedCredits: Math.min(balance.credits, realTotalUsedCredits),
       realTotalUsedCredits: realTotalUsedCredits,
-      remainingCredits: Math.max(0, balance.credits - realTotalUsedCredits),
+      remainingCredits,
+      isCreditsLimitReached: remainingCredits === 0,
+      isCreditsLimitAlmostReached: remainingCredits < 300,
       nextUpdateIn: formatNextUpdateTime(balance.nextResetAt),
     };
   }, [balance]);

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { modalIds } from 'shared/constants/modalIds';
 import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
-import { UploadFile } from 'shared/modules/fileUpload/FileUploadProvider';
+import { UploadFile, useFileUpload } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import {
@@ -18,9 +18,10 @@ type WithCreditsCheckParams = {
 export const useCreditsCheck = () => {
   const balanceInfo = useUserBalanceInfo();
   const dispatch = useAppDispatch();
+  const { removeFiles } = useFileUpload();
 
   const checkCredits = React.useCallback(async <T extends (...args: any[]) => any> (
-    { files, resources }: WithCreditsCheckParams, 
+    { files, resources }: WithCreditsCheckParams,
     operation: T
   ): Promise<ReturnType<T> | void> => {
     const fileCredits = files ? dispatch(getRequiredCreditsForUploadFiles(files)) : 0;
@@ -28,6 +29,7 @@ export const useCreditsCheck = () => {
     const totalCredits = fileCredits + resourceCredits;
 
     if (totalCredits > balanceInfo.remainingCredits) {
+      removeFiles(files?.map((file) => file.fileId) || []);
       dispatch(showModal({ 
         id: modalIds.insufficientCredits, 
       }));  
@@ -35,7 +37,7 @@ export const useCreditsCheck = () => {
     }
 
     return operation();
-  }, [dispatch, balanceInfo.remainingCredits]);
+  }, [dispatch, balanceInfo.remainingCredits, removeFiles]);
 
   return checkCredits;
 }; 

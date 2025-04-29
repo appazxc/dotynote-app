@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Text } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
@@ -6,15 +6,16 @@ import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
+import { RemainingCredits } from 'shared/components/RemainingCredits';
 import { useColorMode } from 'shared/components/ui/color-mode';
 import { DotsIcon } from 'shared/components/ui/icons';
+import { UpdateAvailability } from 'shared/components/UpdateAvailability';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { SWContext } from 'shared/core/Providers/SWProvider';
+import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
-import { useReactContext } from 'shared/util/useReactContext';
 
 import { router } from 'desktop/routes/router';
 
@@ -22,7 +23,7 @@ export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
-  const { isUpdateAvailable, updateSW } = useReactContext(SWContext);
+  const { isCreditsLimitReached, isCreditsLimitAlmostReached } = useUserBalanceInfo();
 
   const handleSettingsClick = React.useCallback(() => {
     navigate({ to: '/app/settings' });
@@ -39,28 +40,16 @@ export const MenuHeaderButton = React.memo(() => {
           <IconButton 
             size="xs"
             aria-label="User menu"
-            variant="ghost"
-            colorScheme="brand"
+            variant={isCreditsLimitReached || isCreditsLimitAlmostReached ? 'subtle' : 'ghost'}
             rotate="90"
+            colorPalette={isCreditsLimitReached ? 'red' : isCreditsLimitAlmostReached ? 'orange' : 'gray'}
           >
             <DotsIcon />
           </IconButton>
         </MenuTrigger>
         <MenuList minW="200px">
-          {isUpdateAvailable && (
-            <Box px="2" py="1">
-              <Text color="colorPalette.info" fontSize="xs">New version available</Text>
-              <Button
-                w="full"
-                variant="subtle"
-                colorPalette="purple"
-                size="xs"
-                onClick={() => updateSW?.(true)}
-              >
-              Update
-              </Button>
-            </Box>
-          )}
+          <RemainingCredits mb="2" />
+          <UpdateAvailability px="2" py="1" />
           <MenuItem
             label={<><FiUser /> Profile</>}
             onClick={handleProfileClick}

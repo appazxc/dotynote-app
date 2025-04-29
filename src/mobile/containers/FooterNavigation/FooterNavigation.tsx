@@ -10,6 +10,7 @@ import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
+import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -26,6 +27,7 @@ export const FooterNavigation = React.memo(() => {
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const isPrimaryNote = useIsPrimareNote();
+  const { isCreditsLimitAlmostReached, isCreditsLimitReached } = useUserBalanceInfo();
   const { isMobileWidgetOpen, activeId } = useAppSelector(state => state.audio);
 
   const tabsButtonProps = useLongPress(
@@ -115,7 +117,14 @@ export const FooterNavigation = React.memo(() => {
         onClick: () => {
           navigate({ to: '/app/menu' });
         },
-        icon: <RxHamburgerMenu size="25" />,
+        icon: <RxHamburgerMenu 
+          size="25"
+        />,
+        color: pathname === '/app/menu'
+          ? 'purple.500' 
+          : isCreditsLimitReached 
+            ? 'red.500' 
+            : isCreditsLimitAlmostReached ? 'orange.500' : undefined,
         isActive: pathname === '/app/menu',
       },
     ];
@@ -129,6 +138,8 @@ export const FooterNavigation = React.memo(() => {
     pathname,
     activeId,
     isMobileWidgetOpen,
+    isCreditsLimitReached,
+    isCreditsLimitAlmostReached,
   ]);
 
   return (

@@ -5,7 +5,9 @@ import { RiBillLine } from 'react-icons/ri';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
+import { RemainingCredits } from 'shared/components/RemainingCredits';
 import { Button } from 'shared/components/ui/button';
+import { UpdateAvailability } from 'shared/components/UpdateAvailability';
 import { SWContext } from 'shared/core/Providers/SWProvider';
 import { useAppDispatch } from 'shared/store/hooks';
 import { useReactContext } from 'shared/util/useReactContext';
@@ -82,19 +84,8 @@ const Menu = React.memo(() => {
           );
         })}
       </VStack>
-      {isUpdateAvailable && (
-        <Box px="4" py="2">
-          <Text color="colorPalette.info" fontSize="sm">New version available</Text>
-          <Button
-            w="full"
-            variant="subtle"
-            colorPalette="purple"
-            onClick={() => updateSW?.(true)}
-          >
-            Update
-          </Button>
-        </Box>
-      )}
+      <RemainingCredits m="4" />
+      <UpdateAvailability px="4" py="2" />
     </Layout>
   );
 });

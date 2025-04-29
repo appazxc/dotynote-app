@@ -24,8 +24,8 @@ export const createSeparatePosts = (params: Params): ThunkAction =>
       onPostsCreated,
       onAttachmentsUploaded,
     } = params;
+    
     try {
-
       const postsData = files.map(() => ({}));
     
       const postIds = await api.post<number[]>(`/notes/${parentId}/multi-posts`, postsData);
