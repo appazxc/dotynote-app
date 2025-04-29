@@ -5,7 +5,7 @@ import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { useAppSelector } from 'shared/store/hooks';
 
 type Props = {
-  view?: 'grid' | 'list';
+  view?: 'grid' | 'list' | 'row';
   items: {
     title: string;
     icon: React.ElementType;
@@ -51,6 +51,51 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
     );
   }
 
+  if (view === 'row') {
+    return (
+      <Stack
+        gap={2}
+        flexDirection="row"
+        py="2"
+      >
+        {items.map(({ title, icon: Icon, onClick }) => {
+          return (
+            <Box
+              key={title}
+              gap={2}
+              justifyContent="flex-start"
+              flexDirection="column"
+              alignItems="center"
+              display="flex"
+              p="1"
+              onClick={onClick}
+            >
+              <Box
+                boxSize="34px"
+                bg="gray.subtle"
+                borderRadius="full"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexShrink={0}
+              >
+                <Icon size="16px" />
+              </Box>
+              <Text
+                as="span"
+                fontSize="xs"
+                fontWeight="500"
+                textAlign="center"
+              >
+                {title}
+              </Text>
+            </Box>
+          );
+        })}
+      </Stack>
+    );
+  }
+
   return (
     <Stack gap={0}>
       {items.map(({ title, icon: Icon, isDisabled, onClick }) => {
@@ -66,7 +111,17 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
             iconSize="auto"
             onClick={onClick}
           >
-            <Icon size="16px" />
+            <Box
+              boxSize="28px"
+              bg="gray.subtle"
+              borderRadius="full"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexShrink={0}
+            >
+              <Icon size="16px" />
+            </Box>
             <Text
               as="span"
               fontSize="sm"
