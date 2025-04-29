@@ -67,7 +67,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
               onClick={() => navigate({ to: `${noteRoutePath}/pinned`, params: { noteId } })}
             />
           )}
-          <MenuSub label="View">
+          {/* <MenuSub label="View">
             <MenuItem
               label="Note"
               onClick={() => {
@@ -84,7 +84,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
                 });
               }}
             />
-          </MenuSub>
+          </MenuSub> */}
           {note.permissions.update && (
             <MenuItem
               label="Settings"

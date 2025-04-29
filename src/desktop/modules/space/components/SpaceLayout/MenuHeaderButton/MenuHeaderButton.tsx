@@ -5,10 +5,11 @@ import { FiUser } from 'react-icons/fi';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
+import { openTab } from 'shared/actions/space/openTab';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { RemainingCredits } from 'shared/components/RemainingCredits';
 import { useColorMode } from 'shared/components/ui/color-mode';
-import { DotsIcon } from 'shared/components/ui/icons';
+import { DotsIcon, SearchIcon } from 'shared/components/ui/icons';
 import { UpdateAvailability } from 'shared/components/UpdateAvailability';
 import { ConfirmDrawer } from 'shared/containers/drawers/ConfirmDrawer';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
@@ -32,6 +33,13 @@ export const MenuHeaderButton = React.memo(() => {
   const handleProfileClick = React.useCallback(() => {
     navigate({ to: '/app/profile' });
   }, [navigate]);
+
+  const handleSearchClick = React.useCallback(() => {
+    dispatch(openTab({
+      route: '/search',
+      active: true,
+    }));
+  }, [dispatch]);
 
   return (
     <>
@@ -57,6 +65,10 @@ export const MenuHeaderButton = React.memo(() => {
           <MenuItem
             label={<><TbSettings2 /> Settings</>}
             onClick={handleSettingsClick}
+          />
+          <MenuItem
+            label={<><SearchIcon strokeWidth="0.5" /> Search</>}
+            onClick={handleSearchClick}
           />
           <MenuDivider />
           <MenuItem

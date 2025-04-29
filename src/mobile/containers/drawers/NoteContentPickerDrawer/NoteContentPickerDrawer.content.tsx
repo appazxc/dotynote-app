@@ -1,8 +1,11 @@
 import { Portal, Text } from '@chakra-ui/react';
 
-import { NoteMediaCards } from 'shared/components/NoteMediaCards';
+import { Loader } from 'shared/components/Loader';
 import { DrawerBackdrop, DrawerBody, DrawerContent, DrawerHeader, DrawerRoot } from 'shared/components/ui/drawer';
+import { useCreateNoteItems } from 'shared/hooks/useCreateNoteItems';
+import { DrawerLoader } from 'shared/modules/drawer/DrawerLoader';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
+import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
 import { OpenChangeDetails } from 'shared/types/drawer';
 
@@ -23,6 +26,14 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
       handleClose();
     }
   };
+  
+  const { items, isLoading } = useCreateNoteItems({ 
+    onCreate, 
+    onError,
+    onTextClick: () => {
+      dispatch(hideDrawer());
+    }, 
+  });
 
   return (
     <DrawerRoot
@@ -33,19 +44,11 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
       <Portal>
         <DrawerBackdrop />
         <DrawerContent roundedTop="md">
-          <DrawerHeader>
-            <Text fontSize="md">Create note</Text>
+          <DrawerHeader pb="1">
+            <Text fontSize="sm" fontWeight="500">Create note</Text> 
           </DrawerHeader>
           <DrawerBody pb="4">  
-            <NoteMediaCards
-              isMobile
-              loaderHeight="186px"
-              onTextClick={() => {
-                dispatch(hideDrawer());
-              }}
-              onCreate={onCreate}
-              onError={onError}
-            />
+            {isLoading ? <Loader height="200px" /> : <ContentPickerCards view="list" items={items} />}
           </DrawerBody>
         </DrawerContent>
       </Portal>

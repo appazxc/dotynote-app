@@ -57,7 +57,8 @@ export const HomeMenu = React.memo((props: Props) => {
                       title: 'Primary note removed.',
                       type: 'success',
                     });
-                  } });
+                  }, 
+                });
               }}
             />
           </>

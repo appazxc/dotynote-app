@@ -12,31 +12,15 @@ import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const NoteCreate = () => {
+export const PreviousSearches = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
-  const handleCreateNote = React.useCallback((noteId: number) => {
-    dispatch(invalidateHubPosts());
-    dispatch(hideModal());
-    navigate({
-      to: noteRoutePath,
-      params: { noteId: String(noteId) }, 
-      replace: true,
-    });
-  }, [navigate, dispatch]);
-
-  const handleError = React.useCallback(() => {
-    dispatch(hideModal());
-  }, [dispatch]);
   
   return (
     <Box>
       <Heading size="lg" mb="4">
-        Create note
+        Previous searches
       </Heading>
-      <NoteMediaCards onCreate={handleCreateNote} />
-      <CreateNoteModal onCreate={handleCreateNote} onError={handleError} />
     </Box>
   );
 };

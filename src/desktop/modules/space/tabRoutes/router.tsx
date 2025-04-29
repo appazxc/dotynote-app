@@ -4,16 +4,16 @@ import { Loader } from 'shared/components/Loader';
 
 import { DefaultErrorComponent } from 'desktop/modules/space/tabRoutes/DefaultErrorComponent';
 import { DefaultNotFoundComponent } from 'desktop/modules/space/tabRoutes/DefaultNotFoundComponent';
-import { idx } from 'desktop/modules/space/tabRoutes/idx';
 import { note } from 'desktop/modules/space/tabRoutes/note';
 import { noteNotFound } from 'desktop/modules/space/tabRoutes/noteNotFound';
 import { noteSettings } from 'desktop/modules/space/tabRoutes/noteSettings';
 import { pinnedPosts } from 'desktop/modules/space/tabRoutes/pinnedPosts';
 import { root } from 'desktop/modules/space/tabRoutes/root';
 import { context } from 'desktop/modules/space/tabRoutes/routerContext';
+import { search } from 'desktop/modules/space/tabRoutes/search';
 
 const routeTree = root.addChildren([
-  idx, 
+  search,
   note,
   noteSettings,
   noteNotFound,

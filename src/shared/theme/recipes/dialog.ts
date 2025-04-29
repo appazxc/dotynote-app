@@ -22,6 +22,11 @@ export const dialogSlotRecipe = defineSlotRecipe({
           minH: '100dvh',
         },
       },
+      '2xs': {
+        content: {
+          maxW: 'xs',
+        },
+      },
     },
   },
 });

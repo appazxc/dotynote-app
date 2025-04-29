@@ -9,6 +9,7 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'shared/components/ui/dialog';
+import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { ModalBase } from 'shared/types/modal';
@@ -24,12 +25,12 @@ export type Props = ModalBase<{
 const ConfirmModal = (props: Props) => {
   const { title, description, isOpen = true, isLoading, confirmText, onConfirm } = props;
   const dispatch = useAppDispatch();
-
+  const isMobile = useIsMobile();
   return (
     <DialogRoot
       placement="center"
       open={isOpen}
-      size="xs"
+      size={isMobile ? '2xs' : 'xs'}
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogContent backdrop>

@@ -9,7 +9,7 @@ import { ThunkAction } from 'shared/types/store';
 type Params = {
   note?: Partial<NoteEntity>;
   files: UploadFile[];
-  onCreate?: (postId: number) => void;
+  onNoteCreate?: (postId: number) => void;
   onAttachmentsUploaded?: () => void;
   removeFiles: RemoveUploadFiles;
 }
@@ -20,14 +20,14 @@ export const createNote = (params: Params): ThunkAction =>
       note,
       files,
       removeFiles,
-      onCreate,
+      onNoteCreate,
       onAttachmentsUploaded,
     } = params;
 
     try {
       const noteId = await entityApi.note.create<number>(note || {});
     
-      onCreate?.(noteId);
+      onNoteCreate?.(noteId);
         
       await dispatch(uploadNoteFiles({ noteId, files, removeFiles }));
         

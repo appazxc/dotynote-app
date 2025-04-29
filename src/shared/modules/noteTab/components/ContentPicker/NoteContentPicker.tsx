@@ -24,6 +24,7 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const checkCredits = useCreditsCheck();
+  
   const handleNoteAttachmentClick = React.useCallback((type: UploadFileType) => () => {
     const onFilesAdd = (files, removeFiles) => {
       checkCredits(

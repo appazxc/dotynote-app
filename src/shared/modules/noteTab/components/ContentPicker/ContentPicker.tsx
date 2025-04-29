@@ -1,5 +1,4 @@
-import { Center, Text, Tabs, Box } from '@chakra-ui/react';
-import { css } from '@emotion/react';
+import { Box, Center, Tabs, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { apos } from 'shared/constants/htmlCodes';

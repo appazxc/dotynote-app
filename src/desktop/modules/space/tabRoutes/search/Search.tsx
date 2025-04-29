@@ -2,37 +2,19 @@ import {
   Box,
   Container,
 } from '@chakra-ui/react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useSearch } from '@tanstack/react-router';
 import React from 'react';
 
-import { invalidateHubPosts } from 'shared/actions/invalidateHubPosts';
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
-import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
-import { hideModal } from 'shared/modules/modal/modalSlice';
 import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
-import { useAppDispatch } from 'shared/store/hooks';
 
 import { TabLayout } from 'desktop/modules/space/components/TabLayout';
-import { HomeNote } from 'desktop/modules/space/tabRoutes/idx/HomeNote';
+import { HomeNote } from 'desktop/modules/space/tabRoutes/search/HomeNote';
 
-import { NoteCreate } from './NoteCreate';
+import { PreviousSearches } from './PreviousSearches';
 
 const Home = React.memo(() => {
-  const navigate = useNavigate();
   const { search = '' } = useSearch({ strict: false }); 
-  const dispatch = useAppDispatch();
-
-  const handleCreateNote = React.useCallback((id: string) => {
-    navigate({
-      to: noteRoutePath,
-      params: { noteId: id }, 
-      replace: true,
-    }).finally(() => {
-      dispatch(invalidateHubPosts());
-      dispatch(hideModal());
-    });
-  }, [navigate, dispatch]);
 
   const renderNote = (id: number) => {
     return (
@@ -62,7 +44,7 @@ const Home = React.memo(() => {
           >
             <SearchInput />
           </Box>
-          {showSearch ? <SearchResults value={search} renderNote={renderNote} /> : <NoteCreate />}
+          {showSearch ? <SearchResults value={search} renderNote={renderNote} /> : <PreviousSearches />}
         </Box>
       </Container>
     </TabLayout>

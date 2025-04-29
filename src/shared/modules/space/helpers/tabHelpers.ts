@@ -20,10 +20,11 @@ export const getTabInfo = (path: string, router) => {
 
 const tabTitleMap = {
   '/': 'New tab',
-  '/note-not-found': 'Not found',
+  '/note-not-found': 'Note not found',
   [noteRoutePath]: '',
   [`${noteRoutePath}/pinned`]: 'Pinned posts',
   [`${noteRoutePath}/settings`]: 'Settings',
+  '/search': 'Search',
 };
 
 export const getTabTitleByRouteId = (routeId: string, defaultValue: string = ''): string => {
