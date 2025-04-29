@@ -7,6 +7,7 @@ import { SlNotebook } from 'react-icons/sl';
 
 import { createPost } from 'shared/actions/post/createPost';
 import { modalIds } from 'shared/constants/modalIds';
+import { useCreditsCheck } from 'shared/hooks/useCreditsCheck';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
@@ -27,60 +28,79 @@ export const PostsContentPicker = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const getQueryKey = useGetNoteTabQueryKey(note.id);
-
+  const checkCredits = useCreditsCheck();
   const handlePostCreate = React.useCallback(() => {
     activateInfinityQueryNextPage(getQueryKey());
   }, [getQueryKey]);
 
-  const handlePostAttachmentClick = React.useCallback((type: UploadFileType) => () => {
-    const onFilesAdd = (files: UploadFile[], removeFiles) => {
-      dispatch(createPost({
-        parentId: note.id,
-        files,
-        removeFiles,
-        onPostCreated: handlePostCreate,
-      }));
+  const handlePostAttachmentClick = React.useCallback((type: UploadFileType) => async () => {
+    const onFilesAdd = async (files: UploadFile[], removeFiles) => {
+      checkCredits(
+        {
+          files,
+          resources: { post: 1 },
+        },
+        () => dispatch(createPost({
+          parentId: note.id,
+          files,
+          removeFiles,
+          onPostCreated: handlePostCreate,
+        }))
+      );
     };
-
+    
     openFilePicker({
       type,
     }, onFilesAdd);
 
     onClick();
-  }, [dispatch, onClick, handlePostCreate, openFilePicker, note.id]);
+  }, [dispatch, checkCredits, onClick, handlePostCreate, openFilePicker, note.id]);
 
   const items = React.useMemo(() => {
     return [
       {
         title: 'Text',
         icon: SlNotebook,
-        onClick: () => {
+        onClick: async () => {
           onClick();
 
-          // looks like there some problems with popover + modal focus events. modal close instantly after open
-          // if not wait a bit
-          // src/desktop/modules/noteTab/NoteSidebar/SidebarPlusMenu.tsx
-          // TODO find a solution
-          setTimeout(() => {
-            dispatch(showModal({ id: modalIds.createPost }));
-          });
+          await checkCredits(
+            { resources: { post: 1 } },
+            () => {
+              // looks like there some problems with popover + modal focus events. modal close instantly after open
+              // if not wait a bit
+              // src/desktop/modules/noteTab/NoteSidebar/SidebarPlusMenu.tsx
+              // TODO find a solution
+              setTimeout(() => {
+                dispatch(showModal({ id: modalIds.createPost }));
+              });
+            }
+          );
         },
       },
       {
         icon: IoImageOutline,
         title: 'Image',
-        onClick: () => {
-          const onFilesAdd = (files: UploadFile[], removeFiles) => {
-            if (files.length === 1) {
-              dispatch(createPost({
-                parentId: note.id,
+        onClick: async () => {
+          const onFilesAdd = async (files: UploadFile[], removeFiles) => {
+            checkCredits(
+              {
                 files,
-                removeFiles,
-                onPostCreated: handlePostCreate,
-              }));
-            } else {
-              dispatch(showModal({ id: modalIds.createPostWithImages }));
-            }
+                resources: { post: 1 },
+              },
+              () => {
+                if (files.length === 1) {
+                  dispatch(createPost({
+                    parentId: note.id,
+                    files,
+                    removeFiles,
+                    onPostCreated: handlePostCreate,
+                  }));
+                } else {
+                  dispatch(showModal({ id: modalIds.createPostWithImages }));
+                }
+              }
+            );
           };
           
           openFilePicker({ 
@@ -106,7 +126,7 @@ export const PostsContentPicker = React.memo((props: Props) => {
         onClick: handlePostAttachmentClick('video'),
       },
     ];
-  }, [dispatch, note.id, handlePostAttachmentClick, handlePostCreate, openFilePicker, onClick]);
+  }, [dispatch, note.id, checkCredits, handlePostAttachmentClick, handlePostCreate, openFilePicker, onClick]);
   
   return <ContentPickerCards view={isMobile ? 'list' : 'grid'} items={items} />;
 });

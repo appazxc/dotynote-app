@@ -22,7 +22,6 @@ export type UploadFile = {
 type OpenFilePickerParams = {
   noteId?: number;
   type: UploadFileType;
-  uploadImmediately?: boolean;
 }
 
 export type RemoveUploadFiles = (fileIds: string[], onRemoved?: () => void) => void
