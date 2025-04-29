@@ -1,14 +1,13 @@
-import { Box, Flex, HStack, Icon, VStack, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, VStack, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
-import { FiCreditCard, FiLock } from 'react-icons/fi';
+import { FiLock, FiArrowRight } from 'react-icons/fi';
 
 import { Button } from 'shared/components/ui/button';
 import { 
   DialogRoot,
   DialogHeader,
   DialogBody,
-  DialogFooter,
   DialogCloseTrigger,
   DialogContent,
 } from 'shared/components/ui/dialog';
@@ -20,10 +19,6 @@ export type Props = {};
 const InsufficientCreditsModal: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    dispatch(hideModal());
-  };
 
   const handleGoToPlans = () => {
     dispatch(hideModal());
@@ -37,88 +32,57 @@ const InsufficientCreditsModal: React.FC<Props> = () => {
       onOpenChange={() => dispatch(hideModal())}
     >
       <DialogContent className="max-w-md">
-        <Box position="relative" overflow="hidden">
-          <Box 
-            position="absolute"
-            top="-20px"
-            left="-20px"
-            width="120px"
-            height="120px"
-            borderRadius="full"
-            bg="blue.500"
-            opacity="0.1"
-          />
-          <Box 
-            position="absolute"
-            bottom="-30px"
-            right="-30px"
-            width="150px"
-            height="150px"
-            borderRadius="full"
-            bg="purple.500"
-            opacity="0.1"
-          />
-          
-          <DialogHeader className="text-center">
-            <Flex justifyContent="center" mb={2}>
+        <Box
+          position="relative"
+          overflow="hidden"
+          pb={4}
+        >
+          <DialogHeader className="text-center" pb={2}>
+            <Flex justifyContent="center" mb={3}>
               <Icon
                 as={FiLock}
-                boxSize={10}
+                boxSize={7}
                 color="blue.500"
               />
             </Flex>
-            Лимит кредитов исчерпан
+            <Text fontSize="xl" fontWeight="bold">Credit Limit Reached</Text>
           </DialogHeader>
           
           <DialogCloseTrigger />
           
           <DialogBody>
-            <VStack gap={6} align="stretch">
-              <Text textAlign="center" fontSize="md">
-                Для создания этого контента необходимо больше кредитов, чем доступно на вашем текущем тарифе.
+            <VStack gap={5} align="stretch">
+              <Text textAlign="center">
+                Creating this content requires more credits than available on your current plan.
               </Text>
               
-              <Box 
-                bg="gray.50" 
-                p={4} 
-                borderRadius="md"
-                borderLeft="4px solid"
-                borderLeftColor="blue.500"
+              <Text
+                textAlign="center"
+                fontSize="sm"
+                color="gray.700"
               >
-                <HStack gap={3}>
-                  <Icon
-                    as={FiCreditCard}
-                    boxSize={5}
-                    color="blue.500"
-                  />
-                  <Box>
-                    <Text fontWeight="bold">Обновите тарифный план</Text>
-                    <Text fontSize="sm" color="gray.600">
-                      Получите больше кредитов для создания любого контента без ограничений
-                    </Text>
-                  </Box>
-                </HStack>
-              </Box>
+                Upgrade to get more credits and continue creating without interruptions.
+              </Text>
+              
+              <Button 
+                variant="solid"
+                colorScheme="blue"
+                size="md"
+                width="full"
+                onClick={handleGoToPlans}
+              >
+                <Flex
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={2}
+                  width="full"
+                >
+                  <Text>View Plans</Text>
+                  <Icon as={FiArrowRight} />
+                </Flex>
+              </Button>
             </VStack>
           </DialogBody>
-          
-          <DialogFooter>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={handleClose}
-            >
-              Отмена
-            </Button>
-            <Button 
-              variant="solid"
-              colorScheme="blue" 
-              size="md"
-              onClick={handleGoToPlans}
-            >
-              Перейти к тарифам
-            </Button>
-          </DialogFooter>
         </Box>
       </DialogContent>
     </DialogRoot>
