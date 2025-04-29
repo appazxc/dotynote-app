@@ -21,17 +21,7 @@ function DefaultNotFoundComponent() {
         <EmptyState
           title="404"
           description="Not found"
-        >
-          <Group>
-            <Button
-              asChild
-              variant="subtle"
-              size="3xs"
-            >
-              <MobileTabLink to="/">Return to home</MobileTabLink>
-            </Button>
-          </Group>
-        </EmptyState>
+        />
       </Center>
     </Layout>
   );

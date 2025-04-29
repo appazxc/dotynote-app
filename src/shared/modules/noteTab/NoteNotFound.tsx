@@ -1,10 +1,6 @@
-import { Box, Heading, Text, Button, Center } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
-import React from 'react';
+import { Box, Center, Heading, Text } from '@chakra-ui/react';
 
 export const NoteNotFound = () => {
-  const navigate = useNavigate();
-
   return (
     <Center h="full">
       <Box
@@ -29,12 +25,6 @@ export const NoteNotFound = () => {
         <Text color={'gray.500'} mb={6}>
           The note you{"'"}re looking for does not seem to exist
         </Text>
-        <Button
-          colorScheme="brand"
-          onClick={() => navigate({ to: '/' })}
-        >
-          Return to home
-        </Button>
       </Box>
     </Center>
   );

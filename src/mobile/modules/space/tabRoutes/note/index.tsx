@@ -4,7 +4,6 @@ import { loadNoteData } from 'shared/api/loadNoteData';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
-import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 
@@ -20,7 +19,6 @@ export const note = createRoute({
     });
   },
   pendingComponent: LayoutLoader,
-  notFoundComponent: NoteNotFound,
   pendingMinMs: 0,
   pendingMs: 300,
   shouldReload: ({ params }) => {
