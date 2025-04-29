@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoFile } from 'react-icons/go';
-import { HiOutlineVideoCamera } from 'react-icons/hi';
+import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
 import { PiFileAudioFill } from 'react-icons/pi';
 import { SlNotebook } from 'react-icons/sl';
@@ -111,9 +111,9 @@ export const PostsContentPicker = React.memo((props: Props) => {
         },
       },
       {
-        icon: GoFile,
-        title: 'File',
-        onClick: handlePostAttachmentClick('file'),
+        icon: HiOutlineVideoCamera,
+        title: 'Video',
+        onClick: handlePostAttachmentClick('video'),
       },
       {
         icon: PiFileAudioFill,
@@ -121,9 +121,9 @@ export const PostsContentPicker = React.memo((props: Props) => {
         onClick: handlePostAttachmentClick('audio'),
       },
       {
-        icon: HiOutlineVideoCamera,
-        title: 'Video',
-        onClick: handlePostAttachmentClick('video'),
+        icon: GoFile,
+        title: 'File',
+        onClick: handlePostAttachmentClick('file'),
       },
     ];
   }, [dispatch, note.id, checkCredits, handlePostAttachmentClick, handlePostCreate, openFilePicker, onClick]);

@@ -1,4 +1,4 @@
-import { Box, VStack, Text, Separator } from '@chakra-ui/react';
+import { Separator, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { RiBillLine } from 'react-icons/ri';
@@ -8,16 +8,13 @@ import { logout } from 'shared/actions/logout';
 import { RemainingCredits } from 'shared/components/RemainingCredits';
 import { Button } from 'shared/components/ui/button';
 import { UpdateAvailability } from 'shared/components/UpdateAvailability';
-import { SWContext } from 'shared/core/Providers/SWProvider';
 import { useAppDispatch } from 'shared/store/hooks';
-import { useReactContext } from 'shared/util/useReactContext';
 
 import { Layout } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 const Menu = React.memo(() => {
   const dispatch = useAppDispatch();
-  const { isUpdateAvailable, updateSW } = useReactContext(SWContext);
 
   const list = [
     {
@@ -84,7 +81,7 @@ const Menu = React.memo(() => {
           );
         })}
       </VStack>
-      <RemainingCredits m="4" />
+      <RemainingCredits m="4" size="md" />
       <UpdateAvailability px="4" py="2" />
     </Layout>
   );

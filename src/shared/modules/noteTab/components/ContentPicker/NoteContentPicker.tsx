@@ -2,8 +2,7 @@ import React from 'react';
 import { GoDot, GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
-import { PiFeather, PiFileAudioFill } from 'react-icons/pi';
-import { VscRecord } from 'react-icons/vsc';
+import { PiFileAudioFill } from 'react-icons/pi';
 
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
 import { modalIds } from 'shared/constants/modalIds';
@@ -67,9 +66,9 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false
         onClick: handleNoteAttachmentClick('image'),
       },
       {
-        icon: GoFile,
-        title: 'File',
-        onClick: handleNoteAttachmentClick('file'),
+        icon: HiOutlineVideoCamera,
+        title: 'Video',
+        onClick: handleNoteAttachmentClick('video'),
       },
       {
         icon: PiFileAudioFill,
@@ -77,33 +76,33 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false
         onClick: handleNoteAttachmentClick('audio'),
       },
       {
-        icon: HiOutlineVideoCamera,
-        title: 'Video',
-        onClick: handleNoteAttachmentClick('video'),
+        icon: GoFile,
+        title: 'File',
+        onClick: handleNoteAttachmentClick('file'),
       },
-      {
-        icon: VscRecord,
-        title: 'Record',
-        to: '/',
-        disabled: true,
-      },
-      {
-        icon: PiFeather,
-        title: 'Excalidraw',
-        to: '/',
-        disabled: true,
-      },
+      // {
+      //   icon: VscRecord,
+      //   title: 'Record',
+      //   to: '/',
+      //   isDisabled: true,
+      // },
+      // {
+      //   icon: PiFeather,
+      //   title: 'Excalidraw',
+      //   to: '/',
+      //   isDisabled: true,
+      // },
       // {
       //   icon: PiVideo,
       //   title: 'Stream',
       //   to: '/',
-      //   disabled: true,
+      //   isDisabled: true,
       // },
       // {
       //   icon: PiMusicNotes,
       //   title: 'Music',
       //   to: '/',
-      //   disabled: true,
+      //   isDisabled: true,
       // },
     ];
   }, [dispatch, onClick, handleNoteAttachmentClick]);

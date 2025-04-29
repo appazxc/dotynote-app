@@ -51,15 +51,31 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
         alignItems="center"
         gap={2}
       >
-        <Text fontSize="sm" fontWeight="500">Create</Text> 
-        <Tabs.List>
-          {canAddToNote && <Tabs.Trigger value={addTo.NOTE}>Note</Tabs.Trigger>}
-          {canAddToPosts && <Tabs.Trigger value={addTo.POSTS}>Post</Tabs.Trigger>}
+        <Text fontSize="md" fontWeight="600">Create</Text> 
+        <Tabs.List alignItems="center">
+          {canAddToNote && (
+            <Tabs.Trigger
+              value={addTo.NOTE}
+              h="6"
+              fontWeight="600"
+            >
+              Note
+            </Tabs.Trigger>
+          )}
+          {canAddToPosts && (
+            <Tabs.Trigger
+              value={addTo.POSTS}
+              h="6"
+              fontWeight="600"
+            >
+              Post
+            </Tabs.Trigger>
+          )}
         </Tabs.List>
       </Box>
 
       {canAddToNote && (
-        <Tabs.Content value={addTo.NOTE}>
+        <Tabs.Content value={addTo.NOTE} pt={isMobile ? '1' : undefined}>
           <NoteContentPicker
             noteId={noteId}
             isMobile={isMobile}
@@ -68,7 +84,7 @@ export const ContentPicker = React.memo(({ noteId, onClose, canAddToNote, canAdd
         </Tabs.Content>
       )}
       {canAddToPosts && (
-        <Tabs.Content value={addTo.POSTS}>
+        <Tabs.Content value={addTo.POSTS} pt={isMobile ? '1' : undefined}>
           <PostsContentPicker
             note={note}
             isMobile={isMobile}

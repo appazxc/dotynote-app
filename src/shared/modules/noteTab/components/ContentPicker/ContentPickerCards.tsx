@@ -6,7 +6,12 @@ import { useAppSelector } from 'shared/store/hooks';
 
 type Props = {
   view?: 'grid' | 'list';
-  items: any[];
+  items: {
+    title: string;
+    icon: React.ElementType;
+    isDisabled?: boolean;
+    onClick: () => void;
+  }[];
 };
 
 const ICON_SIZE = 24;
@@ -18,12 +23,12 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
     return (
       <Box minH="180px">
         <SimpleGrid gap={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
-          {items.map(({ title, icon: Icon, disabled, onClick }) => {
+          {items.map(({ title, icon: Icon, isDisabled, onClick }) => {
             return (
               <Card.Root
                 key={title}
-                cursor={disabled ? 'default' : 'pointer'}
-                opacity={disabled ? '0.6' : '1'}
+                cursor={isDisabled ? 'default' : 'pointer'}
+                opacity={isDisabled ? '0.6' : '1'}
                 onClick={onClick}
               >
                 <Card.Header p="2">
@@ -47,8 +52,8 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
   }
 
   return (
-    <Stack gap={1}>
-      {items.map(({ title, icon: Icon, disabled, onClick }) => {
+    <Stack gap={0}>
+      {items.map(({ title, icon: Icon, isDisabled, onClick }) => {
         return (
           <Button
             key={title}
@@ -56,16 +61,19 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
             size="sm"
             variant="plain"
             justifyContent="flex-start"
-            disabled={disabled}
+            disabled={isDisabled}
             pl="0"
+            iconSize="auto"
             onClick={onClick}
           >
-            <Icon size="14px" />
+            <Icon size="16px" />
             <Text
               as="span"
               fontSize="sm"
               fontWeight="400"
-            >{title}</Text>
+            >
+              {title}
+            </Text>
           </Button>
         );
       })}

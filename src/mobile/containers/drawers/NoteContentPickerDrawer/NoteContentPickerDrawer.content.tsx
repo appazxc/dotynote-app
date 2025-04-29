@@ -1,9 +1,8 @@
-import { Portal, Text } from '@chakra-ui/react';
+import { Flex, Portal, Text } from '@chakra-ui/react';
 
 import { Loader } from 'shared/components/Loader';
 import { DrawerBackdrop, DrawerBody, DrawerContent, DrawerHeader, DrawerRoot } from 'shared/components/ui/drawer';
 import { useCreateNoteItems } from 'shared/hooks/useCreateNoteItems';
-import { DrawerLoader } from 'shared/modules/drawer/DrawerLoader';
 import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
@@ -30,7 +29,7 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
   const { items, isLoading } = useCreateNoteItems({ 
     onCreate, 
     onError,
-    onTextClick: () => {
+    onClick: () => {
       dispatch(hideDrawer());
     }, 
   });
@@ -44,10 +43,12 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
       <Portal>
         <DrawerBackdrop />
         <DrawerContent roundedTop="md">
-          <DrawerHeader pb="1">
-            <Text fontSize="sm" fontWeight="500">Create note</Text> 
+          <DrawerHeader pb="1" pt="4">
+            <Flex alignItems="center" gap="2">
+              <Text fontSize="md" fontWeight="600">Create note</Text> 
+            </Flex>
           </DrawerHeader>
-          <DrawerBody pb="4">  
+          <DrawerBody pt="1">  
             {isLoading ? <Loader height="200px" /> : <ContentPickerCards view="list" items={items} />}
           </DrawerBody>
         </DrawerContent>

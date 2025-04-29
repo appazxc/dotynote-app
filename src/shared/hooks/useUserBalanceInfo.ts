@@ -45,7 +45,7 @@ export const useUserBalanceInfo = () => {
       realTotalUsedCredits: realTotalUsedCredits,
       remainingCredits,
       isCreditsLimitReached: remainingCredits === 0,
-      isCreditsLimitAlmostReached: remainingCredits < 300,
+      isCreditsLimitAlmostReached: remainingCredits < 200,
       nextUpdateIn: formatNextUpdateTime(balance.nextResetAt),
     };
   }, [balance]);

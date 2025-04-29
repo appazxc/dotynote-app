@@ -50,7 +50,7 @@ export const MenuHeaderButton = React.memo(() => {
             aria-label="User menu"
             variant={isCreditsLimitReached || isCreditsLimitAlmostReached ? 'subtle' : 'ghost'}
             rotate="90"
-            colorPalette={isCreditsLimitReached ? 'red' : isCreditsLimitAlmostReached ? 'orange' : 'gray'}
+            colorPalette={isCreditsLimitReached ? 'red' : isCreditsLimitAlmostReached ? 'yellow' : 'gray'}
           >
             <DotsIcon />
           </IconButton>

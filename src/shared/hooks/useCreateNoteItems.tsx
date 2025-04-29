@@ -16,11 +16,11 @@ import { useAppDispatch } from 'shared/store/hooks';
 type Props = {
   onCreate: (noteId: number) => void;
   onError?: (error: unknown) => void;
-  onTextClick?: () => void;
+  onClick?: () => void;
 }
 
 export const useCreateNoteItems = (props: Props) => {
-  const { onCreate, onError, onTextClick } = props;
+  const { onCreate, onError, onClick } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -51,7 +51,9 @@ export const useCreateNoteItems = (props: Props) => {
     openFilePicker({
       type,
     }, onFilesAdd);
-  }, [dispatch, onCreate, openFilePicker, onError, checkCredits]);
+
+    onClick?.();
+  }, [dispatch, onCreate, openFilePicker, onError, onClick, checkCredits]);
   
   const items = React.useMemo(() => [
     {
@@ -61,15 +63,10 @@ export const useCreateNoteItems = (props: Props) => {
         checkCredits(
           { resources: { note: 1 } },
           () => {
-            onTextClick?.();
+            onClick?.();
             dispatch(showModal({ id: modalIds.createNote }));
           });
       },
-    },
-    {
-      icon: GoFile,
-      title: 'File',
-      onClick: handleAttachmentClick('file'),
     },
     {
       icon: IoImageOutline,
@@ -77,15 +74,20 @@ export const useCreateNoteItems = (props: Props) => {
       onClick: handleAttachmentClick('image'),
     },
     {
+      icon: HiOutlineVideoCamera,
+      title: 'Video',
+      onClick: handleAttachmentClick('video'),
+      isDisabled: false,
+    },
+    {
       icon: PiFileAudioFill,
       title: 'Audio',
       onClick: handleAttachmentClick('audio'),
     },
     {
-      icon: HiOutlineVideoCamera,
-      title: 'Video',
-      onClick: handleAttachmentClick('video'),
-      isDisabled: false,
+      icon: GoFile,
+      title: 'File',
+      onClick: handleAttachmentClick('file'),
     },
     // {
     //   icon: <VscRecord size="22" />,
@@ -113,7 +115,7 @@ export const useCreateNoteItems = (props: Props) => {
     //   description: constructionText,
     //   isDisabled: true,
     // },
-  ], [dispatch, checkCredits, handleAttachmentClick, onTextClick]);
+  ], [dispatch, checkCredits, handleAttachmentClick, onClick]);
 
   return {
     items,
