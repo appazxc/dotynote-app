@@ -1,4 +1,4 @@
-import { Box, Text, Flex, BoxProps, FlexProps } from '@chakra-ui/react';
+import { Flex, FlexProps, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 

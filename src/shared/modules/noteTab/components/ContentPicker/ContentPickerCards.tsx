@@ -29,6 +29,12 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
                 key={title}
                 cursor={isDisabled ? 'default' : 'pointer'}
                 opacity={isDisabled ? '0.6' : '1'}
+                _hover={{
+                  boxShadow: 'md',
+                  borderColor: 'gray.50',
+                  transform: 'scale(1.02)',
+                }}
+                transition="box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out"
                 onClick={onClick}
               >
                 <Card.Header p="2">

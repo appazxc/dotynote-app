@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex, FlexProps, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { Button } from 'shared/components/ui/button';
