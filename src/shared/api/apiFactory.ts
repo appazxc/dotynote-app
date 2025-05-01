@@ -1,3 +1,4 @@
+import { queryOptions } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
@@ -7,11 +8,11 @@ import { nanoid } from 'nanoid';
 
 import { logout } from 'shared/actions/logout';
 import { api } from 'shared/api';
+import { queryClient } from 'shared/api/queryClient';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectRefreshToken, selectToken } from 'shared/selectors/auth/selectToken';
-import { setRefreshToken } from 'shared/store/slices/authSlice';
-import { setToken } from 'shared/store/slices/authSlice';
+import { setRefreshToken, setToken } from 'shared/store/slices/authSlice';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
 import { finishRequest, startRequest } from 'shared/store/slices/requestSlice';
 
@@ -54,9 +55,12 @@ axiosInstance.interceptors.request.use((config) => {
 
   dispatch(startRequest({ id: requestId, request: pick(config, pickItems) }));
 
-  const token = selectToken(getState());
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // Устанавливаем Authorization заголовок только если он еще не установлен
+  if (!config.headers.Authorization) {
+    const token = selectToken(getState());
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 }, (error) => {
@@ -78,8 +82,13 @@ axiosInstance.interceptors.response.use(
     const requestId = error.config?.headers['X-Request-Id'];
   
     dispatch(finishRequest({ id: requestId }));
+    if (error.config.url === '/api/v1/auth/refresh') {
+      console.log('reject' );
+      return Promise.reject(error);
+    }
 
     const originalRequest = error.config;
+    console.log('originalRequest?._retry', originalRequest?._retry, originalRequest.url);
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
          
@@ -89,19 +98,24 @@ axiosInstance.interceptors.response.use(
           return dispatch(logout(false));
         }
            
-        const response = await api.post<{ token: string; refreshToken: string }>('/auth/refresh', {}, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
+        const response = await queryClient.fetchQuery(queryOptions({
+          queryKey: ['refreshToken'],
+          queryFn: () => {
+            return api.post<{ token: string; refreshToken: string }>('/auth/refresh', {}, {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            });
           },
-        });
-           
-        // Сохраняем новые токены
+        }));
+        console.log('response', response);
         dispatch(setToken(response.token));
         dispatch(setRefreshToken(response.refreshToken));
            
         originalRequest.headers.Authorization = `Bearer ${response.token}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        console.log('heree?', refreshError );
         return dispatch(logout(false));
       }
     }
@@ -118,15 +132,13 @@ export const provideJwt = () => {
 export default () => {
 
   const createHeaders = (headers = {}) => ({
-    ...(provideJwt()
-      ? {
-        ...headers,
-      }
-      : {}),
+    ...headers,
   });
 
   const api: Api = {
-    async get(path, params = {}, options = {}) {
+    async get(path, params = {}, config: AxiosRequestConfig = {}) {
+      const { headers, ...restConfig } = config;
+
       const updatedParams = mapValues(params, (value) => {
         if (isArray(value)) {
           return value.join(',');
@@ -138,8 +150,8 @@ export default () => {
       return axiosInstance
         .get(getBaseApi() + path, {
           params: pickBy(updatedParams, (param) => param !== undefined),
-          headers: createHeaders(),
-          ...options,
+          headers: createHeaders(headers),
+          ...restConfig,
         })
         .then(response => handleResponse(response));
     },

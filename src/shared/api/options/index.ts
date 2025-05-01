@@ -1,3 +1,4 @@
+import * as auth from './auth';
 import * as notes from './notes';
 import * as posts from './posts';
 import * as spaces from './spaces';
@@ -10,4 +11,5 @@ export const options = {
   posts,
   users,
   spaceTabs,
+  auth,
 };
