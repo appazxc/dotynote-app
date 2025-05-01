@@ -7,7 +7,6 @@ import pickBy from 'lodash/pickBy';
 import { nanoid } from 'nanoid';
 
 import { logout } from 'shared/actions/logout';
-import { api } from 'shared/api';
 import { queryClient } from 'shared/api/queryClient';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
@@ -82,13 +81,8 @@ axiosInstance.interceptors.response.use(
     const requestId = error.config?.headers['X-Request-Id'];
   
     dispatch(finishRequest({ id: requestId }));
-    if (error.config.url === '/api/v1/auth/refresh') {
-      console.log('reject' );
-      return Promise.reject(error);
-    }
 
     const originalRequest = error.config;
-    console.log('originalRequest?._retry', originalRequest?._retry, originalRequest.url);
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
          
@@ -100,24 +94,30 @@ axiosInstance.interceptors.response.use(
            
         const response = await queryClient.fetchQuery(queryOptions({
           queryKey: ['refreshToken'],
-          queryFn: () => {
-            return api.post<{ token: string; refreshToken: string }>('/auth/refresh', {}, {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              },
-            });
+          queryFn: async () => {
+            const response = await axios.post<{ token: string; refreshToken: string }>(
+              getBaseApi() + '/auth/refresh', {}, {
+                method: 'post',
+                url: getBaseApi() + '/auth/refresh',
+                headers: {
+                  Authorization: `Bearer ${refreshToken}`,
+                },
+              });
+
+            return response.data;
           },
         }));
-        console.log('response', response);
+
         dispatch(setToken(response.token));
         dispatch(setRefreshToken(response.refreshToken));
-           
-        originalRequest.headers.Authorization = `Bearer ${response.token}`;
+        originalRequest.headers.Authorization = `Bearer ${response.token}1`;
+        
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.log('heree?', refreshError );
         return dispatch(logout(false));
       }
+    } else if (originalRequest?._retry) {
+      return dispatch(logout(false));
     }
        
     return Promise.reject(error);

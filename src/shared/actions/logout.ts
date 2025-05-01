@@ -7,7 +7,11 @@ import { ThunkAction } from 'shared/types/store';
 
 export const logout = (shouldLogout = true): ThunkAction => async (dispatch, getState) => {
   if (shouldLogout) {
-    await api.post('/auth/logout', { refreshToken: selectRefreshToken(getState()) });
+    try {
+      await api.post('/auth/logout', { refreshToken: selectRefreshToken(getState()) });
+    } catch (_) {
+      // ignore
+    }
   }
   
   await persistor.purge();
