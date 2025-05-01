@@ -17,7 +17,7 @@ import requestReducer from './slices/requestSlice';
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token', 'refreshToken'],
 };
 
 const appPersistConfig = {

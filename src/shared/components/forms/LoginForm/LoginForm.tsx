@@ -10,7 +10,7 @@ import store2 from 'store2';
 import * as z from 'zod';
 
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
-import { useSendCodeEmail } from 'shared/api/hooks/useSendCodeEmail';
+import { useLoginEmailConfirm } from 'shared/api/hooks/useLoginEmailConfirm';
 import { useAppForm } from 'shared/components/Form';
 import { handleFormApiErrors } from 'shared/components/Form/util';
 import { Button } from 'shared/components/ui/button';
@@ -34,9 +34,9 @@ export const LoginForm = () => {
   const [showReferralField, setShowReferralField] = React.useState(false);
   const navigate = useNavigate();
   const backUrl = useSearch({ strict: false })[BACK_URL];
-  const { mutateAsync: sendCodeEmail } = useSendCodeEmail();
-  const { mutateAsync: loginEmail } = useLoginEmail();
-  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField, ...rest } = useAppForm({ 
+  const { mutateAsync: sendCodeEmail } = useLoginEmail();
+  const { mutateAsync: loginEmail } = useLoginEmailConfirm();
+  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField } = useAppForm({ 
     defaultValues,
     validators: {
       onSubmit: schema(isEmailSent),

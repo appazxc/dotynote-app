@@ -3,7 +3,7 @@ import { Navigate } from '@tanstack/react-router';
 import { AxiosError } from 'axios';
 import React from 'react';
 
-import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
+import { useLoginEmailConfirm } from 'shared/api/hooks/useLoginEmailConfirm';
 import { Loader } from 'shared/components/Loader';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 }
 
 function LoginEmailContent({ email, token }: Props) {
-  const { mutate, error, isSuccess } = useLoginEmail();
+  const { mutate, error, isSuccess } = useLoginEmailConfirm();
 
   React.useEffect(() => {
     mutate({ email, token });

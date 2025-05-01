@@ -5,9 +5,13 @@ import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import { nanoid } from 'nanoid';
 
+import { logout } from 'shared/actions/logout';
+import { api } from 'shared/api';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
-import { selectToken } from 'shared/selectors/auth/selectToken';
+import { selectRefreshToken, selectToken } from 'shared/selectors/auth/selectToken';
+import { setRefreshToken } from 'shared/store/slices/authSlice';
+import { setToken } from 'shared/store/slices/authSlice';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
 import { finishRequest, startRequest } from 'shared/store/slices/requestSlice';
 
@@ -39,7 +43,7 @@ export type Api = {
 const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
-  const { dispatch } = getStore();
+  const { dispatch, getState } = getStore();
   const requestId = nanoid(); 
   config.headers['X-Request-Id'] = requestId;
 
@@ -50,27 +54,60 @@ axiosInstance.interceptors.request.use((config) => {
 
   dispatch(startRequest({ id: requestId, request: pick(config, pickItems) }));
 
+  const token = selectToken(getState());
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 }, (error) => {
   return Promise.reject(error);
 });
 
 // Перехватчик для ответов
-axiosInstance.interceptors.response.use((response) => {
-  const { dispatch } = getStore();
-  const requestId = response.config.headers['X-Request-Id'];
+axiosInstance.interceptors.response.use(
+  (response) => {
+    const { dispatch } = getStore();
+    const requestId = response.config.headers['X-Request-Id'];
   
-  dispatch(finishRequest({ id: requestId }));
+    dispatch(finishRequest({ id: requestId }));
 
-  return response;
-}, (error) => {
-  const { dispatch } = getStore();
-  const requestId = error.config?.headers['X-Request-Id'];
+    return response;
+  }, 
+  async (error) => {
+    const { dispatch, getState } = getStore();
+    const requestId = error.config?.headers['X-Request-Id'];
   
-  dispatch(finishRequest({ id: requestId }));
+    dispatch(finishRequest({ id: requestId }));
 
-  return Promise.reject(error);
-});
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest?._retry) {
+      originalRequest._retry = true;
+         
+      try {
+        const refreshToken = selectRefreshToken(getState());
+        if (!refreshToken) {
+          return dispatch(logout(false));
+        }
+           
+        const response = await api.post<{ token: string; refreshToken: string }>('/auth/refresh', {}, {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        });
+           
+        // Сохраняем новые токены
+        dispatch(setToken(response.token));
+        dispatch(setRefreshToken(response.refreshToken));
+           
+        originalRequest.headers.Authorization = `Bearer ${response.token}`;
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        return dispatch(logout(false));
+      }
+    }
+       
+    return Promise.reject(error);
+  });
 
 export const provideJwt = () => {
   const { getState } = getStore();
@@ -83,7 +120,6 @@ export default () => {
   const createHeaders = (headers = {}) => ({
     ...(provideJwt()
       ? {
-        Authorization: `Bearer ${provideJwt()}`,
         ...headers,
       }
       : {}),
