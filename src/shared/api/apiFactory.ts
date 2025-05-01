@@ -110,7 +110,7 @@ axiosInstance.interceptors.response.use(
 
         dispatch(setToken(response.token));
         dispatch(setRefreshToken(response.refreshToken));
-        originalRequest.headers.Authorization = `Bearer ${response.token}1`;
+        originalRequest.headers.Authorization = `Bearer ${response.token}`;
         
         return axiosInstance(originalRequest);
       } catch (refreshError) {
