@@ -1,4 +1,4 @@
-import { onNoteAttachmentDeleted } from 'shared/actions/note/onNoteAttachmentDeleted';
+import { handleNoteAttachmentDelete } from 'shared/actions/note/handleNoteAttachmentDelete';
 import { api } from 'shared/api';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -46,7 +46,7 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
 
       dispatch(deleteEntity({ id: entityId, type: entityName }));
 
-      dispatch(onNoteAttachmentDeleted(noteId));
+      dispatch(handleNoteAttachmentDelete(noteId));
     } catch (error) {
       const apiError = parseApiError(error);
 

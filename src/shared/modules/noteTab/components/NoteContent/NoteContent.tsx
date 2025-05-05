@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import { JSONContent } from '@tiptap/core';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
@@ -8,10 +7,10 @@ import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { Tag } from 'shared/components/ui/tag';
-import { selectIsNoteFilesUploading } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
 import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
 import { noteSelector } from 'shared/selectors/entities';
+import { selectNoteFullness } from 'shared/selectors/note/selectNoteFullness';
 import { useAppSelector } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { invariant } from 'shared/util/invariant';
@@ -28,22 +27,17 @@ type Props = {
   showParent?: boolean;
 }
 
-const EMPTY_TEXT_CONTENT = JSON.stringify({
-  type: 'doc',
-  content: [{ type: 'paragraph' }],
-});
-
-const getIsTextContentEmpty = (content: JSONContent) => {
-  return JSON.stringify(content) === EMPTY_TEXT_CONTENT;
-};
-
 export const NoteContent = (props: Props) => {
   const { noteId, isWriteMode, parent, showParent, isMobile } = props;
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
+  const { 
+    isFilesUploading, 
+    isContentEmpty, 
+    isTextContentEmpty, 
+    isNoteEmpty, 
+  } = useAppSelector(state => selectNoteFullness(state, noteId));
 
   invariant(note, 'Missing note');
-
-  const isFilesLoading = useAppSelector(state => selectIsNoteFilesUploading(state, noteId));
 
   const { mutate } = useUpdateNote(noteId);
 
@@ -55,17 +49,7 @@ export const NoteContent = (props: Props) => {
     }, 2000);
   }, [mutate, noteId]);
 
-  const isContentEmpty = !content || getIsTextContentEmpty(content);
-  const isTextContentEmpty = !title && isContentEmpty;
-  const showContent = 
-    isWriteMode 
-    || !isTextContentEmpty
-    || note.images.length
-    || note.dots.length
-    || note.files.length
-    || note.videos.length
-    || note.audio.length
-    || isFilesLoading;
+  const showContent = isWriteMode || !isTextContentEmpty || !isNoteEmpty || isFilesUploading;
 
   if (!showContent) {
     return null;
