@@ -2,7 +2,7 @@ import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { postSelector } from 'shared/selectors/entities';
-import { deleteEntity } from 'shared/store/slices/entitiesSlice';
+import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
@@ -34,7 +34,7 @@ export const deleteNotesFromPosts = (parentId: number, postIds: number[]): Thunk
 
       setTimeout(() => {
         noteIds.forEach((id) => {
-          dispatch(deleteEntity({ id, type: entityNames.note }));
+          dispatch(updateEntity({ id, type: entityNames.note, data: { _isDeleted: true } }));
         });
       }, 1000);
     } catch(error) {
