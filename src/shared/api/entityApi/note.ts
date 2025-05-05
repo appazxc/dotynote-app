@@ -43,6 +43,6 @@ export class NoteEssence extends Essense<NoteEntity> {
       return [];
     }
 
-    return this.loadList({ filters: { ids: noteIds, pageSize: 100 } });
+    return this.loadList({ filters: { ids: noteIds, pageSize: 100, select: { id: true, title: true } } });
   }
 }
