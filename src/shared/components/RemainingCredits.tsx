@@ -10,10 +10,10 @@ type Props = {
 } & FlexProps;
 
 export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props) => {
-  const { remainingCredits, isCreditsLimitReached } = useUserBalanceInfo();
+  const { remainingCredits, isCreditsLimitReached, isCreditsLimitAlmostReached } = useUserBalanceInfo();
   const navigate = useNavigate();
 
-  if (remainingCredits >= 500) {
+  if (!isCreditsLimitAlmostReached) {
     return null;
   }
 
