@@ -119,10 +119,10 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         return dispatch(logout(false));
       }
-    } else if (originalRequest?._retry) {
+    } else if (error.response?.status === 401 && originalRequest?._retry) {
       return dispatch(logout(false));
     }
-    
+
     return Promise.reject(error);
   });
 
