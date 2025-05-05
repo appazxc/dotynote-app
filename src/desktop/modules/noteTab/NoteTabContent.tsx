@@ -32,10 +32,12 @@ export const NoteTabContent = React.memo((props: Props) => {
       px="0"
     >
       <Box
-        h="full"
+        height="fit-content"
+        minHeight="full"
         display="flex"
         flexDirection="column"
-        gap="10"
+        gap="14"
+        pb="20"
       >
         {showNote && (
           <NoteContent

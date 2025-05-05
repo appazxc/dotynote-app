@@ -29,9 +29,14 @@ export const NoteTabContent = (props: Props) => {
       opacity={visible ? 1 : 0}
       px="0"
     >
-      <Stack
+      <Box
+        height="fit-content"
+        minHeight="full"
+        display="flex"
+        flexDirection="column"
+        gap="14"
+        pb="20"
         pt="3"
-        h="full"
       >
         {showNote && (
           <NoteContent
@@ -50,7 +55,7 @@ export const NoteTabContent = (props: Props) => {
             />
           </Box>
         )}
-      </Stack>
+      </Box>
     </Container>
   );
 };

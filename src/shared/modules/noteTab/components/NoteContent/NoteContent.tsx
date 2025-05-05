@@ -61,7 +61,6 @@ export const NoteContent = (props: Props) => {
       display="flex"
       flexDirection="column"
       gap="6"
-      pb="14"
       px="4"
     >
       <Box
