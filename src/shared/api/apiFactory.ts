@@ -85,9 +85,10 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
-         
+      
       try {
         const refreshToken = selectRefreshToken(getState());
+
         if (!refreshToken) {
           return dispatch(logout(false));
         }
@@ -106,6 +107,8 @@ axiosInstance.interceptors.response.use(
 
             return response.data;
           },
+          gcTime: 0,
+          staleTime: 0,
         }));
 
         dispatch(setToken(response.token));
@@ -119,7 +122,7 @@ axiosInstance.interceptors.response.use(
     } else if (originalRequest?._retry) {
       return dispatch(logout(false));
     }
-       
+    
     return Promise.reject(error);
   });
 
