@@ -67,7 +67,7 @@ const PrimaryNoteModal = React.memo(() => {
             <Image
               src={isMobile ? exampleMobile : exampleDesktop}
               alt=""
-              maxW="400px"
+              maxW="100%"
             />
           </Box>
         </DialogBody>
