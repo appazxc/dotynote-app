@@ -15,7 +15,7 @@ export const getNoteFullness = (note?: NoteEntity | null) => {
       isNoteEmpty: true,
     };
   }
-  
+
   const isContentEmpty = getIsNoteContentEmpty(note.content);
   const isTextContentEmpty = !note.title && isContentEmpty;
   const isAttachmentsEmpty = 

@@ -1,10 +1,14 @@
 import { Box, Container } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
+import { openTab } from 'shared/actions/space/openTab';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
+import { NotePosts } from 'shared/modules/noteTab/components/NotePosts';
+import { useAppDispatch } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-
-import { NotePosts } from 'desktop/modules/noteTab/NotePosts';
 
 type Props = {
   note: NoteEntity;
@@ -20,9 +24,20 @@ export const NoteTabContent = React.memo((props: Props) => {
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
   const [visible, setVisible] = React.useState(!showPosts);
-
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
   const handleScrollRestoration = React.useCallback(() => setVisible(true), []);
+
+  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
+    if (event.metaKey) {
+      dispatch(openTab({ 
+        route: buildNoteTabRoute(noteId, { parent: note.id }),
+      }));
+    } else {
+      navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
+    }
+  }, [navigate, dispatch, note.id]);
 
   return (
     <Container
@@ -51,6 +66,7 @@ export const NoteTabContent = React.memo((props: Props) => {
             <NotePosts
               note={note}
               search={search}
+              onPostClick={handlePostClick}
               onScrollRestoration={handleScrollRestoration}
             />
           </Box>
