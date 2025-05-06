@@ -25,7 +25,7 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode, isNoteContentVisibl
 
   const showEditorControls = isAdvancedEditActive && isWriteMode && isNoteContentVisible;
   const showPlusButton = !editor.isFocused && !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
-
+  
   return (
     <>
       {showPlusButton ? (

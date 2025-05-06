@@ -19,6 +19,10 @@ const audioSlice = createSlice({
     },
     setActiveAudioId: (state, action: PayloadAction<string | null>) => {
       state.activeId = action.payload;
+
+      if (!action.payload) {
+        state.isMobileWidgetOpen = false;
+      }
     },
   },
 });

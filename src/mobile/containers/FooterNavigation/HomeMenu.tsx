@@ -55,7 +55,6 @@ export const HomeMenu = React.memo((props: Props) => {
                   onSuccess: () => {
                     toaster.create({
                       title: 'Primary note removed.',
-                      type: 'success',
                     });
                   }, 
                 });
