@@ -24,7 +24,7 @@ const select = (mutation: Mutation<unknown, Error, unknown, unknown>) => {
     return mutation.state.error?.response?.data.message;
   }
 
-  return null;
+  return mutation.state.error?.message || null;
 };
 
 export const useNoteMutationError = (noteId: number) => {
@@ -36,7 +36,7 @@ export const useNoteMutationError = (noteId: number) => {
     },
     select,
   });
-
+  
   const updateError = last(updateErrors);
 
   const deleteErrors = useMutationState<string>({

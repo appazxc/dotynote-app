@@ -127,8 +127,8 @@ export const NoteSidebar = React.memo((props: Props) => {
     return items.map(({ id, label = '', element, icon, children, ...restItem }) => {
       return element || (
         <Tooltip
-          key={id}
           showArrow
+          key={id}
           content={label}
           openDelay={1000}
           closeDelay={100}

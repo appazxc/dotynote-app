@@ -27,7 +27,7 @@ export const SidebarFooter = ({ noteId }: Props) => {
 
     setShowSpinner(false);
   }, [isMutating]);
-  
+
   const renderedError = React.useMemo(() => {
     if (!mutationError) {
       return null;
