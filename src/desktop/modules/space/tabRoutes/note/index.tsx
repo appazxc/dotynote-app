@@ -5,6 +5,7 @@ import { loadNoteData } from 'shared/api/loadNoteData';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { NotePending } from 'shared/modules/noteTab/components/NotePending';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
 import { NoteTabError } from 'desktop/modules/space/tabRoutes/note/NoteTabError';
@@ -29,6 +30,7 @@ export const note = createRoute({
       ],
     });
   },
+  pendingComponent: NotePending,
   notFoundComponent: NoteNotFound,
   errorComponent: NoteTabError,
   pendingMinMs: 0,

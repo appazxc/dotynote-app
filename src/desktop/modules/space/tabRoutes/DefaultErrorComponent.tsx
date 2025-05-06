@@ -1,4 +1,4 @@
-import { Center, Group } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import { useRouter } from '@tanstack/react-router';
 import React from 'react';
@@ -6,8 +6,6 @@ import { TbFaceIdError } from 'react-icons/tb';
 
 import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
-
-import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink';
 
 function DefaultErrorComponent({ reset, error }) {
   const router = useRouter();
@@ -28,19 +26,14 @@ function DefaultErrorComponent({ reset, error }) {
         title="Error"
         description="Try to reload this tab"
       >
-        <Group>
-          <Button
-            onClick={() => {
-              reset();
-              router.invalidate();
-            }}
-          >
-            Reload
-          </Button>
-          <Button asChild variant="outline">
-            <DesktopTabLink to="/">Return to home</DesktopTabLink>
-          </Button>
-        </Group>
+        <Button
+          onClick={() => {
+            reset();
+            router.invalidate();
+          }}
+        >
+          Reload
+        </Button>
       </EmptyState>
     </Center>
   );
