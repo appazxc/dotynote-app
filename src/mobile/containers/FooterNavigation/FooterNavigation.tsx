@@ -29,6 +29,11 @@ export const FooterNavigation = React.memo(() => {
   const isPrimaryNote = useIsPrimareNote();
   const { isCreditsLimitAlmostReached, isCreditsLimitReached } = useUserBalanceInfo();
   const { isMobileWidgetOpen, activeId } = useAppSelector(state => state.audio);
+  const activeColor = isCreditsLimitReached 
+    ? 'red.500' 
+    : isCreditsLimitAlmostReached 
+      ? 'yellow.500' 
+      : 'purple.500';
 
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
@@ -92,7 +97,7 @@ export const FooterNavigation = React.memo(() => {
           h="6"
           rounded="sm"
           borderWidth="2px"
-          borderColor={pathname === '/app/tabs' ? 'purple.500' : borderColor}
+          borderColor={pathname === '/app/tabs' ? activeColor : borderColor}
           fontSize="sm"
         >
           {activeSpace?.tabs.length ? (
@@ -120,11 +125,6 @@ export const FooterNavigation = React.memo(() => {
         icon: <RxHamburgerMenu 
           size="25"
         />,
-        color: pathname === '/app/menu'
-          ? 'purple.500' 
-          : isCreditsLimitReached 
-            ? 'red.500' 
-            : isCreditsLimitAlmostReached ? 'orange.500' : undefined,
         isActive: pathname === '/app/menu',
       },
     ];
@@ -138,8 +138,7 @@ export const FooterNavigation = React.memo(() => {
     pathname,
     activeId,
     isMobileWidgetOpen,
-    isCreditsLimitReached,
-    isCreditsLimitAlmostReached,
+    activeColor,
   ]);
 
   return (
@@ -161,7 +160,7 @@ export const FooterNavigation = React.memo(() => {
             variant: 'plain' as const,
             display: 'inline-flex',
             colorScheme: 'brand',
-            color: isActive ? 'purple.500' : undefined,
+            color: isActive ? activeColor : undefined,
             ...rest,
           };
 
