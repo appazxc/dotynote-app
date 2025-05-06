@@ -1,8 +1,6 @@
 import { Box, Container } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
 import { NotePosts } from 'shared/modules/noteTab/components/NotePosts';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -20,14 +18,8 @@ export const NoteTabContent = (props: Props) => {
   const showPosts = !!postsSettings;
   const showNote = (!isSearchActive && !settings?.hide) || !showPosts;
   const [visible, setVisible] = React.useState(!showPosts);
-  const navigate = useNavigate();
-  
   // hack to prevent screen jumping when restoring the scroll <TabScrollRestoration />
   const handleScrollRestoration = React.useCallback(() => setVisible(true), []);
-
-  const handlePostClick = React.useCallback((_event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
-    navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
-  }, [navigate, note.id]);
 
   return (
     <Container
@@ -57,7 +49,6 @@ export const NoteTabContent = (props: Props) => {
             <NotePosts 
               note={note}
               search={search}
-              onPostClick={handlePostClick}
               onScrollRestoration={handleScrollRestoration}
             />
           </Box>

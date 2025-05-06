@@ -1,10 +1,12 @@
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
+import { openTab } from 'shared/actions/space/openTab';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
+import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { PostList } from 'shared/modules/noteTab/components/PostList/PostList';
 import { selectOperation } from 'shared/selectors/operations';
@@ -17,23 +19,28 @@ type Props = {
   note: NoteEntity;
   search: string;
   onScrollRestoration?: () => void;
-  onPostClick: (event: React.MouseEvent<HTMLDivElement>, noteId: number) => void;
 };
 
 export const NotePosts = React.memo((props: Props) => {
   const { note, search, onScrollRestoration } = props;
   const { id: noteId, postsSettings } = note;
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
+  const navigate = useNavigate();
   const isSelecting = operation.type === operationTypes.SELECT && operation.noteId === noteId;
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
   
-  const defaultPostClick = React.useCallback((_event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
-    navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
-  }, [navigate, note.id]);
-  
+  const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
+    if (event.metaKey) {
+      dispatch(openTab({ 
+        route: buildNoteTabRoute(noteId, { parent: note.id }),
+      }));
+    } else {
+      navigate({ to: noteRoutePath, params: { noteId }, search: { parent: note.id } });
+    }
+  }, [navigate, dispatch, note.id]);
+
   const concretePostClick = React.useCallback((post: PostEntity) => {
     dispatch(updateOperationConcretePost(post.id));
     dispatch(showModal({ id: modalIds.selectConcretePlace }));
