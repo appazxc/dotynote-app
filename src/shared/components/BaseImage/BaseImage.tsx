@@ -69,6 +69,7 @@ export const BaseImage = React.memo((props: Props) => {
           width={32}
           height={32}
           css={placeholderStyles}
+          onClick={onClick}
         />
       )}
     </div>
