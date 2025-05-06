@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+import { motion } from 'motion/react';
 import React from 'react';
 
 import { Post as PostComponent } from 'shared/components/Post';
@@ -59,18 +60,20 @@ export const Post = React.memo((props: Props) => {
   }
 
   return (
-    <Box>
-      <PostWithMenu
-        internalLevel={internalLevel}
-        post={post}
-        parent={parent}
-        isMenuDisabled={isSelected}
-      >
-        {renderedPost}
-      </PostWithMenu>
-      {showInternal && (
-        <InternalPosts post={post} internalLevel={internalLevel} />
-      )}
+    <Box asChild position="relative">
+      <motion.div animate={{ left: isSelecting ? '40px' : '0' }}>
+        <PostWithMenu
+          internalLevel={internalLevel}
+          post={post}
+          parent={parent}
+          isMenuDisabled={isSelected}
+        >
+          {renderedPost}
+        </PostWithMenu>
+        {showInternal && (
+          <InternalPosts post={post} internalLevel={internalLevel} />
+        )}
+      </motion.div>
     </Box>
   );
 });

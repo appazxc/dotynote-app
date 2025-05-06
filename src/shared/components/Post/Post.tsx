@@ -104,78 +104,75 @@ export const Post = React.forwardRef((props: Props, _) => {
 
   return (
     <Box
-      asChild
       display="flex"
       position="relative"
       onClick={onClick}
       {...boxProps}
     >
-      <motion.div animate={{ left: isSelecting ? '40px' : '0' }}>
-        {renderedSelectingContent}
-        <Box
-          key="text"
-          flexGrow="1"
-          w="full"
-        >
-          {isPinned && (
-            <Box
-              p="2"
-              color="blue.500"
-              display="flex"
-              justifyContent="flex-end"
-              position="absolute"
-              top="0px"
-              right="0px"
-            >
-              <BsFillPinAngleFill size="16" />
-            </Box>
-          )}
-          <Stack
-            p="4"
-            borderWidth="2px"
-            borderRadius="lg"
-            borderColor="gray.200"
-            cursor="pointer"
-            userSelect="none"
-            gap="2"
+      {renderedSelectingContent}
+      <Box
+        key="text"
+        flexGrow="1"
+        w="full"
+      >
+        {isPinned && (
+          <Box
+            p="2"
+            color="blue.500"
+            display="flex"
+            justifyContent="flex-end"
+            position="absolute"
+            top="0px"
+            right="0px"
           >
-            {note.title && <Text fontWeight="500">{ note.title}</Text>}
-            <EditorView
-              removeEmptyDivsFromEnd
-              maxLines={4}
-              content={note.content}
-            />
-            <NoteVideos
-              noteId={noteId}
-              extraId={extraId}
-              videos={note.videos}
-            />
-            <NoteImages
-              inPost
-              noteId={noteId}
-              images={note.images}
-              hasControls={true}
-            />
-            <NoteFiles
-              size="sm"
-              noteId={noteId}
-              files={note.files}
-            />
-            <NoteAudioFiles
-              noteId={noteId}
-              audio={note.audio}
-            />
-          </Stack>
-          {dots && (
-            <PostDots
-              dots={dots}
-              showAmount={showDotsAmount}
-              mt="2"
-            />
-          )}
-        </Box>
-        {renderedOverlay}
-      </motion.div>
+            <BsFillPinAngleFill size="16" />
+          </Box>
+        )}
+        <Stack
+          p="4"
+          borderWidth="2px"
+          borderRadius="lg"
+          borderColor="gray.200"
+          cursor="pointer"
+          userSelect="none"
+          gap="2"
+        >
+          {note.title && <Text fontWeight="500">{ note.title}</Text>}
+          <EditorView
+            removeEmptyDivsFromEnd
+            maxLines={4}
+            content={note.content}
+          />
+          <NoteVideos
+            noteId={noteId}
+            extraId={extraId}
+            videos={note.videos}
+          />
+          <NoteImages
+            inPost
+            noteId={noteId}
+            images={note.images}
+            hasControls={true}
+          />
+          <NoteFiles
+            size="sm"
+            noteId={noteId}
+            files={note.files}
+          />
+          <NoteAudioFiles
+            noteId={noteId}
+            audio={note.audio}
+          />
+        </Stack>
+        {dots && (
+          <PostDots
+            dots={dots}
+            showAmount={showDotsAmount}
+            mt="2"
+          />
+        )}
+      </Box>
+      {renderedOverlay}
     </Box>
   );
 });
