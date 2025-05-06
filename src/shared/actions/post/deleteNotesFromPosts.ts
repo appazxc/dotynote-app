@@ -1,4 +1,8 @@
+import uniq from 'lodash/uniq';
+
 import { api } from 'shared/api';
+import { getPinnedPostsCountQueryKey } from 'shared/api/options/posts';
+import { queryClient } from 'shared/api/queryClient';
 import { entityNames } from 'shared/constants/entityNames';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { postSelector } from 'shared/selectors/entities';
@@ -11,6 +15,13 @@ export const deleteNotesFromPosts = (parentId: number, postIds: number[]): Thunk
     const posts = postSelector.getEntitiesById(getState(), postIds);
     const noteIds = posts.map((post) => post.noteId);
     const revert = removePostIdsFromQuery(parentId, postIds, false);
+    const wasPinnedIn: number[] = [];
+
+    posts.forEach((post) => {
+      if (post.pinnedAt) {
+        wasPinnedIn.push(post.parentId);
+      }
+    });
 
     try {
       await api.delete('/notes', {
@@ -27,16 +38,24 @@ export const deleteNotesFromPosts = (parentId: number, postIds: number[]): Thunk
         .forEach((post) => {
           removePostIdsFromQuery(post.parentId, [post.id]);
 
+          if (post.pinnedAt) {
+            wasPinnedIn.push(post.parentId);
+          }
+
           setTimeout(() => {
             dispatch(deleteEntity({ id: post.id, type: entityNames.post }));
           }, 1000);
         });
 
-      setTimeout(() => {
-        noteIds.forEach((id) => {
-          dispatch(updateEntity({ id, type: entityNames.note, data: { _isDeleted: true } }));
+      noteIds.forEach((id) => {
+        dispatch(updateEntity({ id, type: entityNames.note, data: { _isDeleted: true } }));
+      });
+
+      if (wasPinnedIn.length) {
+        uniq(wasPinnedIn).forEach((parentId) => {
+          queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parentId) });
         });
-      }, 1000);
+      }
     } catch(error) {
       const parsedError = parseApiError(error);
       if (parsedError.statusCode !== 404) {

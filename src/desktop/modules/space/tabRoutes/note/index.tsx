@@ -18,7 +18,7 @@ export const note = createRoute({
   path: noteRoutePath,
   component: () => <NoteTab />,
   validateSearch: z.object({
-    parent: z.number().int().optional(),
+    parent: z.coerce.number().int().optional(),
   }),
   loaderDeps: ({ search: { parent } }) => ({ parent }),
   loader: async ({ params, deps: { parent } }) => {
