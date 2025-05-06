@@ -1,8 +1,8 @@
+import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { entityApi } from 'shared/api/entityApi';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
-import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { ThunkAction } from 'shared/types/store';
 
 export const closeOtherTabs =

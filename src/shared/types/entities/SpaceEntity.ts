@@ -7,6 +7,7 @@ export type ApiSpaceEntity = BaseEntity<{
   name: string;
   userId: string;
   mainNoteId: number | null;
+  activeTabId: string | null;
   tabs: string[];
 }>
 

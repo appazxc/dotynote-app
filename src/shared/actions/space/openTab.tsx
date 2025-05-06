@@ -1,6 +1,7 @@
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
+import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { entityApi } from 'shared/api/entityApi';
 import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
@@ -9,7 +10,6 @@ import { selectIsLoaderInProgress } from 'shared/modules/loaders/loadersSlice';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
-import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';

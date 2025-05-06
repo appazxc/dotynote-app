@@ -1,12 +1,12 @@
 import findIndex from 'lodash/findIndex';
 
+import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { entityApi } from 'shared/api/entityApi';
 import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
-import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
 

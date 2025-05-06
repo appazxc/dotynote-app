@@ -10,6 +10,7 @@ import { MdClose } from 'react-icons/md';
 import { closeOtherTabs } from 'shared/actions/space/closeOtherTabs';
 import { closeRightTabs } from 'shared/actions/space/closeRightTabs';
 import { closeTab } from 'shared/actions/space/closeTab';
+import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { useUpdateSpaceTab } from 'shared/api/hooks/useUpdateSpaceTab';
 import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
@@ -18,7 +19,6 @@ import { SpaceTabTitle } from 'shared/modules/space/components/SpaceTabTitle';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { router } from 'desktop/modules/space/tabRoutes/router';
@@ -58,6 +58,7 @@ export const SpaceTab = React.memo(({ id, isLast }: Props) => {
 
     dispatch(updateActiveTabId(spaceTab.id));
   }, [dispatch, spaceTab]);
+  
   const isActive = activeTabId === id;
   const { isPinned } = spaceTab;
   const bg = useColorModeValue(isActive ? 'white' : 'gray.100', isActive ? 'brand.500' : 'brand.400');

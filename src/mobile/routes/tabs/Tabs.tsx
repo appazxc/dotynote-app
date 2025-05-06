@@ -8,6 +8,7 @@ import { MdClose } from 'react-icons/md';
 
 import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
+import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { CloseButton } from 'shared/components/ui/close-button';
@@ -24,7 +25,6 @@ import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId'
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { updateActiveTabId } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';

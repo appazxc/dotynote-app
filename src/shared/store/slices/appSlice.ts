@@ -71,7 +71,6 @@ type InitialState = {
   isSideOpen: boolean;
   isPageLoading: boolean;
   activeSpaceId: string | null;
-  activeTabId: string | null;
   // when user enter some link we redirect him to app and open tab with this route
   waitedRoute: string | null;
   device: Device | null;
@@ -95,7 +94,6 @@ const initialState: InitialState = {
   isSideOpen: false,
   isPageLoading: false,
   activeSpaceId: null,
-  activeTabId: null,
   waitedRoute: null,
   device: null,
   isDeviceLocked: false,
@@ -122,9 +120,6 @@ export const appSlice = createSlice({
     },
     updateActiveSpaceId: (state, { payload }: PayloadAction<string | null>) => {
       state.activeSpaceId = payload;
-    },
-    updateActiveTabId: (state, { payload }: PayloadAction<string | null>) => {
-      state.activeTabId = payload;
     },
     updateDevice: (state, { payload }: PayloadAction<Device>) => {
       state.device = payload;
@@ -293,7 +288,6 @@ export const {
   addWaitedRoute,
   cleanWaitedRoute,
   updateActiveSpaceId,
-  updateActiveTabId,
   updateAddTo,
   updateDevice,
   toggleSide,

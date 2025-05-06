@@ -53,14 +53,13 @@ export default class Essense<T extends { id: string | number }> {
      
     const { id: omitId, ...restData } = data;
 
+    const revert = this.updateEntity(id, data);
     try {
-      this.updateEntity(id, data);
-
       if (!entity._isFake) {
         return await this.api.patch(`${this.path}/${id}`, restData);
       }
     } catch (error) {
-      this.updateEntity(id, entity);
+      revert();
 
       throw error;
     }
@@ -123,7 +122,7 @@ export default class Essense<T extends { id: string | number }> {
   }
 
   updateEntity(id: any, data: any) {
-    this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
+    return this.store.dispatch(updateEntity({ id, type: this.entityName, data }));
   }
 
   deleteEntity(id: string) {
