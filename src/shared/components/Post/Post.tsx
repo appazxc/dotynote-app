@@ -14,7 +14,7 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   extraId?: number | string;
   isSelecting?: boolean;
   isSelected?: boolean;

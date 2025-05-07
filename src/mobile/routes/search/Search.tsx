@@ -13,7 +13,7 @@ export const Search = React.memo(() => {
 
   const showSearch = search.length >= 2;
 
-  const renderNote = (id: number) => {
+  const renderNote = (id: string) => {
     return (
       <SearchNote
         key={id}

@@ -17,7 +17,7 @@ import { NoteHeader } from './NoteHeader';
 import { NoteTabContent } from './NoteTabContent';
 
 type Props = {
-  noteId: number;
+  noteId: string;
 }
 
 export const NoteTab = React.memo(({ noteId }: Props) => {

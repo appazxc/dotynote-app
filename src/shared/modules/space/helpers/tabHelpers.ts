@@ -3,7 +3,7 @@ import { noteRoutePath } from 'shared/constants/noteRoutePath';
 export const getTabInfo = (path: string, router) => {
   const match = getTabMatch(path, router);
   const isNoteTab = match.routeId === noteRoutePath;
-  const noteId = isNoteTab ? Number(match.params.noteId) : null;
+  const noteId = isNoteTab ? match.params.noteId : null;
   const title = getTabTitleByRouteId(match.routeId, 'New Tab');
 
   return {

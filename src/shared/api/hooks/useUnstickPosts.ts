@@ -5,7 +5,7 @@ import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const useUnstickPosts = (parentId: number, postIds: number[]) => {
+export const useUnstickPosts = (parentId: string, postIds: string[]) => {
   const dispatch = useAppDispatch();
   
   return useMutation({

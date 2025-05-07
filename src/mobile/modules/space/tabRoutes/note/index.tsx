@@ -16,7 +16,7 @@ export const note = createRoute({
   component: lazyRouteComponent(() => import('./Note')),
   loader: async ({ params }) => {
     await loadNoteData({
-      noteId: Number(params.noteId),
+      noteId: params.noteId,
     });
   },
   pendingComponent: () => (
@@ -27,8 +27,7 @@ export const note = createRoute({
   pendingMinMs: 0,
   pendingMs: 500,
   shouldReload: ({ params }) => {
-    const noteId = Number(params.noteId);
-    const queryState = queryClient.getQueryState(options.notes.load(Number(noteId)).queryKey);
+    const queryState = queryClient.getQueryState(options.notes.load(params.noteId).queryKey);
 
     return queryState?.isInvalidated || false;
   },

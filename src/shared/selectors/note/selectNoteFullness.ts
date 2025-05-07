@@ -36,8 +36,8 @@ export const getNoteFullness = (note?: NoteEntity | null) => {
 
 export const selectNoteFullness = createSelector(
   [
-    (state: AppState, noteId: number) => noteSelector.getEntityById(state, noteId),
-    (state: AppState, noteId: number) => selectIsNoteFilesUploading(state, noteId),
+    (state: AppState, noteId: string) => noteSelector.getEntityById(state, noteId),
+    (state: AppState, noteId: string) => selectIsNoteFilesUploading(state, noteId),
   ],
   (note, isFilesUploading) => {
     return {

@@ -4,7 +4,7 @@ import { NoteContext } from './NoteContext';
 
 type Props = {
   children: React.ReactNode;
-  id: number;
+  id: string;
 }
 
 export const NoteProvider = ({ children, id }: Props) => {

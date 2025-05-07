@@ -20,7 +20,7 @@ const updateFileUploadStatus = throttle((id: string, progress: number) => {
 }, 5000, { trailing: false });
 
 type UploadNoteFilesParams = {
-  noteId: number;
+  noteId: string;
   files: UploadFile[];
   removeFiles: RemoveUploadFiles;
 }
@@ -228,7 +228,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
   };
 
 type UploadAttachmentByTypeParams = UploadAttachmentParams & {
-  noteId: number;
+  noteId: string;
   type: UploadFileType; 
   signal?: AbortSignal;
 }

@@ -8,7 +8,7 @@ import { invariant } from 'shared/util/invariant';
 import { DesktopTabLink } from 'desktop/modules/space/components/DesktopTabLink/DesktopTabLink';
 
 type Props = {
-  noteId: number;
+  noteId: string;
 };
 
 export const HomeNote = React.memo(({ noteId }: Props) => {

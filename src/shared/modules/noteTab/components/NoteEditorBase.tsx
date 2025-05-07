@@ -6,7 +6,7 @@ import { NoteEditor } from 'shared/modules/noteTab/components/NoteEditor';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   isWriteMode: boolean;
   isMobile?: boolean;
   isContentEmpty: boolean;

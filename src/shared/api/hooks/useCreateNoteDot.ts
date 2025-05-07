@@ -4,7 +4,7 @@ import { createNoteDot } from 'shared/actions/note/createNoteDot';
 import { toaster } from 'shared/components/ui/toaster';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const useCreateNoteDot = (id: number) => {
+export const useCreateNoteDot = (id: string) => {
   const dispatch = useAppDispatch();
 
   return useMutation({

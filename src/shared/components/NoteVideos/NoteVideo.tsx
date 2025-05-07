@@ -15,7 +15,7 @@ import { formatTime } from 'shared/util/formatTime';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   extraId?: number | string;
   videoId: string;
   width: number;

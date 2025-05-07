@@ -20,7 +20,7 @@ import { NoteEditorBase } from '../NoteEditorBase';
 import { NoteTitle } from './NoteTitle';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   isWriteMode: boolean;
   isMobile?: boolean;
   parent?: NoteEntity | null;

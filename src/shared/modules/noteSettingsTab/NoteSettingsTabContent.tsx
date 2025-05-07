@@ -11,7 +11,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number;
+  noteId: string;
 };
 
 export const NoteSettingsTabContent = React.memo(({ noteId }: Props) => {

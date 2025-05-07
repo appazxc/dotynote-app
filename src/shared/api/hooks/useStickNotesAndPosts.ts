@@ -9,13 +9,13 @@ import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQ
 import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 type Params = {
-  noteIds: number[];
-  postIds: number[];
-  concretePostId?: number;
+  noteIds: string[];
+  postIds: string[];
+  concretePostId?: string;
   place?: 'top' | 'bottom';
 }
 
-export const useStickNotesAndPosts = (parentId: number) => {
+export const useStickNotesAndPosts = (parentId: string) => {
   const dispatch = useAppDispatch();
   const getQueryKey = useGetNoteTabQueryKey(parentId);
   

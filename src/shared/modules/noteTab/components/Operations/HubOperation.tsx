@@ -36,7 +36,7 @@ export const HubOperation = React.memo((props: Props) => {
         type: 'info',
       });
       dispatch(stopOperation());
-      queryClient.invalidateQueries(options.notes.load(Number(note.id)));
+      queryClient.invalidateQueries(options.notes.load(note.id));
     });
   }, [
     navigate,

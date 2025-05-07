@@ -55,12 +55,12 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
   const { mutate: createInternalPosts, isPending: isCreatingInternal } = useMutation({
-    mutationFn: (postId: number) => {
+    mutationFn: (postId: string) => {
       return api.post<string>(`/posts/${postId}/internal`, {});
     },
   });
   const { mutate: deleteInternalPosts, isPending: isDeletingInternal } = useMutation({
-    mutationFn: (postId: number) => {
+    mutationFn: (postId: string) => {
       return api.delete<string>(`/posts/${postId}/internal`);
     },
   });

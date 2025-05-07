@@ -14,7 +14,7 @@ export const tabNotes = (spaceId: string | undefined, router) => {
   });
 };
 
-export const load = (id?: number | null) => {
+export const load = (id?: string | null) => {
   return queryOptions({
     queryKey: ['note', id],
     queryFn: async () => {
@@ -35,7 +35,7 @@ export const loadList = (filters: LoadListFilters = {}) => {
   return queryOptions({
     queryKey: ['notes', filters],
     queryFn: async () => {
-      return entityApi.note.loadList<number>({ filters });
+      return entityApi.note.loadList<string>({ filters });
     },
   });
 };

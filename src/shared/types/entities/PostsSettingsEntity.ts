@@ -7,7 +7,7 @@ export type ApiPostsSettingsEntity = BaseEntity<{
   internal: boolean;
   orderById: number;
   sort: 'asc' | 'desc';
-  noteId: number;
+  noteId: string;
   // stickType: 'simple' | 'multi' | 'auto' | 'gpt',
   // stickFrom: string[],
 }>

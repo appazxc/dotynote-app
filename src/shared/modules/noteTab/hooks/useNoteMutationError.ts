@@ -27,7 +27,7 @@ const select = (mutation: Mutation<unknown, Error, unknown, unknown>) => {
   return mutation.state.error?.message || null;
 };
 
-export const useNoteMutationError = (noteId: number) => {
+export const useNoteMutationError = (noteId: string) => {
   const updateErrors = useMutationState<string>({
     filters: { 
       predicate: ({ options }) => {

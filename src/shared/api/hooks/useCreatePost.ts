@@ -5,10 +5,10 @@ import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-export const useCreatePost = (id: number) => {
+export const useCreatePost = (id: string) => {
   return useMutation({
     mutationFn: (note: Partial<NoteEntity>) => {
-      return api.post<number>(`/notes/${id}/posts`, note);
+      return api.post<string>(`/notes/${id}/posts`, note);
     },
     onError: (error) => {
       const parsedError = parseApiError(error);

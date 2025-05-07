@@ -15,7 +15,7 @@ import { invariant } from 'shared/util/invariant';
 import { splitFileName } from 'shared/util/splitFileName';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   noteVideo: NoteVideoEntity,
 };
 

@@ -6,7 +6,7 @@ import { NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 
 export const updateUserMutationKey = (noteSettingsId: string) => ['noteSettings', noteSettingsId];
 
-export const useUpdateNoteSettings = (noteId: number, noteSettingsId: string) => {
+export const useUpdateNoteSettings = (noteId: string, noteSettingsId: string) => {
   return useMutation({
     mutationKey: updateUserMutationKey(noteSettingsId),
     mutationFn: (settings: Partial<NoteSettingsEntity>) => {

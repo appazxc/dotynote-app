@@ -8,7 +8,7 @@ import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutatin
 import { useNoteMutationError } from 'shared/modules/noteTab/hooks/useNoteMutationError';
 
 type Props = {
-  noteId: number;
+  noteId: string;
 }
 
 export const SidebarFooter = ({ noteId }: Props) => {

@@ -11,7 +11,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteAudioEntity } from 'shared/types/entities/NoteAudioEntity';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   audio: NoteAudioEntity[];
   inPost?: boolean;
 } & StackProps;

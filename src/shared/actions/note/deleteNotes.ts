@@ -5,7 +5,7 @@ import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
 
-export const deleteNotes = (noteIds: number[]): ThunkAction => 
+export const deleteNotes = (noteIds: string[]): ThunkAction => 
   async (dispatch, getState) => {
     const reverts = noteIds.map((noteId) => {
       return dispatch(updateEntity({

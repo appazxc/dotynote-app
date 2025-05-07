@@ -8,9 +8,9 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  parentId: number;
+  parentId: string;
   files: UploadFile[];
-  onPostsCreated?: (postIds: number[]) => void;
+  onPostsCreated?: (postIds: string[]) => void;
   onAttachmentsUploaded?: () => void;
   removeFiles: RemoveUploadFiles;
 }
@@ -28,7 +28,7 @@ export const createSeparatePosts = (params: Params): ThunkAction =>
     try {
       const postsData = files.map(() => ({}));
     
-      const postIds = await api.post<number[]>(`/notes/${parentId}/multi-posts`, postsData);
+      const postIds = await api.post<string[]>(`/notes/${parentId}/multi-posts`, postsData);
   
       onPostsCreated?.(postIds);
 

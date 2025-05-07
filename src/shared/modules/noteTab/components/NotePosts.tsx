@@ -31,7 +31,7 @@ export const NotePosts = React.memo((props: Props) => {
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
   
-  const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: number) => {
+  const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: string) => {
     if (event.metaKey) {
       dispatch(openTab({ 
         route: buildNoteTabRoute(noteId, { parent: note.id }),

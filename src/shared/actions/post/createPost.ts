@@ -6,9 +6,9 @@ import { RemoveUploadFiles, UploadFile } from 'shared/modules/fileUpload/FileUpl
 import { ThunkAction } from 'shared/types/store';
 
 type Params = {
-  parentId: number;
+  parentId: string;
   files: UploadFile[];
-  onPostCreated?: (postId: number) => void;
+  onPostCreated?: (postId: string) => void;
   onAttachmentsUploaded?: () => void;
   removeFiles: RemoveUploadFiles;
 }
@@ -23,7 +23,7 @@ export const createPost = (params: Params): ThunkAction =>
       onAttachmentsUploaded,
     } = params;
     try {
-      const postId = await api.post<number>(`/notes/${parentId}/posts`, {});
+      const postId = await api.post<string>(`/notes/${parentId}/posts`, {});
     
       onPostCreated?.(postId);
       

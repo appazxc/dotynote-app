@@ -11,7 +11,7 @@ export const pinnedPosts = createRoute({
   component: lazyRouteComponent(() => import('./PinnedPosts')),
   loader: async ({ params }) => {
     await loadNoteData({
-      noteId: Number(params.noteId),
+      noteId: params.noteId,
     });
   },
 });

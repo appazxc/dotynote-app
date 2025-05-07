@@ -13,7 +13,7 @@ type DeleteEntityFactoryParams<T extends EntityName> = {
 
 export type DeleteAttachmentParams = {
   entityId: string | number;
-  noteId: number;
+  noteId: string;
 };
 
 export const deleteNoteAttachmentFactory = <T extends EntityName>({

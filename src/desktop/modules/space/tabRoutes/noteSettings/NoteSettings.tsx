@@ -23,10 +23,10 @@ export const NoteSettings = React.memo(() => {
             <Tabs.Trigger value="posts">Posts</Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value="note">
-            <NoteSettingsTabContent noteId={Number(noteId)} />
+            <NoteSettingsTabContent noteId={noteId} />
           </Tabs.Content>
           <Tabs.Content value="posts">
-            <NotePostsSettingsTabContent noteId={Number(noteId)} />
+            <NotePostsSettingsTabContent noteId={noteId} />
           </Tabs.Content>
         </Tabs.Root>
       </Container>

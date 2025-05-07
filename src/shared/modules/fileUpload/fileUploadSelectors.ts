@@ -6,7 +6,7 @@ import { AppState } from 'shared/types/store';
 
 type Params = {
   files: UploadFile[];
-  noteId?: number;
+  noteId?: string;
   type?: UploadFileType;
   status?: UploadFileEntity['status'];
 }
@@ -45,7 +45,7 @@ export const selectUploadEntities: SelectUploadEntities = createSelector([
 
 export const selectIsNoteFilesUploading = createSelector([
   (state: AppState) => state.upload.byId,
-  (_, noteId: number) => noteId,
+  (_, noteId: string) => noteId,
 ], (filesById, noteId) => {
   return !!Object.values(filesById).find(file => {
     return file.noteId === noteId;
@@ -54,7 +54,7 @@ export const selectIsNoteFilesUploading = createSelector([
 
 export const selectNoteUploadingFiles = createSelector([
   (state: AppState) => state.upload.byId,
-  (_, noteId: number) => noteId,
+  (_, noteId: string) => noteId,
 ], (filesById, noteId) => {
   return Object.values(filesById).filter(file => {
     return file.noteId === noteId;

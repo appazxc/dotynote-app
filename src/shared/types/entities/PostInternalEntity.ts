@@ -10,9 +10,9 @@ export type ApiPostInternalEntity = BaseEntity<{
 
 export type PostInternalEntity = MergeEntity<ApiPostInternalEntity, {
   post?: {
-    id: number;
+    id: string;
     note: {
-      id: number;
+      id: string;
       postsSettings: PostsSettingsEntity
     }
   }

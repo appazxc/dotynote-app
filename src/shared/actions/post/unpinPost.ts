@@ -3,7 +3,7 @@ import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
-export const unpinPost = (postId: number): ThunkAction =>
+export const unpinPost = (postId: string): ThunkAction =>
   async (dispatch) => {
     const revert = dispatch(updateEntity({ 
       id: postId,

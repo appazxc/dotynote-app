@@ -23,11 +23,11 @@ export const operationTypes = {
 
 export type StickOperation = {
   type: typeof operationTypes.STICK;
-  fromNoteId: number | null;
-  noteIds: number[];
-  postIds: number[];
+  fromNoteId: string | null;
+  noteIds: string[];
+  postIds: string[];
   concretePlace: boolean;
-  concretePostId?: number;
+  concretePostId?: string;
 }
 
 export type PrimaryNoteOperation = {
@@ -37,7 +37,7 @@ export type PrimaryNoteOperation = {
 export type SelectNoteImagesOperation = {
   type: typeof operationTypes.SELECT_NOTE_IMAGES;
   imageIds: string[];
-  noteId: number;
+  noteId: string;
 }
 
 export type HubOperation = {
@@ -46,16 +46,16 @@ export type HubOperation = {
 
 export type SelectOperation = {
   type: typeof operationTypes.SELECT;
-  noteId: number;
-  postIds: number[];
+  noteId: string;
+  postIds: string[];
 }
 
 export type MoveOperation = {
   type: typeof operationTypes.MOVE;
-  fromNoteId: number;
-  postIds: number[];
+  fromNoteId: string;
+  postIds: string[];
   concretePlace: boolean;
-  concretePostId?: number;
+  concretePostId?: string;
 }
 
 type OperationType =
@@ -156,7 +156,7 @@ export const appSlice = createSlice({
     },
     updateOperationConcretePost: (
       state, 
-      { payload }: PayloadAction<number>
+      { payload }: PayloadAction<string>
     ) => {
       if ('concretePlace' in state.operation) {
         state.operation.concretePostId = payload;
@@ -165,9 +165,9 @@ export const appSlice = createSlice({
     startStickOperation: (
       state, 
       { payload }: PayloadAction<{
-        fromNoteId?: number;
-        noteIds?: number[];
-        postIds?: number[];
+        fromNoteId?: string;
+        noteIds?: string[];
+        postIds?: string[];
       }>
     ) => {
       state.operation = {
@@ -181,8 +181,8 @@ export const appSlice = createSlice({
     startMoveOperation: (
       state, 
       { payload }: PayloadAction<{
-        fromNoteId: number;
-        postIds: number[];
+        fromNoteId: string;
+        postIds: string[];
       }>
     ) => {
       state.operation = {
@@ -205,8 +205,8 @@ export const appSlice = createSlice({
     startSelectOperation: (
       state,
       { payload }: PayloadAction<{
-        noteId: number;
-        postId: number;
+        noteId: string;
+        postId: string;
       }>
     ) => {
       state.operation = {
@@ -218,7 +218,7 @@ export const appSlice = createSlice({
     startSelectNoteImagesOperation: (
       state,
       { payload }: PayloadAction<{
-        noteId: number;
+        noteId: string;
         imageId: string;
       }>
     ) => {
@@ -251,7 +251,7 @@ export const appSlice = createSlice({
         state.operation.concretePlace = !state.operation.concretePlace;
       } 
     },
-    togglePostSelect: (state, { payload }: PayloadAction<number>) => {
+    togglePostSelect: (state, { payload }: PayloadAction<string>) => {
       if (state.operation.type !== operationTypes.SELECT) {
         return;
       } 
@@ -269,7 +269,7 @@ export const appSlice = createSlice({
     },
     addPrimaryNoteTab: (
       state, 
-      { payload }: PayloadAction<{ spaceId: string; primaryNoteId: number; tabId: string }>
+      { payload }: PayloadAction<{ spaceId: string; primaryNoteId: string; tabId: string }>
     ) => {
       const { 
         spaceId,

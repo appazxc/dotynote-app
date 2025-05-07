@@ -15,7 +15,7 @@ import { useAppSelector } from 'shared/store/hooks';
 type Props = { 
   canAddToNote: boolean;
   canAddToPosts: boolean;
-  noteId: number;
+  noteId: string;
 };
  
 const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest }: Props, ref) => {

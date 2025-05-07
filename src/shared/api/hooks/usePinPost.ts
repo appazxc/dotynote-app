@@ -6,7 +6,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 export const usePinPost = () => {
   const dispatch = useAppDispatch();
   return useMutation({
-    mutationFn: (postId: number) => {
+    mutationFn: (postId: string) => {
       return dispatch(pinPost(postId));
     },
   });

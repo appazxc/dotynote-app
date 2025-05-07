@@ -23,7 +23,7 @@ import { PostsLoader } from './PostsListLoader';
 const ROOT_MARGIN = '400px';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   scrollRestoration?: boolean;
   search?: string;
@@ -33,7 +33,7 @@ type Props = {
   hasOverlay?: boolean;
   pageSize?: number;
   isPinned?: boolean;
-  selectedPosts?: number[];
+  selectedPosts?: string[];
   options?: InfinityPostsOptions;
   internalLevel?: number;
   disablePagination?: boolean;

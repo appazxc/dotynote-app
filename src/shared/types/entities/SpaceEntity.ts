@@ -6,7 +6,7 @@ import { BaseEntity } from './BaseEntity';
 export type ApiSpaceEntity = BaseEntity<{
   name: string;
   userId: string;
-  mainNoteId: number | null;
+  mainNoteId: string | null;
   activeTabId: string | null;
   tabs: string[];
 }>

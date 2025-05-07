@@ -14,7 +14,7 @@ import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPic
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   onClick: () => void;
   isMobile?: boolean;
 }

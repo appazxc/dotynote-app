@@ -5,7 +5,7 @@ import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
 
 type Params = {
-  noteId: number;
+  noteId: string;
   extraLoaders?: Promise<unknown>[];
   flags?: {
     // if false, it won't redirect to note not found page. Default is true.

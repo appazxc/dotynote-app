@@ -15,7 +15,7 @@ export const PinnedPosts = React.memo(() => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, id: number) => {
+  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, id: string) => {
     if (event.metaKey) {
       dispatch(openTab({ 
         route: buildNoteTabRoute(id, { parent: noteId }),
@@ -28,7 +28,7 @@ export const PinnedPosts = React.memo(() => {
   return (
     <TabLayout defaultSidebar>
       <Container maxW="container.sm" pt="4">
-        <PinnedPostsTabContent noteId={Number(noteId)} onPostClick={handlePostClick} />
+        <PinnedPostsTabContent noteId={noteId} onPostClick={handlePostClick} />
       </Container>
     </TabLayout>
   );

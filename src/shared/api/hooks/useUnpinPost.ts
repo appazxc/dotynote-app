@@ -8,7 +8,7 @@ export const useUnpinPost = () => {
   const dispatch = useAppDispatch();
   
   return useMutation({
-    mutationFn: (postId: number) => {
+    mutationFn: (postId: string) => {
       return dispatch(unpinPost(postId));
     },
   });

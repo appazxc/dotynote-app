@@ -10,7 +10,7 @@ import { invariant } from 'shared/util/invariant';
 import { EditorContext } from './EditorContext';
 
 type Props = React.PropsWithChildren<{
-  id: number;
+  id: string;
   isWriteMode: boolean;
 }>
 

@@ -7,7 +7,7 @@ export const Note = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });
 
   return (
-    <NoteTab noteId={Number(noteId)} />
+    <NoteTab noteId={noteId} />
   );
 });
 

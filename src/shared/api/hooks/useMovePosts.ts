@@ -11,14 +11,14 @@ import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQ
 import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 type Params = {
-  postIds: number[];
-  fromNoteId: number;
+  postIds: string[];
+  fromNoteId: string;
 } & (
-  { concretePostId: number; place: 'top' | 'bottom' } |
+  { concretePostId: string; place: 'top' | 'bottom' } |
   { concretePostId?: never; place?: never }
 );
 
-export const useMovePosts = (noteId: number) => {
+export const useMovePosts = (noteId: string) => {
   const dispatch = useAppDispatch();
   const getQueryKey = useGetNoteTabQueryKey(noteId);
   

@@ -7,7 +7,7 @@ import { MAX_PAGE_SIZE } from 'shared/constants/requests';
 
 type Props = {
   value: string;
-  renderNote: (id: number) => React.ReactNode;
+  renderNote: (id: string) => React.ReactNode;
 };
 
 export const SearchResults = React.memo((props: Props) => {

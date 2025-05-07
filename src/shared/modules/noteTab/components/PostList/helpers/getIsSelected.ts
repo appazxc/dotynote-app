@@ -1,4 +1,4 @@
-export const getIsSelected = (postId: number, isSelecting: boolean, selectedPosts: number[]) => {
+export const getIsSelected = (postId: string, isSelecting: boolean, selectedPosts: string[]) => {
   if (!isSelecting) {
     return false;
   }

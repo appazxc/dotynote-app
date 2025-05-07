@@ -9,7 +9,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { OpenChangeDetails } from 'shared/types/drawer';
 
 export type Props = {
-  onCreate: (noteId: number) => void;
+  onCreate: (noteId: string) => void;
   onError?: (error: unknown) => void;
 }
 

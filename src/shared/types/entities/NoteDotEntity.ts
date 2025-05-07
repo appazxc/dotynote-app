@@ -5,7 +5,7 @@ export type ApiNoteDotEntity = BaseEntity<{
   text: string | null;
   total: number;
   my: number;
-  noteId: number;
+  noteId: string;
 }>
 
 export type NoteDotEntity = MergeEntity<ApiNoteDotEntity, {}>;

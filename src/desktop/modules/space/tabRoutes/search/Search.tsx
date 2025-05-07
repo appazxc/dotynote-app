@@ -16,7 +16,7 @@ import { PreviousSearches } from './PreviousSearches';
 const Home = React.memo(() => {
   const { search = '' } = useSearch({ strict: false }); 
 
-  const renderNote = (id: number) => {
+  const renderNote = (id: string) => {
     return (
       <HomeNote key={id} noteId={id} />
     );

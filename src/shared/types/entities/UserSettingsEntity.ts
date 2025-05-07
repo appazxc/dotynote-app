@@ -4,8 +4,8 @@ import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { BaseEntity } from './BaseEntity';
 
 export type ApiUserSettingsEntity = BaseEntity<{
-  hubId?: number | null;
-  hub?: number | null;
+  hubId?: string | null;
+  hub?: string | null;
   deleteEmptyNotes: boolean;
   autoPlayNextAudio: boolean;
 }>

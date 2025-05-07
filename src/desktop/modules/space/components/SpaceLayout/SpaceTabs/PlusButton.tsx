@@ -17,7 +17,7 @@ export const PlusButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const hoverBg = useColorModeValue('gray.100', 'brand.400');
   
-  const handleCreateNote = React.useCallback((noteId: number) => {
+  const handleCreateNote = React.useCallback((noteId: string) => {
     dispatch(hideModal());
     dispatch(openTab({ 
       route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),

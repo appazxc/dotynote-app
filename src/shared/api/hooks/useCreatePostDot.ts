@@ -4,7 +4,7 @@ import { createPostDot } from 'shared/actions/post/createPostDot';
 import { toaster } from 'shared/components/ui/toaster';
 import { useAppDispatch } from 'shared/store/hooks';
 
-export const useCreatePostDot = (id: number) => {
+export const useCreatePostDot = (id: string) => {
   const dispatch = useAppDispatch();
   
   return useMutation({

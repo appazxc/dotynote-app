@@ -9,7 +9,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
 
 type Props = {
-  noteId: number;
+  noteId: string;
 };
 
 export const NoteDialogs = React.memo(({ noteId }: Props) => {

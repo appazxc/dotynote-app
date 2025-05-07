@@ -9,8 +9,8 @@ import { BaseEntity } from './BaseEntity';
 export type ApiPostEntity = BaseEntity<{
   pinnedAt: string | null;
   pos: number;
-  parentId: number;
-  noteId: number;
+  parentId: string;
+  noteId: string;
   author: string;
   internal: string;
   permissions: {
@@ -24,7 +24,7 @@ export type ApiPostEntity = BaseEntity<{
     upsertDot: boolean;
   };
   dots: string[];
-}, number>
+}>
 
 export type PostEntity = MergeEntity<ApiPostEntity, {
   note: NoteEntity;

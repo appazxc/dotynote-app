@@ -14,7 +14,7 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 
 type Props = {
-  onCreate: (noteId: number) => void;
+  onCreate: (noteId: string) => void;
   onError?: (error: unknown) => void;
   onClick?: () => void;
 }

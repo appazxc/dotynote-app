@@ -34,7 +34,7 @@ export type ApiNoteEntity = BaseEntity<{
   files: string[];
   audio: string[];
   videos: string[];
-}, number>
+}>
 
 export type NoteEntity = MergeEntity<ApiNoteEntity, { 
   settings?: NoteSettingsEntity;

@@ -7,7 +7,7 @@ import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { selectAllPostsWithConcreteNote } from 'shared/selectors/post/selectAllPostsWithConcreteNote';
 import { ThunkAction } from 'shared/types/store';
 
-const invalidatePostsQueryIfNeeded = (noteId: number): ThunkAction => (_, getState) => {
+const invalidatePostsQueryIfNeeded = (noteId: string): ThunkAction => (_, getState) => {
   const postIds = uniqBy(selectAllPostsWithConcreteNote(getState(), noteId), 'parentId').map(({ id }) => id);
   const posts = postSelector.getEntitiesById(getState(), postIds);
 
@@ -19,6 +19,6 @@ const invalidatePostsQueryIfNeeded = (noteId: number): ThunkAction => (_, getSta
     });
 };
 
-export const afterNoteUpdated = (noteId: number): ThunkAction => (dispatch) => {
+export const afterNoteUpdated = (noteId: string): ThunkAction => (dispatch) => {
   dispatch(invalidatePostsQueryIfNeeded(noteId));
 };

@@ -6,7 +6,7 @@ import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 export const updateUserMutationKey = (id: string) => ['postsSettings', id];
 
-export const useUpdatePostsSettings = (noteId: number, id: string) => {
+export const useUpdatePostsSettings = (noteId: string, id: string) => {
   return useMutation({
     mutationKey: updateUserMutationKey(id),
     mutationFn: (data: Partial<PostsSettingsEntity>) => {

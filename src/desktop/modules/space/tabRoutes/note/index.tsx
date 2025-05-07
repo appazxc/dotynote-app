@@ -19,12 +19,12 @@ export const note = createRoute({
   path: noteRoutePath,
   component: () => <NoteTab />,
   validateSearch: z.object({
-    parent: z.coerce.number().int().optional(),
+    parent: z.string().optional(),
   }),
   loaderDeps: ({ search: { parent } }) => ({ parent }),
   loader: async ({ params, deps: { parent } }) => {
     await loadNoteData({
-      noteId: Number(params.noteId),
+      noteId: params.noteId,
       extraLoaders: [
         ...parent ? [queryClient.fetchQuery(options.notes.load(parent))] : [],
       ],
@@ -36,8 +36,7 @@ export const note = createRoute({
   pendingMinMs: 0,
   pendingMs: 500,
   shouldReload: ({ params }) => {
-    const noteId = Number(params.noteId);
-    const queryState = queryClient.getQueryState(options.notes.load(Number(noteId)).queryKey);
+    const queryState = queryClient.getQueryState(options.notes.load(params.noteId).queryKey);
 
     return queryState?.isInvalidated || false;
   },

@@ -44,13 +44,13 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
     return result;
   };
 
-export const getInfinityPostsQueryKey = (noteId: number | string = '', filters: Filters = {}) => 
+export const getInfinityPostsQueryKey = (noteId: string = '', filters: Filters = {}) => 
   ['posts', noteId, filters] as const;
 
 export type InfinityPostsQueryKey = ReturnType<typeof getInfinityPostsQueryKey>;
 
 export const useInfinityPosts = (
-  noteId: number,
+  noteId: string,
   filters: Filters = EMPTY_OBJECT, 
   options: InfinityPostsOptions = EMPTY_OBJECT
 ) => {
@@ -77,11 +77,11 @@ export const useInfinityPosts = (
         apiFilters[getCursorName(direction)] = cursor;
       }
 
-      const items = await entityApi.post.loadList<number>({ filters: apiFilters });
+      const items = await entityApi.post.loadList<string>({ filters: apiFilters });
 
       const isNextDirection = direction === DIRECTIONS.NEXT;
       const isPrevDirection = direction === DIRECTIONS.PREVIOUS;
-      const isMaxPageSize = items.length === pageSize;
+      const isMaxPageSize = items.length === Number(pageSize);
       const hasNextPage = isNextDirection && isMaxPageSize;
       const hasPrevPage = (isPrevDirection || !direction) && isMaxPageSize;
 

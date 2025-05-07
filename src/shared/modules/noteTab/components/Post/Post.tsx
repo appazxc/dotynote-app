@@ -11,7 +11,7 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId: number;
+  postId: string;
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;

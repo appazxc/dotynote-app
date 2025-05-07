@@ -20,7 +20,7 @@ export type UploadFile = {
 }
 
 type OpenFilePickerParams = {
-  noteId?: number;
+  noteId?: string;
   type: UploadFileType;
 }
 
@@ -82,7 +82,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   const handleFileSelect = React.useCallback(async (
     event: Event, 
     type: UploadFileType, 
-    noteId: number | undefined, 
+    noteId: string | undefined, 
     onFilesAdd?: (files: UploadFile[], removeFiles: RemoveUploadFiles) => void
   ) => {
     const target = event.target as HTMLInputElement;
@@ -143,7 +143,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
   }, [dispatch, removeFiles]);
 
   const createAndClickInput = React.useCallback((
-    noteId: number | undefined, 
+    noteId: string | undefined, 
     type: UploadFileType, 
     onFilesAdd: OnFilesAdd | undefined, 
     accept?: string) => {

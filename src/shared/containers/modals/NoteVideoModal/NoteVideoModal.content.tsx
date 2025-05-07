@@ -9,7 +9,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 export type Props = {
-  noteId: number;
+  noteId: string;
   videoId: string;
   extraId?: number | string;
 }

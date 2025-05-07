@@ -8,8 +8,8 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number;
-  onPostClick: (event: React.MouseEvent<HTMLDivElement>, id: number) => void;
+  noteId: string;
+  onPostClick: (event: React.MouseEvent<HTMLDivElement>, id: string) => void;
 };
 
 const OPTIONS = { refetchOnMount: 'always' as const };

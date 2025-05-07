@@ -8,7 +8,7 @@ import { useUploadEntities } from 'shared/modules/fileUpload/useUploadEntities';
 import { NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   extraId?: number | string;
   hasControls?: boolean;
   videos: NoteVideoEntity[];

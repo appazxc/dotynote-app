@@ -1,9 +1,9 @@
 import { Directions } from 'shared/constants/requests';
 
-export type QueryFnData = { items: number []; hasNextPage: boolean; hasPrevPage: boolean }
+export type QueryFnData = { items: string[]; hasNextPage: boolean; hasPrevPage: boolean }
 
 export type PageParam = { 
-  cursor?: number | null;
+  cursor?: string | null;
   direction?: Directions | null; 
 }
 

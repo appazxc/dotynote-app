@@ -5,7 +5,7 @@ import { addEntity, deleteEntity, updateEntity } from 'shared/store/slices/entit
 import { ThunkAction } from 'shared/types/store';
 import { createFakeId } from 'shared/util/api/createFakeId';
 
-export const createNoteDot = (noteId: number, { text }: { text: string }): ThunkAction => 
+export const createNoteDot = (noteId: string, { text }: { text: string }): ThunkAction => 
   async (dispatch, getState) => {
     const note = noteSelector.getById(getState(), noteId);
 

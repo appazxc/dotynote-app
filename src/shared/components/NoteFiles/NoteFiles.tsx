@@ -11,7 +11,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   hasControls?: boolean;
   files: NoteFileEntity[];
   inPost?: boolean;

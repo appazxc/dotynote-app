@@ -7,7 +7,7 @@ import { useAppDispatch } from 'shared/store/hooks';
 
 export const deleteNoteMutationKey = () => ['deleteNotes'];
 
-export const useDeleteNotes = (noteIds: number[]) => {
+export const useDeleteNotes = (noteIds: string[]) => {
   const dispatch = useAppDispatch();
   return useMutation({
     mutationKey: deleteNoteMutationKey(),

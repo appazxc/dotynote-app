@@ -7,7 +7,7 @@ type StatusType = 'idle' | 'uploading' | 'processing' | 'complete' | 'canceled' 
 export type UploadFileEntity = { 
   fileId: string;
   type: UploadFileType;
-  noteId?: number;
+  noteId?: string;
   status: StatusType;
   progress: number;
   pos: number;

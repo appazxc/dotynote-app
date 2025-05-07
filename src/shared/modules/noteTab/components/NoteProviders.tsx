@@ -4,7 +4,7 @@ import { EditorProvider } from 'shared/modules/editor';
 import { NoteProvider } from 'shared/modules/noteTab/components/NoteProvider';
 
 type Props = React.PropsWithChildren<{
-  id: number;
+  id: string;
   isWriteMode: boolean;
 }>
 

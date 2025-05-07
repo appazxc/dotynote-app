@@ -14,7 +14,7 @@ export const noteSettings = createRoute({
   component: lazyRouteComponent(() => import('./NoteSettings')),
   loader: async ({ params }) => {
     await loadNoteData({
-      noteId: Number(params.noteId),
+      noteId: params.noteId,
       extraLoaders: [
         queryClient.fetchQuery(options.notes.loadOrderByList()),
       ],

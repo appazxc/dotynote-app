@@ -13,7 +13,7 @@ import { updateAddTo } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   canAddToNote: boolean;
   canAddToPosts: boolean;
   onClose: () => void;

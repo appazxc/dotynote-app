@@ -9,7 +9,7 @@ import { entityApi } from '../entityApi';
 export const useCreateNote = () => {
   return useMutation({
     mutationFn: (note: Partial<NoteEntity>) => {
-      return entityApi.note.create<number>(note);
+      return entityApi.note.create<string>(note);
     },
     onError: (error) => {
       const parsedError = parseApiError(error);

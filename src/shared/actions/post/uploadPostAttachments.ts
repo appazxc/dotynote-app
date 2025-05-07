@@ -6,7 +6,7 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 
 type Params = {
-  postId: number;
+  postId: string;
   files: UploadFile[];
   onPostsCreated?: (postIds: number[]) => void;
   onAttachmentsUploaded?: () => void;

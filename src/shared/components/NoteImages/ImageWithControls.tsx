@@ -16,7 +16,7 @@ import { invariant } from 'shared/util/invariant';
 
 type WithImageControlsProps = {
   imageId: string;
-  noteId: number;
+  noteId: string;
   hasControls?: boolean;
   src: string;
   width: number;

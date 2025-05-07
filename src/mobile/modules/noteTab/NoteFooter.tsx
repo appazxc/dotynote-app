@@ -12,7 +12,7 @@ import { NoteFooterAudioWidget } from 'mobile/modules/noteTab/NoteFooterAudioWid
 import { NotePlusButton } from 'mobile/modules/noteTab/NotePlusButton';
 
 type Props = {
-  noteId: number;
+  noteId: string;
   isWriteMode: boolean;
   isNoteContentVisible: boolean;
 }
