@@ -34,7 +34,7 @@ export const note = createRoute({
   notFoundComponent: NoteNotFound,
   errorComponent: NoteTabError,
   pendingMinMs: 0,
-  pendingMs: 300,
+  pendingMs: 500,
   shouldReload: ({ params }) => {
     const noteId = Number(params.noteId);
     const queryState = queryClient.getQueryState(options.notes.load(Number(noteId)).queryKey);

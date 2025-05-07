@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { updateNoteDot, UpdateDotParams } from 'shared/actions/dot/updateNoteDot';
+import { UpdateDotParams, updateNoteDot } from 'shared/actions/dot/updateNoteDot';
 import { toaster } from 'shared/components/ui/toaster';
 import { useAppDispatch } from 'shared/store/hooks';
 

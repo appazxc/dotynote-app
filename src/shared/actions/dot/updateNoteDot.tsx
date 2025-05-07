@@ -1,6 +1,7 @@
 import { removeNoteDot } from 'shared/actions/note/removeNoteDot';
 import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 import { noteDotSelector } from 'shared/selectors/entities';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
@@ -39,16 +40,17 @@ export const updateNoteDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =
     const newTotal = getNewTotal(total, my, newAmount);
     const isDeleted = newTotal === 0;
 
+    const revert = dispatch(updateEntity({ 
+      type: entityNames.noteDot, 
+      id: dotId, 
+      data: {
+        my: amount,
+        total: newTotal,
+        _isDeleted: isDeleted,
+      },
+    }));
+
     try {
-      dispatch(updateEntity({ 
-        type: entityNames.noteDot, 
-        id: dotId, 
-        data: {
-          my: amount,
-          total: newTotal,
-          _isDeleted: isDeleted,
-        },
-      }));
         
       const result = await api.patch<string>('/dots/note', { dotId, amount: newAmount, noteId: dot.noteId });
 
@@ -58,15 +60,12 @@ export const updateNoteDot = ({ amount, dotId }: UpdateDotParams): ThunkAction =
 
       return result;
     } catch(error) {
-      dispatch(updateEntity({ 
-        type: entityNames.noteDot, 
-        id: dotId, 
-        data: {
-          my,
-          total,
-          _isDeleted: false,
-        }, 
-      }));
+      const parsedError = parseApiError(error);
+      if (parsedError.statusCode === 404) {
+        return;
+      }
+
+      revert();
 
       throw error;
     }
