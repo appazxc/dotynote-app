@@ -128,21 +128,18 @@ export const NoteSidebar = React.memo((props: Props) => {
         return element;
       }
 
-      const content = (
-        <Box key={id}>
-          {children || (
-            <IconButton
-              size="xs"
-              variant="ghost"
-              iconSize="auto"
-              position="relative"
-              aria-label={label}
-              {...restItem as IconButtonProps}
-            >
-              {icon}
-            </IconButton>
-          )}
-        </Box>
+      const content = children || (
+        <IconButton
+          key={id}
+          size="xs"
+          variant="ghost"
+          iconSize="auto"
+          position="relative"
+          aria-label={label}
+          {...restItem as IconButtonProps}
+        >
+          {icon}
+        </IconButton>
       );
 
       return label ? (

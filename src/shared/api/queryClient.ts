@@ -14,7 +14,7 @@ export const queryClient = new QueryClient({
       retry(failureCount, error) {
         const axiosError = error as AxiosError;
         const errorCode = axiosError?.response?.status;
-
+console.log('retry', failureCount, error);
         if (!errorCode || errorCode === 404) {
           return false;
         }

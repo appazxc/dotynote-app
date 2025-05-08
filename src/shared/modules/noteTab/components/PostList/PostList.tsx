@@ -12,6 +12,7 @@ import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
 import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
+import { sec } from 'shared/constants/time';
 import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -105,21 +106,27 @@ export const PostList = React.memo((props: Props) => {
     fetchNextPage,
     hasNextPage,
     hasPreviousPage,
+    isError,
+    errorUpdatedAt,
   } = useInfinityPosts(noteId, filters, options);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 
   React.useEffect(() => {
-    if (inViewPrev && hasPreviousPage) {      
+    const couldFetchOnError = !isError || isError && Date.now() - errorUpdatedAt > 30 * sec;
+
+    if (inViewPrev && hasPreviousPage && couldFetchOnError) {      
       fetchPreviousPage();
     }
-  }, [fetchPreviousPage, inViewPrev, hasPreviousPage]);
+  }, [isError, errorUpdatedAt, fetchPreviousPage, inViewPrev, hasPreviousPage]);
 
   React.useEffect(() => {
-    if (inViewNext && hasNextPage) {
+    const couldFetchOnError = !isError || isError && Date.now() - errorUpdatedAt > 30 * sec;
+
+    if (inViewNext && hasNextPage && couldFetchOnError) {
       fetchNextPage();
     }
-  }, [fetchNextPage, inViewNext, hasNextPage]);
+  }, [isError, errorUpdatedAt, fetchNextPage, inViewNext, hasNextPage]);
 
   const flatData = React.useMemo(() => ((data?.pages?.map(({ items }) => items).reverse() || []).flat()), [data]);
 
