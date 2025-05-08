@@ -8,7 +8,7 @@ type Props = Record<string, never>;
 
 export const NotePending = React.memo((_props: Props) => {
   return (
-    <Wait delay={50}>
+    <Wait delay={100}>
       <Container
         p={4}
         pt="16"
