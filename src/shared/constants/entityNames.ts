@@ -9,7 +9,6 @@ export const entityNames = keymirror({
   postsSettings: null,
   noteSettings: null,
   userSettings: null,
-  orderBy: null,
   postInternal: null,
   noteDot: null,
   postDot: null,

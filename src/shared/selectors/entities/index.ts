@@ -10,7 +10,6 @@ export const postsSettingsSelector = new Selector(entityNames.postsSettings);
 export const noteSettingsSelector = new Selector(entityNames.noteSettings);
 export const postSelector = new Selector(entityNames.post);
 export const noteImageSelector = new Selector(entityNames.noteImage);
-export const orderBySelector = new Selector(entityNames.orderBy);
 export const noteDotSelector = new Selector(entityNames.noteDot);
 export const postDotSelector = new Selector(entityNames.postDot);
 export const noteAudioSelector = new Selector(entityNames.noteAudio);

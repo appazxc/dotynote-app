@@ -23,7 +23,6 @@ import {
 } from 'shared/components/ui/dialog';
 import { DotsIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
-import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { ImagesGrid } from 'shared/containers/modals/CreatePostWithImagesModal/ImagesGrid';
 import { useCreditsCheck } from 'shared/hooks/useCreditsCheck';
 import { useFileUpload } from 'shared/modules/fileUpload';
@@ -124,7 +123,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
   }, [dispatch, noteId, onCreate, removeFiles, imgFiles, checkCredits]);
 
   const canSeparatePosts = 
-    (!note.postsSettings || note.postsSettings.orderById === ORDER_BY_IDS.POSITION) 
+    (!note.postsSettings || note.postsSettings.orderBy === 'position') 
     && imgFiles.length > 1;
   const showOptionsMenu = canSeparatePosts;
 

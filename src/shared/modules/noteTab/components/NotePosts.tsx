@@ -77,7 +77,7 @@ export const NotePosts = React.memo((props: Props) => {
         hasOverlay={isSelecting || isConcretePlace}
         selectedPosts={selectedPosts}
         sort={postsSettings.sort}
-        orderBy={postsSettings.orderById}
+        orderBy={postsSettings.orderBy}
         onPostClick={handlePostClick}
         onScrollRestoration={onScrollRestoration}
       />

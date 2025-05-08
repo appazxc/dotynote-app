@@ -1,17 +1,15 @@
 import { MergeEntity } from 'shared/types/entities/MergeEntity';
-import { OrderByEntity } from 'shared/types/entities/OrderByEntity';
 
 import { BaseEntity } from './BaseEntity';
 
+export type PostOrderBy = 'position' | 'createdAt' | 'updatedAt';
+
 export type ApiPostsSettingsEntity = BaseEntity<{
   internal: boolean;
-  orderById: number;
+  orderBy: PostOrderBy;
   sort: 'asc' | 'desc';
   noteId: string;
-  // stickType: 'simple' | 'multi' | 'auto' | 'gpt',
-  // stickFrom: string[],
+  listType: 'all' | 'stick',
 }>
 
-export type PostsSettingsEntity = MergeEntity<ApiPostsSettingsEntity, {
-  orderBy?: OrderByEntity;
-}>
+export type PostsSettingsEntity = MergeEntity<ApiPostsSettingsEntity, {}>

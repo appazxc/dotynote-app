@@ -10,12 +10,12 @@ import {
 } from 'shared/api/hooks/useInfinityPosts';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
-import { ORDER_BY_IDS } from 'shared/constants/orderByIds';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
 import { sec } from 'shared/constants/time';
 import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { PostEntity } from 'shared/types/entities/PostEntity';
+import { PostOrderBy } from 'shared/types/entities/PostsSettingsEntity';
 
 import { Post } from '../Post';
 
@@ -29,7 +29,7 @@ type Props = {
   scrollRestoration?: boolean;
   search?: string;
   sort?: Sort;
-  orderBy?: number;
+  orderBy?: PostOrderBy;
   isSelecting?: boolean;
   hasOverlay?: boolean;
   pageSize?: number;
@@ -54,7 +54,7 @@ export const PostList = React.memo((props: Props) => {
     selectedPosts = EMPTY_ARRAY,
     sort = SORT.DESC,
     pageSize = DEFAULT_PAGE_SIZE,
-    orderBy = ORDER_BY_IDS.POSITION,
+    orderBy = 'position',
     options = EMPTY_OBJECT,
     disablePagination,
     onScrollRestoration,

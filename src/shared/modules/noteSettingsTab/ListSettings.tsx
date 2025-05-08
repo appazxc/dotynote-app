@@ -1,24 +1,54 @@
-import { Box, Card, Heading } from '@chakra-ui/react';
+import { Box, Card } from '@chakra-ui/react';
 import React from 'react';
 
 import { useUpdatePostsSettings } from 'shared/api/hooks/useUpdatePostsSettings';
 import { Select } from 'shared/components/ui/select';
 import { DirectionSelect } from 'shared/modules/noteSettingsTab/DirectionSelect';
-import { getOptionTitleFromOrderType } from 'shared/modules/noteSettingsTab/helpers/getOptionTitleFromOrderType';
-import { ApiOrderByEntity } from 'shared/types/entities/OrderByEntity';
+import { Filters } from 'shared/modules/noteSettingsTab/Filters';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 type Props = {
   postsSettings: PostsSettingsEntity;
-  orderBy: ApiOrderByEntity[];
 };
 
-export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
+const listTypeOptions = [
+  {
+    label: 'All',
+    value: 'all',
+  },
+  {
+    label: 'Sticked posts',
+    value: 'stick',
+  },
+];
+
+const orderByOptions = [
+  {
+    label: 'Personalized',
+    value: 'position',
+  },
+  {
+    label: 'Date created',
+    value: 'createdAt',
+  },
+  {
+    label: 'Date updated',
+    value: 'updatedAt',
+  },
+];
+
+export const ListSettings = React.memo(({ postsSettings }: Props) => {
   const { mutateAsync } = useUpdatePostsSettings(postsSettings.noteId, postsSettings.id);
   
   const handleOrderByChange = React.useCallback(async (values) => {
     await mutateAsync({
-      orderById: Number(values[0]),
+      orderBy: values[0],
+    });
+  }, [mutateAsync]);
+
+  const handleListTypeChange = React.useCallback(async (values) => {
+    await mutateAsync({
+      listType: values[0],
     });
   }, [mutateAsync]);
 
@@ -33,7 +63,22 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
       p="4"
       gap="3"
     >
-      <Heading as="h3" fontSize="md">Sorting</Heading>
+      <Box
+        display="flex"
+        gap="3"
+        flexDirection="row"
+        alignItems="flex-end"
+      >
+        <Select
+          size="sm"
+          label="List type"
+          value={[postsSettings.listType]}
+          w="200px"
+          options={listTypeOptions}
+          onChange={handleListTypeChange}
+        />
+        {postsSettings.listType === 'all' && <Filters /> }
+      </Box>
       <Box
         display="flex"
         gap="3"
@@ -43,9 +88,9 @@ export const SortSettings = React.memo(({ orderBy, postsSettings }: Props) => {
         <Select
           size="sm"
           label="Order by"
-          value={[postsSettings.orderById]}
+          value={[postsSettings.orderBy]}
           w="200px"
-          options={orderBy.map(({ id, type }) => ({ label: getOptionTitleFromOrderType(type), value: String(id) }))}
+          options={orderByOptions}
           onChange={handleOrderByChange}
         />
         <DirectionSelect value={postsSettings.sort} onChange={handleSortChange} />

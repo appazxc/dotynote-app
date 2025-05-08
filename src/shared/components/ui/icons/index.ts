@@ -4,6 +4,7 @@ import { GoSearch } from 'react-icons/go';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { IoPauseOutline, IoPlay } from 'react-icons/io5';
 import { MdClose, MdOutlineDone } from 'react-icons/md';
+import { TbFilter } from 'react-icons/tb';
 
 export const DeleteIcon = AiOutlineDelete;
 export const DotsIcon = BsThreeDotsVertical;
@@ -17,3 +18,4 @@ export const PlusIcon = BsPlus;
 export const ArrowUpIcon = BsArrowUp;
 export const ArrowDownIcon = BsArrowDown;
 export const ArrowLeftIcon = BsArrowLeft;
+export const FilterIcon = TbFilter;

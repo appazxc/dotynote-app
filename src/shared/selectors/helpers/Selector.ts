@@ -8,7 +8,6 @@ import { noteFileSchema } from 'shared/schemas/noteFile.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { noteVideoSchema } from 'shared/schemas/noteVideo.schema';
-import { orderBySchema } from 'shared/schemas/orderBy.schema';
 import { postSchema } from 'shared/schemas/post.schema';
 import { postDotSchema } from 'shared/schemas/postDot.schema';
 import { postInternalSchema } from 'shared/schemas/postInternal.schema';
@@ -38,7 +37,6 @@ const schemaMap: {
   [entityNames.spaceTab]: spaceTabSchema,
   [entityNames.user]: userSchema,
   [entityNames.userSettings]: userSettingsSchema,
-  [entityNames.orderBy]: orderBySchema,
   [entityNames.postInternal]: postInternalSchema,
   [entityNames.postDot]: postDotSchema,
   [entityNames.noteDot]: noteDotSchema,

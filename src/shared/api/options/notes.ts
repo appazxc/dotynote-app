@@ -39,12 +39,3 @@ export const loadList = (filters: LoadListFilters = {}) => {
     },
   });
 };
-
-export const loadOrderByList = () => {
-  return queryOptions({
-    queryKey: ['orderBy'],
-    queryFn: async () => {
-      return api.get<number[]>('/notes/posts-settings/order-by');
-    },
-  });
-};

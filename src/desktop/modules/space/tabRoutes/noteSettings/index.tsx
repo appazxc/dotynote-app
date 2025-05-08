@@ -14,9 +14,6 @@ export const noteSettings = createRoute({
   loader: async ({ params }) => {
     await loadNoteData({
       noteId: params.noteId,
-      extraLoaders: [
-        queryClient.fetchQuery(options.notes.loadOrderByList()),
-      ],
     });
   },
   pendingMinMs: 0,

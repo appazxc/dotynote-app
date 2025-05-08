@@ -39,7 +39,7 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
       noteId={note.id}
       // get sort and orderBy from post.internal.note.postSettings
       sort={note?.postsSettings?.sort}
-      orderBy={note.postsSettings?.orderById}
+      orderBy={note.postsSettings?.orderBy}
       internalLevel={internalLevel + 1}
       pageSize={internal.max}
       onPostClick={handlePostClick}

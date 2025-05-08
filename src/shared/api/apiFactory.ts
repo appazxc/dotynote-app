@@ -1,7 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import isArray from 'lodash/isArray';
-import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import { nanoid } from 'nanoid';

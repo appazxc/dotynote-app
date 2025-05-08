@@ -6,7 +6,6 @@ import { ApiNoteFileEntity, NoteFileEntity } from 'shared/types/entities/NoteFil
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { ApiNoteVideoEntity, NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
-import { ApiOrderByEntity, OrderByEntity } from 'shared/types/entities/OrderByEntity';
 import { ApiPostDotEntity, PostDotEntity } from 'shared/types/entities/PostDotEntity';
 import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
 import { ApiPostInternalEntity, PostInternalEntity } from 'shared/types/entities/PostInternalEntity';
@@ -28,7 +27,6 @@ export type ApiEntityTypes = {
   [entityNames.postsSettings]: ApiPostsSettingsEntity;
   [entityNames.noteSettings]: ApiNoteSettingsEntity;
   [entityNames.userSettings]: ApiUserSettingsEntity;
-  [entityNames.orderBy]: ApiOrderByEntity;
   [entityNames.postInternal]: ApiPostInternalEntity;
   [entityNames.postDot]: ApiPostDotEntity;
   [entityNames.noteDot]: ApiNoteDotEntity;
@@ -52,7 +50,6 @@ export type EntityTypes = {
   [entityNames.postsSettings]: PostsSettingsEntity;
   [entityNames.noteSettings]: NoteSettingsEntity;
   [entityNames.userSettings]: UserSettingsEntity;
-  [entityNames.orderBy]: OrderByEntity;
   [entityNames.postInternal]: PostInternalEntity;
   [entityNames.postDot]: PostDotEntity;
   [entityNames.noteDot]: NoteDotEntity;
