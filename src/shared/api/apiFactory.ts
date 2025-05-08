@@ -142,17 +142,9 @@ export default () => {
     async get(path, params = {}, config: AxiosRequestConfig = {}) {
       const { headers, ...restConfig } = config;
 
-      const updatedParams = mapValues(params, (value) => {
-        if (isArray(value)) {
-          return value.join(',');
-        }
-
-        return value;
-      });
-
       return axiosInstance
         .get(getBaseApi() + path, {
-          params: pickBy(updatedParams, (param) => param !== undefined),
+          params: pickBy(params, (param) => param !== undefined),
           headers: createHeaders(headers),
           ...restConfig,
         })
