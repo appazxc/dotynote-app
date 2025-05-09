@@ -23,8 +23,7 @@ import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
-import { selectUser } from 'shared/selectors/user/selectUser';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppDispatch } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -47,8 +46,6 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
   const isInternal = internalLevel;
-  const user = useAppSelector(selectUser);
-  const isHubNote = user?.settings?.hubId === parent.id;
 
   const { mutate: deletePosts, isPending: isDeletePending } = useDeleteNotesFromPosts(parentId);
   const { mutate: unstick } = useUnstickPosts(parentId, [postId]);
@@ -93,7 +90,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     const showStick = post.permissions.stick;
     const showMove = post.permissions.move;
     const showInternal = !isInternal && post.permissions.updateInternal && parent.postsSettings?.internal;
-    const showUnstick = post.permissions.unstick && !isHubNote;
+    const showUnstick = post.permissions.unstick;
     const showDelete = post.permissions.delete;
     const showDot = post.permissions.upsertDot;
 
@@ -234,7 +231,6 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     noteId,
     pin,
     postId,
-    isHubNote,
     unstick,
     unpin,
     updateInternal,

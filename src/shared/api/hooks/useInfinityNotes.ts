@@ -45,7 +45,7 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
   };
 
 export const getInfinityPostsQueryKey = (noteId: string = '', filters: Filters = {}) => 
-  ['posts', noteId, 'sticked', filters] as const;
+  ['posts', noteId, filters] as const;
 
 export type InfinityPostsQueryKey = ReturnType<typeof getInfinityPostsQueryKey>;
 

@@ -16,7 +16,6 @@ export const operationTypes = {
   STICK: 'stick',
   MOVE: 'move',
   PRIMARY_NOTE: 'primaryNote',
-  HUB: 'hub',
   SELECT: 'select',
   SELECT_NOTE_IMAGES: 'selectNoteImages',
 } as const;
@@ -40,10 +39,6 @@ export type SelectNoteImagesOperation = {
   noteId: string;
 }
 
-export type HubOperation = {
-  type: typeof operationTypes.HUB;
-}
-
 export type SelectOperation = {
   type: typeof operationTypes.SELECT;
   noteId: string;
@@ -63,7 +58,6 @@ type OperationType =
   | StickOperation 
   | MoveOperation 
   | PrimaryNoteOperation
-  | HubOperation
   | SelectOperation
   | SelectNoteImagesOperation
 
@@ -197,11 +191,6 @@ export const appSlice = createSlice({
         type: operationTypes.PRIMARY_NOTE,
       };
     },
-    startHubOperation: (state) => {
-      state.operation = {
-        type: operationTypes.HUB,
-      };
-    },
     startSelectOperation: (
       state,
       { payload }: PayloadAction<{
@@ -303,7 +292,6 @@ export const {
   togglePostSelect,
   updateOperationConcretePost,
   addPrimaryNoteTab,
-  startHubOperation,
   startSelectNoteImagesOperation,
   toggleSelectNoteImage,
   lockDevice,

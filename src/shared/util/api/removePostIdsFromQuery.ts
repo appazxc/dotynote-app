@@ -23,7 +23,7 @@ export const removePostIdsFromQuery = (parentId: string, postIds: string[], rese
           return oldData;
         }
 
-        const FILTERS_INDEX = 2;
+        const FILTERS_INDEX = 3;
         const filters = queryKey[FILTERS_INDEX];
         const pageSize = Number(filters?.pageSize) || DEFAULT_PAGE_SIZE;
         const newPages = oldData.pages.map((page) => {

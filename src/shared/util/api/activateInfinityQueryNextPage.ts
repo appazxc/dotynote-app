@@ -26,7 +26,7 @@ export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) 
       return oldData;
     }
 
-    const filtersIndex = 2;
+    const filtersIndex = 3;
     const descSort = queryKey[filtersIndex]?.sort === 'desc';
 
     return {
