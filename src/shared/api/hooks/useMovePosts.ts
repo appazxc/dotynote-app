@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { movePosts } from 'shared/actions/movePosts';
-import { getInfinityPostsQueryKey, InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { getInfinityStickNotesQueryKey, InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -40,9 +40,9 @@ export const useMovePosts = (noteId: string) => {
       }
       // remove old posts from the list
       queryClient
-        .getQueriesData({ queryKey: getInfinityPostsQueryKey(fromNoteId) })
+        .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(fromNoteId) })
         .forEach(([queryKey]) => {
-          updateInfinityQuery(queryKey as InfinityPostsQueryKey, (oldData) => {
+          updateInfinityQuery(queryKey as InfinityStickNotesQueryKey, (oldData) => {
             if (!oldData) {
               return oldData;
             }

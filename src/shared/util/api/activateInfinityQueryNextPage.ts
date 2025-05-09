@@ -1,8 +1,8 @@
-import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { TQueryFnData } from 'shared/types/query';
 
-export const activateInfinityQueryNextPage = (queryKey?: InfinityPostsQueryKey) => {
+export const activateInfinityQueryNextPage = (queryKey?: InfinityStickNotesQueryKey) => {
   if (!queryKey) {
     return;
   }

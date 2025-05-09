@@ -5,9 +5,9 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import {
-  InfinityPostsOptions,
-  useInfinityPosts,
-} from 'shared/api/hooks/useInfinityPosts';
+  InfinityStickNotesOptions,
+  useInfinityStickNotes,
+} from 'shared/api/hooks/useInfinityStickNotes';
 import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
@@ -35,7 +35,7 @@ type Props = {
   pageSize?: number;
   isPinned?: boolean;
   selectedPosts?: string[];
-  options?: InfinityPostsOptions;
+  options?: InfinityStickNotesOptions;
   internalLevel?: number;
   disablePagination?: boolean;
   onScrollRestoration?: () => void;
@@ -108,7 +108,7 @@ export const PostList = React.memo((props: Props) => {
     hasPreviousPage,
     isError,
     errorUpdatedAt,
-  } = useInfinityPosts(noteId, filters, options);
+  } = useInfinityStickNotes(noteId, filters, options);
 
   const isFetchingFirstTime = isFetching && !isFetched;
 

@@ -1,4 +1,4 @@
-import { getInfinityPostsQueryKey, InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { getInfinityStickNotesQueryKey, InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { DEFAULT_PAGE_SIZE } from 'shared/constants/requests';
 import { TQueryFnData } from 'shared/types/query';
@@ -7,14 +7,14 @@ import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 export const removePostIdsFromQuery = (parentId: string, postIds: string[], resetEmptyQueries = true) => {
   const queriesData: {
-    queryKey: InfinityPostsQueryKey;
+    queryKey: InfinityStickNotesQueryKey;
     data?: TQueryFnData;
   }[] = [];
 
   queryClient
-    .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
+    .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(parentId) })
     .forEach(([queryKey]) => {
-      updateInfinityQuery(queryKey as InfinityPostsQueryKey, (oldData, queryKey) => {
+      updateInfinityQuery(queryKey as InfinityStickNotesQueryKey, (oldData, queryKey) => {
         queriesData.push({
           queryKey,
           data: oldData,
@@ -43,7 +43,7 @@ export const removePostIdsFromQuery = (parentId: string, postIds: string[], rese
   // reset queries if they are empty
   if (resetEmptyQueries) {
     queryClient
-      .getQueriesData({ queryKey: getInfinityPostsQueryKey(parentId) })
+      .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(parentId) })
       .forEach(([queryKey]) => {
         const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
 

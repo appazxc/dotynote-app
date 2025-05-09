@@ -1,4 +1,4 @@
-import { InfinityPostsQueryKey } from 'shared/api/hooks/useInfinityPosts';
+import { InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { TQueryFnData } from 'shared/types/query';
 
@@ -38,8 +38,8 @@ export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldDa
 };
 
 export const updateInfinityQuery = <T extends TQueryFnData>(
-  queryKey: InfinityPostsQueryKey | undefined, 
-  updater: (oldData: T | undefined, queryKey: InfinityPostsQueryKey) => T | undefined
+  queryKey: InfinityStickNotesQueryKey | undefined, 
+  updater: (oldData: T | undefined, queryKey: InfinityStickNotesQueryKey) => T | undefined
 ) => {
   if (!queryKey) {
     return;

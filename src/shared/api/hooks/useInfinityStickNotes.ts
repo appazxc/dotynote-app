@@ -16,7 +16,7 @@ import { entityApi } from '../entityApi';
 
 type Filters = Record<string, string | number>;
 
-export type InfinityPostsOptions = Omit<
+export type InfinityStickNotesOptions = Omit<
   UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,
   'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
 >;
@@ -44,18 +44,18 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
     return result;
   };
 
-export const getInfinityPostsQueryKey = (noteId: string = '', filters: Filters = {}) => 
-  ['posts', noteId, 'sticked', filters] as const;
+export const getInfinityStickNotesQueryKey = (noteId: string = '', filters: Filters = {}) => 
+  ['posts', noteId, 'stick-notes', filters] as const;
 
-export type InfinityPostsQueryKey = ReturnType<typeof getInfinityPostsQueryKey>;
+export type InfinityStickNotesQueryKey = ReturnType<typeof getInfinityStickNotesQueryKey>;
 
-export const useInfinityPosts = (
+export const useInfinityStickNotes = (
   noteId: string,
   filters: Filters = EMPTY_OBJECT, 
-  options: InfinityPostsOptions = EMPTY_OBJECT
+  options: InfinityStickNotesOptions = EMPTY_OBJECT
 ) => {
   const queryKey = React.useMemo(
-    () => getInfinityPostsQueryKey(noteId, filters), 
+    () => getInfinityStickNotesQueryKey(noteId, filters), 
     [noteId, filters]
   );
 

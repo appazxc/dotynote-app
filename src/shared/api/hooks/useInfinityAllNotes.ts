@@ -1,18 +1,17 @@
-import { 
-  GetNextPageParamFunction, 
-  GetPreviousPageParamFunction, 
-  useInfiniteQuery, 
-  UseInfiniteQueryOptions, 
+import {
+  GetNextPageParamFunction,
+  GetPreviousPageParamFunction,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import React from 'react';
 
+import { api } from 'shared/api';
 import { EMPTY_OBJECT } from 'shared/constants/common';
 import { DIRECTIONS } from 'shared/constants/requests';
 import { useSaveNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useSaveNoteTabQueryKey';
 import { PageParam, QueryFnData } from 'shared/types/query';
 import { getCursorName } from 'shared/util/api/getCursorName';
-
-import { entityApi } from '../entityApi';
 
 type Filters = Record<string, string | number>;
 
@@ -44,10 +43,10 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
     return result;
   };
 
-export const getInfinityPostsQueryKey = (noteId: string = '', filters: Filters = {}) => 
-  ['posts', noteId, filters] as const;
+export const getInfinityAllNotesQueryKey = (noteId: string = '', filters: Filters = {}) => 
+  ['posts', noteId, 'all-notes', filters] as const;
 
-export type InfinityPostsQueryKey = ReturnType<typeof getInfinityPostsQueryKey>;
+export type InfinityPostsQueryKey = ReturnType<typeof getInfinityAllNotesQueryKey>;
 
 export const useInfinityPosts = (
   noteId: string,
@@ -55,7 +54,7 @@ export const useInfinityPosts = (
   options: InfinityPostsOptions = EMPTY_OBJECT
 ) => {
   const queryKey = React.useMemo(
-    () => getInfinityPostsQueryKey(noteId, filters), 
+    () => getInfinityAllNotesQueryKey(noteId, filters), 
     [noteId, filters]
   );
 
@@ -77,7 +76,7 @@ export const useInfinityPosts = (
         apiFilters[getCursorName(direction)] = cursor;
       }
 
-      const items = await entityApi.post.loadList<string>({ filters: apiFilters });
+      const items = await api.get<string[]>(`/notes/${noteId}/all`, { filters: apiFilters });
 
       const isNextDirection = direction === DIRECTIONS.NEXT;
       const isPrevDirection = direction === DIRECTIONS.PREVIOUS;
