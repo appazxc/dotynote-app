@@ -16,10 +16,10 @@ import { useAppDispatch } from 'shared/store/hooks';
 type Props = {
   noteId: string;
   onClick: () => void;
-  isMobile?: boolean;
+  view?: 'grid' | 'list' | 'row';
 }
 
-export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false }: Props) => {
+export const NoteContentPicker = React.memo(({ noteId, onClick, view = 'grid' }: Props) => {
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const checkCredits = useCreditsCheck();
@@ -108,6 +108,6 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, isMobile = false
   }, [dispatch, onClick, handleNoteAttachmentClick]);
 
   return (
-    <ContentPickerCards view={isMobile ? 'list' : 'grid'} items={items} />
+    <ContentPickerCards view={view} items={items} />
   );
 });

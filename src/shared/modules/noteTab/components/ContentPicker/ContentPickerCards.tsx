@@ -1,4 +1,5 @@
 import { Box, Button, Card, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import type { BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
@@ -10,6 +11,7 @@ type Props = {
     title: string;
     icon: React.ElementType;
     isDisabled?: boolean;
+    iconColor?: BoxProps['color'];
     onClick: () => void;
   }[];
 };
@@ -21,7 +23,7 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
   
   if (view === 'grid') {
     return (
-      <Box minH="180px">
+      <Box minH="180px" minW="300px">
         <SimpleGrid gap={4} templateColumns="repeat(auto-fill, minmax(80px, 1fr))">
           {items.map(({ title, icon: Icon, isDisabled, onClick }) => {
             return (
@@ -62,9 +64,8 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
       <Stack
         gap={2}
         flexDirection="row"
-        py="2"
       >
-        {items.map(({ title, icon: Icon, onClick }) => {
+        {items.map(({ title, icon: Icon, iconColor, isDisabled, onClick }) => {
           return (
             <Box
               key={title}
@@ -74,27 +75,36 @@ export const ContentPickerCards = React.memo(({ items, view = 'grid' }: Props) =
               alignItems="center"
               display="flex"
               p="1"
+              cursor={isDisabled ? 'default' : 'pointer'}
+              opacity={isDisabled ? '0.6' : '1'}
+              transition="transform 0.2s ease-in-out"
               onClick={onClick}
             >
               <Box
                 boxSize="34px"
                 bg="gray.subtle"
-                borderRadius="full"
+                borderRadius="lg"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
                 flexShrink={0}
+                color={iconColor}
               >
                 <Icon size="16px" />
               </Box>
-              <Text
-                as="span"
-                fontSize="xs"
-                fontWeight="500"
-                textAlign="center"
+              <Box
+                maxW="35px"
+                display="flex"
+                justifyContent="center"
               >
-                {title}
-              </Text>
+                <Text
+                  as="span"
+                  fontSize="xs"
+                  fontWeight="500"
+                >
+                  {title}
+                </Text>
+              </Box>
             </Box>
           );
         })}

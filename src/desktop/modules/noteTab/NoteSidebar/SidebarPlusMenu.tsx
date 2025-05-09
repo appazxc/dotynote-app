@@ -57,7 +57,7 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
             </IconButton>
           </Box>
         </PopoverTrigger>
-        <PopoverContent width="md">
+        <PopoverContent width="auto" boxShadow="sm">
           <PopoverBody
             gap="4"
             display="flex"
@@ -68,6 +68,8 @@ const SidebarPlusMenuComponent = ({ noteId, canAddToNote, canAddToPosts, ...rest
               noteId={noteId}
               canAddToNote={canAddToNote}
               canAddToPosts={canAddToPosts}
+              type="sections"
+              view="row"
               onClose={onClose}
             />
           </PopoverBody>

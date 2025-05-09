@@ -20,11 +20,11 @@ import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQ
 type Props = {
   note: NoteEntity;
   onClick: () => void;
-  isMobile?: boolean;
+  view?: 'grid' | 'list' | 'row';
 };
 
 export const PostsContentPicker = React.memo((props: Props) => {
-  const { note, onClick, isMobile = false } = props;
+  const { note, onClick, view = 'grid' } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const getQueryKey = useGetNoteTabQueryKey(note.id);
@@ -128,5 +128,5 @@ export const PostsContentPicker = React.memo((props: Props) => {
     ];
   }, [dispatch, note.id, checkCredits, handlePostAttachmentClick, handlePostCreate, openFilePicker, onClick]);
   
-  return <ContentPickerCards view={isMobile ? 'list' : 'grid'} items={items} />;
+  return <ContentPickerCards view={view} items={items} />;
 });

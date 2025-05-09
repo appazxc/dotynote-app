@@ -44,6 +44,8 @@ const NoteMenuDrawer = (props: Props) => {
               noteId={noteId}
               canAddToNote={note.permissions.update && !note.settings?.hide}
               canAddToPosts={note.permissions.createPost} 
+              type="tabs"
+              view="list"
               onClose={handleClose}
             />
           </DrawerBody>
