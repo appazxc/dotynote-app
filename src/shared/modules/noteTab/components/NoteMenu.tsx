@@ -5,12 +5,11 @@ import { PiDotsSixVerticalBold } from 'react-icons/pi';
 
 import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { usePinnedPostsCount } from 'shared/api/hooks/usePinnedPostsCount';
-import { Menu, MenuDivider, MenuItem, MenuList, MenuSub, MenuTrigger } from 'shared/components/Menu';
+import { Menu, MenuDivider, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { DotsIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -27,7 +26,7 @@ export const NoteMenu = React.memo(({ noteId, isMobile, showSearch }: Props) => 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useDeleteNotes([noteId]);
-  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
+  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId, note?.postsSettings?.listType !== 'all');
 
   if (!note) {
     return null;

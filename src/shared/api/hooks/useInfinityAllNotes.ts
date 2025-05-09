@@ -15,7 +15,7 @@ import { getCursorName } from 'shared/util/api/getCursorName';
 
 type Filters = Record<string, string | number>;
 
-export type InfinityPostsOptions = Omit<
+export type InfinityAllNotesOptions = Omit<
   UseInfiniteQueryOptions<any, any, any, any, any, PageParam>,
   'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
 >;
@@ -46,12 +46,12 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
 export const getInfinityAllNotesQueryKey = (noteId: string = '', filters: Filters = {}) => 
   ['posts', noteId, 'all-notes', filters] as const;
 
-export type InfinityPostsQueryKey = ReturnType<typeof getInfinityAllNotesQueryKey>;
+export type InfinityAllNotesQueryKey = ReturnType<typeof getInfinityAllNotesQueryKey>;
 
-export const useInfinityPosts = (
+export const useInfinityAllNotes = (
   noteId: string,
   filters: Filters = EMPTY_OBJECT, 
-  options: InfinityPostsOptions = EMPTY_OBJECT
+  options: InfinityAllNotesOptions = EMPTY_OBJECT
 ) => {
   const queryKey = React.useMemo(
     () => getInfinityAllNotesQueryKey(noteId, filters), 
@@ -68,7 +68,6 @@ export const useInfinityPosts = (
       const pageSize = filters.pageSize;
 
       const apiFilters = {
-        parentId: noteId,
         ...filters,
       };
 
@@ -76,7 +75,7 @@ export const useInfinityPosts = (
         apiFilters[getCursorName(direction)] = cursor;
       }
 
-      const items = await api.get<string[]>(`/notes/${noteId}/all`, { filters: apiFilters });
+      const items = await api.get<string[]>(`/notes/${noteId}/all`, apiFilters);
 
       const isNextDirection = direction === DIRECTIONS.NEXT;
       const isPrevDirection = direction === DIRECTIONS.PREVIOUS;

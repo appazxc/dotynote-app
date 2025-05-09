@@ -28,14 +28,19 @@ type Props = {
 }
 
 export const NoteSidebar = React.memo((props: Props) => {
-  const { note: { id: noteId, settings: noteSettings, permissions }, rwMode, showRwMode, showSearch } = props;
+  const { 
+    note: { id: noteId, settings: noteSettings, postsSettings, permissions }, 
+    rwMode, 
+    showRwMode, 
+    showSearch, 
+  } = props;
   const { history } = useRouter();
   const dispatch = useAppDispatch();
   const tab = useTabContext();
   const navigate = useNavigate();
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId);
+  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId, postsSettings?.listType !== 'all');
   const showAddTo = permissions.update || permissions.createPost;
   const isNoteContentVisible = !noteSettings?.hide;
 
@@ -98,7 +103,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         onClick: () => dispatch(toggleSearch()),
         variant: isSearchActive ? 'subtle' : 'ghost',
       }] : [],
-      ...pinnedPostsCount ? [{
+      ...pinnedPostsCount && postsSettings?.listType !== 'all' ? [{
         id: 'Pinned posts',
         label: 'Pinned posts',
         icon: <BsFillPinAngleFill />,
@@ -120,6 +125,7 @@ export const NoteSidebar = React.memo((props: Props) => {
     isSearchActive,
     isNoteContentVisible,
     permissions,
+    postsSettings?.listType,
   ]);
 
   const renderedItems = React.useMemo(() => {

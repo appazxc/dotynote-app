@@ -2,9 +2,9 @@ import { Box } from '@chakra-ui/react';
 import { motion } from 'motion/react';
 import React from 'react';
 
-import { Post as PostComponent } from 'shared/components/Post';
-import { InternalPosts } from 'shared/modules/noteTab/components/Post/InternalPosts';
-import { PostWithMenu } from 'shared/modules/noteTab/components/Post/PostWithMenu';
+import { Post } from 'shared/components/Post';
+import { InternalPosts } from 'shared/modules/noteTab/components/PostItem/InternalPosts';
+import { PostWithMenu } from 'shared/modules/noteTab/components/PostItem/PostWithMenu';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -19,7 +19,7 @@ type Props = {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
 }
 
-export const Post = React.memo((props: Props) => {
+export const PostItem = React.memo((props: Props) => {
   const { postId, onClick, isSelecting, isSelected, hasOverlay, internalLevel } = props;
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
@@ -38,7 +38,7 @@ export const Post = React.memo((props: Props) => {
     }
 
     return (
-      <PostComponent
+      <Post
         isSelecting={isSelecting}
         isSelected={isSelected}
         hasOverlay={hasOverlay}

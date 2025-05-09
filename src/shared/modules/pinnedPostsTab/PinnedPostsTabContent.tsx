@@ -1,7 +1,7 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 
-import { PostList } from 'shared/modules/noteTab/components/PostList/PostList';
+import { StickNotesList } from 'shared/modules/noteTab/components/StickNotesList';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -25,7 +25,7 @@ export const PinnedPostsTabContent = React.memo(({ noteId, onPostClick } : Props
 
   return (
     <Container maxW="2xl">
-      <PostList
+      <StickNotesList
         isPinned
         noteId={note.id}
         options={OPTIONS}

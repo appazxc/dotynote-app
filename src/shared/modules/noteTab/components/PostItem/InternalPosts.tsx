@@ -4,7 +4,7 @@ import React from 'react';
 import { openTab } from 'shared/actions/space/openTab';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
-import { PostList } from 'shared/modules/noteTab/components/PostList';
+import { StickNotesList } from 'shared/modules/noteTab/components/StickNotesList';
 import { useAppDispatch } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
@@ -32,7 +32,7 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
   }, [navigate, dispatch]);
 
   return (
-    <PostList
+    <StickNotesList
       disablePagination
       pt="2"
       pb="0"

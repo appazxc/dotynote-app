@@ -8,12 +8,14 @@ import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { showModal } from 'shared/modules/modal/modalSlice';
-import { PostList } from 'shared/modules/noteTab/components/PostList/PostList';
+import { AllNotesList } from 'shared/modules/noteTab/components/AllNotesList';
+import { StickNotesList } from 'shared/modules/noteTab/components/StickNotesList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { operationTypes, togglePostSelect, updateOperationConcretePost } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
+import { invariant } from 'shared/util/invariant';
 
 type Props = {
   note: NoteEntity;
@@ -30,6 +32,10 @@ export const NotePosts = React.memo((props: Props) => {
   const isSelecting = operation.type === operationTypes.SELECT && operation.noteId === noteId;
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
+
+  invariant(postsSettings, 'postsSettings is required');
+
+  const { listType } = postsSettings;
   
   const defaultPostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>, noteId: string) => {
     if (event.metaKey) {
@@ -69,19 +75,28 @@ export const NotePosts = React.memo((props: Props) => {
   }
 
   return (
-    <>
-      <PostList
-        noteId={noteId}
-        search={search}
-        isSelecting={isSelecting}
-        hasOverlay={isSelecting || isConcretePlace}
-        selectedPosts={selectedPosts}
-        sort={postsSettings.sort}
-        orderBy={postsSettings.orderBy}
-        onPostClick={handlePostClick}
-        onScrollRestoration={onScrollRestoration}
-      />
-      <SelectConcretePlaceModal noteId={noteId} />
+    <>{
+      listType == 'stick' ? (
+        <StickNotesList
+          noteId={noteId}
+          search={search}
+          isSelecting={isSelecting}
+          hasOverlay={isSelecting || isConcretePlace}
+          selectedPosts={selectedPosts}
+          sort={postsSettings.sort}
+          orderBy={postsSettings.orderBy}
+          onPostClick={handlePostClick}
+          onScrollRestoration={onScrollRestoration}
+        />
+      ) : (
+        <AllNotesList
+          noteId={noteId}
+          onScrollRestoration={onScrollRestoration}
+        />
+      )
+    }
+      
+    <SelectConcretePlaceModal noteId={noteId} />
     </>
   );
 });

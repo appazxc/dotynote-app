@@ -1,6 +1,5 @@
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
-import { AnimatePresence, LayoutGroup } from 'motion/react';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
@@ -12,12 +11,12 @@ import { useScrollContext } from 'shared/components/ScrollProvider';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
 import { sec } from 'shared/constants/time';
-import { getIsSelected } from 'shared/modules/noteTab/components/PostList/helpers/getIsSelected';
+import { getIsSelected } from 'shared/modules/noteTab/components/StickNotesList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { PostOrderBy } from 'shared/types/entities/PostsSettingsEntity';
 
-import { Post } from '../Post';
+import { PostItem } from '../PostItem';
 
 import { PostsLoader } from './PostsListLoader';
 
@@ -26,7 +25,6 @@ const ROOT_MARGIN = '400px';
 type Props = {
   noteId: string;
   onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
-  scrollRestoration?: boolean;
   search?: string;
   sort?: Sort;
   orderBy?: PostOrderBy;
@@ -38,10 +36,11 @@ type Props = {
   options?: InfinityStickNotesOptions;
   internalLevel?: number;
   disablePagination?: boolean;
+  scrollRestoration?: boolean;
   onScrollRestoration?: () => void;
 } & BoxProps
 
-export const PostList = React.memo((props: Props) => {
+export const StickNotesList = React.memo((props: Props) => {
   const {
     noteId,
     onPostClick,
@@ -141,35 +140,31 @@ export const PostList = React.memo((props: Props) => {
 
   return (
     <>
-      <LayoutGroup>
-        <AnimatePresence initial={false}>
-          <Box
-            flexGrow={data ? '1' : '0'}
-            {...boxProps}
-          >
-            {isFetchingFirstTime && <PostsLoader />}
-            <Stack gap="4">
-              {showNextPageObserver && <Box ref={nextRef} />}
-              {isFetchingNextPage && <PostsLoader />}
-              {
-                flatData.map((postId) => (
-                  <Post
-                    key={postId}
-                    internalLevel={internalLevel}
-                    isSelecting={isSelecting}
-                    isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
-                    hasOverlay={hasOverlay}
-                    postId={postId} 
-                    onClick={onPostClick}
-                  />
-                ))
-              }
-              {isFetchingPreviousPage && <PostsLoader />}
-              {showPreviousPageObserver && <Box ref={prevRef} />}
-            </Stack>
-          </Box>
-        </AnimatePresence>
-      </LayoutGroup>
+      <Box
+        flexGrow={data ? '1' : '0'}
+        {...boxProps}
+      >
+        {isFetchingFirstTime && <PostsLoader />}
+        <Stack gap="4">
+          {showNextPageObserver && <Box ref={nextRef} />}
+          {isFetchingNextPage && <PostsLoader />}
+          {
+            flatData.map((postId) => (
+              <PostItem
+                key={postId}
+                internalLevel={internalLevel}
+                isSelecting={isSelecting}
+                isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
+                hasOverlay={hasOverlay}
+                postId={postId} 
+                onClick={onPostClick}
+              />
+            ))
+          }
+          {isFetchingPreviousPage && <PostsLoader />}
+          {showPreviousPageObserver && <Box ref={prevRef} />}
+        </Stack>
+      </Box>
 
       {scrollRestoration && <TabScrollRestoration onScrollRestoration={onScrollRestoration} />}
     </>

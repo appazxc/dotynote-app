@@ -1,8 +1,6 @@
 import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
 
 import { loadNoteData } from 'shared/api/loadNoteData';
-import { options } from 'shared/api/options';
-import { queryClient } from 'shared/api/queryClient';
 import { modalIds } from 'shared/constants/modalIds';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -32,9 +30,6 @@ export const primaryNote = createRoute({
 
     await loadNoteData({
       noteId: activeSpace?.mainNoteId,
-      extraLoaders: [
-        queryClient.fetchQuery(options.posts.loadPinnedPostsCount(activeSpace?.mainNoteId)),
-      ],
       flags: {
         shouldRedirect: false,
       },

@@ -61,7 +61,7 @@ export const useInfinityStickNotes = (
 
   useSaveNoteTabQueryKey(noteId, queryKey);
 
-  return useInfiniteQuery({
+  const query = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam }) => {
       const { cursor, direction } = pageParam;
@@ -96,4 +96,6 @@ export const useInfinityStickNotes = (
     initialPageParam,
     ...options,
   });
+
+  return { ...query };
 };
