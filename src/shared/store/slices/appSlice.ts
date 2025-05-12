@@ -41,8 +41,9 @@ export type SelectNoteImagesOperation = {
 
 export type SelectOperation = {
   type: typeof operationTypes.SELECT;
-  noteId: string;
+  noteIds: string[];
   postIds: string[];
+  parentId: string;
 }
 
 export type MoveOperation = {
@@ -194,14 +195,16 @@ export const appSlice = createSlice({
     startSelectOperation: (
       state,
       { payload }: PayloadAction<{
-        noteId: string;
-        postId: string;
+        parentId: string;
+        postId?: string;
+        noteId?: string;
       }>
     ) => {
       state.operation = {
         type: operationTypes.SELECT,
-        postIds: [payload.postId],
-        noteId: payload.noteId,
+        parentId: payload.parentId,
+        noteIds: payload.noteId ? [payload.noteId] : [],
+        postIds: payload.postId ? [payload.postId] : [],
       };
     },
     startSelectNoteImagesOperation: (

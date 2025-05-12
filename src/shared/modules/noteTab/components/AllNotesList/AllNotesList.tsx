@@ -41,6 +41,7 @@ export const AllNotesList = React.memo((props: Props) => {
             <NoteItem
               key={noteId}
               noteId={noteId}
+              parentId={noteId}
             />
           ))}
         </Stack>

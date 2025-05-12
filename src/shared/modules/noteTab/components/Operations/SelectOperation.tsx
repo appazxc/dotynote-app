@@ -4,6 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { PiSticker } from 'react-icons/pi';
 import { TbArrowMoveLeft } from 'react-icons/tb';
 
+import { useDeleteNotes } from 'shared/api/hooks/useDeleteNotes';
 import { useDeleteNotesFromPosts } from 'shared/api/hooks/useDeleteNotesFromPosts';
 import { useUnstickPosts } from 'shared/api/hooks/useUnstickPosts';
 import { modalIds } from 'shared/constants/modalIds';
@@ -13,7 +14,7 @@ import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { Operation } from 'shared/modules/noteTab/components/Operations/Operation';
 import { OperationWrapper } from 'shared/modules/noteTab/components/Operations/OperationWrapper';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
-import { postSelector } from 'shared/selectors/entities';
+import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import {
   SelectOperation as SelectOperationType,
@@ -27,27 +28,35 @@ type Props = SelectOperationType;
 const deleteNotesExtraId = 'deleteSelectedNotes';
 
 export const SelectOperation = React.memo((props: Props) => {
-  const { postIds, noteId } = props;
+  const { postIds, noteIds, parentId } = props;
   const note = useTabNote();
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
   const posts = useAppSelector(state => postSelector.getByIds(state, postIds));
-
-  const { mutate: deletePosts } = useDeleteNotesFromPosts(noteId);
-  const { mutate: unstick } = useUnstickPosts(noteId, postIds);
+  const notes = useAppSelector(state => noteSelector.getByIds(state, noteIds));
+  
+  const { mutate: deletePosts } = useDeleteNotesFromPosts(parentId);
+  const { mutate: unstick } = useUnstickPosts(parentId, postIds);
+  const { mutate: deleteNotes } = useDeleteNotes();
  
-  if (note.id !== noteId) {
+  if (note.id !== parentId) {
     return null;
   }
 
   const handleClose = () => {
     dispatch(stopOperation());
   };
+
+  const isNotesSelecting = noteIds.length > 0;
   
-  const canStick = posts.every((post) => post.permissions.stick);
-  const canUnstick = posts.every((post) => post.permissions.unstick);
-  const canMove = posts.every((post) => post.permissions.move);
-  const canDelete = posts.every((post) => post.permissions.delete);
+  const canStick = isNotesSelecting 
+    ? notes.every((note) => note.permissions.stick) 
+    : posts.every((post) => post.permissions.stick);
+  const canUnstick = !isNotesSelecting && posts.every((post) => post.permissions.unstick);
+  const canMove = !isNotesSelecting && posts.every((post) => post.permissions.move);
+  const canDelete = isNotesSelecting
+    ? notes.every((note) => note.permissions.delete) 
+    : posts.every((post) => post.permissions.delete);
 
   const list = [
     ...canStick ? [{
@@ -56,6 +65,7 @@ export const SelectOperation = React.memo((props: Props) => {
       onClick: () => dispatch(startStickOperation({
         fromNoteId: note.id,
         postIds: posts.map((post) => post.id),
+        noteIds,
       })),
     }] : [],
     ...canMove ? [{
@@ -89,7 +99,7 @@ export const SelectOperation = React.memo((props: Props) => {
   if (!list.length) {
     return (
       <Operation
-        title="You cannot do anything with this posts"
+        title={`You cannot do anything with this ${isNotesSelecting ? 'notes' : 'posts'}`}
       />
     );
   }
@@ -138,7 +148,11 @@ export const SelectOperation = React.memo((props: Props) => {
         extraId={deleteNotesExtraId}
         onConfirm={() => {
           dispatch(hideModal());
-          deletePosts(postIds);
+          if (isNotesSelecting) {
+            deleteNotes(noteIds);
+          } else {
+            deletePosts(postIds);
+          }
           dispatch(stopOperation());
         }}
       />

@@ -138,7 +138,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         key: 'Select',
         label: 'Select',
         onClick: () => dispatch(startSelectOperation({
-          noteId: parent.id,
+          parentId: parent.id,
           postId: post.id,
         })),
       }] : [],

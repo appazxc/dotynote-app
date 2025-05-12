@@ -29,7 +29,7 @@ export const NotePosts = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
   const navigate = useNavigate();
-  const isSelecting = operation.type === operationTypes.SELECT && operation.noteId === noteId;
+  const isSelecting = operation.type === operationTypes.SELECT && operation.parentId === noteId;
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
 
