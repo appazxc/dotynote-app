@@ -54,6 +54,11 @@ export const NotePosts = React.memo((props: Props) => {
 
   const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
     event.preventDefault();
+    defaultPostClick(event, post.note.id);
+  }, [defaultPostClick]);
+
+  const handleOverlayClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
+    event.preventDefault();
 
     if (isConcretePlace) {
       concretePostClick(post);
@@ -64,9 +69,7 @@ export const NotePosts = React.memo((props: Props) => {
       dispatch(togglePostSelect(post.id));
       return;
     }
-    
-    defaultPostClick(event, post.note.id);
-  }, [dispatch, isConcretePlace, isSelecting, defaultPostClick, concretePostClick]);
+  }, [dispatch, isSelecting, concretePostClick, isConcretePlace]);
 
   const showPosts = !!postsSettings;
   
@@ -75,8 +78,8 @@ export const NotePosts = React.memo((props: Props) => {
   }
 
   return (
-    <>{
-      listType == 'stick' ? (
+    <>
+      {listType == 'stick' ? (
         <StickNotesList
           noteId={noteId}
           search={search}
@@ -86,6 +89,7 @@ export const NotePosts = React.memo((props: Props) => {
           sort={postsSettings.sort}
           orderBy={postsSettings.orderBy}
           onPostClick={handlePostClick}
+          onOverlayClick={handleOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
       ) : (
@@ -94,9 +98,9 @@ export const NotePosts = React.memo((props: Props) => {
           onScrollRestoration={onScrollRestoration}
         />
       )
-    }
+      }
       
-    <SelectConcretePlaceModal noteId={noteId} />
+      <SelectConcretePlaceModal noteId={noteId} />
     </>
   );
 });

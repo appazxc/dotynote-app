@@ -1,5 +1,5 @@
 import { Box, BoxProps, Card, Stack, Text } from '@chakra-ui/react';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import React from 'react';
 import { BsFillPinAngleFill } from 'react-icons/bs';
 
@@ -7,7 +7,6 @@ import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { PostDots } from 'shared/components/Post/PostDots';
-import { Checkbox } from 'shared/components/ui/checkbox';
 import { EditorView } from 'shared/modules/editor';
 import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
@@ -16,9 +15,6 @@ import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 type Props = {
   noteId: string;
   extraId?: number | string;
-  isSelecting?: boolean;
-  isSelected?: boolean;
-  hasOverlay?: boolean;
   isPinned?: boolean;
   dots?: PostDotEntity[];
   showDotsAmount?: boolean;
@@ -30,65 +26,12 @@ export const Post = React.forwardRef((props: Props, _) => {
     noteId,
     extraId,
     note,
-    isSelecting,
-    isSelected,
-    hasOverlay,
     isPinned,
     dots,
     onClick,
     showDotsAmount,
     ...boxProps 
   } = props;
-  
-  const renderedSelectingContent = React.useMemo(() => {
-    return (
-      <AnimatePresence>
-        {isSelecting && (
-          <Box
-            asChild
-            p="2"
-            position="absolute"
-            left="-40px"
-            top="0"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.1 } }}
-            >
-              <Checkbox
-                size="md"
-                borderRadius="full"
-                radius="full"
-                checked={isSelected}
-              />
-            </motion.div>
-          </Box>
-        )}
-      </AnimatePresence>
-    );
-  }, [isSelecting, isSelected]);
-
-  const renderedOverlay = React.useMemo(() => {
-    if (!hasOverlay) {
-      return null;
-    }
-
-    return (
-      <Box
-        position="absolute"
-        left="0"
-        right="0"
-        w="full"
-        h="full"
-        cursor="pointer"
-        onClick={(event) => {
-          event.stopPropagation();
-          onClick?.(event);
-        }}
-      />
-    );
-  }, [hasOverlay, onClick]);
 
   if (note._isDeleted) {
     return (
@@ -109,7 +52,6 @@ export const Post = React.forwardRef((props: Props, _) => {
       onClick={onClick}
       {...boxProps}
     >
-      {renderedSelectingContent}
       <Box
         key="text"
         flexGrow="1"
@@ -172,7 +114,6 @@ export const Post = React.forwardRef((props: Props, _) => {
           />
         )}
       </Box>
-      {renderedOverlay}
     </Box>
   );
 });

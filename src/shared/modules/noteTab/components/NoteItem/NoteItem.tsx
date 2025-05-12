@@ -15,6 +15,10 @@ export const NoteItem = React.memo((props: Props) => {
 
   invariant(note, 'Missing note', { id: noteId });
   
+  if (note._isDeleted) {
+    return null;
+  }
+
   return (
     <Box>
       {note.title}

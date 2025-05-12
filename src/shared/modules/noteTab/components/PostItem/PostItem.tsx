@@ -1,8 +1,9 @@
 import { Box } from '@chakra-ui/react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 
 import { Post } from 'shared/components/Post';
+import { Checkbox } from 'shared/components/ui/checkbox';
 import { InternalPosts } from 'shared/modules/noteTab/components/PostItem/InternalPosts';
 import { PostWithMenu } from 'shared/modules/noteTab/components/PostItem/PostWithMenu';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
@@ -17,7 +18,10 @@ type Props = {
   isSelected?: boolean;
   internalLevel: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
+  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
 }
+
+const SELECTING_OFFSET = '40px';
 
 export const PostItem = React.memo((props: Props) => {
   const { postId, onClick, isSelecting, isSelected, hasOverlay, internalLevel } = props;
@@ -39,9 +43,6 @@ export const PostItem = React.memo((props: Props) => {
 
     return (
       <Post
-        isSelecting={isSelecting}
-        isSelected={isSelected}
-        hasOverlay={hasOverlay}
         isPinned={!!post.pinnedAt}
         noteId={post.note.id}
         extraId={post.id}
@@ -53,7 +54,57 @@ export const PostItem = React.memo((props: Props) => {
         }}
       />
     );
-  }, [isSelecting, isSelected, onClick, post, hasOverlay, parent.access]);
+  }, [onClick, post, parent.access]);
+
+  const renderedSelectingContent = React.useMemo(() => {
+    return (
+      <AnimatePresence>
+        {isSelecting && (
+          <Box
+            asChild
+            p="2"
+            position="absolute"
+            left={`-${SELECTING_OFFSET}`}
+            top="0"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            >
+              <Checkbox
+                size="md"
+                borderRadius="full"
+                radius="full"
+                checked={isSelected}
+              />
+            </motion.div>
+          </Box>
+        )}
+      </AnimatePresence>
+    );
+  }, [isSelecting, isSelected]);
+  
+  const renderedOverlay = React.useMemo(() => {
+    if (!hasOverlay) {
+      return null;
+    }
+
+    return (
+      <Box
+        position="absolute"
+        top="0"
+        bottom="0"
+        left={isSelecting ? `-${SELECTING_OFFSET}` : '0'}
+        right="0"
+        cursor="pointer"
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick?.(event)(post);
+        }}
+      />
+    );
+  }, [hasOverlay, isSelecting, onClick, post]);
 
   if (post._isDeleted || post.note._isDeleted) {
     return null;
@@ -61,18 +112,20 @@ export const PostItem = React.memo((props: Props) => {
 
   return (
     <Box asChild position="relative">
-      <motion.div animate={{ left: isSelecting ? '40px' : '0' }}>
+      <motion.div animate={{ left: isSelecting ? SELECTING_OFFSET : '0' }}>
         <PostWithMenu
           internalLevel={internalLevel}
           post={post}
           parent={parent}
-          isMenuDisabled={isSelected}
+          isMenuDisabled={hasOverlay}
         >
           {renderedPost}
         </PostWithMenu>
         {showInternal && (
           <InternalPosts post={post} internalLevel={internalLevel} />
         )}
+        {renderedSelectingContent}
+        {renderedOverlay}
       </motion.div>
     </Box>
   );

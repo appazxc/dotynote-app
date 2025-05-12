@@ -24,7 +24,6 @@ const ROOT_MARGIN = '400px';
 
 type Props = {
   noteId: string;
-  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   search?: string;
   sort?: Sort;
   orderBy?: PostOrderBy;
@@ -37,6 +36,8 @@ type Props = {
   internalLevel?: number;
   disablePagination?: boolean;
   scrollRestoration?: boolean;
+  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
+  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   onScrollRestoration?: () => void;
 } & BoxProps
 
@@ -57,6 +58,7 @@ export const StickNotesList = React.memo((props: Props) => {
     options = EMPTY_OBJECT,
     disablePagination,
     onScrollRestoration,
+    onOverlayClick,
     ...boxProps
   } = props;
   const scrollRef = useScrollContext();
@@ -156,7 +158,8 @@ export const StickNotesList = React.memo((props: Props) => {
                 isSelecting={isSelecting}
                 isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
                 hasOverlay={hasOverlay}
-                postId={postId} 
+                postId={postId}
+                onOverlayClick={onOverlayClick} 
                 onClick={onPostClick}
               />
             ))
