@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Stack, Text } from '@chakra-ui/react';
 
 import { Switch, SwitchProps } from 'shared/components/ui/switch';
 
@@ -7,9 +7,10 @@ export type Props = {
   label?: React.ReactNode;
   description?: React.ReactNode;
   checked?: boolean;
+  switchSize?: SwitchProps['size'];
   onCheckedChange: SwitchProps['onCheckedChange'];
   ref?: React.Ref<HTMLDivElement>;
-}
+} & BoxProps;
 
 export const SwitchSection = (props: Props) => {
   const {
@@ -19,8 +20,10 @@ export const SwitchSection = (props: Props) => {
     checked,
     onCheckedChange,
     ref,
+    switchSize = 'lg',
+    ...restProps
   } = props;
-
+console.log('restProps', restProps);
   return (
     <Box
       ref={ref}
@@ -28,6 +31,7 @@ export const SwitchSection = (props: Props) => {
       justifyContent="space-between"
       alignItems="center"
       gap="2"
+      {...restProps}
     >
       <Stack gap="1">
         {label && <Text fontWeight="medium" fontSize="sm">{label}</Text>}
@@ -39,7 +43,7 @@ export const SwitchSection = (props: Props) => {
       </Stack>
       <Switch 
         checked={checked} 
-        size="lg"
+        size={switchSize}
         onCheckedChange={onCheckedChange}
       />
     </Box>
