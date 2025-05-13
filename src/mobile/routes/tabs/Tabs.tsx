@@ -28,7 +28,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { NoteContentPickerDrawer } from 'mobile/containers/drawers/NoteContentPickerDrawer';
+import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
@@ -130,7 +130,7 @@ const Tabs = () => {
               iconSize="auto"
               px="2"
               onClick={() => {
-                dispatch(showDrawer({ id: drawerIds.noteContentPicker }));
+                dispatch(showDrawer({ id: drawerIds.createNote }));
               }}
             >
               <BsPlus size="22px" />
@@ -175,7 +175,7 @@ const Tabs = () => {
   return (
     <Layout header={renderedHeader}>
       {renderedContent}
-      <NoteContentPickerDrawer onCreate={handleCreateNote} onError={handleError} />
+      <CreateNoteDrawer onCreate={handleCreateNote} onError={handleError} />
       <CreateNoteModal onCreate={handleCreateNote} onError={handleError} />
     </Layout>
   );

@@ -40,9 +40,13 @@ export const NoteSidebar = React.memo((props: Props) => {
   const navigate = useNavigate();
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId, postsSettings?.listType !== 'all');
-  const showAddTo = permissions.update || permissions.createPost;
+  const isAllListType = postsSettings?.listType === 'all';
+  const { data: pinnedPostsCount } = usePinnedPostsCount(noteId, !isAllListType);
   const isNoteContentVisible = !noteSettings?.hide;
+  const canAddToNote = permissions.update && isNoteContentVisible;
+  const canAddToPosts = !!permissions.createPost && !isAllListType;
+  const canAdd = canAddToNote || canAddToPosts;
+  const showAddTo = (permissions.update || permissions.createPost) && canAdd;
 
   React.useEffect(() => {
     lastIsSearchActive.current = isSearchActive;
@@ -69,8 +73,8 @@ export const NoteSidebar = React.memo((props: Props) => {
           <SidebarPlusMenu
             key={noteId}
             noteId={noteId}
-            canAddToNote={permissions.update && isNoteContentVisible}
-            canAddToPosts={!!permissions.createPost}
+            canAddToNote={canAddToNote}
+            canAddToPosts={canAddToPosts}
           />
         ),
       }] : [],
@@ -103,7 +107,7 @@ export const NoteSidebar = React.memo((props: Props) => {
         onClick: () => dispatch(toggleSearch()),
         variant: isSearchActive ? 'subtle' : 'ghost',
       }] : [],
-      ...pinnedPostsCount && postsSettings?.listType !== 'all' ? [{
+      ...pinnedPostsCount && !isAllListType ? [{
         id: 'Pinned posts',
         label: 'Pinned posts',
         icon: <BsFillPinAngleFill />,
@@ -124,8 +128,9 @@ export const NoteSidebar = React.memo((props: Props) => {
     tab.routes.length,
     isSearchActive,
     isNoteContentVisible,
-    permissions,
-    postsSettings?.listType,
+    isAllListType,
+    canAddToNote,
+    canAddToPosts,
   ]);
 
   const renderedItems = React.useMemo(() => {

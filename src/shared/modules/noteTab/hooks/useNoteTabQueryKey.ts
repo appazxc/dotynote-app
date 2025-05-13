@@ -4,7 +4,7 @@ import { noteTabStore } from '../lib/noteTabStore';
 
 import { useNoteTabId } from './useNoteTabId';
 
-export const useGetNoteTabQueryKey = (noteId) => {
+export const useNoteTabQueryKey = (noteId) => {
   const noteTabId = useNoteTabId(noteId);
 
   const getQueryKey = React.useCallback(() => {

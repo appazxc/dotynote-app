@@ -13,7 +13,7 @@ export type Props = {
   onError?: (error: unknown) => void;
 }
 
-const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
+const CreateNoteDrawer = ({ onCreate, onError }: Props) => {
   const dispatch = useAppDispatch();
   
   const handleClose = () => {
@@ -57,4 +57,4 @@ const NoteContentPickerDrawer = ({ onCreate, onError }: Props) => {
   );
 };
 
-export default NoteContentPickerDrawer;
+export default CreateNoteDrawer;

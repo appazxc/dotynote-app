@@ -8,7 +8,7 @@ import {
   getInfinityStickTypeQueryKey, 
   InfinityStickTypeQueryKey, 
 } from 'shared/modules/noteTab/components/StickTypeList';
-import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
+import { useNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
 import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
@@ -23,7 +23,7 @@ type Params = {
 
 export const useMovePosts = (noteId: string) => {
   const dispatch = useAppDispatch();
-  const getQueryKey = useGetNoteTabQueryKey(noteId);
+  const getQueryKey = useNoteTabQueryKey(noteId);
   
   return useMutation({
     mutationFn: async (params: Params) => {

@@ -6,13 +6,12 @@ export const activateInfinityQueryNextPage = (queryKey?: InfinityStickTypeQueryK
   if (!queryKey) {
     return;
   }
-
   const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
 
   if (!queryData) {
     return;
   }
-
+  
   const isEmpty = queryData.pages.length === 1 
       && queryData.pages[0].items.length === 0;
 
@@ -27,7 +26,7 @@ export const activateInfinityQueryNextPage = (queryKey?: InfinityStickTypeQueryK
     }
 
     const filtersIndex = 3;
-    const descSort = queryKey[filtersIndex]?.sort === 'desc';
+    const descSort = (queryKey[filtersIndex]?.sort || 'desc') === 'desc';
 
     return {
       ...oldData,

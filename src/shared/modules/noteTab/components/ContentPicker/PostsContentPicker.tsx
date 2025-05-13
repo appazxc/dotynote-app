@@ -12,7 +12,7 @@ import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFile, UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
-import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
+import { useNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
@@ -27,8 +27,9 @@ export const PostsContentPicker = React.memo((props: Props) => {
   const { note, onClick, view = 'grid' } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
-  const getQueryKey = useGetNoteTabQueryKey(note.id);
+  const getQueryKey = useNoteTabQueryKey(note.id);
   const checkCredits = useCreditsCheck();
+  
   const handlePostCreate = React.useCallback(() => {
     activateInfinityQueryNextPage(getQueryKey());
   }, [getQueryKey]);

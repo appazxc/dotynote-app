@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { stickNotesAndPosts } from 'shared/actions/stickNotesAndPosts';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
-import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
+import { useNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
 import { pasteIdsInConretePlace, updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
@@ -17,7 +17,7 @@ type Params = {
 
 export const useStickNotesAndPosts = (parentId: string) => {
   const dispatch = useAppDispatch();
-  const getQueryKey = useGetNoteTabQueryKey(parentId);
+  const getQueryKey = useNoteTabQueryKey(parentId);
   
   return useMutation({
     mutationFn: async (params: Params) => {

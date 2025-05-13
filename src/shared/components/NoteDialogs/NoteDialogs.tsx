@@ -1,12 +1,17 @@
 import React from 'react';
 
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
+import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
+import { hideDrawer } from 'shared/modules/drawer/drawerSlice';
 import { hideModal } from 'shared/modules/modal/modalSlice';
-import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
+import { useNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
+
+import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
+import { NoteMenuDrawer } from 'mobile/containers/drawers/NoteMenuDrawer';
 
 type Props = {
   noteId: string;
@@ -14,26 +19,27 @@ type Props = {
 
 export const NoteDialogs = React.memo(({ noteId }: Props) => {
   const dispatch = useAppDispatch();
-  const getQueryKey = useGetNoteTabQueryKey(noteId);
+  const getQueryKey = useNoteTabQueryKey(noteId);
   
-  const handlePostCreate = React.useCallback(() => {
+  const handleCreate = React.useCallback(() => {
     activateInfinityQueryNextPage(getQueryKey());
     dispatch(hideModal());
+    dispatch(hideDrawer());
   }, [getQueryKey, dispatch]);
   
+  const handleError = React.useCallback(() => {
+    dispatch(hideModal());
+    dispatch(hideDrawer());
+  }, [dispatch]);
+
   return (
     <>
-      <CreatePostModal
-        noteId={noteId}
-        onCreate={handlePostCreate}
-      />
-      <CreatePostWithImagesModal
-        noteId={noteId}
-        onCreate={handlePostCreate}
-      />
-      <CreateNoteDotModal 
-        noteId={noteId}
-      />
+      <CreateNoteModal onCreate={handleCreate} onError={handleError} />
+      <CreatePostModal noteId={noteId} onCreate={handleCreate} />
+      <CreatePostWithImagesModal noteId={noteId} onCreate={handleCreate} />
+      <CreateNoteDotModal noteId={noteId} />
+      <NoteMenuDrawer noteId={noteId} />
+      <CreateNoteDrawer onCreate={handleCreate} onError={handleError} />
     </>
   );
 });
