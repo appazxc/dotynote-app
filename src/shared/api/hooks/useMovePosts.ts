@@ -1,10 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { movePosts } from 'shared/actions/movePosts';
-import { getInfinityStickNotesQueryKey, InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
+import { 
+  getInfinityStickTypeQueryKey, 
+  InfinityStickTypeQueryKey, 
+} from 'shared/modules/noteTab/components/StickTypeList';
 import { useGetNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useGetNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';
@@ -40,9 +43,9 @@ export const useMovePosts = (noteId: string) => {
       }
       // remove old posts from the list
       queryClient
-        .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(fromNoteId) })
+        .getQueriesData({ queryKey: getInfinityStickTypeQueryKey(fromNoteId) })
         .forEach(([queryKey]) => {
-          updateInfinityQuery(queryKey as InfinityStickNotesQueryKey, (oldData) => {
+          updateInfinityQuery(queryKey as InfinityStickTypeQueryKey, (oldData) => {
             if (!oldData) {
               return oldData;
             }

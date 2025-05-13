@@ -1,26 +1,20 @@
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { isBoolean } from 'lodash';
 import React from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import {
-  InfinityStickNotesOptions,
-  useInfinityStickNotes,
-} from 'shared/api/hooks/useInfinityStickNotes';
-import { useScrollContext } from 'shared/components/ScrollProvider';
+  InfinityNoteFilters,
+  InfinityQueryOptions,
+  useInfinityNoteList,
+} from 'shared/api/hooks/useInfinityNoteList';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
-import { sec } from 'shared/constants/time';
-import { getIsSelected } from 'shared/modules/noteTab/components/StickNotesList/helpers/getIsSelected';
+import { getIsSelected } from 'shared/modules/noteTab/components/StickTypeList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { PostEntity } from 'shared/types/entities/PostEntity';
 import { PostOrderBy } from 'shared/types/entities/PostsSettingsEntity';
 
 import { PostItem } from '../PostItem';
-
-import { PostsLoader } from './PostsListLoader';
-
-const ROOT_MARGIN = '400px';
+import { PostsLoader } from '../PostsLoader';
 
 type Props = {
   noteId: string;
@@ -32,19 +26,22 @@ type Props = {
   pageSize?: number;
   isPinned?: boolean;
   selectedPosts?: string[];
-  options?: InfinityStickNotesOptions;
+  options?: InfinityQueryOptions;
   internalLevel?: number;
   disablePagination?: boolean;
   scrollRestoration?: boolean;
-  onPostClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
-  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
+  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
   onScrollRestoration?: () => void;
 } & BoxProps
 
-export const StickNotesList = React.memo((props: Props) => {
+export const getInfinityStickTypeQueryKey = (noteId: string = '', filters: InfinityNoteFilters = {}) => 
+  ['posts', noteId, 'stick-notes', filters] as const;
+
+export type InfinityStickTypeQueryKey = ReturnType<typeof getInfinityStickTypeQueryKey>;
+
+export const StickTypeList = React.memo((props: Props) => {
   const {
     noteId,
-    onPostClick,
     search,
     isPinned,
     internalLevel = 0,
@@ -61,15 +58,6 @@ export const StickNotesList = React.memo((props: Props) => {
     onOverlayClick,
     ...boxProps
   } = props;
-  const scrollRef = useScrollContext();
-  const [ nextRef, inViewNext ] = useInView({
-    rootMargin: ROOT_MARGIN,
-    root: scrollRef?.current,
-  });
-  const [ prevRef, inViewPrev ] = useInView({
-    rootMargin: ROOT_MARGIN,
-    root: scrollRef?.current,
-  });
 
   const filters = React.useMemo(() => {
     const result: Record<string, string | number> = {};
@@ -98,47 +86,23 @@ export const StickNotesList = React.memo((props: Props) => {
   }, [search, sort, orderBy, pageSize, isPinned]);
 
   const { 
-    data, 
-    isFetching,
-    isFetched,
+    data,
+    flatData, 
+    isFetchingFirstTime,
+    prevPageObserver,
+    nextPageObserver,
     isFetchingNextPage,
     isFetchingPreviousPage,
-    fetchPreviousPage,
-    fetchNextPage,
-    hasNextPage,
-    hasPreviousPage,
-    isError,
-    errorUpdatedAt,
-  } = useInfinityStickNotes(noteId, filters, options);
-
-  const isFetchingFirstTime = isFetching && !isFetched;
-
-  React.useEffect(() => {
-    const couldFetchOnError = !isError || isError && Date.now() - errorUpdatedAt > 30 * sec;
-
-    if (inViewPrev && hasPreviousPage && couldFetchOnError) {      
-      fetchPreviousPage();
-    }
-  }, [isError, errorUpdatedAt, fetchPreviousPage, inViewPrev, hasPreviousPage]);
-
-  React.useEffect(() => {
-    const couldFetchOnError = !isError || isError && Date.now() - errorUpdatedAt > 30 * sec;
-
-    if (inViewNext && hasNextPage && couldFetchOnError) {
-      fetchNextPage();
-    }
-  }, [isError, errorUpdatedAt, fetchNextPage, inViewNext, hasNextPage]);
-
-  const flatData = React.useMemo(() => ((data?.pages?.map(({ items }) => items).reverse() || []).flat()), [data]);
-
-  const showNextPageObserver = !isFetching && hasNextPage && !disablePagination;
-  const showPreviousPageObserver = !isFetching && hasPreviousPage && !disablePagination;
-
-  // const isFullyLoaded = !(hasNextPage && hasPreviousPage);
-
-  // if (!isFetchingFirstTime && isFullyLoaded && !flatData.length) {
-  //   return null;
-  // }
+  } = useInfinityNoteList({
+    noteId,
+    path: '/posts',
+    filters,
+    options: {
+      ...options,
+      disablePagination,
+    },
+    getQueryKey: getInfinityStickTypeQueryKey,
+  });
 
   return (
     <>
@@ -148,7 +112,7 @@ export const StickNotesList = React.memo((props: Props) => {
       >
         {isFetchingFirstTime && <PostsLoader />}
         <Stack gap="4">
-          {showNextPageObserver && <Box ref={nextRef} />}
+          {nextPageObserver}
           {isFetchingNextPage && <PostsLoader />}
           {
             flatData.map((postId) => (
@@ -160,12 +124,11 @@ export const StickNotesList = React.memo((props: Props) => {
                 hasOverlay={hasOverlay}
                 postId={postId}
                 onOverlayClick={onOverlayClick} 
-                onClick={onPostClick}
               />
             ))
           }
           {isFetchingPreviousPage && <PostsLoader />}
-          {showPreviousPageObserver && <Box ref={prevRef} />}
+          {prevPageObserver}
         </Stack>
       </Box>
 

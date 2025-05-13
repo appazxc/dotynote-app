@@ -1,1 +1,0 @@
-export { AllNotesList } from './AllNotesList';

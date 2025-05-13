@@ -1,20 +1,23 @@
-import { getInfinityStickNotesQueryKey, InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
 import { DEFAULT_PAGE_SIZE } from 'shared/constants/requests';
+import { 
+  getInfinityStickTypeQueryKey, 
+  InfinityStickTypeQueryKey, 
+} from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
 import { restorePagesStructure } from 'shared/util/api/restorePagesStructure';
 import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
 export const removePostIdsFromQuery = (parentId: string, postIds: string[], resetEmptyQueries = true) => {
   const queriesData: {
-    queryKey: InfinityStickNotesQueryKey;
+    queryKey: InfinityStickTypeQueryKey;
     data?: TQueryFnData;
   }[] = [];
 
   queryClient
-    .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(parentId) })
+    .getQueriesData({ queryKey: getInfinityStickTypeQueryKey(parentId) })
     .forEach(([queryKey]) => {
-      updateInfinityQuery(queryKey as InfinityStickNotesQueryKey, (oldData, queryKey) => {
+      updateInfinityQuery(queryKey as InfinityStickTypeQueryKey, (oldData, queryKey) => {
         queriesData.push({
           queryKey,
           data: oldData,
@@ -43,7 +46,7 @@ export const removePostIdsFromQuery = (parentId: string, postIds: string[], rese
   // reset queries if they are empty
   if (resetEmptyQueries) {
     queryClient
-      .getQueriesData({ queryKey: getInfinityStickNotesQueryKey(parentId) })
+      .getQueriesData({ queryKey: getInfinityStickTypeQueryKey(parentId) })
       .forEach(([queryKey]) => {
         const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
 

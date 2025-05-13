@@ -25,24 +25,25 @@ import { useIsMobile } from 'shared/hooks/useIsMobile';
 import { hideModal, showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { startMoveOperation, startSelectOperation, startStickOperation } from 'shared/store/slices/appSlice';
-import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
   children: React.ReactNode;
   post: PostEntity;
-  parent: NoteEntity;
+  parentId: string;
   internalLevel: number;
   isMenuDisabled?: boolean;
+  canShowInternal?: boolean;
 };
 
 type MenuProps = { key: string; hasDivider?: boolean; menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
 
 const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
-export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDisabled, children }: Props) => {
+export const PostWithMenu = React.memo((props: Props) => {
+  const { post, parentId, internalLevel, isMenuDisabled, canShowInternal, children } = props;
+  const { id: postId, note: { id: noteId } } = post;
   const dispatch = useAppDispatch();
-  const { id: postId, note: { id: noteId }, parentId } = post;
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
   const isInternal = internalLevel;
@@ -89,7 +90,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     const showSelect = !isInternal;
     const showStick = post.permissions.stick;
     const showMove = post.permissions.move;
-    const showInternal = !isInternal && post.permissions.updateInternal && parent.postsSettings?.internal;
+    const showInternal = !isInternal && post.permissions.updateInternal && canShowInternal;
     const showUnstick = post.permissions.unstick;
     const showDelete = post.permissions.delete;
     const showDot = post.permissions.upsertDot;
@@ -114,7 +115,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         label: 'Pin',
         onClick: () => pin(postId, {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parent.id) });
+            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parentId) });
           },
         }),
       }] : [],
@@ -130,7 +131,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         label: 'Unpin',
         onClick: () => unpin(postId, {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parent.id) });
+            queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parentId) });
           },
         }),
       }] : [],
@@ -138,7 +139,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         key: 'Select',
         label: 'Select',
         onClick: () => dispatch(startSelectOperation({
-          parentId: parent.id,
+          parentId: parentId,
           postId: post.id,
         })),
       }] : [],
@@ -146,7 +147,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         key: 'Stick',
         label: 'Stick',
         onClick: () => dispatch(startStickOperation({
-          fromNoteId: parent.id,
+          fromNoteId: parentId,
           postIds: [post.id],
         })),
       }] : [],
@@ -154,7 +155,7 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
         key: 'Move',
         label: 'Move',
         onClick: () => dispatch(startMoveOperation({
-          fromNoteId: parent.id,
+          fromNoteId: parentId,
           postIds: [post.id],
         })),
       }] : [],
@@ -236,8 +237,8 @@ export const PostWithMenu = React.memo(({ post, parent, internalLevel, isMenuDis
     updateInternal,
     handleCreateOrDeleteInternal,
     isDeletePending,
-    parent.id,
-    parent.postsSettings?.internal,
+    parentId,
+    canShowInternal,
   ]);
 
   const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : MenuProps) => {

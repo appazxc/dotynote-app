@@ -1,22 +1,20 @@
 import { Box } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 
-import { openTab } from 'shared/actions/space/openTab';
-import { Post } from 'shared/components/Post';
+import { PostSchemaView } from 'shared/components/PostDisplay/PostSchemaView';
+import { WithMenu } from 'shared/components/PostDisplay/WithMenu';
 import { Checkbox } from 'shared/components/ui/checkbox';
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
-import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { InternalPosts } from 'shared/modules/noteTab/components/PostItem/InternalPosts';
-import { PostWithMenu } from 'shared/modules/noteTab/components/PostItem/PostWithMenu';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
-import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
-  postId: string;
+  noteId: string;
+  postId?: string;
+  parentId?: string;
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;
@@ -27,48 +25,29 @@ type Props = {
 
 const SELECTING_OFFSET = '40px';
 
-export const PostItem = React.memo((props: Props) => {
-  const { postId, isSelecting, isSelected, hasOverlay, onOverlayClick, internalLevel } = props;
-  const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
+export const PostDisplay = React.memo((props: Props) => {
+  const { noteId, postId, parentId, onOverlayClick, isSelecting, isSelected, hasOverlay, internalLevel } = props;
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
+  const getParentById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
+  const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
+  const note = useAppSelector(state => getNoteById(state, noteId));
   const post = useAppSelector(state => getPostById(state, postId));
-  const parent = useAppSelector(state => getNoteById(state, post?.parentId));
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  
-  invariant(post, 'Missing post', { id: postId });
-  invariant(parent, 'Missing parent', { id: post?.parentId });
+  const parent = useAppSelector(state => getParentById(state, parentId));
+
+  invariant(note, 'Missing post', { id: noteId });
 
   const allowInternal = internalLevel === 0;
-  const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
+  const showInternal = allowInternal && parent?.postsSettings?.internal && !!post?.internal?.max;
   
-  const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.metaKey) {
-      dispatch(openTab({ 
-        route: buildNoteTabRoute(post.noteId),
-      }));
-    } else {
-      navigate({ to: noteRoutePath, params: { noteId: post.noteId } });
-    }
-  }, [navigate, dispatch, post.noteId]);
-
-  const renderedPost = React.useMemo(() => {
-    if (post._isDeleted) {
+  const renderedView = React.useMemo(() => {
+    if (note._isDeleted) {
       return null;
     }
 
     return (
-      <Post
-        isPinned={!!post.pinnedAt}
-        noteId={post.note.id}
-        extraId={post.id}
-        dots={post.dots}
-        note={post.note}
-        showDotsAmount={parent.access === 'public'}
-        onClick={onClick}
-      />
+      <PostSchemaView />
     );
-  }, [onClick, post, parent.access]);
+  }, [note]);
 
   const renderedSelectingContent = React.useMemo(() => {
     return (
@@ -114,28 +93,22 @@ export const PostItem = React.memo((props: Props) => {
         cursor="pointer"
         onClick={(event) => {
           event.stopPropagation();
-          onOverlayClick?.(event)(postId);
+          onOverlayClick?.(event)(postId || noteId);
         }}
       />
     );
-  }, [hasOverlay, isSelecting, onOverlayClick, postId]);
+  }, [hasOverlay, isSelecting, onOverlayClick, postId, noteId]);
 
-  if (post._isDeleted || post.note._isDeleted) {
+  if (note._isDeleted) {
     return null;
   }
 
   return (
     <Box asChild position="relative">
       <motion.div animate={{ left: isSelecting ? SELECTING_OFFSET : '0' }}>
-        <PostWithMenu
-          internalLevel={internalLevel}
-          post={post}
-          parentId={post.parentId}
-          canShowInternal={parent.postsSettings?.internal}
-          isMenuDisabled={hasOverlay}
-        >
-          {renderedPost}
-        </PostWithMenu>
+        <WithMenu>
+          {renderedView}
+        </WithMenu>
         {showInternal && (
           <InternalPosts post={post} internalLevel={internalLevel} />
         )}

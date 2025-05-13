@@ -70,7 +70,7 @@ export const NoteSidebar = React.memo((props: Props) => {
             key={noteId}
             noteId={noteId}
             canAddToNote={permissions.update && isNoteContentVisible}
-            canAddToPosts={permissions.createPost}
+            canAddToPosts={!!permissions.createPost}
           />
         ),
       }] : [],

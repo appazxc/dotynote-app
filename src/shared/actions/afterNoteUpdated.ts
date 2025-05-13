@@ -1,7 +1,7 @@
 import uniqBy from 'lodash/uniqBy';
 
-import { getInfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
+import { getInfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList/StickTypeList';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { selectAllPostsWithConcreteNote } from 'shared/selectors/post/selectAllPostsWithConcreteNote';
 import { ThunkAction } from 'shared/types/store';
@@ -14,7 +14,7 @@ const invalidatePostsQueryIfNeeded = (noteId: string): ThunkAction => (_, getSta
     .filter(({ parentId }) => 
       noteSelector.getEntityById(getState(), parentId)?.postsSettings?.orderBy === 'updatedAt')
     .forEach(({ parentId }) => {
-      queryClient.invalidateQueries({ queryKey: getInfinityStickNotesQueryKey(parentId).slice(0, 2) });
+      queryClient.invalidateQueries({ queryKey: getInfinityStickTypeQueryKey(parentId).slice(0, 2) });
     });
 };
 

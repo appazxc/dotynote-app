@@ -1,1 +1,0 @@
-export { StickNotesList } from './StickNotesList';

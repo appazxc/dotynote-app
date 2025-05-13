@@ -259,6 +259,22 @@ export const appSlice = createSlice({
         state.operation.postIds.push(payload);
       }
     },
+    toggleNoteSelect: (state, { payload }: PayloadAction<string>) => {
+      if (state.operation.type !== operationTypes.SELECT) {
+        return;
+      } 
+      
+      if (state.operation.noteIds.includes(payload)) {
+        const newNoteIds = state.operation.noteIds.filter(id => id !== payload);
+        state.operation.noteIds = newNoteIds;
+
+        if (newNoteIds.length === 0) {
+          state.operation = noOperation;
+        }
+      } else {
+        state.operation.noteIds.push(payload);
+      }
+    },
     addPrimaryNoteTab: (
       state, 
       { payload }: PayloadAction<{ spaceId: string; primaryNoteId: string; tabId: string }>
@@ -293,6 +309,7 @@ export const {
   startSelectOperation,
   toggleConcretePlace,
   togglePostSelect,
+  toggleNoteSelect,
   updateOperationConcretePost,
   addPrimaryNoteTab,
   startSelectNoteImagesOperation,

@@ -4,7 +4,7 @@ import React from 'react';
 import { openTab } from 'shared/actions/space/openTab';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
-import { StickNotesList } from 'shared/modules/noteTab/components/StickNotesList';
+import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList';
 import { useAppDispatch } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
 
@@ -15,24 +15,9 @@ type Props = {
 
 export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
   const { note, internal } = post;
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handlePostClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => {
-    event.preventDefault();
-    const { id } = post.note;
-
-    if (event.metaKey) {
-      dispatch(openTab({ 
-        route: buildNoteTabRoute(id),
-      }));
-    } else {
-      navigate({ to: noteRoutePath, params: { noteId: id } });
-    }
-  }, [navigate, dispatch]);
 
   return (
-    <StickNotesList
+    <StickTypeList
       disablePagination
       pt="2"
       pb="0"
@@ -42,7 +27,6 @@ export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
       orderBy={note.postsSettings?.orderBy}
       internalLevel={internalLevel + 1}
       pageSize={internal.max}
-      onPostClick={handlePostClick}
     />
   );
 });

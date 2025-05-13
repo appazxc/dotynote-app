@@ -1,8 +1,8 @@
-import { InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
+import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
 
-export const activateInfinityQueryNextPage = (queryKey?: InfinityStickNotesQueryKey) => {
+export const activateInfinityQueryNextPage = (queryKey?: InfinityStickTypeQueryKey) => {
   if (!queryKey) {
     return;
   }

@@ -58,6 +58,8 @@ export const ListSettings = React.memo(({ postsSettings }: Props) => {
     });
   }, [mutateAsync]);
 
+  const isAllTypeList = postsSettings.listType === 'all';
+
   return (
     <Card.Root
       p="4"
@@ -79,22 +81,24 @@ export const ListSettings = React.memo(({ postsSettings }: Props) => {
         />
         {postsSettings.listType === 'all' && <Filters /> }
       </Box>
-      <Box
-        display="flex"
-        gap="3"
-        flexDirection="row"
-        alignItems="flex-end"
-      >
-        <Select
-          size="sm"
-          label="Order by"
-          value={[postsSettings.orderBy]}
-          w="200px"
-          options={orderByOptions}
-          onChange={handleOrderByChange}
-        />
-        <DirectionSelect value={postsSettings.sort} onChange={handleSortChange} />
-      </Box>
+      {!isAllTypeList && (
+        <Box
+          display="flex"
+          gap="3"
+          flexDirection="row"
+          alignItems="flex-end"
+        >
+          <Select
+            size="sm"
+            label="Order by"
+            value={[postsSettings.orderBy]}
+            w="200px"
+            options={orderByOptions}
+            onChange={handleOrderByChange}
+          />
+          <DirectionSelect value={postsSettings.sort} onChange={handleSortChange} />
+        </Box>
+      )}
     </Card.Root>
   );
 });

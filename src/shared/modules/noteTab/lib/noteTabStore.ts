@@ -1,8 +1,8 @@
-import { InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
+import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 
 type Store = {
   scroll?: number;
-  queryKey: InfinityStickNotesQueryKey;
+  queryKey: InfinityStickTypeQueryKey;
 }
 
 export const noteTabStore = new Map<string, Store>();

@@ -58,15 +58,18 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
     mutate({ internal: checked });
   }, [mutate]);
 
+  const isAllTypeList = postsSettings.listType === 'all';
   return (
     <VStack gap={4} alignItems="stretch">
       <ListSettings postsSettings={postsSettings} />
-      <CheckboxCard
-        label="Show internal posts"
-        description="Show or hide internal posts content and settings"
-        checked={!!note.postsSettings?.internal}
-        onCheckedChange={handleInternalChange}
-      />
+      {!isAllTypeList && (
+        <CheckboxCard
+          label="Show internal posts"
+          description="Show or hide internal posts content and settings"
+          checked={!!note.postsSettings?.internal}
+          onCheckedChange={handleInternalChange}
+        />
+      )}
     </VStack>
   );
 });

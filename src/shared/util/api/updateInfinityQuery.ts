@@ -1,5 +1,5 @@
-import { InfinityStickNotesQueryKey } from 'shared/api/hooks/useInfinityStickNotes';
 import { queryClient } from 'shared/api/queryClient';
+import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
 
 export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldData) => {
@@ -38,8 +38,8 @@ export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldDa
 };
 
 export const updateInfinityQuery = <T extends TQueryFnData>(
-  queryKey: InfinityStickNotesQueryKey | undefined, 
-  updater: (oldData: T | undefined, queryKey: InfinityStickNotesQueryKey) => T | undefined
+  queryKey: InfinityStickTypeQueryKey | undefined, 
+  updater: (oldData: T | undefined, queryKey: InfinityStickTypeQueryKey) => T | undefined
 ) => {
   if (!queryKey) {
     return;

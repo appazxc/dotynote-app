@@ -1,13 +1,16 @@
 import { Box } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 
+import { openTab } from 'shared/actions/space/openTab';
 import { Post } from 'shared/components/Post';
 import { Checkbox } from 'shared/components/ui/checkbox';
+import { noteRoutePath } from 'shared/constants/noteRoutePath';
+import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { WithNoteMenu } from 'shared/modules/noteTab/components/NoteItem/WithNoteMenu';
 import { noteSelector } from 'shared/selectors/entities';
-import { useAppSelector } from 'shared/store/hooks';
-import { NoteEntity } from 'shared/types/entities/NoteEntity';
+import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {
@@ -16,18 +19,29 @@ type Props = {
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => (note: NoteEntity) => void;
-  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (note: NoteEntity) => void;
+  onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 }
 
 const SELECTING_OFFSET = '40px';
 
 export const NoteItem = React.memo((props: Props) => {
-  const { noteId, onClick, isSelecting, isSelected, parentId, hasOverlay } = props;
+  const { noteId, isSelecting, isSelected, parentId, hasOverlay, onOverlayClick } = props;
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const note = useAppSelector(state => getNoteById(state, noteId));
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   invariant(note, 'Missing note', { id: noteId });
+
+  const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.metaKey) {
+      dispatch(openTab({ 
+        route: buildNoteTabRoute(noteId),
+      }));
+    } else {
+      navigate({ to: noteRoutePath, params: { noteId } });
+    }
+  }, [navigate, dispatch, noteId]);
 
   const renderedView = React.useMemo(() => {
     if (note._isDeleted) {
@@ -39,9 +53,7 @@ export const NoteItem = React.memo((props: Props) => {
         noteId={noteId}
         extraId={`${noteId}-view`}
         note={note}
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-          onClick?.(event)(note);
-        }}
+        onClick={onClick}
       />
     );
   }, [onClick, note, noteId]);
@@ -90,11 +102,11 @@ export const NoteItem = React.memo((props: Props) => {
         cursor="pointer"
         onClick={(event) => {
           event.stopPropagation();
-          onClick?.(event)(note);
+          onOverlayClick?.(event)(note.id);
         }}
       />
     );
-  }, [hasOverlay, isSelecting, onClick, note]);
+  }, [hasOverlay, isSelecting, onOverlayClick, note]);
 
   if (note._isDeleted) {
     return null;
@@ -104,8 +116,8 @@ export const NoteItem = React.memo((props: Props) => {
     <Box asChild position="relative">
       <motion.div animate={{ left: isSelecting ? SELECTING_OFFSET : '0' }}>
         <WithNoteMenu
-          note={note}
           parentId={parentId}
+          note={note}
           isMenuDisabled={hasOverlay}
         >
           {renderedView}

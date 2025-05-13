@@ -43,7 +43,7 @@ const NoteMenuDrawer = (props: Props) => {
             <ContentPicker
               noteId={noteId}
               canAddToNote={note.permissions.update && !note.settings?.hide}
-              canAddToPosts={note.permissions.createPost} 
+              canAddToPosts={!!note.permissions.createPost} 
               type="tabs"
               view="list"
               onClose={handleClose}
