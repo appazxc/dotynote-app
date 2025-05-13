@@ -8,10 +8,10 @@ import {
   useInfinityNoteList,
 } from 'shared/api/hooks/useInfinityNoteList';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
-import { DEFAULT_PAGE_SIZE, SORT, Sort } from 'shared/constants/requests';
+import { DEFAULT_PAGE_SIZE, SORT } from 'shared/constants/requests';
 import { getIsSelected } from 'shared/modules/noteTab/components/StickTypeList/helpers/getIsSelected';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { PostOrderBy } from 'shared/types/entities/PostsSettingsEntity';
+import { PostOrderBy, Sort } from 'shared/types/common';
 
 import { PostItem } from '../PostItem';
 import { PostsLoader } from '../PostsLoader';

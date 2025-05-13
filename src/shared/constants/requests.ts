@@ -13,5 +13,3 @@ export const SORT = {
   DESC: 'desc',
   ASC: 'asc',
 } as const;
-
-export type Sort = typeof SORT[keyof typeof SORT]

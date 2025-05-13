@@ -18,3 +18,4 @@ export const noteVideoSelector = new Selector(entityNames.noteVideo);
 export const subscriptionPlanSelector = new Selector(entityNames.subscriptionPlan);
 export const subscriptionSelector = new Selector(entityNames.subscription);
 export const userBalanceSelector = new Selector(entityNames.userBalance);
+export const noteFiltersSelector = new Selector(entityNames.noteFilters);

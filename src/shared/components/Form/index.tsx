@@ -220,6 +220,18 @@ const { useAppForm } = createFormHook({
   },
 });
 
+const getDirtyFields = (value, formApi) => {
+  const fieldNames = Object.keys(value);
+
+  const dirtyValues = Object.fromEntries(
+    fieldNames
+      .filter((name) => formApi.getFieldMeta(name as any)?.isDirty)
+      .map((name) => [name, value[name]])
+  );
+
+  return dirtyValues;
+};
+
 export {
   useFormField,
   Form,
@@ -228,4 +240,5 @@ export {
   useForm,
   FormError,
   useAppForm,
+  getDirtyFields,
 };

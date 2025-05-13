@@ -152,10 +152,11 @@ type Props = {
   onChange: (value: (string | number)[]) => void;
   value: (string | number | null)[];
   contentWidth?: string,
+  portalled?: boolean;
 } & Omit<ChakraSelect.RootProps, 'onValueChange' | 'value' | 'collection' | 'onChange'>;
 
 export const Select = React.memo((props: Props) => {
-  const { label, placeholder, size, value, onChange, options, contentWidth, ...restProps } = props;
+  const { label, placeholder, size, value, onChange, options, contentWidth, portalled, ...restProps } = props;
   const frameworks = React.useMemo(() => createListCollection({
     items: options,
   }), [options]);
@@ -178,7 +179,7 @@ export const Select = React.memo((props: Props) => {
       <SelectTrigger>
         <SelectValueText placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent w={contentWidth}>
+      <SelectContent w={contentWidth} portalled={portalled}>
         {frameworks.items.map((item) => (
           <SelectItem key={item.value} item={item}>
             {item.label}

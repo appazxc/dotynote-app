@@ -67,6 +67,7 @@ export const LoginForm = () => {
       }
     },
   }); 
+
   const handleChangeEmailClick = React.useCallback(() => {
     setIsEmailSent(false);
     setShowReferralField(false);
@@ -101,7 +102,7 @@ export const LoginForm = () => {
                         cursor="pointer"
                         onClick={handleChangeEmailClick}
                       >
-                      Change
+                        Change
                       </Text>
                     )}
                     <Input
@@ -147,7 +148,6 @@ export const LoginForm = () => {
                 return (
                   <Button
                     type="submit"
-                    colorScheme="brand"
                     width="full"
                     size="md"
                     loading={isSubmitting}

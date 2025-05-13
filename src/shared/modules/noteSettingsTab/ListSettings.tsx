@@ -8,6 +8,7 @@ import { Filters } from 'shared/modules/noteSettingsTab/Filters';
 import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 
 type Props = {
+  noteId: string;
   postsSettings: PostsSettingsEntity;
 };
 
@@ -37,7 +38,7 @@ const orderByOptions = [
   },
 ];
 
-export const ListSettings = React.memo(({ postsSettings }: Props) => {
+export const ListSettings = React.memo(({ noteId, postsSettings }: Props) => {
   const { mutateAsync } = useUpdatePostsSettings(postsSettings.noteId, postsSettings.id);
   
   const handleOrderByChange = React.useCallback(async (values) => {
@@ -79,7 +80,9 @@ export const ListSettings = React.memo(({ postsSettings }: Props) => {
           options={listTypeOptions}
           onChange={handleListTypeChange}
         />
-        {postsSettings.listType === 'all' && <Filters /> }
+        {(postsSettings.listType === 'all' && !!postsSettings.filters) 
+          && <Filters noteId={noteId} filters={postsSettings.filters} />
+        }
       </Box>
       {!isAllTypeList && (
         <Box
@@ -99,6 +102,7 @@ export const ListSettings = React.memo(({ postsSettings }: Props) => {
           <DirectionSelect value={postsSettings.sort} onChange={handleSortChange} />
         </Box>
       )}
+    
     </Card.Root>
   );
 });

@@ -1,3 +1,7 @@
 import { schema } from 'normalizr';
 
-export const postsSettingsSchema = new schema.Entity('postsSettings');
+import { noteFiltersSchema } from 'shared/schemas/noteFilters.schema';
+
+export const postsSettingsSchema = new schema.Entity('postsSettings', {
+  filters: noteFiltersSchema,
+});

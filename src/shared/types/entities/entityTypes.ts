@@ -3,6 +3,7 @@ import { ApiNoteAudioEntity, NoteAudioEntity } from 'shared/types/entities/NoteA
 import { ApiNoteDotEntity, NoteDotEntity } from 'shared/types/entities/NoteDotEntity';
 import { ApiNoteEntity, NoteEntity } from 'shared/types/entities/NoteEntity';
 import { ApiNoteFileEntity, NoteFileEntity } from 'shared/types/entities/NoteFileEntity';
+import { ApiNoteFiltersEntity, NoteFiltersEntity } from 'shared/types/entities/NoteFiltersEntity';
 import { ApiNoteImageEntity, NoteImageEntity } from 'shared/types/entities/NoteImageEntity';
 import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities/NoteSettingsEntity';
 import { ApiNoteVideoEntity, NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
@@ -37,6 +38,7 @@ export type ApiEntityTypes = {
   [entityNames.subscriptionPlan]: ApiSubscriptionPlanEntity;
   [entityNames.subscription]: ApiSubscriptionEntity;
   [entityNames.userBalance]: ApiUserBalanceEntity;
+  [entityNames.noteFilters]: ApiNoteFiltersEntity;
 }
 
 export type ApiEntity = ApiEntityTypes[EntityName]
@@ -60,4 +62,5 @@ export type EntityTypes = {
   [entityNames.subscriptionPlan]: SubscriptionPlanEntity;
   [entityNames.subscription]: SubscriptionEntity;
   [entityNames.userBalance]: UserBalanceEntity;
+  [entityNames.noteFilters]: NoteFiltersEntity;
 }

@@ -5,6 +5,7 @@ import { noteSchema } from 'shared/schemas/note.schema';
 import { noteAudioSchema } from 'shared/schemas/noteAudio.schema';
 import { noteDotSchema } from 'shared/schemas/noteDot.schema';
 import { noteFileSchema } from 'shared/schemas/noteFile.schema';
+import { noteFiltersSchema } from 'shared/schemas/noteFilters.schema';
 import { noteImageSchema } from 'shared/schemas/noteImage.schema';
 import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { noteVideoSchema } from 'shared/schemas/noteVideo.schema';
@@ -47,6 +48,7 @@ const schemaMap: {
   [entityNames.subscriptionPlan]: subscriptionPlanSchema,
   [entityNames.subscription]: subscriptionSchema,
   [entityNames.userBalance]: userBalanceSchema,
+  [entityNames.noteFilters]: noteFiltersSchema,
 };
 
 export default class Selector<T extends EntityName> {

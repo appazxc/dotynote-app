@@ -59,9 +59,10 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
   }, [mutate]);
 
   const isAllTypeList = postsSettings.listType === 'all';
+  
   return (
     <VStack gap={4} alignItems="stretch">
-      <ListSettings postsSettings={postsSettings} />
+      <ListSettings noteId={noteId} postsSettings={postsSettings} />
       {!isAllTypeList && (
         <CheckboxCard
           label="Show internal posts"

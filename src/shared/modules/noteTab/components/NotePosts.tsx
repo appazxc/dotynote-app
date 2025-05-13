@@ -8,7 +8,12 @@ import { AllTypeList } from 'shared/modules/noteTab/components/AllTypeList';
 import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
-import { operationTypes, toggleNoteSelect, togglePostSelect, updateOperationConcretePost } from 'shared/store/slices/appSlice';
+import { 
+  operationTypes, 
+  toggleNoteSelect, 
+  togglePostSelect, 
+  updateOperationConcretePost, 
+} from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 import { invariant } from 'shared/util/invariant';
 
@@ -86,6 +91,8 @@ export const NotePosts = React.memo((props: Props) => {
           isSelecting={isSelecting}
           selectedNotes={selectedNotes}
           hasOverlay={isSelecting}
+          sort={postsSettings.filters?.sort}
+          orderBy={postsSettings.filters?.orderBy}
           onOverlayClick={handleNoteOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
