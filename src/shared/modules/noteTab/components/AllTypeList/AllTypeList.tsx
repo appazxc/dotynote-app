@@ -1,14 +1,15 @@
 import { Box, Stack } from '@chakra-ui/react';
+import { isBoolean, pick } from 'lodash';
 import React from 'react';
 
-import { useInfinityNoteList } from 'shared/api/hooks/useInfinityNoteList';
+import { InfinityNoteFilters, useInfinityNoteList } from 'shared/api/hooks/useInfinityNoteList';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE } from 'shared/constants/requests';
 import { getIsSelected } from 'shared/modules/noteTab/components/AllTypeList/helpers/getIsSelected';
 import { NoteItem } from 'shared/modules/noteTab/components/NoteItem';
 import { PostsLoader } from 'shared/modules/noteTab/components/PostsLoader';
 import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
-import { NoteOrderBy } from 'shared/types/common';
+import { NoteFiltersEntity } from 'shared/types/entities/NoteFiltersEntity';
 
 type Props = {
   noteId: string;
@@ -16,8 +17,7 @@ type Props = {
   hasOverlay?: boolean;
   selectedNotes?: string[];
   scrollRestoration?: boolean;
-  sort?: 'asc' | 'desc';
-  orderBy?: NoteOrderBy;
+  filters?: NoteFiltersEntity;
   onScrollRestoration?: () => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 };
@@ -36,10 +36,18 @@ export const AllTypeList = React.memo((props: Props) => {
     hasOverlay = false,
     onOverlayClick, 
     onScrollRestoration, 
-    sort = 'desc',
-    orderBy = 'createdAt',
+    filters: propsFilters,
   } = props;
 
+  const filters = React.useMemo(() => {
+    const data: InfinityNoteFilters = {
+      pageSize: DEFAULT_PAGE_SIZE,
+      ...pick(propsFilters, ['sort', 'orderBy', 'hasVideo', 'hasAudio', 'hasImage', 'hasFile', 'hasRecord']),
+    };
+
+    return data;
+  }, [propsFilters]);
+  
   const { 
     data, 
     flatData,
@@ -51,11 +59,7 @@ export const AllTypeList = React.memo((props: Props) => {
   } = useInfinityNoteList({
     noteId,
     path: `/notes/${noteId}/all`,
-    filters: {
-      pageSize: DEFAULT_PAGE_SIZE,
-      sort,
-      orderBy,
-    },
+    filters,
     options,
     getQueryKey: getInfinityAllNotesQueryKey,
   });

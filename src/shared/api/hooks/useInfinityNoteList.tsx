@@ -16,7 +16,7 @@ import { useSaveNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useSaveNote
 import { PageParam, QueryFnData } from 'shared/types/query';
 import { getCursorName } from 'shared/util/api/getCursorName';
 
-export type InfinityNoteFilters = Record<string, string | number | null>;
+export type InfinityNoteFilters = Record<string, any>;
 
 export type InfinityNotesOptions = {
   disablePagination?: boolean;

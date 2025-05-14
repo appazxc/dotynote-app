@@ -1,4 +1,6 @@
-import { IconButton, Stack } from '@chakra-ui/react';
+import { Heading, IconButton, Stack } from '@chakra-ui/react';
+import React from 'react';
+import { LuMinus } from 'react-icons/lu';
 import { z } from 'zod';
 
 import { getDirtyFields, useAppForm } from 'shared/components/Form';
@@ -39,6 +41,59 @@ const schema = z.object({
   hasRecord: z.boolean().nullable(),
 });
 
+// Reusable card component for image filter
+const FilterCard = ({
+  title,
+  label,
+  description,
+  checked,
+  onCheckedChange,
+  onReset,
+}: {
+  title: string;
+  label: string;
+  description: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  onReset: () => void;
+}) => (
+  <Stack gap="1">
+    <Stack
+      gap="3"
+      flexDirection="row"
+      alignItems="center"
+    >
+      <Heading
+        as="h3"
+        size="xs"
+        fontWeight="bold"
+        color="fg.subtle"
+      >
+        {title}
+      </Heading>
+      <IconButton
+        aria-label={`Remove ${title.toLowerCase()} filter`}
+        variant="subtle"
+        size="2xs"
+        h="18px"
+        tabIndex={0}
+        title="Remove filter"
+        onClick={onReset}
+      >
+        <LuMinus />
+      </IconButton>
+    </Stack>
+     
+    <SwitchSection
+      label={label}
+      description={description}
+      checked={checked}
+      switchSize="lg"
+      onCheckedChange={({ checked }) => onCheckedChange(checked)}
+    />
+  </Stack>
+);
+
 const NoteFiltersModal = (props: Props) => {
   const { onSubmit, filters } = props;
   const dispatch = useAppDispatch();
@@ -75,6 +130,45 @@ const NoteFiltersModal = (props: Props) => {
     },
   });
 
+  const filterFields = React.useMemo(() => [
+    {
+      name: 'hasImage' as const,
+      title: 'Images',
+      menuText: 'Add image filter',
+      label: 'Show notes with images',
+      description: 'Only display notes that contain at least one image.',
+    },
+    {
+      name: 'hasVideo' as const,
+      title: 'Videos',
+      menuText: 'Add video filter',
+      label: 'Show notes with videos',
+      description: 'Only display notes that contain at least one video.',
+    },
+    {
+      name: 'hasAudio' as const,
+      title: 'Audio',
+      menuText: 'Add audio filter',
+      label: 'Show notes with audio',
+      description: 'Only display notes that contain at least one audio.',
+    },
+    {
+      name: 'hasFile' as const,
+      title: 'Files',
+      menuText: 'Add file filter',
+      label: 'Show notes with files',
+      description: 'Only display notes that contain at least one file.',
+    },
+  ], []);
+
+  const menuSelector = React.useMemo(() => {
+    const filters = filterFields.map(filterField => filterField.name);
+
+    return (state: any) => {
+      return filters.map(name => state.values[name]);
+    };
+  }, [filterFields]);
+
   return (
     <DialogRoot
       open
@@ -98,40 +192,33 @@ const NoteFiltersModal = (props: Props) => {
             >
               <DialogTitle>Filters</DialogTitle>
               <Subscribe
-                selector={(state) => [state.values.hasImage, state.values.hasVideo]}
+                selector={menuSelector}
                 children={(fields) => {
-                  const hasImageFilter = fields[0] !== null;
-                  const hasVideoFilter = fields[1] !== null;
-                  const showFilterMenu = !hasImageFilter || !hasVideoFilter;
+                  const showFilterMenu = !!fields.some(field => field === null);
 
                   return showFilterMenu ? (
                     <Menu inPortal={false} placement="bottom-end">
                       <MenuTrigger>
                         <IconButton
-                          size="sm"
+                          size="xs"
                           variant="ghost"
                           iconSize="auto"
                         >
-                          <PlusIcon size="20px" />
+                          <PlusIcon size="24px" />
                         </IconButton>
                       </MenuTrigger>
                       <MenuList>
-                        {!hasImageFilter && (
-                          <MenuItem
-                            label="Add image filter"
-                            onClick={() => {
-                              setFieldValue('hasImage', true);
-                            }}
-                          />
-                        )}
-                        {!hasVideoFilter && (
-                          <MenuItem
-                            label="Add video filter"
-                            onClick={() => {
-                              setFieldValue('hasVideo', true);
-                            }}
-                          />
-                        )}
+                        {filterFields.map((field) => {
+                          return field !== null ? (
+                            <MenuItem
+                              key={field.name}
+                              label={field.menuText}
+                              onClick={() => {
+                                setFieldValue(field.name, true);
+                              }}
+                            />
+                          ) : null;
+                        })}
                       </MenuList>
                     </Menu>
                   ) : null;
@@ -140,7 +227,7 @@ const NoteFiltersModal = (props: Props) => {
                 
             </DialogHeader>
             <DialogBody>
-              <Stack gap="5">
+              <Stack gap="6">
                 <Stack
                   direction="row"
                   gap="3"
@@ -171,40 +258,28 @@ const NoteFiltersModal = (props: Props) => {
                     }}
                   />
                 </Stack>
-                <Field
-                  name="hasImage"
-                  children={(field) => {
-                    const hasImageFilter = field.state.value !== null;
+                {filterFields.map(filterField => (
+                  <Field
+                    key={filterField.name}
+                    name={filterField.name}
+                    children={(field) => {
+                      const hasImageFilter = field.state.value !== null;
 
-                    return hasImageFilter ? (
-                      <SwitchSection
-                        label="Has image"
-                        checked={!!field.state.value}
-                        switchSize="md"
-                        flexDirection="row-reverse"
-                        w="fit-content"
-                        onCheckedChange={({ checked }) => field.handleChange(checked)}
-                      />
-                    ) : null;
-                  }}
-                />
-                <Field
-                  name="hasVideo"
-                  children={(field) => {
-                    const hasVideoFilter = field.state.value !== null;
+                      if (!hasImageFilter) return null;
 
-                    return hasVideoFilter ? (
-                      <SwitchSection
-                        label="Has video"
-                        checked={!!field.state.value}
-                        switchSize="md"
-                        flexDirection="row-reverse"
-                        w="fit-content"
-                        onCheckedChange={({ checked }) => field.handleChange(checked)}
-                      />
-                    ) : null;
-                  }}
-                />
+                      return (
+                        <FilterCard
+                          title={filterField.title}
+                          label={filterField.label}
+                          description={filterField.description}
+                          checked={!!field.state.value}
+                          onCheckedChange={field.handleChange}
+                          onReset={() => field.handleChange(null)}
+                        />
+                      );
+                    }}
+                  />
+                ))}
               </Stack>
             </DialogBody>
             <DialogFooter>

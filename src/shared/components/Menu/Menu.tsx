@@ -32,6 +32,10 @@ type Props = {
   children: React.ReactNode;
 }
 
+const inContextStyles = {
+  zIndex: 1000,
+};
+
 export const Menu = React.memo((props: Props) => {
   const { 
     enabled = true,
@@ -147,7 +151,9 @@ export const Menu = React.memo((props: Props) => {
     ...getReferenceProps({
       onContextMenu,
       onClick: (event) => {
-        React.isValidElement<{ onClick?: (event) => void }>(menuTrigger) && menuTrigger.props.onClick?.(event);
+        if (React.isValidElement<{ onClick?: (event) => void }>(menuTrigger)) {
+          menuTrigger.props.onClick?.(event);
+        }
       },
       onPointerDown: (event) => {
         if (event.button !== 2 && React.isValidElement<{ onMouseDown?: (event) => void }>(menuTrigger)) {
@@ -173,7 +179,7 @@ export const Menu = React.memo((props: Props) => {
     }
 
     const menuContent = (
-      <FloatingOverlay lockScroll>
+      <FloatingOverlay lockScroll style={!inPortal ? inContextStyles : undefined}>
         <FloatingFocusManager
           context={context}
           initialFocus={refs.floating}
