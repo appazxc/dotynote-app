@@ -24,8 +24,10 @@ type Props = {
 
 const options = {};
 
-export const getInfinityAllNotesQueryKey = (noteId, filters) => 
+export const getInfinityAllTypeQueryKey = (noteId: string, filters: InfinityNoteFilters = {}) => 
   ['posts', noteId, 'all-notes', filters] as const;
+
+export type InfinityAllTypeQueryKey = ReturnType<typeof getInfinityAllTypeQueryKey>;
 
 export const AllTypeList = React.memo((props: Props) => {
   const { 
@@ -61,7 +63,7 @@ export const AllTypeList = React.memo((props: Props) => {
     path: `/notes/${noteId}/all`,
     filters,
     options,
-    getQueryKey: getInfinityAllNotesQueryKey,
+    getQueryKey: getInfinityAllTypeQueryKey,
   });
 
   return (

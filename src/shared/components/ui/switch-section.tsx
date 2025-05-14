@@ -23,7 +23,7 @@ export const SwitchSection = (props: Props) => {
     switchSize = 'lg',
     ...restProps
   } = props;
-console.log('restProps', restProps);
+
   return (
     <Box
       ref={ref}

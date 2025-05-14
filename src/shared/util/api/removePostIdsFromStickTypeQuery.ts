@@ -8,7 +8,7 @@ import { TQueryFnData } from 'shared/types/query';
 import { restorePagesStructure } from 'shared/util/api/restorePagesStructure';
 import { updateInfinityQuery } from 'shared/util/api/updateInfinityQuery';
 
-export const removePostIdsFromQuery = (parentId: string, postIds: string[], resetEmptyQueries = true) => {
+export const removePostIdsFromStickTypeQuery = (parentId: string, postIds: string[], resetEmptyQueries = true) => {
   const queriesData: {
     queryKey: InfinityStickTypeQueryKey;
     data?: TQueryFnData;

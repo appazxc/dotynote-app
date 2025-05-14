@@ -8,13 +8,13 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 import { postSelector } from 'shared/selectors/entities';
 import { deleteEntity, updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
-import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
+import { removePostIdsFromStickTypeQuery } from 'shared/util/api/removePostIdsFromStickTypeQuery';
 
 export const deleteNotesFromPosts = (parentId: string, postIds: string[]): ThunkAction => 
   async (dispatch, getState) => {
     const posts = postSelector.getEntitiesById(getState(), postIds);
     const noteIds = posts.map((post) => post.noteId);
-    const revert = removePostIdsFromQuery(parentId, postIds, false);
+    const revert = removePostIdsFromStickTypeQuery(parentId, postIds, false);
     const wasPinnedIn: string[] = [];
 
     posts.forEach((post) => {
@@ -36,7 +36,7 @@ export const deleteNotesFromPosts = (parentId: string, postIds: string[]): Thunk
         )
         .map(([_, post]) => post)
         .forEach((post) => {
-          removePostIdsFromQuery(post.parentId, [post.id]);
+          removePostIdsFromStickTypeQuery(post.parentId, [post.id]);
 
           if (post.pinnedAt) {
             wasPinnedIn.push(post.parentId);

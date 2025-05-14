@@ -1,5 +1,6 @@
+import { QueryKey } from '@tanstack/react-query';
+
 import { queryClient } from 'shared/api/queryClient';
-import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
 
 export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldData) => {
@@ -37,9 +38,9 @@ export const pasteIdsInConretePlace = ({ ids, concretePostId, place }) => (oldDa
   };
 };
 
-export const updateInfinityQuery = <T extends TQueryFnData>(
-  queryKey: InfinityStickTypeQueryKey | undefined, 
-  updater: (oldData: T | undefined, queryKey: InfinityStickTypeQueryKey) => T | undefined
+export const updateInfinityQuery = <K extends QueryKey, T extends TQueryFnData = TQueryFnData>(
+  queryKey: K | undefined, 
+  updater: (oldData: T | undefined, queryKey: K) => T | undefined
 ) => {
   if (!queryKey) {
     return;

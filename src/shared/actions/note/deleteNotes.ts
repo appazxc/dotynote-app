@@ -3,7 +3,8 @@ import { entityNames } from 'shared/constants/entityNames';
 import { parseApiError } from 'shared/helpers/api/getApiError';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
-import { removePostIdsFromQuery } from 'shared/util/api/removePostIdsFromQuery';
+import { removeNoteIdsFromAllTypeQuery } from 'shared/util/api/removeNoteIdsFromAllTypeQuery';
+import { removePostIdsFromStickTypeQuery } from 'shared/util/api/removePostIdsFromStickTypeQuery';
 
 export const deleteNotes = (noteIds: string[]): ThunkAction => 
   async (dispatch, getState) => {
@@ -28,9 +29,11 @@ export const deleteNotes = (noteIds: string[]): ThunkAction =>
         .map(([_, post]) => post);
 
       postsWithDeletedNoteIds.forEach((post) => {
-        removePostIdsFromQuery(post.parentId, [post.id]);
+        removePostIdsFromStickTypeQuery(post.parentId, [post.id]);
         dispatch(updateEntity({ id: post.id, type: entityNames.post, data: { _isDeleted: true } }));
       });
+
+      dispatch(removeNoteIdsFromAllTypeQuery(noteIds));
     } catch(error) {
       const parsedError = parseApiError(error);
       
