@@ -44,7 +44,7 @@ export const WithNoteMenu = React.memo((props: Props) => {
         label: 'Open in new tab',
         onClick: () => {
           dispatch(openTab({ 
-            route: buildNoteTabRoute(noteId, { parent: noteId }),
+            path: buildNoteTabRoute(noteId, { parent: noteId }),
             active: true,
           }));
 

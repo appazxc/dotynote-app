@@ -12,13 +12,13 @@ import { modalIds } from 'shared/constants/modalIds';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
+import { useBuildTabHref } from 'shared/modules/space/hooks/useBuildTabHref';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startPrimaryNoteOperation } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
 import { SpaceMenuItem } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton/SpaceMenuItem';
-import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 import { router } from 'desktop/routes/router';
 
 export const DotHeaderButton = () => {
@@ -30,6 +30,7 @@ export const DotHeaderButton = () => {
   );
   const [brand] = useToken('colors', brandToken);
   const { data: spaceIds = [] } = useSpaces();
+  const buildTabHref = useBuildTabHref();
   invariant(space, 'Missing space');
   const { mutate } = useUpdateSpace(space.id);
 
@@ -53,10 +54,7 @@ export const DotHeaderButton = () => {
     if (space.mainNoteId) {
       dispatch(
         openTab({
-          route: buildTabHref({
-            to: noteRoutePath,
-            params: { noteId: String(space.mainNoteId) },
-          }),
+          path: buildTabHref(noteRoutePath, { noteId: space.mainNoteId }),
           active: true,
         })
       );
@@ -64,7 +62,7 @@ export const DotHeaderButton = () => {
       dispatch(showModal({ id: modalIds.primaryNote }));
     }
     
-  }, [dispatch, space]);
+  }, [dispatch, space, buildTabHref]);
   
   return (
     <>

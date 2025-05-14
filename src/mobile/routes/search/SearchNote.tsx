@@ -5,9 +5,10 @@ import { openTab } from 'shared/actions/space/openTab';
 import { Post } from 'shared/components/Post/Post';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { buildNoteTabPath } from 'shared/util/buildNoteTabPath';
 import { invariant } from 'shared/util/invariant';
 
-import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
+import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 
 type Props = {
   noteId: string;
@@ -27,7 +28,7 @@ export const SearchNote = React.memo(({ noteId }: Props) => {
       note={note}
       onClick={() => {
         dispatch(openTab({ 
-          route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),
+          path: buildNoteTabPath(noteId),
           active: true,
         }));
         navigate({ to: '/app' });

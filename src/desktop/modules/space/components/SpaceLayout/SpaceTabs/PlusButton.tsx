@@ -9,21 +9,21 @@ import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { useCreateNoteItems } from 'shared/hooks/useCreateNoteItems';
 import { hideModal } from 'shared/modules/modal/modalSlice';
+import { useBuildTabHref } from 'shared/modules/space/hooks/useBuildTabHref';
 import { useAppDispatch } from 'shared/store/hooks';
-
-import { buildTabHref } from 'desktop/modules/space/helpers/buildTabHref';
 
 export const PlusButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const hoverBg = useColorModeValue('gray.100', 'brand.400');
-  
+  const buildTabHref = useBuildTabHref();
+
   const handleCreateNote = React.useCallback((noteId: string) => {
     dispatch(hideModal());
     dispatch(openTab({ 
-      route: buildTabHref({ to: '/n/$noteId', params: { noteId: String(noteId) } }),
+      path: buildTabHref('/n/$noteId', { noteId }),
       active: true,
     }));
-  }, [dispatch]);
+  }, [dispatch, buildTabHref]);
 
   const handleError = React.useCallback(() => {
     dispatch(hideModal());

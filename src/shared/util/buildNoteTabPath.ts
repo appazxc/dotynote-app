@@ -1,0 +1,1 @@
+export const buildNoteTabPath = (noteId: string) => `/n/${noteId}`;

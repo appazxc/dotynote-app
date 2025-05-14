@@ -45,7 +45,7 @@ export const PostItem = React.memo((props: Props) => {
   const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (event.metaKey) {
       dispatch(openTab({ 
-        route: buildNoteTabRoute(post.noteId),
+        path: buildNoteTabRoute(post.noteId),
       }));
     } else {
       navigate({ to: noteRoutePath, params: { noteId: post.noteId } });

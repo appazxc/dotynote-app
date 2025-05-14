@@ -4,8 +4,7 @@ import { addPrimaryNoteTab } from 'shared/store/slices/appSlice';
 import { addEntity } from 'shared/store/slices/entitiesSlice';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
 import { ThunkAction } from 'shared/types/store';
-
-import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
+import { buildNoteTabPath } from 'shared/util/buildNoteTabPath';
 
 export const createPrimaryNoteTab = (): ThunkAction => (dispatch, getState) => {
   const activeSpace = selectActiveSpace(getState());
@@ -17,7 +16,7 @@ export const createPrimaryNoteTab = (): ThunkAction => (dispatch, getState) => {
   const tab: SpaceTabEntity = {
     id: String(Math.random()),
     spaceId: activeSpace.id,
-    routes: [buildTabHref({ to: '/n/$noteId', params: { noteId: String(activeSpace?.mainNoteId) } })],
+    routes: [buildNoteTabPath(activeSpace.mainNoteId)],
     isPinned: false,
     pos: 1,
     _isFake: true,

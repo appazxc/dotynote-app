@@ -14,7 +14,6 @@ import { Loader } from 'shared/components/Loader';
 import { CloseButton } from 'shared/components/ui/close-button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { drawerIds } from 'shared/constants/drawerIds';
-import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
 import { hideDrawer, showDrawer } from 'shared/modules/drawer/drawerSlice';
@@ -25,12 +24,12 @@ import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId'
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
 import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
+import { buildNoteTabPath } from 'shared/util/buildNoteTabPath';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout } from 'mobile/components/Layout';
 import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
-import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { router } from 'mobile/modules/space/tabRoutes/router';
 
 const Tab = ({ id, isActive }) => {
@@ -106,7 +105,7 @@ const Tabs = () => {
 
   const handleCreateNote = React.useCallback((noteId) => {
     dispatch(openTab({ 
-      route: buildTabHref({ to: noteRoutePath, params: { noteId: String(noteId) } }),
+      path: buildNoteTabPath(noteId),
       active: true,
     }));
     navigate({ to: '/app' });

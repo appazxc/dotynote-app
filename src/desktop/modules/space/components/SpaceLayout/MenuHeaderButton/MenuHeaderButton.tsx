@@ -36,7 +36,7 @@ export const MenuHeaderButton = React.memo(() => {
 
   const handleSearchClick = React.useCallback(() => {
     dispatch(openTab({
-      route: '/search',
+      path: '/search',
       active: true,
     }));
   }, [dispatch]);

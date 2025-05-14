@@ -17,13 +17,13 @@ import { arrayMaxBy } from 'shared/util/arrayUtil';
 import { invariant } from 'shared/util/invariant';
 
 type CreateSpaceTabParams = { 
-  route?: string; 
+  path?: string; 
   active?: boolean;
 };
 
 export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction => 
   async (dispatch, getState) => {
-    const { route, active } = params;
+    const { path, active } = params;
     const isLoading = selectIsLoaderInProgress(getState(), loaderIds.createTab);
     
     if (isLoading) {
@@ -39,7 +39,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
 
           const tabs = activeSpace.tabs;
           const tabIds = tabs.map(({ id }) => id);
-          const routes = [route || '/'];
+          const routes = [path || '/'];
           const maxPos = arrayMaxBy(tabs, (item: SpaceTabEntity) => item.pos);
           const pos = maxPos + 1000;
 

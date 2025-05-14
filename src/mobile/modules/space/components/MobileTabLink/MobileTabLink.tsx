@@ -2,9 +2,9 @@ import { Link, LinkProps, Router } from '@tanstack/react-router';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
+import { useBuildTabHref } from 'shared/modules/space/hooks/useBuildTabHref';
 import { useAppDispatch } from 'shared/store/hooks';
 
-import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { Router as RouterType } from 'mobile/modules/space/tabRoutes/router';
 
 type Props = LinkProps<Router<RouterType['routeTree'], 'never', boolean>> 
@@ -12,7 +12,8 @@ type Props = LinkProps<Router<RouterType['routeTree'], 'never', boolean>>
 
 const MobileTabLinkComponent = (props: Props, ref) => {
   const dispatch = useAppDispatch();
-  
+  const buildTabHref = useBuildTabHref();
+
   return (
     <Link 
       ref={ref} 
@@ -21,7 +22,7 @@ const MobileTabLinkComponent = (props: Props, ref) => {
         if (e.metaKey) {
           e.preventDefault();
           dispatch(openTab({ 
-            route: buildTabHref({ to: props.to, params: props.params }),
+            path: buildTabHref(props.to, props.params),
           }));
         }
 
