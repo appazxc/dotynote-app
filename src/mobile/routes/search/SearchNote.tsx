@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { Post } from 'shared/components/Post';
+import { Post } from 'shared/components/Post/Post';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';

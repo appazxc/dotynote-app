@@ -6,7 +6,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NotePending } from 'shared/modules/noteTab/components/NotePending';
 
-import { Layout } from 'mobile/components/Layout';
+import { Layout, LayoutHeader } from 'mobile/components/Layout';
 
 import { root } from '../root';
 
@@ -20,8 +20,8 @@ export const note = createRoute({
     });
   },
   pendingComponent: () => (
-    <Layout>
-      <NotePending />
+    <Layout header={<LayoutHeader showBackButton />}>
+      <NotePending pt="4" />
     </Layout>
   ),
   pendingMinMs: 0,

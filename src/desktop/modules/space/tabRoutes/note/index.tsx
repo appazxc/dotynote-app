@@ -8,6 +8,7 @@ import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { NotePending } from 'shared/modules/noteTab/components/NotePending';
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
+import { TabLayout } from 'desktop/modules/space/components/TabLayout';
 import { NoteTabError } from 'desktop/modules/space/tabRoutes/note/NoteTabError';
 
 import { root } from '../root';
@@ -30,7 +31,11 @@ export const note = createRoute({
       ],
     });
   },
-  pendingComponent: NotePending,
+  pendingComponent: () => (
+    <TabLayout defaultSidebar>
+      <NotePending />
+    </TabLayout>
+  ),
   notFoundComponent: NoteNotFound,
   errorComponent: NoteTabError,
   pendingMinMs: 0,

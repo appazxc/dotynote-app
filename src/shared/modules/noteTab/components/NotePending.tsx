@@ -1,18 +1,19 @@
-import { Box, Stack, Flex, Container } from '@chakra-ui/react';
+import { Box, Stack, Flex, Container, ContainerProps } from '@chakra-ui/react';
 import { Skeleton, SkeletonText } from '@chakra-ui/react';
 import React from 'react';
 
 import { Wait } from 'shared/components/Wait';
 
-type Props = Record<string, never>;
+type Props = ContainerProps;
 
-export const NotePending = React.memo((_props: Props) => {
+export const NotePending = React.memo((props: Props) => {
   return (
     <Wait delay={350}>
       <Container
         p={4}
         pt="16"
         maxW="3xl"
+        {...props}
       >
         <Stack gap={6} width="full">
           {/* Note title skeleton */}
