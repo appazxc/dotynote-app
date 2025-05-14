@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
-import { NoteFiles } from 'shared/components/NoteFiles';
+import { NoteFiles } from 'shared/components/NoteFiles/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { Tag } from 'shared/components/ui/tag';

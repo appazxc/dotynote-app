@@ -7,7 +7,7 @@ import { parseApiError } from 'shared/helpers/api/getApiError';
 import { 
   getInfinityStickTypeQueryKey, 
   InfinityStickTypeQueryKey, 
-} from 'shared/modules/noteTab/components/StickTypeList';
+} from 'shared/modules/noteTab/components/StickTypeList/StickTypeList';
 import { useNoteTabQueryKey } from 'shared/modules/noteTab/hooks/useNoteTabQueryKey';
 import { useAppDispatch } from 'shared/store/hooks';
 import { activateInfinityQueryNextPage } from 'shared/util/api/activateInfinityQueryNextPage';

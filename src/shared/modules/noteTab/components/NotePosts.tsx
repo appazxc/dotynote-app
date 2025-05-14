@@ -5,7 +5,7 @@ import { modalIds } from 'shared/constants/modalIds';
 import { SelectConcretePlaceModal } from 'shared/containers/modals/SelectConcretePlaceModal';
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { AllTypeList } from 'shared/modules/noteTab/components/AllTypeList';
-import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList';
+import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList/StickTypeList';
 import { selectOperation } from 'shared/selectors/operations';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { 

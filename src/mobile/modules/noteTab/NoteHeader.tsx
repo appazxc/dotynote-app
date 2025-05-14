@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { toggleAdvancedEdit, toggleSearch } from 'shared/store/slices/appSlice';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
-import { LayoutHeader } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 type Props = {
   note: NoteEntity;

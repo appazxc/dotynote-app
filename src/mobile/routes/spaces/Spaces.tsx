@@ -1,4 +1,4 @@
-import { Button, Container, IconButton } from '@chakra-ui/react';
+import { Container, IconButton } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -12,7 +12,8 @@ import { SpacesCards } from 'shared/modules/spaces/components/SpacesCards';
 import { selectActiveSpaceId } from 'shared/selectors/space/selectActiveSpaceId';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 const Spaces = React.memo(() => {
   const dispatch = useAppDispatch();

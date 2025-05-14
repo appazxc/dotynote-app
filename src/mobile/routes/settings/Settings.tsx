@@ -3,7 +3,8 @@ import React from 'react';
 
 import { SettingsContent } from 'shared/modules/settings/SettingsContent';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 const Settings = React.memo(() => {
   return (

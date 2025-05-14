@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Post } from 'shared/components/Post';
+import { Post } from 'shared/components/Post/Post';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';

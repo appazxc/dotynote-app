@@ -4,7 +4,8 @@ import React from 'react';
 
 import { ProfileContent } from 'shared/modules/profile/ProfileContent';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 const Profile = React.memo(() => {
   const navigate = useNavigate();

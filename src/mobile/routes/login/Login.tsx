@@ -4,7 +4,8 @@ import React from 'react';
 import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 import { Logo } from 'shared/components/Logo';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 function Login() {

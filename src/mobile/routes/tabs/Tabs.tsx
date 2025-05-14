@@ -27,7 +27,8 @@ import { selectSortedTabs } from 'shared/selectors/tab/selectSortedTabs';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { CreateNoteDrawer } from 'mobile/containers/drawers/CreateNoteDrawer';
 import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
 import { router } from 'mobile/modules/space/tabRoutes/router';

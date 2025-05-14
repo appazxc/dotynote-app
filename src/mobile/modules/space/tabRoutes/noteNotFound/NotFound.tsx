@@ -1,9 +1,9 @@
-import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { NoteNotFound } from 'shared/modules/noteTab/NoteNotFound';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 type Props = {};
 

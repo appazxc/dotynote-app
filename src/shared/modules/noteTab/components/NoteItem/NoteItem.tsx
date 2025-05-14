@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
-import { Post } from 'shared/components/Post';
+import { Post } from 'shared/components/Post/Post';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';

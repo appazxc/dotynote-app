@@ -7,7 +7,8 @@ import { NotePostsSettingsTabContent } from 'shared/modules/noteSettingsTab/Note
 import { NoteSettingsTabContent } from 'shared/modules/noteSettingsTab/NoteSettingsTabContent';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 export const NoteSettings = React.memo(() => {
   const { noteId = '' } = useParams({ strict: false });

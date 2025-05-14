@@ -5,7 +5,8 @@ import React from 'react';
 import { SearchInput } from 'shared/modules/search/SearchInput';
 import { SearchResults } from 'shared/modules/search/SearchResults';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { SearchNote } from 'mobile/routes/search/SearchNote';
 
 export const Search = React.memo(() => {

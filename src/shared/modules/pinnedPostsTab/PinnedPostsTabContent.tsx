@@ -1,10 +1,9 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 
-import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList';
+import { StickTypeList } from 'shared/modules/noteTab/components/StickTypeList/StickTypeList';
 import { noteSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
-import { PostEntity } from 'shared/types/entities/PostEntity';
 import { invariant } from 'shared/util/invariant';
 
 type Props = {

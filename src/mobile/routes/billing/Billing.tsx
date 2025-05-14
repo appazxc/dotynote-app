@@ -9,7 +9,8 @@ import { BillingContent } from 'shared/modules/billing/BillingContent';
 import { subscriptionPlanSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 const Profile = React.memo(() => {
   const navigate = useNavigate();

@@ -2,7 +2,8 @@ import { Button, Center, Group } from '@chakra-ui/react';
 
 import { EmptyState } from 'shared/components/ui/empty-state';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 function DefaultNotFoundComponent() {

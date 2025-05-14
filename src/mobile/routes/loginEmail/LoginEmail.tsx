@@ -1,7 +1,8 @@
 import { LoginEmailContent } from 'shared/components/LoginEmailContent';
 import { Logo } from 'shared/components/Logo';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { MobileLink } from 'mobile/components/MobileLink';
 import { loginEmail } from 'mobile/routes/loginEmail';
 

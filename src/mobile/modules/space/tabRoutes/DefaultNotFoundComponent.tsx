@@ -1,11 +1,10 @@
-import { Center, Group } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import { useLocation } from '@tanstack/react-router';
 
-import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
-import { MobileTabLink } from 'mobile/modules/space/components/MobileTabLink';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 function DefaultNotFoundComponent() {
   const location = useLocation();

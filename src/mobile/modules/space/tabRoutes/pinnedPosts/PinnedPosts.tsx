@@ -4,7 +4,8 @@ import React from 'react';
 
 import { PinnedPostsTabContent } from 'shared/modules/pinnedPostsTab/PinnedPostsTabContent';
 
-import { Layout, LayoutHeader } from 'mobile/components/Layout';
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 export const PinnedPosts = React.memo(() => {
   const { noteId } = useParams({ strict: false });
