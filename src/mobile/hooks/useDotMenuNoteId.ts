@@ -7,6 +7,7 @@ import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { useAppSelector } from 'shared/store/hooks';
 
 import { router } from 'mobile/modules/space/tabRoutes/router';
+import { PRIMARY_NOTE_PATH } from 'mobile/routes/primaryNote/primaryNotePath';
 import { selectPrimaryNoteTab } from 'mobile/selectors/app/selectPrimaryNoteTab';
 
 /**
@@ -20,7 +21,7 @@ export const useDotMenuNoteId = () => {
   const primaryNoteTab = useAppSelector(selectPrimaryNoteTab);
   
   const isAppPage = pathname === '/app';
-  const isPrimaryPage = pathname === '/app/primary';
+  const isPrimaryPage = pathname === PRIMARY_NOTE_PATH;
   const isRightPage = isAppPage || isPrimaryPage;
 
   return React.useMemo(() => {

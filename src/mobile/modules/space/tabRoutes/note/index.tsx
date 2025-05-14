@@ -22,7 +22,7 @@ export const note = createRoute({
   },
   pendingComponent: () => (
     <Layout header={<LayoutHeader showBackButton />}>
-      <NotePending pt="6" />
+      <NotePending pt="4" />
     </Layout>
   ),
   pendingMinMs: 0,

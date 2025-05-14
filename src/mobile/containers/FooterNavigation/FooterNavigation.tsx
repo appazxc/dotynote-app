@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { createPrimaryNoteTab } from 'mobile/actions/createPrimaryNoteTab';
 import { HomeMenu } from 'mobile/containers/FooterNavigation/HomeMenu';
 import { SoundMenu } from 'mobile/containers/FooterNavigation/SoundMenu';
+import { PRIMARY_NOTE_PATH } from 'mobile/routes/primaryNote/primaryNotePath';
 
 export const FooterNavigation = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -57,7 +58,7 @@ export const FooterNavigation = React.memo(() => {
           if (isPrimaryNote) {
             dispatch(createPrimaryNoteTab());
           } else {
-            navigate({ to: '/app/primary' });
+            navigate({ to: PRIMARY_NOTE_PATH });
           }
         },
         icon: <GoHome size="25" />,

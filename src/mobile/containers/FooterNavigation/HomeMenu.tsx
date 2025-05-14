@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { startPrimaryNoteOperation } from 'shared/store/slices/appSlice';
 import { invariant } from 'shared/util/invariant';
 
-import { primaryNote } from 'mobile/routes/primaryNote';
+import { PRIMARY_NOTE_PATH } from 'mobile/routes/primaryNote/primaryNotePath';
 
 type Props = IconButtonProps;
 
@@ -23,7 +23,7 @@ export const HomeMenu = React.memo((props: Props) => {
   invariant(activeSpace, 'Missing active space');
 
   const { mutate } = useUpdateSpace(activeSpace.id);
-  const isPrimaryNoteLocation = pathname === primaryNote.fullPath;
+  const isPrimaryNoteLocation = pathname === PRIMARY_NOTE_PATH;
 
   return (
     <Menu
