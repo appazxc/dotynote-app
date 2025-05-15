@@ -36,7 +36,7 @@ export const NoteTab = React.memo(() => {
   const rwMode = useAppSelector(state => selectRwMode(state, { noteId: note.id }));
   const isWriteMode = rwMode === rwModes.WRITE;
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, isSearchActive ? 500 : 0);
 
   if (note._isDeleted) {
     return (

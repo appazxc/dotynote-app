@@ -89,7 +89,6 @@ export const useInfinityNoteList = (props: Props) => {
       const pageSize = filters.pageSize;
 
       const apiFilters = {
-        parentId: noteId,
         ...filters,
       };
 

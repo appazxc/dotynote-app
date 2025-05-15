@@ -13,6 +13,7 @@ import { NoteFiltersEntity } from 'shared/types/entities/NoteFiltersEntity';
 
 type Props = {
   noteId: string;
+  search?: string;
   isSelecting?: boolean;
   hasOverlay?: boolean;
   selectedNotes?: string[];
@@ -32,6 +33,7 @@ export type InfinityAllTypeQueryKey = ReturnType<typeof getInfinityAllTypeQueryK
 export const AllTypeList = React.memo((props: Props) => {
   const { 
     noteId, 
+    search,
     scrollRestoration = true, 
     isSelecting = false, 
     selectedNotes = EMPTY_ARRAY,
@@ -47,8 +49,12 @@ export const AllTypeList = React.memo((props: Props) => {
       ...pick(propsFilters, ['sort', 'orderBy', 'hasVideo', 'hasAudio', 'hasImage', 'hasFile', 'hasRecord']),
     };
 
+    if (search) {
+      data.query = search;
+    }
+
     return data;
-  }, [propsFilters]);
+  }, [propsFilters, search]);
   
   const { 
     data, 

@@ -60,6 +60,11 @@ export const LoginForm = () => {
           if (result.needReferral) {
             setShowReferralField(true);
           }
+
+          if (result.code) {
+            formApi.setFieldValue('code', result.code);
+          }
+
           setIsEmailSent(true);
         } catch (error) {
           handleFormApiErrors(formApi, error);

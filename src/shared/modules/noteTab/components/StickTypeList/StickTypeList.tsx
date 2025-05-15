@@ -60,7 +60,9 @@ export const StickTypeList = React.memo((props: Props) => {
   } = props;
 
   const filters = React.useMemo(() => {
-    const result: Record<string, string | number> = {};
+    const result: Record<string, string | number> = {
+      parentId: noteId,
+    };
 
     if (search) {
       result.query = search;
@@ -83,7 +85,7 @@ export const StickTypeList = React.memo((props: Props) => {
     }
     
     return result;
-  }, [search, sort, orderBy, pageSize, isPinned]);
+  }, [search, sort, orderBy, pageSize, isPinned, noteId]);
 
   const { 
     data,

@@ -88,6 +88,7 @@ export const NotePosts = React.memo((props: Props) => {
       ) : (
         <AllTypeList
           noteId={noteId}
+          search={search}
           isSelecting={isSelecting}
           selectedNotes={selectedNotes}
           hasOverlay={isSelecting}
