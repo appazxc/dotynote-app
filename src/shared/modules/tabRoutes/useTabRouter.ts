@@ -2,7 +2,7 @@ import { AnyRouter, RouterHistory, createMemoryHistory } from '@tanstack/react-r
 import React from 'react';
 
 import { handleTabRouteChange } from 'shared/modules/space/actions/router/handleTabRouteChange';
-import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
+import { getRoutesMap } from 'shared/modules/space/helpers/routesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';

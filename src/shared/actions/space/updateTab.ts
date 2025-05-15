@@ -2,7 +2,7 @@ import find from 'lodash/find';
 import findLast from 'lodash/findLast';
 
 import { entityApi } from 'shared/api/entityApi';
-import { getDesktopRoutesMap, getMobileRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
+import { getDesktopRoutesMap, getMobileRoutesMap } from 'shared/modules/space/helpers/routesMap';
 import { selectIsMobile } from 'shared/selectors/app/selectIsMobile';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';

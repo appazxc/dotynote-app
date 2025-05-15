@@ -2,7 +2,7 @@ import findIndex from 'lodash/findIndex';
 
 import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
 import { entityApi } from 'shared/api/entityApi';
-import { getRoutesMap } from 'shared/modules/space/helpers/getRoutesMap';
+import { getRoutesMap } from 'shared/modules/space/helpers/routesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectActiveTabId } from 'shared/selectors/tab/selectActiveTabId';
