@@ -60,7 +60,7 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           });
 
           if (active) {
-            dispatch(updateActiveTabId(fakeId));
+            dispatch(updateActiveTabId(fakeId, false));
           }
 
           const spaceTabId = await entityApi.spaceTab.create(spaceTabEntity);

@@ -5,8 +5,9 @@ import { ModalProps } from 'shared/types/modal';
 
 import { Props } from './CreateNoteModal.content';
 
-const getModalParams: GetModalParamsType<ModalProps<Props>> = () => ({
+const getModalParams: GetModalParamsType<ModalProps<Props>> = (props) => ({
   id: modalIds.createNote,
+  extraId: props.extraId,
 });
 
 export default asModal<ModalProps<Props>>({ 

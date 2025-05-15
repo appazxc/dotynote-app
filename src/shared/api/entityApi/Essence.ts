@@ -44,7 +44,7 @@ export default class Essense<T extends { id: string | number }> {
     return await this.api.get<T[]>(`${this.path}`, filters);
   }
 
-  async update(id: string | number, data: Partial<T>) {
+  async update(id: string | number, data: Partial<T>, sync = true) {
     const entity = this.selector.getById(this.store.getState(), id);
     
     if (!entity || !data) {
@@ -55,7 +55,7 @@ export default class Essense<T extends { id: string | number }> {
 
     const revert = this.updateEntity(id, data);
     try {
-      if (!entity._isFake) {
+      if (!entity._isFake && sync) {
         return await this.api.patch(`${this.path}/${id}`, restData);
       }
     } catch (error) {

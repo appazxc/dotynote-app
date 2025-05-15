@@ -36,7 +36,10 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
 
   return (
     <>
-      <CreateNoteModal onCreate={handleCreate} onError={handleError} />
+      <CreateNoteModal
+        onCreate={handleCreate}
+        onError={handleError}
+      />
       <CreatePostModal noteId={noteId} onCreate={handleCreate} />
       <CreatePostWithImagesModal noteId={noteId} onCreate={handleCreate} />
       <CreateNoteDotModal noteId={noteId} />

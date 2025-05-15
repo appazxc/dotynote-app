@@ -17,10 +17,11 @@ type Props = {
   onCreate: (noteId: string) => void;
   onError?: (error: unknown) => void;
   onClick?: () => void;
+  extraId?: string;
 }
 
 export const useCreateNoteItems = (props: Props) => {
-  const { onCreate, onError, onClick } = props;
+  const { onCreate, onError, onClick, extraId } = props;
   const dispatch = useAppDispatch();
   const { openFilePicker } = useFileUpload();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -64,7 +65,7 @@ export const useCreateNoteItems = (props: Props) => {
           { resources: { note: 1 } },
           () => {
             onClick?.();
-            dispatch(showModal({ id: modalIds.createNote }));
+            dispatch(showModal({ id: modalIds.createNote, extraId }));
           });
       },
     },

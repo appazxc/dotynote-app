@@ -123,9 +123,9 @@ export const VideoPlayer = React.memo((props: Props) => {
       css={css}
     >
       <MediaPlayer
-        ref={player}
         crossOrigin
         playsInline
+        ref={player}
         autoPlay={autoPlay}
         className="player"
         title={title}

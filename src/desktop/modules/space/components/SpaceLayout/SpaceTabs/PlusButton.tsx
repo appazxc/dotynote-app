@@ -31,7 +31,10 @@ export const PlusButton = React.memo(() => {
     dispatch(hideModal());
   }, [dispatch]);
 
-  const { items, isLoading } = useCreateNoteItems({ onCreate: handleCreateNote });
+  const { items, isLoading } = useCreateNoteItems({
+    onCreate: handleCreateNote,
+    extraId: 'PlusButton',
+  });
 
   return (
     <>
@@ -77,14 +80,18 @@ export const PlusButton = React.memo(() => {
             return (
               <MenuItem
                 key={title}
-                label={<><Icon size="22" />     {title}</>}
+                label={<><Icon size="22" /> {title}</>}
                 {...restProps}
               />
             );
           })}
         </MenuList>
       </Menu>
-      <CreateNoteModal onCreate={handleCreateNote} onError={handleError} />
+      <CreateNoteModal
+        extraId="PlusButton"
+        onCreate={handleCreateNote}
+        onError={handleError}
+      />
     </>
   );
 });
