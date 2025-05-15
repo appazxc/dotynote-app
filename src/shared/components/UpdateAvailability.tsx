@@ -11,6 +11,7 @@ type Props = {
 
 export const UpdateAvailability = React.memo(({ size = 'md', ...boxProps }: Props) => {
   const { isUpdateAvailable, updateSW } = useReactContext(SWContext);
+  const [isUpdating, setIsUpdating] = React.useState(false);
 
   if (!isUpdateAvailable) {
     return null;
@@ -37,7 +38,11 @@ export const UpdateAvailability = React.memo(({ size = 'md', ...boxProps }: Prop
       <Button
         size={buttonSize}
         colorPalette="purple"
-        onClick={() => updateSW?.(true)}
+        loading={isUpdating}
+        onClick={() => {
+          setIsUpdating(true);
+          updateSW?.(true);
+        }}
       >
         Update
       </Button>
