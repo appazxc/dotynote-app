@@ -29,6 +29,7 @@ export const removePostIdsFromStickTypeQuery = (parentId: string, postIds: strin
         const FILTERS_INDEX = 3;
         const filters = queryKey[FILTERS_INDEX];
         const pageSize = Number(filters?.pageSize) || DEFAULT_PAGE_SIZE;
+        
         const newPages = oldData.pages.map((page) => {
           return {
             ...page,

@@ -1,9 +1,11 @@
 import { QueryKey } from '@tanstack/react-query';
 
 import { queryClient } from 'shared/api/queryClient';
+import { DEFAULT_PAGE_SIZE } from 'shared/constants/requests';
 import { InfinityAllTypeQueryKey } from 'shared/modules/noteTab/components/AllTypeList/AllTypeList';
 import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
+import { restorePagesStructure } from 'shared/util/api/restorePagesStructure';
 
 export const activateInfinityQueryNextPage = (key?: QueryKey) => {
   if (!key) {
@@ -35,11 +37,11 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
       
       const filtersIndex = 3;
       const descSort = (queryKey[filtersIndex]?.sort || 'desc') === 'desc';
-      console.log('oldData', descSort, oldData);
+      const pageSize = Number(queryKey[filtersIndex]?.pageSize) || DEFAULT_PAGE_SIZE;
 
       return {
         ...oldData,
-        pages: oldData.pages.map((page) => ({
+        pages: restorePagesStructure(oldData.pages, pageSize).map((page) => ({
           ...page,
           ...descSort ? {
             hasNextPage: true,
@@ -50,5 +52,4 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
       };
     });
   });
-
 };
