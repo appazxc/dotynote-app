@@ -41,6 +41,7 @@ export const UpdateAvailability = React.memo(({ size = 'md', ...boxProps }: Prop
         loading={isUpdating}
         onClick={() => {
           setIsUpdating(true);
+          // add time to show loading state
           setTimeout(() => {
             updateSW?.(true);
           }, 10);

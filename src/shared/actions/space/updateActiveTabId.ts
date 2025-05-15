@@ -9,6 +9,10 @@ export const updateActiveTabId = (tabId: string | null, sync = true): ThunkActio
     return;
   }
 
+  if (tabId === space.activeTabId) {
+    return;
+  }
+
   await entityApi.space.update(space.id, {
     activeTabId: tabId,
   }, sync);

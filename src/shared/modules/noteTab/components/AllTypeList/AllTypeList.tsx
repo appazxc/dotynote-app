@@ -3,6 +3,7 @@ import { pick } from 'lodash';
 import React from 'react';
 
 import { InfinityNoteFilters, useInfinityNoteList } from 'shared/api/hooks/useInfinityNoteList';
+import { Wait } from 'shared/components/Wait';
 import { EMPTY_ARRAY } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE } from 'shared/constants/requests';
 import { getIsSelected } from 'shared/modules/noteTab/components/AllTypeList/helpers/getIsSelected';
@@ -75,7 +76,7 @@ export const AllTypeList = React.memo((props: Props) => {
   return (
     <>
       <Box flexGrow={data ? '1' : '0'}>
-        {isFetchingFirstTime && <PostsLoader />}
+        {isFetchingFirstTime && <Wait delay={500}><PostsLoader /></Wait>}
 
         {nextPageObserver}
         {isFetchingNextPage && <PostsLoader />}
