@@ -26,7 +26,6 @@ export const load = (id?: string | null) => {
 
 export type LoadListFilters = {
   query?: string;
-  authorId?: string;
   access?: string;
   pageSize?: number;
 }

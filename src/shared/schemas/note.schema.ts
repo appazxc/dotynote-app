@@ -12,7 +12,7 @@ import { userSchema } from 'shared/schemas/user.schema';
 export const noteSchema = new schema.Entity(
   'note', 
   {
-    author: userSchema,
+    owner: userSchema,
     postsSettings: postsSettingsSchema,
     settings: noteSettingsSchema,
     dots: [noteDotSchema],

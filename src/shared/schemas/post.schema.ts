@@ -9,7 +9,7 @@ export const postSchema = new schema.Entity(
   'post', 
   {
     note: noteSchema,
-    author: userSchema,
+    owner: userSchema,
     internal: postInternalSchema,
     dots: [postDotSchema],
   });

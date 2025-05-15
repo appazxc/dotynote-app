@@ -5,7 +5,7 @@ export const canWriteNote = (note: NoteEntity | null, userId: string | null) => 
     return false;
   }
 
-  return note.authorId === userId;
+  return note.ownerId === userId;
 };
 
 export const canAddToNote = (note: NoteEntity | null, userId: string | null) => {
@@ -13,7 +13,7 @@ export const canAddToNote = (note: NoteEntity | null, userId: string | null) => 
     return false;
   }
 
-  return note.authorId === userId;
+  return note.ownerId === userId;
 };
 
 export const canAddToPosts = (note: NoteEntity | null, userId: string | null) => {
@@ -21,5 +21,5 @@ export const canAddToPosts = (note: NoteEntity | null, userId: string | null) =>
     return false;
   }
 
-  return note.authorId === userId;
+  return note.ownerId === userId;
 };

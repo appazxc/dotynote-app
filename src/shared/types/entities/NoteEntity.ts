@@ -13,7 +13,7 @@ import { PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 export type ApiNoteEntity = BaseEntity<{
   title?: string;
   content?: JSONContent;
-  authorId: string;
+  ownerId: string;
   access: 'private' | 'public';
   postsSettings: string;
   settings?: string;

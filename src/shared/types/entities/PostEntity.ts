@@ -11,7 +11,7 @@ export type ApiPostEntity = BaseEntity<{
   pos: number;
   parentId: string;
   noteId: string;
-  author: string;
+  owner: string;
   internal: string;
   permissions: {
     delete: boolean;
@@ -28,7 +28,7 @@ export type ApiPostEntity = BaseEntity<{
 
 export type PostEntity = MergeEntity<ApiPostEntity, {
   note: NoteEntity;
-  author: UserEntity;
+  owner: UserEntity;
   internal: PostInternalEntity;
   dots: PostDotEntity[];
 }>;
