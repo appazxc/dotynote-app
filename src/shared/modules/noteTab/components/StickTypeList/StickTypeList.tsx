@@ -7,6 +7,7 @@ import {
   InfinityQueryOptions,
   useInfinityNoteList,
 } from 'shared/api/hooks/useInfinityNoteList';
+import { Wait } from 'shared/components/Wait';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from 'shared/constants/common';
 import { DEFAULT_PAGE_SIZE, SORT } from 'shared/constants/requests';
 import { getIsSelected } from 'shared/modules/noteTab/components/StickTypeList/helpers/getIsSelected';
@@ -112,7 +113,7 @@ export const StickTypeList = React.memo((props: Props) => {
         flexGrow={data ? '1' : '0'}
         {...boxProps}
       >
-        {isFetchingFirstTime && <PostsLoader />}
+        {isFetchingFirstTime && <Wait delay={500}><PostsLoader /></Wait>}
         <Stack gap="4">
           {nextPageObserver}
           {isFetchingNextPage && <PostsLoader />}
