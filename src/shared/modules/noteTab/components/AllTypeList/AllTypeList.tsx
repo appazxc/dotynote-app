@@ -19,12 +19,12 @@ type Props = {
   hasOverlay?: boolean;
   selectedNotes?: string[];
   scrollRestoration?: boolean;
+  disablePagination?: boolean;
+  pageSize?: number;
   filters?: NoteFiltersEntity;
   onScrollRestoration?: () => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 };
-
-const options = {};
 
 export const getInfinityAllTypeQueryKey = (noteId: string, filters: InfinityNoteFilters = {}) => 
   ['posts', noteId, 'all-notes', filters] as const;
@@ -41,12 +41,14 @@ export const AllTypeList = React.memo((props: Props) => {
     hasOverlay = false,
     onOverlayClick, 
     onScrollRestoration, 
+    disablePagination,
+    pageSize = DEFAULT_PAGE_SIZE,
     filters: propsFilters,
   } = props;
 
   const filters = React.useMemo(() => {
     const data: InfinityNoteFilters = {
-      pageSize: DEFAULT_PAGE_SIZE,
+      pageSize,
       ...pick(propsFilters, ['sort', 'orderBy', 'hasVideo', 'hasAudio', 'hasImage', 'hasFile', 'hasRecord']),
     };
 
@@ -55,7 +57,7 @@ export const AllTypeList = React.memo((props: Props) => {
     }
 
     return data;
-  }, [propsFilters, search]);
+  }, [propsFilters, search, pageSize]);
   
   const { 
     data, 
@@ -69,7 +71,7 @@ export const AllTypeList = React.memo((props: Props) => {
     noteId,
     path: `/notes/${noteId}/all`,
     filters,
-    options,
+    options: { disablePagination },
     getQueryKey: getInfinityAllTypeQueryKey,
   });
 

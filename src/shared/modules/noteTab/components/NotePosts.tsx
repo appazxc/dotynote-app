@@ -19,19 +19,26 @@ import { invariant } from 'shared/util/invariant';
 
 type Props = {
   note: NoteEntity;
-  search: string;
+  search?: string;
+  disablePagination?: boolean;
+  pageSize?: number;
+  internalLevel?: number;
   onScrollRestoration?: () => void;
 };
 
 export const NotePosts = React.memo((props: Props) => {
-  const { note, search, onScrollRestoration } = props;
+  const { note, search, disablePagination, pageSize, internalLevel, onScrollRestoration } = props;
   const { id: noteId, postsSettings } = note;
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
   const isSelecting = operation.type === operationTypes.SELECT && operation.parentId === noteId;
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const selectedNotes = operation.type === operationTypes.SELECT ? operation.noteIds : EMPTY_ARRAY;
-  const isConcretePlace = 'concretePlace' in operation && operation.concretePlace;
+  const isConcretePlace = 
+    'concretePlace' in operation 
+    && operation.concretePlace 
+    && operation.type === operationTypes.MOVE 
+    && operation.parentId === noteId;
 
   invariant(postsSettings, 'postsSettings is required');
 
@@ -82,6 +89,9 @@ export const NotePosts = React.memo((props: Props) => {
           selectedPosts={selectedPosts}
           sort={postsSettings.sort}
           orderBy={postsSettings.orderBy}
+          disablePagination={disablePagination}
+          pageSize={pageSize}
+          internalLevel={internalLevel}
           onOverlayClick={handleOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
@@ -93,6 +103,8 @@ export const NotePosts = React.memo((props: Props) => {
           selectedNotes={selectedNotes}
           hasOverlay={isSelecting}
           filters={postsSettings.filters}
+          disablePagination={disablePagination}
+          pageSize={pageSize}
           onOverlayClick={handleNoteOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
