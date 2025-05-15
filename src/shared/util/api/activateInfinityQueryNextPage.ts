@@ -1,43 +1,54 @@
+import { QueryKey } from '@tanstack/react-query';
+
 import { queryClient } from 'shared/api/queryClient';
+import { InfinityAllTypeQueryKey } from 'shared/modules/noteTab/components/AllTypeList/AllTypeList';
 import { InfinityStickTypeQueryKey } from 'shared/modules/noteTab/components/StickTypeList';
 import { TQueryFnData } from 'shared/types/query';
 
-export const activateInfinityQueryNextPage = (queryKey?: InfinityStickTypeQueryKey) => {
-  if (!queryKey) {
+export const activateInfinityQueryNextPage = (key?: QueryKey) => {
+  if (!key) {
     return;
   }
-  const queryData = queryClient.getQueryData<TQueryFnData>(queryKey);
 
-  if (!queryData) {
-    return;
-  }
+  const queriesData = queryClient.getQueriesData<TQueryFnData>({ queryKey: key });
+
+  queriesData.forEach((data) => {
+    const queryKey = data[0] as (InfinityStickTypeQueryKey | InfinityAllTypeQueryKey);
+    const queryData = data[1];
+
+    if (!queryData) {
+      return;
+    }
   
-  const isEmpty = queryData.pages.length === 1 
+    const isEmpty = queryData.pages.length === 1 
       && queryData.pages[0].items.length === 0;
 
-  if (isEmpty) {
-    queryClient.resetQueries({ queryKey: queryKey });
-    return;
-  }
-
-  queryClient.setQueryData<TQueryFnData>(queryKey, (oldData) => {
-    if (!oldData) {
-      return oldData;
+    if (isEmpty) {
+      queryClient.resetQueries({ queryKey: queryKey });
+      return;
     }
 
-    const filtersIndex = 3;
-    const descSort = (queryKey[filtersIndex]?.sort || 'desc') === 'desc';
+    queryClient.setQueryData<TQueryFnData>(queryKey, (oldData) => {
+      if (!oldData) {
+        return oldData;
+      }
+      
+      const filtersIndex = 3;
+      const descSort = (queryKey[filtersIndex]?.sort || 'desc') === 'desc';
+      console.log('oldData', descSort, oldData);
 
-    return {
-      ...oldData,
-      pages: oldData.pages.map((page) => ({
-        ...page,
-        ...descSort ? {
-          hasNextPage: true,
-        } : {
-          hasPrevPage: true,
-        },
-      })),
-    };
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page) => ({
+          ...page,
+          ...descSort ? {
+            hasNextPage: true,
+          } : {
+            hasPrevPage: true,
+          },
+        })),
+      };
+    });
   });
+
 };

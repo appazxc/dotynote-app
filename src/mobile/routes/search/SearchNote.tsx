@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { buildNoteTabPath } from 'shared/util/buildNoteTabPath';
 import { invariant } from 'shared/util/invariant';
 
-import { buildTabHref } from 'mobile/modules/space/helpers/buildTabHref';
-
 type Props = {
   noteId: string;
 };

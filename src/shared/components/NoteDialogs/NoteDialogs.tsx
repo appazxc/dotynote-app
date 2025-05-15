@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { activateUserAllTypeQueriesNextPage } from 'shared/actions/activateUserAllTypeQueriesNextPage';
 import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
@@ -23,6 +24,7 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
   
   const handleCreate = React.useCallback(() => {
     activateInfinityQueryNextPage(getQueryKey());
+    dispatch(activateUserAllTypeQueriesNextPage());
     dispatch(hideModal());
     dispatch(hideDrawer());
   }, [getQueryKey, dispatch]);

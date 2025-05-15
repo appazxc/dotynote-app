@@ -1,5 +1,5 @@
 import { Box, Stack } from '@chakra-ui/react';
-import { isBoolean, pick } from 'lodash';
+import { pick } from 'lodash';
 import React from 'react';
 
 import { InfinityNoteFilters, useInfinityNoteList } from 'shared/api/hooks/useInfinityNoteList';

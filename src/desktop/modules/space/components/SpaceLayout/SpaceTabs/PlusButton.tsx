@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 
+import { activateUserAllTypeQueriesNextPage } from 'shared/actions/activateUserAllTypeQueriesNextPage';
 import { openTab } from 'shared/actions/space/openTab';
 import { Menu, MenuItem, MenuList, MenuTrigger } from 'shared/components/Menu';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
@@ -19,6 +20,7 @@ export const PlusButton = React.memo(() => {
 
   const handleCreateNote = React.useCallback((noteId: string) => {
     dispatch(hideModal());
+    dispatch(activateUserAllTypeQueriesNextPage());
     dispatch(openTab({ 
       path: buildTabHref('/n/$noteId', { noteId }),
       active: true,

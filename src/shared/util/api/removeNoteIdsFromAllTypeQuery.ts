@@ -86,5 +86,4 @@ export const removeNoteIdsFromAllTypeQuery = (noteIds: string[], resetEmptyQueri
     notesWithAllTypeList.forEach((note) => {
       removeFromQuery(note.id, noteIds, resetEmptyQueries);
     });
-
   };

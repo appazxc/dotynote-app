@@ -6,6 +6,7 @@ import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 
+import { activateUserAllTypeQueriesNextPage } from 'shared/actions/activateUserAllTypeQueriesNextPage';
 import { closeTab } from 'shared/actions/space/closeTab';
 import { openTab } from 'shared/actions/space/openTab';
 import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
@@ -104,6 +105,7 @@ const Tabs = () => {
   });
 
   const handleCreateNote = React.useCallback((noteId) => {
+    dispatch(activateUserAllTypeQueriesNextPage());
     dispatch(openTab({ 
       path: buildNoteTabPath(noteId),
       active: true,
