@@ -122,6 +122,5 @@ export const NoteVideo = React.memo((props: Props) => {
         extraId={extraId}
       />
     </>
-
   );
 });
