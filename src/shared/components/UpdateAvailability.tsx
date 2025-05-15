@@ -41,7 +41,9 @@ export const UpdateAvailability = React.memo(({ size = 'md', ...boxProps }: Prop
         loading={isUpdating}
         onClick={() => {
           setIsUpdating(true);
-          updateSW?.(true);
+          setTimeout(() => {
+            updateSW?.(true);
+          }, 10);
         }}
       >
         Update
