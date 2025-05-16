@@ -31,7 +31,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concre
 
   const isSameNote = note.id == fromNoteId;
   
-  const options = note.permissions.stickConcreteHere ? [
+  const options = note.postsPermissions?.stickConcreteHere ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),
@@ -39,7 +39,7 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concre
     },
   ] : undefined;
 
-  if (!note.permissions.stickHere) {
+  if (!note.postsPermissions?.stickConcreteHere) {
     return (
       <Operation
         title="You cannot stick here"

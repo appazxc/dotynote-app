@@ -17,11 +17,11 @@ export const NotePlusButton = ({ noteId }: Props) => {
 
   invariant(note, 'Note not found');
 
-  const { permissions } = note;
+  const { permissions, postsPermissions } = note;
   const canAddToNote = permissions.update && !note.settings?.hide;
-  const canAddToPosts = !!permissions.createPost && note.postsSettings?.listType !== 'all';
+  const canAddToPosts = !!postsPermissions?.createPost && note.postsSettings?.listType !== 'all';
   const canAdd = canAddToNote || canAddToPosts;
-  const showAddTo = (permissions.update || permissions.createPost) && canAdd;
+  const showAddTo = (permissions.update || postsPermissions?.createPost) && canAdd;
 
   return (
     <Button

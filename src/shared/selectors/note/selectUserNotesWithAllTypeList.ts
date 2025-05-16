@@ -6,5 +6,5 @@ export const selectUserNotesWithAllTypeList = (state: AppState) => {
   const notes = selectNotesWithAllTypeList(state);
   const user = selectUser(state);
 
-  return notes.filter((note) => note.authorId === user?.id);
+  return notes.filter((note) => note.ownerId === user?.id);
 };

@@ -17,7 +17,7 @@ export const selectAddTo = createSelector([
     return addTo.NOTE;
   }
 
-  if (note.permissions.createPost) {
+  if (note.postsPermissions?.createPost) {
     return addTo.POSTS;
   }
 

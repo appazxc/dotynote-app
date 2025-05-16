@@ -37,7 +37,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     createPostsSettings,
   ]);
 
-  const options = note.permissions.moveConcreteHere ? [
+  const options = note.postsPermissions?.moveConcreteHere ? [
     {
       label: 'Concrete place',
       onClick: () => dispatch(toggleConcretePlace()),
@@ -45,7 +45,7 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
     },
   ] : undefined;
 
-  if (!note.permissions.moveHere) {
+  if (!note.postsPermissions?.moveHere) {
     return (
       <Operation
         title="You cannot move here"

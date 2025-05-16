@@ -22,12 +22,14 @@ export type ApiNoteEntity = BaseEntity<{
     update: boolean;
     delete: boolean;
     stick: boolean;
-    stickHere?: boolean;
-    stickConcreteHere?: boolean;
-    moveHere?: boolean;
-    moveConcreteHere?: boolean;
-    createPost?: boolean;
-    upsertDot?: boolean;
+    upsertDot: boolean;
+  };
+  postsPermissions?: {
+    createPost: boolean;
+    stickHere: boolean;
+    stickConcreteHere: boolean;
+    moveHere: boolean;
+    moveConcreteHere: boolean;
   };
   dots: string[];
   images: string[];

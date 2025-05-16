@@ -29,7 +29,7 @@ type Props = {
 
 export const NoteSidebar = React.memo((props: Props) => {
   const { 
-    note: { id: noteId, settings: noteSettings, postsSettings, permissions }, 
+    note: { id: noteId, settings: noteSettings, postsSettings, permissions, postsPermissions }, 
     rwMode, 
     showRwMode, 
     showSearch, 
@@ -44,9 +44,9 @@ export const NoteSidebar = React.memo((props: Props) => {
   const { data: pinnedPostsCount } = usePinnedPostsCount(noteId, !isAllListType);
   const isNoteContentVisible = !noteSettings?.hide;
   const canAddToNote = permissions.update && isNoteContentVisible;
-  const canAddToPosts = !!permissions.createPost && !isAllListType;
+  const canAddToPosts = !!postsPermissions?.createPost && !isAllListType;
   const canAdd = canAddToNote || canAddToPosts;
-  const showAddTo = (permissions.update || permissions.createPost) && canAdd;
+  const showAddTo = (permissions.update || postsPermissions?.createPost) && canAdd;
 
   React.useEffect(() => {
     lastIsSearchActive.current = isSearchActive;
