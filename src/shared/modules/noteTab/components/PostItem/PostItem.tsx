@@ -20,7 +20,7 @@ type Props = {
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;
-  internalLevel: number;
+  internalLevel?: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 }

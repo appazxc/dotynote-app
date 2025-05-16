@@ -31,7 +31,7 @@ type Props = {
   children: React.ReactNode;
   post: PostEntity;
   parentId: string;
-  internalLevel: number;
+  internalLevel?: number;
   isMenuDisabled?: boolean;
   canShowInternal?: boolean;
 };
@@ -46,7 +46,7 @@ export const PostWithMenu = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
-  const isInternal = internalLevel;
+  const isInternal = !!internalLevel;
 
   const { mutate: deletePosts, isPending: isDeletePending } = useDeleteNotesFromPosts(parentId);
   const { mutate: unstick } = useUnstickPosts(parentId, [postId]);

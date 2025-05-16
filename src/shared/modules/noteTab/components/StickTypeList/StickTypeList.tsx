@@ -35,8 +35,12 @@ type Props = {
   onScrollRestoration?: () => void;
 } & BoxProps
 
-export const getInfinityStickTypeQueryKey = (noteId: string = '', filters: InfinityNoteFilters = {}) => 
-  ['posts', noteId, 'stick-notes', filters] as const;
+export const getInfinityStickTypeQueryKey = (
+  noteId: string = '', 
+  filters: InfinityNoteFilters = {}, 
+  internalLevel?: number
+) => 
+  ['posts', noteId, 'stick-notes', filters, internalLevel] as const;
 
 export type InfinityStickTypeQueryKey = ReturnType<typeof getInfinityStickTypeQueryKey>;
 
@@ -45,7 +49,7 @@ export const StickTypeList = React.memo((props: Props) => {
     noteId,
     search,
     isPinned,
-    internalLevel = 0,
+    internalLevel,
     isSelecting = false,
     hasOverlay = false,
     scrollRestoration = true,
@@ -100,10 +104,8 @@ export const StickTypeList = React.memo((props: Props) => {
     noteId,
     path: '/posts',
     filters,
-    options: {
-      ...options,
-      disablePagination,
-    },
+    options: { ...options, disablePagination },
+    internalLevel,
     getQueryKey: getInfinityStickTypeQueryKey,
   });
 

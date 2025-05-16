@@ -31,8 +31,10 @@ type Props = {
   noteId: string;
   path: string;
   filters: InfinityNoteFilters;
-  options: InfinityNotesOptions;
-  getQueryKey: (noteId: string, filters: InfinityNoteFilters) => readonly any[];
+  options?: InfinityNotesOptions;
+  internalLevel?: number;
+  disablePagination?: boolean;
+  getQueryKey: (noteId: string, filters: InfinityNoteFilters, internalLevel?: number) => readonly any[];
 }
 
 const initialPageParam: PageParam = {
@@ -61,8 +63,7 @@ const getNextPageParam: GetNextPageParamFunction<PageParam, QueryFnData> =
   };
 
 export const useInfinityNoteList = (props: Props) => {
-  const { noteId, path, filters, options, getQueryKey } = props;
-  const { disablePagination, ...restOptions } = options;
+  const { noteId, path, filters, options, internalLevel, getQueryKey, disablePagination } = props;
   const scrollRef = useScrollContext();
 
   const [ nextRef, inViewNext ] = useInView({
@@ -75,8 +76,8 @@ export const useInfinityNoteList = (props: Props) => {
   });
   
   const queryKey = React.useMemo(
-    () => getQueryKey(noteId, filters), 
-    [noteId, filters, getQueryKey]
+    () => getQueryKey(noteId, filters, internalLevel), 
+    [noteId, filters, getQueryKey, internalLevel]
   );
 
   useSaveNoteTabQueryKey(noteId, queryKey);
@@ -113,7 +114,7 @@ export const useInfinityNoteList = (props: Props) => {
     getPreviousPageParam,
     getNextPageParam,
     initialPageParam,
-    ...restOptions,
+    ...options,
   });
 
   const { 
