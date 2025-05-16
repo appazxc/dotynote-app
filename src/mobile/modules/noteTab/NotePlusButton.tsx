@@ -1,3 +1,4 @@
+import { useLongPress } from '@uidotdev/usehooks';
 import { LuPlus } from 'react-icons/lu';
 
 import { Button } from 'shared/components/ui/button';
@@ -23,6 +24,11 @@ export const NotePlusButton = ({ noteId }: Props) => {
   const canAdd = canAddToNote || canAddToPosts;
   const showAddTo = (permissions.update || postsPermissions?.createPost) && canAdd;
 
+  const buttonProps = useLongPress(
+    () => dispatch(showDrawer({ id: drawerIds.createNote })),
+    { threshold: 500 }
+  );
+  
   return (
     <Button
       borderRadius="full"
@@ -38,6 +44,7 @@ export const NotePlusButton = ({ noteId }: Props) => {
           dispatch(showDrawer({ id: drawerIds.createNote }));
         }
       }}
+      {...buttonProps}
     >
       <LuPlus />
     </Button>

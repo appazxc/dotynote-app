@@ -49,7 +49,7 @@ const CreateNoteDrawer = ({ onCreate, onError }: Props) => {
             </Flex>
           </DrawerHeader>
           <DrawerBody pt="1">  
-            {isLoading ? <Loader height="200px" /> : <ContentPickerCards view="row" items={items} />}
+            {isLoading ? <Loader height="200px" /> : <ContentPickerCards view="list" items={items} />}
           </DrawerBody>
         </DrawerContent>
       </Portal>
