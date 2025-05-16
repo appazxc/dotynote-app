@@ -4,13 +4,18 @@ import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings'
 import { useMovePosts } from 'shared/api/hooks/useMovePosts';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
-import { MoveOperation as MoveOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
+import { 
+  MoveOperation as MoveOperationType, 
+  stopOperation, 
+  updateConcreteParentId, 
+  clearConcreteParentId,  
+} from 'shared/store/slices/appSlice';
 
 import { Operation } from './Operation';
 
 type Props = MoveOperationType;
 
-export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }: Props) => {
+export const MoveOperation = React.memo(({ fromNoteId, postIds, concreteParentId }: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
 
@@ -40,8 +45,8 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   const options = note.postsPermissions?.moveConcreteHere ? [
     {
       label: 'Concrete place',
-      onClick: () => dispatch(toggleConcretePlace()),
-      selected: concretePlace,
+      onClick: () => dispatch(concreteParentId ? clearConcreteParentId() : updateConcreteParentId(note.id)),
+      selected: !!concreteParentId,
     },
   ] : undefined;
 
@@ -55,11 +60,11 @@ export const MoveOperation = React.memo(({ fromNoteId, postIds, concretePlace }:
   
   return (
     <Operation
-      title={concretePlace ? 'Move near' : 'Move'}
-      description={concretePlace ? 'Click on post and select where you want to move' : undefined}
+      title={concreteParentId ? 'Move near' : 'Move'}
+      description={concreteParentId ? 'Click on post and select where you want to move' : undefined}
       options={options}
       isLoading={isPending || isCreatePostsSettingsPending}
-      onConfirm={concretePlace ? undefined : handleMove}
+      onConfirm={concreteParentId ? undefined : handleMove}
     />
   );
 });

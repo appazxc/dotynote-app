@@ -20,15 +20,6 @@ export const operationTypes = {
   SELECT_NOTE_IMAGES: 'selectNoteImages',
 } as const;
 
-export type StickOperation = {
-  type: typeof operationTypes.STICK;
-  fromNoteId: string | null;
-  noteIds: string[];
-  postIds: string[];
-  concretePlace: boolean;
-  concretePostId?: string;
-}
-
 export type PrimaryNoteOperation = {
   type: typeof operationTypes.PRIMARY_NOTE;
 }
@@ -46,11 +37,20 @@ export type SelectOperation = {
   parentId: string;
 }
 
+export type StickOperation = {
+  type: typeof operationTypes.STICK;
+  fromNoteId: string | null;
+  noteIds: string[];
+  postIds: string[];
+  concreteParentId: string | null;
+  concretePostId?: string;
+}
+
 export type MoveOperation = {
   type: typeof operationTypes.MOVE;
   fromNoteId: string;
   postIds: string[];
-  concretePlace: boolean;
+  concreteParentId: string | null;
   concretePostId?: string;
 }
 
@@ -153,7 +153,7 @@ export const appSlice = createSlice({
       state, 
       { payload }: PayloadAction<string>
     ) => {
-      if ('concretePlace' in state.operation) {
+      if (state.operation.type === operationTypes.MOVE || state.operation.type === operationTypes.STICK) {
         state.operation.concretePostId = payload;
       } 
     },
@@ -170,7 +170,7 @@ export const appSlice = createSlice({
         fromNoteId: payload.fromNoteId || null,
         noteIds: payload.noteIds || [],
         postIds: payload.postIds || [],
-        concretePlace: false,
+        concreteParentId: null,
       };
     },
     startMoveOperation: (
@@ -184,7 +184,7 @@ export const appSlice = createSlice({
         type: operationTypes.MOVE,
         fromNoteId: payload.fromNoteId,
         postIds: payload.postIds,
-        concretePlace: false,
+        concreteParentId: null,
       };
     },
     startPrimaryNoteOperation: (state) => {
@@ -238,9 +238,14 @@ export const appSlice = createSlice({
         state.operation = noOperation;
       }
     },
-    toggleConcretePlace: (state) => {
-      if ('concretePlace' in state.operation) {
-        state.operation.concretePlace = !state.operation.concretePlace;
+    updateConcreteParentId: (state, { payload }: PayloadAction<string>) => {
+      if (state.operation.type === operationTypes.MOVE || state.operation.type === operationTypes.STICK) {
+        state.operation.concreteParentId = payload;
+      } 
+    },
+    clearConcreteParentId: (state) => {
+      if (state.operation.type === operationTypes.MOVE || state.operation.type === operationTypes.STICK) {
+        state.operation.concreteParentId = null;
       } 
     },
     togglePostSelect: (state, { payload }: PayloadAction<string>) => {
@@ -307,7 +312,8 @@ export const {
   toggleSearch,
   startPrimaryNoteOperation,
   startSelectOperation,
-  toggleConcretePlace,
+  updateConcreteParentId,
+  clearConcreteParentId,
   togglePostSelect,
   toggleNoteSelect,
   updateOperationConcretePost,

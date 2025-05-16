@@ -70,7 +70,7 @@ const SelectConcretePlaceModal = (props: Props) => {
           <DialogHeader
             pb="1"
             px="4"
-            textAlign="center"
+            justifyContent="center"
             fontSize="md"
           >
             <DialogTitle>Select where you want to {operation.type}</DialogTitle>
@@ -116,7 +116,7 @@ const SelectConcretePlaceModal = (props: Props) => {
               variant="ghost"
               onClick={() => dispatch(hideModal())}
             >
-            Cancel
+              Cancel
             </Button>
           </DialogFooter>
         )}

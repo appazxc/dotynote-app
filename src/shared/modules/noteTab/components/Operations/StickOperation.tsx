@@ -4,13 +4,18 @@ import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings'
 import { useStickNotesAndPosts } from 'shared/api/hooks/useStickNotesAndPosts';
 import { useTabNote } from 'shared/modules/noteTab/hooks/useTabNote';
 import { useAppDispatch } from 'shared/store/hooks';
-import { StickOperation as StickOperationType, stopOperation, toggleConcretePlace } from 'shared/store/slices/appSlice';
+import { 
+  StickOperation as StickOperationType, 
+  stopOperation, 
+  updateConcreteParentId, 
+  clearConcreteParentId,  
+} from 'shared/store/slices/appSlice';
 
 import { Operation } from './Operation';
 
 type Props = StickOperationType;
 
-export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concretePlace }: Props) => {
+export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concreteParentId }: Props) => {
   const dispatch = useAppDispatch();
   const note = useTabNote();
   
@@ -34,12 +39,12 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concre
   const options = note.postsPermissions?.stickConcreteHere ? [
     {
       label: 'Concrete place',
-      onClick: () => dispatch(toggleConcretePlace()),
-      selected: concretePlace,
+      onClick: () => dispatch(concreteParentId ? clearConcreteParentId() : updateConcreteParentId(note.id)),
+      selected: !!concreteParentId,
     },
   ] : undefined;
 
-  if (!note.postsPermissions?.stickConcreteHere) {
+  if (!note.postsPermissions?.stickHere) {
     return (
       <Operation
         title="You cannot stick here"
@@ -57,11 +62,11 @@ export const StickOperation = React.memo(({ fromNoteId, noteIds, postIds, concre
 
   return (
     <Operation
-      title={concretePlace ? 'Stick near' : 'Stick'}
-      description={concretePlace ? 'Click on post and select where you want to stick' : undefined}
+      title={concreteParentId ? 'Stick near' : 'Stick'}
+      description={concreteParentId ? 'Click on post and select where you want to stick' : undefined}
       options={options}
       isLoading={isStickPending || isPending}
-      onConfirm={concretePlace ? undefined : handleStick}
+      onConfirm={concreteParentId ? undefined : handleStick}
     />
   );
 });

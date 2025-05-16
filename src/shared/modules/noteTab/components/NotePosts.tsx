@@ -35,10 +35,8 @@ export const NotePosts = React.memo((props: Props) => {
   const selectedPosts = operation.type === operationTypes.SELECT ? operation.postIds : EMPTY_ARRAY;
   const selectedNotes = operation.type === operationTypes.SELECT ? operation.noteIds : EMPTY_ARRAY;
   const isConcretePlace = 
-    'concretePlace' in operation 
-    && operation.concretePlace 
-    && operation.type === operationTypes.MOVE 
-    && operation.parentId === noteId;
+    (operation.type === operationTypes.MOVE || operation.type === operationTypes.STICK) 
+    && operation.concreteParentId === noteId;
 
   invariant(postsSettings, 'postsSettings is required');
 
@@ -111,7 +109,7 @@ export const NotePosts = React.memo((props: Props) => {
       )
       }
       
-      <SelectConcretePlaceModal noteId={noteId} />
+      {!internalLevel && <SelectConcretePlaceModal noteId={noteId} />}
     </>
   );
 });
