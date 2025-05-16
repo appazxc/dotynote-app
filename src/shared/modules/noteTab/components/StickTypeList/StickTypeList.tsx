@@ -104,7 +104,8 @@ export const StickTypeList = React.memo((props: Props) => {
     noteId,
     path: '/posts',
     filters,
-    options: { ...options, disablePagination },
+    options,
+    disablePagination,
     internalLevel,
     getQueryKey: getInfinityStickTypeQueryKey,
   });

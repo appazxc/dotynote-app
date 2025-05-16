@@ -103,11 +103,11 @@ export const NotePosts = React.memo((props: Props) => {
           filters={postsSettings.filters}
           disablePagination={disablePagination}
           pageSize={pageSize}
+          internalLevel={internalLevel}
           onOverlayClick={handleNoteOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
-      )
-      }
+      )}
       
       {!internalLevel && <SelectConcretePlaceModal noteId={noteId} />}
     </>

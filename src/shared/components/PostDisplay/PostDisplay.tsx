@@ -36,9 +36,9 @@ export const PostDisplay = React.memo((props: Props) => {
 
   invariant(note, 'Missing post', { id: noteId });
 
-  const allowInternal = internalLevel === 0;
+  const allowInternal = !internalLevel;
   const showInternal = allowInternal && parent?.postsSettings?.internal && !!post?.internal?.max;
-  
+
   const renderedView = React.useMemo(() => {
     if (note._isDeleted) {
       return null;

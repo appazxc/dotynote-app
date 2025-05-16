@@ -39,9 +39,9 @@ export const PostItem = React.memo((props: Props) => {
   invariant(post, 'Missing post', { id: postId });
   invariant(parent, 'Missing parent', { id: post?.parentId });
 
-  const allowInternal = internalLevel === 0;
+  const allowInternal = !internalLevel;
   const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
-  
+
   const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (event.metaKey) {
       dispatch(openTab({ 

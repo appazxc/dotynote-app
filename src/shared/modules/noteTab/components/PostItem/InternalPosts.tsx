@@ -5,10 +5,10 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
   post: PostEntity;
-  internalLevel: number;
+  internalLevel?: number;
 };
 
-export const InternalPosts = React.memo(({ post, internalLevel }: Props) => {
+export const InternalPosts = React.memo(({ post, internalLevel = 0 }: Props) => {
   const { note, internal } = post;
 
   return (

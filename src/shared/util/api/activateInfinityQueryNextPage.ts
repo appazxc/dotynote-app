@@ -13,7 +13,6 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
   }
 
   const queriesData = queryClient.getQueriesData<TQueryFnData>({ queryKey: key });
-
   queriesData.forEach((data) => {
     const queryKey = data[0] as (InfinityStickTypeQueryKey | InfinityAllTypeQueryKey);
     const queryData = data[1];
@@ -21,12 +20,19 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
     if (!queryData) {
       return;
     }
-  
+
+    const internalIndex = 4;
+    const isInternal = !!queryKey[internalIndex];
     const isEmpty = queryData.pages.length === 1 
       && queryData.pages[0].items.length === 0;
 
     if (isEmpty) {
-      queryClient.resetQueries({ queryKey: queryKey });
+      queryClient.resetQueries({ queryKey });
+      return;
+    }
+
+    if (isInternal) {
+      queryClient.invalidateQueries({ queryKey });
       return;
     }
 
@@ -38,7 +44,7 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
       const filtersIndex = 3;
       const descSort = (queryKey[filtersIndex]?.sort || 'desc') === 'desc';
       const pageSize = Number(queryKey[filtersIndex]?.pageSize) || DEFAULT_PAGE_SIZE;
-
+      
       return {
         ...oldData,
         pages: restorePagesStructure(oldData.pages, pageSize).map((page) => ({
