@@ -5,7 +5,7 @@ import { ThunkAction } from 'shared/types/store';
 export const updateActiveTabId = (tabId: string | null, sync = true): ThunkAction => async (_, getState) => {
   const space = selectActiveSpace(getState());
 
-  if (!space || !space.tabs.find(({ id }) => id === tabId)) {
+  if (!space || (tabId && !space.tabs.find(({ id }) => id === tabId))) {
     return;
   }
 
