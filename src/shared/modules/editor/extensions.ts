@@ -7,6 +7,7 @@ import CodeBlock from '@tiptap/extension-code-block';
 // import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Document from '@tiptap/extension-document';
 import HardBreak from '@tiptap/extension-hard-break';
+import Heading from '@tiptap/extension-heading';
 import History from '@tiptap/extension-history';
 import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
@@ -46,6 +47,9 @@ export const extensions = [
   //     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   //   },
   // }),
+  Heading.configure({
+    levels: [1, 2, 3],
+  }),
   HardBreak,
   Paragraph,
   Text,

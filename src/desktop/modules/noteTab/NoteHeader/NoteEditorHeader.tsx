@@ -3,9 +3,9 @@ import { Editor } from '@tiptap/react';
 import { motion } from 'motion/react';
 import React from 'react';
 import { FiBold, FiCode, FiItalic } from 'react-icons/fi';
-import { LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
+import { LuHeading1, LuRedo, LuSquareCode, LuStrikethrough, LuUndo } from 'react-icons/lu';
 import { PiLinkBold, PiListBullets, PiListNumbers } from 'react-icons/pi';
-import { RiDoubleQuotesL } from 'react-icons/ri';
+import { RiDoubleQuotesL, RiParagraph } from 'react-icons/ri';
 
 import { Tooltip } from 'shared/components/ui/tooltip';
 import { modalIds } from 'shared/constants/modalIds';
@@ -36,6 +36,20 @@ export const NoteEditorHeader = ({ editor }: { editor: Editor }) => {
     {
       label: '1',
       isDivider: true,
+    },
+    {
+      label: 'Paragraph',
+      icon: <RiParagraph />,
+      // onClick: () => editor.chain().focus().toggle().run(),
+      // isDisabled: !editor.can().chain().focus().toggleParagraph().run(),
+      isActive: editor.isActive('paragraph'),
+    },
+    {
+      label: 'Heading',
+      icon: <LuHeading1 />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      isDisabled: !editor.can().chain().focus().toggleHeading({ level: 1 }).run(),
+      isActive: editor.isActive('heading', { level: 1 }),
     },
     {
       label: 'Bold',
