@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { queryOptions } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import pick from 'lodash/pick';
@@ -88,6 +89,10 @@ axiosInstance.interceptors.response.use(
         const refreshToken = selectRefreshToken(getState());
 
         if (!refreshToken) {
+          Sentry.captureMessage('Logout triggered due to missing refresh token during 401 handling', {
+            level: 'info',
+            tags: { module: 'apiFactory', reason: 'no_refresh_token' },
+          });
           return dispatch(logout(false));
         }
            
@@ -115,9 +120,16 @@ axiosInstance.interceptors.response.use(
         
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        Sentry.captureException(refreshError, {
+          tags: { module: 'apiFactory', reason: 'refresh_token_error' },
+        });
         return dispatch(logout(false));
       }
     } else if (error.response?.status === 401 && originalRequest?._retry) {
+      Sentry.captureMessage('Logout triggered due to 401 error during retry', {
+        level: 'info',
+        tags: { module: 'apiFactory', reason: '401_error_during_retry' },
+      });
       return dispatch(logout(false));
     }
 
