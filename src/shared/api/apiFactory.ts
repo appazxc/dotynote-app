@@ -120,6 +120,10 @@ axiosInstance.interceptors.response.use(
         
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        Sentry.captureMessage('Logout triggered due to refresh token error', {
+          level: 'info',
+          tags: { module: 'apiFactory', reason: 'refresh_token_error' },
+        });
         Sentry.captureException(refreshError, {
           tags: { module: 'apiFactory', reason: 'refresh_token_error' },
         });

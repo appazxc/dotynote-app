@@ -33,5 +33,6 @@ export const setupSentry = () => {
     beforeSend,
     replaysSessionSampleRate: 0.1, 
     replaysOnErrorSampleRate: 1.0,
+    tracePropagationTargets: ['localhost', /^https:\/\/dotynote\.com\/api/],
   });
 };
