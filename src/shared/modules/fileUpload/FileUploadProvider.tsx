@@ -93,7 +93,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
         const objectUrl = type === 'image' || type === 'video' ? URL.createObjectURL(file) : null;
         const dimensions = await getFileDimensions(file);
         const duration = await getFileDuration(file);
-        
+        console.log('objectUrl', objectUrl);
         return ({
           file,
           fileId: nanoid(),
