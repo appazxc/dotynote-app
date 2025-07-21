@@ -38,7 +38,7 @@ export const Post = React.forwardRef((props: Props, _) => {
       <Card.Root asChild>
         <motion.div layout>
           <Card.Body>
-          Note is deleted.
+            Note is deleted.
           </Card.Body>
         </motion.div>
       </Card.Root>
@@ -72,18 +72,18 @@ export const Post = React.forwardRef((props: Props, _) => {
         )}
         <Stack
           p="4"
-          borderWidth="2px"
-          borderRadius="lg"
-          borderColor="gray.200"
+          borderRadius="2xl"
           cursor="pointer"
           userSelect="none"
+          boxShadow="0 2px 8px -2px rgb(from #14181f r g b / 7.5%), 0 0 0 1px rgb(from #14181f r g b / calc(3% + 1%))"
           gap="2"
         >
-          {note.title && <Text fontWeight="500">{ note.title}</Text>}
+          {note.title && <Text fontWeight="500" fontSize="md">{ note.title}</Text>}
           <EditorView
             removeEmptyDivsFromEnd
             maxLines={4}
             content={note.content}
+            color="#14181fc4"
           />
           <NoteVideos
             noteId={noteId}

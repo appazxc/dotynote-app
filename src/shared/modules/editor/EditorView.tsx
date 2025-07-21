@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { JSONContent, generateHTML } from '@tiptap/core';
 import React from 'react';
 
@@ -11,9 +11,9 @@ type Props = {
   content?: JSONContent;
   maxLines?: number;
   removeEmptyDivsFromEnd?: boolean;
-}
+} & BoxProps
 
-export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd }: Props) => {
+export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd, ...boxProps }: Props) => {
   const content = React.useMemo(() => {
     if (!json) {
       return '';
@@ -40,6 +40,7 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
       dangerouslySetInnerHTML={{ __html: content }}
       textOverflow={maxLines ? 'ellipsis' : undefined}
       lineClamp={maxLines}
+      {...boxProps}
     />
   );
 });
