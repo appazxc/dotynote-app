@@ -11,11 +11,12 @@ import { auth, guest } from 'mobile/routes/guards';
 import { idx } from 'mobile/routes/idx';
 import { login } from 'mobile/routes/login';
 import { loginEmail } from 'mobile/routes/loginEmail';
+import { onboarding } from 'mobile/routes/onboarding';
 import { root } from 'mobile/routes/root';
 import { context } from 'mobile/routes/routerContext';
 
 const routeTree = root.addChildren([
-  auth.addChildren([app]), 
+  auth.addChildren([onboarding, app]), 
   guest.addChildren([idx, login, loginEmail]),
 ]);
 

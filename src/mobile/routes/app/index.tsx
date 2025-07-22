@@ -10,6 +10,7 @@ import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { billing } from 'mobile/routes/billing';
 import { menu } from 'mobile/routes/menu';
+import { onboarding } from 'mobile/routes/onboarding';
 import { profile } from 'mobile/routes/profile';
 import { search } from 'mobile/routes/search';
 import { settings } from 'mobile/routes/settings';
@@ -25,13 +26,6 @@ import { AppLayout } from './AppLayout';
 export const appRoute = createRoute({
   getParentRoute: () => auth,
   path: 'app',
-  beforeLoad: async (ctx) => {
-    const context = ctx.context as unknown as Context;
-    const { store } = context;
-    const { dispatch } = store;
-
-    await dispatch(loadSpaces(ctx.location.pathname));
-  },
   component: React.memo(() => {
     return (
       <AppLayout>
@@ -48,6 +42,8 @@ const appIndexRoute = createRoute({
     const context = ctx.context as unknown as Context;
     const { store } = context;
     const { dispatch, getState } = store;
+
+    await dispatch(loadSpaces(ctx.location.pathname));
 
     const activeSpace = selectActiveSpace(getState());
     const activeTab = selectActiveTab(getState());
