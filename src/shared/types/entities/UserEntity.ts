@@ -6,6 +6,7 @@ import { BaseEntity } from './BaseEntity';
 export type ApiUserEntity = BaseEntity<{
   username: string;
   nickname: string | null;
+  region?: string;
   email?: string;
   settings?: string;
   balanceId?: string;
