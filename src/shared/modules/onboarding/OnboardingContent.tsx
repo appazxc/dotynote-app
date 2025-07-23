@@ -17,10 +17,9 @@ import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 
 export const OnboardingContent = React.memo(() => {
   const [selectedRegion, setSelectedRegion] = useState<RegionValue | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ['onboarding'],
     mutationFn: (data: { region: string }) => {
       return api.post('/users/onboarding', data);
@@ -39,7 +38,6 @@ export const OnboardingContent = React.memo(() => {
       return;
     }
 
-    setIsSubmitting(true);
     setError(null);
 
     try {
@@ -49,8 +47,6 @@ export const OnboardingContent = React.memo(() => {
     } catch (err) {
       setError('Failed to save region. Please try again.');
       console.error('Failed to update user region:', err);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -134,7 +130,7 @@ export const OnboardingContent = React.memo(() => {
 
         {/* Continue Button */}
         <Button
-          loading={isSubmitting}
+          loading={isPending}
           loadingText="Saving..."
           disabled={!selectedRegion}
           size="lg"

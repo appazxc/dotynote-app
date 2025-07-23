@@ -110,8 +110,8 @@ axiosInstance.interceptors.response.use(
 
             return response.data;
           },
-          gcTime: 0,
-          staleTime: 0,
+          gcTime: 10000,
+          staleTime: 10000,
         }));
 
         dispatch(setToken(response.token));
