@@ -3,6 +3,7 @@ import React from 'react';
 
 import { NoteContent } from 'shared/modules/noteTab/components/NoteContent';
 import { NotePosts } from 'shared/modules/noteTab/components/NotePosts';
+import { TabScrollRestoration } from 'shared/modules/space/components/TabScrollRestoration';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
@@ -54,6 +55,7 @@ export const NoteTabContent = (props: Props) => {
           </Box>
         )}
       </Box>
+      {!showPosts && <TabScrollRestoration />}
     </Container>
   );
 };

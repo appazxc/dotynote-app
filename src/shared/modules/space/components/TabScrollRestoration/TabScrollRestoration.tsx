@@ -20,7 +20,7 @@ export const TabScrollRestoration = React.memo(({ onScrollRestoration }: Props) 
 
   React.useEffect(() => {
     const value = scrollMap.get(id) || 0;
-    
+    console.log('id', id, 'value', value);
     if (status !== 'idle') {
       return;
     }
