@@ -8,6 +8,7 @@ import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 import { billing } from 'desktop/routes/billing';
 import { auth } from 'desktop/routes/guards';
 import { menu } from 'desktop/routes/menu';
+import { onboarding } from 'desktop/routes/onboarding';
 import { primary } from 'desktop/routes/primary';
 import { profile } from 'desktop/routes/profile';
 import { Context } from 'desktop/routes/routerContext';
@@ -20,13 +21,6 @@ import { templates } from 'desktop/routes/templates';
 export const appRoute = createRoute({
   getParentRoute: () => auth,
   path: 'app',
-  beforeLoad: async (ctx) => {
-    const context = ctx.context as unknown as Context;
-    const { store } = context;
-    const { dispatch } = store;
-
-    await dispatch(loadSpaces(ctx.location.pathname));
-  },
 });
 
 const appIndexRoute = createRoute({
@@ -37,8 +31,9 @@ const appIndexRoute = createRoute({
     const { store } = context;
     const { dispatch, getState } = store;
 
+    await dispatch(loadSpaces(ctx.location.pathname));
+
     const activeSpace = selectActiveSpace(getState());
-  
     const { waitedRoute } = getState().app;
   
     if (waitedRoute && activeSpace) {
@@ -60,4 +55,5 @@ export const app = appRoute.addChildren([
   settings,
   templates,
   billing,
+  onboarding,
 ]);
