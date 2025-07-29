@@ -1,5 +1,4 @@
-import { AnyFormApi, FormApi } from '@tanstack/react-form';
-import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
+import { AnyFormApi } from '@tanstack/react-form';
 
 import { parseApiError } from 'shared/helpers/api/getApiError';
 
@@ -17,12 +16,17 @@ export const handleFormApiErrors = (formApi: AnyFormApi, apiError: unknown) => {
 
   if (!Object.keys(fieldErrors).length) {
     formApi.setErrorMap({
-      onSubmit: {
-        //@ts-ignore
+      onServer: {
         form: message,
       },
     });
   }
+};
+
+export const resetFormErrors = (formApi: AnyFormApi) => {
+  formApi.setErrorMap({
+    onServer: undefined,
+  });
 };
 
 export const hasServerError = (errors) => {

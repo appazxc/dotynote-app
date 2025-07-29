@@ -12,7 +12,7 @@ import * as z from 'zod';
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
 import { useLoginEmailConfirm } from 'shared/api/hooks/useLoginEmailConfirm';
 import { useAppForm } from 'shared/components/Form';
-import { handleFormApiErrors } from 'shared/components/Form/util';
+import { handleFormApiErrors, resetFormErrors } from 'shared/components/Form/util';
 import { Button } from 'shared/components/ui/button';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { BACK_URL } from 'shared/constants/queryKeys';
@@ -36,7 +36,7 @@ export const LoginForm = () => {
   const backUrl = useSearch({ strict: false })[BACK_URL];
   const { mutateAsync: sendCodeEmail } = useLoginEmail();
   const { mutateAsync: loginEmail } = useLoginEmailConfirm();
-  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField } = useAppForm({ 
+  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField, ...rest } = useAppForm({ 
     defaultValues,
     validators: {
       onSubmit: schema(isEmailSent),
@@ -78,7 +78,9 @@ export const LoginForm = () => {
     setShowReferralField(false);
     resetField('code');
     resetField('referralCode');
-  }, [resetField]);
+
+    console.log('errors', rest.getAllErrors());
+  }, [resetField, rest]);
 
   return (
     <Box py={6} rounded="md">
@@ -94,6 +96,7 @@ export const LoginForm = () => {
             <AppField
               name="email"
               children={(field) => {
+                
                 return (
                   <field.Field label="Email" position="relative">
                     {isEmailSent && (
@@ -105,7 +108,10 @@ export const LoginForm = () => {
                         fontSize="xs"
                         textDecoration="underline"
                         cursor="pointer"
-                        onClick={handleChangeEmailClick}
+                        onClick={() => {
+                          resetFormErrors(field.form);
+                          handleChangeEmailClick();
+                        }}
                       >
                         Change
                       </Text>
