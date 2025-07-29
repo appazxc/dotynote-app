@@ -10,7 +10,6 @@ import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { billing } from 'mobile/routes/billing';
 import { menu } from 'mobile/routes/menu';
-import { onboarding } from 'mobile/routes/onboarding';
 import { profile } from 'mobile/routes/profile';
 import { search } from 'mobile/routes/search';
 import { settings } from 'mobile/routes/settings';

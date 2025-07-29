@@ -1,9 +1,12 @@
-import { Container, IconButton } from '@chakra-ui/react';
+import { Button, Center, Container, IconButton } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import React from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
+import { LiaSpaceShuttleSolid } from 'react-icons/lia';
 
 import { useSpaces } from 'shared/api/hooks/useSpaces';
+import { EmptyState } from 'shared/components/ui/empty-state';
+import { Icon } from 'shared/components/ui/icon';
 import { PlusIcon } from 'shared/components/ui/icons';
 import { modalIds } from 'shared/constants/modalIds';
 import { CreateSpaceModal } from 'shared/containers/modals/CreateSpaceModal';
@@ -57,9 +60,29 @@ const Spaces = React.memo(() => {
 
   return (
     <Layout header={renderedHeader}>
-      <Container py="10">
-        <SpacesCards activeSpaceId={activeSpaceId} spaceIds={data} />
-      </Container>
+      {data.length === 0 ? 
+        (
+          <Center h="full">
+            <EmptyState
+              icon={<Icon transform="rotate(-20deg)"><LiaSpaceShuttleSolid /></Icon>}
+              title="You have no spaces yet"
+            >
+              <Button
+                size="2xs"
+                variant="subtle"
+                onClick={() => {
+                  dispatch(showModal({ id: modalIds.createSpace }));
+                }}
+              >
+                Create space
+              </Button>
+            </EmptyState>
+          </Center>
+        ) : (
+          <Container py="10">
+            <SpacesCards activeSpaceId={activeSpaceId} spaceIds={data} />
+          </Container>
+        )}
       <CreateSpaceModal />
     </Layout>
   );
