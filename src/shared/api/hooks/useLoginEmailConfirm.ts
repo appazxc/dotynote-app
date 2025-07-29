@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { loadUserData } from 'shared/actions/user/loadUserData';
 import { useAppDispatch } from 'shared/store/hooks';
 import { setRefreshToken, setToken } from 'shared/store/slices/authSlice';
 
@@ -19,7 +18,6 @@ export const useLoginEmailConfirm = () => {
     onSuccess: async ({ token, refreshToken }) => {
       dispatch(setToken(token));
       dispatch(setRefreshToken(refreshToken));
-      await dispatch(loadUserData());
     },
   });
 };

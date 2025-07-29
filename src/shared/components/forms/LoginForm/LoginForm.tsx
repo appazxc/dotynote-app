@@ -1,8 +1,8 @@
 import {
   Box,
   Input,
-  VStack,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
@@ -36,7 +36,7 @@ export const LoginForm = () => {
   const backUrl = useSearch({ strict: false })[BACK_URL];
   const { mutateAsync: sendCodeEmail } = useLoginEmail();
   const { mutateAsync: loginEmail } = useLoginEmailConfirm();
-  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField, ...rest } = useAppForm({ 
+  const { AppField, AppForm, Subscribe, FormError, handleSubmit, resetField } = useAppForm({ 
     defaultValues,
     validators: {
       onSubmit: schema(isEmailSent),
@@ -78,9 +78,7 @@ export const LoginForm = () => {
     setShowReferralField(false);
     resetField('code');
     resetField('referralCode');
-
-    console.log('errors', rest.getAllErrors());
-  }, [resetField, rest]);
+  }, [resetField]);
 
   return (
     <Box py={6} rounded="md">
