@@ -33,5 +33,3 @@ export const PrimaryNote = React.memo(() => {
     <Space tab={tab} />
   );
 });
-
-export default PrimaryNote;

@@ -5,6 +5,7 @@ import { LayoutGroup, motion } from 'motion/react';
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
+import { PiTabs } from 'react-icons/pi';
 
 import { activateUserAllTypeQueriesNextPage } from 'shared/actions/activateUserAllTypeQueriesNextPage';
 import { closeTab } from 'shared/actions/space/closeTab';
@@ -14,6 +15,7 @@ import { options } from 'shared/api/options';
 import { Loader } from 'shared/components/Loader';
 import { CloseButton } from 'shared/components/ui/close-button';
 import { useColorModeValue } from 'shared/components/ui/color-mode';
+import { EmptyState } from 'shared/components/ui/empty-state';
 import { drawerIds } from 'shared/constants/drawerIds';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { useTabTitle } from 'shared/hooks/useTabTitle';
@@ -151,7 +153,20 @@ const Tabs = () => {
     if (!tabs.length) {
       return (
         <Center h="full">
-          <Text color="gray.500">Create new tab</Text>
+          <EmptyState
+            icon={<PiTabs />}
+            title="You have no tabs yet"
+          >
+            <Button
+              size="2xs"
+              variant="subtle"
+              onClick={() => {
+                dispatch(showDrawer({ id: drawerIds.createNote }));
+              }}
+            >
+                Create tab
+            </Button>
+          </EmptyState>
         </Center>
       );
     }
@@ -172,7 +187,7 @@ const Tabs = () => {
         </Stack>
       </LayoutGroup>
     );
-  }, [tabNotesIsLoading, tabs, activeTabId]);
+  }, [tabNotesIsLoading, tabs, activeTabId, dispatch]);
   
   return (
     <Layout header={renderedHeader}>

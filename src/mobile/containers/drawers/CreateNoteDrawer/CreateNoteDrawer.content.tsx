@@ -42,9 +42,16 @@ const CreateNoteDrawer = ({ onCreate, onError }: Props) => {
     >
       <Portal>
         <DrawerBackdrop />
-        <DrawerContent roundedTop="md">
-          <DrawerHeader pb="1" pt="4">
-            <Flex alignItems="center" gap="2">
+        <DrawerContent roundedTop="2xl">
+          <DrawerHeader
+            pb="1"
+            pt="4"
+            justifyContent="center"
+          >
+            <Flex
+              alignItems="center"
+              gap="2"
+            >
               <Text fontSize="md" fontWeight="500">Create note</Text> 
             </Flex>
           </DrawerHeader>

@@ -46,7 +46,7 @@ const PrimaryNoteModal = React.memo(() => {
     <DialogRoot
       defaultOpen
       placement={!isMobile ? 'center' : undefined}
-      size={isMobile ? 'full' : 'lg'}
+      size={isMobile ? 'full' : 'md'}
       scrollBehavior="inside"
       onOpenChange={() => dispatch(hideModal())}
     >
@@ -56,20 +56,8 @@ const PrimaryNoteModal = React.memo(() => {
         <DialogCloseTrigger />
         <DialogBody>
           <Text mb="4">
-            You don{apos}t have a primary note assigned. To do this, find the note and select it as the primary one.
+            You don{apos}t have a primary note assigned. To do this, search for a note and set it as the primary one.
           </Text>
-          <Box
-            p="4"
-            bg="gray.100"
-            borderRadius="md"
-            maxW="fit-content"
-          >
-            <Image
-              src={isMobile ? exampleMobile : exampleDesktop}
-              alt=""
-              maxW="100%"
-            />
-          </Box>
         </DialogBody>
         <DialogFooter>
           <Button colorScheme="brand" onClick={handleConfirm}>Assign</Button>

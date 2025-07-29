@@ -2,7 +2,7 @@ import { EmptyState as ChakraEmptyState, VStack } from '@chakra-ui/react';
 import { forwardRef } from 'react';
 
 export interface EmptyStateProps extends ChakraEmptyState.RootProps {
-  title: string;
+  title?: string;
   description?: string;
   icon?: React.ReactNode;
 }
@@ -18,7 +18,7 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
           )}
           {description ? (
             <VStack textAlign="center">
-              <ChakraEmptyState.Title>{title}</ChakraEmptyState.Title>
+              {title && <ChakraEmptyState.Title>{title}</ChakraEmptyState.Title>}
               <ChakraEmptyState.Description>
                 {description}
               </ChakraEmptyState.Description>

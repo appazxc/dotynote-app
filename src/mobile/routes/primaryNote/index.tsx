@@ -1,8 +1,6 @@
-import { createRoute, lazyRouteComponent, redirect } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { loadNoteData } from 'shared/api/loadNoteData';
-import { modalIds } from 'shared/constants/modalIds';
-import { showModal } from 'shared/modules/modal/modalSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
@@ -13,7 +11,7 @@ import { appRoute } from '../app';
 export const primaryNote = createRoute({
   getParentRoute: () => appRoute,
   path: 'primary',
-  component: lazyRouteComponent(() => import('./PrimaryNote')),
+  component: lazyRouteComponent(() => import('./PrimaryNoteBase')),
   loader: async (ctx) => {
     const context = ctx.context as unknown as Context;
     const { store } = context;
@@ -21,19 +19,14 @@ export const primaryNote = createRoute({
 
     const activeSpace = selectActiveSpace(state);
 
-    if (!activeSpace?.mainNoteId) {
-      store.dispatch(showModal({ id: modalIds.primaryNote }));
-      throw redirect({
-        to: '/app',
+    if (activeSpace?.mainNoteId) {
+      await loadNoteData({
+        noteId: activeSpace?.mainNoteId,
+        flags: {
+          shouldRedirect: false,
+        },
       });
     }
-
-    await loadNoteData({
-      noteId: activeSpace?.mainNoteId,
-      flags: {
-        shouldRedirect: false,
-      },
-    });
   },
   pendingComponent: LayoutLoader,
 });

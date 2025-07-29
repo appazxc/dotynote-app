@@ -5,13 +5,11 @@ import { GoHome, GoPlus, GoSearch } from 'react-icons/go';
 import { RxHamburgerMenu, RxReader } from 'react-icons/rx';
 
 import { useColorModeValue } from 'shared/components/ui/color-mode';
-import { modalIds } from 'shared/constants/modalIds';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
-import { showModal } from 'shared/modules/modal/modalSlice';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -35,7 +33,7 @@ export const FooterNavigation = React.memo(() => {
     : isCreditsLimitAlmostReached 
       ? 'yellow.500' 
       : 'purple.500';
-
+  console.log('activeSpace', activeSpace);
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }
@@ -47,11 +45,6 @@ export const FooterNavigation = React.memo(() => {
         label: 'home',
         onClick: () => {
           if (!activeSpace) {
-            return;
-          }
-
-          if (!activeSpace.mainNoteId) {
-            dispatch(showModal({ id: modalIds.primaryNote }));
             return;
           }
 
@@ -70,7 +63,7 @@ export const FooterNavigation = React.memo(() => {
           );
         } : undefined,
         _icon: { h: 'auto', w: 'auto' },
-        isActive: pathname === '/app/primary',
+        isActive: pathname === PRIMARY_NOTE_PATH,
       },
       {
         label: 'search',
@@ -87,6 +80,7 @@ export const FooterNavigation = React.memo(() => {
         },
         icon: <RxReader size="25" />,
         isActive: pathname === '/app',
+        isDisabled: activeSpace?.tabs.length === 0,
       },
       {
         label: 'tabs',
@@ -152,7 +146,7 @@ export const FooterNavigation = React.memo(() => {
         h="44px"
         px="4"
       >
-        {buttons.map(({ label, icon, onClick, getMenu, isActive, ...rest }) => {
+        {buttons.map(({ label, icon, onClick, getMenu, isActive, isDisabled, ...rest }) => {
           const props = {
             size: 'md' as const,
             'aria-label': label,
@@ -170,6 +164,7 @@ export const FooterNavigation = React.memo(() => {
             : (
               <IconButton
                 key={label}
+                disabled={isDisabled}
                 {...props}
                 _icon={{ w: 'auto', h: 'auto' }}
               />
