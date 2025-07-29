@@ -110,8 +110,8 @@ axiosInstance.interceptors.response.use(
 
             return response.data;
           },
-          gcTime: 10000,
-          staleTime: 10000,
+          gcTime: 60000,
+          staleTime: 60000,
         }));
 
         dispatch(setToken(response.token));
@@ -125,7 +125,7 @@ axiosInstance.interceptors.response.use(
           tags: { module: 'apiFactory', reason: 'refresh_token_error' },
         });
         Sentry.captureException(refreshError, {
-          tags: { module: 'apiFactory', reason: 'refresh_token_error' },
+          tags: { module: 'apiFactory', reason: 'refresh_token_axios_error' },
         });
         return dispatch(logout(false));
       }
