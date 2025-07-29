@@ -9,6 +9,7 @@ type Props = {
   children?: React.ReactNode;
   right?: React.ReactNode;
   showBackButton?: boolean;
+  isBackButtonDisabled?: boolean;
   onBackButtonClick?: () => void;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
@@ -21,9 +22,10 @@ export const LayoutHeader = (props: Props) => {
     showBackButton, 
     title,
     onBackButtonClick,
+    isBackButtonDisabled,
     ...restProps
   } = props;
-  
+
   const renderedBackButton = React.useMemo(() => {
     if (!showBackButton) {
       return null;
@@ -36,12 +38,13 @@ export const LayoutHeader = (props: Props) => {
         variant="plain"
         display="inline-flex"
         iconSize="auto"
+        disabled={isBackButtonDisabled}
         onClick={onBackButtonClick || (() => history.back())}
       >
         <BsArrowLeft size="18" />
       </IconButton>
     );
-  }, [history, showBackButton, onBackButtonClick]);
+  }, [history, showBackButton, onBackButtonClick, isBackButtonDisabled]);
 
   const renderedTitle = React.useMemo(() => {
     if (!title) {

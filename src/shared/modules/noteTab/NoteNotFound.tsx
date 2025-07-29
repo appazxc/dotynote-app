@@ -8,7 +8,7 @@ export const NoteNotFound = () => {
     <Center h="full">
       <EmptyState
         icon={<TbError404 />}
-        title="Note Not Available"
+        title="Not found"
         description="The note you are looking for cannot be found"
       />
     </Center>

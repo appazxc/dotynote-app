@@ -32,6 +32,13 @@ export const appRoute = createRoute({
       </AppLayout>
     );
   }),
+  beforeLoad: async (ctx) => {
+    const context = ctx.context as unknown as Context;
+    const { store } = context;
+    const { dispatch } = store;
+
+    await dispatch(loadSpaces(ctx.location.pathname));
+  },
 });
 
 const appIndexRoute = createRoute({
@@ -41,8 +48,6 @@ const appIndexRoute = createRoute({
     const context = ctx.context as unknown as Context;
     const { store } = context;
     const { dispatch, getState } = store;
-
-    await dispatch(loadSpaces(ctx.location.pathname));
 
     const activeSpace = selectActiveSpace(getState());
     const activeTab = selectActiveTab(getState());

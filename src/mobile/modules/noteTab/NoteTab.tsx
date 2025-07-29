@@ -5,12 +5,14 @@ import React from 'react';
 import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';
+import { useTabContext } from 'shared/modules/space/components/TabProvider';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppSelector } from 'shared/store/hooks';
 import { invariant } from 'shared/util/invariant';
 
 import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
 import { NoteFooter } from 'mobile/modules/noteTab/NoteFooter';
 
 import { NoteHeader } from './NoteHeader';
@@ -25,7 +27,8 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
   const isPrimary = useIsPrimareNote();
-
+  const tab = useTabContext();
+  
   invariant(note, 'Missing note');
   
   React.useEffect(() => {
@@ -39,7 +42,7 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
 
   if (note._isDeleted) {
     return (
-      <Layout>
+      <Layout header={<LayoutHeader showBackButton isBackButtonDisabled={tab.routes.length <= 1} />}>
         <Center h="full">
           <Text color="gray.500">
             Note is deleted.
