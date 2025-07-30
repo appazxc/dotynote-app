@@ -34,3 +34,6 @@ yarn-error.log*
 
 # cursor
 .cursor
+
+# Memory Bank - personal development documentation
+/memory-bank
