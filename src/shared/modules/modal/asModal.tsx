@@ -1,6 +1,8 @@
-import React, { Suspense } from 'react';
+import React, { ErrorInfo, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { SuspenseLoader } from 'shared/components/SuspenseLoader';
+import { toaster } from 'shared/components/ui/toaster';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 import { AppDispatch } from 'shared/types/store';
@@ -21,6 +23,8 @@ type AsModalParams<Props extends object> = {
   loader?: Loader<Props>;
   modalLoader?: React.ReactElement | false;
 };
+
+const noop = () => null;
 
 export default function asModal<Props extends {}>({
   getModalParams,
@@ -46,6 +50,15 @@ export default function asModal<Props extends {}>({
         return loader(props, dispatch);
       }, [active, dispatch, props]);
 
+      const handleError = React.useCallback((error: Error, info: ErrorInfo) => {
+        toaster.create({
+          title: 'An error occurred',
+          description: error.message,
+          type: 'error',
+        });
+        console.error(error, info);
+      }, []);
+      
       if (!active) {
         return null;
       }
@@ -62,10 +75,12 @@ export default function asModal<Props extends {}>({
       };
 
       return (
-        <Suspense fallback={fallbackComponent}>
-          {promiseLoader && <SuspenseLoader loader={promiseLoader} />}
-          <TargetComponent {...targetProps} />
-        </Suspense>
+        <ErrorBoundary FallbackComponent={noop} onError={handleError}>
+          <Suspense fallback={fallbackComponent}>
+            {promiseLoader && <SuspenseLoader loader={promiseLoader} />}
+            <TargetComponent {...targetProps} />
+          </Suspense>
+        </ErrorBoundary>
       );
     });
   };
