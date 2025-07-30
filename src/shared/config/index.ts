@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import merge from 'lodash/merge';
 
 import { Config } from 'shared/types/config';
@@ -9,7 +10,6 @@ const getLocalConfig = () => {
 
   let localConfig: Partial<Config> = {};
   try {
-    // try dont work. hack in vite config
     localConfig = require('./local.config');
   } catch (e) {
     return localConfig;

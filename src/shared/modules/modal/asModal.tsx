@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { SuspenseLoader } from 'shared/components/SuspenseLoader';
 import { toaster } from 'shared/components/ui/toaster';
+import { logger } from 'shared/services/logger';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { ModalIdentity } from 'shared/types/modal';
 import { AppDispatch } from 'shared/types/store';
@@ -50,13 +51,13 @@ export default function asModal<Props extends {}>({
         return loader(props, dispatch);
       }, [active, dispatch, props]);
 
-      const handleError = React.useCallback((error: Error, info: ErrorInfo) => {
+      const handleError = React.useCallback((error: Error, _info: ErrorInfo) => {
         toaster.create({
           title: 'An error occurred',
           description: error.message,
           type: 'error',
         });
-        console.error(error, info);
+        logger.error('Modal suspense error', error);
       }, []);
       
       if (!active) {
