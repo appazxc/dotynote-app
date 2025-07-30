@@ -1,6 +1,5 @@
-import * as Sentry from '@sentry/react';
-
 import { selectToken } from 'shared/selectors/auth/selectToken';
+import { logger } from 'shared/services/logger';
 import { ThunkAction } from 'shared/types/store';
 
 type Params<T> = {
@@ -43,16 +42,22 @@ export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getSt
       .filter(msg => msg.trim());
     
     for (const message of messages) {
-      try {
+      try { 
         onMessage(JSON.parse(message) as T, closeConnection);
-      } catch (error) {
-        Sentry.captureException(error, {
-          extra: {
-            rawMessage: message,
-            chunk: message,
-            url: url,
-          },
-        });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          logger.error('SSE message processing failed', error, {
+            errorCategory: 'api_error',
+            severity: 'high',
+            action: 'sse_message_parse',
+            extra: {
+              rawMessage: message,
+              chunk: message,
+              url: url,
+              messageLength: message.length,
+            },
+          });
+        }
         throw error;
       }
     }

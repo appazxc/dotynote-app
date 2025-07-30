@@ -1,17 +1,20 @@
 import { Button, Center, Group } from '@chakra-ui/react';
-import * as Sentry from '@sentry/react';
 import React from 'react';
 import { TbFaceIdError } from 'react-icons/tb';
 
 import { EmptyState } from 'shared/components/ui/empty-state';
+import { logger } from 'shared/services/logger';
 
 import { Layout } from 'mobile/components/Layout';
 import { MobileLink } from 'mobile/components/MobileLink';
 
 function DefaultErrorComponent({ error }) {
   React.useEffect(() => {
-    Sentry.captureException(error, {
-      tags: { module: 'DefaultErrorComponent' },
+    logger.error('Mobile route error boundary triggered', error, {
+      errorCategory: 'ui_error',
+      severity: 'high',
+      action: 'route_error_boundary',
+      module: 'mobile/routes',
     });
   }, [error]);
 

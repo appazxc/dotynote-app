@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import { queryOptions } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import pick from 'lodash/pick';
@@ -10,6 +9,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectRefreshToken, selectToken } from 'shared/selectors/auth/selectToken';
+import { logger } from 'shared/services/logger';
 import { setRefreshToken, setToken } from 'shared/store/slices/authSlice';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
 import { finishRequest, startRequest } from 'shared/store/slices/requestSlice';
@@ -89,9 +89,10 @@ axiosInstance.interceptors.response.use(
         const refreshToken = selectRefreshToken(getState());
 
         if (!refreshToken) {
-          Sentry.captureMessage('Logout triggered due to missing refresh token during 401 handling', {
-            level: 'info',
-            tags: { module: 'apiFactory', reason: 'no_refresh_token' },
+          logger.info('Logout triggered due to missing refresh token during 401 handling', {
+            errorCategory: 'authentication',
+            action: 'auto_logout',
+            extra: { reason: 'no_refresh_token' },
           });
           return dispatch(logout(false));
         }
@@ -120,19 +121,24 @@ axiosInstance.interceptors.response.use(
         
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        Sentry.captureMessage('Logout triggered due to refresh token error', {
-          level: 'info',
-          tags: { module: 'apiFactory', reason: 'refresh_token_error' },
+        logger.info('Logout triggered due to refresh token error', {
+          errorCategory: 'authentication',
+          action: 'auto_logout',
+          extra: { reason: 'refresh_token_error' },
         });
-        Sentry.captureException(refreshError, {
-          tags: { module: 'apiFactory', reason: 'refresh_token_axios_error' },
+        logger.error('Refresh token request failed', refreshError as Error, {
+          errorCategory: 'api_error',
+          severity: 'high',
+          action: 'refresh_token_request',
+          extra: { reason: 'refresh_token_axios_error' },
         });
         return dispatch(logout(false));
       }
     } else if (error.response?.status === 401 && originalRequest?._retry) {
-      Sentry.captureMessage('Logout triggered due to 401 error during retry', {
-        level: 'info',
-        tags: { module: 'apiFactory', reason: '401_error_during_retry' },
+      logger.info('Logout triggered due to 401 error during retry', {
+        errorCategory: 'authentication',
+        action: 'auto_logout',
+        extra: { reason: '401_error_during_retry' },
       });
       return dispatch(logout(false));
     }
