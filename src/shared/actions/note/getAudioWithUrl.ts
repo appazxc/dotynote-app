@@ -15,7 +15,7 @@ export const getAudioWithUrl = (audioId: string): ThunkAction<Promise<ApiNoteAud
 
     if (!audio.url) {
       try {
-        const url = await api.get<string>(`/notes/audio/${audioId}/signed-url`);
+        const url = await api.get<string>(`/notes/${audio.noteId}/audio/${audioId}/signed-url`);
 
         dispatch(updateEntity({
           type: entityNames.noteAudio,

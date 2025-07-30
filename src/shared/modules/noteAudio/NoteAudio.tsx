@@ -24,7 +24,7 @@ export const NoteAudio = React.memo((props: Props) => {
   invariant(audio, 'Missing audio');
 
   const handleFileDownload = async () => {
-    const fileUrl = await api.get<string>(`/notes/audio/${audioId}/signed-download-url`);
+    const fileUrl = await api.get<string>(`/notes/${noteId}/audio/${audioId}/signed-download-url`);
 
     downloadFile(fileUrl);
   };

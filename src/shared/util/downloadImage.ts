@@ -1,9 +1,23 @@
 import { api } from 'shared/api';
+import { toaster } from 'shared/components/ui/toaster';
 
 export async function downloadImage(imageUrl: string, filename: string) {
-  const response = await api.get<Blob>(imageUrl, {}, {
-    responseType: 'blob',
-  });
+  let response: Blob | null = null;
+  try {
+    response = await api.get<Blob>(imageUrl, {}, {
+      responseType: 'blob',
+    });
+  } catch(error) {
+    toaster.create({
+      title: 'Error',
+      description: 'Failed to download image',
+      type: 'error',
+    });
+  }
+
+  if (!response) {
+    return;
+  }
 
   // Создаем Blob из данных ответа
   const blob = new Blob([response]);

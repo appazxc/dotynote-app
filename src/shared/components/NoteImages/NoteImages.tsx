@@ -145,7 +145,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
             download(props) {
               const slide = props.slide as NotePhoto;
 
-              downloadImage(`/notes/images/${slide.image.id}/original`, slide.image.filename);
+              downloadImage(`/notes/${noteId}/images/${slide.image.id}/original`, slide.image.filename);
             },
           }}
           render={{

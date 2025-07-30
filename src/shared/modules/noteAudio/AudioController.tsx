@@ -13,15 +13,15 @@ export const AudioController = React.memo(() => {
   const { error, isPlaying, getPosition } = useNoteAudio(audio?.id);
 
   React.useEffect(() => {
-    if (error && audio?.id) {
-      dispatch(loadAudioUrl(audio?.id)).then(() => {
+    if (error && audio?.id && audio?.noteId) {
+      dispatch(loadAudioUrl(audio.noteId, audio?.id)).then(() => {
         toaster.create({
           type: 'error',
           description: 'Error loading audio. Please try again.',
         });
       });
     }
-  }, [dispatch, error, audio?.id]);
+  }, [dispatch, error, audio?.id, audio?.noteId]);
 
   React.useEffect(() => {
     if (!audio?.id || !isPlaying) {

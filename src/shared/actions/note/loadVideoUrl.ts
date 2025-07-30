@@ -6,7 +6,7 @@ import { ThunkAction } from 'shared/types/store';
 import { invariant } from 'shared/util/invariant';
 import { isUrlExpired } from 'shared/util/isUrlExpired';
 
-export const loadVideoUrl = (videoId: string, gracePeriod?: number): ThunkAction => 
+export const loadVideoUrl = (noteId: string, videoId: string, gracePeriod?: number): ThunkAction => 
   async (dispatch, getState) => {
     const noteVideo = noteVideoSelector.getById(getState(), videoId);
 
@@ -16,7 +16,7 @@ export const loadVideoUrl = (videoId: string, gracePeriod?: number): ThunkAction
       return;
     }
 
-    const url = await api.get<string>(`/notes/videos/${videoId}/signed-url`);
+    const url = await api.get<string>(`/notes/${noteId}/videos/${videoId}/signed-url`);
 
     dispatch(updateEntity({
       type: entityNames.noteVideo,

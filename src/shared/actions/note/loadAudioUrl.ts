@@ -3,9 +3,9 @@ import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 
-export const loadAudioUrl = (audioId: string): ThunkAction => 
+export const loadAudioUrl = (noteId: string, audioId: string): ThunkAction => 
   async (dispatch) => {
-    const url = await api.get<string>(`/notes/audio/${audioId}/signed-url`);
+    const url = await api.get<string>(`/notes/${noteId}/audio/${audioId}/signed-url`);
 
     dispatch(updateEntity({
       type: entityNames.noteAudio,

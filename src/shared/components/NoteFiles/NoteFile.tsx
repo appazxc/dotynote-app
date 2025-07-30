@@ -28,7 +28,7 @@ export const NoteFile = React.memo(({ id, noteId, size }: Props) => {
   const { mutate, isPending } = useDeleteNoteFile();
   
   const handleFileDownload = async () => {
-    const fileUrl = await api.get<string>(`/notes/files/${id}/signed-download-url`);
+    const fileUrl = await api.get<string>(`/notes/${noteId}/files/${id}/signed-download-url`);
 
     downloadFile(fileUrl);
   };

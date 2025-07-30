@@ -35,7 +35,7 @@ export const NoteVideo = React.memo((props: Props) => {
   const { mutate, isPending } = useDeleteNoteVideo();
   
   const handleFileDownload = async () => {
-    const fileUrl = await api.get<string>(`/notes/videos/${videoId}/signed-download-url`);
+    const fileUrl = await api.get<string>(`/notes/${noteId}/videos/${videoId}/signed-download-url`);
 
     downloadFile(fileUrl);
   };

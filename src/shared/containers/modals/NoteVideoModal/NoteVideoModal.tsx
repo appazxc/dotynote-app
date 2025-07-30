@@ -14,7 +14,7 @@ const getModalParams = (props: Props) => ({
 export default asModal<Props>({ 
   getModalParams, 
   modalLoader: <ModalLoader />, 
-  loader: async ({ videoId }, dispatch) => {
-    await dispatch(loadVideoUrl(videoId, hour * 4));
+  loader: async ({ videoId, noteId }, dispatch) => {
+    await dispatch(loadVideoUrl(noteId, videoId, hour * 4));
   },
 })(() => import('./NoteVideoModal.content'));
