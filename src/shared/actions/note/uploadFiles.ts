@@ -10,10 +10,12 @@ import { RemoveUploadFiles, UploadFile, UploadFileType } from 'shared/modules/fi
 import { selectUploadFileEntity } from 'shared/modules/fileUpload/fileUploadSelectors';
 import { updateFile } from 'shared/modules/fileUpload/uploadSlice';
 import { noteSelector } from 'shared/selectors/entities';
+import { logger } from 'shared/services/logger';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { ThunkAction } from 'shared/types/store';
 import { connectSSE } from 'shared/util/connectSse';
 import { emitter } from 'shared/util/emitter';
+import { toError } from 'shared/util/errors';
 
 const updateFileUploadStatus = throttle((id: string, progress: number) => {
   api.patch(`/upload/${id}`, { progress });
@@ -223,6 +225,8 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
         type: 'warning',
       });
 
+      logger.error('Upload attachment error', toError(error));
+      
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };
