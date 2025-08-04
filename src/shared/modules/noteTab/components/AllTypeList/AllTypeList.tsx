@@ -21,7 +21,7 @@ type Props = {
   scrollRestoration?: boolean;
   disablePagination?: boolean;
   pageSize?: number;
-  internalLevel?: number;
+  nestedLevel?: number;
   filters?: NoteFiltersEntity;
   onScrollRestoration?: () => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
@@ -30,9 +30,9 @@ type Props = {
 export const getInfinityAllTypeQueryKey = (
   noteId: string, 
   filters: InfinityNoteFilters = {}, 
-  internalLevel?: number
+  nestedLevel?: number
 ) => 
-  ['posts', noteId, 'all-notes', filters, internalLevel] as const;
+  ['posts', noteId, 'all-notes', filters, nestedLevel] as const;
 
 export type InfinityAllTypeQueryKey = ReturnType<typeof getInfinityAllTypeQueryKey>;
 
@@ -47,7 +47,7 @@ export const AllTypeList = React.memo((props: Props) => {
     onOverlayClick, 
     onScrollRestoration, 
     disablePagination,
-    internalLevel,
+    nestedLevel,
     pageSize = DEFAULT_PAGE_SIZE,
     filters: propsFilters,
   } = props;
@@ -78,7 +78,7 @@ export const AllTypeList = React.memo((props: Props) => {
     path: `/notes/${noteId}/all`,
     filters,
     disablePagination,
-    internalLevel,
+    nestedLevel,
     getQueryKey: getInfinityAllTypeQueryKey,
   });
 

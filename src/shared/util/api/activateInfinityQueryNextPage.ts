@@ -21,8 +21,8 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
       return;
     }
 
-    const internalIndex = 4;
-    const isInternal = !!queryKey[internalIndex];
+    const nestedIndex = 4;
+    const isNested = !!queryKey[nestedIndex];
     const isEmpty = queryData.pages.length === 1 
       && queryData.pages[0].items.length === 0;
 
@@ -31,7 +31,7 @@ export const activateInfinityQueryNextPage = (key?: QueryKey) => {
       return;
     }
 
-    if (isInternal) {
+    if (isNested) {
       queryClient.invalidateQueries({ queryKey });
       return;
     }

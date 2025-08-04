@@ -37,7 +37,7 @@ export const schema = {
         },
         {
           id: 'blockId',
-          type: 'internalPosts',
+          type: 'nestedPosts',
         },
       ],
     },

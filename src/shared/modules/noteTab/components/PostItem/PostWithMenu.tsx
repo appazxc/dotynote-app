@@ -31,66 +31,66 @@ type Props = {
   children: React.ReactNode;
   post: PostEntity;
   parentId: string;
-  internalLevel?: number;
+  nestedLevel?: number;
   isMenuDisabled?: boolean;
-  canShowInternal?: boolean;
+  canShowNested?: boolean;
 };
 
 type MenuProps = { key: string; hasDivider?: boolean; menu?: MenuProps[] } & (MenuItemProps | MenuSubProps)
 
-const internalMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
+const nestedMaxCounts = [0, 1, 3, 5, 10, 25, 50, 100];
 
 export const PostWithMenu = React.memo((props: Props) => {
-  const { post, parentId, internalLevel, isMenuDisabled, canShowInternal, children } = props;
+  const { post, parentId, nestedLevel, isMenuDisabled, canShowNested, children } = props;
   const { id: postId, note: { id: noteId } } = post;
   const dispatch = useAppDispatch();
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
-  const isInternal = !!internalLevel;
+  const isNested = !!nestedLevel;
 
   const { mutate: deletePosts, isPending: isDeletePending } = useDeleteNotesFromPosts(parentId);
   const { mutate: unstick } = useUnstickPosts(parentId, [postId]);
   const { mutate: pin } = usePinPost();
   const { mutate: unpin } = useUnpinPost();
-  const { mutate: createInternalPosts, isPending: isCreatingInternal } = useMutation({
+  const { mutate: createNestedPosts, isPending: isCreatingNested } = useMutation({
     mutationFn: (postId: string) => {
-      return api.post<string>(`/posts/${postId}/internal`, {});
+      return api.post<string>(`/posts/${postId}/nested`, {});
     },
   });
-  const { mutate: deleteInternalPosts, isPending: isDeletingInternal } = useMutation({
+  const { mutate: deleteNestedPosts, isPending: isDeletingNested } = useMutation({
     mutationFn: (postId: string) => {
-      return api.delete<string>(`/posts/${postId}/internal`);
+      return api.delete<string>(`/posts/${postId}/nested`);
     },
   });
-  const { mutate: updateInternal } = useMutation({
+  const { mutate: updateNested } = useMutation({
     mutationFn: (max: number) => {
-      return api.patch<string>(`/posts/${postId}/internal`, { max });
+      return api.patch<string>(`/posts/${postId}/nested`, { max });
     },
     onError: () => {
       toaster.create({
-        description: 'Failed to update internal posts',
+        description: 'Failed to update nested posts',
         type: 'error',
       });
     },
   });
   
-  const isInternalCreated = !!post.internal;
+  const isNestedCreated = !!post.nested;
 
-  const handleCreateOrDeleteInternal = React.useCallback(() => {
-    if (isInternalCreated) {
-      deleteInternalPosts(postId);
+  const handleCreateOrDeleteNested = React.useCallback(() => {
+    if (isNestedCreated) {
+      deleteNestedPosts(postId);
     } else {
-      createInternalPosts(postId);
+      createNestedPosts(postId);
     }
-  }, [isInternalCreated, postId, createInternalPosts, deleteInternalPosts]);
+  }, [isNestedCreated, postId, createNestedPosts, deleteNestedPosts]);
 
   const menuItems = React.useMemo(() => {
-    const showPin = !isInternal && post.permissions.pin && !post.pinnedAt;
-    const showUnpin = !isInternal && post.permissions.unpin && !!post.pinnedAt;
-    const showSelect = !isInternal;
+    const showPin = !isNested && post.permissions.pin && !post.pinnedAt;
+    const showUnpin = !isNested && post.permissions.unpin && !!post.pinnedAt;
+    const showSelect = !isNested;
     const showStick = post.permissions.stick;
     const showMove = post.permissions.move;
-    const showInternal = !isInternal && post.permissions.updateInternal && canShowInternal;
+    const showNested = !isNested && post.permissions.updateNested && canShowNested;
     const showUnstick = post.permissions.unstick;
     const showDelete = post.permissions.delete;
     const showDot = post.permissions.upsertDot;
@@ -159,25 +159,25 @@ export const PostWithMenu = React.memo((props: Props) => {
           postIds: [post.id],
         })),
       }] : [],
-      ...showInternal ? [{
-        key: 'Internal posts',
-        label: 'Internal posts',
+      ...showNested ? [{
+        key: 'Nested posts',
+        label: 'Nested posts',
         menu: [
           {
-            key: isInternalCreated ? 'Shown' : 'Hidden',
+            key: isNestedCreated ? 'Shown' : 'Hidden',
             label: <>
-              {isInternalCreated ? 'Shown' : 'Hidden'}
+              {isNestedCreated ? 'Shown' : 'Hidden'}
               <Switch
                 size="sm"
-                checked={!!post.internal}
-                disabled={isCreatingInternal || isDeletingInternal}
+                checked={!!post.nested}
+                disabled={isCreatingNested || isDeletingNested}
               />
             </>,
             closeOnClick: false,
-            onClick: handleCreateOrDeleteInternal,
+            onClick: handleCreateOrDeleteNested,
             justifyContent: 'space-between',
           },
-          ...isInternalCreated ? [{
+          ...isNestedCreated ? [{
             key: 'Max',
             label: (
               <Text
@@ -191,16 +191,16 @@ export const PostWithMenu = React.memo((props: Props) => {
                   display="inline"
                   as="span"
                 >
-                  {post.internal.max}
+                  {post.nested.max}
                 </Text>)
               </Text>
             ),
-            menu: internalMaxCounts.map((count) => {
+            menu: nestedMaxCounts.map((count) => {
               return ({
                 key: count,
                 label: count,
-                rightIcon: count === post.internal.max ? <MdOutlineDone /> : undefined,
-                onClick: () => updateInternal(count),
+                rightIcon: count === post.nested.max ? <MdOutlineDone /> : undefined,
+                onClick: () => updateNested(count),
               });
             }),
           }] : [],
@@ -223,10 +223,10 @@ export const PostWithMenu = React.memo((props: Props) => {
   }, [
     post,
     dispatch,
-    isCreatingInternal,
-    isDeletingInternal,
-    isInternal,
-    isInternalCreated,
+    isCreatingNested,
+    isDeletingNested,
+    isNested,
+    isNestedCreated,
     isMobile,
     navigate,
     noteId,
@@ -234,11 +234,11 @@ export const PostWithMenu = React.memo((props: Props) => {
     postId,
     unstick,
     unpin,
-    updateInternal,
-    handleCreateOrDeleteInternal,
+    updateNested,
+    handleCreateOrDeleteNested,
     isDeletePending,
     parentId,
-    canShowInternal,
+    canShowNested,
   ]);
 
   const renderMenuItem = React.useCallback(({ key, menu, hasDivider, ...restProps } : MenuProps) => {

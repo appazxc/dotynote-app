@@ -9,7 +9,7 @@ export const activateUserAllTypeQueriesNextPage = (): ThunkAction => {
 
     notes.forEach((note) => {
       activateInfinityQueryNextPage(
-        getInfinityAllTypeQueryKey(note.id).slice(0, 4) // remove internal level for query all keys
+        getInfinityAllTypeQueryKey(note.id).slice(0, 4) // remove nested level for query all keys
       );
     });
   };

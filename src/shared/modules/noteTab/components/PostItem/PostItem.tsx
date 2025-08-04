@@ -8,7 +8,7 @@ import { Post } from 'shared/components/Post';
 import { Checkbox } from 'shared/components/ui/checkbox';
 import { noteRoutePath } from 'shared/constants/noteRoutePath';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
-import { InternalPosts } from 'shared/modules/noteTab/components/PostItem/InternalPosts';
+import { NestedPosts } from 'shared/modules/noteTab/components/PostItem/NestedPosts';
 import { PostWithMenu } from 'shared/modules/noteTab/components/PostItem/PostWithMenu';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -20,7 +20,7 @@ type Props = {
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;
-  internalLevel?: number;
+  nestedLevel?: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 }
@@ -28,7 +28,7 @@ type Props = {
 const SELECTING_OFFSET = '40px';
 
 export const PostItem = React.memo((props: Props) => {
-  const { postId, isSelecting, isSelected, hasOverlay, onOverlayClick, internalLevel } = props;
+  const { postId, isSelecting, isSelected, hasOverlay, onOverlayClick, nestedLevel } = props;
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getPostById(state, postId));
@@ -39,8 +39,8 @@ export const PostItem = React.memo((props: Props) => {
   invariant(post, 'Missing post', { id: postId });
   invariant(parent, 'Missing parent', { id: post?.parentId });
 
-  const allowInternal = !internalLevel;
-  const showInternal = allowInternal && parent.postsSettings?.internal && !!post.internal?.max;
+  const allowNested = !nestedLevel;
+  const showNested = allowNested && parent.postsSettings?.nested && !!post.nested?.max;
 
   const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (event.metaKey) {
@@ -128,16 +128,16 @@ export const PostItem = React.memo((props: Props) => {
     <Box asChild position="relative">
       <motion.div animate={{ left: isSelecting ? SELECTING_OFFSET : '0' }}>
         <PostWithMenu
-          internalLevel={internalLevel}
+          nestedLevel={nestedLevel}
           post={post}
           parentId={post.parentId}
-          canShowInternal={parent.postsSettings?.internal}
+          canShowNested={parent.postsSettings?.nested}
           isMenuDisabled={hasOverlay}
         >
           {renderedPost}
         </PostWithMenu>
-        {showInternal && (
-          <InternalPosts post={post} internalLevel={internalLevel} />
+        {showNested && (
+          <NestedPosts post={post} nestedLevel={nestedLevel} />
         )}
         {renderedSelectingContent}
         {renderedOverlay}

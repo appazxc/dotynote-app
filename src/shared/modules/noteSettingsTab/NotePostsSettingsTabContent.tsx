@@ -54,8 +54,8 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
 
   const { mutate } = useUpdatePostsSettings(noteId, postsSettings.id);
 
-  const handleInternalChange = React.useCallback(({ checked }) => {
-    mutate({ internal: checked });
+  const handleNestedChange = React.useCallback(({ checked }) => {
+    mutate({ nested: checked });
   }, [mutate]);
 
   const isAllTypeList = postsSettings.listType === 'all';
@@ -65,10 +65,10 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
       <ListSettings noteId={noteId} postsSettings={postsSettings} />
       {!isAllTypeList && (
         <CheckboxCard
-          label="Show internal posts"
-          description="Show or hide internal posts content and settings"
-          checked={!!note.postsSettings?.internal}
-          onCheckedChange={handleInternalChange}
+          label="Show nested posts"
+          description="Show or hide nested posts content and settings"
+          checked={!!note.postsSettings?.nested}
+          onCheckedChange={handleNestedChange}
         />
       )}
     </VStack>

@@ -6,6 +6,6 @@ const postSchema = new schema.Entity('post', {
   note: noteSchema,
 });
 
-export const postInternalSchema = new schema.Entity('postInternal', {
+export const postNestedSchema = new schema.Entity('postNested', {
   post: postSchema,
 });

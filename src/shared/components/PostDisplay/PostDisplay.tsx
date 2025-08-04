@@ -5,7 +5,7 @@ import React from 'react';
 import { PostSchemaView } from 'shared/components/PostDisplay/PostSchemaView';
 import { WithMenu } from 'shared/components/PostDisplay/WithMenu';
 import { Checkbox } from 'shared/components/ui/checkbox';
-import { InternalPosts } from 'shared/modules/noteTab/components/PostItem/InternalPosts';
+import { NestedPosts } from 'shared/modules/noteTab/components/PostItem/NestedPosts';
 import { noteSelector, postSelector } from 'shared/selectors/entities';
 import { useAppSelector } from 'shared/store/hooks';
 import { PostEntity } from 'shared/types/entities/PostEntity';
@@ -18,7 +18,7 @@ type Props = {
   isSelecting?: boolean;
   hasOverlay?: boolean;
   isSelected?: boolean;
-  internalLevel: number;
+  nestedLevel: number;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => (post: PostEntity) => void;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
 }
@@ -26,7 +26,7 @@ type Props = {
 const SELECTING_OFFSET = '40px';
 
 export const PostDisplay = React.memo((props: Props) => {
-  const { noteId, postId, parentId, onOverlayClick, isSelecting, isSelected, hasOverlay, internalLevel } = props;
+  const { noteId, postId, parentId, onOverlayClick, isSelecting, isSelected, hasOverlay, nestedLevel } = props;
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const getParentById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const getPostById = React.useMemo(() => postSelector.makeGetEntityById(), []);
@@ -36,8 +36,8 @@ export const PostDisplay = React.memo((props: Props) => {
 
   invariant(note, 'Missing post', { id: noteId });
 
-  const allowInternal = !internalLevel;
-  const showInternal = allowInternal && parent?.postsSettings?.internal && !!post?.internal?.max;
+  const allowNested = !nestedLevel;
+  const showNested = allowNested && parent?.postsSettings?.nested && !!post?.nested?.max;
 
   const renderedView = React.useMemo(() => {
     if (note._isDeleted) {
@@ -109,8 +109,8 @@ export const PostDisplay = React.memo((props: Props) => {
         <WithMenu>
           {renderedView}
         </WithMenu>
-        {showInternal && (
-          <InternalPosts post={post} internalLevel={internalLevel} />
+        {showNested && (
+          <NestedPosts post={post} nestedLevel={nestedLevel} />
         )}
         {renderedSelectingContent}
         {renderedOverlay}

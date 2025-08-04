@@ -5,7 +5,7 @@ import { NoteFiltersEntity } from 'shared/types/entities/NoteFiltersEntity';
 import { BaseEntity } from './BaseEntity';
 
 export type ApiPostsSettingsEntity = BaseEntity<{
-  internal: boolean;
+  nested: boolean;
   orderBy: PostOrderBy;
   sort: 'asc' | 'desc';
   noteId: string;

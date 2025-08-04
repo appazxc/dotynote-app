@@ -22,12 +22,12 @@ type Props = {
   search?: string;
   disablePagination?: boolean;
   pageSize?: number;
-  internalLevel?: number;
+  nestedLevel?: number;
   onScrollRestoration?: () => void;
 };
 
 export const NotePosts = React.memo((props: Props) => {
-  const { note, search, disablePagination, pageSize, internalLevel, onScrollRestoration } = props;
+  const { note, search, disablePagination, pageSize, nestedLevel, onScrollRestoration } = props;
   const { id: noteId, postsSettings } = note;
   const dispatch = useAppDispatch();
   const operation = useAppSelector(selectOperation);
@@ -89,7 +89,7 @@ export const NotePosts = React.memo((props: Props) => {
           orderBy={postsSettings.orderBy}
           disablePagination={disablePagination}
           pageSize={pageSize}
-          internalLevel={internalLevel}
+          nestedLevel={nestedLevel}
           onOverlayClick={handleOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
@@ -103,13 +103,13 @@ export const NotePosts = React.memo((props: Props) => {
           filters={postsSettings.filters}
           disablePagination={disablePagination}
           pageSize={pageSize}
-          internalLevel={internalLevel}
+          nestedLevel={nestedLevel}
           onOverlayClick={handleNoteOverlayClick}
           onScrollRestoration={onScrollRestoration}
         />
       )}
       
-      {!internalLevel && <SelectConcretePlaceModal noteId={noteId} />}
+      {!nestedLevel && <SelectConcretePlaceModal noteId={noteId} />}
     </>
   );
 });

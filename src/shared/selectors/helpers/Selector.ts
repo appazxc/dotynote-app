@@ -11,7 +11,7 @@ import { noteSettingsSchema } from 'shared/schemas/noteSettings.schema';
 import { noteVideoSchema } from 'shared/schemas/noteVideo.schema';
 import { postSchema } from 'shared/schemas/post.schema';
 import { postDotSchema } from 'shared/schemas/postDot.schema';
-import { postInternalSchema } from 'shared/schemas/postInternal.schema';
+import { postNestedSchema } from 'shared/schemas/postNested.schema';
 import { postsSettingsSchema } from 'shared/schemas/postsSettings.schema';
 import { spaceSchema } from 'shared/schemas/space.schema';
 import { spaceTabSchema } from 'shared/schemas/spaceTab.schema';
@@ -38,7 +38,7 @@ const schemaMap: {
   [entityNames.spaceTab]: spaceTabSchema,
   [entityNames.user]: userSchema,
   [entityNames.userSettings]: userSettingsSchema,
-  [entityNames.postInternal]: postInternalSchema,
+  [entityNames.postNested]: postNestedSchema,
   [entityNames.postDot]: postDotSchema,
   [entityNames.noteDot]: noteDotSchema,
   [entityNames.noteImage]: noteImageSchema,

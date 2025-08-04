@@ -9,7 +9,7 @@ import { ApiNoteSettingsEntity, NoteSettingsEntity } from 'shared/types/entities
 import { ApiNoteVideoEntity, NoteVideoEntity } from 'shared/types/entities/NoteVideoEntity';
 import { ApiPostDotEntity, PostDotEntity } from 'shared/types/entities/PostDotEntity';
 import { ApiPostEntity, PostEntity } from 'shared/types/entities/PostEntity';
-import { ApiPostInternalEntity, PostInternalEntity } from 'shared/types/entities/PostInternalEntity';
+import { ApiPostNestedEntity, PostNestedEntity } from 'shared/types/entities/PostNestedEntity';
 import { ApiPostsSettingsEntity, PostsSettingsEntity } from 'shared/types/entities/PostsSettingsEntity';
 import { ApiSpaceEntity, SpaceEntity } from 'shared/types/entities/SpaceEntity';
 import { ApiSpaceTabEntity, SpaceTabEntity } from 'shared/types/entities/SpaceTabEntity';
@@ -28,7 +28,7 @@ export type ApiEntityTypes = {
   [entityNames.postsSettings]: ApiPostsSettingsEntity;
   [entityNames.noteSettings]: ApiNoteSettingsEntity;
   [entityNames.userSettings]: ApiUserSettingsEntity;
-  [entityNames.postInternal]: ApiPostInternalEntity;
+  [entityNames.postNested]: ApiPostNestedEntity;
   [entityNames.postDot]: ApiPostDotEntity;
   [entityNames.noteDot]: ApiNoteDotEntity;
   [entityNames.noteImage]: ApiNoteImageEntity;
@@ -52,7 +52,7 @@ export type EntityTypes = {
   [entityNames.postsSettings]: PostsSettingsEntity;
   [entityNames.noteSettings]: NoteSettingsEntity;
   [entityNames.userSettings]: UserSettingsEntity;
-  [entityNames.postInternal]: PostInternalEntity;
+  [entityNames.postNested]: PostNestedEntity;
   [entityNames.postDot]: PostDotEntity;
   [entityNames.noteDot]: NoteDotEntity;
   [entityNames.noteImage]: NoteImageEntity;

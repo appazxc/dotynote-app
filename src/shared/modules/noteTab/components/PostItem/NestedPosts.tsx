@@ -5,18 +5,18 @@ import { PostEntity } from 'shared/types/entities/PostEntity';
 
 type Props = {
   post: PostEntity;
-  internalLevel?: number;
+  nestedLevel?: number;
 };
 
-export const InternalPosts = React.memo(({ post, internalLevel = 0 }: Props) => {
-  const { note, internal } = post;
+export const NestedPosts = React.memo(({ post, nestedLevel = 0 }: Props) => {
+  const { note, nested } = post;
 
   return (
     <NotePosts
       disablePagination
       note={note}
-      pageSize={internal.max}
-      internalLevel={internalLevel + 1}
+      pageSize={nested.max}
+      internalLevel={nestedLevel + 1}
     />
   );
 });

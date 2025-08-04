@@ -28,7 +28,7 @@ type Props = {
   isPinned?: boolean;
   selectedPosts?: string[];
   options?: InfinityQueryOptions;
-  internalLevel?: number;
+  nestedLevel?: number;
   disablePagination?: boolean;
   scrollRestoration?: boolean;
   onOverlayClick?: (event: React.MouseEvent<HTMLDivElement>) => (id: string) => void;
@@ -38,9 +38,9 @@ type Props = {
 export const getInfinityStickTypeQueryKey = (
   noteId: string = '', 
   filters: InfinityNoteFilters = {}, 
-  internalLevel?: number
+  nestedLevel?: number
 ) => 
-  ['posts', noteId, 'stick-notes', filters, internalLevel] as const;
+  ['posts', noteId, 'stick-notes', filters, nestedLevel] as const;
 
 export type InfinityStickTypeQueryKey = ReturnType<typeof getInfinityStickTypeQueryKey>;
 
@@ -49,7 +49,7 @@ export const StickTypeList = React.memo((props: Props) => {
     noteId,
     search,
     isPinned,
-    internalLevel,
+    nestedLevel,
     isSelecting = false,
     hasOverlay = false,
     scrollRestoration = true,
@@ -106,7 +106,7 @@ export const StickTypeList = React.memo((props: Props) => {
     filters,
     options,
     disablePagination,
-    internalLevel,
+    nestedLevel,
     getQueryKey: getInfinityStickTypeQueryKey,
   });
 
@@ -124,7 +124,7 @@ export const StickTypeList = React.memo((props: Props) => {
             flatData.map((postId) => (
               <PostItem
                 key={postId}
-                internalLevel={internalLevel}
+                nestedLevel={nestedLevel}
                 isSelecting={isSelecting}
                 isSelected={getIsSelected(postId, isSelecting, selectedPosts)}
                 hasOverlay={hasOverlay}
