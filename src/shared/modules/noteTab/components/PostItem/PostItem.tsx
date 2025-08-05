@@ -62,7 +62,6 @@ export const PostItem = React.memo((props: Props) => {
         isPinned={!!post.pinnedAt}
         noteId={post.note.id}
         extraId={post.id}
-        dots={post.dots}
         note={post.note}
         showDotsAmount={parent.access === 'public'}
         onClick={onClick}

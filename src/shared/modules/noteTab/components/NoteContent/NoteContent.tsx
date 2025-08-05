@@ -8,7 +8,6 @@ import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { Tag } from 'shared/components/ui/tag';
 import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
-import { NoteContentDots } from 'shared/modules/noteTab/components/NoteContent/NoteContentDots';
 import { noteSelector } from 'shared/selectors/entities';
 import { selectNoteFullness } from 'shared/selectors/note/selectNoteFullness';
 import { useAppSelector } from 'shared/store/hooks';
@@ -110,10 +109,6 @@ export const NoteContent = (props: Props) => {
       <NoteFiles 
         noteId={noteId}
         files={note.files}
-      />
-      <NoteContentDots
-        dots={note.dots}
-        showAmount={note.access === 'public'}
       />
     </Box>
   );

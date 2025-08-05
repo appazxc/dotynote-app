@@ -12,8 +12,6 @@ export const modalIds = keymirror({
   url: null,
   selectConcretePlace: null,
   primaryNote: null,
-  createNoteDot: null,
-  createPostDot: null,
   noteVideo: null,
   notImplementedBilling: null,
   insufficientCredits: null,  

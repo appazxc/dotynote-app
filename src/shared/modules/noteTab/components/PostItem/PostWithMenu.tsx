@@ -18,7 +18,6 @@ import { Switch } from 'shared/components/ui/switch';
 import { toaster } from 'shared/components/ui/toaster';
 import { modalIds } from 'shared/constants/modalIds';
 import { ConfirmModal } from 'shared/containers/modals/ConfirmModal';
-import { CreatePostDotModal } from 'shared/containers/modals/CreatePostDotModal';
 import { buildNoteTabRoute } from 'shared/helpers/buildNoteTabRoute';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
 import { useIsMobile } from 'shared/hooks/useIsMobile';
@@ -93,7 +92,6 @@ export const PostWithMenu = React.memo((props: Props) => {
     const showNested = !isNested && post.permissions.updateNested && canShowNested;
     const showUnstick = post.permissions.unstick;
     const showDelete = post.permissions.delete;
-    const showDot = post.permissions.upsertDot;
 
     return [
       {
@@ -118,13 +116,6 @@ export const PostWithMenu = React.memo((props: Props) => {
             queryClient.invalidateQueries({ queryKey: getPinnedPostsCountQueryKey(parentId) });
           },
         }),
-      }] : [],
-      ...showDot ? [{
-        key: 'Add dot',
-        label: 'Add dot',
-        onClick: () => {
-          dispatch(showModal({ id: modalIds.createPostDot, extraId: postId }));
-        },
       }] : [],
       ...showUnpin ? [{
         key: 'Unpin',
@@ -272,10 +263,6 @@ export const PostWithMenu = React.memo((props: Props) => {
           dispatch(hideModal());
           deletePosts([post.id]);
         }}
-      />
-      <CreatePostDotModal 
-        postId={post.id}
-        extraId={post.id}
       />
     </>
   );

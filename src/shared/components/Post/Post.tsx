@@ -6,17 +6,14 @@ import { BsFillPinAngleFill } from 'react-icons/bs';
 import { NoteFiles } from 'shared/components/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
-import { PostDots } from 'shared/components/Post/PostDots';
 import { EditorView } from 'shared/modules/editor';
 import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
-import { PostDotEntity } from 'shared/types/entities/PostDotEntity';
 
 type Props = {
   noteId: string;
   extraId?: number | string;
   isPinned?: boolean;
-  dots?: PostDotEntity[];
   showDotsAmount?: boolean;
   note: NoteEntity;
 } & BoxProps;
@@ -27,7 +24,6 @@ export const Post = React.forwardRef((props: Props, _) => {
     extraId,
     note,
     isPinned,
-    dots,
     onClick,
     showDotsAmount,
     ...boxProps 
@@ -106,13 +102,6 @@ export const Post = React.forwardRef((props: Props, _) => {
             audio={note.audio}
           />
         </Stack>
-        {dots && (
-          <PostDots
-            dots={dots}
-            showAmount={showDotsAmount}
-            mt="2"
-          />
-        )}
       </Box>
     </Box>
   );

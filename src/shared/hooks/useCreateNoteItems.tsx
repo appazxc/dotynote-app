@@ -116,7 +116,7 @@ export const useCreateNoteItems = (props: Props) => {
     //   description: constructionText,
     //   isDisabled: true,
     // },
-  ], [dispatch, checkCredits, handleAttachmentClick, onClick]);
+  ], [dispatch, checkCredits, handleAttachmentClick, onClick, extraId]);
 
   return {
     items,

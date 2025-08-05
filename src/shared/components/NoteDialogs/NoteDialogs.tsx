@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { activateUserAllTypeQueriesNextPage } from 'shared/actions/activateUserAllTypeQueriesNextPage';
-import { CreateNoteDotModal } from 'shared/containers/modals/CreateNoteDotModal';
 import { CreateNoteModal } from 'shared/containers/modals/CreateNoteModal';
 import { CreatePostModal } from 'shared/containers/modals/CreatePostModal';
 import { CreatePostWithImagesModal } from 'shared/containers/modals/CreatePostWithImagesModal';
@@ -42,7 +41,6 @@ export const NoteDialogs = React.memo(({ noteId }: Props) => {
       />
       <CreatePostModal noteId={noteId} onCreate={handleCreate} />
       <CreatePostWithImagesModal noteId={noteId} onCreate={handleCreate} />
-      <CreateNoteDotModal noteId={noteId} />
       <NoteMenuDrawer noteId={noteId} />
       <CreateNoteDrawer onCreate={handleCreate} onError={handleError} />
     </>

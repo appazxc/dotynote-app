@@ -1,15 +1,13 @@
 import React from 'react';
-import { GoDot, GoFile } from 'react-icons/go';
+import { GoFile } from 'react-icons/go';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 import { IoImageOutline } from 'react-icons/io5';
 import { PiFileAudioFill } from 'react-icons/pi';
 
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
-import { modalIds } from 'shared/constants/modalIds';
 import { useCreditsCheck } from 'shared/hooks/useCreditsCheck';
 import { useFileUpload } from 'shared/modules/fileUpload';
 import { UploadFileType } from 'shared/modules/fileUpload/FileUploadProvider';
-import { showModal } from 'shared/modules/modal/modalSlice';
 import { ContentPickerCards } from 'shared/modules/noteTab/components/ContentPicker/ContentPickerCards';
 import { useAppDispatch } from 'shared/store/hooks';
 
@@ -45,21 +43,6 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, view = 'grid' }:
 
   const items = React.useMemo(() => {
     return [
-      {
-        icon: GoDot,
-        title: 'Dot',
-        onClick: () => {
-          onClick?.();
-
-          // looks like there some problems with popover + modal focus events. modal close instantly after open
-          // if not wait a bit
-          // src/desktop/modules/noteTab/NoteSidebar/SidebarPlusMenu.tsx
-          // TODO find a solution
-          setTimeout(() => {
-            dispatch(showModal({ id: modalIds.createNoteDot }));
-          });
-        },
-      },
       {
         icon: IoImageOutline,
         title: 'Image',

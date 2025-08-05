@@ -23,8 +23,7 @@ export const getNoteFullness = (note?: NoteEntity | null) => {
     && note.images.length === 0 
     && note.audio.length === 0 
     && note.videos.length === 0;
-  const isDotsEmpty = note.dots.length === 0;
-  const isNoteEmpty = isTextContentEmpty && isAttachmentsEmpty && isDotsEmpty;
+  const isNoteEmpty = isTextContentEmpty && isAttachmentsEmpty;
 
   return {
     isTextContentEmpty,

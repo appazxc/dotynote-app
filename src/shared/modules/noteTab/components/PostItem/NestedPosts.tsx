@@ -16,7 +16,7 @@ export const NestedPosts = React.memo(({ post, nestedLevel = 0 }: Props) => {
       disablePagination
       note={note}
       pageSize={nested.max}
-      internalLevel={nestedLevel + 1}
+      nestedLevel={nestedLevel + 1}
     />
   );
 });
