@@ -2,7 +2,7 @@ import { Box, BoxProps } from '@chakra-ui/react';
 import { JSONContent, generateHTML } from '@tiptap/core';
 import React from 'react';
 
-import { getEditorStyles } from 'shared/theme/styles';
+import { getEditorStyles, getEditorStylesWithAmpersand } from 'shared/theme/styles';
 
 import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
@@ -28,7 +28,11 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
     return result;
   }, [json, removeEmptyDivsFromEnd]);
 
-  const sx = React.useMemo(() => getEditorStyles(), []);
+  const sx = React.useMemo(() => ({ 
+    whiteSpace: 'break-spaces',
+    wordBreak: 'break-word', 
+    ...getEditorStylesWithAmpersand(getEditorStyles()), 
+  }), []);
   
   if (!content) {
     return null;

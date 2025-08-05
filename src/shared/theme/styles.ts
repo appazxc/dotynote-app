@@ -1,140 +1,190 @@
 export const getEditorStyles = () => {
   return {
-    '&': {
-      minHeight: '100%',
-      whiteSpace: 'break-spaces',
-      wordBreak: 'break-word',
-    },
-    '& p.is-editor-empty:first-of-type::before': {
-      content: 'attr(data-placeholder)',
-      color: 'gray.500',
-      float: 'left',
-      pointerEvents: 'none',
-      height: 0,
-    },
-    '&:focus': {
-      outline: 'none',
-    },
-    '& h1': {
-      fontSize: '1.25rem',
-    },
-    '& h2': {
-      fontSize: '1.15rem',
-    },
-    '& h3': {
+    'p': {
       fontSize: '1rem',
+      lineHeight: '1.6',
+      fontWeight: '400',
+      marginTop: '0.5rem',
     },
-    '& h1, h2, h3, h4, h5, h6 ': {
-      lineHeight: '1.1',
+    'p:first-child': {
+      marginTop: 0,
+    },
+
+    a: {
+      color: 'var(--purple)',
+      cursor: 'pointer',
+
+      '&:hover': {
+        color: 'var(--purple-contrast)',
+      },
+    },
+
+    /* List styles */
+    ul: {
+      listStyle: 'disc',
+      padding: '0 1rem',
+      margin: '1.25rem 1rem 1.25rem 0.4rem',
+
+      'li p': {
+        marginTop: '0.25em',
+        marginBottom: '0.25em',
+      },
+    },
+
+    ol: {
+      listStyle: 'decimal',
+      padding: '0 1rem',
+      margin: '1.25rem 1rem 1.25rem 0.4rem',
+
+      'li p': {
+        marginTop: '0.25em',
+        marginBottom: '0.25em',
+      },
+    },
+
+    /* Heading styles */
+    h1: {
+      lineHeight: 1.1,
+      marginTop: '3.5rem',
+      marginBottom: '1.5rem',
+      fontSize: '1.4rem',
+      textWrap: 'pretty',
       fontWeight: '700',
     },
-    '& p:empty::before': {
-      content: '"\\A"',
+
+    h2: {
+      lineHeight: 1.1,
+      marginTop: '3.5rem',
+      marginBottom: '1.5rem',
+      fontSize: '1.2rem',
+      textWrap: 'pretty',
+      fontWeight: '700',
     },
-    '& em': {
-      fontStyle: 'italic',
+
+    h3: {
+      lineHeight: 1.1,
+      marginTop: '2.5rem',
+      fontSize: '1.1rem',
+      textWrap: 'pretty',
+      fontWeight: '600',
     },
-    // p: {
-    //   marginBlockStart: '1em',
-    //   marginBlockEnd: '1em',
-    // },
-    '& ul li, ol li': {
-      marginBottom: '.25em',
+
+    h4: {
+      lineHeight: 1.1,
+      marginTop: '2.5rem',
+      fontSize: '1rem',
+      textWrap: 'pretty',
+      fontWeight: '600',
     },
-    '& ul li::marker, ol li::marker': {
-      color: 'var(--chakra-colors-fg)',
+
+    h5: {
+      lineHeight: 1.1,
+      marginTop: '2.5rem',
+      fontSize: '1rem',
+      textWrap: 'pretty',
+      fontWeight: '600',
     },
-    '& ul, ol': {
-      padding: '0 1rem',
-      margin: '0 1rem 0 .4rem',
+
+    h6: {
+      lineHeight: 1.1,
+      marginTop: '2.5rem',
+      fontSize: '1rem',
+      textWrap: 'pretty',
+      fontWeight: '600',
     },
-    '& ul': {
-      listStyle: 'disc',
+
+    /* Code and preformatted text styles */
+    code: {
+      backgroundColor: 'var(--purple-light)',
+      borderRadius: '0.4rem',
+      color: 'var(--black)',
+      fontSize: '0.85rem',
+      padding: '0.25em 0.3em',
     },
-    '& ol': {
-      listStyle: 'decimal',
+
+    '.code-block': {
+      position: 'relative',
     },
-    '& a': {
-      color: 'editorLink',
-      '&:hover': {
-        textDecoration: 'underline',
-      },
+
+    blockquote: {
+      borderLeft: '3px solid var(--gray-3)',
+      margin: '1.5rem 0',
+      paddingLeft: '1rem',
     },
-    '& code': {
-      bg: '#6161611a',
-      color: '#616161',
-    },
-    '& pre': {
-      fontFamily: "JetBrainsMono, 'Courier New', Courier, monospace",
-      background: 'gray.900',
-      color: 'white',
-      padding: '0.75rem 1rem',
-      rounded: 'lg',
-      whiteSpace: 'pre-wrap',
-      margin: '10px 0',
-      code: {
-        color: 'inherit',
-        p: 0,
-        background: 'none',
-        fontSize: '0.8em',
-      },
-  
-      '& .hljs-comment, .hljs-quote': {
-        color: '#616161',
-      },
-  
-      // eslint-disable-next-line max-len
-      '& .hljs-variable, .hljs-template-variable,  .hljs-attribute, .hljs-tag, .hljs-name, .hljs-regexp, .hljs-link, .hljs-name, .hljs-selector-id, .hljs-selector-class':
-        {
-          color: '#F98181',
-        },
-  
-      '& .hljs-number,  .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal,  .hljs-type, .hljs-params': {
-        color: '#FBBC88',
-      },
-  
-      '& .hljs-string, .hljs-symbol, .hljs-bullet': {
-        color: '#B9F18D',
-      },
-  
-      '& .hljs-title, .hljs-section': {
-        color: '#FAF594',
-      },
-  
-      '& .hljs-keyword, .hljs-selector-tag': {
-        color: '#70CFF8',
-      },
-  
-      '& .hljs-emphasis': {
-        fontStyle: 'italic',
-      },
-  
-      '& .hljs-strong': {
-        fontWeight: 700,
-      },
-    },
-    '& blockquote': {
-      pl: 4,
-      borderLeft: '2px solid rgba(13, 13, 13, 0.1)',
-    },
-    '& span[data-spoiler]': {
-      bg: 'gray.900',
-      _hover: {
-        bg: 'transparent',
-      },
-      // @apply dark:bg-gray-100 bg-gray-900 dark:hover:bg-transparent hover:bg-transparent;
-    },
-    '& img': {
-      maxW: 'full',
-      h: 'auto',
-    },
-    '& mark': {
-      bg: '#FAF594',
-    },
-    '& hr': {
+
+    hr: {
       border: 'none',
-      borderTop: '2px solid rgba(#0D0D0D, 0.1)',
+      borderTop: '1px solid var(--gray-2)',
       margin: '2rem 0',
     },
+
+    /* Table-specific styling */
+    table: {
+      borderCollapse: 'collapse',
+      margin: 0,
+      overflow: 'hidden',
+      tableLayout: 'fixed',
+      width: '100%',
+
+      'td, th': {
+        border: '1px solid var(--gray-3)',
+        boxSizing: 'border-box',
+        minWidth: '1em',
+        padding: '6px 8px',
+        position: 'relative',
+        verticalAlign: 'top',
+
+        '> *': {
+          marginBottom: 0,
+        },
+      },
+
+      th: {
+        backgroundColor: 'var(--gray-1)',
+        fontWeight: 'bold',
+        textAlign: 'left',
+      },
+
+      '.selectedCell:after': {
+        background: 'var(--gray-2)',
+        content: '""',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        pointerEvents: 'none',
+        position: 'absolute',
+        zIndex: 2,
+      },
+
+      '.column-resize-handle': {
+        backgroundColor: 'var(--purple)',
+        bottom: '-2px',
+        pointerEvents: 'none',
+        position: 'absolute',
+        right: '-2px',
+        top: 0,
+        width: '4px',
+      },
+    },
+
+    '.tableWrapper': {
+      margin: '1.5rem 0',
+      overflowX: 'auto',
+    },
+
+    '.resize-cursor': {
+      cursor: 'col-resize',
+    },
   };
+};
+
+export const getEditorStylesWithAmpersand = <T extends object>(styles: T) => {
+  const result: Record<string, any> = {};
+  
+  Object.keys(styles).forEach(key => {
+    result[`& ${key}`] = styles[key as keyof typeof styles];
+  });
+  
+  return result;
 }; 
