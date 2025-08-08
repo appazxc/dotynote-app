@@ -58,16 +58,33 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
     deleteNoteImage({ entityId: imageId, noteId });
   }, [deleteNoteImage, noteId, imageId]);
 
+  const handleRetry = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    dispatch(updateEntity({
+      type: entityNames.noteImage,
+      id: imageId,
+      data: {
+        _isError: undefined,
+        _isLoaded: false,
+      },
+    }));
+  }, [dispatch, imageId]);
+
   return (
-    <Menu isContextMenu enabled={hasControls && !isSelecting}>
-      <MenuTrigger>
-        <Box
-          position="relative"
-          cursor="pointer"
-        >
-          {hasError ? (
-            <ImageError width={width} height={height} />
-          ) : (
+    hasError ? (
+      <ImageError 
+        width={width} 
+        height={height} 
+        onRetry={handleRetry} 
+      />
+    ) : (
+      <Menu isContextMenu enabled={hasControls && !isSelecting}>
+        <MenuTrigger>
+          <Box
+            position="relative"
+            cursor="pointer"
+          >
             <BaseImage
               src={src}
               height={height}
@@ -94,31 +111,31 @@ export const ImageWithControls = React.memo((props: WithImageControlsProps) => {
                 }));
               }}
             />
-          )}
           
-          {isSelecting && (
-            <Float offset="15px" placement="top-end">
-              <Checkbox
-                borderRadius="full"
-                colorPalette="blue"
-                radius="full"
-                checked={isSelected}
-              />
-            </Float>
-          )}
-        </Box>
-      </MenuTrigger>
-      <MenuList>
-        <MenuItem
-          label="Select"
-          onClick={handleImageSelect}
-        />
-        <MenuItem
-          label={'Delete'}
-          color="red"
-          onClick={handleDeleteImage}
-        />
-      </MenuList>
-    </Menu>
+            {isSelecting && (
+              <Float offset="15px" placement="top-end">
+                <Checkbox
+                  borderRadius="full"
+                  colorPalette="blue"
+                  radius="full"
+                  checked={isSelected}
+                />
+              </Float>
+            )}
+          </Box>
+        </MenuTrigger>
+        <MenuList>
+          <MenuItem
+            label="Select"
+            onClick={handleImageSelect}
+          />
+          <MenuItem
+            label={'Delete'}
+            color="red"
+            onClick={handleDeleteImage}
+          />
+        </MenuList>
+      </Menu>
+    )
   );
 });
