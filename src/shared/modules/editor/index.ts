@@ -3,4 +3,3 @@ export { useEditor } from './useEditor';
 export { EditorContent } from './EditorContent';
 export { EditorView } from './EditorView';
 export { EditorProvider } from './EditorProvider';
-export { useEditorContext } from './useEditorContext';

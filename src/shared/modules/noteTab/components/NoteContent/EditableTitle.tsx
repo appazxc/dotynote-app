@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AutoResizeTextarea } from 'shared/components/AutoResizeTextarea';
-import { useEditorContext } from 'shared/modules/editor';
+import { useTiptapEditor } from 'shared/hooks/useTiptapEditor';
 
 type Props = {
   title?: string;
@@ -11,7 +11,7 @@ type Props = {
 
 export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
   const [value, setValue] = React.useState(title || '');
-  const editor = useEditorContext();
+  const { editor } = useTiptapEditor();
 
   const handleChange = React.useCallback((e) => {
     setValue(e.target.value);
@@ -21,7 +21,7 @@ export const EditableTitle = ({ title, isMobile, onChange }: Props) => {
   const handleKeyDown = React.useCallback((event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      editor.commands.focus('end');
+      editor?.commands.focus('end');
     }
   }, [editor]);
 

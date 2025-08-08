@@ -8,6 +8,7 @@ import { NoteImages } from 'shared/components/NoteImages';
 import { NoteVideos } from 'shared/components/NoteVideos';
 import { EditorView } from 'shared/modules/editor';
 import { NoteAudioFiles } from 'shared/modules/noteAudio/NoteAudioFiles';
+import { getPostEditorCss } from 'shared/theme/styles';
 import { NoteEntity } from 'shared/types/entities/NoteEntity';
 
 type Props = {
@@ -28,6 +29,8 @@ export const Post = React.forwardRef((props: Props, _) => {
     showDotsAmount,
     ...boxProps 
   } = props;
+
+  const postCss = React.useMemo(() => getPostEditorCss(), []);
 
   if (note._isDeleted) {
     return (
@@ -79,7 +82,7 @@ export const Post = React.forwardRef((props: Props, _) => {
             removeEmptyDivsFromEnd
             maxLines={4}
             content={note.content}
-            color="#14181fc4"
+            css={postCss}
           />
           <NoteVideos
             noteId={noteId}

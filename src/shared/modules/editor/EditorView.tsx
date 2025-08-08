@@ -1,8 +1,6 @@
-import { Box, BoxProps } from '@chakra-ui/react';
+import { Box, BoxProps, SystemStyleObject } from '@chakra-ui/react';
 import { JSONContent, generateHTML } from '@tiptap/core';
 import React from 'react';
-
-import { getEditorStyles, getEditorStylesWithAmpersand } from 'shared/theme/styles';
 
 import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
@@ -11,9 +9,10 @@ type Props = {
   content?: JSONContent;
   maxLines?: number;
   removeEmptyDivsFromEnd?: boolean;
+  css?: SystemStyleObject;
 } & BoxProps
 
-export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivsFromEnd, ...boxProps }: Props) => {
+export const EditorView = React.memo(({ css, content: json, maxLines, removeEmptyDivsFromEnd, ...boxProps }: Props) => {
   const content = React.useMemo(() => {
     if (!json) {
       return '';
@@ -24,26 +23,27 @@ export const EditorView = React.memo(({ content: json, maxLines, removeEmptyDivs
     if (removeEmptyDivsFromEnd) {
       result = removeEmptyDivsFromEndHelper(result);
     }
+
+    result = result.replace(/<div class="para"><\/div>/g, '<div class="para"><br></div>');
     
     return result;
   }, [json, removeEmptyDivsFromEnd]);
 
-  const sx = React.useMemo(() => ({ 
-    whiteSpace: 'break-spaces',
-    wordBreak: 'break-word', 
-    ...getEditorStylesWithAmpersand(getEditorStyles()), 
-  }), []);
-  
+  const boxCss = React.useMemo(() => ({
+    '&.tiptap.ProseMirror': css,
+  }), [css]);
+
   if (!content) {
     return null;
   }
 
   return (
     <Box
-      css={sx}
+      css={boxCss}
       dangerouslySetInnerHTML={{ __html: content }}
       textOverflow={maxLines ? 'ellipsis' : undefined}
       lineClamp={maxLines}
+      className="tiptap ProseMirror"
       {...boxProps}
     />
   );

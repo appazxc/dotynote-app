@@ -1,9 +1,8 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import { Editor } from '@tiptap/react';
-import { EditorContent as TiptapEditorContent } from '@tiptap/react';
+import { Editor, EditorContent as TiptapEditorContent } from '@tiptap/react';
 import React from 'react';
 
-import { getEditorStyles, getEditorStylesWithAmpersand } from 'shared/theme/styles';
+import { getEditorCss } from 'shared/theme/styles';
 
 type Props = {
   editor?: Editor;
@@ -11,20 +10,7 @@ type Props = {
 
 export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
   const css = React.useMemo(() => ({
-    '& .ProseMirror': {
-      minHeight: '100%',
-      whiteSpace: 'break-spaces',
-      wordBreak: 'break-word',
-      outline: 'none',
-      '& .is-empty:first-child::before': {
-        color: 'var(--gray-4)',
-        content: 'attr(data-placeholder)',
-        float: 'left',
-        height: 0,
-        pointerEvents: 'none',
-      },
-      ...getEditorStylesWithAmpersand(getEditorStyles()),
-    },
+    '& .tiptap.ProseMirror': getEditorCss(),
   }), []);
   
   if (!editor) {
@@ -45,6 +31,7 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
       >
         <TiptapEditorContent
           editor={editor}
+          role="presentation"
         />
       </Box>
     </Box>

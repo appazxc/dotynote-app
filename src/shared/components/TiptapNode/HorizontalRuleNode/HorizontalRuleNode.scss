@@ -1,0 +1,29 @@
+.tiptap.ProseMirror {
+  --horizontal-rule-color: var(--tt-gray-light-a-200);
+  --horizontal-rule-margin-top: 1em;
+  --horizontal-rule-margin-bottom: 1em;
+  --horizontal-rule-padding-top: 0.75rem;
+  --horizontal-rule-padding-bottom: 0.75rem;
+
+  .dark & {
+    --horizontal-rule-color: var(--tt-gray-dark-a-200);
+  }
+}
+
+/* =====================
+     HORIZONTAL RULE
+     ===================== */
+.tiptap.ProseMirror {
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--horizontal-rule-color);
+  }
+
+  [data-type="horizontalRule"] {
+    margin-top: var(--horizontal-rule-margin-top);
+    margin-bottom: var(--horizontal-rule-margin-bottom);
+    padding-top: var(--horizontal-rule-padding-top);
+    padding-bottom: var(--horizontal-rule-padding-bottom);
+  }
+}
