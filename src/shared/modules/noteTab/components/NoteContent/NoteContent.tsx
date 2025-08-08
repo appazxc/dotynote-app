@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
+import { entityApi } from 'shared/api/entityApi';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { NoteFiles } from 'shared/components/NoteFiles/NoteFiles';
 import { NoteImages } from 'shared/components/NoteImages';
@@ -43,9 +44,15 @@ export const NoteContent = (props: Props) => {
   const { title, content } = note;
 
   const debouncedUpdateTitle = React.useMemo(() => {
-    return debounce((title) => {
+    const debounced = debounce((title) => {
       mutate({ id: noteId, data: { title } });
     }, 2000);
+    
+    return (title) => {
+      const t = title.trim();
+      entityApi.note.update(noteId, { title: t }, false);
+      debounced(t);
+    };
   }, [mutate, noteId]);
 
   const showContent = isWriteMode || !isTextContentEmpty || !isNoteEmpty || isFilesUploading;
