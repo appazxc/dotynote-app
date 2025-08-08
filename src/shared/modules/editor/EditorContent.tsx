@@ -27,6 +27,7 @@ export const EditorContent = React.memo(({ editor, ...boxProps }: Props) => {
       <Box
         asChild
         flex="1 1 0%"
+        w="100%"
         css={css}
       >
         <TiptapEditorContent
