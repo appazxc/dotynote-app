@@ -83,6 +83,7 @@ export const Post = React.forwardRef((props: Props, _) => {
             maxLines={4}
             content={note.content}
             css={postCss}
+            className="postContent"
           />
           <NoteVideos
             noteId={noteId}

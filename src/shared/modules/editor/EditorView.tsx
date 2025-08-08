@@ -2,6 +2,8 @@ import { Box, BoxProps, SystemStyleObject } from '@chakra-ui/react';
 import { JSONContent, generateHTML } from '@tiptap/core';
 import React from 'react';
 
+import { cn } from 'shared/lib/tiptap-utils';
+
 import { removeEmptyParagraphsFromEnd as removeEmptyDivsFromEndHelper } from './editor.helpers';
 import { extensions } from './extensions';
 
@@ -12,7 +14,9 @@ type Props = {
   css?: SystemStyleObject;
 } & BoxProps
 
-export const EditorView = React.memo(({ css, content: json, maxLines, removeEmptyDivsFromEnd, ...boxProps }: Props) => {
+export const EditorView = React.memo((props: Props) => {
+  const { css, content: json, maxLines, removeEmptyDivsFromEnd, className, ...boxProps } = props;
+  
   const content = React.useMemo(() => {
     if (!json) {
       return '';
@@ -29,9 +33,15 @@ export const EditorView = React.memo(({ css, content: json, maxLines, removeEmpt
     return result;
   }, [json, removeEmptyDivsFromEnd]);
 
-  const boxCss = React.useMemo(() => ({
-    '&.tiptap.ProseMirror': css,
-  }), [css]);
+  const boxCss = React.useMemo(() => {
+    const cn = className ? className.split(' ').map(c => `.${c}`) : '';
+    return {
+      [`&.tiptap.ProseMirror${cn}`]: css,
+      _dark: {
+        '--heading-size-h1': '40px',
+      },
+    };
+  }, [css, className]);
 
   if (!content) {
     return null;
@@ -43,7 +53,7 @@ export const EditorView = React.memo(({ css, content: json, maxLines, removeEmpt
       dangerouslySetInnerHTML={{ __html: content }}
       textOverflow={maxLines ? 'ellipsis' : undefined}
       lineClamp={maxLines}
-      className="tiptap ProseMirror"
+      className={cn('tiptap ProseMirror', className)}
       {...boxProps}
     />
   );
