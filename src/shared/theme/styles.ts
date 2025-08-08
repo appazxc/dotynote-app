@@ -6,7 +6,7 @@ export const getEditorStyles = () => {
       fontWeight: '400',
       marginTop: '0.5rem',
     },
-    'p:first-child': {
+    'p:first-of-type': {
       marginTop: 0,
     },
 
@@ -157,7 +157,7 @@ export const getEditorStyles = () => {
         zIndex: 2,
       },
 
-      '.column-resize-handle': {
+      '.columnResizeHandle': {
         backgroundColor: 'var(--purple)',
         bottom: '-2px',
         pointerEvents: 'none',
@@ -178,6 +178,24 @@ export const getEditorStyles = () => {
     },
   };
 };
+
+export const getEditorCss = () => ({
+});
+
+export const getPostEditorCss = () => ({
+  '--heading-size-h1': 'var(--paragraph-font-size)',
+  '--heading-size-h2': 'var(--paragraph-font-size)',
+  '--heading-size-h3': 'var(--paragraph-font-size)',
+  '--heading-size-h4': 'var(--paragraph-font-size)',
+  '--heading-margin-top-h1': 'var(--paragraph-margin-top)',
+  '--heading-margin-top-h2': 'var(--paragraph-margin-top)',
+  '--heading-margin-top-h3': 'var(--paragraph-margin-top)',
+  '--heading-margin-top-h4': 'var(--paragraph-margin-top)',
+  '--heading-weight-h1': 'var(--paragraph-font-weight)',
+  '--heading-weight-h2': 'var(--paragraph-font-weight)',
+  '--heading-weight-h3': 'var(--paragraph-font-weight)',
+  '--heading-weight-h4': 'var(--paragraph-font-weight)',
+});
 
 export const getEditorStylesWithAmpersand = <T extends object>(styles: T) => {
   const result: Record<string, any> = {};

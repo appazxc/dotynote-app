@@ -33,7 +33,7 @@ export const FooterNavigation = React.memo(() => {
     : isCreditsLimitAlmostReached 
       ? 'yellow.500' 
       : 'purple.500';
-  console.log('activeSpace', activeSpace);
+
   const tabsButtonProps = useLongPress(
     () => navigate({ to: '/app' }),
     { threshold: 500 }

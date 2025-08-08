@@ -1,3 +1,4 @@
+import { EditorContext } from '@tiptap/react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
@@ -8,8 +9,6 @@ import { noteSelector } from 'shared/selectors/entities';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
 import { invariant } from 'shared/util/invariant';
-
-import { EditorContext } from './EditorContext';
 
 type Props = React.PropsWithChildren<{
   id: string;

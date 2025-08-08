@@ -7,7 +7,6 @@ import { progressCircleSlotRecipe } from 'shared/theme/recipes/progressCircle';
 import { selectSlotRecipe } from 'shared/theme/recipes/select';
 import { sliderSlotRecipe } from 'shared/theme/recipes/slider';
 import { textareaRecipe } from 'shared/theme/recipes/textarea';
-import { getEditorStyles } from 'shared/theme/styles';
 import { textStyles } from 'shared/theme/textStyles';
 
 const customConfig = defineConfig({
@@ -53,7 +52,6 @@ const customConfig = defineConfig({
     '.clear': {
       clear: 'both',
     },
-    '.ProseMirror': getEditorStyles(), // .ProseMirror
     '*': {
       'WebkitTapHighlightColor': 'transparent',
     },

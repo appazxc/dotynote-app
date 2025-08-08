@@ -2,7 +2,7 @@ import { Container } from '@chakra-ui/react';
 import React from 'react';
 
 import { NoteDialogs } from 'shared/components/NoteDialogs';
-import { useEditorContext } from 'shared/modules/editor';
+import { useTiptapEditor } from 'shared/hooks/useTiptapEditor';
 import { Operations } from 'shared/modules/noteTab/components/Operations';
 import { selectIsOperationActive } from 'shared/selectors/operations';
 import { useAppSelector } from 'shared/store/hooks';
@@ -18,14 +18,14 @@ type Props = {
 }
 
 export const NoteFooter = React.memo(({ noteId, isWriteMode, isNoteContentVisible }: Props) => {
-  const editor = useEditorContext();
+  const { editor, isFocused } = useTiptapEditor();
   const isOperationActive = useAppSelector(selectIsOperationActive);
   const { isAdvancedEditActive } = useAppSelector(state => state.app.note);
   const { isMobileWidgetOpen } = useAppSelector(state => state.audio);
 
-  const showEditorControls = isAdvancedEditActive && isWriteMode && isNoteContentVisible;
-  const showPlusButton = !editor.isFocused && !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
-  
+  const showEditorControls = editor && isAdvancedEditActive && isWriteMode && isNoteContentVisible;
+  const showPlusButton = !isFocused && !isOperationActive && !showEditorControls && !isMobileWidgetOpen;
+
   return (
     <>
       {showPlusButton ? (
@@ -39,7 +39,7 @@ export const NoteFooter = React.memo(({ noteId, isWriteMode, isNoteContentVisibl
           )}
 
           {showEditorControls && (
-            <NoteEditorControls editor={editor} />
+            <NoteEditorControls />
           )}
         </>
       )}

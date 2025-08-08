@@ -1,7 +1,8 @@
-import { EditorContent, useEditorContext } from 'shared/modules/editor';
+import { useTiptapEditor } from 'shared/hooks/useTiptapEditor';
+import { EditorContent } from 'shared/modules/editor';
 
 export const NoteEditor = () => {
-  const editor = useEditorContext();
+  const { editor } = useTiptapEditor();
 
   if (!editor) {
     return null;

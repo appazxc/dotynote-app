@@ -1,1 +1,1 @@
-export const headerHeight = '40px';
+export const headerHeight = '2.75rem';
