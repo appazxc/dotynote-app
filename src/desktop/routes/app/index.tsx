@@ -6,6 +6,8 @@ import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { billing } from 'desktop/routes/billing';
+import { confirmAccountDelete } from 'desktop/routes/confirmAccountDelete';
+import { forbiddenUserStatus } from 'desktop/routes/forbiddenUserStatus';
 import { auth } from 'desktop/routes/guards';
 import { menu } from 'desktop/routes/menu';
 import { onboarding } from 'desktop/routes/onboarding';
@@ -56,4 +58,6 @@ export const app = appRoute.addChildren([
   templates,
   billing,
   onboarding,
+  confirmAccountDelete,
+  forbiddenUserStatus,
 ]);

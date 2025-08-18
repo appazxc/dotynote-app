@@ -1,9 +1,11 @@
-import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { RiBillLine } from 'react-icons/ri';
 import { TbSettings2 } from 'react-icons/tb';
+
+import { ArrowLeftIcon } from 'shared/components/ui/icons';
 
 import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
 import { DesktopLink } from 'desktop/components/DesktopLink';
@@ -32,7 +34,20 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
 
   const renderedHeader = React.useMemo(() => {
     return (
-      <DefaultLayoutHeader showBackButton />
+      <DefaultLayoutHeader
+        left={(
+          <IconButton 
+            asChild
+            size="xs"
+            variant="ghost"
+            iconSize="auto"
+          >
+            <DesktopLink to="/app">
+              <ArrowLeftIcon size="20px" />
+            </DesktopLink>
+          </IconButton>
+        )}
+      />
     );
   }, []);
 

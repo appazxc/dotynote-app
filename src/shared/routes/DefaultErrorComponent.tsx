@@ -4,16 +4,13 @@ import { TbFaceIdError } from 'react-icons/tb';
 
 import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
-import { logger } from 'shared/services/logger';
 
-import { DesktopLink } from 'desktop/components/DesktopLink';
-import { Layout } from 'desktop/components/Layout';
+type Props = {
+  Layout: React.ComponentType<{ children: React.ReactNode }>,
+  Link: React.ComponentType<{ to: string, children: React.ReactNode }>,
+}
 
-function DefaultErrorComponent({ error }) {
-  React.useEffect(() => {
-    logger.error('Default error component triggered', error);
-  }, [error]);
-
+function DefaultErrorComponent({ Layout, Link }: Props) {
   return (
     <Layout>
       <Center
@@ -28,13 +25,12 @@ function DefaultErrorComponent({ error }) {
           <Group>
             <Button onClick={() => window.location.reload()}>Reload</Button>
             <Button asChild variant="outline">
-              <DesktopLink to="/">Return to home</DesktopLink>
+              <Link to="/">Return to home</Link>
             </Button>
           </Group>
         </EmptyState>
       </Center>
     </Layout>
-
   );
 }
 

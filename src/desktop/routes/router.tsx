@@ -3,10 +3,13 @@ import {
 } from '@tanstack/react-router';
 
 import { Loader } from 'shared/components/Loader';
+import { createErrorComponent } from 'shared/routes/createErrorComponent';
+import { createNotFoundComponent } from 'shared/routes/createNotFoundComponent';
 
+import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
+import { DesktopLink } from 'desktop/components/DesktopLink';
+import { Layout } from 'desktop/components/Layout';
 import { app } from 'desktop/routes/app';
-import { DefaultErrorComponent } from 'desktop/routes/DefaultErrorComponent';
-import { DefaultNotFoundComponent } from 'desktop/routes/DefaultNotFoundComponent';
 import { auth, guest } from 'desktop/routes/guards';
 import { idx } from 'desktop/routes/idx';
 import { login } from 'desktop/routes/login';
@@ -19,13 +22,23 @@ const routeTree = root.addChildren([
   auth.addChildren([app]), 
 ]);
 
+const DefaultErrorComponent = createErrorComponent({
+  Layout: Layout,
+  Link: DesktopLink,
+});
+
+const DefaultNotFoundComponent = createNotFoundComponent({
+  Layout: ({ children }) => <Layout header={<DefaultLayoutHeader showBackButton />}>{children}</Layout>,
+  Link: DesktopLink,
+});
+
 const createNewRouter = () => createRouter({ 
   routeTree,
   context,
   defaultPendingMinMs: 0,
   defaultPreloadStaleTime: Infinity,
-  defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
+  defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultPendingComponent: Loader,
 });
 

@@ -9,7 +9,7 @@ type Props = {
   footer?: React.ReactNode;
 }
 
-const Layout = ({ children, header, footer }: Props) => {
+export const Layout = ({ children, header, footer }: Props) => {
   return (
     <BrowserProviders>
       <Box h="full" w="full">
@@ -20,5 +20,3 @@ const Layout = ({ children, header, footer }: Props) => {
     </BrowserProviders>
   );
 };
-
-export { Layout };

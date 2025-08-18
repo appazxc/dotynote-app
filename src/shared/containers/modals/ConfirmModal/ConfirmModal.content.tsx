@@ -19,11 +19,12 @@ export type Props = ModalBase<{
   description: string;
   isLoading?: boolean;
   confirmText?: string;
+  cancelText?: string;
   onConfirm: () => void;
 }>
 
 const ConfirmModal = (props: Props) => {
-  const { title, description, isOpen = true, isLoading, confirmText, onConfirm } = props;
+  const { title, description, isOpen = true, isLoading, confirmText, cancelText, onConfirm } = props;
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   return (
@@ -39,7 +40,7 @@ const ConfirmModal = (props: Props) => {
         </DialogHeader>
         <DialogBody><Text fontSize="md">{description}</Text></DialogBody>
         <DialogFooter>
-          <Button variant="subtle" onClick={() => dispatch(hideModal())}>Cancel</Button>
+          <Button variant="subtle" onClick={() => dispatch(hideModal())}>{cancelText || 'Cancel'}</Button>
           <Button
             loading={isLoading}
             colorPalette="red"

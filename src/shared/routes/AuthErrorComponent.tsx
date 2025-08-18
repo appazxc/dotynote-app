@@ -6,9 +6,7 @@ import { Button } from 'shared/components/ui/button';
 import { EmptyState } from 'shared/components/ui/empty-state';
 import { UnauthorizedError } from 'shared/util/errors';
 
-import { Layout } from 'desktop/components/Layout';
-
-function AuthErrorComponent({ reset, error }) {
+function AuthErrorComponent({ reset, error, Layout }) {
   const router = useRouter();
   const isAuthError = error instanceof UnauthorizedError;
   const title = isAuthError ? 'Authorization Error' : 'Loading Error';
