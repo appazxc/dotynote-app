@@ -3,10 +3,13 @@ import {
 } from '@tanstack/react-router';
 
 import { Loader } from 'shared/components/Loader';
+import { createErrorComponent } from 'shared/routes/createErrorComponent';
+import { createNotFoundComponent } from 'shared/routes/createNotFoundComponent';
 
+import { Layout } from 'mobile/components/Layout';
+import { LayoutHeader } from 'mobile/components/LayoutHeader';
+import { MobileLink } from 'mobile/components/MobileLink';
 import { app } from 'mobile/routes/app';
-import { DefaultErrorComponent } from 'mobile/routes/DefaultErrorComponent';
-import { DefaultNotFoundComponent } from 'mobile/routes/DefaultNotFoundComponent';
 import { auth, guest } from 'mobile/routes/guards';
 import { idx } from 'mobile/routes/idx';
 import { login } from 'mobile/routes/login';
@@ -20,13 +23,23 @@ const routeTree = root.addChildren([
   guest.addChildren([idx, login, loginEmail]),
 ]);
 
+const DefaultErrorComponent = createErrorComponent({
+  Layout: Layout,
+  Link: MobileLink,
+});
+
+const DefaultNotFoundComponent = createNotFoundComponent({
+  Layout: ({ children }) => <Layout header={<LayoutHeader showBackButton />}>{children}</Layout>,
+  Link: MobileLink,
+});
+
 const createNewRouter = () => createRouter({ 
   routeTree,
   context,
   defaultPendingMinMs: 0,
   defaultPreloadStaleTime: Infinity,
-  defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultErrorComponent: DefaultErrorComponent,
+  defaultNotFoundComponent: DefaultNotFoundComponent,
   defaultPendingComponent: Loader,
 });
 

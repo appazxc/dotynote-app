@@ -13,6 +13,7 @@ export type ParsedApiError = {
   code: string | number,
   message: string,
   fieldErrors: FormError,
+  reason?: string,
 }
 
 export const parseApiError = (apiError: unknown): ParsedApiError => {
@@ -34,6 +35,7 @@ export const parseApiError = (apiError: unknown): ParsedApiError => {
       };
       return acc;
     }, {});
+    error.reason = apiError.response?.data?.reason;
   }
 
   return error;

@@ -2,13 +2,14 @@ import { Button, Center, Group } from '@chakra-ui/react';
 
 import { EmptyState } from 'shared/components/ui/empty-state';
 
-import { Layout } from 'mobile/components/Layout';
-import { LayoutHeader } from 'mobile/components/LayoutHeader';
-import { MobileLink } from 'mobile/components/MobileLink';
+type Props = {
+  Layout: React.ComponentType<{ children: React.ReactNode }>,
+  Link: React.ComponentType<{ to: string, children: React.ReactNode }>,
+}
 
-function DefaultNotFoundComponent() {
+function DefaultNotFoundComponent({ Layout, Link }: Props) {
   return (
-    <Layout header={<LayoutHeader showBackButton />}>
+    <Layout>
       <Center
         w="full"
         h="full"
@@ -23,7 +24,7 @@ function DefaultNotFoundComponent() {
               variant="subtle"
               size="3xs"
             >
-              <MobileLink to="/">Return to home</MobileLink>
+              <Link to="/">Return to home</Link>
             </Button>
           </Group>
         </EmptyState>

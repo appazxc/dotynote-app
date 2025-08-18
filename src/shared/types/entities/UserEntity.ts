@@ -10,6 +10,7 @@ export type ApiUserEntity = BaseEntity<{
   email?: string;
   settings?: string;
   balanceId?: string;
+  status?: 'deleting' | 'active' | 'banned' | 'migratingRegion';
 }>
 
 export type UserEntity = MergeEntity<ApiUserEntity, {

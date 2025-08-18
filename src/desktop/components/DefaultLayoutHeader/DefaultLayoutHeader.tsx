@@ -9,11 +9,12 @@ import { LayoutHeader } from 'desktop/components/LayoutHeader';
 type Props = {
   title?: React.ReactNode;
   showBackButton?: React.ReactNode;
+  left?: React.ReactNode;
   right?: React.ReactNode;
   children?: React.ReactNode;
 } & Omit<BoxProps, 'children' | 'left' | 'right'>
 
-export const DefaultLayoutHeader = ({ title, right, showBackButton, children, ...boxProps }: Props) => {
+export const DefaultLayoutHeader = ({ title, right, showBackButton, left, children, ...boxProps }: Props) => {
   const { history } = useRouter();
 
   return (
@@ -21,7 +22,7 @@ export const DefaultLayoutHeader = ({ title, right, showBackButton, children, ..
       position="sticky"
       p="2"
       px="4"
-      left={(
+      left={left || (
         <Box
           display="flex"
           alignItems="center"

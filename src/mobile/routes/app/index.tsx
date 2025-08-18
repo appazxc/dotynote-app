@@ -9,6 +9,8 @@ import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
 import { billing } from 'mobile/routes/billing';
+import { confirmAccountDelete } from 'mobile/routes/confirmAccountDelete';
+import { forbiddenUserStatus } from 'mobile/routes/forbiddenUserStatus';
 import { menu } from 'mobile/routes/menu';
 import { profile } from 'mobile/routes/profile';
 import { search } from 'mobile/routes/search';
@@ -78,4 +80,6 @@ export const app = appRoute.addChildren([
   profile,
   settings,
   billing,
+  confirmAccountDelete,
+  forbiddenUserStatus,
 ]);
