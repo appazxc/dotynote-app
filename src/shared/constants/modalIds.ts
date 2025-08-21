@@ -16,6 +16,7 @@ export const modalIds = keymirror({
   notImplementedBilling: null,
   insufficientCredits: null,  
   noteFilters: null,
+  storageCapacityReached: null,
 });
 
 export type ModalId = keyof typeof modalIds;

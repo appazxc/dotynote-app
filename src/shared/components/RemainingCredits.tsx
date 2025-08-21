@@ -10,10 +10,10 @@ type Props = {
 } & FlexProps;
 
 export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props) => {
-  const { remainingCredits, isCreditsLimitReached, isCreditsLimitAlmostReached } = useUserBalanceInfo();
+  const { isCreditsAlmostFinished, isStorageLimitReached } = useUserBalanceInfo();
   const navigate = useNavigate();
 
-  if (!isCreditsLimitAlmostReached) {
+  if (!isCreditsAlmostFinished && !isStorageLimitReached) {
     return null;
   }
 
@@ -21,11 +21,13 @@ export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props)
     navigate({ to: '/app/billing' });
   };
 
-  const text = isCreditsLimitReached ? 'Credits limit reached' : `Remaining credits: ${remainingCredits}`;
-  const textColor = isCreditsLimitReached ? 'red.fg' : 'yellow.fg';
-  const creditColor = isCreditsLimitReached ? 'red.subtle' : 'yellow.subtle';
+  const text = isStorageLimitReached 
+    ? 'Storage limit reached' 
+    : isCreditsAlmostFinished ? 'Credits almost finished' : null;
+  const textColor = isStorageLimitReached ? 'red.fg' : 'yellow.fg';
+  const creditColor = isStorageLimitReached ? 'red.subtle' : 'yellow.subtle';
   const buttonSize = size === 'sm' ? '2xs' : 'xs';
-  const buttonColorPalette = isCreditsLimitReached ? 'red' : 'yellow';
+  const buttonColorPalette = isStorageLimitReached ? 'red' : 'yellow';
 
   return (
     <Flex 
@@ -48,7 +50,7 @@ export const RemainingCredits = React.memo(({ size = 'sm', ...boxProps }: Props)
         colorPalette={buttonColorPalette}
         onClick={handleUpgradePlan}
       >
-          Upgrade plan
+        {isStorageLimitReached ? 'Upgrade plan' : 'Buy credits'}
       </Button>
     </Flex>
   );

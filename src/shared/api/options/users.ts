@@ -1,6 +1,8 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { api } from 'shared/api';
+import { BalanceInfo, setBalance } from 'shared/store/slices/userSlice';
+import { AppDispatch } from 'shared/types/store';
 
 export type DeletionRequestStatus = {
   id: string;
@@ -19,11 +21,13 @@ export const me = () => {
   });
 };
 
-export const userBalance = () => {
+export const userBalance = (dispatch: AppDispatch) => {
   return queryOptions({
-    queryKey: ['userbalance'],
-    queryFn: () => {
-      return api.get<string>('/users/balance');
+    queryKey: ['userBalanceInfo'],
+    queryFn: async () => {
+      const balance = await api.get<BalanceInfo>('/users/balance-info');
+      dispatch(setBalance(balance));
+      return balance;
     },
   });
 };

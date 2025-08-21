@@ -4,10 +4,7 @@ import { BaseEntity } from './BaseEntity';
 
 export type ApiUserBalanceEntity = BaseEntity<{
   credits: number;
-  usedCredits: number;
-  reservedCredits: number;
-  nextResetAt: string;
-  lastResetAt: string;
+  doty: number;
 }>
 
 export type UserBalanceEntity = MergeEntity<ApiUserBalanceEntity, {}>

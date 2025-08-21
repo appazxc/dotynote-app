@@ -33,7 +33,7 @@ export const useCreateNoteItems = (props: Props) => {
 
       try {
         await checkCredits(
-          { files, resources: { note: 1 } },
+          { files, notes: 1 },
           () => dispatch(createNote({
             files,
             onNoteCreate: (noteId) => {
@@ -62,7 +62,7 @@ export const useCreateNoteItems = (props: Props) => {
       title: 'Text',
       onClick: () => {
         checkCredits(
-          { resources: { note: 1 } },
+          { notes: 1 },
           () => {
             onClick?.();
             dispatch(showModal({ id: modalIds.createNote, extraId }));

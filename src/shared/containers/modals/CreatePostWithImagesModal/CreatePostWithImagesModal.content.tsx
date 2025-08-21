@@ -93,7 +93,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
     
     if (separatePosts) {
       await checkCredits(
-        { files: imgFiles, resources: { post: imgFiles.length } },
+        { files: imgFiles, notes: imgFiles.length },
         () => dispatch(createSeparatePosts({
           parentId: noteId,
           files: imgFiles,
@@ -106,7 +106,7 @@ const CreatePostWithImagesModal = ({ noteId, onCreate }: Props) => {
       );
     } else {
       await checkCredits(
-        { files: imgFiles, resources: { post: 1 } },
+        { files: imgFiles, notes: 1 },
         () => dispatch(createPost({
           parentId: noteId,
           files: imgFiles,
