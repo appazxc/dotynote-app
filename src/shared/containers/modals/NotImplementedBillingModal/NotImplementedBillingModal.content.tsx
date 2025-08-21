@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import React from 'react';
 
-import { useFreePlanUpgrade } from 'shared/api/hooks/useFreePlanUpgrade';
 import { Button } from 'shared/components/ui/button';
 import {
   DialogBody,
@@ -18,41 +17,13 @@ import { ModalBase } from 'shared/types/modal';
 
 export type Props = ModalBase<{}>
 
-const CREDITS_FREE_UPGRADE_LIMIT = 5000;
-
 const NotImplementedBillingModal = (props: Props) => {
   const { isOpen = true } = props;
   const dispatch = useAppDispatch();
-  const balance = useUserBalanceInfo();
-  const subscription = useUserSubscription();
-  const { mutateAsync: upgrade, isPending } = useFreePlanUpgrade();
   
-  const isChangedMoreThan5DaysAgo = React.useMemo(() => {
-    if (!subscription) {
-      return false;
-    }
-
-    const updatedAt = new Date(subscription.updatedAt);
-    updatedAt.setDate(updatedAt.getDate() + 5);
-    return updatedAt < new Date();
-  }, [subscription]);
-  const hasRemainingCredits = balance.remainingCredits > 0;
-  const possibleToUpgrade = balance.credits < CREDITS_FREE_UPGRADE_LIMIT;
-  const showUpgrade = possibleToUpgrade && !hasRemainingCredits && isChangedMoreThan5DaysAgo;
-  const upgradeText = 'But as a thank you for your interest, we want to offer you a free upgrade. '
-  + 'Click the button below to receive increased limits.';
-
   const handleSubmit = React.useCallback(async () => {
-    if (showUpgrade) {
-      try {
-        await upgrade();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     dispatch(hideModal());
-  }, [dispatch, upgrade, showUpgrade]);
+  }, [dispatch]);
 
   return (
     <DialogRoot
@@ -74,16 +45,15 @@ const NotImplementedBillingModal = (props: Props) => {
             Thanks for your interest in Dotynote!
           </Text>
           <Text fontSize="md" textAlign="center">
-            Subscriptions aren{apos}t available yet — we{apos}re working on it! {showUpgrade ? upgradeText : ''}
+            Subscriptions aren{apos}t available yet — we{apos}re working on it!
           </Text>
         </DialogBody>
         <DialogFooter>
           <Button
             variant="subtle"
-            loading={isPending}
             onClick={handleSubmit}
           >
-            {showUpgrade ? 'Upgrade' : 'Got it'}
+            Got it
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -15,6 +15,7 @@ import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import { SubscriptionEntity } from 'shared/types/entities/SubscriptionEntity';
 import { BillingPeriod, SubscriptionPlanEntity } from 'shared/types/entities/SubscriptionPlanEntity';
+import { formatNextAllocationTime } from 'shared/util/formatNextAllocationTime';
 import { formatNumber } from 'shared/util/formatNumber';
 import { invariant } from 'shared/util/invariant';
 
@@ -92,40 +93,36 @@ const CurrentPlan = ({ subscription, isFreePlan }: CurrentPlanProps) => {
                 content={(
                   <Box>
                     <Text>
-                      Credits: {balance.realTotalUsedCredits} / {balance.credits}
+                      Credits: {balance.credits}
                     </Text>
                     <Text>
-                      Reserved: {balance.reservedCredits}
-                    </Text>
-                    <Text>
-                      Used: {balance.usedCredits}
-                    </Text>
-                    <Text>
-                      Remaining: {balance.credits - balance.totalUsedCredits}
+                      Storage: {balance.storageUsage} / {balance.storageCapacity}
                     </Text>
                   </Box>
                 )}
                 contentWidth="200px"
               /></Text>
               <Text color="gray.600">
-                {Math.floor((balance.totalUsedCredits / balance.credits) * 100)}%
+                {Math.floor((balance.storageUsage / balance.storageCapacity) * 100)}%
               </Text>
             </HStack>
             <Progress.Root 
-              value={(balance.totalUsedCredits / balance.credits) * 100}
+              value={(balance.storageUsage / balance.storageCapacity) * 100}
               size="sm"
             >
               <Progress.Track>
                 <Progress.Range />
               </Progress.Track>
             </Progress.Root>
-            <Text
-              fontSize="sm"
-              color="fg.subtle"
-              mt="2"
-            >
-              Credits will refresh {balance.nextUpdateIn}
-            </Text>
+            {subscription.nextAllocationAt && (
+              <Text
+                fontSize="sm"
+                color="fg.subtle"
+                mt="2"
+              >
+                Next credits allocation: {formatNextAllocationTime(subscription.nextAllocationAt)}
+              </Text>
+            )}
           </Box>
         </Stack>
       </Stack>

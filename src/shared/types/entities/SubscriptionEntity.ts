@@ -6,7 +6,7 @@ export type ApiSubscriptionEntity = BaseEntity<{
   startDate: string;
   endDate: string;
   status: string;
-  nextLimitUpdateAt: string | null;
+  nextAllocationAt: string | null;
   planId: string;
   canceledAt: string;
   updatedAt: string;

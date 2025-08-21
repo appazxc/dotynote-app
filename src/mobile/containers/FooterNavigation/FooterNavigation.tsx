@@ -26,11 +26,11 @@ export const FooterNavigation = React.memo(() => {
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
   const isPrimaryNote = useIsPrimareNote();
-  const { isCreditsLimitAlmostReached, isCreditsLimitReached } = useUserBalanceInfo();
+  const { isCreditsAlmostFinished, isStorageLimitReached } = useUserBalanceInfo();
   const { isMobileWidgetOpen, activeId } = useAppSelector(state => state.audio);
-  const activeColor = isCreditsLimitReached 
+  const activeColor = isStorageLimitReached 
     ? 'red.500' 
-    : isCreditsLimitAlmostReached 
+    : isCreditsAlmostFinished 
       ? 'yellow.500' 
       : 'purple.500';
 

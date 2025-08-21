@@ -6,13 +6,13 @@ import { UploadFile, useFileUpload } from 'shared/modules/fileUpload/FileUploadP
 import { showModal } from 'shared/modules/modal/modalSlice';
 import { useAppDispatch } from 'shared/store/hooks';
 import {
-  getRequiredCreditsForCreatingResources,
+  getRequiredCreditsForNotes,
   getRequiredCreditsForUploadFiles,
 } from 'shared/util/credits';
 
 type WithCreditsCheckParams = {
   files?: UploadFile[];
-  resources?: { note?: number, post?: number };
+  notes?: number;
 }
 
 export const useCreditsCheck = () => {
@@ -21,23 +21,23 @@ export const useCreditsCheck = () => {
   const { removeFiles } = useFileUpload();
 
   const checkCredits = React.useCallback(async <T extends (...args: any[]) => any> (
-    { files, resources }: WithCreditsCheckParams,
+    { files, notes = 0 }: WithCreditsCheckParams,
     operation: T
   ): Promise<ReturnType<T> | void> => {
     const fileCredits = files ? dispatch(getRequiredCreditsForUploadFiles(files)) : 0;
-    const resourceCredits = resources ? getRequiredCreditsForCreatingResources(resources) : 0;
-    const totalCredits = fileCredits + resourceCredits;
+    const noteCredits = getRequiredCreditsForNotes(notes);
+    const totalCredits = fileCredits + noteCredits;
 
-    if (totalCredits > balanceInfo.remainingCredits) {
+    if (totalCredits + balanceInfo.storageUsage > balanceInfo.storageCapacity) {
       removeFiles(files?.map((file) => file.fileId) || []);
       dispatch(showModal({ 
-        id: modalIds.insufficientCredits, 
+        id: modalIds.storageCapacityReached, 
       }));  
       return;
     }
 
     return operation();
-  }, [dispatch, balanceInfo.remainingCredits, removeFiles]);
+  }, [dispatch, balanceInfo, removeFiles]);
 
   return checkCredits;
 }; 

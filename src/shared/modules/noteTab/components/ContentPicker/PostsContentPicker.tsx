@@ -39,7 +39,7 @@ export const PostsContentPicker = React.memo((props: Props) => {
       checkCredits(
         {
           files,
-          resources: { post: 1 },
+          notes: 1,
         },
         () => dispatch(createPost({
           parentId: note.id,
@@ -66,7 +66,7 @@ export const PostsContentPicker = React.memo((props: Props) => {
           onClick();
 
           await checkCredits(
-            { resources: { post: 1 } },
+            { notes: 1 },
             () => {
               // looks like there some problems with popover + modal focus events. modal close instantly after open
               // if not wait a bit
@@ -87,7 +87,7 @@ export const PostsContentPicker = React.memo((props: Props) => {
             checkCredits(
               {
                 files,
-                resources: { post: 1 },
+                notes: 1,
               },
               () => {
                 if (files.length === 1) {

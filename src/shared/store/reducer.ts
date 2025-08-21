@@ -13,6 +13,7 @@ import appReducer from './slices/appSlice';
 import authReducer from './slices/authSlice';
 import entitiesReducer from './slices/entitiesSlice';
 import requestReducer from './slices/requestSlice';
+import userReducer from './slices/userSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   audio: audioReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   app: persistReducer(appPersistConfig, appReducer),
+  user: userReducer,
 });
 
 const rootReducer = (state, action) => {

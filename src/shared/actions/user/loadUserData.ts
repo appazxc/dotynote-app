@@ -9,7 +9,7 @@ import { ThunkAction } from 'shared/types/store';
 export const loadUserData = (): ThunkAction => async (dispatch, getState) => {
   await Promise.all([
     dispatch(loadUser()),
-    queryClient.fetchQuery(options.users.userBalance()),
+    queryClient.fetchQuery(options.users.userBalance(dispatch)),
   ]);
 
   const user = selectUser(getState());

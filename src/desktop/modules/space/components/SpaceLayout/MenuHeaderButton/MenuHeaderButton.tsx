@@ -24,7 +24,7 @@ export const MenuHeaderButton = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
-  const { isCreditsLimitReached, isCreditsLimitAlmostReached } = useUserBalanceInfo();
+  const { isCreditsAlmostFinished, isStorageLimitReached } = useUserBalanceInfo();
 
   const handleSettingsClick = React.useCallback(() => {
     navigate({ to: '/app/settings' });
@@ -48,9 +48,9 @@ export const MenuHeaderButton = React.memo(() => {
           <IconButton 
             size="xs"
             aria-label="User menu"
-            variant={isCreditsLimitReached || isCreditsLimitAlmostReached ? 'subtle' : 'ghost'}
+            variant={isCreditsAlmostFinished || isStorageLimitReached ? 'subtle' : 'ghost'}
             rotate="90"
-            colorPalette={isCreditsLimitReached ? 'red' : isCreditsLimitAlmostReached ? 'yellow' : 'gray'}
+            colorPalette={isStorageLimitReached ? 'red' : isCreditsAlmostFinished ? 'yellow' : 'gray'}
           >
             <DotsIcon />
           </IconButton>

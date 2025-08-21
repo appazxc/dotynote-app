@@ -88,7 +88,7 @@ export const NoteContentPicker = React.memo(({ noteId, onClick, view = 'grid' }:
       //   isDisabled: true,
       // },
     ];
-  }, [dispatch, onClick, handleNoteAttachmentClick]);
+  }, [handleNoteAttachmentClick]);
 
   return (
     <ContentPickerCards view={view} items={items} />

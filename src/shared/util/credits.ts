@@ -4,7 +4,6 @@ import { ThunkAction } from 'shared/types/store';
 
 interface CreditRequirements {
   note: number;
-  post: number;
   image: number;
   file: number; // per MB
   video: number; // per MB
@@ -13,10 +12,8 @@ interface CreditRequirements {
 
 // Credit requirements per resource type
 const CREDIT_REQUIREMENTS: CreditRequirements = {
-  // 1 create, 1 store
-  note: 2,
-  // 1 create, 1 store, 1 stick
-  post: 3,
+  // 1 store
+  note: 1,
   image: 10,
   file: 1, // per MB
   video: 1, // per MB
@@ -53,8 +50,6 @@ export const getRequiredCreditsForUploadFiles = (files: UploadFile[]): ThunkActi
   }, 0);
 };
 
-export const getRequiredCreditsForCreatingResources = (resources: { note?: number, post?: number }): number => {
-  const { note = 0, post = 0 } = resources;
-
-  return note * CREDIT_REQUIREMENTS.note + post * CREDIT_REQUIREMENTS.post;
+export const getRequiredCreditsForNotes = (notes: number): number => {
+  return notes * CREDIT_REQUIREMENTS.note;
 };
