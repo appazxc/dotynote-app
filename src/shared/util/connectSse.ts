@@ -37,29 +37,36 @@ export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getSt
       break;
     }
     const chunk = decoder.decode(value, { stream: true });
-    const messages = chunk
-      .split('\n')
-      .filter(msg => msg.trim());
+    const lines = chunk.split('\n');
     
-    for (const message of messages) {
-      try { 
-        onMessage(JSON.parse(message) as T, closeConnection);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          logger.error('SSE message processing failed', error, {
-            errorCategory: 'api_error',
-            severity: 'high',
-            action: 'sse_message_parse',
-            extra: {
-              rawMessage: message,
-              chunk: message,
-              url: url,
-              messageLength: message.length,
-            },
-          });
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      
+      // Process only data lines in SSE format
+      if (trimmedLine.startsWith('data: ')) {
+        const messageData = trimmedLine.slice(6); // Remove 'data: ' prefix
+        
+        try { 
+          onMessage(JSON.parse(messageData) as T, closeConnection);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            logger.error('SSE message processing failed', error, {
+              errorCategory: 'api_error',
+              severity: 'high',
+              action: 'sse_message_parse',
+              extra: {
+                rawMessage: messageData,
+                fullLine: trimmedLine,
+                chunk: chunk,
+                url: url,
+                messageLength: messageData.length,
+              },
+            });
+          }
+          throw error;
         }
-        throw error;
       }
+      // Ignore other SSE lines (comments, event types, etc.)
     }
   }
 };
