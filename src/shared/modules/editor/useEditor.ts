@@ -19,6 +19,7 @@ export const useEditor = (props: Partial<EditorOptions> = {}) => {
     parseOptions: {
       preserveWhitespace: true,
     },
+    injectCSS: false,
     content: undefined,
     ...props,
   }) as Editor;
