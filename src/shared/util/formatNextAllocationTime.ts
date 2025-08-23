@@ -1,4 +1,4 @@
-export const formatNextAllocationTime = (nextResetAt: string | number | Date): string => {
+export const formatNextAllocationTime = (nextResetAt: string | number | Date | null): string => {
   if (!nextResetAt || nextResetAt === 'unknown') {
     return 'unknown';
   }

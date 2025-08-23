@@ -1,7 +1,8 @@
-import { Box, Button, Grid, GridItem, IconButton } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, IconButton, Text, VStack } from '@chakra-ui/react';
 import { MatchRoute } from '@tanstack/react-router';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { RiBillLine } from 'react-icons/ri';
 import { TbSettings2 } from 'react-icons/tb';
 
@@ -11,9 +12,12 @@ import { DefaultLayoutHeader } from 'desktop/components/DefaultLayoutHeader';
 import { DesktopLink } from 'desktop/components/DesktopLink';
 import { Layout } from 'desktop/components/Layout';
 
-type Props = React.PropsWithChildren<{}>;
+type Props = React.PropsWithChildren<{
+  title?: string;
+  description?: string;
+}>;
 
-export const SettingsLayout = React.memo(({ children }: Props) => {
+export const SettingsLayout = React.memo(({ children, title, description }: Props) => {
   const links = [
     {
       label: 'Profile',
@@ -29,6 +33,11 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
       label: 'Plan & Billing',
       to: '/app/billing' as const,
       icon: <RiBillLine />,
+    },
+    {
+      label: 'Balance',
+      to: '/app/balance' as const,
+      icon: <MdOutlineAccountBalanceWallet />,
     },
   ];
 
@@ -91,6 +100,26 @@ export const SettingsLayout = React.memo(({ children }: Props) => {
         </GridItem>
         <GridItem py="10">
           <Box maxW="2xl" margin="auto">
+            <VStack
+              align="flex-start"
+              gap={1}
+              mb="6"
+            >
+              {title && (
+                <Text 
+                  fontSize={{ base: '2xl', md: '3xl' }} 
+                  fontWeight="bold" 
+                  color="fg"
+                >
+                  {title}
+                </Text>
+              )}
+              {description && (
+                <Text fontSize="md" color="fg.muted">
+                  {description}
+                </Text>
+              )}
+            </VStack>
             {children}
           </Box>
         </GridItem>

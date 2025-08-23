@@ -1,6 +1,7 @@
 import { Box, Separator, Stack, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { RiBillLine } from 'react-icons/ri';
 import { TbChartDots3, TbLogout2, TbSettings2 } from 'react-icons/tb';
 
@@ -31,6 +32,11 @@ const Menu = React.memo(() => {
       label: 'Plan & Billing',
       to: '/app/billing' as const,
       icon: <RiBillLine />,
+    },
+    {
+      label: 'Balance',
+      to: '/app/balance' as const,
+      icon: <MdOutlineAccountBalanceWallet />,
     },
     {
       label: 'Spaces',

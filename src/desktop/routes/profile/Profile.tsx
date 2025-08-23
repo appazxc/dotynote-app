@@ -4,7 +4,7 @@ import { SettingsLayout } from 'desktop/components/SettingsLayout';
 
 function Profile() {
   return (
-    <SettingsLayout>
+    <SettingsLayout title="Profile">
       <ProfileContent />
     </SettingsLayout>
   );

@@ -12,7 +12,7 @@ import { useAppSelector } from 'shared/store/hooks';
 import { Layout } from 'mobile/components/Layout';
 import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
-const Profile = React.memo(() => {
+const Billing = React.memo(() => {
   const navigate = useNavigate();
   const { data: planIds, isFetched: isPlansFetched } = usePlans();
   const subscription = useUserSubscription();
@@ -40,4 +40,4 @@ const Profile = React.memo(() => {
   );
 });
 
-export default Profile;
+export default Billing;

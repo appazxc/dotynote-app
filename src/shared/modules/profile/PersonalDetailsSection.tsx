@@ -41,7 +41,6 @@ export const PersonalDetailsSection = React.memo((props: Props) => {
       justifyContent="space-between"
       display="flex"
       gap="2"
-      py="4"
       css={{
         '& + &': {
           borderTop: `1px solid ${borderTopColor}`,

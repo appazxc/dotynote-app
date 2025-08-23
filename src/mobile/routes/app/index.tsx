@@ -8,19 +8,19 @@ import { selectActiveTab } from 'shared/selectors/tab/selectActiveTab';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
 import { LayoutLoader } from 'mobile/components/LayoutLoader';
+import { balance } from 'mobile/routes/balance';
 import { billing } from 'mobile/routes/billing';
 import { confirmAccountDelete } from 'mobile/routes/confirmAccountDelete';
 import { forbiddenUserStatus } from 'mobile/routes/forbiddenUserStatus';
+import { auth } from 'mobile/routes/guards';
 import { menu } from 'mobile/routes/menu';
+import { primaryNote } from 'mobile/routes/primaryNote';
 import { profile } from 'mobile/routes/profile';
+import { Context } from 'mobile/routes/routerContext';
 import { search } from 'mobile/routes/search';
 import { settings } from 'mobile/routes/settings';
 import { spaces } from 'mobile/routes/spaces';
 import { tabs } from 'mobile/routes/tabs';
-
-import { auth } from '../guards';
-import { primaryNote } from '../primaryNote';
-import { Context } from '../routerContext';
 
 import { AppLayout } from './AppLayout';
 
@@ -82,4 +82,5 @@ export const app = appRoute.addChildren([
   billing,
   confirmAccountDelete,
   forbiddenUserStatus,
+  balance,
 ]);

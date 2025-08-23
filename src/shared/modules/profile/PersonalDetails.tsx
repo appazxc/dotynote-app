@@ -127,14 +127,6 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
 
   return (
     <Box {...boxProps}>
-      <Heading
-        as="h2"
-        size="2xl"
-        mb="2"
-        fontWeight="600"
-      >
-        Personal details
-      </Heading>
       {/* <Form {...form}> */}
       {/* <PersonalDetailsSection
           ref={(el: SectionRef) => {

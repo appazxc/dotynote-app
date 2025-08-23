@@ -4,7 +4,7 @@ import { SettingsLayout } from 'desktop/components/SettingsLayout';
 
 function Settings() {
   return (
-    <SettingsLayout>
+    <SettingsLayout title="Settings">
       <SettingsContent />
     </SettingsLayout>
   );

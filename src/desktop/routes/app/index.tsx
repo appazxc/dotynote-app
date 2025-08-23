@@ -5,6 +5,7 @@ import { openTab } from 'shared/actions/space/openTab';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { cleanWaitedRoute } from 'shared/store/slices/appSlice';
 
+import { balance } from 'desktop/routes/balance';
 import { billing } from 'desktop/routes/billing';
 import { confirmAccountDelete } from 'desktop/routes/confirmAccountDelete';
 import { forbiddenUserStatus } from 'desktop/routes/forbiddenUserStatus';
@@ -60,4 +61,5 @@ export const app = appRoute.addChildren([
   onboarding,
   confirmAccountDelete,
   forbiddenUserStatus,
+  balance,
 ]);
