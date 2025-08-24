@@ -1,5 +1,6 @@
 import { Box, Grid, VStack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 
 import { api } from 'shared/api';
@@ -13,6 +14,8 @@ import { BalanceCard } from './components/BalanceCard';
 import { StorageUsageSection } from './components/StorageUsageSection';
 
 export const BalanceContent = React.memo(() => {
+  const flagEnabled = useFeatureFlagEnabled('balance_credits');
+
   const balanceInfo = useUserBalanceInfo();
   const { data: storage } = useQuery({
     queryKey: ['userStorage'],
@@ -46,26 +49,28 @@ export const BalanceContent = React.memo(() => {
   return (
     <Box>
       <VStack gap={8} align="stretch">
-        <Grid
-          templateColumns={{ base: '1fr', md: '1fr 1fr' }}
-          gap={4}
-        >
-          <BalanceCard
-            type="credits"
-            current={balanceInfo.credits}
-            nextAllocation={subscription?.nextAllocationAt}
-            allocationAmount={subscription.plan?.credits}
-            subtitle="For notes & files"
-          />
-              
-          <BalanceCard
-            type="doty"
-            current={balanceInfo.doty}
-            nextAllocation={subscription?.nextAllocationAt}
-            allocationAmount={subscription.plan?.doty}
-            subtitle="For features"
-          />
-        </Grid>
+        {flagEnabled && (
+          <Grid
+            templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+            gap={4}
+          >
+            <BalanceCard
+              type="credits"
+              current={balanceInfo.credits}
+              nextAllocation={subscription?.nextAllocationAt}
+              allocationAmount={subscription.plan?.credits}
+              subtitle="For notes & files"
+            />
+     
+            <BalanceCard
+              type="doty"
+              current={balanceInfo.doty}
+              nextAllocation={subscription?.nextAllocationAt}
+              allocationAmount={subscription.plan?.doty}
+              subtitle="For features"
+            />
+          </Grid>
+        )}
 
         <StorageUsageSection
           totalUsed={balanceInfo.storageUsage}

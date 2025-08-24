@@ -1,3 +1,5 @@
+import posthog from 'posthog-js';
+
 import { logout } from 'shared/actions/logout';
 import { options } from 'shared/api/options';
 import { queryClient } from 'shared/api/queryClient';
@@ -16,6 +18,15 @@ export const loadUser = (): ThunkAction => async (dispatch, getState) => {
   try {
     const userId = await queryClient.fetchQuery(options.users.me());
     dispatch(setUser(userId));
+    const user = selectUser(getState())!;
+
+    posthog.identify(userId, {
+      isAdmin: user.isAdmin,
+      email: user.email,
+      region: user.region,
+      username: user.username,
+      nickname: user.nickname,
+    });
   } catch (error) {
     const parsedError = parseApiError(error);
     if (parsedError.statusCode === 404) {

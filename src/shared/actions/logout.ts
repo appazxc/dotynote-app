@@ -1,3 +1,5 @@
+import posthog from 'posthog-js';
+
 import { api } from 'shared/api';
 import { queryClient } from 'shared/api/queryClient';
 import { actions } from 'shared/constants/actions';
@@ -7,6 +9,8 @@ import { persistor } from 'shared/store';
 import { ThunkAction } from 'shared/types/store';
 
 export const logout = (shouldLogout = true): ThunkAction => async (dispatch, getState) => {
+  posthog.reset();
+  
   if (shouldLogout) {
     try {
       await api.post('/auth/logout', { refreshToken: selectRefreshToken(getState()) });

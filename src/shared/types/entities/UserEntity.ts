@@ -8,8 +8,10 @@ export type ApiUserEntity = BaseEntity<{
   nickname: string | null;
   region?: string;
   email?: string;
+  isAdmin?: boolean;
   settings?: string;
   balanceId?: string;
+  createdAt?: string;
   status?: 'deleting' | 'active' | 'banned' | 'migratingRegion';
 }>
 
