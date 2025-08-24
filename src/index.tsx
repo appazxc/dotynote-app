@@ -13,6 +13,7 @@ if (!container) throw new Error('Failed to find the root element');
 const options = {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
   defaults: '2025-05-24',
+  ui_host: 'https://eu.posthog.com',
 } as const;
 
 const root = ReactDOM.createRoot(container);
