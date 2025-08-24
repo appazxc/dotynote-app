@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { PiDatabase } from 'react-icons/pi';
 
@@ -69,17 +69,17 @@ export const StorageUsageSection = React.memo<StorageUsageSectionProps>(({
                   fontWeight="semibold"
                   color="fg"
                 >
-                  Storage Usage
+                  Storage
                 </Text>
               </VStack>
             </HStack>
-            <Text fontSize="sm" color="fg">
+            <Badge>
               {usagePercentage.toFixed(1)}% used
-            </Text>
+            </Badge>
           </HStack>
           
           <Text fontSize="sm" color="fg">
-            Notes, files and media take up storage space.
+            Notes, files and media use storage space, measured in Units.
           </Text>
         </VStack>
 
@@ -90,15 +90,28 @@ export const StorageUsageSection = React.memo<StorageUsageSectionProps>(({
         >
           <Box w="full">
             <VStack align="flex-start" gap={1}>
-              <HStack justify="space-between" w="full">
-                <Text
-                  fontSize="3xl"
-                  fontWeight="bold"
-                  color="colorPalette.700"
+              <HStack
+                justify="space-between"
+                align="flex-end"
+                w="full"
+                py="2"
+                flexWrap="wrap"
+              >
+                <HStack
+                  gap={2}
+                  alignItems="flex-end"
                 >
-                  {totalUsed.toLocaleString()}
-                </Text>
-                <Text fontSize="sm" color="gray.600">
+                  <Text
+                    fontSize="3xl"
+                    fontWeight="bold"
+                    color="colorPalette.700"
+                    lineHeight="1"
+                  >
+                    {(totalCapacity - totalUsed).toLocaleString()}
+                  </Text>
+                  <Badge colorPalette="blue">Available</Badge>
+                </HStack>
+                <Text fontSize="sm">
                   of {totalCapacity.toLocaleString()} limit
                 </Text>
               </HStack>
@@ -112,7 +125,7 @@ export const StorageUsageSection = React.memo<StorageUsageSectionProps>(({
                 
               <HStack justify="flex-end" w="full">
                 <Text fontSize="xs" color="gray.500">
-                  Available: {(totalCapacity - totalUsed).toLocaleString()}
+                  Used: {totalUsed.toLocaleString()}
                 </Text>
               </HStack>
             </VStack>
