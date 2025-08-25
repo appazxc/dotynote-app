@@ -10,6 +10,7 @@ import { textareaRecipe } from 'shared/theme/recipes/textarea';
 import { textStyles } from 'shared/theme/textStyles';
 
 const customConfig = defineConfig({
+  cssVarsPrefix: 'dn',
   theme: {
     textStyles,
     tokens: {
