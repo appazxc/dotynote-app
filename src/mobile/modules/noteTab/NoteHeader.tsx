@@ -1,10 +1,10 @@
 import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
-import { useRouterState } from '@tanstack/react-router';
 import React from 'react';
 import { FaA } from 'react-icons/fa6';
 
 import { InfoIcon } from 'shared/components/ui/icons';
 import { Tooltip } from 'shared/components/ui/tooltip';
+import { useIsPrimaryNote } from 'shared/hooks/useIsPrimaryNote';
 import { NoteMenu } from 'shared/modules/noteTab/components/NoteMenu';
 import { PostsSearch } from 'shared/modules/noteTab/components/PostsSearch';
 import { RwButton } from 'shared/modules/noteTab/components/RwButton';
@@ -12,6 +12,7 @@ import { rwModes } from 'shared/modules/noteTab/constants';
 import { useIsNoteMutating } from 'shared/modules/noteTab/hooks/useIsNoteMutating';
 import { useNoteMutationError } from 'shared/modules/noteTab/hooks/useNoteMutationError';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
+import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
 import { selectCanWriteNote } from 'shared/selectors/user/selectCanWriteNote';
 import { selectRwMode } from 'shared/selectors/user/selectRwMode';
 import { useAppDispatch, useAppSelector } from 'shared/store/hooks';
@@ -22,16 +23,16 @@ import { LayoutHeader } from 'mobile/components/LayoutHeader';
 
 type Props = {
   note: NoteEntity;
-  isPrimary?: boolean;
   search: string;
   onSearchChange: (value: string) => void;
 }
 
 export const NoteHeader = (props: Props) => {
-  const { note: { id: noteId, title = '', postsSettings, settings }, isPrimary, search, onSearchChange } = props;
+  const { note: { id: noteId, title = '', postsSettings, settings }, search, onSearchChange } = props;
   const dispatch = useAppDispatch();
-  const routerState = useRouterState();
   const tab = useTabContext();
+  const isPrimary = useIsPrimaryNote();
+  const space = useAppSelector(selectActiveSpace);
   const isMutating = useIsNoteMutating(noteId);
   const mutationError = useNoteMutationError(noteId);
   const showRwMode = useAppSelector(state => selectCanWriteNote(state, { noteId }));
@@ -39,8 +40,7 @@ export const NoteHeader = (props: Props) => {
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const firstPageOfPrimaryNote = isPrimary 
-    && (tab.routes.length === 1 || tab.routes.length === 2 && routerState.status === 'pending');
+  const firstPageOfPrimaryNote = isPrimary && space?.mainNoteId === noteId;
   const showSearch = !!postsSettings;
   const isNoteContentVisible = !settings?.hide;
   const showTitle = !isNoteContentVisible && title;
