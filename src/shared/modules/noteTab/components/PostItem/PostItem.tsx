@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 
 import { openTab } from 'shared/actions/space/openTab';
@@ -33,14 +34,14 @@ export const PostItem = React.memo((props: Props) => {
   const getNoteById = React.useMemo(() => noteSelector.makeGetEntityById(), []);
   const post = useAppSelector(state => getPostById(state, postId));
   const parent = useAppSelector(state => getNoteById(state, post?.parentId));
+  const nestedPostsFlagEnabled = useFeatureFlagEnabled('nested_posts');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
   invariant(post, 'Missing post', { id: postId });
   invariant(parent, 'Missing parent', { id: post?.parentId });
 
   const allowNested = !nestedLevel;
-  const showNested = allowNested && parent.postsSettings?.nested && !!post.nested?.max;
+  const showNested = nestedPostsFlagEnabled && allowNested && parent.postsSettings?.nested && !!post.nested?.max;
 
   const onClick = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (event.metaKey) {

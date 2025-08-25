@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 import { MdOutlineDone } from 'react-icons/md';
 
@@ -45,6 +46,7 @@ export const PostWithMenu = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useBrowserNavigate();
   const isMobile = useIsMobile();
+  const nestedPostsFlagEnabled = useFeatureFlagEnabled('nested_posts');
   const isNested = !!nestedLevel;
 
   const { mutate: deletePosts, isPending: isDeletePending } = useDeleteNotesFromPosts(parentId);
@@ -150,7 +152,7 @@ export const PostWithMenu = React.memo((props: Props) => {
           postIds: [post.id],
         })),
       }] : [],
-      ...showNested ? [{
+      ...showNested && nestedPostsFlagEnabled ? [{
         key: 'Nested posts',
         label: 'Nested posts',
         menu: [

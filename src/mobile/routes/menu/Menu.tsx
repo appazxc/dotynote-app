@@ -1,4 +1,5 @@
-import { Box, Separator, Stack, VStack } from '@chakra-ui/react';
+import { Separator, Stack, VStack } from '@chakra-ui/react';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
@@ -16,6 +17,7 @@ import { MobileLink } from 'mobile/components/MobileLink';
 
 const Menu = React.memo(() => {
   const dispatch = useAppDispatch();
+  const flagEnabled = useFeatureFlagEnabled('subscription');
 
   const list = [
     {
@@ -28,11 +30,11 @@ const Menu = React.memo(() => {
       to: '/app/settings' as const,
       icon: <TbSettings2 />,
     },
-    {
+    ...flagEnabled ? [{
       label: 'Plan & Billing',
       to: '/app/billing' as const,
       icon: <RiBillLine />,
-    },
+    }] : [],
     {
       label: 'Balance',
       to: '/app/balance' as const,

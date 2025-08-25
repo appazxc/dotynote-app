@@ -1,4 +1,5 @@
 import { Center, VStack } from '@chakra-ui/react';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 
 import { useCreatePostsSettings } from 'shared/api/hooks/useCreatePostsSettings';
@@ -46,7 +47,7 @@ const NotePostsNoSettings = React.memo(({ noteId }: Props) => {
 
 const NotePostsSettings = React.memo(({ noteId }: Props) => {
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
-  
+  const flagEnabled = useFeatureFlagEnabled('nested_posts');
   const postsSettings = note?.postsSettings;
   
   invariant(note, 'Note is missing');
@@ -63,7 +64,7 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
   return (
     <VStack gap={4} alignItems="stretch">
       <ListSettings noteId={noteId} postsSettings={postsSettings} />
-      {!isAllTypeList && (
+      {!isAllTypeList && flagEnabled && (
         <CheckboxCard
           label="Show nested posts"
           description="Display nested posts content and settings"

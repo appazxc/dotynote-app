@@ -1,5 +1,6 @@
 import { Container } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import React from 'react';
 
 import { usePlans } from 'shared/api/hooks/usePlans';
@@ -18,7 +19,8 @@ const Billing = React.memo(() => {
   const subscription = useUserSubscription();
   const plans = useAppSelector(state => subscriptionPlanSelector.getEntitiesById(state, planIds));
   const isFetched = isPlansFetched && !!subscription;
-
+  const flagEnabled = useFeatureFlagEnabled('subscription');
+  
   return (
     <Layout
       header={(
@@ -32,7 +34,7 @@ const Billing = React.memo(() => {
       )}
     >
       <Container py="10" maxW="md">
-        {isFetched 
+        {flagEnabled && isFetched 
           ? <BillingContent currentSubscription={subscription} plans={plans} /> 
           : <Loader height="200px" delay={300} />}
       </Container>
