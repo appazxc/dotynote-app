@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-const retryCodes = [500, 503, 408, 524];
+const retryCodes = [408];
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,13 +14,12 @@ export const queryClient = new QueryClient({
       retry(failureCount, error) {
         const axiosError = error as AxiosError;
         const errorCode = axiosError?.response?.status;
-console.log('retry', failureCount, error);
+
         if (!errorCode || errorCode === 404) {
           return false;
         }
 
-        if (failureCount <= 3 && retryCodes.includes(errorCode)) {
-          console.log('retry', failureCount);
+        if (failureCount <= 3 && (errorCode >= 500 || retryCodes.includes(errorCode))) {
           return true;
         }
 
