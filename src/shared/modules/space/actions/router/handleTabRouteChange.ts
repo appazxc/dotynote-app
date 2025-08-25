@@ -13,8 +13,10 @@ export const handleTabRouteChange = (tabId: string, action: string, location: Hi
     const { routes } = tab;
 
     let newRoutes = [...routes];
-    if (action === 'back' && newRoutes.length > 1) {
-      newRoutes = newRoutes.slice(0, -1);
+    if (action === 'back') {
+      if (newRoutes.length > 1) {
+        newRoutes = newRoutes.slice(0, -1);
+      }
     } else if (action === 'replace') {
       newRoutes[newRoutes.length - 1] = location.href;
     } else if (action === 'push') {
