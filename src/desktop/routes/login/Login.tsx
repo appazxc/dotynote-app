@@ -6,7 +6,7 @@ import { LoginForm } from 'shared/components/forms/LoginForm/LoginForm';
 
 import { Layout } from 'desktop/components/Layout';
 
-// Анимированный текст с эффектом переливания
+// Animated text with overflow effect
 const AnimatedText: React.FC = () => {
   return (
     <Box
@@ -56,7 +56,7 @@ const AnimatedText: React.FC = () => {
   );
 };
 
-// Компонент с центральным свечением
+// Component with central glow
 const CentralGlow: React.FC = () => {
   return (
     <Box

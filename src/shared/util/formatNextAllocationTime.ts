@@ -6,13 +6,13 @@ export const formatNextAllocationTime = (nextResetAt: string | number | Date | n
   const now = new Date();
   const resetDate = new Date(nextResetAt);
   
-  // Если дата уже прошла или меньше 5 часов осталось
+  // If date has passed or less than 5 hours remaining
   const diffHours = (resetDate.getTime() - now.getTime()) / (1000 * 60 * 60);
   if (diffHours <= 5) {
     return 'soon';
   }
   
-  // Рассчитываем разницу в днях
+  // Calculate difference in days
   const diffDays = Math.ceil(diffHours / 24);
   if (diffDays === 0) {
     return 'today';

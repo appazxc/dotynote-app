@@ -2,9 +2,9 @@ const log = console;
 
 const IS_TEST = import.meta.env.MODE === 'test';
 
-// Смысл в том, чтобы залогировать ошибку в любом случае
-// через наш логгер (сентри), но при этом все равно надо прервать поток выполнения,
-// так что используем для этого служебную ошибку, которая никуда не логгируется
+// The purpose is to log the error anyway
+// through our logger (sentry), but we still need to break the execution flow,
+// so we use a service error that doesn't get logged anywhere
 export const INVARIANT_ERROR_MESSAGE = '__INVARIANT_ERROR_MESSAGE__';
 export class InvariantError extends Error {
   constructor() {

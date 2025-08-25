@@ -30,7 +30,7 @@ export const PrimaryNoteOperation = React.memo((props: Props) => {
       mainNoteId: note.id,
     }).then(() => {
       toaster.create({
-        description: 'Primary note changed.',
+        description: 'Note set as primary.',
       });
       dispatch(stopOperation());
     });
@@ -39,7 +39,7 @@ export const PrimaryNoteOperation = React.memo((props: Props) => {
   return (
     <>
       <Operation
-        title={'Assign this note as primary'}
+        title={'Set as primary note'}
         isLoading={isPending}
         onConfirm={handleConfirm}
       />

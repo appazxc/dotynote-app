@@ -5,7 +5,7 @@ import { ThunkAction } from 'shared/types/store';
 type Params<T> = {
   url: string;
   onMessage: (data: T, closeConnection: () => void) => void;
-  onClose?: () => void; // Обработчик закрытия соединения
+  onClose?: () => void; // Connection close handler
 }
 
 export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getState) => {

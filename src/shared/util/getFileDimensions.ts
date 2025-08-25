@@ -11,7 +11,7 @@ export function getFileDimensions(file: File): Promise<{ width: number; height: 
         };
   
         img.onerror = () => {
-          reject(new Error('Не удалось загрузить изображение'));
+          reject(new Error('Failed to load image'));
         };
   
         // @ts-ignore
@@ -19,7 +19,7 @@ export function getFileDimensions(file: File): Promise<{ width: number; height: 
       };
   
       reader.onerror = () => {
-        reject(new Error('Не удалось прочитать файл'));
+        reject(new Error('Failed to read file'));
       };
   
       reader.readAsDataURL(file);
@@ -37,7 +37,7 @@ export function getFileDimensions(file: File): Promise<{ width: number; height: 
       };
 
       video.onerror = () => {
-        reject(new Error('Не удалось прочитать файл'));
+        reject(new Error('Failed to read file'));
       };
 
       video.src = URL.createObjectURL(file);

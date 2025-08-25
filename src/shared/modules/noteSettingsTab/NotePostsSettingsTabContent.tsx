@@ -66,7 +66,7 @@ const NotePostsSettings = React.memo(({ noteId }: Props) => {
       {!isAllTypeList && (
         <CheckboxCard
           label="Show nested posts"
-          description="Show or hide nested posts content and settings"
+          description="Display nested posts content and settings"
           checked={!!note.postsSettings?.nested}
           onCheckedChange={handleNestedChange}
         />

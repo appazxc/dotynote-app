@@ -256,7 +256,7 @@ export const PostWithMenu = React.memo((props: Props) => {
       </Menu>
       <ConfirmModal
         title="This action can't be undone"
-        description="Delete selected note?"
+        description="Are you sure you want to delete this note?"
         confirmText="Delete"
         extraId={post.id}
         onConfirm={() => {

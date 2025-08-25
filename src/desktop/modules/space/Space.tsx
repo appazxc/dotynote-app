@@ -23,7 +23,7 @@ const Space = React.memo(() => {
   const { 
     isLoading: tabNotesIsLoading,
   } = useQuery({
-    // проверить чтобы лишних квери не было
+    // Check to ensure no extra queries
     ...options.notes.tabNotes(activeSpaceId, router),
     throwOnError: true,
   });

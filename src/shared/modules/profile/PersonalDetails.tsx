@@ -134,7 +134,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           }}
           title="Name"
           description={{
-            open: 'This will visible in notes.',
+            open: 'This will be visible in notes.',
             close: user.nickname,
           }}
           onClose={handleSectionClose('nickname')}
@@ -168,7 +168,7 @@ export const PersonalDetails = React.memo(({ ...boxProps }: Props) => {
           }}
           title="Username"
           description={{
-            open: 'Users can find you with this name.',
+            open: 'Users can find you using this username.',
             close: `@${user.username || ''}`,
           }}
           onClose={handleSectionClose('username')}

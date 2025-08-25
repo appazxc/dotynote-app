@@ -337,7 +337,7 @@ export const retryAttachmentUpload = (params: RetryAttachmentUploadParams): Thun
     } catch(err) {
       toaster.create({
         type: 'error',
-        description: 'Error occured while uploading attachment',
+        description: 'Error occurred while uploading attachment',
       });
     }
   };

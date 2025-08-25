@@ -19,20 +19,20 @@ export async function downloadImage(imageUrl: string, filename: string) {
     return;
   }
 
-  // Создаем Blob из данных ответа
+  // Create Blob from response data
   const blob = new Blob([response]);
 
-  // Создаем ссылку на Blob
+  // Create link to Blob
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = filename;
 
-  // Программно кликаем по ссылке
+  // Programmatically click the link
   document.body.appendChild(a);
   a.click();
 
-  // Удаляем ссылку и освобождаем память
+  // Remove link and free memory
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }

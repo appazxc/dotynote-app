@@ -12,7 +12,7 @@ function AuthErrorComponent({ reset, error, Layout }) {
   const title = isAuthError ? 'Authorization Error' : 'Loading Error';
   const description = isAuthError 
     ? 'There was a problem with your login. Please try to reload the page.' 
-    : 'There was a problem with loading the page. Please try to reload.';
+    : 'There was a problem with loading the page. Please try reloading the page.';
 
   return (
     <Layout>

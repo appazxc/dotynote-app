@@ -15,7 +15,7 @@ function ForbiddenErrorComponent({ reset, Layout, reason = 'Unknown' }) {
     case 'deleting':
       return 'We are deleting your account. Please wait for the deletion to complete.';
     case 'banned':
-      return 'You are account is banned.';
+      return 'Your account is banned.';
     case 'migratingRegion':
       return 'We are migrating your data to a new region. Please wait for the migration to complete.';
     default:

@@ -1,9 +1,9 @@
 export function removeEmptyParagraphsFromEnd(html: string): string {
-  // Находим все пустые p в конце строки
+  // Find all empty p tags at the end of string
   const regex = /<div class="para"><\/div>\s*$/;
   let modifiedHtml = html.replace(regex, '');
 
-  // Повторяем процесс до тех пор, пока находим пустые p в конце
+  // Repeat the process until no more empty p tags found at the end
   while (modifiedHtml.match(regex)) {
     modifiedHtml = modifiedHtml.replace(regex, '');
   }
@@ -12,13 +12,13 @@ export function removeEmptyParagraphsFromEnd(html: string): string {
 }
 
 export function keepNParagraphs(html: string, n: number): string {
-  // Находим все p
+  // Find all p tags
   const regex = /<p>.*?<\/p>/g;
   const paragraphs = html.match(regex) || [];
 
-  // Оставляем только первые n div
+  // Keep only first n paragraphs
   const selectedParagraphs = paragraphs.slice(0, n);
-  // Собираем их обратно в строку
+  // Join them back into a string
   const modifiedHtml = selectedParagraphs.join('');
 
   return modifiedHtml;

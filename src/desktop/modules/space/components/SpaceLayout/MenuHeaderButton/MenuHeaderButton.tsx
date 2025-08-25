@@ -85,8 +85,8 @@ export const MenuHeaderButton = React.memo(() => {
       </Menu>
 
       <ConfirmModal
-        title="Изменение цветовой темы"
-        description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+        title="Change color theme"
+        description={`Confirm theme change to ${colorMode === 'light' ? 'Dark' : 'Light'}`}
         extraId="confirmColorChange"
         onConfirm={() => {
           dispatch(hideModal());
@@ -95,8 +95,8 @@ export const MenuHeaderButton = React.memo(() => {
       />
           
       <ConfirmDrawer
-        title="Изменение цветовой темы"
-        description={`Подтвердите изменение темы на ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+        title="Change color theme"
+        description={`Confirm theme change to ${colorMode === 'light' ? 'Dark' : 'Light'}`}
         onConfirm={() => {
           dispatch(hideDrawer());
           toggleColorMode();

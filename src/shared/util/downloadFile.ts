@@ -1,13 +1,13 @@
 export async function downloadFile(url: string, filename: string = 'Untitled') {
-  // Создаем Blob из данных ответа
+  // Create link element for download
   const a = document.createElement('a');
   a.href = url;
   a.download = filename;
 
-  // Программно кликаем по ссылке
+  // Programmatically click the link
   document.body.appendChild(a);
   a.click();
 
-  // Удаляем ссылку и освобождаем память
+  // Remove link and clean up
   document.body.removeChild(a);
 }

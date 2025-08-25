@@ -150,7 +150,7 @@ export const FileUploadProvider = React.memo(({ children }: Props) => {
     onFilesAdd: OnFilesAdd | undefined, 
     accept?: string) => {
     const input = document.createElement('input');
-    input.type = 'file'; // Пример для загрузки файлов
+    input.type = 'file'; // Example for file upload
     input.multiple = true; 
 
     if (accept) {

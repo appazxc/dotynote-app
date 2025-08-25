@@ -20,7 +20,7 @@ export const ForbiddenUserStatus = ({ Layout = React.Fragment }: Props) => {
     case 'migratingRegion':
       return 'Attention';
     case 'banned':
-      return 'You are account is banned.';
+      return 'Your account is banned.';
     default:
       return 'Forbidden';
     }

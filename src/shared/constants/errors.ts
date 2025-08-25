@@ -1,1 +1,1 @@
-export const INVALID_ID = 'Invalid id';
+export const INVALID_ID = 'Invalid ID';

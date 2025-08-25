@@ -53,7 +53,7 @@ axiosInstance.interceptors.request.use((config) => {
 
   dispatch(startRequest({ id: requestId, request: pick(config, pickItems) }));
 
-  // Устанавливаем Authorization заголовок только если он еще не установлен
+  // Set Authorization header only if not already set
   if (!config.headers.Authorization) {
     const token = selectToken(getState());
     if (token) {
@@ -65,7 +65,7 @@ axiosInstance.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-// Перехватчик для ответов
+// Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
     const { dispatch } = getStore();
