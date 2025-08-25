@@ -2,7 +2,7 @@ import { Center, Text } from '@chakra-ui/react';
 import { useDebounce } from '@uidotdev/usehooks';
 import React from 'react';
 
-import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
+import { useIsPrimaryNote } from 'shared/hooks/useIsPrimaryNote';
 import { NoteProviders } from 'shared/modules/noteTab/components/NoteProviders';
 import { rwModes } from 'shared/modules/noteTab/constants';
 import { useTabContext } from 'shared/modules/space/components/TabProvider';
@@ -26,9 +26,9 @@ export const NoteTab = React.memo(({ noteId }: Props) => {
   const note = useAppSelector(state => noteSelector.getEntityById(state, noteId));
   const [search, setSearch] = React.useState('');
   const { isSearchActive } = useAppSelector(state => state.app.note);
-  const isPrimary = useIsPrimareNote();
+  const isPrimary = useIsPrimaryNote();
   const tab = useTabContext();
-  
+
   invariant(note, 'Missing note');
   
   React.useEffect(() => {

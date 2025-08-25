@@ -8,7 +8,7 @@ import { useColorModeValue } from 'shared/components/ui/color-mode';
 import { PrimaryNoteModal } from 'shared/containers/modals/PrimaryNoteModal';
 import { useBrowserLocation } from 'shared/hooks/useBrowserLocation';
 import { useBrowserNavigate } from 'shared/hooks/useBrowserNavigate';
-import { useIsPrimareNote } from 'shared/hooks/useIsPrimaryNote';
+import { useIsPrimaryNote } from 'shared/hooks/useIsPrimaryNote';
 import { useUserBalanceInfo } from 'shared/hooks/useUserBalanceInfo';
 import { toggleMobileWidget } from 'shared/modules/noteAudio/audioSlice';
 import { selectActiveSpace } from 'shared/selectors/space/selectActiveSpace';
@@ -25,7 +25,7 @@ export const FooterNavigation = React.memo(() => {
   const navigate = useBrowserNavigate();
   const { pathname } = useBrowserLocation();
   const borderColor = useColorModeValue('gray.600', 'gray.300');
-  const isPrimaryNote = useIsPrimareNote();
+  const isPrimaryNote = useIsPrimaryNote();
   const { isCreditsAlmostFinished, isStorageLimitReached } = useUserBalanceInfo();
   const { isMobileWidgetOpen, activeId } = useAppSelector(state => state.audio);
   const activeColor = isStorageLimitReached 

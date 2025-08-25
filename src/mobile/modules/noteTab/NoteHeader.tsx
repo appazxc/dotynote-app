@@ -1,7 +1,6 @@
 import { Center, HStack, IconButton, Spinner } from '@chakra-ui/react';
-import { useRouter } from '@tanstack/react-router';
+import { useRouterState } from '@tanstack/react-router';
 import React from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
 import { FaA } from 'react-icons/fa6';
 
 import { InfoIcon } from 'shared/components/ui/icons';
@@ -30,8 +29,8 @@ type Props = {
 
 export const NoteHeader = (props: Props) => {
   const { note: { id: noteId, title = '', postsSettings, settings }, isPrimary, search, onSearchChange } = props;
-  const { history } = useRouter();
   const dispatch = useAppDispatch();
+  const routerState = useRouterState();
   const tab = useTabContext();
   const isMutating = useIsNoteMutating(noteId);
   const mutationError = useNoteMutationError(noteId);
@@ -40,7 +39,8 @@ export const NoteHeader = (props: Props) => {
   const { isAdvancedEditActive, isSearchActive } = useAppSelector(state => state.app.note);
   const lastIsAdvancedEditActive = React.useRef(isAdvancedEditActive);
   const lastIsSearchActive = React.useRef(isSearchActive);
-  const firstPageOfPrimaryNote = isPrimary && tab.routes.length === 1;
+  const firstPageOfPrimaryNote = isPrimary 
+    && (tab.routes.length === 1 || tab.routes.length === 2 && routerState.status === 'pending');
   const showSearch = !!postsSettings;
   const isNoteContentVisible = !settings?.hide;
   const showTitle = !isNoteContentVisible && title;
@@ -70,26 +70,6 @@ export const NoteHeader = (props: Props) => {
       </Center>
     );
   }, [mutationError]);
-    
-  const renderedBackButton = React.useMemo(() => {
-    if (firstPageOfPrimaryNote) {
-      return null;
-    }
-
-    return (
-      <IconButton
-        size="sm"
-        aria-label="Note back"
-        disabled={tab.routes.length <= 1}
-        variant="plain"
-        display="inline-flex"
-        iconSize="auto"
-        onClick={() => history.back()}
-      >
-        <BsArrowLeft size="20" />
-      </IconButton>
-    );
-  }, [tab.routes.length, history, firstPageOfPrimaryNote]);
 
   const renderedMenu = React.useMemo(() => {
     return isMutating ? (
@@ -168,7 +148,8 @@ export const NoteHeader = (props: Props) => {
       />
     ) : (
       <LayoutHeader
-        left={renderedBackButton}
+        showBackButton={!firstPageOfPrimaryNote}
+        isBackButtonDisabled={tab.routes.length <= 1}
         right={renderedRightSide}
         pl={firstPageOfPrimaryNote ? '4' : '2'}
         title={showTitle ? title : undefined}
