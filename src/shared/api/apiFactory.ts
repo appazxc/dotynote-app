@@ -43,8 +43,10 @@ const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
   const { dispatch, getState } = getStore();
-  const requestId = nanoid(); 
-  config.headers['X-Request-Id'] = requestId;
+  const requestId = nanoid();
+
+  // Use internal config property instead of header
+  (config as any)._requestId = requestId;
 
   const pickItems = ['url'];
   if (!(config.data instanceof FormData)) {
@@ -69,16 +71,16 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => {
     const { dispatch } = getStore();
-    const requestId = response.config.headers['X-Request-Id'];
-  
+    const requestId = (response.config as any)._requestId;
+
     dispatch(finishRequest({ id: requestId }));
 
     return response;
-  }, 
+  },
   async (error) => {
     const { dispatch, getState } = getStore();
-    const requestId = error.config?.headers['X-Request-Id'];
-  
+    const requestId = (error.config as any)?._requestId;
+
     dispatch(finishRequest({ id: requestId }));
 
     const originalRequest = error.config;
