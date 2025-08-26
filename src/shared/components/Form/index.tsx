@@ -190,7 +190,6 @@ const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
 
-  // We'll learn more about these options later
   fieldComponents: {
     Field: TextField,
   },

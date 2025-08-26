@@ -37,13 +37,13 @@ export const connectSSE = <T>(params: Params<T>): ThunkAction => async (_, getSt
       break;
     }
     const chunk = decoder.decode(value, { stream: true });
-    const lines = chunk.split('\n');
+    const lines = chunk.split('\n\n');
     
     for (const line of lines) {
       const trimmedLine = line.trim();
       
       // Process only data lines in SSE format
-      if (trimmedLine.startsWith('data: ')) {
+      if (trimmedLine.startsWith('data: ') && trimmedLine.endsWith('}')) {
         const messageData = trimmedLine.slice(6); // Remove 'data: ' prefix
         
         try { 
