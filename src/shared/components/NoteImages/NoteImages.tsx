@@ -77,7 +77,7 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
       })];
   }, [notePhotos, uploadImages, noteImageIds]);
 
-  const handleImageClick = React.useCallback((index) => () => {
+  const handleImageClick = React.useCallback((index) => {
     setIndex(index);
   }, []);
 
@@ -109,7 +109,8 @@ export const NoteImages = React.memo((props: NoteBaseImagesProps) => {
                     src={context.photo.src}
                     height={context.height}
                     width={context.width}
-                    onClick={handleImageClick(context.index)}
+                    index={context.index}
+                    onClick={handleImageClick}
                   />
                 );
               }

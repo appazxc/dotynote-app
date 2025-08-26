@@ -103,7 +103,8 @@
     "workbox-strategies": "^6.6.0",
     "workbox-streams": "^6.6.0",
     "yet-another-react-lightbox": "^3.21.7",
-    "zod": "^3.24.3"
+    "zod": "^3.24.3",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",

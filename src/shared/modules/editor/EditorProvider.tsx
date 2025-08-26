@@ -26,11 +26,11 @@ export const EditorProvider = ({ id, children }: Props) => {
 
   const debouncedUpdateContent = React.useMemo(() => {
     const updateOnServer = debounce((content) => {
+      dispatch(updateEntity({ id, type: entityNames.note, data: { content } }));
       mutate({ id, data: { content } });
-    }, 2000);
+    }, 1000);
     
     return (content) => {
-      dispatch(updateEntity({ id, type: entityNames.note, data: { content } }));
       updateOnServer(content);
     };
   }, [mutate, id, dispatch]);
