@@ -11,7 +11,7 @@ export const PinnedPosts = React.memo(() => {
   
   return (
     <TabLayout defaultSidebar>
-      <Container maxW="container.sm" pt="4">
+      <Container maxW="container.sm" pt="20">
         <PinnedPostsTabContent noteId={noteId} />
       </Container>
     </TabLayout>

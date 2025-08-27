@@ -25,12 +25,14 @@ export const PostsSearch = React.memo(({ value, showCancelButton, onChange }: Pr
   return (
     <Container
       py="2"
+      px="4"
       maxW="3xl"
     >
       <HStack gap="2">
         <Input
           autoFocus
           placeholder="Search"
+          variant="subtle"
           value={value}
           size={isMobile ? 'sm' : 'md'}
           onChange={handleSearch}
