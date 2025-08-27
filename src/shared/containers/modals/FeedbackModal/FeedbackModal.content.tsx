@@ -104,6 +104,7 @@ const FeedbackModal = (_props: Props) => {
                     children={(field) => {
                       return (
                         <Select
+                          label="Topic"
                           placeholder="Select feedback category"
                           value={[field.state.value]}
                           options={feedbackTypes}
@@ -124,7 +125,7 @@ const FeedbackModal = (_props: Props) => {
                       return (
                         <field.Field>
                           <Textarea
-                            placeholder="Tell us about your experience. What did you like? What could we improve?"
+                            placeholder="Your feedback..."
                             rows={4}
                             resize="none"
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -156,7 +157,7 @@ const FeedbackModal = (_props: Props) => {
                         flex={1}
                         colorScheme="blue"
                       >
-                        Send Feedback
+                        Send
                       </Button>
                     );
                   }}

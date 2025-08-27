@@ -5,6 +5,7 @@ import { FiUser } from 'react-icons/fi';
 import { MdOutlineFeedback } from 'react-icons/md';
 import { MdWorkspacesOutline } from 'react-icons/md';
 import { PiNotebookDuotone } from 'react-icons/pi';
+import { RiHome2Line } from 'react-icons/ri';
 import { TbLogout2, TbSettings2 } from 'react-icons/tb';
 
 import { logout } from 'shared/actions/logout';
@@ -32,7 +33,7 @@ import { startPrimaryNoteOperation } from 'shared/store/slices/appSlice';
 import { SpaceMenuItem } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton/SpaceMenuItem';
 import { router } from 'desktop/routes/router';
 
-export const MenuHeaderButton = React.memo(() => {
+export const SpaceHeaderMenu = React.memo(() => {
   const dispatch = useAppDispatch();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
@@ -105,10 +106,7 @@ export const MenuHeaderButton = React.memo(() => {
             label={<><TbSettings2 /> Settings</>}
             onClick={handleSettingsClick}
           />
-          <MenuItem
-            label={<><SearchIcon strokeWidth="0.5" /> Search</>}
-            onClick={handleSearchClick}
-          />
+          
           <MenuDivider />
 
           <MenuSub
@@ -151,12 +149,26 @@ export const MenuHeaderButton = React.memo(() => {
               </>
             )}
           </MenuSub>
+          <MenuItem
+            label={<><SearchIcon strokeWidth="0.5" /> Search</>}
+            onClick={handleSearchClick}
+          />
           <MenuDivider />
           <MenuItem
             label={<><MdOutlineFeedback /> Feedback</>}
             onClick={handleFeedbackClick}
           />
           <MenuDivider />
+          <MenuItem
+            label={<><RiHome2Line /> Home Page</>}
+            onClick={() => {
+              window.open(
+                import.meta.env.MODE === 'production' 
+                  ? 'https://dotynote.com/home' 
+                  : 'http://localhost:3000/home', '_blank'
+              );
+            }}
+          />
           <MenuItem
             label={<><TbLogout2 /> Logout</>}
             colorScheme="red"

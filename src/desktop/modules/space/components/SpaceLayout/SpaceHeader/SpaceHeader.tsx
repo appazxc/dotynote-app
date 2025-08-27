@@ -3,7 +3,7 @@ import React from 'react';
 
 import { SpaceAudioWidget } from 'desktop/modules/space/components/SpaceAudioWidget';
 import { DotHeaderButton } from 'desktop/modules/space/components/SpaceLayout/DotHeaderButton';
-import { MenuHeaderButton } from 'desktop/modules/space/components/SpaceLayout/MenuHeaderButton';
+import { SpaceHeaderMenu } from 'desktop/modules/space/components/SpaceLayout/SpaceHeaderMenu';
 import { SpaceTabs } from 'desktop/modules/space/components/SpaceLayout/SpaceTabs';
 
 export const SpaceHeader = React.memo(() => {
@@ -39,7 +39,7 @@ export const SpaceHeader = React.memo(() => {
           gap="2"
         >
           <SpaceAudioWidget />
-          <MenuHeaderButton />
+          <SpaceHeaderMenu />
         </Box>
       </Box>
     </>

@@ -12,7 +12,7 @@ export const logout = (shouldLogout = true): ThunkAction => async (dispatch, get
   posthog.reset();
   
   // Remove hasToken cookie
-  document.cookie = 'hasToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie = 'isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   
   if (shouldLogout) {
     try {
