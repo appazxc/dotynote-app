@@ -178,6 +178,7 @@ export default () => {
       return axiosInstance
         .post(getBaseApi() + path, body, {
           headers: createHeaders(headers),
+          withCredentials: true,
           ...restConfig,
         } )
         .then(response => handleResponse(response));
