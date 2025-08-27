@@ -11,6 +11,7 @@ import { SWProvider } from 'shared/core/Providers/SWProvider';
 import { FileUploadProvider } from 'shared/modules/fileUpload';
 import { AudioTimeProvider } from 'shared/modules/noteAudio/AudioTimeProvider';
 import { persistor, store } from 'shared/store';
+
 type Props = React.PropsWithChildren<{}>
 
 export const Providers = React.memo(({ children }: Props) => {
