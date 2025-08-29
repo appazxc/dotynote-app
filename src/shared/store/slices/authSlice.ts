@@ -25,7 +25,6 @@ export const authSlice = createSlice({
     setUser: (state, { payload }: PayloadAction<string>) => {
       state.userId = payload;
     },
-  },
   // extraReducers: builder => {
   //   builder
   //     .addCase(getMe.fulfilled, (state, action) => {
@@ -34,9 +33,13 @@ export const authSlice = createSlice({
   //     .addCase(getMe.rejected, (state, action) => {
   //       console.log('action', action);
   //     });
-  // },
+  },
 });
 
-export const { setToken, setRefreshToken, setUser } = authSlice.actions;
+export const { 
+  setToken, 
+  setRefreshToken, 
+  setUser,
+} = authSlice.actions;
 
 export default authSlice.reducer;

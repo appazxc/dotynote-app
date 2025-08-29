@@ -1,4 +1,3 @@
-import { queryOptions } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
@@ -9,6 +8,7 @@ import { queryClient } from 'shared/api/queryClient';
 import { getBaseApi } from 'shared/helpers/api/getBaseApi';
 import { getStore } from 'shared/helpers/store/getStore';
 import { selectRefreshToken, selectToken } from 'shared/selectors/auth/selectToken';
+import { getBroadcastService } from 'shared/services/broadcastService';
 import { logger } from 'shared/services/logger';
 import { setRefreshToken, setToken } from 'shared/store/slices/authSlice';
 import { addEntities } from 'shared/store/slices/entitiesSlice';
@@ -99,13 +99,12 @@ axiosInstance.interceptors.response.use(
           return dispatch(logout(false));
         }
            
-        const response = await queryClient.fetchQuery(queryOptions({
+        const response = await queryClient.fetchQuery({
           queryKey: ['refreshToken'],
           queryFn: async () => {
             const response = await axios.post<{ token: string; refreshToken: string }>(
               getBaseApi() + '/auth/refresh', {}, {
                 method: 'post',
-                url: getBaseApi() + '/auth/refresh',
                 headers: {
                   Authorization: `Bearer ${refreshToken}`,
                 },
@@ -115,19 +114,18 @@ axiosInstance.interceptors.response.use(
           },
           gcTime: 60000,
           staleTime: 60000,
-        }));
+        });
 
+        // Update Redux store
         dispatch(setToken(response.token));
         dispatch(setRefreshToken(response.refreshToken));
+        
+        getBroadcastService()?.broadcastTokenUpdate(response.token, response.refreshToken);
+        
         originalRequest.headers.Authorization = `Bearer ${response.token}`;
         
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        logger.info('Logout triggered due to refresh token error', {
-          errorCategory: 'authentication',
-          action: 'auto_logout',
-          extra: { reason: 'refresh_token_error' },
-        });
         logger.error('Refresh token request failed', refreshError as Error, {
           errorCategory: 'api_error',
           severity: 'high',
