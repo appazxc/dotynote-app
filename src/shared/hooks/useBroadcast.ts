@@ -20,42 +20,18 @@ export const useBroadcast = () => {
 
   // Handle incoming broadcast messages
   const handleBroadcastMessage = useCallback((message: BroadcastMessage) => {
-    const { type, sourceTab, timestamp, payload } = message;
-    logger.info('Broadcast message received', {
-      extra: {
-        messageType: type,
-        sourceTab,
-        timestamp,
-      },
-    });
+    const { payload } = message;
 
     switch (message.type) {
     case 'TOKEN_UPDATE': {
       const tokenUpdatePayload = payload as TokenUpdatePayload;
-          
-      // Update Redux store
       dispatch(setToken(tokenUpdatePayload.token));
       dispatch(setRefreshToken(tokenUpdatePayload.refreshToken));
-          
-      logger.info('Token updated from broadcast', {
-        extra: {
-          sourceTab: message.sourceTab,
-          hasToken: !!payload.token,
-          hasRefreshToken: !!payload.refreshToken,
-        },
-      });
       break;
     }
 
     case 'LOGOUT': {
       dispatch(logout(false, true));
-          
-      logger.info('Logout triggered from broadcast', {
-        extra: {
-          sourceTab: message.sourceTab,
-          reason: payload.reason,
-        },
-      });
       break;
     }
     default:
@@ -78,8 +54,6 @@ export const useBroadcast = () => {
     // Add event listener and store cleanup function
     cleanupRef.current = broadcastService.addEventListener(handleBroadcastMessage);
     
-    logger.info('Broadcast auth listener setup complete');
-
     // Cleanup on unmount
     return () => {
       if (cleanupRef.current) {

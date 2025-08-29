@@ -1,6 +1,9 @@
 // Broadcast service for cross-tab authentication synchronization
 // Uses native BroadcastChannel API for secure same-origin communication
 
+import { logger } from 'shared/services/logger';
+import { toError } from 'shared/util/errors';
+
 export interface BroadcastMessage {
   type: 'TOKEN_UPDATE' | 'LOGOUT';
   payload: any;
@@ -50,8 +53,6 @@ class BroadcastAuthService implements BroadcastService {
       window.addEventListener('beforeunload', () => {
         this.destroy();
       });
-      
-      console.log('[BroadcastService] Initialized for tab:', this.tabId);
     } catch (error) {
       console.error('[BroadcastService] Failed to create BroadcastChannel:', error);
     }
@@ -91,9 +92,6 @@ class BroadcastAuthService implements BroadcastService {
       return;
     }
 
-    console.log('[BroadcastService] Received message:', message.type, 'from tab:', message.sourceTab);
-    
-    // Notify all listeners
     this.listeners.forEach(callback => {
       try {
         callback(message);
@@ -117,7 +115,7 @@ class BroadcastAuthService implements BroadcastService {
 
   postMessage(message: Omit<BroadcastMessage, 'timestamp' | 'sourceTab' | 'messageId'>): void {
     if (this.isDestroyed || !this.channel || !this.isSupported()) {
-      console.warn('[BroadcastService] Cannot post message: service destroyed or not supported');
+      logger.warn('[BroadcastService] Cannot post message: service destroyed or not supported');
       return;
     }
 
@@ -130,15 +128,14 @@ class BroadcastAuthService implements BroadcastService {
 
     try {
       this.channel.postMessage(fullMessage);
-      console.log('[BroadcastService] Posted message:', message.type, 'from tab:', this.tabId);
     } catch (error) {
-      console.error('[BroadcastService] Failed to post message:', error);
+      logger.error('[BroadcastService] Failed to post message:', toError(error));
     }
   }
 
   addEventListener(callback: (message: BroadcastMessage) => void): () => void {
     if (typeof callback !== 'function') {
-      console.warn('[BroadcastService] Callback must be a function');
+      logger.warn('[BroadcastService] Callback must be a function');
       return () => {};
     }
 
@@ -162,11 +159,9 @@ class BroadcastAuthService implements BroadcastService {
         this.channel.close();
         this.channel = null;
       } catch (error) {
-        console.error('[BroadcastService] Error closing BroadcastChannel:', error);
+        logger.error('[BroadcastService] Error closing BroadcastChannel:', toError(error));
       }
-    }
-    
-    console.log('[BroadcastService] Destroyed for tab:', this.tabId);
+    } 
   }
 
   isSupported(): boolean {
