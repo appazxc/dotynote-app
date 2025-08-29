@@ -1,4 +1,5 @@
 import { uploadPostAttachments } from 'shared/actions/post/uploadPostAttachments';
+import { trackEvent } from 'shared/analytics/posthog';
 import { api } from 'shared/api';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -13,9 +14,9 @@ type Params = {
   removeFiles: RemoveUploadFiles;
 }
 
-export const createPost = (params: Params): ThunkAction => 
+export const createPost = (params: Params): ThunkAction =>
   async (dispatch) => {
-    const { 
+    const {
       parentId,
       files,
       removeFiles,
@@ -24,15 +25,23 @@ export const createPost = (params: Params): ThunkAction =>
     } = params;
     try {
       const postId = await api.post<string>(`/notes/${parentId}/posts`, {});
-    
+
+      // Track post creation
+      trackEvent('post_created', {
+        post_id: postId,
+        parent_note_id: parentId,
+        has_attachments: files.length > 0,
+        attachments_count: files.length,
+      });
+
       onPostCreated?.(postId);
-      
+
       await dispatch(uploadPostAttachments({
         postId,
         files,
         removeFiles,
       }));
-      
+
       onAttachmentsUploaded?.();
     } catch (error) {
       const parsedError = parseApiError(error);

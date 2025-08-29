@@ -2,6 +2,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
+import { trackEvent } from 'shared/analytics/posthog';
 import { entityApi } from 'shared/api/entityApi';
 import { entityNames } from 'shared/constants/entityNames';
 import { loaderIds } from 'shared/constants/loaderIds';
@@ -93,7 +94,15 @@ export const openTab = (params: CreateSpaceTabParams = {}): ThunkAction =>
           }
 
           entityApi.spaceTab.deleteEntity(fakeId);
-           
+
+          // Track tab opened
+          trackEvent('tab_opened', {
+            tab_id: spaceTabId,
+            space_id: activeSpace.id,
+            initial_path: path || '/',
+            total_tabs_count: newSpaceTabs.length,
+          });
+
         } catch (err) {
           console.log('err', err);
         }

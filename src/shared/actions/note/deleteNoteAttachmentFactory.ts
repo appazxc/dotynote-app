@@ -1,4 +1,5 @@
 import { handleNoteAttachmentDelete } from 'shared/actions/note/handleNoteAttachmentDelete';
+import { trackEvent } from 'shared/analytics/posthog';
 import { api } from 'shared/api';
 import { EntityName, entityNames } from 'shared/constants/entityNames';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -45,6 +46,12 @@ export const deleteNoteAttachmentFactory = <T extends EntityName>({
       );
 
       dispatch(deleteEntity({ id: entityId, type: entityName }));
+
+      trackEvent('file_deleted', {
+        file_id: entityId,
+        note_id: noteId,
+        attachment_field: attachmentField,
+      });
 
       dispatch(handleNoteAttachmentDelete(noteId));
     } catch (error) {

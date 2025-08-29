@@ -2,6 +2,7 @@ import axios from 'axios';
 import throttle from 'lodash/throttle';
 
 import { handleNoteAttachmentUploadCancel } from 'shared/actions/note/handleNoteAttachmentUploadCancel';
+import { trackEvent } from 'shared/analytics/posthog';
 import { api } from 'shared/api';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -134,9 +135,9 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
 
     try {
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'uploading' }));
-      
+
       const { url, id, pos: tempFilePos } = await api.post<{ url: string; id: string; pos: number }>(
-        '/upload', 
+        '/upload',
         {
           noteId,
           filename: uploadFile.file.name,
@@ -226,7 +227,7 @@ export const uploadAttachmentByTypeBase = (params: UploadAttachmentByTypeBasePar
       });
 
       logger.error('Upload attachment error', toError(error));
-      
+
       dispatch(updateFile({ fileId: uploadFile.fileId, status: 'error', error: parseApiError(error).message }));
     }
   };
@@ -278,11 +279,11 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
 
     async function onComplete() {
       const uploadEntity = selectUploadFileEntity(getState(), uploadFile.fileId);
-      
+
       if (!uploadEntity?.realId) {
         return;
       }
-      
+
       const id = await api.get(getAttachmentLoadPath(type, uploadEntity.realId));
 
       const noteEntity = noteSelector.getById(getState(), noteId);
@@ -300,6 +301,14 @@ export const uploadAttachmentByType = (params: UploadAttachmentByTypeParams): Th
           [attachmentField]: [...noteEntity[attachmentField], id],
         },
       }));
+
+      trackEvent(
+        'file_upload_completed',
+        {
+          file_type: type,
+          file_size: uploadFile.file.size,
+        }
+      );
 
       removeFiles([uploadFile.fileId]);
     }

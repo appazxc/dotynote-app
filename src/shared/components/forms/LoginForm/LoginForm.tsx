@@ -9,6 +9,7 @@ import React from 'react';
 import store2 from 'store2';
 import * as z from 'zod';
 
+import { trackEvent } from 'shared/analytics/posthog';
 import { useLoginEmail } from 'shared/api/hooks/useLoginEmail';
 import { useLoginEmailConfirm } from 'shared/api/hooks/useLoginEmailConfirm';
 import { useAppForm } from 'shared/components/Form';
@@ -16,6 +17,7 @@ import { handleFormApiErrors, resetFormErrors } from 'shared/components/Form/uti
 import { Button } from 'shared/components/ui/button';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { BACK_URL } from 'shared/constants/queryKeys';
+import { parseApiError } from 'shared/helpers/api/getApiError';
 
 const schema = (isEmailSent: boolean) => z.object({
   email: z.string().email('Enter a valid email'),
@@ -48,7 +50,20 @@ export const LoginForm = () => {
           const to = backUrl || '/app';
           navigate({ to });
           store2.remove(localStorageKeys.REFERRAL_CODE);
+
+          // Track successful login
+          trackEvent('user_login', {
+            email,
+            has_referral_code: !!referralCode,
+            login_method: 'email_code',
+          });
         } catch (error) {
+          // Track failed login
+          trackEvent('user_login_failed', {
+            email,
+            error_type: parseApiError(error).statusCode,
+            has_referral_code: !!referralCode,
+          });
           handleFormApiErrors(formApi, error);
         }
         return;

@@ -59,7 +59,6 @@ export const useBroadcast = () => {
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = null;
-        logger.info('Broadcast auth listener cleaned up');
       }
     };
   }, [broadcastService, handleBroadcastMessage]);

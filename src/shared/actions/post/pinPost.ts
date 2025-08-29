@@ -1,3 +1,4 @@
+import { trackEvent } from 'shared/analytics/posthog';
 import { api } from 'shared/api';
 import { entityNames } from 'shared/constants/entityNames';
 import { updateEntity } from 'shared/store/slices/entitiesSlice';
@@ -5,7 +6,7 @@ import { ThunkAction } from 'shared/types/store';
 
 export const pinPost = (postId: string): ThunkAction =>
   async (dispatch) => {
-    const revert = dispatch(updateEntity({ 
+    const revert = dispatch(updateEntity({
       id: postId,
       type: entityNames.post,
       data: { pinnedAt: new Date().toISOString() },
@@ -13,6 +14,12 @@ export const pinPost = (postId: string): ThunkAction =>
 
     try {
       await api.post<string>(`/posts/${postId}/pin`, {});
+
+      // Track post pinned
+      trackEvent('post_pinned', {
+        post_id: postId,
+        timestamp: new Date().toISOString(),
+      });
     } catch (error) {
       revert();
     }

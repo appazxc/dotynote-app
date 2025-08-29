@@ -1,5 +1,6 @@
 import posthog from 'posthog-js';
 
+import { trackEvent } from 'shared/analytics/posthog';
 import { api } from 'shared/api';
 import { queryClient } from 'shared/api/queryClient';
 import { actions } from 'shared/constants/actions';
@@ -12,18 +13,23 @@ import { ThunkAction } from 'shared/types/store';
 
 export const logout = (shouldLogout = true, isBroadcast = false): ThunkAction => async (dispatch, getState) => {
   // Broadcast logout to other tabs before starting local logout
-  const broadcastService = getBroadcastService();
-  if (broadcastService?.isSupported() && !isBroadcast) {
+  if (!isBroadcast) {
     try {
-      broadcastService.broadcastLogout('user_logout');
+      getBroadcastService()?.broadcastLogout('user_logout');
       logger.info('Logout broadcasted to other tabs');
     } catch (error) {
       logger.warn('Failed to broadcast logout');
     }
   }
   
+  // Track logout event before resetting user
+  trackEvent('user_logout', {
+    logout_type: shouldLogout ? 'manual' : 'automatic',
+    is_broadcast: isBroadcast,
+  });
+
   posthog.reset();
-  
+
   // Remove hasToken cookie
   document.cookie = 'isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   

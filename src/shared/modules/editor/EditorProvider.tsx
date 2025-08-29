@@ -2,6 +2,7 @@ import { EditorContext } from '@tiptap/react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 
+import { trackEvent } from 'shared/analytics/posthog';
 import { useUpdateNote } from 'shared/api/hooks/useUpdateNote';
 import { entityNames } from 'shared/constants/entityNames';
 import { useEditor } from 'shared/modules/editor';
@@ -28,8 +29,14 @@ export const EditorProvider = ({ id, children }: Props) => {
     const updateOnServer = debounce((content) => {
       dispatch(updateEntity({ id, type: entityNames.note, data: { content } }));
       mutate({ id, data: { content } });
+
+      // Track note update
+      trackEvent('note_updated', {
+        note_id: id,
+        update_type: 'content_change',
+      });
     }, 1000);
-    
+
     return (content) => {
       updateOnServer(content);
     };

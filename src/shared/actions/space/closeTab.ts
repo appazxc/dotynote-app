@@ -1,6 +1,7 @@
 import findIndex from 'lodash/findIndex';
 
 import { updateActiveTabId } from 'shared/actions/space/updateActiveTabId';
+import { trackEvent } from 'shared/analytics/posthog';
 import { entityApi } from 'shared/api/entityApi';
 import { getRoutesMap } from 'shared/modules/space/helpers/routesMap';
 import { spaceTabSelector } from 'shared/selectors/entities';
@@ -85,6 +86,14 @@ export const closeTab = (tabId: string): ThunkAction => async (dispatch, getStat
 
   const routesMap = getRoutesMap();
   routesMap.delete(tabId);
-      
+
   await entityApi.spaceTab.delete(tabId);
+
+  // Track tab closed
+  trackEvent('tab_closed', {
+    tab_id: tabId,
+    space_id: activeSpace.id,
+    was_active: activeTabId === tabId,
+    remaining_tabs_count: tabs.length - 1,
+  });
 };

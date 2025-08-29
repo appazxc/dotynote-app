@@ -1,4 +1,5 @@
 import { uploadNoteFiles } from 'shared/actions/note/uploadFiles';
+import { trackEvent } from 'shared/analytics/posthog';
 import { entityApi } from 'shared/api/entityApi';
 import { toaster } from 'shared/components/ui/toaster';
 import { parseApiError } from 'shared/helpers/api/getApiError';
@@ -14,9 +15,9 @@ type Params = {
   removeFiles: RemoveUploadFiles;
 }
 
-export const createNote = (params: Params): ThunkAction => 
+export const createNote = (params: Params): ThunkAction =>
   async (dispatch) => {
-    const { 
+    const {
       note,
       files,
       removeFiles,
@@ -26,11 +27,18 @@ export const createNote = (params: Params): ThunkAction =>
 
     try {
       const noteId = await entityApi.note.create<string>(note || {});
-    
+
+      // Track note creation
+      trackEvent('note_created', {
+        note_id: noteId,
+        has_attachments: files.length > 0,
+        attachments_count: files.length,
+      });
+
       onNoteCreate?.(noteId);
-        
+
       await dispatch(uploadNoteFiles({ noteId, files, removeFiles }));
-        
+
       onAttachmentsUploaded?.();
     } catch(error) {
       const parsedError = parseApiError(error);
